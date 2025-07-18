@@ -52,7 +52,6 @@
       color: #35547a;
       user-select: none;
     }
-    /* --- Help收合區 --- */
     .help-toggle {
       width: 100%;
       margin: 0 0 6px 0;
@@ -84,7 +83,6 @@
       color: #2b4c86;
       font-weight: 700;
     }
-    /* --- 表單樣式 --- */
     form {
       width: 100%;
       display: flex;
@@ -260,7 +258,7 @@
     <div class="help-block" id="help-block" style="display:none;">
       <b>【操作說明】</b><br>
       1. 請先在瀏覽器上<a href="https://scr.cyc.org.tw/tp10.aspx?module=login_page&files=login&PT=1" target="_blank" style="color:#2866b4;text-decoration:underline;font-weight:500;">登入永和運動中心網站會員</a><br>
-      2. 開啟永運訂場程式<br>
+      2. 開啟CourtBot<br>
       3. 輸入時段，多時段以逗號分隔 (例 10,11)<br>
       4. 輸入場地編號，多場地以逗號分隔 (例 1,2)<br>
       5. 看一下搶場日期是否正確 (系統預計帶出 15 天後)<br>
@@ -330,6 +328,7 @@
     }
     // 輸出連結用的日期格式 yyyy/mm/dd
     function toDisplayDate(isoDate) {
+      // isoDate 例：2025-08-12
       if (!isoDate) return '';
       const [yyyy, mm, dd] = isoDate.split('-');
       return `${yyyy}/${mm}/${dd}`;
@@ -340,18 +339,27 @@
     function mapQPid(arr) {
       return arr.map(qpid => QPidMap[qpid] || qpid);
     }
-    // 改名顯示為「10:00 場地2」
+    // === 修正：將 QPidInput 帶入，讓 "第X場地" = 實際輸入值 ===
     function buildLinks(QTimes, QPids, QPidInput, D) {
       const links = [];
       QPids.forEach((QPid, idx) => {
         QTimes.forEach(QTime => {
           links.push({
-            name: `${QTime}:00 場地${QPidInput[idx]}`,
+            name: `${QTime}:00 第${QPidInput[idx]}場地`,
             url: `https://scr.cyc.org.tw/tp10.aspx?module=net_booking&files=booking_place&StepFlag=25&QPid=${QPid}&QTime=${QTime}&PT=${PT}&D=${D}&openExternalBrowser=1`
           });
         });
       });
       return links;
+    }
+    function renderLinks(links) {
+      const list = document.getElementById('linkList');
+      list.innerHTML = '';
+      links.forEach(link => {
+        const li = document.createElement('li');
+        li.innerHTML = `<strong>${link.name}</strong> <a href="${link.url}" target="_blank">（點我）</a><div class="url">${link.url}</div>`;
+        list.appendChild(li);
+      });
     }
     function updateLinksAndRender() {
       const QTimes = parseInput(document.getElementById('qtime').value);
@@ -359,7 +367,7 @@
       const QPids = mapQPid(QPidInput);
       const isoDate = document.getElementById('dval').value;
       const D = toDisplayDate(isoDate);
-      if (!D) return;
+      if (!D) return; // 尚未選擇日期不產生
       const links  = buildLinks(QTimes, QPids, QPidInput, D);
       renderLinks(links);
       return links;
