@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <title>永運訂場(TD,豬豬隊)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    :root {
+      --main-blue: #4183dd;
+      --blue-grad: linear-gradient(90deg,#4183dd 40%,#5ea3e2 100%);
+      --blue-grad-hover: linear-gradient(90deg,#356fba 40%,#4889c6 100%);
+      --red-grad: linear-gradient(90deg,#ffd0d0 20%,#ffb1b1 100%);
+      --red-grad-hover: linear-gradient(90deg,#ffc1c1 10%,#ff8383 100%);
+      --box-shadow: 0 6px 32px 0 rgba(55,89,124,0.10);
+      --field-width: 235px;
+      --label-width: 134px;
+    }
+    html, body {
+      background: #f4f7fa;
+      min-height: 100vh;
+      margin: 0;
+      font-family: 'Segoe UI', 'Arial', 'Microsoft JhengHei', sans-serif;
+      color: #234059;
+      font-size: 16px;
+    }
+    body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      background: #fff;
+      margin: 44px 0 0 0;
+      padding: 36px 34px 28px 34px;
+      border-radius: 18px;
+      box-shadow: var(--box-shadow);
+      max-width: 480px;
+      width: 100%;
+      min-width: 290px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    h2 {
+      text-align: center;
+      letter-spacing: 2.5px;
+      margin: 0 0 18px 0;
+      font-weight: 800;
+      font-size: 2.1rem;
+      color: #35547a;
+      user-select: none;
+    }
+    /* --- Help收合區 --- */
+    .help-toggle {
+      width: 100%;
+      margin: 0 0 6px 0;
+      padding: 0;
+      font-size: 1.08em;
+      color: #2b4c86;
+      user-select: none;
+    }
+    .help-toggle b {
+      color: #2b4c86;
+      font-weight: 700;
+      font-size: 1.04em;
+    }
+    .help-block {
+      width: 100%;
+      background: #f0f5ff;
+      color: #234059;
+      border: 1px solid #c7e1ff;
+      border-radius: 8px;
+      padding: 13px 18px 12px 18px;
+      margin: 0 0 23px 0;
+      font-size: 1.01em;
+      line-height: 1.7;
+      box-sizing: border-box;
+      transition: max-height 0.27s cubic-bezier(.4,2,.7,1), padding 0.18s;
+      overflow: hidden;
+    }
+    .help-block b {
+      color: #2b4c86;
+      font-weight: 700;
+    }
+    /* --- 表單樣式 --- */
+    form {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+    .form-row {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      margin-bottom: 22px;
+      min-height: 54px;
+    }
+    .form-label {
+      width: var(--label-width);
+      min-width: var(--label-width);
+      text-align: right;
+      font-weight: 500;
+      font-size: 1.01rem;
+      color: #24406a;
+      padding-right: 16px;
+      letter-spacing: 0.2px;
+      line-height: 1.35;
+      user-select: none;
+      vertical-align: middle;
+    }
+    .form-field {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+    textarea, input[type="text"], input[type="number"], input[type="date"] {
+      width: var(--field-width);
+      min-height: 38px;
+      font-size: 1.04rem;
+      border-radius: 8px;
+      border: 1.2px solid #d1dde8;
+      background: #f8fbfd;
+      color: #24406a;
+      padding: 7px 11px;
+      box-sizing: border-box;
+      margin: 0;
+      outline: none;
+      transition: border 0.2s, background 0.18s;
+      resize: none;
+      font-family: inherit;
+      display: block;
+    }
+    textarea:focus, input[type="text"]:focus, input[type="date"]:focus {
+      border: 1.6px solid #5ea3e2;
+      background: #fff;
+    }
+    input[type="text"][readonly] {
+      background: #e9eef3;
+      color: #7b96b6;
+      cursor: default;
+      border-style: dashed;
+      font-weight: 500;
+    }
+    .note {
+      color: #7b96b6;
+      font-size: 13px;
+      margin: 7px 0 0 2px;
+      line-height: 1.5;
+    }
+    .btn-row {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      gap: 18px;
+      margin-bottom: 12px;
+      margin-top: 8px;
+    }
+    button {
+      width: 100%;
+      min-width: 0;
+      max-width: 100%;
+      padding: 15px 0;
+      border-radius: 8px;
+      border: none;
+      font-size: 1.13rem;
+      letter-spacing: 1.1px;
+      font-weight: bold;
+      background: var(--blue-grad);
+      color: #fff;
+      cursor: pointer;
+      box-shadow: 0 1px 8px 0 rgba(65,131,221,0.08);
+      transition: background 0.21s, box-shadow 0.15s;
+      white-space: nowrap;
+      text-align: center;
+      outline: none;
+      margin: 0;
+      user-select: none;
+    }
+    button:hover, button:active, button:focus {
+      background: var(--blue-grad-hover);
+      box-shadow: 0 2px 14px 0 rgba(65,131,221,0.12);
+    }
+    #cancelAutoBtn {
+      background: var(--red-grad);
+      color: #b11c1c;
+      border: 1px solid #f5b4b4;
+      box-shadow: 0 1px 7px 0 rgba(230,90,90,0.08);
+      font-weight: 600;
+      white-space: nowrap;
+    }
+    #cancelAutoBtn:hover, #cancelAutoBtn:active, #cancelAutoBtn:focus {
+      background: var(--red-grad-hover);
+      color: #7d1414;
+    }
+    #linkList {
+      padding: 0;
+      margin: 23px 0 0 0;
+      list-style: none;
+      width: 100%;
+    }
+    #linkList li {
+      background: #f7faff;
+      border-radius: 6px;
+      box-shadow: 0 1px 7px 0 rgba(65,131,221,0.03);
+      margin-bottom: 11px;
+      padding: 10px 13px 7px 13px;
+      border-left: 4px solid #79a9e4;
+      position: relative;
+      word-break: break-all;
+      font-size: 1em;
+      transition: background 0.11s;
+    }
+    #linkList li:hover {
+      background: #e7f3fd;
+    }
+    #linkList strong {
+      color: #264460;
+      font-size: 1.07em;
+      margin-right: 8px;
+    }
+    #linkList a {
+      color: #2c70bf;
+      text-decoration: underline;
+      margin-left: 2px;
+      font-size: 0.97em;
+      font-weight: 500;
+    }
+    .url {
+      font-size: 13px;
+      color: #7b96b6;
+      margin-top: 3px;
+      display: flex;
+      align-items: center;
+      word-break: break-all;
+      user-select: all;
+      cursor: pointer;
+    }
+    @media (max-width: 600px) {
+      .container { max-width: 99vw; padding: 8vw 2vw 4vw 2vw; }
+      .help-block { font-size: 0.97em; padding: 10px 4vw 8px 4vw; }
+      .help-toggle { font-size: 1em;}
+      .form-row { flex-direction: column; align-items: stretch; min-height: 0;}
+      .form-label { text-align: left; width: 100%; min-width: 0; margin-bottom: 4px; padding-right: 0;}
+      .form-field textarea, .form-field input[type="text"], .form-field input[type="number"], .form-field input[type="date"] { width: 98vw; max-width: 99vw;}
+      button { width: 99vw; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>永運訂場(TD,豬豬隊)</h2>
+    <div class="help-toggle" onclick="toggleHelp()">
+      <span id="help-title" style="cursor:pointer;">
+        <b>▶ 操作說明</b>
+      </span>
+    </div>
+    <div class="help-block" id="help-block" style="display:none;">
+      <b>【操作說明】</b><br>
+      1. 請先在瀏覽器上<a href="https://scr.cyc.org.tw/tp10.aspx?module=login_page&files=login&PT=1" target="_blank" style="color:#2866b4;text-decoration:underline;font-weight:500;">登入永和運動中心網站會員</a><br>
+      2. 開啟永運訂場程式<br>
+      3. 輸入時段，多時段以逗號分隔 (例 10,11)<br>
+      4. 輸入場地編號，多場地以逗號分隔 (例 1,2)<br>
+      5. 看一下搶場日期是否正確 (系統預計帶出 15 天後)<br>
+      6. 按下 <b>手動搶場</b>，則一次會搶上列設定的場地<br>
+      7. 按下 <b>自動搶場</b>，則系統會自動在 00:00 開始搶場<br>
+      8. 程式跑完後，請去永和運動中心網站或APP中的訂單查詢付款
+    </div>
+    <form autocomplete="off" onsubmit="return false;">
+      <div class="form-row">
+        <div class="form-label"><label for="qtime">時段<br><span style="font-weight:400;font-size:0.97em;">(逗號分隔)</span></label></div>
+        <div class="form-field">
+          <textarea id="qtime" rows="1" placeholder="例如：10,11">10,11,13,14,15</textarea>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-label"><label for="qpid">場地編號<br><span style="font-weight:400;font-size:0.97em;">(逗號分隔)</span></label></div>
+        <div class="form-field">
+          <textarea id="qpid" rows="1" placeholder="輸入 1,2,3,4,5,6">1,2,3,4,5,6</textarea>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-label"><label for="dval">預約日期</label></div>
+        <div class="form-field">
+          <input id="dval" type="date">
+        </div>
+      </div>
+      <div class="btn-row">
+        <button id="openLinksBtn" type="button">手動搶場</button>
+        <button id="autoBtn" type="button">自動搶場（00:00:00自動啟動）</button>
+        <button id="cancelAutoBtn" type="button" style="display:none;">取消自動送出</button>
+      </div>
+    </form>
+    <ul id="linkList"></ul>
+  </div>
+  <script>
+    // Help區收合展開
+    function toggleHelp() {
+      const block = document.getElementById('help-block');
+      const title = document.getElementById('help-title');
+      if (block.style.display === 'none') {
+        block.style.display = 'block';
+        title.innerHTML = "<b>▼ 操作說明</b>";
+      } else {
+        block.style.display = 'none';
+        title.innerHTML = "<b>▶ 操作說明</b>";
+      }
+    }
+
+    // === 主程式與參數 ===
+    const PT = '1';
+    const QPidMap = {
+      '1': '1133',
+      '2': '1124',
+      '3': '1135',
+      '4': '1136',
+      '5': '1137',
+      '6': '1137'
+    };
+    // 取得今天 + 15 天（yyyy-mm-dd，for <input type="date">）
+    function getDateAfterNDays(days = 15) {
+      const d = new Date();
+      d.setDate(d.getDate() + days);
+      const yyyy = d.getFullYear();
+      const mm = String(d.getMonth() + 1).padStart(2, '0');
+      const dd = String(d.getDate()).padStart(2, '0');
+      return `${yyyy}-${mm}-${dd}`;
+    }
+    // 輸出連結用的日期格式 yyyy/mm/dd
+    function toDisplayDate(isoDate) {
+      // isoDate 例：2025-08-12
+      if (!isoDate) return '';
+      const [yyyy, mm, dd] = isoDate.split('-');
+      return `${yyyy}/${mm}/${dd}`;
+    }
+    function parseInput(val) {
+      return val.replace(/\n/g, ',').split(',').map(x => x.trim()).filter(x => x);
+    }
+    function mapQPid(arr) {
+      return arr.map(qpid => QPidMap[qpid] || qpid);
+    }
+    function buildLinks(QTimes, QPids, D) {
+      const links = [];
+      QPids.forEach((QPid, idx) => {
+        QTimes.forEach(QTime => {
+          links.push({
+            name: `${QTime}:00 第${idx+1}場地`,
+            url: `https://scr.cyc.org.tw/tp10.aspx?module=net_booking&files=booking_place&StepFlag=25&QPid=${QPid}&QTime=${QTime}&PT=${PT}&D=${D}&openExternalBrowser=1`
+          });
+        });
+      });
+      return links;
+    }
+    function renderLinks(links) {
+      const list = document.getElementById('linkList');
+      list.innerHTML = '';
+      links.forEach(link => {
+        const li = document.createElement('li');
+        li.innerHTML = `<strong>${link.name}</strong> <a href="${link.url}" target="_blank">（點我）</a><div class="url">${link.url}</div>`;
+        list.appendChild(li);
+      });
+    }
+    function updateLinksAndRender() {
+      const QTimes = parseInput(document.getElementById('qtime').value);
+      const QPidInput  = parseInput(document.getElementById('qpid').value);
+      const QPids = mapQPid(QPidInput);
+      const isoDate = document.getElementById('dval').value;
+      const D = toDisplayDate(isoDate);
+      if (!D) return; // 尚未選擇日期不產生
+      const links  = buildLinks(QTimes, QPids, D);
+      renderLinks(links);
+      return links;
+    }
+    // 頁面載入時自動設定預設日期
+    document.addEventListener('DOMContentLoaded', function() {
+      document.getElementById('dval').value = getDateAfterNDays(15);
+      updateLinksAndRender();
+    });
+    document.getElementById('qtime').addEventListener('input', updateLinksAndRender);
+    document.getElementById('qpid').addEventListener('input', updateLinksAndRender);
+    document.getElementById('dval').addEventListener('input', updateLinksAndRender);
+    document.getElementById('openLinksBtn').onclick = function() {
+      const links = updateLinksAndRender();
+      if (links) links.forEach(link => window.open(link.url, '_blank'));
+    };
+    // 自動送出控制
+    let autoTimeout = null;
+    let autoInterval = null;
+    let isAutoSending = false;
+    document.getElementById('autoBtn').onclick = function() {
+      const autoBtn = this;
+      const cancelBtn = document.getElementById('cancelAutoBtn');
+      autoBtn.disabled = true;
+      cancelBtn.style.display = '';
+      autoBtn.textContent = "等待自動送出...";
+      isAutoSending = true;
+      // 計算下一個00:00:00（過了就明天）
+      const now = new Date();
+      const target = new Date(now);
+      target.setHours(0, 0, 0, 0);
+      if (now >= target) target.setDate(target.getDate() + 1);
+      const msToWait = target.getTime() - now.getTime();
+      autoTimeout = setTimeout(() => {
+        let count = 0;
+        autoInterval = setInterval(() => {
+          if (!isAutoSending) return;
+          const links = updateLinksAndRender();
+          if (links) links.forEach(link => window.open(link.url, '_blank'));
+          count++;
+          if (count >= 20) { // 連續20下
+            clearInterval(autoInterval);
+            isAutoSending = false;
+            autoBtn.disabled = false;
+            autoBtn.textContent = "自動搶場（00:00:00自動啟動）";
+            cancelBtn.style.display = 'none';
+          }
+        }, 500);
+      }, msToWait);
+    };
+    document.getElementById('cancelAutoBtn').onclick = function() {
+      isAutoSending = false;
+      if (autoTimeout) clearTimeout(autoTimeout);
+      if (autoInterval) clearInterval(autoInterval);
+      document.getElementById('autoBtn').disabled = false;
+      document.getElementById('autoBtn').textContent = "自動搶場（00:00:00自動啟動）";
+      this.style.display = 'none';
+    };
+  </script>
+</body>
+</html>
