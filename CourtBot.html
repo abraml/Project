@@ -330,7 +330,6 @@
     }
     // 輸出連結用的日期格式 yyyy/mm/dd
     function toDisplayDate(isoDate) {
-      // isoDate 例：2025-08-12
       if (!isoDate) return '';
       const [yyyy, mm, dd] = isoDate.split('-');
       return `${yyyy}/${mm}/${dd}`;
@@ -341,26 +340,18 @@
     function mapQPid(arr) {
       return arr.map(qpid => QPidMap[qpid] || qpid);
     }
-    function buildLinks(QTimes, QPids, D) {
+    // 改名顯示為「10:00 場地2」
+    function buildLinks(QTimes, QPids, QPidInput, D) {
       const links = [];
       QPids.forEach((QPid, idx) => {
         QTimes.forEach(QTime => {
           links.push({
-            name: `${QTime}:00 第${idx+1}場地`,
+            name: `${QTime}:00 場地${QPidInput[idx]}`,
             url: `https://scr.cyc.org.tw/tp10.aspx?module=net_booking&files=booking_place&StepFlag=25&QPid=${QPid}&QTime=${QTime}&PT=${PT}&D=${D}&openExternalBrowser=1`
           });
         });
       });
       return links;
-    }
-    function renderLinks(links) {
-      const list = document.getElementById('linkList');
-      list.innerHTML = '';
-      links.forEach(link => {
-        const li = document.createElement('li');
-        li.innerHTML = `<strong>${link.name}</strong> <a href="${link.url}" target="_blank">（點我）</a><div class="url">${link.url}</div>`;
-        list.appendChild(li);
-      });
     }
     function updateLinksAndRender() {
       const QTimes = parseInput(document.getElementById('qtime').value);
@@ -368,8 +359,8 @@
       const QPids = mapQPid(QPidInput);
       const isoDate = document.getElementById('dval').value;
       const D = toDisplayDate(isoDate);
-      if (!D) return; // 尚未選擇日期不產生
-      const links  = buildLinks(QTimes, QPids, D);
+      if (!D) return;
+      const links  = buildLinks(QTimes, QPids, QPidInput, D);
       renderLinks(links);
       return links;
     }
