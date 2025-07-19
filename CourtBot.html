@@ -4,6 +4,10 @@
   <meta charset="UTF-8">
   <title>CourtBot</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- 禁止 Cache 設定 -->
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
   <style>
     :root {
       --main-blue: #4183dd;
@@ -135,12 +139,20 @@
       border: 1.6px solid #5ea3e2;
       background: #fff;
     }
+    input[readonly], textarea[readonly] {
+      background: #e9eef3 !important;
+      color: #7b96b6 !important;
+      border-style: dashed;
+      cursor: not-allowed;
+    }
     input[type="text"][readonly] {
+      font-weight: 500;
+    }
+    input[type="date"]:disabled {
       background: #e9eef3;
       color: #7b96b6;
-      cursor: default;
       border-style: dashed;
-      font-weight: 500;
+      cursor: not-allowed;
     }
     .note {
       color: #7b96b6;
@@ -177,6 +189,10 @@
       margin: 0;
       user-select: none;
     }
+    button:disabled {
+      opacity: 0.66;
+      cursor: not-allowed;
+    }
     button:hover, button:active, button:focus {
       background: var(--blue-grad-hover);
       box-shadow: 0 2px 14px 0 rgba(65,131,221,0.12);
@@ -188,10 +204,19 @@
       box-shadow: 0 1px 7px 0 rgba(230,90,90,0.08);
       font-weight: 600;
       white-space: nowrap;
+      display: none;
     }
     #cancelAutoBtn:hover, #cancelAutoBtn:active, #cancelAutoBtn:focus {
       background: var(--red-grad-hover);
       color: #7d1414;
+    }
+    #countdown {
+      font-size: 1.22em;
+      color: #2b4c86;
+      font-weight: 700;
+      text-align: center;
+      display: none;
+      margin-bottom: 10px;
     }
     #linkList {
       padding: 0;
@@ -225,6 +250,15 @@
       margin-left: 2px;
       font-size: 0.97em;
       font-weight: 500;
+      pointer-events: auto;
+      transition: color .15s;
+    }
+    #linkList a[aria-disabled="true"] {
+      pointer-events: none;
+      color: #b8b8b8 !important;
+      text-decoration: none !important;
+      cursor: not-allowed;
+      opacity: 0.7;
     }
     .url {
       font-size: 13px;
@@ -290,11 +324,11 @@
         <button id="autoBtn" type="button">自動搶場（00:00:00自動啟動）</button>
         <button id="cancelAutoBtn" type="button" style="display:none;">取消自動送出</button>
       </div>
+      <div id="countdown"></div>
     </form>
     <ul id="linkList"></ul>
   </div>
   <script>
-    // Help區收合展開
     function toggleHelp() {
       const block = document.getElementById('help-block');
       const title = document.getElementById('help-title');
@@ -307,7 +341,6 @@
       }
     }
 
-    // === 主程式與參數 ===
     const PT = '1';
     const QPidMap = {
       '1': '1133',
@@ -317,7 +350,6 @@
       '5': '1137',
       '6': '1138'
     };
-    // 取得今天 + 15 天（yyyy-mm-dd，for <input type="date">）
     function getDateAfterNDays(days = 15) {
       const d = new Date();
       d.setDate(d.getDate() + days);
@@ -326,20 +358,17 @@
       const dd = String(d.getDate()).padStart(2, '0');
       return `${yyyy}-${mm}-${dd}`;
     }
-    // 輸出連結用的日期格式 yyyy/mm/dd
     function toDisplayDate(isoDate) {
-      // isoDate 例：2025-08-12
       if (!isoDate) return '';
       const [yyyy, mm, dd] = isoDate.split('-');
       return `${yyyy}/${mm}/${dd}`;
     }
     function parseInput(val) {
-      return val.replace(/\n/g, ',').split(',').map(x => x.trim()).filter(x => x);
+      return [...new Set(val.replace(/\n/g, ',').split(',').map(x => x.trim()).filter(x => x))];
     }
     function mapQPid(arr) {
       return arr.map(qpid => QPidMap[qpid] || qpid);
     }
-    // === 修正：將 QPidInput 帶入，讓 "第X場地" = 實際輸入值 ===
     function buildLinks(QTimes, QPids, QPidInput, D) {
       const links = [];
       QPids.forEach((QPid, idx) => {
@@ -360,22 +389,34 @@
         li.innerHTML = `<strong>${link.name}</strong> <a href="${link.url}" target="_blank">（點我）</a><div class="url">${link.url}</div>`;
         list.appendChild(li);
       });
+      setLinkEnabled(true); // 預設啟用連結
     }
+    function setLinkEnabled(enabled) {
+      document.querySelectorAll('#linkList a').forEach(a => {
+        if (enabled) {
+          a.removeAttribute('aria-disabled');
+        } else {
+          a.setAttribute('aria-disabled', 'true');
+        }
+      });
+    }
+
     function updateLinksAndRender() {
       const QTimes = parseInput(document.getElementById('qtime').value);
       const QPidInput  = parseInput(document.getElementById('qpid').value);
       const QPids = mapQPid(QPidInput);
       const isoDate = document.getElementById('dval').value;
       const D = toDisplayDate(isoDate);
-      if (!D) return; // 尚未選擇日期不產生
+      if (!D) return;
       const links  = buildLinks(QTimes, QPids, QPidInput, D);
       renderLinks(links);
       return links;
     }
-    // 頁面載入時自動設定預設日期
+
     document.addEventListener('DOMContentLoaded', function() {
-      document.getElementById('dval').value = getDateAfterNDays(15);
+      document.getElementById('dval').value = getDateAfterNDays(14);
       updateLinksAndRender();
+      document.getElementById('cancelAutoBtn').style.display = 'none';
     });
     document.getElementById('qtime').addEventListener('input', updateLinksAndRender);
     document.getElementById('qpid').addEventListener('input', updateLinksAndRender);
@@ -384,47 +425,89 @@
       const links = updateLinksAndRender();
       if (links) links.forEach(link => window.open(link.url, '_blank'));
     };
-    // 自動送出控制
+
     let autoTimeout = null;
     let autoInterval = null;
     let isAutoSending = false;
+    let countdownInterval = null;
     document.getElementById('autoBtn').onclick = function() {
       const autoBtn = this;
       const cancelBtn = document.getElementById('cancelAutoBtn');
-      autoBtn.disabled = true;
-      cancelBtn.style.display = '';
-      autoBtn.textContent = "等待自動送出...";
+      const openLinksBtn = document.getElementById('openLinksBtn');
+      const countdownDiv = document.getElementById('countdown');
+      document.getElementById('qtime').setAttribute('readonly', 'readonly');
+      document.getElementById('qpid').setAttribute('readonly', 'readonly');
+      document.getElementById('dval').setAttribute('disabled', 'disabled');
+      autoBtn.style.display = 'none';
+      openLinksBtn.style.display = 'none';
+      cancelBtn.style.display = 'block';  // 強制block
+      countdownDiv.style.display = 'block';
+      setLinkEnabled(false); // 禁用連結
       isAutoSending = true;
-      // 計算下一個00:00:00（過了就明天）
+
+      // 倒數計時
       const now = new Date();
       const target = new Date(now);
       target.setHours(0, 0, 0, 0);
       if (now >= target) target.setDate(target.getDate() + 1);
       const msToWait = target.getTime() - now.getTime();
+
+      function updateCountdown() {
+        const now2 = new Date();
+        let remain = target.getTime() - now2.getTime();
+        if (remain < 0) remain = 0;
+        const h = String(Math.floor(remain/3600000)).padStart(2,'0');
+        const m = String(Math.floor((remain%3600000)/60000)).padStart(2,'0');
+        const s = String(Math.floor((remain%60000)/1000)).padStart(2,'0');
+        countdownDiv.textContent = `距離自動搶場還有 ${h}:${m}:${s}`;
+        if (remain <= 0) {
+          clearInterval(countdownInterval);
+          countdownDiv.textContent = "正在自動搶場...";
+        }
+      }
+      updateCountdown();
+      countdownInterval = setInterval(updateCountdown, 500);
+
       autoTimeout = setTimeout(() => {
+        clearInterval(countdownInterval);
+        countdownDiv.textContent = "正在自動搶場...";
         let count = 0;
         autoInterval = setInterval(() => {
           if (!isAutoSending) return;
           const links = updateLinksAndRender();
           if (links) links.forEach(link => window.open(link.url, '_blank'));
           count++;
-          if (count >= 20) { // 連續20下
+          if (count >= 5) { // 連續5下
             clearInterval(autoInterval);
             isAutoSending = false;
-            autoBtn.disabled = false;
+            document.getElementById('qtime').removeAttribute('readonly');
+            document.getElementById('qpid').removeAttribute('readonly');
+            document.getElementById('dval').removeAttribute('disabled');
+            autoBtn.style.display = '';
+            openLinksBtn.style.display = '';
             autoBtn.textContent = "自動搶場（00:00:00自動啟動）";
             cancelBtn.style.display = 'none';
+            countdownDiv.style.display = 'none';
+            setLinkEnabled(true); // 恢復連結
           }
         }, 500);
       }, msToWait);
     };
+
     document.getElementById('cancelAutoBtn').onclick = function() {
       isAutoSending = false;
       if (autoTimeout) clearTimeout(autoTimeout);
       if (autoInterval) clearInterval(autoInterval);
-      document.getElementById('autoBtn').disabled = false;
+      if (countdownInterval) clearInterval(countdownInterval);
+      document.getElementById('qtime').removeAttribute('readonly');
+      document.getElementById('qpid').removeAttribute('readonly');
+      document.getElementById('dval').removeAttribute('disabled');
+      document.getElementById('autoBtn').style.display = '';
+      document.getElementById('openLinksBtn').style.display = '';
       document.getElementById('autoBtn').textContent = "自動搶場（00:00:00自動啟動）";
+      document.getElementById('countdown').style.display = 'none';
       this.style.display = 'none';
+      setLinkEnabled(true); // 恢復連結
     };
   </script>
 </body>
