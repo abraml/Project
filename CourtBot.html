@@ -9,6 +9,7 @@
   <meta http-equiv="Pragma" content="no-cache" />
   <meta http-equiv="Expires" content="0" />
   <style>
+    /* ...保留你的 style... */
     :root {
       --main-blue: #4183dd;
       --blue-grad: linear-gradient(90deg,#4183dd 40%,#5ea3e2 100%);
@@ -86,6 +87,19 @@
     .help-block b {
       color: #2b4c86;
       font-weight: 700;
+    }
+    .popup-tip {
+      color: #b52222;
+      font-size: 1.07em;
+      background: #fff5f0;
+      border: 1px solid #ffc0b3;
+      border-radius: 6px;
+      padding: 8px 14px 7px 14px;
+      margin-bottom: 14px;
+      display: none;
+      width: 100%;
+      box-sizing: border-box;
+      text-align: left;
     }
     form {
       width: 100%;
@@ -298,7 +312,12 @@
       5. 看一下搶場日期是否正確 (系統預計帶出 15 天後)<br>
       6. 按下 <b>手動搶場</b>，則一次會搶上列設定的場地<br>
       7. 按下 <b>自動搶場</b>，則系統會自動在 00:00 開始搶場<br>
-      8. 程式跑完後，請去運動中心網站或APP中的訂單查詢付款
+      8. 程式跑完後，請去運動中心網站或APP中的訂單查詢付款<br>
+      <span style="color:#b52222;">＊如果您的瀏覽器有彈窗阻擋功能，請允許本網頁開啟多個視窗。</span>
+    </div>
+    <div class="popup-tip" id="popup-tip">
+      <b>提醒：</b>瀏覽器通常會「封鎖」非人工觸發的多個彈窗！<br>
+      <b>建議：</b>請於瀏覽器網址列允許本站多彈窗，否則只會開啟一個或完全沒反應。
     </div>
     <form autocomplete="off" onsubmit="return false;">
       <div class="form-row">
@@ -400,7 +419,9 @@
         }
       });
     }
-
+    function showPopupTip(show = true) {
+      document.getElementById('popup-tip').style.display = show ? 'block' : 'none';
+    }
     function updateLinksAndRender() {
       const QTimes = parseInput(document.getElementById('qtime').value);
       const QPidInput  = parseInput(document.getElementById('qpid').value);
@@ -413,6 +434,7 @@
       return links;
     }
 
+    // 預設日期+渲染
     document.addEventListener('DOMContentLoaded', function() {
       document.getElementById('dval').value = getDateAfterNDays(14);
       updateLinksAndRender();
@@ -421,11 +443,26 @@
     document.getElementById('qtime').addEventListener('input', updateLinksAndRender);
     document.getElementById('qpid').addEventListener('input', updateLinksAndRender);
     document.getElementById('dval').addEventListener('input', updateLinksAndRender);
+
+    // ---- 手動搶場：多視窗 for 迴圈 + 彈窗提醒 ----
     document.getElementById('openLinksBtn').onclick = function() {
       const links = updateLinksAndRender();
-      if (links) links.forEach(link => window.open(link.url, '_blank'));
+      let opened = 0;
+      if (links) {
+        for (let i = 0; i < links.length; i++) {
+          const w = window.open(links[i].url, '_blank');
+          if (w) opened++;
+        }
+      }
+      if (links && links.length > 1 && opened < links.length) {
+        // 彈窗被擋
+        showPopupTip(true);
+      } else {
+        showPopupTip(false);
+      }
     };
 
+    // ---- 自動搶場 ----
     let autoTimeout = null;
     let autoInterval = null;
     let isAutoSending = false;
@@ -440,14 +477,14 @@
       document.getElementById('dval').setAttribute('disabled', 'disabled');
       autoBtn.style.display = 'none';
       openLinksBtn.style.display = 'none';
-      cancelBtn.style.display = 'block';  // 強制block
+      cancelBtn.style.display = 'block';
       countdownDiv.style.display = 'block';
       setLinkEnabled(false); // 禁用連結
       isAutoSending = true;
 
-      // 倒數計時
+      // 計算下一個凌晨 00:00:00
       const now = new Date();
-      const target = new Date(now);
+      let target = new Date(now);
       target.setHours(0, 0, 0, 0);
       if (now >= target) target.setDate(target.getDate() + 1);
       const msToWait = target.getTime() - now.getTime();
@@ -468,6 +505,7 @@
       updateCountdown();
       countdownInterval = setInterval(updateCountdown, 500);
 
+      // 時間到，進行自動搶場
       autoTimeout = setTimeout(() => {
         clearInterval(countdownInterval);
         countdownDiv.textContent = "正在自動搶場...";
@@ -475,7 +513,18 @@
         autoInterval = setInterval(() => {
           if (!isAutoSending) return;
           const links = updateLinksAndRender();
-          if (links) links.forEach(link => window.open(link.url, '_blank'));
+          let opened = 0;
+          if (links) {
+            for (let i = 0; i < links.length; i++) {
+              const w = window.open(links[i].url, '_blank');
+              if (w) opened++;
+            }
+          }
+          if (links && links.length > 1 && opened < links.length) {
+            showPopupTip(true);
+          } else {
+            showPopupTip(false);
+          }
           count++;
           if (count >= 5) { // 連續5下
             clearInterval(autoInterval);
@@ -489,11 +538,14 @@
             cancelBtn.style.display = 'none';
             countdownDiv.style.display = 'none';
             setLinkEnabled(true); // 恢復連結
+            showPopupTip(false);
           }
         }, 500);
       }, msToWait);
+      showPopupTip(true);
     };
 
+    // ---- 取消自動搶場 ----
     document.getElementById('cancelAutoBtn').onclick = function() {
       isAutoSending = false;
       if (autoTimeout) clearTimeout(autoTimeout);
@@ -508,6 +560,7 @@
       document.getElementById('countdown').style.display = 'none';
       this.style.display = 'none';
       setLinkEnabled(true); // 恢復連結
+      showPopupTip(false);
     };
   </script>
 </body>
