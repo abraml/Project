@@ -482,29 +482,37 @@
       setLinkEnabled(false); // 禁用連結
       isAutoSending = true;
 
-      // 計算下一個凌晨 00:00:00
+      // 計算今天的 23:59:59（若已過則明天）
       const now = new Date();
       let target = new Date(now);
-      target.setHours(0, 0, 0, 0);
-      if (now >= target) target.setDate(target.getDate() + 1);
-      const msToWait = target.getTime() - now.getTime();
-
+      target.setHours(23, 59, 59, 0);
+      if (now >= target) {
+        target.setDate(target.getDate() + 1);
+        target.setHours(23, 59, 59, 0);
+      }
+      
       function updateCountdown() {
         const now2 = new Date();
         let remain = target.getTime() - now2.getTime();
         if (remain < 0) remain = 0;
-        const h = String(Math.floor(remain/3600000)).padStart(2,'0');
-        const m = String(Math.floor((remain%3600000)/60000)).padStart(2,'0');
-        const s = String(Math.floor((remain%60000)/1000)).padStart(2,'0');
+      
+        const h = String(Math.floor(remain / 3600000)).padStart(2, '0');
+        const m = String(Math.floor((remain % 3600000) / 60000)).padStart(2, '0');
+        const s = String(Math.floor((remain % 60000) / 1000)).padStart(2, '0');
+      
         countdownDiv.textContent = `距離自動搶場還有 ${h}:${m}:${s}`;
+      
         if (remain <= 0) {
           clearInterval(countdownInterval);
           countdownDiv.textContent = "正在自動搶場...";
+          // 在這裡呼叫你的執行函式，例如：
+          // autoGrab();
         }
       }
+      
       updateCountdown();
       countdownInterval = setInterval(updateCountdown, 500);
-
+      
       // 時間到，進行自動搶場
       autoTimeout = setTimeout(() => {
         clearInterval(countdownInterval);
@@ -565,3 +573,4 @@
   </script>
 </body>
 </html>
+
