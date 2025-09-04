@@ -304,9 +304,29 @@
         const li = document.createElement('li');
         li.innerHTML = `<strong>${link.name}</strong> <a href="${link.url}" target="_blank">（點我）</a><div class="url">${link.url}</div>`;
         list.appendChild(li);
+        try { const a = li.querySelector('a'); if (a) a.setAttribute('target','_new'); } catch(e){}
       });
       setLinkEnabled(true);
+      if (!__newTargetUrl && links.length) { __newTargetUrl = links[0].url; }
     }
+    // --- _new 自動重載 (每 10 分鐘) ---
+    let __newReloadInterval = null;
+    let __newTargetUrl = '';
+    function startNewAutoReload() {
+      if (__newReloadInterval) return;
+      __newReloadInterval = setInterval(() => {
+        if (__newTargetUrl) {
+          try { window.open(__newTargetUrl, '_new'); } catch(e){}
+        }
+      }, 10 * 60 * 1000);
+    }
+    // 點擊「（點我）」時更新目標 URL
+    document.getElementById('linkList').addEventListener('click', function(e){
+      const a = e.target.closest('a[href]');
+      if (a && a.getAttribute('target') === '_new') {
+        __newTargetUrl = a.href;
+      }
+    });
 
     function setLinkEnabled(enabled) {
       document.querySelectorAll('#linkList a').forEach(a => {
@@ -335,6 +355,7 @@
     document.addEventListener('DOMContentLoaded', function() {
       document.getElementById('dval').value = getDateAfterNDays(14);
       updateLinksAndRender();
+      startNewAutoReload();
       document.getElementById('cancelAutoBtn').style.display = 'none';
     });
     document.getElementById('qtime').addEventListener('input', updateLinksAndRender);
