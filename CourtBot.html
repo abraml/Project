@@ -209,7 +209,7 @@
       2. 開啟 CourtBot<br>
       3. 輸入時段，多時段以逗號分隔 (例 10,11)<br>
       4. 輸入場地編號，多場地以逗號分隔 (例 1,2)<br>
-      5. 看一下搶場日期是否正確 (系統預計帶出 15 天後)<br>
+      5. 看一下搶場日期是否正確 (系統預計帶出 14 天後)<br>
       6. 按下 <b>手動搶場</b>，則一次會搶上列設定的場地<br>
       7. 按下 <b>自動搶場</b>，則系統會自動在 <b>23:59:59</b> 開始搶場<br>
       8. 程式跑完後，請去運動中心網站或 APP 中的訂單查詢付款<br>
@@ -238,7 +238,7 @@
         <div class="form-label"><label for="dval">預約日期</label></div>
         <div class="form-field">
           <input id="dval" type="date">
-          <div class="note">預設帶出 15 天後，若場館規則不同請自行調整。</div>
+          <div class="note">預設帶出 14 天後，若場館規則不同請自行調整。</div>
         </div>
       </div>
 
@@ -266,7 +266,7 @@
     const PT = '1';
     const QPidMap = { '1':'1133','2':'1134','3':'1135','4':'1136','5':'1137','6':'1138' };
 
-    function getDateAfterNDays(days = 15) {
+    function getDateAfterNDays(days = 14) {
       const d = new Date();
       d.setDate(d.getDate() + days);
       const yyyy = d.getFullYear();
@@ -333,7 +333,7 @@
 
     // --- 啟動預設日期與事件 ---
     document.addEventListener('DOMContentLoaded', function() {
-      document.getElementById('dval').value = getDateAfterNDays(15);
+      document.getElementById('dval').value = getDateAfterNDays(14);
       updateLinksAndRender();
       document.getElementById('cancelAutoBtn').style.display = 'none';
     });
