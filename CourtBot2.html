@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <title id="pageTitle">CourtBot</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <style>
+            :root {
+                  --main-blue: #4183dd;
+                  --blue-grad: linear-gradient(90deg,#4183dd 40%,#5ea3e2 100%);
+                  --blue-grad-hover: linear-gradient(90deg,#356fba 40%,#4889c6 100%);
+                  --red-grad: linear-gradient(90deg,#ffd0d0 20%,#ffb1b1 100%);
+                  --red-grad-hover: linear-gradient(90deg,#ffc1c1 10%,#ff8383 100%);
+                  --box-shadow: 0 6px 32px 0 rgba(55,89,124,0.10);
+                  --field-width: 235px;
+                  --label-width: 134px;
+
+        }
+
+            html, body {
+                  background: #f4f7fa;
+                  min-height: 100vh;
+                  margin: 0;
+                  font-family: 'Segoe UI', 'Arial', 'Microsoft JhengHei', sans-serif;
+                  color: #234059;
+                  font-size: 16px;
+
+        }
+
+            body {
+                  display: flex;
+                  flex-direction: column;
+                  align-items: center;
+                  margin: 0;
+                  padding: 0;
+
+        }
+
+            .container {
+                  background: #fff;
+                  margin: 44px 0 0 0;
+                  padding: 36px 34px 28px 34px;
+                  border-radius: 18px;
+                  box-shadow: var(--box-shadow);
+                  max-width: 480px;
+                  width: 100%;
+                  min-width: 290px;
+                  display: flex;
+                  flex-direction: column;
+                  align-items: center;
+
+        }
+
+            h2 {
+                  text-align: center;
+                  letter-spacing: 2.5px;
+                  margin: 0 0 18px 0;
+                  font-weight: 800;
+                  font-size: 2.1rem;
+                  color: #35547a;
+                  user-select: none;
+
+        }
+
+            .help-toggle {
+                  width: 100%;
+                  margin: 0 0 6px 0;
+                  padding: 0;
+                  font-size: 1.08em;
+                  color: #2b4c86;
+                  user-select: none;
+
+        }
+
+                .help-toggle b {
+                color: #2b4c86;
+                font-weight: 700;
+                font-size: 1.04em;
+            }
+
+            .help-block {
+                  width: 100%;
+                  background: #f0f5ff;
+                  color: #234059;
+                  border: 1px solid #c7e1ff;
+                  border-radius: 8px;
+                  padding: 13px 18px 12px 18px;
+                  margin: 0 0 23px 0;
+                  font-size: 1.01em;
+                  line-height: 1.7;
+                  box-sizing: border-box;
+                  transition: max-height 0.27s cubic-bezier(.4,2,.7,1), padding 0.18s;
+                  overflow: hidden;
+
+        }
+
+                .help-block b {
+                color: #2b4c86;
+                font-weight: 700;
+            }
+
+            .popup-tip {
+                  color: #b52222;
+                  font-size: 1.07em;
+                  background: #fff5f0;
+                  border: 1px solid #ffc0b3;
+                  border-radius: 6px;
+                  padding: 8px 14px 7px 14px;
+                  margin-bottom: 14px;
+                  display: none;
+                  width: 100%;
+                  box-sizing: border-box;
+                  text-align: left;
+
+        }
+
+            form {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+        }
+
+            .form-row {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            margin-bottom: 22px;
+            min-height: 54px;
+        }
+
+            .form-label {
+                  width: var(--label-width);
+                  min-width: var(--label-width);
+                  text-align: right;
+                  font-weight: 500;
+                  font-size: 1.01rem;
+                  color: #24406a;
+                  padding-right: 16px;
+                  letter-spacing: 0.2px;
+                  line-height: 1.35;
+                  user-select: none;
+                  vertical-align: middle;
+
+        }
+
+            .form-field {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+            textarea, input[type="text"], input[type="number"], input[type="date"] {
+                  width: var(--field-width);
+                  min-height: 38px;
+                  font-size: 1.04rem;
+                  border-radius: 8px;
+                  border: 1.2px solid #d1dde8;
+                  background: #f8fbfd;
+                  color: #24406a;
+                  padding: 7px 11px;
+                  box-sizing: border-box;
+                  margin: 0;
+                  outline: none;
+                  transition: border 0.2s, background 0.18s;
+                  resize: none;
+                  font-family: inherit;
+                  display: block;
+
+        }
+
+                textarea:focus, input[type="text"]:focus, input[type="date"]:focus {
+                border: 1.6px solid #5ea3e2;
+                background: #fff;
+            }
+
+            input[readonly], textarea[readonly] {
+            background: #e9eef3 !important;
+            color: #7b96b6 !important;
+            border-style: dashed;
+            cursor: not-allowed;
+        }
+
+            input[type="text"][readonly] {
+            font-weight: 500;
+        }
+
+            input[type="date"]:disabled {
+            background: #e9eef3;
+            color: #7b96b6;
+            border-style: dashed;
+            cursor: not-allowed;
+        }
+
+            .note {
+            color: #7b96b6;
+            font-size: 13px;
+            margin: 7px 0 0 2px;
+            line-height: 1.5;
+        }
+
+            .btn-row {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            gap: 18px;
+            margin-bottom: 12px;
+            margin-top: 8px;
+        }
+
+            button {
+                  width: 100%;
+                  min-width: 0;
+                  max-width: 100%;
+                  padding: 15px 0;
+                  border-radius: 8px;
+                  border: none;
+                  font-size: 1.13rem;
+                  letter-spacing: 1.1px;
+                  font-weight: bold;
+                  background: var(--blue-grad);
+                  color: #fff;
+                  cursor: pointer;
+                  box-shadow: 0 1px 8px 0 rgba(65,131,221,0.08);
+                  transition: background 0.21s, box-shadow 0.15s;
+                  white-space: nowrap;
+                  text-align: center;
+                  outline: none;
+                  margin: 0;
+                  user-select: none;
+
+        }
+
+                button:disabled {
+                opacity: 0.66;
+                cursor: not-allowed;
+            }
+
+                button:hover, button:active, button:focus {
+                background: var(--blue-grad-hover);
+                box-shadow: 0 2px 14px 0 rgba(65,131,221,0.12);
+            }
+
+            #cancelAutoBtn {
+                  background: var(--red-grad);
+                  color: #b11c1c;
+                  border: 1px solid #f5b4b4;
+                  box-shadow: 0 1px 7px 0 rgba(230,90,90,0.08);
+                  font-weight: 600;
+                  white-space: nowrap;
+                  display: none;
+
+        }
+
+                #cancelAutoBtn:hover, #cancelAutoBtn:active, #cancelAutoBtn:focus {
+                background: var(--red-grad-hover);
+                color: #7d1414;
+            }
+
+            #countdown {
+            font-size: 1.22em;
+            color: #2b4c86;
+            font-weight: 700;
+            text-align: center;
+            display: none;
+            margin-bottom: 10px;
+        }
+
+            #linkList {
+            padding: 0;
+            margin: 23px 0 0 0;
+            list-style: none;
+            width: 100%;
+        }
+
+                #linkList li {
+                      background: #f7faff;
+                      border-radius: 6px;
+                      box-shadow: 0 1px 7px 0 rgba(65,131,221,0.03);
+                      margin-bottom: 11px;
+                      padding: 10px 13px 7px 13px;
+                      border-left: 4px solid #79a9e4;
+                      position: relative;
+                      word-break: break-all;
+                      font-size: 1em;
+                      transition: background 0.11s;
+
+            }
+
+                    #linkList li:hover {
+                    background: #e7f3fd;
+                }
+
+                #linkList strong {
+                color: #264460;
+                font-size: 1.07em;
+                margin-right: 8px;
+            }
+
+                #linkList a {
+                color: #2c70bf;
+                text-decoration: underline;
+                margin-left: 2px;
+                font-size: 0.97em;
+                font-weight: 500;
+                pointer-events: auto;
+                transition: color .15s;
+            }
+
+                    #linkList a[aria-disabled="true"] {
+                    pointer-events: none;
+                    color: #b8b8b8 !important;
+                    text-decoration: none !important;
+                    cursor: not-allowed;
+                    opacity: 0.7;
+                }
+
+            .url {
+            font-size: 13px;
+            color: #7b96b6;
+            margin-top: 3px;
+            display: flex;
+            align-items: center;
+            word-break: break-all;
+            user-select: all;
+            cursor: pointer;
+        }
+
+            @media (max-width: 600px) {
+                  .container
+
+        {
+            max-width: 99vw;
+            padding: 8vw 2vw 4vw 2vw;
+        }
+
+              .help-block {
+            font-size: 0.97em;
+            padding: 10px 4vw 8px 4vw;
+        }
+
+              .help-toggle {
+            font-size: 1em;
+        }
+
+              .form-row {
+            flex-direction: column;
+            align-items: stretch;
+            min-height: 0;
+        }
+
+              .form-label {
+            text-align: left;
+            width: 100%;
+            min-width: 0;
+            margin-bottom: 4px;
+            padding-right: 0;
+        }
+
+              .form-field textarea, .form-field input[type="text"], .form-field input[type="number"], .form-field input[type="date"] {
+            width: 98vw;
+            max-width: 99vw;
+        }
+
+              button {
+            width: 99vw;
+        }
+
+
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2 id="mainTitle">CourtBot</h2>
+        <div class="help-toggle" onclick="toggleHelp()">
+            <span id="help-title" style="cursor:pointer;">
+                <b>▶ 操作說明</b>
+            </span>
+        </div>
+        <div class="help-block" id="help-block" style="display:none;">
+            <b>【操作說明】</b><br>
+            1. 請先在瀏覽器上<a id="loginLink" href="https://scr.cyc.org.tw/tp10.aspx?module=login_page&files=login&PT=1" target="_blank" style="color:#2866b4;text-decoration:underline;font-weight:500;">登入運動中心網站會員</a><br>
+            2. 開啟 CourtBot<br>
+            3. 輸入時段，多時段以逗號分隔 (例 10,11)<br>
+            4. 輸入場地編號，多場地以逗號分隔 (例 1,2)<br>
+            5. 看一下搶場日期是否正確 (系統預計帶出 14 天後)<br>
+            6. 按下 <b>手動搶場</b>，則一次會搶上列設定的場地<br>
+            7. 按下 <b>自動搶場</b>，則系統會自動在 <b>23:59:59</b> 開始搶場<br>
+            8. 程式跑完後，請去運動中心網站或 APP 中的訂單查詢付款<br>
+            <span style="color:#b52222;">＊如果您的瀏覽器有彈窗阻擋功能，請允許本網頁開啟多個視窗。</span>
+        </div>
+
+        <div class="popup-tip" id="popup-tip">
+            <b>提醒：</b>瀏覽器通常會「封鎖」非人工觸發的多個彈窗！<br>
+            <b>建議：</b>請於瀏覽器網址列允許本站多彈窗，否則只會開啟一個或完全沒反應。
+        </div>
+
+        <form autocomplete="off" onsubmit="return false;">
+            <div class="form-row">
+                <div class="form-label"><label for="qtime">時段<br><span style="font-weight:400;font-size:0.97em;">(逗號分隔)</span></label></div>
+                <div class="form-field">
+                    <textarea id="qtime" rows="1" placeholder="例如：10,11">10,11</textarea>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-label"><label for="qpid">場地編號<br><span style="font-weight:400;font-size:0.97em;">(逗號分隔)</span></label></div>
+                <div class="form-field">
+                    <textarea id="qpid" rows="1" placeholder="輸入 1,2,3,4,5,6">4,5</textarea>
+                    <div class="note" id="venueNote"></div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-label"><label for="dval">預約日期</label></div>
+                <div class="form-field">
+                    <input id="dval" type="date">
+                    <div class="note">預設帶出 14 天後，若場館規則不同請自行調整。</div>
+                </div>
+            </div>
+
+            <div class="btn-row">
+                <button id="openLinksBtn" type="button">手動搶場</button>
+                <button id="autoBtn" type="button">自動搶場（23:59:59自動啟動）</button>
+                <button id="cancelAutoBtn" type="button" style="display:none;">取消自動送出</button>
+            </div>
+            <div id="countdown"></div>
+        </form>
+
+        <ul id="linkList"></ul>
+    </div>
+
+    <script>
+        // --- 新增解析 URL 查詢參數的工具函式 ---
+        function getQueryVariable(variable) {
+            const query = window.location.search.substring(1);
+            const vars = query.split('&');
+            for (let i = 0; i < vars.length; i++) {
+                const pair = vars[i].split('=');
+                if (pair[0] === variable) {
+                    return pair[1];
+                }
+            }
+            return null;
+        }
+
+        // --- 根據 t 參數設定場館 ID 與標題 ---
+        const venueMap = {
+            '10': { name: '永和', id: '10' },
+            '20': { name: '文山', id: '20' },
+            '12': { name: '內湖', id: '12' }
+        };
+        // 讀取 t 參數，預設為 10
+        const currentT = getQueryVariable('t') || '10';
+        const currentVenue = venueMap[currentT] || venueMap['10']; // 如果 t 不合法，也預設為 10
+        const venueName = currentVenue.name;
+        const venueId = currentVenue.id;
+
+        // 更新標題
+        document.getElementById('pageTitle').textContent = `CourtBot - ${venueName}`;
+        document.getElementById('mainTitle').textContent = `CourtBot - ${venueName}`;
+
+        // 設置登入連結
+        document.getElementById('loginLink').href = `https://scr.cyc.org.tw/tp${venueId}.aspx?module=login_page&files=login&PT=1`;
+
+        // --- UI 區 ---
+        function toggleHelp() {
+            const block = document.getElementById('help-block');
+            const title = document.getElementById('help-title');
+            if (block.style.display === 'none') { block.style.display = 'block'; title.innerHTML = '<b>▼ 操作說明</b>'; }
+            else { block.style.display = 'none'; title.innerHTML = '<b>▶ 操作說明</b>'; }
+        }
+
+        // --- 參數與工具 ---
+        const PT = '1';
+        // 這裡沿用原本的 QPidMap，如果場館不同，這個 Map 可能需要針對場館進行客製化
+        const QPidMap = { '1': '1133', '2': '1134', '3': '1135', '4': '1136', '5': '1137', '6': '1138' };
+
+        function getDateAfterNDays(days = 14) {
+            const d = new Date();
+            d.setDate(d.getDate() + days);
+            const yyyy = d.getFullYear();
+            const mm = String(d.getMonth() + 1).padStart(2, '0');
+            const dd = String(d.getDate()).padStart(2, '0');
+            return `${yyyy}-${mm}-${dd}`;
+        }
+        function toDisplayDate(isoDate) {
+            if (!isoDate) return '';
+            const [yyyy, mm, dd] = isoDate.split('-');
+            return `${yyyy}/${mm}/${dd}`;
+        }
+        function parseInput(val) {
+            return [...new Set(val.replace(/\n/g, ',').split(',').map(x => x.trim()).filter(x => x))];
+        }
+        function mapQPid(arr) { return arr.map(qpid => QPidMap[qpid] || qpid); }
+
+        function buildLinks(QTimes, QPids, QPidInput, D) {
+            const links = [];
+            QPids.forEach((QPid, idx) => {
+                QTimes.forEach(QTime => {
+                    links.push({
+                        name: `${QTime}:00 第${QPidInput[idx]}場地`,
+                        // *** 修改這行：使用 venueId 變數來替換 10 ***
+                        url: `https://scr.cyc.org.tw/tp${venueId}.aspx?module=net_booking&files=booking_place&StepFlag=25&QPid=${QPid}&QTime=${QTime}&PT=${PT}&D=${D}&openExternalBrowser=1`
+                    });
+                });
+            });
+            return links;
+        }
+
+        function renderLinks(links) {
+            const list = document.getElementById('linkList');
+            list.innerHTML = '';
+            links.forEach(link => {
+                const li = document.createElement('li');
+                li.innerHTML = `<strong>${link.name}</strong> <a href="${link.url}" target="_blank">（點我）</a><div class="url">${link.url}</div>`;
+                list.appendChild(li);
+                try { const a = li.querySelector('a'); if (a) a.setAttribute('target', '_new'); } catch (e) { }
+            });
+            setLinkEnabled(true);
+            if (!__newTargetUrl && links.length) { __newTargetUrl = links[0].url; }
+        }
+        // --- _new 自動重載 (每 10 分鐘) ---
+        let __newReloadInterval = null;
+        let __newTargetUrl = '';
+        function startNewAutoReload() {
+            if (__newReloadInterval) return;
+            __newReloadInterval = setInterval(() => {
+                if (__newTargetUrl) {
+                    try { window.open(__newTargetUrl, '_new'); } catch (e) { }
+                }
+            }, 10 * 60 * 1000);
+        }
+        // 點擊「（點我）」時更新目標 URL
+        document.getElementById('linkList').addEventListener('click', function (e) {
+            const a = e.target.closest('a[href]');
+            if (a && a.getAttribute('target') === '_new') {
+                __newTargetUrl = a.href;
+            }
+        });
+
+        function setLinkEnabled(enabled) {
+            document.querySelectorAll('#linkList a').forEach(a => {
+                if (enabled) a.removeAttribute('aria-disabled');
+                else a.setAttribute('aria-disabled', 'true');
+            });
+        }
+
+        function showPopupTip(show = true) {
+            document.getElementById('popup-tip').style.display = show ? 'block' : 'none';
+        }
+
+        function updateLinksAndRender() {
+            const QTimes = parseInput(document.getElementById('qtime').value);
+            const QPidInput = parseInput(document.getElementById('qpid').value);
+            const QPids = mapQPid(QPidInput);
+            const isoDate = document.getElementById('dval').value;
+            const D = toDisplayDate(isoDate);
+            if (!D) return [];
+            const links = buildLinks(QTimes, QPids, QPidInput, D);
+            renderLinks(links);
+            return links;
+        }
+
+        // --- 啟動預設日期與事件 ---
+        document.addEventListener('DOMContentLoaded', function () {
+            document.getElementById('dval').value = getDateAfterNDays(14);
+            updateLinksAndRender();
+            startNewAutoReload();
+            document.getElementById('cancelAutoBtn').style.display = 'none';
+        });
+        document.getElementById('qtime').addEventListener('input', updateLinksAndRender);
+        document.getElementById('qpid').addEventListener('input', updateLinksAndRender);
+        document.getElementById('dval').addEventListener('input', updateLinksAndRender);
+
+        // --- 時間工具：下一個 23:59:59 ---
+        function next235959() {
+            const now = new Date();
+            const t = new Date(now);
+            t.setHours(23, 59, 59, 0); // 23:59:59.000
+            if (now >= t) { t.setDate(t.getDate() + 1); t.setHours(23, 59, 59, 0); }
+            return t;
+        }
+        function msTo(target) { return Math.max(0, target.getTime() - Date.now()); }
+
+        // --- 自動搶場（預開視窗，避免彈窗阻擋） ---
+        let autoTimeout = null;
+        let autoInterval = null;
+        let countdownInterval = null;
+        let isAutoSending = false;
+        let preOpenedWindows = [];
+
+        document.getElementById('openLinksBtn').onclick = function () {
+            const links = updateLinksAndRender();
+            let opened = 0;
+            links.forEach(l => { const w = window.open(l.url, '_blank'); if (w) opened++; });
+            showPopupTip(links.length > 1 && opened < links.length);
+        };
+
+        document.getElementById('autoBtn').onclick = function () {
+            const autoBtn = this;
+            const cancelBtn = document.getElementById('cancelAutoBtn');
+            const openLinksBtn = document.getElementById('openLinksBtn');
+            const countdownDiv = document.getElementById('countdown');
+
+            // 鎖定輸入與 UI
+            document.getElementById('qtime').setAttribute('readonly', 'readonly');
+            document.getElementById('qpid').setAttribute('readonly', 'readonly');
+            document.getElementById('dval').setAttribute('disabled', 'disabled');
+            autoBtn.style.display = 'none';
+            openLinksBtn.style.display = 'none';
+            cancelBtn.style.display = 'block';
+            countdownDiv.style.display = 'block';
+            setLinkEnabled(false);
+            isAutoSending = true;
+
+            // 產出並顯示連結
+            const links = updateLinksAndRender();
+
+            // 先「預開」所有視窗（使用者手勢之下）
+            preOpenedWindows = [];
+            let opened = 0;
+            links.forEach(l => {
+                const w = window.open('about:blank', '_blank');
+                if (w) { preOpenedWindows.push({ win: w, url: l.url }); opened++; }
+            });
+            showPopupTip(links.length > 1 && opened < links.length);
+
+            const target = next235959();
+            const countdown = () => {
+                const remain = msTo(target);
+                const h = String(Math.floor(remain / 3600000)).padStart(2, '0');
+                const m = String(Math.floor((remain % 3600000) / 60000)).padStart(2, '0');
+                const s = String(Math.floor((remain % 60000) / 1000)).padStart(2, '0');
+                countdownDiv.textContent = `距離自動搶場還有 ${h}:${m}:${s}`;
+                if (remain <= 0) { clearInterval(countdownInterval); countdownDiv.textContent = '正在自動搶場...'; }
+            };
+            countdown();
+            countdownInterval = setInterval(countdown, 500);
+
+            // 到點：指派預開視窗網址 + 連續補打 5 輪
+            const msWait = msTo(target);
+            autoTimeout = setTimeout(() => {
+                clearInterval(countdownInterval);
+                countdownDiv.textContent = '正在自動搶場...';
+
+                let burst = 0;
+                autoInterval = setInterval(() => {
+                    if (!isAutoSending) return;
+
+                    const currentLinks = updateLinksAndRender(); // 若使用者臨時調整，這裡會反映
+
+                    if (burst === 0 && preOpenedWindows.length) {
+                        // 第 1 輪：把預開分頁指到真正網址
+                        preOpenedWindows.forEach(p => { try { if (p.win && !p.win.closed) p.win.location.href = p.url; } catch (e) { } });
+                    } else {
+                        // 後續輪：再嘗試直接新開（有些瀏覽器仍允許）
+                        currentLinks.forEach(l => { try { window.open(l.url, '_blank'); } catch (e) { } });
+                    }
+
+                    burst++;
+                    if (burst >= 5) finishAuto();
+                }, 500);
+            }, msWait);
+
+            function finishAuto() {
+                clearInterval(autoInterval);
+                isAutoSending = false;
+                document.getElementById('qtime').removeAttribute('readonly');
+                document.getElementById('qpid').removeAttribute('readonly');
+                document.getElementById('dval').removeAttribute('disabled');
+                autoBtn.style.display = '';
+                openLinksBtn.style.display = '';
+                autoBtn.textContent = '自動搶場（23:59:59自動啟動）';
+                cancelBtn.style.display = 'none';
+                countdownDiv.style.display = 'none';
+                setLinkEnabled(true);
+                showPopupTip(false);
+                preOpenedWindows = [];
+            }
+
+            // 綁定取消（每次點擊都重綁一次，確保抓到這次作用域）
+            document.getElementById('cancelAutoBtn').onclick = function () {
+                isAutoSending = false;
+                if (autoTimeout) clearTimeout(autoTimeout);
+                if (autoInterval) clearInterval(autoInterval);
+                if (countdownInterval) clearInterval(countdownInterval);
+                // 關閉仍停在 about:blank 的預開視窗
+                try {
+                    preOpenedWindows.forEach(p => {
+                        if (p.win && !p.win.closed && (p.win.location.href === 'about:blank' || p.win.location.href === 'about:blank#blocked')) {
+                            p.win.close();
+                        }
+                    });
+                } catch (e) { }
+                preOpenedWindows = [];
+
+                document.getElementById('qtime').removeAttribute('readonly');
+                document.getElementById('qpid').removeAttribute('readonly');
+                document.getElementById('dval').removeAttribute('disabled');
+                document.getElementById('autoBtn').style.display = '';
+                document.getElementById('openLinksBtn').style.display = '';
+                document.getElementById('autoBtn').textContent = '自動搶場（23:59:59自動啟動）';
+                document.getElementById('countdown').style.display = 'none';
+                this.style.display = 'none';
+                setLinkEnabled(true);
+                showPopupTip(false);
+            };
+        };
+    </script>
+</body>
+</html>
