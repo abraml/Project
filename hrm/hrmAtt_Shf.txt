@@ -1,0 +1,655 @@
+{
+  "EntityID": "hrm",
+  "SystemCode": "MUEIP",
+  "ModuleCode": "HRM",
+  "FuncCode": "hrmAtt_Shf",
+  "ConfigHash": "sha256:3d021bb5640d1074860870d347e66be4d3e2e396044124840da2d90e4f5ec8ed",
+  "PageMeta": {
+    "PageTitle": "班別設定",
+    "Lang": "zh-TW",
+    "FormType": "ListForm",
+    "EditDisplayType": "Drawer",
+    "Breadcrumb": [
+      {
+        "Title": "首頁",
+        "Path": "/"
+      },
+      {
+        "Title": "差勤管理",
+        "Path": null
+      },
+      {
+        "Title": "班別設定",
+        "Path": "/hrm/hrmAtt_Shf"
+      }
+    ],
+    "IsApproval": false,
+    "TenantLocked": false,
+    "Icon": "ri-time-line",
+    "Remark": "公司班別字典（上下班時間、休息時段、應出勤時數）"
+  },
+  "Resources": {
+    "CodeSets": {
+      "Status": [
+        {
+          "CodeID": "1",
+          "CodeName": "啟用",
+          "IsDefault": true
+        },
+        {
+          "CodeID": "0",
+          "CodeName": "停用",
+          "IsDefault": false
+        }
+      ],
+      "Priority": [
+        {
+          "CodeID": "A",
+          "CodeName": "高"
+        },
+        {
+          "CodeID": "B",
+          "CodeName": "中"
+        },
+        {
+          "CodeID": "C",
+          "CodeName": "低",
+          "IsDefault": true
+        }
+      ],
+      "IsCrossDay": [
+        {
+          "CodeID": "1",
+          "CodeName": "跨日(夜班)",
+          "IsDefault": false
+        },
+        {
+          "CodeID": "0",
+          "CodeName": "當日",
+          "IsDefault": true
+        }
+      ]
+    },
+    "FeatureFlags": {
+      "IsReadOnly": false,
+      "EnableDraft": false,
+      "EnableBatchDelete": true,
+      "AutoRefreshInterval": 0,
+      "DefaultViewMode": "Table",
+      "RequireConfirmOnSave": true
+    }
+  },
+  "AllowAction": {
+    "DataActions": [
+      {
+        "ActionID": "Add",
+        "Label": "新增",
+        "Icon": "ri-add-line",
+        "Type": "Primary",
+        "Position": "Toolbar",
+        "Confirm": null
+      },
+      {
+        "ActionID": "Save",
+        "Label": "儲存",
+        "Icon": "ri-save-line",
+        "Type": "Primary",
+        "Position": "Toolbar",
+        "Confirm": null
+      },
+      {
+        "ActionID": "Delete",
+        "Label": "刪除",
+        "Icon": "ri-delete-bin-line",
+        "Type": "Danger",
+        "Position": "Both",
+        "Confirm": "刪除班別將影響已套用之行事曆、排班與出勤計算，確定刪除？"
+      },
+      {
+        "ActionID": "Query",
+        "Label": "查詢",
+        "Icon": "ri-search-line",
+        "Type": "Default",
+        "Position": "Toolbar",
+        "Confirm": null
+      }
+    ],
+    "ExtensionActions": [
+      {
+        "ActionID": "Import",
+        "Label": "匯入",
+        "Icon": "ri-upload-2-line",
+        "Type": "Default",
+        "Position": "Toolbar",
+        "Confirm": null
+      },
+      {
+        "ActionID": "Export",
+        "Label": "匯出",
+        "Icon": "ri-file-excel-line",
+        "Type": "Default",
+        "Position": "Toolbar",
+        "Confirm": null
+      }
+    ]
+  },
+  "View": {
+    "RowKey": "RowGuid",
+    "ListView": {
+      "ListSpec": {
+        "RowKey": "RowGuid",
+        "SelectMode": "Single",
+        "FixedColumns": [
+          "Action",
+          "No"
+        ],
+        "RowActionMode": "Menu",
+        "ShowRowNo": true,
+        "Pagination": {
+          "PageSize": 100,
+          "SizeOptions": [
+            50,
+            100,
+            200,
+            500
+          ],
+          "ShowJumper": false,
+          "FullPageScroll": true
+        },
+        "DefaultSort": {
+          "Field": "ShiftCode",
+          "Order": "asc"
+        },
+        "EmptyText": "目前查無班別資料",
+        "GridBordered": true
+      },
+      "FieldSpecs": [
+        {
+          "BindField": "ShiftName",
+          "Title": "班別名稱",
+          "Width": 180,
+          "Align": "Left",
+          "Fixed": "Left",
+          "Formatter": "Link",
+          "Sorter": true,
+          "DefaultVisible": true
+        },
+        {
+          "BindField": "ShiftCode",
+          "Title": "班別代碼",
+          "Width": 120,
+          "Align": "Left",
+          "Fixed": "Left",
+          "Formatter": "Link",
+          "Sorter": true,
+          "DefaultVisible": true
+        },
+        {
+          "BindField": "StartTime",
+          "Title": "上班時間",
+          "Width": 100,
+          "Align": "Center",
+          "DefaultVisible": true
+        },
+        {
+          "BindField": "EndTime",
+          "Title": "下班時間",
+          "Width": 100,
+          "Align": "Center",
+          "DefaultVisible": true
+        },
+        {
+          "BindField": "WorkHours",
+          "Title": "應出勤時數",
+          "Width": 110,
+          "Align": "Right",
+          "DefaultVisible": true
+        },
+        {
+          "BindField": "HalfDayHours",
+          "Title": "半天時數",
+          "Width": 100,
+          "Align": "Right",
+          "DefaultVisible": true
+        },
+        {
+          "BindField": "IsCrossDay",
+          "Title": "跨日",
+          "Width": 80,
+          "Align": "Center",
+          "Formatter": "Tag",
+          "DefaultVisible": true
+        },
+        {
+          "BindField": "Status",
+          "Title": "狀態",
+          "Width": 90,
+          "Align": "Center",
+          "Formatter": "StatusTag",
+          "DefaultVisible": true
+        }
+      ]
+    },
+    "FormView": {
+      "FormSpec": {
+        "RowKey": "RowGuid",
+        "Layout": "Horizontal",
+        "Sections": [
+          {
+            "SectionID": "SecBase",
+            "Type": "Card",
+            "Title": "班別資料",
+            "IsCollapsible": false,
+            "DefaultOpen": true,
+            "Icon": "ri-time-line"
+          },
+          {
+            "SectionID": "SecTime",
+            "Type": "Card",
+            "Title": "時間與時數",
+            "IsCollapsible": false,
+            "DefaultOpen": true,
+            "Icon": "ri-hourglass-line"
+          },
+          {
+            "SectionID": "SecExtra",
+            "Type": "Card",
+            "Title": "其他與系統",
+            "IsCollapsible": true,
+            "DefaultOpen": false,
+            "Icon": "ri-settings-4-line"
+          }
+        ],
+        "FormLogic": []
+      },
+      "FieldSpecs": [
+        {
+          "BindField": "RowKey",
+          "Title": "系統識別碼",
+          "Component": "Input",
+          "Section": "SecExtra",
+          "Span": 24,
+          "Mode": "Hidden"
+        },
+        {
+          "BindField": "EntityID",
+          "Title": "系統實體",
+          "Component": "Input",
+          "Section": "SecExtra",
+          "Span": 12,
+          "Mode": "Hidden",
+          "DefaultValue": "hrm"
+        },
+        {
+          "BindField": "ShiftCode",
+          "Title": "班別代碼",
+          "Component": "Input",
+          "Section": "SecBase",
+          "Span": 12,
+          "Mode": "Editable",
+          "Validations": [
+            {
+              "Rule": "Required",
+              "Message": "班別代碼為必填"
+            },
+            {
+              "Rule": "MaxLength",
+              "Value": 50,
+              "Message": "班別代碼長度不可超過 50"
+            },
+            {
+              "Rule": "Unique",
+              "Message": "班別代碼不可重複"
+            }
+          ]
+        },
+        {
+          "BindField": "ShiftName",
+          "Title": "班別名稱",
+          "Component": "Input",
+          "Section": "SecBase",
+          "Span": 12,
+          "Mode": "Editable",
+          "Validations": [
+            {
+              "Rule": "Required",
+              "Message": "班別名稱為必填"
+            },
+            {
+              "Rule": "MaxLength",
+              "Value": 100,
+              "Message": "班別名稱長度不可超過 100"
+            }
+          ]
+        },
+        {
+          "BindField": "StartTime",
+          "Title": "上班時間",
+          "Component": "Input",
+          "Section": "SecTime",
+          "Span": 12,
+          "Mode": "Editable",
+          "Validations": [
+            {
+              "Rule": "Required",
+              "Message": "上班時間為必填"
+            }
+          ],
+          "Props": {
+            "Placeholder": "HH:mm"
+          }
+        },
+        {
+          "BindField": "EndTime",
+          "Title": "下班時間",
+          "Component": "Input",
+          "Section": "SecTime",
+          "Span": 12,
+          "Mode": "Editable",
+          "Validations": [
+            {
+              "Rule": "Required",
+              "Message": "下班時間為必填"
+            }
+          ],
+          "Props": {
+            "Placeholder": "HH:mm"
+          }
+        },
+        {
+          "BindField": "BreakStart",
+          "Title": "休息開始",
+          "Component": "Input",
+          "Section": "SecTime",
+          "Span": 12,
+          "Mode": "Editable",
+          "Props": {
+            "Placeholder": "HH:mm"
+          }
+        },
+        {
+          "BindField": "BreakEnd",
+          "Title": "休息結束",
+          "Component": "Input",
+          "Section": "SecTime",
+          "Span": 12,
+          "Mode": "Editable",
+          "Props": {
+            "Placeholder": "HH:mm"
+          }
+        },
+        {
+          "BindField": "LateBufferMin",
+          "Title": "遲到彈性(分)",
+          "Component": "InputNumber",
+          "Section": "SecTime",
+          "Span": 12,
+          "Mode": "Editable",
+          "DefaultValue": 0,
+          "Props": {
+            "Min": 0
+          }
+        },
+        {
+          "BindField": "WorkHours",
+          "Title": "應出勤時數",
+          "Component": "InputNumber",
+          "Section": "SecTime",
+          "Span": 12,
+          "Mode": "Editable",
+          "DefaultValue": 8,
+          "Validations": [
+            {
+              "Rule": "Required",
+              "Message": "應出勤時數為必填"
+            }
+          ],
+          "Props": {
+            "Min": 0,
+            "Placeholder": "扣除休息後之工時"
+          }
+        },
+        {
+          "BindField": "HalfDayHours",
+          "Title": "半天折算時數",
+          "Component": "InputNumber",
+          "Section": "SecTime",
+          "Span": 12,
+          "Mode": "Editable",
+          "DefaultValue": 4,
+          "Props": {
+            "Min": 0
+          }
+        },
+        {
+          "BindField": "IsCrossDay",
+          "Title": "是否跨日",
+          "Component": "Select",
+          "Section": "SecTime",
+          "Span": 12,
+          "Mode": "Editable",
+          "DefaultValue": "0",
+          "Props": {
+            "OptionKey": "IsCrossDay"
+          }
+        },
+        {
+          "BindField": "Status",
+          "Title": "狀態",
+          "Component": "Select",
+          "Section": "SecBase",
+          "Span": 12,
+          "Mode": "Editable",
+          "DefaultValue": "1",
+          "Validations": [
+            {
+              "Rule": "Required",
+              "Message": "狀態為必填"
+            }
+          ],
+          "Props": {
+            "OptionKey": "Status"
+          }
+        },
+        {
+          "BindField": "SortNo",
+          "Title": "顯示排序",
+          "Component": "Input",
+          "Section": "SecBase",
+          "Span": 12,
+          "Mode": "Editable",
+          "DefaultValue": "C0000",
+          "Validations": [
+            {
+              "Rule": "MaxLength",
+              "Value": 5,
+              "Message": "顯示排序長度不可超過 5"
+            }
+          ]
+        },
+        {
+          "BindField": "Description",
+          "Title": "備註說明",
+          "Component": "TextArea",
+          "Section": "SecExtra",
+          "Span": 24,
+          "Mode": "Editable",
+          "Props": {
+            "Rows": 3
+          }
+        },
+        {
+          "BindField": "Attributes",
+          "Title": "擴展屬性 (JSON)",
+          "Component": "JsonEditor",
+          "Section": "SecExtra",
+          "Span": 24,
+          "Mode": "Editable",
+          "Validations": [
+            {
+              "Rule": "JsonFormat",
+              "Message": "擴展屬性必須為合法 JSON"
+            }
+          ]
+        },
+        {
+          "BindField": "CreatedBy",
+          "Title": "建立者",
+          "Component": "Input",
+          "Section": "SecExtra",
+          "Span": 12,
+          "Mode": "Readonly"
+        },
+        {
+          "BindField": "CreatedAt",
+          "Title": "建立時間",
+          "Component": "DatePicker",
+          "Section": "SecExtra",
+          "Span": 12,
+          "Mode": "Readonly"
+        },
+        {
+          "BindField": "UpdatedBy",
+          "Title": "更新者",
+          "Component": "Input",
+          "Section": "SecExtra",
+          "Span": 12,
+          "Mode": "Readonly"
+        },
+        {
+          "BindField": "UpdatedAt",
+          "Title": "更新時間",
+          "Component": "DatePicker",
+          "Section": "SecExtra",
+          "Span": 12,
+          "Mode": "Readonly"
+        }
+      ]
+    }
+  },
+  "Features": {
+    "ExportSpec": {
+      "ExportColumns": [
+        {
+          "DataKey": "ShiftCode",
+          "Header": "班別代碼",
+          "Width": 16
+        },
+        {
+          "DataKey": "ShiftName",
+          "Header": "班別名稱",
+          "Width": 22
+        },
+        {
+          "DataKey": "StartTime",
+          "Header": "上班時間",
+          "Width": 12
+        },
+        {
+          "DataKey": "EndTime",
+          "Header": "下班時間",
+          "Width": 12
+        },
+        {
+          "DataKey": "WorkHours",
+          "Header": "應出勤時數",
+          "Width": 12
+        },
+        {
+          "DataKey": "IsCrossDay",
+          "Header": "跨日",
+          "Width": 8,
+          "Format": "CodeName:IsCrossDay"
+        },
+        {
+          "DataKey": "Status",
+          "Header": "狀態",
+          "Width": 10,
+          "Format": "CodeName:Status"
+        }
+      ],
+      "ExportRules": {
+        "MaxDownloadRows": 50000,
+        "AllowFullExport": true,
+        "AppendQuerySummary": true
+      }
+    }
+  },
+  "DataScope": {
+    "DefaultWhere": "EntityID = 'hrm' AND Status = '1'",
+    "AuthLevel": 2,
+    "SortExp": "ShiftCode ASC",
+    "DataConfig": {
+      "RowLimit": 5000,
+      "AllowExport": true
+    }
+  },
+  "CustomMeta": {
+    "CustomSchema": {
+      "WidgetType": "Grid",
+      "KeyField": "ShiftCode",
+      "TitleField": "ShiftName",
+      "ParentKeyField": null,
+      "PathField": null,
+      "PathSeparator": "/"
+    },
+    "BusinessRules": {
+      "BusinessValidation": [
+        {
+          "Field": "ShiftCode",
+          "Rule": "Unique",
+          "Message": "班別代碼不可重複"
+        }
+      ],
+      "SensitiveFields": []
+    }
+  },
+  "SeedData": [
+    {
+      "RowGuid": "shf-001",
+      "EntityID": "hrm",
+      "Status": "1",
+      "ShiftCode": "DAY",
+      "ShiftName": "日班",
+      "StartTime": "09:00",
+      "EndTime": "18:00",
+      "BreakStart": "12:00",
+      "BreakEnd": "13:00",
+      "LateBufferMin": 5,
+      "WorkHours": 8,
+      "HalfDayHours": 4,
+      "IsCrossDay": "0",
+      "SortNo": "C0001",
+      "Priority": "C",
+      "Description": "標準日班",
+      "Attributes": "{}",
+      "CreatedBy": "system",
+      "CreatedAt": "2024-01-10 09:00",
+      "UpdatedBy": "abram.chen",
+      "UpdatedAt": "2026-05-20 14:32"
+    },
+    {
+      "RowGuid": "shf-002",
+      "EntityID": "hrm",
+      "Status": "1",
+      "ShiftCode": "NIGHT",
+      "ShiftName": "夜班",
+      "StartTime": "20:00",
+      "EndTime": "05:00",
+      "BreakStart": "00:00",
+      "BreakEnd": "01:00",
+      "LateBufferMin": 5,
+      "WorkHours": 8,
+      "HalfDayHours": 4,
+      "IsCrossDay": "1",
+      "SortNo": "C0002",
+      "Priority": "C",
+      "Description": "跨日夜班",
+      "Attributes": "{}",
+      "CreatedBy": "system",
+      "CreatedAt": "2024-01-10 09:00",
+      "UpdatedBy": "abram.chen",
+      "UpdatedAt": "2026-05-20 14:32"
+    }
+  ]
+}

@@ -1,0 +1,572 @@
+{
+  "EntityID": "hrm",
+  "SystemCode": "MUEIP",
+  "ModuleCode": "HRM",
+  "FuncCode": "hrmAtt_Scd",
+  "ConfigHash": "sha256:6674dd9f787425432afbe590bfdd654ed0c3bdbcc16a1aee392faef0e8565505",
+  "PageMeta": {
+    "PageTitle": "排班表",
+    "Lang": "zh-TW",
+    "FormType": "ListForm",
+    "EditDisplayType": "Drawer",
+    "Breadcrumb": [
+      {
+        "Title": "首頁",
+        "Path": "/"
+      },
+      {
+        "Title": "差勤管理",
+        "Path": null
+      },
+      {
+        "Title": "排班表",
+        "Path": "/hrm/hrmAtt_Scd"
+      }
+    ],
+    "IsApproval": false,
+    "TenantLocked": false,
+    "Icon": "ri-calendar-schedule-line",
+    "Remark": "部門員工每日排班（正常/換班/調班）"
+  },
+  "Resources": {
+    "CodeSets": {
+      "Status": [
+        {
+          "CodeID": "1",
+          "CodeName": "啟用",
+          "IsDefault": true
+        },
+        {
+          "CodeID": "0",
+          "CodeName": "停用",
+          "IsDefault": false
+        }
+      ],
+      "DeptCode": [
+        {
+          "CodeID": "D100",
+          "CodeName": "管理本部"
+        },
+        {
+          "CodeID": "D130",
+          "CodeName": "資訊技術部"
+        },
+        {
+          "CodeID": "D131",
+          "CodeName": "研發部"
+        },
+        {
+          "CodeID": "D200",
+          "CodeName": "業務部"
+        },
+        {
+          "CodeID": "D300",
+          "CodeName": "生產製造部"
+        }
+      ],
+      "EmpNo": [
+        {
+          "CodeID": "E001",
+          "CodeName": "陳大明 (資訊技術)"
+        },
+        {
+          "CodeID": "E002",
+          "CodeName": "王小華 (資訊技術)"
+        },
+        {
+          "CodeID": "E003",
+          "CodeName": "張工程 (研發)"
+        },
+        {
+          "CodeID": "E005",
+          "CodeName": "林小明 (研發)"
+        },
+        {
+          "CodeID": "E008",
+          "CodeName": "黃志偉 (業務)"
+        },
+        {
+          "CodeID": "E009",
+          "CodeName": "王專案 (專案)"
+        }
+      ],
+      "ShiftCode": [
+        {
+          "CodeID": "DAY",
+          "CodeName": "日班 09:00-18:00",
+          "IsDefault": true
+        },
+        {
+          "CodeID": "NIGHT",
+          "CodeName": "夜班 20:00-05:00"
+        },
+        {
+          "CodeID": "FLEX",
+          "CodeName": "彈性班"
+        },
+        {
+          "CodeID": "HALF",
+          "CodeName": "半日班"
+        }
+      ],
+      "ScheduleType": [
+        {
+          "CodeID": "R",
+          "CodeName": "正常",
+          "IsDefault": true
+        },
+        {
+          "CodeID": "S",
+          "CodeName": "換班"
+        },
+        {
+          "CodeID": "A",
+          "CodeName": "調班"
+        }
+      ]
+    },
+    "FeatureFlags": {
+      "IsReadOnly": false,
+      "EnableDraft": false,
+      "EnableBatchDelete": true,
+      "AutoRefreshInterval": 0,
+      "DefaultViewMode": "Table",
+      "RequireConfirmOnSave": true
+    }
+  },
+  "AllowAction": {
+    "DataActions": [
+      {
+        "ActionID": "Add",
+        "Label": "新增",
+        "Icon": "ri-add-line",
+        "Type": "Primary",
+        "Position": "Toolbar",
+        "Confirm": null
+      },
+      {
+        "ActionID": "Save",
+        "Label": "儲存",
+        "Icon": "ri-save-line",
+        "Type": "Primary",
+        "Position": "Toolbar",
+        "Confirm": null
+      },
+      {
+        "ActionID": "Delete",
+        "Label": "刪除",
+        "Icon": "ri-delete-bin-line",
+        "Type": "Danger",
+        "Position": "Both",
+        "Confirm": "刪除排班，確定刪除？"
+      },
+      {
+        "ActionID": "Query",
+        "Label": "查詢",
+        "Icon": "ri-search-line",
+        "Type": "Default",
+        "Position": "Toolbar",
+        "Confirm": null
+      }
+    ],
+    "ExtensionActions": [
+      {
+        "ActionID": "Import",
+        "Label": "匯入",
+        "Icon": "ri-upload-2-line",
+        "Type": "Default",
+        "Position": "Toolbar",
+        "Confirm": null
+      },
+      {
+        "ActionID": "Export",
+        "Label": "匯出",
+        "Icon": "ri-file-excel-line",
+        "Type": "Default",
+        "Position": "Toolbar",
+        "Confirm": null
+      }
+    ]
+  },
+  "View": {
+    "RowKey": "RowGuid",
+    "ListView": {
+      "ListSpec": {
+        "RowKey": "RowGuid",
+        "SelectMode": "Single",
+        "FixedColumns": [
+          "Action",
+          "No"
+        ],
+        "RowActionMode": "Menu",
+        "ShowRowNo": true,
+        "Pagination": {
+          "PageSize": 100,
+          "SizeOptions": [
+            50,
+            100,
+            200,
+            500
+          ],
+          "ShowJumper": false,
+          "FullPageScroll": true
+        },
+        "DefaultSort": {
+          "Field": "ScheduleDate",
+          "Order": "desc"
+        },
+        "EmptyText": "目前查無排班資料",
+        "GridBordered": true
+      },
+      "FieldSpecs": [
+        {
+          "BindField": "EmpNo",
+          "Title": "員工",
+          "Width": 150,
+          "Align": "Left",
+          "Fixed": "Left",
+          "Formatter": "Tag",
+          "DefaultVisible": true
+        },
+        {
+          "BindField": "DeptCode",
+          "Title": "部門",
+          "Width": 130,
+          "Align": "Left",
+          "Formatter": "Tag",
+          "DefaultVisible": true
+        },
+        {
+          "BindField": "ScheduleDate",
+          "Title": "排班日期",
+          "Width": 130,
+          "Align": "Center",
+          "Formatter": "DateTime",
+          "Sorter": true,
+          "DefaultVisible": true
+        },
+        {
+          "BindField": "ShiftCode",
+          "Title": "班別",
+          "Width": 150,
+          "Align": "Left",
+          "Formatter": "Tag",
+          "DefaultVisible": true
+        },
+        {
+          "BindField": "ScheduleType",
+          "Title": "排班類型",
+          "Width": 110,
+          "Align": "Center",
+          "Formatter": "Tag",
+          "DefaultVisible": true
+        }
+      ]
+    },
+    "FormView": {
+      "FormSpec": {
+        "RowKey": "RowGuid",
+        "Layout": "Horizontal",
+        "Sections": [
+          {
+            "SectionID": "SecBase",
+            "Type": "Card",
+            "Title": "排班資料",
+            "IsCollapsible": false,
+            "DefaultOpen": true,
+            "Icon": "ri-calendar-schedule-line"
+          },
+          {
+            "SectionID": "SecExtra",
+            "Type": "Card",
+            "Title": "其他與系統",
+            "IsCollapsible": true,
+            "DefaultOpen": false,
+            "Icon": "ri-settings-4-line"
+          }
+        ],
+        "FormLogic": []
+      },
+      "FieldSpecs": [
+        {
+          "BindField": "RowKey",
+          "Title": "系統識別碼",
+          "Component": "Input",
+          "Section": "SecExtra",
+          "Span": 24,
+          "Mode": "Hidden"
+        },
+        {
+          "BindField": "EntityID",
+          "Title": "系統實體",
+          "Component": "Input",
+          "Section": "SecExtra",
+          "Span": 12,
+          "Mode": "Hidden",
+          "DefaultValue": "hrm"
+        },
+        {
+          "BindField": "DeptCode",
+          "Title": "部門代碼",
+          "Component": "Select",
+          "Section": "SecBase",
+          "Span": 12,
+          "Mode": "Editable",
+          "Validations": [
+            {
+              "Rule": "Required",
+              "Message": "部門代碼為必填"
+            }
+          ],
+          "Props": {
+            "OptionKey": "DeptCode"
+          }
+        },
+        {
+          "BindField": "EmpNo",
+          "Title": "員工工號",
+          "Component": "Select",
+          "Section": "SecBase",
+          "Span": 12,
+          "Mode": "Editable",
+          "Validations": [
+            {
+              "Rule": "Required",
+              "Message": "員工工號為必填"
+            }
+          ],
+          "Props": {
+            "OptionKey": "EmpNo"
+          }
+        },
+        {
+          "BindField": "ScheduleDate",
+          "Title": "排班日期",
+          "Component": "DatePicker",
+          "Section": "SecBase",
+          "Span": 12,
+          "Mode": "Editable",
+          "Validations": [
+            {
+              "Rule": "Required",
+              "Message": "排班日期為必填"
+            }
+          ],
+          "Props": {
+            "Mode": "Editable"
+          }
+        },
+        {
+          "BindField": "ShiftCode",
+          "Title": "班別代碼",
+          "Component": "Select",
+          "Section": "SecBase",
+          "Span": 12,
+          "Mode": "Editable",
+          "DefaultValue": "DAY",
+          "Validations": [
+            {
+              "Rule": "Required",
+              "Message": "班別代碼為必填"
+            }
+          ],
+          "Props": {
+            "OptionKey": "ShiftCode"
+          }
+        },
+        {
+          "BindField": "ScheduleType",
+          "Title": "排班類型",
+          "Component": "Select",
+          "Section": "SecBase",
+          "Span": 12,
+          "Mode": "Editable",
+          "DefaultValue": "R",
+          "Props": {
+            "OptionKey": "ScheduleType"
+          }
+        },
+        {
+          "BindField": "Status",
+          "Title": "狀態",
+          "Component": "Select",
+          "Section": "SecBase",
+          "Span": 12,
+          "Mode": "Editable",
+          "DefaultValue": "1",
+          "Validations": [
+            {
+              "Rule": "Required",
+              "Message": "狀態為必填"
+            }
+          ],
+          "Props": {
+            "OptionKey": "Status"
+          }
+        },
+        {
+          "BindField": "SortNo",
+          "Title": "顯示排序",
+          "Component": "Input",
+          "Section": "SecBase",
+          "Span": 12,
+          "Mode": "Editable",
+          "DefaultValue": "C0000",
+          "Validations": [
+            {
+              "Rule": "MaxLength",
+              "Value": 5,
+              "Message": "顯示排序長度不可超過 5"
+            }
+          ]
+        },
+        {
+          "BindField": "Description",
+          "Title": "備註說明",
+          "Component": "TextArea",
+          "Section": "SecExtra",
+          "Span": 24,
+          "Mode": "Editable",
+          "Props": {
+            "Rows": 3
+          }
+        },
+        {
+          "BindField": "Attributes",
+          "Title": "擴展屬性 (JSON)",
+          "Component": "JsonEditor",
+          "Section": "SecExtra",
+          "Span": 24,
+          "Mode": "Editable",
+          "Validations": [
+            {
+              "Rule": "JsonFormat",
+              "Message": "擴展屬性必須為合法 JSON"
+            }
+          ]
+        },
+        {
+          "BindField": "CreatedBy",
+          "Title": "建立者",
+          "Component": "Input",
+          "Section": "SecExtra",
+          "Span": 12,
+          "Mode": "Readonly"
+        },
+        {
+          "BindField": "CreatedAt",
+          "Title": "建立時間",
+          "Component": "DatePicker",
+          "Section": "SecExtra",
+          "Span": 12,
+          "Mode": "Readonly"
+        },
+        {
+          "BindField": "UpdatedBy",
+          "Title": "更新者",
+          "Component": "Input",
+          "Section": "SecExtra",
+          "Span": 12,
+          "Mode": "Readonly"
+        },
+        {
+          "BindField": "UpdatedAt",
+          "Title": "更新時間",
+          "Component": "DatePicker",
+          "Section": "SecExtra",
+          "Span": 12,
+          "Mode": "Readonly"
+        }
+      ]
+    }
+  },
+  "Features": {
+    "ExportSpec": {
+      "ExportColumns": [
+        {
+          "DataKey": "EmpNo",
+          "Header": "員工",
+          "Width": 12
+        },
+        {
+          "DataKey": "DeptCode",
+          "Header": "部門",
+          "Width": 12,
+          "Format": "CodeName:DeptCode"
+        },
+        {
+          "DataKey": "ScheduleDate",
+          "Header": "排班日期",
+          "Width": 14
+        },
+        {
+          "DataKey": "ShiftCode",
+          "Header": "班別",
+          "Width": 14,
+          "Format": "CodeName:ShiftCode"
+        },
+        {
+          "DataKey": "ScheduleType",
+          "Header": "類型",
+          "Width": 10,
+          "Format": "CodeName:ScheduleType"
+        }
+      ],
+      "ExportRules": {
+        "MaxDownloadRows": 50000,
+        "AllowFullExport": true,
+        "AppendQuerySummary": true
+      }
+    }
+  },
+  "DataScope": {
+    "DefaultWhere": "EntityID = 'hrm' AND Status = '1'",
+    "AuthLevel": 2,
+    "SortExp": "ScheduleDate DESC, EmpNo ASC",
+    "DataConfig": {
+      "RowLimit": 5000,
+      "AllowExport": true
+    }
+  },
+  "CustomMeta": {
+    "CustomSchema": {
+      "WidgetType": "Grid",
+      "KeyField": "RowGuid",
+      "TitleField": "EmpNo",
+      "ParentKeyField": null,
+      "PathField": null,
+      "PathSeparator": "/"
+    },
+    "BusinessRules": {
+      "BusinessValidation": [
+        {
+          "Field": "ScheduleDate",
+          "Rule": "UniqueWith",
+          "CompareTo": "EmpNo",
+          "Message": "同一員工同一日期不可重複排班"
+        }
+      ],
+      "SensitiveFields": []
+    }
+  },
+  "SeedData": [
+    {
+      "RowGuid": "scd-001",
+      "EntityID": "hrm",
+      "Status": "1",
+      "DeptCode": "D300",
+      "EmpNo": "E008",
+      "ScheduleDate": "2026-06-15",
+      "ShiftCode": "NIGHT",
+      "ScheduleType": "R",
+      "SortNo": "C0001",
+      "Priority": "C",
+      "Description": null,
+      "Attributes": "{}",
+      "CreatedBy": "system",
+      "CreatedAt": "2026-06-01 09:00",
+      "UpdatedBy": "system",
+      "UpdatedAt": "2026-06-01 09:00"
+    }
+  ]
+}

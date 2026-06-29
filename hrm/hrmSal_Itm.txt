@@ -1,0 +1,745 @@
+{
+  "EntityID": "hrm",
+  "SystemCode": "MUEIP",
+  "ModuleCode": "HRM",
+  "FuncCode": "hrmSal_Itm",
+  "ConfigHash": "sha256:4c7a0b8e9144f07349f37178f3e7d1293503130fc8a9f8b92dcf82368c079272",
+  "PageMeta": {
+    "PageTitle": "薪資項目",
+    "Lang": "zh-TW",
+    "FormType": "ListForm",
+    "EditDisplayType": "Drawer",
+    "Breadcrumb": [
+      {
+        "Title": "首頁",
+        "Path": "/"
+      },
+      {
+        "Title": "薪資結算",
+        "Path": null
+      },
+      {
+        "Title": "薪資項目",
+        "Path": "/hrm/hrmSal_Itm"
+      }
+    ],
+    "IsApproval": false,
+    "TenantLocked": false,
+    "Icon": "ri-money-cny-box-line",
+    "Remark": "薪資項目字典（加項/扣項分類，及應稅、投保、提撥計入旗標）"
+  },
+  "Resources": {
+    "CodeSets": {
+      "Status": [
+        {
+          "CodeID": "1",
+          "CodeName": "啟用",
+          "IsDefault": true
+        },
+        {
+          "CodeID": "0",
+          "CodeName": "停用",
+          "IsDefault": false
+        }
+      ],
+      "Priority": [
+        {
+          "CodeID": "A",
+          "CodeName": "高"
+        },
+        {
+          "CodeID": "B",
+          "CodeName": "中"
+        },
+        {
+          "CodeID": "C",
+          "CodeName": "低",
+          "IsDefault": true
+        }
+      ],
+      "ItemCategory": [
+        {
+          "CodeID": "BASE",
+          "CodeName": "底薪",
+          "IsDefault": true
+        },
+        {
+          "CodeID": "ALLOWANCE",
+          "CodeName": "津貼"
+        },
+        {
+          "CodeID": "BONUS",
+          "CodeName": "獎金"
+        },
+        {
+          "CodeID": "DEDUCTION",
+          "CodeName": "扣款"
+        },
+        {
+          "CodeID": "MAKEUP",
+          "CodeName": "補發"
+        },
+        {
+          "CodeID": "REVERSAL",
+          "CodeName": "沖銷"
+        }
+      ],
+      "SignType": [
+        {
+          "CodeID": "+",
+          "CodeName": "加項",
+          "IsDefault": true
+        },
+        {
+          "CodeID": "-",
+          "CodeName": "扣項"
+        }
+      ],
+      "IsTaxable": [
+        {
+          "CodeID": "1",
+          "CodeName": "應稅",
+          "IsDefault": true
+        },
+        {
+          "CodeID": "0",
+          "CodeName": "免稅",
+          "IsDefault": false
+        }
+      ],
+      "IsLaborInsBase": [
+        {
+          "CodeID": "1",
+          "CodeName": "計入",
+          "IsDefault": true
+        },
+        {
+          "CodeID": "0",
+          "CodeName": "不計",
+          "IsDefault": false
+        }
+      ],
+      "IsHealthInsBase": [
+        {
+          "CodeID": "1",
+          "CodeName": "計入",
+          "IsDefault": true
+        },
+        {
+          "CodeID": "0",
+          "CodeName": "不計",
+          "IsDefault": false
+        }
+      ],
+      "IsRetireBase": [
+        {
+          "CodeID": "1",
+          "CodeName": "計入",
+          "IsDefault": true
+        },
+        {
+          "CodeID": "0",
+          "CodeName": "不計",
+          "IsDefault": false
+        }
+      ]
+    },
+    "FeatureFlags": {
+      "IsReadOnly": false,
+      "EnableDraft": false,
+      "EnableBatchDelete": true,
+      "AutoRefreshInterval": 0,
+      "DefaultViewMode": "Table",
+      "RequireConfirmOnSave": true
+    }
+  },
+  "AllowAction": {
+    "DataActions": [
+      {
+        "ActionID": "Add",
+        "Label": "新增",
+        "Icon": "ri-add-line",
+        "Type": "Primary",
+        "Position": "Toolbar",
+        "Confirm": null
+      },
+      {
+        "ActionID": "Save",
+        "Label": "儲存",
+        "Icon": "ri-save-line",
+        "Type": "Primary",
+        "Position": "Toolbar",
+        "Confirm": null
+      },
+      {
+        "ActionID": "Delete",
+        "Label": "刪除",
+        "Icon": "ri-delete-bin-line",
+        "Type": "Danger",
+        "Position": "Both",
+        "Confirm": "刪除薪資項目將影響核薪與結算明細，確定刪除？"
+      },
+      {
+        "ActionID": "Query",
+        "Label": "查詢",
+        "Icon": "ri-search-line",
+        "Type": "Default",
+        "Position": "Toolbar",
+        "Confirm": null
+      }
+    ],
+    "ExtensionActions": [
+      {
+        "ActionID": "Import",
+        "Label": "匯入",
+        "Icon": "ri-upload-2-line",
+        "Type": "Default",
+        "Position": "Toolbar",
+        "Confirm": null
+      },
+      {
+        "ActionID": "Export",
+        "Label": "匯出",
+        "Icon": "ri-file-excel-line",
+        "Type": "Default",
+        "Position": "Toolbar",
+        "Confirm": null
+      }
+    ]
+  },
+  "View": {
+    "RowKey": "RowGuid",
+    "ListView": {
+      "ListSpec": {
+        "RowKey": "RowGuid",
+        "SelectMode": "Single",
+        "FixedColumns": [
+          "Action",
+          "No"
+        ],
+        "RowActionMode": "Menu",
+        "ShowRowNo": true,
+        "Pagination": {
+          "PageSize": 100,
+          "SizeOptions": [
+            50,
+            100,
+            200,
+            500
+          ],
+          "ShowJumper": false,
+          "FullPageScroll": true
+        },
+        "DefaultSort": {
+          "Field": "DisplayOrder",
+          "Order": "asc"
+        },
+        "EmptyText": "目前查無薪資項目",
+        "GridBordered": true
+      },
+      "FieldSpecs": [
+        {
+          "BindField": "ItemName",
+          "Title": "項目名稱",
+          "Width": 180,
+          "Align": "Left",
+          "Fixed": "Left",
+          "Formatter": "Link",
+          "Sorter": true,
+          "DefaultVisible": true
+        },
+        {
+          "BindField": "ItemCode",
+          "Title": "項目代碼",
+          "Width": 120,
+          "Align": "Left",
+          "Fixed": "Left",
+          "Formatter": "Link",
+          "Sorter": true,
+          "DefaultVisible": true
+        },
+        {
+          "BindField": "ItemCategory",
+          "Title": "大類",
+          "Width": 110,
+          "Align": "Center",
+          "Formatter": "Tag",
+          "DefaultVisible": true
+        },
+        {
+          "BindField": "SignType",
+          "Title": "正負號",
+          "Width": 90,
+          "Align": "Center",
+          "Formatter": "Tag",
+          "DefaultVisible": true
+        },
+        {
+          "BindField": "IsTaxable",
+          "Title": "應稅",
+          "Width": 80,
+          "Align": "Center",
+          "Formatter": "Tag",
+          "DefaultVisible": true
+        },
+        {
+          "BindField": "DefaultAmount",
+          "Title": "預設金額",
+          "Width": 120,
+          "Align": "Right",
+          "Formatter": "Money",
+          "DefaultVisible": true
+        },
+        {
+          "BindField": "DisplayOrder",
+          "Title": "顯示序",
+          "Width": 80,
+          "Align": "Right",
+          "Sorter": true,
+          "DefaultVisible": true
+        },
+        {
+          "BindField": "Status",
+          "Title": "狀態",
+          "Width": 90,
+          "Align": "Center",
+          "Formatter": "StatusTag",
+          "DefaultVisible": true
+        }
+      ]
+    },
+    "FormView": {
+      "FormSpec": {
+        "RowKey": "RowGuid",
+        "Layout": "Horizontal",
+        "Sections": [
+          {
+            "SectionID": "SecBase",
+            "Type": "Card",
+            "Title": "項目資料",
+            "IsCollapsible": false,
+            "DefaultOpen": true,
+            "Icon": "ri-money-cny-box-line"
+          },
+          {
+            "SectionID": "SecFlag",
+            "Type": "Card",
+            "Title": "計算旗標",
+            "IsCollapsible": false,
+            "DefaultOpen": true,
+            "Icon": "ri-flag-line"
+          },
+          {
+            "SectionID": "SecExtra",
+            "Type": "Card",
+            "Title": "其他與系統",
+            "IsCollapsible": true,
+            "DefaultOpen": false,
+            "Icon": "ri-settings-4-line"
+          }
+        ],
+        "FormLogic": []
+      },
+      "FieldSpecs": [
+        {
+          "BindField": "RowKey",
+          "Title": "系統識別碼",
+          "Component": "Input",
+          "Section": "SecExtra",
+          "Span": 24,
+          "Mode": "Hidden"
+        },
+        {
+          "BindField": "EntityID",
+          "Title": "系統實體",
+          "Component": "Input",
+          "Section": "SecExtra",
+          "Span": 12,
+          "Mode": "Hidden",
+          "DefaultValue": "hrm"
+        },
+        {
+          "BindField": "ItemCode",
+          "Title": "項目代碼",
+          "Component": "Input",
+          "Section": "SecBase",
+          "Span": 12,
+          "Mode": "Editable",
+          "Validations": [
+            {
+              "Rule": "Required",
+              "Message": "項目代碼為必填"
+            },
+            {
+              "Rule": "MaxLength",
+              "Value": 50,
+              "Message": "項目代碼長度不可超過 50"
+            },
+            {
+              "Rule": "Unique",
+              "Message": "項目代碼不可重複"
+            }
+          ]
+        },
+        {
+          "BindField": "ItemName",
+          "Title": "項目名稱",
+          "Component": "Input",
+          "Section": "SecBase",
+          "Span": 12,
+          "Mode": "Editable",
+          "Validations": [
+            {
+              "Rule": "Required",
+              "Message": "項目名稱為必填"
+            },
+            {
+              "Rule": "MaxLength",
+              "Value": 100,
+              "Message": "項目名稱長度不可超過 100"
+            }
+          ]
+        },
+        {
+          "BindField": "ItemCategory",
+          "Title": "項目大類",
+          "Component": "Select",
+          "Section": "SecBase",
+          "Span": 12,
+          "Mode": "Editable",
+          "DefaultValue": "ALLOWANCE",
+          "Validations": [
+            {
+              "Rule": "Required",
+              "Message": "項目大類為必填"
+            }
+          ],
+          "Props": {
+            "OptionKey": "ItemCategory"
+          }
+        },
+        {
+          "BindField": "SignType",
+          "Title": "預期正負號",
+          "Component": "Select",
+          "Section": "SecBase",
+          "Span": 12,
+          "Mode": "Editable",
+          "DefaultValue": "+",
+          "Props": {
+            "OptionKey": "SignType"
+          }
+        },
+        {
+          "BindField": "DefaultAmount",
+          "Title": "預設金額",
+          "Component": "InputNumber",
+          "Section": "SecBase",
+          "Span": 12,
+          "Mode": "Editable",
+          "Props": {
+            "Min": 0,
+            "Placeholder": "固定津貼可預設，變動項目留空"
+          }
+        },
+        {
+          "BindField": "DisplayOrder",
+          "Title": "顯示順序",
+          "Component": "InputNumber",
+          "Section": "SecBase",
+          "Span": 12,
+          "Mode": "Editable",
+          "DefaultValue": 0,
+          "Props": {
+            "Min": 0
+          }
+        },
+        {
+          "BindField": "IsTaxable",
+          "Title": "是否應稅",
+          "Component": "Select",
+          "Section": "SecFlag",
+          "Span": 12,
+          "Mode": "Editable",
+          "DefaultValue": "1",
+          "Props": {
+            "OptionKey": "IsTaxable"
+          }
+        },
+        {
+          "BindField": "IsLaborInsBase",
+          "Title": "計入勞保投保",
+          "Component": "Select",
+          "Section": "SecFlag",
+          "Span": 12,
+          "Mode": "Editable",
+          "DefaultValue": "1",
+          "Props": {
+            "OptionKey": "IsLaborInsBase"
+          }
+        },
+        {
+          "BindField": "IsHealthInsBase",
+          "Title": "計入健保投保",
+          "Component": "Select",
+          "Section": "SecFlag",
+          "Span": 12,
+          "Mode": "Editable",
+          "DefaultValue": "1",
+          "Props": {
+            "OptionKey": "IsHealthInsBase"
+          }
+        },
+        {
+          "BindField": "IsRetireBase",
+          "Title": "計入勞退提撥",
+          "Component": "Select",
+          "Section": "SecFlag",
+          "Span": 12,
+          "Mode": "Editable",
+          "DefaultValue": "1",
+          "Props": {
+            "OptionKey": "IsRetireBase"
+          }
+        },
+        {
+          "BindField": "Status",
+          "Title": "狀態",
+          "Component": "Select",
+          "Section": "SecBase",
+          "Span": 12,
+          "Mode": "Editable",
+          "DefaultValue": "1",
+          "Validations": [
+            {
+              "Rule": "Required",
+              "Message": "狀態為必填"
+            }
+          ],
+          "Props": {
+            "OptionKey": "Status"
+          }
+        },
+        {
+          "BindField": "SortNo",
+          "Title": "顯示排序",
+          "Component": "Input",
+          "Section": "SecBase",
+          "Span": 12,
+          "Mode": "Editable",
+          "DefaultValue": "C0000",
+          "Validations": [
+            {
+              "Rule": "MaxLength",
+              "Value": 5,
+              "Message": "顯示排序長度不可超過 5"
+            }
+          ]
+        },
+        {
+          "BindField": "Description",
+          "Title": "備註說明",
+          "Component": "TextArea",
+          "Section": "SecExtra",
+          "Span": 24,
+          "Mode": "Editable",
+          "Props": {
+            "Rows": 3
+          }
+        },
+        {
+          "BindField": "Attributes",
+          "Title": "擴展屬性 (JSON)",
+          "Component": "JsonEditor",
+          "Section": "SecExtra",
+          "Span": 24,
+          "Mode": "Editable",
+          "Validations": [
+            {
+              "Rule": "JsonFormat",
+              "Message": "擴展屬性必須為合法 JSON"
+            }
+          ]
+        },
+        {
+          "BindField": "CreatedBy",
+          "Title": "建立者",
+          "Component": "Input",
+          "Section": "SecExtra",
+          "Span": 12,
+          "Mode": "Readonly"
+        },
+        {
+          "BindField": "CreatedAt",
+          "Title": "建立時間",
+          "Component": "DatePicker",
+          "Section": "SecExtra",
+          "Span": 12,
+          "Mode": "Readonly"
+        },
+        {
+          "BindField": "UpdatedBy",
+          "Title": "更新者",
+          "Component": "Input",
+          "Section": "SecExtra",
+          "Span": 12,
+          "Mode": "Readonly"
+        },
+        {
+          "BindField": "UpdatedAt",
+          "Title": "更新時間",
+          "Component": "DatePicker",
+          "Section": "SecExtra",
+          "Span": 12,
+          "Mode": "Readonly"
+        }
+      ]
+    }
+  },
+  "Features": {
+    "ExportSpec": {
+      "ExportColumns": [
+        {
+          "DataKey": "ItemCode",
+          "Header": "項目代碼",
+          "Width": 14
+        },
+        {
+          "DataKey": "ItemName",
+          "Header": "項目名稱",
+          "Width": 20
+        },
+        {
+          "DataKey": "ItemCategory",
+          "Header": "大類",
+          "Width": 12,
+          "Format": "CodeName:ItemCategory"
+        },
+        {
+          "DataKey": "SignType",
+          "Header": "正負",
+          "Width": 8,
+          "Format": "CodeName:SignType"
+        },
+        {
+          "DataKey": "DefaultAmount",
+          "Header": "預設金額",
+          "Width": 14
+        },
+        {
+          "DataKey": "Status",
+          "Header": "狀態",
+          "Width": 10,
+          "Format": "CodeName:Status"
+        }
+      ],
+      "ExportRules": {
+        "MaxDownloadRows": 50000,
+        "AllowFullExport": true,
+        "AppendQuerySummary": true
+      }
+    }
+  },
+  "DataScope": {
+    "DefaultWhere": "EntityID = 'hrm' AND Status = '1'",
+    "AuthLevel": 3,
+    "SortExp": "DisplayOrder ASC, ItemCode ASC",
+    "DataConfig": {
+      "RowLimit": 5000,
+      "AllowExport": true
+    }
+  },
+  "CustomMeta": {
+    "CustomSchema": {
+      "WidgetType": "Grid",
+      "KeyField": "ItemCode",
+      "TitleField": "ItemName",
+      "ParentKeyField": null,
+      "PathField": null,
+      "PathSeparator": "/"
+    },
+    "BusinessRules": {
+      "BusinessValidation": [
+        {
+          "Field": "ItemCode",
+          "Rule": "Unique",
+          "Message": "項目代碼不可重複"
+        }
+      ],
+      "SensitiveFields": [
+        "DefaultAmount"
+      ]
+    }
+  },
+  "SeedData": [
+    {
+      "RowGuid": "itm-001",
+      "EntityID": "hrm",
+      "Status": "1",
+      "ItemCode": "BASE",
+      "ItemName": "底薪",
+      "ItemCategory": "BASE",
+      "SignType": "+",
+      "IsTaxable": "1",
+      "IsLaborInsBase": "1",
+      "IsHealthInsBase": "1",
+      "IsRetireBase": "1",
+      "DefaultAmount": null,
+      "DisplayOrder": 1,
+      "SortNo": "C0001",
+      "Priority": "A",
+      "Description": "每月固定底薪",
+      "Attributes": "{}",
+      "CreatedBy": "system",
+      "CreatedAt": "2024-01-10 09:00",
+      "UpdatedBy": "abram.chen",
+      "UpdatedAt": "2026-05-20 14:32"
+    },
+    {
+      "RowGuid": "itm-002",
+      "EntityID": "hrm",
+      "Status": "1",
+      "ItemCode": "MEAL",
+      "ItemName": "伙食津貼",
+      "ItemCategory": "ALLOWANCE",
+      "SignType": "+",
+      "IsTaxable": "0",
+      "IsLaborInsBase": "0",
+      "IsHealthInsBase": "0",
+      "IsRetireBase": "0",
+      "DefaultAmount": 3000,
+      "DisplayOrder": 2,
+      "SortNo": "C0002",
+      "Priority": "C",
+      "Description": "免稅上限內伙食津貼",
+      "Attributes": "{}",
+      "CreatedBy": "system",
+      "CreatedAt": "2024-01-10 09:00",
+      "UpdatedBy": "abram.chen",
+      "UpdatedAt": "2026-05-20 14:32"
+    },
+    {
+      "RowGuid": "itm-003",
+      "EntityID": "hrm",
+      "Status": "1",
+      "ItemCode": "LABINS",
+      "ItemName": "勞保自付",
+      "ItemCategory": "DEDUCTION",
+      "SignType": "-",
+      "IsTaxable": "0",
+      "IsLaborInsBase": "0",
+      "IsHealthInsBase": "0",
+      "IsRetireBase": "0",
+      "DefaultAmount": null,
+      "DisplayOrder": 20,
+      "SortNo": "C0020",
+      "Priority": "C",
+      "Description": "依投保級距計算",
+      "Attributes": "{}",
+      "CreatedBy": "system",
+      "CreatedAt": "2024-01-10 09:00",
+      "UpdatedBy": "abram.chen",
+      "UpdatedAt": "2026-05-20 14:32"
+    }
+  ]
+}

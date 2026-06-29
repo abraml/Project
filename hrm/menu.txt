@@ -1,5 +1,5 @@
 {
-  "SystemCode": "MUEIP",
+ "SystemCode": "MUEIP",
   "ModuleCode": "HRM",
   "Folder": "hrm",
   "Brand": {
@@ -31,6 +31,103 @@
           "Icon": "ri-folder-chart-line",
           "Label": "專案資料",
           "FuncCode": "hrmPrj"
+        }
+      ]
+    },
+    {
+      "Header": "差勤管理",
+      "Icon": "ri-time-line",
+      "Items": [
+        {
+          "Icon": "ri-time-line",
+          "Label": "班別設定",
+          "FuncCode": "hrmAtt_Shf"
+        },
+        {
+          "Icon": "ri-calendar-2-line",
+          "Label": "工作行事曆",
+          "FuncCode": "hrmAtt_Cal"
+        },
+        {
+          "Icon": "ri-calendar-schedule-line",
+          "Label": "排班表",
+          "FuncCode": "hrmAtt_Scd"
+        },
+        {
+          "Icon": "ri-fingerprint-line",
+          "Label": "打卡紀錄",
+          "FuncCode": "hrmAtt_Clk"
+        },
+        {
+          "Icon": "ri-calendar-check-line",
+          "Label": "每日出勤",
+          "FuncCode": "hrmAtt_Day"
+        },
+        {
+          "Icon": "ri-edit-2-line",
+          "Label": "補卡申請",
+          "FuncCode": "hrmAtt_Fix"
+        },
+        {
+          "Icon": "ri-calendar-todo-line",
+          "Label": "請假單",
+          "FuncCode": "hrmAtt_Lve"
+        },
+        {
+          "Icon": "ri-time-fill",
+          "Label": "加班單",
+          "FuncCode": "hrmAtt_Ovt"
+        },
+        {
+          "Icon": "ri-pie-chart-2-line",
+          "Label": "假別額度",
+          "FuncCode": "hrmAtt_Qta"
+        },
+        {
+          "Icon": "ri-government-line",
+          "Label": "給假規則",
+          "FuncCode": "hrmAtt_Lar"
+        },
+        {
+          "Icon": "ri-percent-line",
+          "Label": "加班費率規則",
+          "FuncCode": "hrmAtt_Otr"
+        },
+        {
+          "Icon": "ri-file-list-3-line",
+          "Label": "差勤月結",
+          "FuncCode": "hrmAtt_Smy"
+        }
+      ]
+    },
+    {
+      "Header": "薪資結算",
+      "Icon": "ri-money-cny-box-line",
+      "Items": [
+        {
+          "Icon": "ri-money-cny-box-line",
+          "Label": "薪資項目",
+          "FuncCode": "hrmSal_Itm"
+        },
+        {
+          "Icon": "ri-shield-cross-line",
+          "Label": "投保級距",
+          "FuncCode": "hrmSal_Inb"
+        },
+        {
+          "Icon": "ri-file-excel-2-line",
+          "Label": "薪資匯入",
+          "FuncCode": "hrmSal_Imp"
+        },
+        {
+          "Icon": "ri-checkbox-multiple-line",
+          "Label": "核薪單",
+          "FuncCode": "hrmSal_Apv"
+        },
+        {
+          "Icon": "ri-bank-card-line",
+          "Label": "薪資結算",
+          "FuncCode": "hrmSal_Pay"
         }
       ]
     },

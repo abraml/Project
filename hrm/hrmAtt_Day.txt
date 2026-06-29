@@ -1,0 +1,779 @@
+{
+  "EntityID": "hrm",
+  "SystemCode": "MUEIP",
+  "ModuleCode": "HRM",
+  "FuncCode": "hrmAtt_Day",
+  "ConfigHash": "sha256:f892710b248e00d86c1d2bf11937a8fa7acb5f380bc3db571ae47dfc1d514a4c",
+  "PageMeta": {
+    "PageTitle": "每日出勤",
+    "Lang": "zh-TW",
+    "FormType": "ListForm",
+    "EditDisplayType": "Drawer",
+    "Breadcrumb": [
+      {
+        "Title": "首頁",
+        "Path": "/"
+      },
+      {
+        "Title": "差勤管理",
+        "Path": null
+      },
+      {
+        "Title": "每日出勤",
+        "Path": "/hrm/hrmAtt_Day"
+      }
+    ],
+    "IsApproval": false,
+    "TenantLocked": false,
+    "Icon": "ri-calendar-check-line",
+    "Remark": "每日出勤計算結果（時數/異常/加扣項，月結鎖定後不可重算）"
+  },
+  "Resources": {
+    "CodeSets": {
+      "Status": [
+        {
+          "CodeID": "1",
+          "CodeName": "啟用",
+          "IsDefault": true
+        },
+        {
+          "CodeID": "0",
+          "CodeName": "停用",
+          "IsDefault": false
+        }
+      ],
+      "EmpNo": [
+        {
+          "CodeID": "E001",
+          "CodeName": "陳大明 (資訊技術)"
+        },
+        {
+          "CodeID": "E002",
+          "CodeName": "王小華 (資訊技術)"
+        },
+        {
+          "CodeID": "E003",
+          "CodeName": "張工程 (研發)"
+        },
+        {
+          "CodeID": "E005",
+          "CodeName": "林小明 (研發)"
+        },
+        {
+          "CodeID": "E008",
+          "CodeName": "黃志偉 (業務)"
+        },
+        {
+          "CodeID": "E009",
+          "CodeName": "王專案 (專案)"
+        }
+      ],
+      "ShiftCode": [
+        {
+          "CodeID": "DAY",
+          "CodeName": "日班 09:00-18:00",
+          "IsDefault": true
+        },
+        {
+          "CodeID": "NIGHT",
+          "CodeName": "夜班 20:00-05:00"
+        },
+        {
+          "CodeID": "FLEX",
+          "CodeName": "彈性班"
+        },
+        {
+          "CodeID": "HALF",
+          "CodeName": "半日班"
+        }
+      ],
+      "IsWorkDay": [
+        {
+          "CodeID": "1",
+          "CodeName": "應出勤",
+          "IsDefault": true
+        },
+        {
+          "CodeID": "0",
+          "CodeName": "非工作日",
+          "IsDefault": false
+        }
+      ],
+      "AbnormalFlag": [
+        {
+          "CodeID": "LATE",
+          "CodeName": "遲到"
+        },
+        {
+          "CodeID": "EARLY",
+          "CodeName": "早退"
+        },
+        {
+          "CodeID": "ABSENT",
+          "CodeName": "曠職"
+        },
+        {
+          "CodeID": "MISS_IN",
+          "CodeName": "缺上班卡"
+        },
+        {
+          "CodeID": "MISS_OUT",
+          "CodeName": "缺下班卡"
+        }
+      ],
+      "IsLocked": [
+        {
+          "CodeID": "1",
+          "CodeName": "已鎖定",
+          "IsDefault": false
+        },
+        {
+          "CodeID": "0",
+          "CodeName": "未鎖定",
+          "IsDefault": true
+        }
+      ]
+    },
+    "FeatureFlags": {
+      "IsReadOnly": false,
+      "EnableDraft": false,
+      "EnableBatchDelete": true,
+      "AutoRefreshInterval": 0,
+      "DefaultViewMode": "Table",
+      "RequireConfirmOnSave": true
+    }
+  },
+  "AllowAction": {
+    "DataActions": [
+      {
+        "ActionID": "Add",
+        "Label": "新增",
+        "Icon": "ri-add-line",
+        "Type": "Primary",
+        "Position": "Toolbar",
+        "Confirm": null
+      },
+      {
+        "ActionID": "Save",
+        "Label": "儲存",
+        "Icon": "ri-save-line",
+        "Type": "Primary",
+        "Position": "Toolbar",
+        "Confirm": null
+      },
+      {
+        "ActionID": "Delete",
+        "Label": "刪除",
+        "Icon": "ri-delete-bin-line",
+        "Type": "Danger",
+        "Position": "Both",
+        "Confirm": "刪除每日出勤紀錄，確定刪除？"
+      },
+      {
+        "ActionID": "Query",
+        "Label": "查詢",
+        "Icon": "ri-search-line",
+        "Type": "Default",
+        "Position": "Toolbar",
+        "Confirm": null
+      }
+    ],
+    "ExtensionActions": [
+      {
+        "ActionID": "Export",
+        "Label": "匯出",
+        "Icon": "ri-file-excel-line",
+        "Type": "Default",
+        "Position": "Toolbar",
+        "Confirm": null
+      }
+    ]
+  },
+  "View": {
+    "RowKey": "RowGuid",
+    "ListView": {
+      "ListSpec": {
+        "RowKey": "RowGuid",
+        "SelectMode": "Single",
+        "FixedColumns": [
+          "Action",
+          "No"
+        ],
+        "RowActionMode": "Menu",
+        "ShowRowNo": true,
+        "Pagination": {
+          "PageSize": 200,
+          "SizeOptions": [
+            50,
+            100,
+            200,
+            500
+          ],
+          "ShowJumper": false,
+          "FullPageScroll": true
+        },
+        "DefaultSort": {
+          "Field": "AttnDate",
+          "Order": "desc"
+        },
+        "EmptyText": "目前查無出勤資料",
+        "GridBordered": true
+      },
+      "FieldSpecs": [
+        {
+          "BindField": "EmpNo",
+          "Title": "員工",
+          "Width": 150,
+          "Align": "Left",
+          "Fixed": "Left",
+          "Formatter": "Tag",
+          "DefaultVisible": true
+        },
+        {
+          "BindField": "AttnDate",
+          "Title": "出勤日期",
+          "Width": 130,
+          "Align": "Center",
+          "Formatter": "DateTime",
+          "Sorter": true,
+          "DefaultVisible": true
+        },
+        {
+          "BindField": "ShiftCode",
+          "Title": "班別",
+          "Width": 130,
+          "Align": "Left",
+          "Formatter": "Tag",
+          "DefaultVisible": true
+        },
+        {
+          "BindField": "ClockIn",
+          "Title": "上班卡",
+          "Width": 160,
+          "Align": "Center",
+          "Formatter": "DateTime",
+          "DefaultVisible": true
+        },
+        {
+          "BindField": "ClockOut",
+          "Title": "下班卡",
+          "Width": 160,
+          "Align": "Center",
+          "Formatter": "DateTime",
+          "DefaultVisible": true
+        },
+        {
+          "BindField": "ActualHours",
+          "Title": "實際時數",
+          "Width": 100,
+          "Align": "Right",
+          "DefaultVisible": true
+        },
+        {
+          "BindField": "LateMinutes",
+          "Title": "遲到(分)",
+          "Width": 90,
+          "Align": "Right",
+          "DefaultVisible": true
+        },
+        {
+          "BindField": "AbnormalFlag",
+          "Title": "異常",
+          "Width": 130,
+          "Align": "Center",
+          "Formatter": "Tag",
+          "DefaultVisible": true
+        },
+        {
+          "BindField": "IsLocked",
+          "Title": "鎖定",
+          "Width": 80,
+          "Align": "Center",
+          "Formatter": "Tag",
+          "DefaultVisible": true
+        }
+      ]
+    },
+    "FormView": {
+      "FormSpec": {
+        "RowKey": "RowGuid",
+        "Layout": "Horizontal",
+        "Sections": [
+          {
+            "SectionID": "SecBase",
+            "Type": "Card",
+            "Title": "出勤基本",
+            "IsCollapsible": false,
+            "DefaultOpen": true,
+            "Icon": "ri-calendar-check-line"
+          },
+          {
+            "SectionID": "SecHours",
+            "Type": "Card",
+            "Title": "時數與異常",
+            "IsCollapsible": false,
+            "DefaultOpen": true,
+            "Icon": "ri-bar-chart-2-line"
+          },
+          {
+            "SectionID": "SecRef",
+            "Type": "Card",
+            "Title": "關聯與鎖定",
+            "IsCollapsible": true,
+            "DefaultOpen": false,
+            "Icon": "ri-links-line"
+          },
+          {
+            "SectionID": "SecExtra",
+            "Type": "Card",
+            "Title": "其他與系統",
+            "IsCollapsible": true,
+            "DefaultOpen": false,
+            "Icon": "ri-settings-4-line"
+          }
+        ],
+        "FormLogic": []
+      },
+      "FieldSpecs": [
+        {
+          "BindField": "RowKey",
+          "Title": "系統識別碼",
+          "Component": "Input",
+          "Section": "SecExtra",
+          "Span": 24,
+          "Mode": "Hidden"
+        },
+        {
+          "BindField": "EntityID",
+          "Title": "系統實體",
+          "Component": "Input",
+          "Section": "SecExtra",
+          "Span": 12,
+          "Mode": "Hidden",
+          "DefaultValue": "hrm"
+        },
+        {
+          "BindField": "EmpNo",
+          "Title": "員工工號",
+          "Component": "Select",
+          "Section": "SecBase",
+          "Span": 12,
+          "Mode": "Editable",
+          "Validations": [
+            {
+              "Rule": "Required",
+              "Message": "員工工號為必填"
+            }
+          ],
+          "Props": {
+            "OptionKey": "EmpNo"
+          }
+        },
+        {
+          "BindField": "AttnDate",
+          "Title": "出勤日期",
+          "Component": "DatePicker",
+          "Section": "SecBase",
+          "Span": 12,
+          "Mode": "Editable",
+          "Validations": [
+            {
+              "Rule": "Required",
+              "Message": "出勤日期為必填"
+            }
+          ],
+          "Props": {
+            "Mode": "Editable"
+          }
+        },
+        {
+          "BindField": "ShiftCode",
+          "Title": "套用班別",
+          "Component": "Select",
+          "Section": "SecBase",
+          "Span": 12,
+          "Mode": "Editable",
+          "Props": {
+            "OptionKey": "ShiftCode"
+          }
+        },
+        {
+          "BindField": "IsWorkDay",
+          "Title": "是否應出勤",
+          "Component": "Select",
+          "Section": "SecBase",
+          "Span": 12,
+          "Mode": "Editable",
+          "DefaultValue": "1",
+          "Props": {
+            "OptionKey": "IsWorkDay"
+          }
+        },
+        {
+          "BindField": "ClockIn",
+          "Title": "上班打卡",
+          "Component": "DatePicker",
+          "Section": "SecBase",
+          "Span": 12,
+          "Mode": "Editable",
+          "Props": {
+            "Mode": "Editable"
+          }
+        },
+        {
+          "BindField": "ClockOut",
+          "Title": "下班打卡",
+          "Component": "DatePicker",
+          "Section": "SecBase",
+          "Span": 12,
+          "Mode": "Editable",
+          "Props": {
+            "Mode": "Editable"
+          }
+        },
+        {
+          "BindField": "StandardHours",
+          "Title": "應出勤時數",
+          "Component": "InputNumber",
+          "Section": "SecHours",
+          "Span": 12,
+          "Mode": "Editable",
+          "DefaultValue": 0,
+          "Props": {
+            "Min": 0
+          }
+        },
+        {
+          "BindField": "ActualHours",
+          "Title": "實際出勤時數",
+          "Component": "InputNumber",
+          "Section": "SecHours",
+          "Span": 12,
+          "Mode": "Editable",
+          "DefaultValue": 0,
+          "Props": {
+            "Min": 0
+          }
+        },
+        {
+          "BindField": "LateMinutes",
+          "Title": "遲到分鐘",
+          "Component": "InputNumber",
+          "Section": "SecHours",
+          "Span": 12,
+          "Mode": "Editable",
+          "DefaultValue": 0,
+          "Props": {
+            "Min": 0
+          }
+        },
+        {
+          "BindField": "EarlyMinutes",
+          "Title": "早退分鐘",
+          "Component": "InputNumber",
+          "Section": "SecHours",
+          "Span": 12,
+          "Mode": "Editable",
+          "DefaultValue": 0,
+          "Props": {
+            "Min": 0
+          }
+        },
+        {
+          "BindField": "AbsentHours",
+          "Title": "曠職時數",
+          "Component": "InputNumber",
+          "Section": "SecHours",
+          "Span": 12,
+          "Mode": "Editable",
+          "DefaultValue": 0,
+          "Props": {
+            "Min": 0
+          }
+        },
+        {
+          "BindField": "LeaveHours",
+          "Title": "請假時數",
+          "Component": "InputNumber",
+          "Section": "SecHours",
+          "Span": 12,
+          "Mode": "Editable",
+          "DefaultValue": 0,
+          "Props": {
+            "Min": 0
+          }
+        },
+        {
+          "BindField": "OvertimeHours",
+          "Title": "加班時數",
+          "Component": "InputNumber",
+          "Section": "SecHours",
+          "Span": 12,
+          "Mode": "Editable",
+          "DefaultValue": 0,
+          "Props": {
+            "Min": 0
+          }
+        },
+        {
+          "BindField": "AbnormalFlag",
+          "Title": "異常標記",
+          "Component": "Select",
+          "Section": "SecHours",
+          "Span": 12,
+          "Mode": "Editable",
+          "Props": {
+            "OptionKey": "AbnormalFlag",
+            "Placeholder": "多值以逗號分隔"
+          }
+        },
+        {
+          "BindField": "RefLeaveNo",
+          "Title": "對應請假單",
+          "Component": "Input",
+          "Section": "SecRef",
+          "Span": 12,
+          "Mode": "Readonly",
+          "Validations": [
+            {
+              "Rule": "MaxLength",
+              "Value": 50,
+              "Message": "對應請假單長度不可超過 50"
+            }
+          ]
+        },
+        {
+          "BindField": "RefOvertimeNo",
+          "Title": "對應加班單",
+          "Component": "Input",
+          "Section": "SecRef",
+          "Span": 12,
+          "Mode": "Readonly",
+          "Validations": [
+            {
+              "Rule": "MaxLength",
+              "Value": 50,
+              "Message": "對應加班單長度不可超過 50"
+            }
+          ]
+        },
+        {
+          "BindField": "IsLocked",
+          "Title": "月結鎖定",
+          "Component": "Select",
+          "Section": "SecRef",
+          "Span": 12,
+          "Mode": "Editable",
+          "DefaultValue": "0",
+          "Props": {
+            "OptionKey": "IsLocked"
+          }
+        },
+        {
+          "BindField": "Status",
+          "Title": "狀態",
+          "Component": "Select",
+          "Section": "SecBase",
+          "Span": 12,
+          "Mode": "Editable",
+          "DefaultValue": "1",
+          "Props": {
+            "OptionKey": "Status"
+          }
+        },
+        {
+          "BindField": "Description",
+          "Title": "備註說明",
+          "Component": "TextArea",
+          "Section": "SecExtra",
+          "Span": 24,
+          "Mode": "Editable",
+          "Props": {
+            "Rows": 3
+          }
+        },
+        {
+          "BindField": "Attributes",
+          "Title": "擴展屬性 (JSON)",
+          "Component": "JsonEditor",
+          "Section": "SecExtra",
+          "Span": 24,
+          "Mode": "Editable",
+          "Validations": [
+            {
+              "Rule": "JsonFormat",
+              "Message": "擴展屬性必須為合法 JSON"
+            }
+          ]
+        },
+        {
+          "BindField": "CreatedBy",
+          "Title": "建立者",
+          "Component": "Input",
+          "Section": "SecExtra",
+          "Span": 12,
+          "Mode": "Readonly"
+        },
+        {
+          "BindField": "CreatedAt",
+          "Title": "建立時間",
+          "Component": "DatePicker",
+          "Section": "SecExtra",
+          "Span": 12,
+          "Mode": "Readonly"
+        },
+        {
+          "BindField": "UpdatedBy",
+          "Title": "更新者",
+          "Component": "Input",
+          "Section": "SecExtra",
+          "Span": 12,
+          "Mode": "Readonly"
+        },
+        {
+          "BindField": "UpdatedAt",
+          "Title": "更新時間",
+          "Component": "DatePicker",
+          "Section": "SecExtra",
+          "Span": 12,
+          "Mode": "Readonly"
+        }
+      ]
+    }
+  },
+  "Features": {
+    "ExportSpec": {
+      "ExportColumns": [
+        {
+          "DataKey": "EmpNo",
+          "Header": "員工",
+          "Width": 12
+        },
+        {
+          "DataKey": "AttnDate",
+          "Header": "日期",
+          "Width": 14
+        },
+        {
+          "DataKey": "ShiftCode",
+          "Header": "班別",
+          "Width": 12,
+          "Format": "CodeName:ShiftCode"
+        },
+        {
+          "DataKey": "ActualHours",
+          "Header": "實際時數",
+          "Width": 12
+        },
+        {
+          "DataKey": "LateMinutes",
+          "Header": "遲到分",
+          "Width": 10
+        },
+        {
+          "DataKey": "AbsentHours",
+          "Header": "曠職時數",
+          "Width": 12
+        },
+        {
+          "DataKey": "AbnormalFlag",
+          "Header": "異常",
+          "Width": 14,
+          "Format": "CodeName:AbnormalFlag"
+        },
+        {
+          "DataKey": "IsLocked",
+          "Header": "鎖定",
+          "Width": 8,
+          "Format": "CodeName:IsLocked"
+        }
+      ],
+      "ExportRules": {
+        "MaxDownloadRows": 50000,
+        "AllowFullExport": true,
+        "AppendQuerySummary": true
+      }
+    }
+  },
+  "DataScope": {
+    "DefaultWhere": "EntityID = 'hrm' AND Status = '1'",
+    "AuthLevel": 2,
+    "SortExp": "AttnDate DESC, EmpNo ASC",
+    "DataConfig": {
+      "RowLimit": 5000,
+      "AllowExport": true
+    }
+  },
+  "CustomMeta": {
+    "CustomSchema": {
+      "WidgetType": "Grid",
+      "KeyField": "RowGuid",
+      "TitleField": "EmpNo",
+      "ParentKeyField": null,
+      "PathField": null,
+      "PathSeparator": "/"
+    },
+    "BusinessRules": {
+      "BusinessValidation": [],
+      "SensitiveFields": []
+    }
+  },
+  "SeedData": [
+    {
+      "RowGuid": "day-001",
+      "EntityID": "hrm",
+      "Status": "1",
+      "EmpNo": "E001",
+      "AttnDate": "2026-06-02",
+      "ShiftCode": "DAY",
+      "IsWorkDay": "1",
+      "ClockIn": "2026-06-02 08:57",
+      "ClockOut": "2026-06-02 18:05",
+      "StandardHours": 8,
+      "ActualHours": 8,
+      "LateMinutes": 0,
+      "EarlyMinutes": 0,
+      "AbsentHours": 0,
+      "LeaveHours": 0,
+      "OvertimeHours": 0,
+      "AbnormalFlag": null,
+      "RefLeaveNo": null,
+      "RefOvertimeNo": null,
+      "IsLocked": "0",
+      "Description": null,
+      "Attributes": "{}",
+      "CreatedBy": "system",
+      "CreatedAt": "2026-06-03 02:00",
+      "UpdatedBy": "system",
+      "UpdatedAt": "2026-06-03 02:00"
+    },
+    {
+      "RowGuid": "day-002",
+      "EntityID": "hrm",
+      "Status": "1",
+      "EmpNo": "E002",
+      "AttnDate": "2026-06-02",
+      "ShiftCode": "DAY",
+      "IsWorkDay": "1",
+      "ClockIn": "2026-06-02 09:18",
+      "ClockOut": null,
+      "StandardHours": 8,
+      "ActualHours": 0,
+      "LateMinutes": 18,
+      "EarlyMinutes": 0,
+      "AbsentHours": 0,
+      "LeaveHours": 0,
+      "OvertimeHours": 0,
+      "AbnormalFlag": "LATE,MISS_OUT",
+      "RefLeaveNo": null,
+      "RefOvertimeNo": null,
+      "IsLocked": "0",
+      "Description": "遲到且缺下班卡（已補簽 FIX-20260602-001）",
+      "Attributes": "{}",
+      "CreatedBy": "system",
+      "CreatedAt": "2026-06-03 02:00",
+      "UpdatedBy": "system",
+      "UpdatedAt": "2026-06-03 10:25"
+    }
+  ]
+}
