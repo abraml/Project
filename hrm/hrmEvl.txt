@@ -1,0 +1,1323 @@
+{
+  "EntityID": "hrm",
+  "SystemCode": "MUEIP",
+  "ModuleCode": "HRM",
+  "FuncCode": "hrmEvl",
+  "ConfigHash": "sha256:c3d4e5f60718293a4b5c6d7e8f90112a2b3c4d5e6f70819a2b3c4d5e6f708190",
+  "PageMeta": {
+    "PageTitle": "考評單維護",
+    "Lang": "zh-TW",
+    "FormType": "ListForm",
+    "EditDisplayType": "Drawer",
+    "Breadcrumb": [
+      {
+        "Title": "首頁",
+        "Path": "/"
+      },
+      {
+        "Title": "考評資料",
+        "Path": null
+      },
+      {
+        "Title": "考評單維護",
+        "Path": "/hrm/eval/sheet"
+      }
+    ],
+    "IsApproval": false,
+    "TenantLocked": false,
+    "Icon": "ri-file-chart-line",
+    "Remark": "考評單主檔；受評員工依範本逐項自評／主管評分，核定後計算總分、評等與獎金（機敏 L2）。明細為 hrmEvl_Dtl。"
+  },
+  "Resources": {
+    "CodeSets": {
+      "Status": [
+        {
+          "CodeID": "1",
+          "CodeName": "啟用",
+          "IsDefault": true
+        },
+        {
+          "CodeID": "0",
+          "CodeName": "停用"
+        }
+      ],
+      "Priority": [
+        {
+          "CodeID": "A",
+          "CodeName": "高"
+        },
+        {
+          "CodeID": "B",
+          "CodeName": "中"
+        },
+        {
+          "CodeID": "C",
+          "CodeName": "低",
+          "IsDefault": true
+        }
+      ],
+      "EvalRound": [
+        {
+          "CodeID": "H1",
+          "CodeName": "上半年"
+        },
+        {
+          "CodeID": "H2",
+          "CodeName": "下半年"
+        },
+        {
+          "CodeID": "Y",
+          "CodeName": "年度"
+        },
+        {
+          "CodeID": "PROB",
+          "CodeName": "試用期"
+        },
+        {
+          "CodeID": "PRJ",
+          "CodeName": "專案"
+        }
+      ],
+      "Grade": [
+        {
+          "CodeID": "A",
+          "CodeName": "A — 優異"
+        },
+        {
+          "CodeID": "B",
+          "CodeName": "B — 良好"
+        },
+        {
+          "CodeID": "C",
+          "CodeName": "C — 符合期望"
+        },
+        {
+          "CodeID": "D",
+          "CodeName": "D — 待加強"
+        },
+        {
+          "CodeID": "E",
+          "CodeName": "E — 不適任"
+        }
+      ],
+      "DocStatus": [
+        {
+          "CodeID": "0",
+          "CodeName": "草稿",
+          "IsDefault": true
+        },
+        {
+          "CodeID": "1",
+          "CodeName": "陳核中"
+        },
+        {
+          "CodeID": "2",
+          "CodeName": "已核准"
+        },
+        {
+          "CodeID": "3",
+          "CodeName": "退回"
+        },
+        {
+          "CodeID": "9",
+          "CodeName": "作廢"
+        }
+      ],
+      "EmpNo": [
+        {
+          "CodeID": "E001",
+          "CodeName": "陳建宏（總經理）"
+        },
+        {
+          "CodeID": "E002",
+          "CodeName": "林雅婷（人資經理）"
+        },
+        {
+          "CodeID": "E003",
+          "CodeName": "王志明（財務專員）"
+        },
+        {
+          "CodeID": "E004",
+          "CodeName": "張美玲（資訊經理）"
+        },
+        {
+          "CodeID": "E005",
+          "CodeName": "李俊賢（系統工程師）"
+        },
+        {
+          "CodeID": "E006",
+          "CodeName": "黃淑芬（維運工程師）"
+        },
+        {
+          "CodeID": "E007",
+          "CodeName": "吳承翰（產線領班）"
+        },
+        {
+          "CodeID": "E008",
+          "CodeName": "蔡宜君（研發工程師）"
+        },
+        {
+          "CodeID": "E009",
+          "CodeName": "鄭家豪（前端工程師）"
+        }
+      ],
+      "ManagerEmpNo": [
+        {
+          "CodeID": "E001",
+          "CodeName": "陳建宏（總經理）"
+        },
+        {
+          "CodeID": "E002",
+          "CodeName": "林雅婷（人資經理）"
+        },
+        {
+          "CodeID": "E003",
+          "CodeName": "王志明（財務專員）"
+        },
+        {
+          "CodeID": "E004",
+          "CodeName": "張美玲（資訊經理）"
+        },
+        {
+          "CodeID": "E005",
+          "CodeName": "李俊賢（系統工程師）"
+        },
+        {
+          "CodeID": "E006",
+          "CodeName": "黃淑芬（維運工程師）"
+        },
+        {
+          "CodeID": "E007",
+          "CodeName": "吳承翰（產線領班）"
+        },
+        {
+          "CodeID": "E008",
+          "CodeName": "蔡宜君（研發工程師）"
+        },
+        {
+          "CodeID": "E009",
+          "CodeName": "鄭家豪（前端工程師）"
+        }
+      ],
+      "DeptCode": [
+        {
+          "CodeID": "D100",
+          "CodeName": "總經理室"
+        },
+        {
+          "CodeID": "D110",
+          "CodeName": "人力資源部"
+        },
+        {
+          "CodeID": "D120",
+          "CodeName": "財務部"
+        },
+        {
+          "CodeID": "D130",
+          "CodeName": "資訊部"
+        },
+        {
+          "CodeID": "D131",
+          "CodeName": "系統開發課"
+        },
+        {
+          "CodeID": "D132",
+          "CodeName": "維運課"
+        },
+        {
+          "CodeID": "D200",
+          "CodeName": "製造處"
+        },
+        {
+          "CodeID": "D210",
+          "CodeName": "生產一課"
+        },
+        {
+          "CodeID": "D220",
+          "CodeName": "品保課"
+        },
+        {
+          "CodeID": "D300",
+          "CodeName": "研發處"
+        },
+        {
+          "CodeID": "D310",
+          "CodeName": "前端開發課"
+        }
+      ],
+      "TemplateCode": [
+        {
+          "CodeID": "TPL-ANN-2026",
+          "CodeName": "2026 年度考評範本"
+        },
+        {
+          "CodeID": "TPL-PROB",
+          "CodeName": "試用期考評範本"
+        }
+      ],
+      "BonusRuleCode": [
+        {
+          "CodeID": "BNS-2026-STD",
+          "CodeName": "2026 標準獎金規則"
+        },
+        {
+          "CodeID": "BNS-2026-MGR",
+          "CodeName": "2026 主管加碼規則"
+        }
+      ]
+    },
+    "FeatureFlags": {
+      "IsReadOnly": false,
+      "EnableDraft": false,
+      "EnableBatchDelete": true,
+      "AutoRefreshInterval": 0,
+      "DefaultViewMode": "Table",
+      "RequireConfirmOnSave": true
+    }
+  },
+  "AllowAction": {
+    "DataActions": [
+      {
+        "ActionID": "Add",
+        "Label": "新增",
+        "Icon": "ri-add-line",
+        "Type": "Primary",
+        "Position": "Toolbar",
+        "Confirm": null
+      },
+      {
+        "ActionID": "Save",
+        "Label": "儲存",
+        "Icon": "ri-save-line",
+        "Type": "Primary",
+        "Position": "Toolbar",
+        "Confirm": null
+      },
+      {
+        "ActionID": "Delete",
+        "Label": "刪除",
+        "Icon": "ri-delete-bin-line",
+        "Type": "Danger",
+        "Position": "Both",
+        "Confirm": "刪除考評單將一併移除其評分明細，確定要刪除嗎？"
+      },
+      {
+        "ActionID": "Query",
+        "Label": "查詢",
+        "Icon": "ri-search-line",
+        "Type": "Default",
+        "Position": "Toolbar",
+        "Confirm": null
+      }
+    ],
+    "ExtensionActions": [
+      {
+        "ActionID": "Import",
+        "Label": "匯入",
+        "Icon": "ri-upload-2-line",
+        "Type": "Default",
+        "Position": "Toolbar",
+        "Confirm": null
+      },
+      {
+        "ActionID": "Export",
+        "Label": "匯出",
+        "Icon": "ri-file-excel-line",
+        "Type": "Default",
+        "Position": "Toolbar",
+        "Confirm": null
+      }
+    ]
+  },
+  "View": {
+    "RowKey": "RowGuid",
+    "ListView": {
+      "ListSpec": {
+        "RowKey": "RowGuid",
+        "SelectMode": "Single",
+        "FixedColumns": [
+          "Action",
+          "No"
+        ],
+        "RowActionMode": "Menu",
+        "ShowRowNo": true,
+        "Pagination": {
+          "PageSize": 100,
+          "SizeOptions": [
+            50,
+            100,
+            200,
+            500
+          ],
+          "ShowJumper": false,
+          "FullPageScroll": true
+        },
+        "DefaultSort": {
+          "Field": "SortNo",
+          "Order": "asc"
+        },
+        "EmptyText": "目前查無考評單",
+        "GridBordered": true
+      },
+      "FieldSpecs": [
+        {
+          "BindField": "EvalNo",
+          "Title": "考評單號",
+          "Width": 170,
+          "Align": "Left",
+          "Fixed": "Left",
+          "Formatter": "Link",
+          "Sorter": true,
+          "DefaultVisible": true
+        },
+        {
+          "BindField": "EmpNo",
+          "Title": "受評員工",
+          "Width": 150,
+          "Align": "Left",
+          "Formatter": "Tag",
+          "Sorter": true,
+          "DefaultVisible": true
+        },
+        {
+          "BindField": "DeptCode",
+          "Title": "受評部門",
+          "Width": 130,
+          "Align": "Left",
+          "Formatter": "Tag",
+          "DefaultVisible": true
+        },
+        {
+          "BindField": "EvalYear",
+          "Title": "年度",
+          "Width": 80,
+          "Align": "Center",
+          "Sorter": true,
+          "DefaultVisible": true
+        },
+        {
+          "BindField": "EvalRound",
+          "Title": "輪次",
+          "Width": 90,
+          "Align": "Center",
+          "Formatter": "Tag",
+          "DefaultVisible": true
+        },
+        {
+          "BindField": "ManagerEmpNo",
+          "Title": "評核主管",
+          "Width": 150,
+          "Align": "Left",
+          "Formatter": "Tag",
+          "DefaultVisible": true
+        },
+        {
+          "BindField": "TotalScore",
+          "Title": "總分",
+          "Width": 80,
+          "Align": "Center",
+          "Sorter": true,
+          "DefaultVisible": true
+        },
+        {
+          "BindField": "Grade",
+          "Title": "評等",
+          "Width": 80,
+          "Align": "Center",
+          "Formatter": "Tag",
+          "DefaultVisible": true
+        },
+        {
+          "BindField": "DocStatus",
+          "Title": "簽核狀態",
+          "Width": 100,
+          "Align": "Center",
+          "Formatter": "Tag",
+          "Sorter": true,
+          "DefaultVisible": true
+        },
+        {
+          "BindField": "Status",
+          "Title": "資料狀態",
+          "Width": 90,
+          "Align": "Center",
+          "Formatter": "StatusTag",
+          "DefaultVisible": true
+        },
+        {
+          "BindField": "TemplateCode",
+          "Title": "使用範本",
+          "Width": 150,
+          "Align": "Left",
+          "Formatter": "Tag",
+          "DefaultVisible": false
+        },
+        {
+          "BindField": "UpdatedAt",
+          "Title": "更新時間",
+          "Width": 160,
+          "Align": "Center",
+          "Formatter": "DateTime",
+          "Sorter": true,
+          "DefaultVisible": false
+        }
+      ]
+    },
+    "FormView": {
+      "FormSpec": {
+        "RowKey": "RowGuid",
+        "Layout": "Horizontal",
+        "Sections": [
+          {
+            "SectionID": "SecBase",
+            "Type": "Card",
+            "Title": "考評對象",
+            "IsCollapsible": false,
+            "DefaultOpen": true,
+            "Icon": "ri-user-star-line"
+          },
+          {
+            "SectionID": "SecPeriod",
+            "Type": "Card",
+            "Title": "考評期間",
+            "IsCollapsible": false,
+            "DefaultOpen": true,
+            "Icon": "ri-calendar-check-line"
+          },
+          {
+            "SectionID": "SecResult",
+            "Type": "Card",
+            "Title": "核定結果（機敏）",
+            "IsCollapsible": true,
+            "DefaultOpen": false,
+            "Icon": "ri-award-line"
+          },
+          {
+            "SectionID": "SecFlow",
+            "Type": "Card",
+            "Title": "簽核流程",
+            "IsCollapsible": false,
+            "DefaultOpen": true,
+            "Icon": "ri-flow-chart"
+          },
+          {
+            "SectionID": "SecExtra",
+            "Type": "Card",
+            "Title": "其他與系統",
+            "IsCollapsible": true,
+            "DefaultOpen": false,
+            "Icon": "ri-settings-4-line"
+          }
+        ],
+        "FormLogic": [
+          {
+            "TriggerField": "DocStatus",
+            "Condition": "== '2'",
+            "Action": "SetRequired",
+            "Params": {
+              "Required": true
+            },
+            "TargetFields": [
+              "TotalScore",
+              "Grade"
+            ]
+          }
+        ]
+      },
+      "FieldSpecs": [
+        {
+          "BindField": "RowKey",
+          "Title": "系統識別碼",
+          "Component": "Input",
+          "Section": "SecExtra",
+          "Span": 24,
+          "Mode": "Hidden"
+        },
+        {
+          "BindField": "EntityID",
+          "Title": "系統實體",
+          "Component": "Input",
+          "Section": "SecExtra",
+          "Span": 12,
+          "Mode": "Hidden",
+          "DefaultValue": "hrm"
+        },
+        {
+          "BindField": "EvalNo",
+          "Title": "考評單號",
+          "Component": "Input",
+          "Section": "SecBase",
+          "Span": 12,
+          "Mode": "Editable",
+          "Validations": [
+            {
+              "Rule": "Required",
+              "Message": "考評單號為必填"
+            },
+            {
+              "Rule": "MaxLength",
+              "Value": 50,
+              "Message": "考評單號長度不可超過 50"
+            },
+            {
+              "Rule": "Unique",
+              "Message": "考評單號不可重複"
+            }
+          ],
+          "Props": {
+            "Placeholder": "如 EV-2026-A-0001"
+          }
+        },
+        {
+          "BindField": "EmpNo",
+          "Title": "受評員工",
+          "Component": "Select",
+          "Section": "SecBase",
+          "Span": 12,
+          "Mode": "Editable",
+          "Validations": [
+            {
+              "Rule": "Required",
+              "Message": "受評員工為必填"
+            }
+          ],
+          "Props": {
+            "OptionKey": "EmpNo"
+          }
+        },
+        {
+          "BindField": "ManagerEmpNo",
+          "Title": "評核主管",
+          "Component": "Select",
+          "Section": "SecBase",
+          "Span": 12,
+          "Mode": "Editable",
+          "Props": {
+            "OptionKey": "ManagerEmpNo"
+          }
+        },
+        {
+          "BindField": "DeptCode",
+          "Title": "受評時部門",
+          "Component": "Select",
+          "Section": "SecBase",
+          "Span": 12,
+          "Mode": "Editable",
+          "Props": {
+            "OptionKey": "DeptCode",
+            "Placeholder": "受評當下部門快照"
+          }
+        },
+        {
+          "BindField": "GradeLevel",
+          "Title": "受評時職等",
+          "Component": "Input",
+          "Section": "SecBase",
+          "Span": 12,
+          "Mode": "Editable",
+          "Props": {
+            "Placeholder": "職等快照，獎金級距用"
+          }
+        },
+        {
+          "BindField": "Status",
+          "Title": "資料狀態",
+          "Component": "Select",
+          "Section": "SecBase",
+          "Span": 12,
+          "Mode": "Editable",
+          "DefaultValue": "1",
+          "Validations": [
+            {
+              "Rule": "Required",
+              "Message": "資料狀態為必填"
+            }
+          ],
+          "Props": {
+            "OptionKey": "Status"
+          }
+        },
+        {
+          "BindField": "EvalYear",
+          "Title": "考評年度",
+          "Component": "InputNumber",
+          "Section": "SecPeriod",
+          "Span": 12,
+          "Mode": "Editable",
+          "DefaultValue": 2026,
+          "Validations": [
+            {
+              "Rule": "Required",
+              "Message": "考評年度為必填"
+            }
+          ],
+          "Props": {
+            "Min": 2000,
+            "Max": 2100
+          }
+        },
+        {
+          "BindField": "EvalRound",
+          "Title": "考評輪次",
+          "Component": "Select",
+          "Section": "SecPeriod",
+          "Span": 12,
+          "Mode": "Editable",
+          "DefaultValue": "Y",
+          "Validations": [
+            {
+              "Rule": "Required",
+              "Message": "考評輪次為必填"
+            }
+          ],
+          "Props": {
+            "OptionKey": "EvalRound"
+          }
+        },
+        {
+          "BindField": "TemplateCode",
+          "Title": "使用範本",
+          "Component": "Select",
+          "Section": "SecPeriod",
+          "Span": 12,
+          "Mode": "Editable",
+          "Validations": [
+            {
+              "Rule": "Required",
+              "Message": "使用範本為必填"
+            }
+          ],
+          "Props": {
+            "OptionKey": "TemplateCode"
+          }
+        },
+        {
+          "BindField": "TotalScore",
+          "Title": "總分",
+          "Component": "InputNumber",
+          "Section": "SecResult",
+          "Span": 12,
+          "Mode": "Editable",
+          "Props": {
+            "Min": 0,
+            "Max": 100,
+            "Placeholder": "核定時由系統計算"
+          }
+        },
+        {
+          "BindField": "Grade",
+          "Title": "評等",
+          "Component": "Select",
+          "Section": "SecResult",
+          "Span": 12,
+          "Mode": "Editable",
+          "Props": {
+            "OptionKey": "Grade"
+          }
+        },
+        {
+          "BindField": "BonusRuleCode",
+          "Title": "套用獎金規則",
+          "Component": "Select",
+          "Section": "SecResult",
+          "Span": 12,
+          "Mode": "Editable",
+          "Props": {
+            "OptionKey": "BonusRuleCode"
+          }
+        },
+        {
+          "BindField": "BonusAmount",
+          "Title": "獎金金額（機敏）",
+          "Component": "InputNumber",
+          "Section": "SecResult",
+          "Span": 12,
+          "Mode": "Editable",
+          "Props": {
+            "Min": 0,
+            "Placeholder": "機敏資料，應由應用層遮罩／加密"
+          }
+        },
+        {
+          "BindField": "DocStatus",
+          "Title": "簽核狀態",
+          "Component": "Select",
+          "Section": "SecFlow",
+          "Span": 12,
+          "Mode": "Editable",
+          "DefaultValue": "0",
+          "Validations": [
+            {
+              "Rule": "Required",
+              "Message": "簽核狀態為必填"
+            }
+          ],
+          "Props": {
+            "OptionKey": "DocStatus"
+          }
+        },
+        {
+          "BindField": "SelfSubmittedAt",
+          "Title": "自評提交時間",
+          "Component": "DatePicker",
+          "Section": "SecFlow",
+          "Span": 12,
+          "Mode": "Editable"
+        },
+        {
+          "BindField": "ManagerSubmittedAt",
+          "Title": "主管評提交時間",
+          "Component": "DatePicker",
+          "Section": "SecFlow",
+          "Span": 12,
+          "Mode": "Editable"
+        },
+        {
+          "BindField": "ApprovedAt",
+          "Title": "核准時間",
+          "Component": "DatePicker",
+          "Section": "SecFlow",
+          "Span": 12,
+          "Mode": "Editable"
+        },
+        {
+          "BindField": "ApprovedBy",
+          "Title": "核准者",
+          "Component": "Input",
+          "Section": "SecFlow",
+          "Span": 12,
+          "Mode": "Readonly"
+        },
+        {
+          "BindField": "InterviewNote",
+          "Title": "主管面談意見",
+          "Component": "TextArea",
+          "Section": "SecFlow",
+          "Span": 24,
+          "Mode": "Editable",
+          "Props": {
+            "Rows": 3
+          }
+        },
+        {
+          "BindField": "Priority",
+          "Title": "優先權",
+          "Component": "Select",
+          "Section": "SecExtra",
+          "Span": 12,
+          "Mode": "Editable",
+          "DefaultValue": "C",
+          "Props": {
+            "OptionKey": "Priority"
+          }
+        },
+        {
+          "BindField": "SortNo",
+          "Title": "顯示排序",
+          "Component": "Input",
+          "Section": "SecExtra",
+          "Span": 12,
+          "Mode": "Editable",
+          "DefaultValue": "C0000",
+          "Validations": [
+            {
+              "Rule": "MaxLength",
+              "Value": 5,
+              "Message": "排序編號長度不可超過 5"
+            }
+          ]
+        },
+        {
+          "BindField": "Description",
+          "Title": "備註說明",
+          "Component": "TextArea",
+          "Section": "SecExtra",
+          "Span": 24,
+          "Mode": "Editable",
+          "Props": {
+            "Rows": 3
+          }
+        },
+        {
+          "BindField": "CreatedBy",
+          "Title": "建立者",
+          "Component": "Input",
+          "Section": "SecExtra",
+          "Span": 12,
+          "Mode": "Readonly"
+        },
+        {
+          "BindField": "CreatedAt",
+          "Title": "建立時間",
+          "Component": "DatePicker",
+          "Section": "SecExtra",
+          "Span": 12,
+          "Mode": "Readonly"
+        },
+        {
+          "BindField": "UpdatedBy",
+          "Title": "更新者",
+          "Component": "Input",
+          "Section": "SecExtra",
+          "Span": 12,
+          "Mode": "Readonly"
+        },
+        {
+          "BindField": "UpdatedAt",
+          "Title": "更新時間",
+          "Component": "DatePicker",
+          "Section": "SecExtra",
+          "Span": 12,
+          "Mode": "Readonly"
+        }
+      ]
+    },
+    "DetailViews": [
+      {
+        "DetailID": "Score",
+        "Title": "評分明細",
+        "Icon": "ri-list-check-2",
+        "Entity": "hrmEvl_Dtl",
+        "RelationKey": "EvalNo",
+        "RowKey": "RowGuid",
+        "AllowAdd": true,
+        "AllowEdit": true,
+        "AllowDelete": true,
+        "EmptyText": "尚無評分明細（依範本項目逐項評分）",
+        "CodeSets": {},
+        "Columns": [
+          {
+            "BindField": "ItemCode",
+            "Title": "項目代碼",
+            "Width": 110,
+            "Align": "Left"
+          },
+          {
+            "BindField": "ItemName",
+            "Title": "項目名稱",
+            "Width": 160,
+            "Align": "Left"
+          },
+          {
+            "BindField": "ItemWeight",
+            "Title": "權重%",
+            "Width": 80,
+            "Align": "Center"
+          },
+          {
+            "BindField": "SelfScore",
+            "Title": "自評",
+            "Width": 80,
+            "Align": "Center"
+          },
+          {
+            "BindField": "ManagerScore",
+            "Title": "主管評",
+            "Width": 80,
+            "Align": "Center"
+          },
+          {
+            "BindField": "WeightedScore",
+            "Title": "加權分",
+            "Width": 90,
+            "Align": "Center"
+          }
+        ],
+        "FormFields": [
+          {
+            "BindField": "ItemCode",
+            "Title": "項目代碼",
+            "Component": "Input",
+            "Section": "",
+            "Span": 12,
+            "Mode": "Editable",
+            "Validations": [
+              {
+                "Rule": "Required",
+                "Message": "項目代碼為必填"
+              }
+            ]
+          },
+          {
+            "BindField": "ItemName",
+            "Title": "項目名稱",
+            "Component": "Input",
+            "Section": "",
+            "Span": 12,
+            "Mode": "Editable"
+          },
+          {
+            "BindField": "ItemWeight",
+            "Title": "項目權重 (%)",
+            "Component": "InputNumber",
+            "Section": "",
+            "Span": 12,
+            "Mode": "Editable"
+          },
+          {
+            "BindField": "MaxScore",
+            "Title": "項目滿分",
+            "Component": "InputNumber",
+            "Section": "",
+            "Span": 12,
+            "Mode": "Editable",
+            "DefaultValue": 100
+          },
+          {
+            "BindField": "SelfScore",
+            "Title": "自評分數",
+            "Component": "InputNumber",
+            "Section": "",
+            "Span": 12,
+            "Mode": "Editable"
+          },
+          {
+            "BindField": "SelfNote",
+            "Title": "自評說明",
+            "Component": "TextArea",
+            "Section": "",
+            "Span": 24,
+            "Mode": "Editable"
+          },
+          {
+            "BindField": "ManagerScore",
+            "Title": "主管評分",
+            "Component": "InputNumber",
+            "Section": "",
+            "Span": 12,
+            "Mode": "Editable"
+          },
+          {
+            "BindField": "ManagerNote",
+            "Title": "主管評說明",
+            "Component": "TextArea",
+            "Section": "",
+            "Span": 24,
+            "Mode": "Editable"
+          },
+          {
+            "BindField": "WeightedScore",
+            "Title": "加權分數",
+            "Component": "InputNumber",
+            "Section": "",
+            "Span": 12,
+            "Mode": "Editable",
+            "Props": {
+              "Placeholder": "核定時計算"
+            }
+          }
+        ],
+        "SeedData": [
+          {
+            "RowGuid": "ed-0001",
+            "EntityID": "hrm",
+            "Status": "1",
+            "EvalNo": "EV-2026-A-0001",
+            "TemplateCode": "TPL-ANN-2026",
+            "ItemCode": "PERF",
+            "ItemName": "工作績效",
+            "ItemWeight": 40,
+            "MaxScore": 100,
+            "SelfScore": 88,
+            "ManagerScore": 85,
+            "WeightedScore": 34.0,
+            "SelfNote": "達成全年目標",
+            "ManagerNote": "表現穩定"
+          },
+          {
+            "RowGuid": "ed-0002",
+            "EntityID": "hrm",
+            "Status": "1",
+            "EvalNo": "EV-2026-A-0001",
+            "TemplateCode": "TPL-ANN-2026",
+            "ItemCode": "ATTI",
+            "ItemName": "工作態度",
+            "ItemWeight": 20,
+            "MaxScore": 100,
+            "SelfScore": 90,
+            "ManagerScore": 92,
+            "WeightedScore": 18.4,
+            "SelfNote": "",
+            "ManagerNote": "主動積極"
+          },
+          {
+            "RowGuid": "ed-0003",
+            "EntityID": "hrm",
+            "Status": "1",
+            "EvalNo": "EV-2026-A-0001",
+            "TemplateCode": "TPL-ANN-2026",
+            "ItemCode": "PROF",
+            "ItemName": "專業能力",
+            "ItemWeight": 25,
+            "MaxScore": 100,
+            "SelfScore": 85,
+            "ManagerScore": 88,
+            "WeightedScore": 22.0,
+            "SelfNote": "",
+            "ManagerNote": ""
+          },
+          {
+            "RowGuid": "ed-0004",
+            "EntityID": "hrm",
+            "Status": "1",
+            "EvalNo": "EV-2026-A-0001",
+            "TemplateCode": "TPL-ANN-2026",
+            "ItemCode": "TEAM",
+            "ItemName": "團隊合作",
+            "ItemWeight": 15,
+            "MaxScore": 100,
+            "SelfScore": 92,
+            "ManagerScore": 90,
+            "WeightedScore": 13.5,
+            "SelfNote": "",
+            "ManagerNote": ""
+          }
+        ]
+      }
+    ]
+  },
+  "Features": {
+    "ImportSpec": {
+      "ImportColumns": [
+        {
+          "FieldID": "EvalNo",
+          "ExcelHeader": "考評單號",
+          "DataType": "String",
+          "Required": true,
+          "MaxLength": 50
+        },
+        {
+          "FieldID": "EmpNo",
+          "ExcelHeader": "受評員工工號",
+          "DataType": "String",
+          "Required": true,
+          "MaxLength": 50,
+          "OptionKey": "EmpNo"
+        },
+        {
+          "FieldID": "ManagerEmpNo",
+          "ExcelHeader": "評核主管工號",
+          "DataType": "String",
+          "Required": false,
+          "MaxLength": 50,
+          "OptionKey": "ManagerEmpNo"
+        },
+        {
+          "FieldID": "EvalYear",
+          "ExcelHeader": "考評年度",
+          "DataType": "Number",
+          "Required": true
+        },
+        {
+          "FieldID": "EvalRound",
+          "ExcelHeader": "考評輪次",
+          "DataType": "String",
+          "Required": true,
+          "MaxLength": 20,
+          "OptionKey": "EvalRound"
+        },
+        {
+          "FieldID": "TemplateCode",
+          "ExcelHeader": "使用範本",
+          "DataType": "String",
+          "Required": true,
+          "MaxLength": 50,
+          "OptionKey": "TemplateCode"
+        }
+      ],
+      "ImportRules": {
+        "DuplicateAction": "Update",
+        "MaxRowCount": 5000,
+        "AtomicImport": true
+      },
+      "TemplateMeta": {
+        "FileName": "考評單匯入樣板",
+        "SheetName": "考評單",
+        "HeaderColor": "#D9E8FB",
+        "Instructions": [
+          "1. 考評單號為必填且不可重複。",
+          "2. 同一員工於同年度同輪次僅能有一張考評單。",
+          "3. 受評員工工號須為已存在之員工 (hrmEmp)；使用範本須為已存在之考評範本。",
+          "4. 總分、評等、獎金金額為核定階段由系統計算，匯入時請留空。"
+        ]
+      }
+    },
+    "ExportSpec": {
+      "ExportColumns": [
+        {
+          "DataKey": "EvalNo",
+          "Header": "考評單號",
+          "Width": 18
+        },
+        {
+          "DataKey": "EmpNo",
+          "Header": "受評員工",
+          "Width": 18,
+          "Format": "CodeName:EmpNo"
+        },
+        {
+          "DataKey": "DeptCode",
+          "Header": "受評部門",
+          "Width": 14,
+          "Format": "CodeName:DeptCode"
+        },
+        {
+          "DataKey": "EvalYear",
+          "Header": "年度",
+          "Width": 8
+        },
+        {
+          "DataKey": "EvalRound",
+          "Header": "輪次",
+          "Width": 10,
+          "Format": "CodeName:EvalRound"
+        },
+        {
+          "DataKey": "TotalScore",
+          "Header": "總分",
+          "Width": 8
+        },
+        {
+          "DataKey": "Grade",
+          "Header": "評等",
+          "Width": 8,
+          "Format": "CodeName:Grade"
+        },
+        {
+          "DataKey": "DocStatus",
+          "Header": "簽核狀態",
+          "Width": 12,
+          "Format": "CodeName:DocStatus"
+        }
+      ],
+      "ExportRules": {
+        "MaxDownloadRows": 50000,
+        "AllowFullExport": true,
+        "AppendQuerySummary": true
+      }
+    }
+  },
+  "DataScope": {
+    "DefaultWhere": "EntityID = 'hrm' AND Status = '1'",
+    "AuthLevel": 4,
+    "SortExp": "EvalYear DESC, EvalNo ASC",
+    "DataConfig": {
+      "RowLimit": 5000,
+      "AllowExport": true
+    }
+  },
+  "CustomMeta": {
+    "CustomSchema": {
+      "WidgetType": "Grid",
+      "KeyField": "EvalNo",
+      "TitleField": "EvalNo",
+      "ParentKeyField": null,
+      "PathField": null,
+      "PathSeparator": "/"
+    },
+    "BusinessRules": {
+      "BusinessValidation": [
+        {
+          "Field": "EvalNo",
+          "Rule": "Unique",
+          "Message": "考評單號不可重複"
+        }
+      ],
+      "SensitiveFields": [
+        "BonusAmount"
+      ]
+    }
+  },
+  "SeedData": [
+    {
+      "RowGuid": "e3000000-0000-0000-0000-000000000001",
+      "EntityID": "hrm",
+      "Status": "1",
+      "EvalNo": "EV-2026-A-0001",
+      "EmpNo": "E005",
+      "ManagerEmpNo": "E004",
+      "DeptCode": "D131",
+      "GradeLevel": "T3",
+      "EvalYear": 2026,
+      "EvalRound": "Y",
+      "TemplateCode": "TPL-ANN-2026",
+      "TotalScore": 87.9,
+      "Grade": "B",
+      "BonusRuleCode": "BNS-2026-STD",
+      "BonusAmount": 124000,
+      "DocStatus": "2",
+      "SelfSubmittedAt": "2026-01-15 10:00",
+      "ManagerSubmittedAt": "2026-01-20 14:00",
+      "ApprovedAt": "2026-01-25 09:00",
+      "ApprovedBy": "linda.hr",
+      "InterviewNote": "建議培養跨團隊領導經驗",
+      "Priority": "B",
+      "SortNo": "C0001",
+      "Description": "",
+      "CreatedBy": "system",
+      "CreatedAt": "2026-01-10 09:00",
+      "UpdatedBy": "linda.hr",
+      "UpdatedAt": "2026-01-25 09:00"
+    },
+    {
+      "RowGuid": "e3000000-0000-0000-0000-000000000002",
+      "EntityID": "hrm",
+      "Status": "1",
+      "EvalNo": "EV-2026-A-0002",
+      "EmpNo": "E008",
+      "ManagerEmpNo": "E001",
+      "DeptCode": "D300",
+      "GradeLevel": "T3",
+      "EvalYear": 2026,
+      "EvalRound": "Y",
+      "TemplateCode": "TPL-ANN-2026",
+      "TotalScore": null,
+      "Grade": null,
+      "BonusRuleCode": null,
+      "BonusAmount": null,
+      "DocStatus": "1",
+      "SelfSubmittedAt": "2026-01-16 11:00",
+      "ManagerSubmittedAt": null,
+      "ApprovedAt": null,
+      "ApprovedBy": null,
+      "InterviewNote": "",
+      "Priority": "C",
+      "SortNo": "C0002",
+      "Description": "主管評分中",
+      "CreatedBy": "system",
+      "CreatedAt": "2026-01-10 09:05",
+      "UpdatedBy": "system",
+      "UpdatedAt": "2026-01-16 11:00"
+    },
+    {
+      "RowGuid": "e3000000-0000-0000-0000-000000000003",
+      "EntityID": "hrm",
+      "Status": "1",
+      "EvalNo": "EV-2026-P-0001",
+      "EmpNo": "E006",
+      "ManagerEmpNo": "E004",
+      "DeptCode": "D132",
+      "GradeLevel": "T2",
+      "EvalYear": 2026,
+      "EvalRound": "PROB",
+      "TemplateCode": "TPL-PROB",
+      "TotalScore": null,
+      "Grade": null,
+      "BonusRuleCode": null,
+      "BonusAmount": null,
+      "DocStatus": "0",
+      "SelfSubmittedAt": null,
+      "ManagerSubmittedAt": null,
+      "ApprovedAt": null,
+      "ApprovedBy": null,
+      "InterviewNote": "",
+      "Priority": "B",
+      "SortNo": "C0003",
+      "Description": "試用期考評草稿",
+      "CreatedBy": "system",
+      "CreatedAt": "2026-02-01 09:00",
+      "UpdatedBy": "system",
+      "UpdatedAt": "2026-02-01 09:00"
+    }
+  ]
+}

@@ -1,0 +1,812 @@
+{
+  "EntityID": "hrm",
+  "SystemCode": "MUEIP",
+  "ModuleCode": "HRM",
+  "FuncCode": "hrmEvl_Bns",
+  "ConfigHash": "sha256:b2c3d4e5f6071829a3b4c5d6e7f8091a2b3c4d5e6f70819a2b3c4d5e6f70819a",
+  "PageMeta": {
+    "PageTitle": "考評獎金級距維護",
+    "Lang": "zh-TW",
+    "FormType": "ListForm",
+    "EditDisplayType": "Drawer",
+    "Breadcrumb": [
+      {
+        "Title": "首頁",
+        "Path": "/"
+      },
+      {
+        "Title": "考評資料",
+        "Path": null
+      },
+      {
+        "Title": "考評獎金級距維護",
+        "Path": "/hrm/eval/bonus"
+      }
+    ],
+    "IsApproval": false,
+    "TenantLocked": false,
+    "Icon": "ri-coins-line",
+    "Remark": "考評獎金級距（規則表）；依考評等級與職等區間定義獎金月數／固定金額／上限。"
+  },
+  "Resources": {
+    "CodeSets": {
+      "Status": [
+        {
+          "CodeID": "1",
+          "CodeName": "啟用",
+          "IsDefault": true
+        },
+        {
+          "CodeID": "0",
+          "CodeName": "停用"
+        }
+      ],
+      "Priority": [
+        {
+          "CodeID": "A",
+          "CodeName": "高"
+        },
+        {
+          "CodeID": "B",
+          "CodeName": "中"
+        },
+        {
+          "CodeID": "C",
+          "CodeName": "低",
+          "IsDefault": true
+        }
+      ],
+      "Grade": [
+        {
+          "CodeID": "A",
+          "CodeName": "A — 優異"
+        },
+        {
+          "CodeID": "B",
+          "CodeName": "B — 良好"
+        },
+        {
+          "CodeID": "C",
+          "CodeName": "C — 符合期望"
+        },
+        {
+          "CodeID": "D",
+          "CodeName": "D — 待加強"
+        },
+        {
+          "CodeID": "E",
+          "CodeName": "E — 不適任"
+        }
+      ]
+    },
+    "FeatureFlags": {
+      "IsReadOnly": false,
+      "EnableDraft": false,
+      "EnableBatchDelete": true,
+      "AutoRefreshInterval": 0,
+      "DefaultViewMode": "Table",
+      "RequireConfirmOnSave": true
+    }
+  },
+  "AllowAction": {
+    "DataActions": [
+      {
+        "ActionID": "Add",
+        "Label": "新增",
+        "Icon": "ri-add-line",
+        "Type": "Primary",
+        "Position": "Toolbar",
+        "Confirm": null
+      },
+      {
+        "ActionID": "Save",
+        "Label": "儲存",
+        "Icon": "ri-save-line",
+        "Type": "Primary",
+        "Position": "Toolbar",
+        "Confirm": null
+      },
+      {
+        "ActionID": "Delete",
+        "Label": "刪除",
+        "Icon": "ri-delete-bin-line",
+        "Type": "Danger",
+        "Position": "Both",
+        "Confirm": "刪除（停用）此獎金級距，確定要執行嗎？"
+      },
+      {
+        "ActionID": "Query",
+        "Label": "查詢",
+        "Icon": "ri-search-line",
+        "Type": "Default",
+        "Position": "Toolbar",
+        "Confirm": null
+      }
+    ],
+    "ExtensionActions": [
+      {
+        "ActionID": "Import",
+        "Label": "匯入",
+        "Icon": "ri-upload-2-line",
+        "Type": "Default",
+        "Position": "Toolbar",
+        "Confirm": null
+      },
+      {
+        "ActionID": "Export",
+        "Label": "匯出",
+        "Icon": "ri-file-excel-line",
+        "Type": "Default",
+        "Position": "Toolbar",
+        "Confirm": null
+      }
+    ]
+  },
+  "View": {
+    "RowKey": "RowGuid",
+    "ListView": {
+      "ListSpec": {
+        "RowKey": "RowGuid",
+        "SelectMode": "Single",
+        "FixedColumns": [
+          "Action",
+          "No"
+        ],
+        "RowActionMode": "Menu",
+        "ShowRowNo": true,
+        "Pagination": {
+          "PageSize": 100,
+          "SizeOptions": [
+            50,
+            100,
+            200,
+            500
+          ],
+          "ShowJumper": false,
+          "FullPageScroll": true
+        },
+        "DefaultSort": {
+          "Field": "SortNo",
+          "Order": "asc"
+        },
+        "EmptyText": "目前查無獎金級距資料",
+        "GridBordered": true
+      },
+      "FieldSpecs": [
+        {
+          "BindField": "BonusRuleName",
+          "Title": "規則名稱",
+          "Width": 220,
+          "Align": "Left",
+          "Fixed": "Left",
+          "Formatter": "Link",
+          "Sorter": true,
+          "DefaultVisible": true
+        },
+        {
+          "BindField": "BonusRuleCode",
+          "Title": "規則代碼",
+          "Width": 150,
+          "Align": "Left",
+          "Fixed": "Left",
+          "Formatter": "Link",
+          "Sorter": true,
+          "DefaultVisible": true
+        },
+        {
+          "BindField": "EffectiveYear",
+          "Title": "適用年度",
+          "Width": 100,
+          "Align": "Center",
+          "Sorter": true,
+          "DefaultVisible": true
+        },
+        {
+          "BindField": "Grade",
+          "Title": "考評等級",
+          "Width": 110,
+          "Align": "Center",
+          "Formatter": "Tag",
+          "DefaultVisible": true
+        },
+        {
+          "BindField": "GradeFromLevel",
+          "Title": "職等下限",
+          "Width": 100,
+          "Align": "Center",
+          "DefaultVisible": true
+        },
+        {
+          "BindField": "GradeToLevel",
+          "Title": "職等上限",
+          "Width": 100,
+          "Align": "Center",
+          "DefaultVisible": true
+        },
+        {
+          "BindField": "BonusMonths",
+          "Title": "獎金月數",
+          "Width": 100,
+          "Align": "Center",
+          "DefaultVisible": true
+        },
+        {
+          "BindField": "FixedAmount",
+          "Title": "固定金額",
+          "Width": 120,
+          "Align": "Center",
+          "DefaultVisible": true
+        },
+        {
+          "BindField": "CapAmount",
+          "Title": "獎金上限",
+          "Width": 120,
+          "Align": "Center",
+          "DefaultVisible": false
+        },
+        {
+          "BindField": "Status",
+          "Title": "狀態",
+          "Width": 90,
+          "Align": "Center",
+          "Formatter": "StatusTag",
+          "DefaultVisible": true
+        },
+        {
+          "BindField": "UpdatedAt",
+          "Title": "更新時間",
+          "Width": 160,
+          "Align": "Center",
+          "Formatter": "DateTime",
+          "Sorter": true,
+          "DefaultVisible": false
+        }
+      ]
+    },
+    "FormView": {
+      "FormSpec": {
+        "RowKey": "RowGuid",
+        "Layout": "Horizontal",
+        "Sections": [
+          {
+            "SectionID": "SecBase",
+            "Type": "Card",
+            "Title": "規則基本資料",
+            "IsCollapsible": false,
+            "DefaultOpen": true,
+            "Icon": "ri-file-list-3-line"
+          },
+          {
+            "SectionID": "SecBonus",
+            "Type": "Card",
+            "Title": "獎金設定",
+            "IsCollapsible": false,
+            "DefaultOpen": true,
+            "Icon": "ri-money-dollar-circle-line"
+          },
+          {
+            "SectionID": "SecExtra",
+            "Type": "Card",
+            "Title": "其他與系統",
+            "IsCollapsible": true,
+            "DefaultOpen": false,
+            "Icon": "ri-settings-4-line"
+          }
+        ],
+        "FormLogic": []
+      },
+      "FieldSpecs": [
+        {
+          "BindField": "RowKey",
+          "Title": "系統識別碼",
+          "Component": "Input",
+          "Section": "SecExtra",
+          "Span": 24,
+          "Mode": "Hidden"
+        },
+        {
+          "BindField": "EntityID",
+          "Title": "系統實體",
+          "Component": "Input",
+          "Section": "SecExtra",
+          "Span": 12,
+          "Mode": "Hidden",
+          "DefaultValue": "hrm"
+        },
+        {
+          "BindField": "BonusRuleCode",
+          "Title": "獎金規則代碼",
+          "Component": "Input",
+          "Section": "SecBase",
+          "Span": 12,
+          "Mode": "Editable",
+          "Validations": [
+            {
+              "Rule": "Required",
+              "Message": "獎金規則代碼為必填"
+            },
+            {
+              "Rule": "MaxLength",
+              "Value": 50,
+              "Message": "規則代碼長度不可超過 50"
+            }
+          ]
+        },
+        {
+          "BindField": "BonusRuleName",
+          "Title": "規則名稱",
+          "Component": "Input",
+          "Section": "SecBase",
+          "Span": 12,
+          "Mode": "Editable",
+          "Validations": [
+            {
+              "Rule": "Required",
+              "Message": "規則名稱為必填"
+            },
+            {
+              "Rule": "MaxLength",
+              "Value": 200,
+              "Message": "規則名稱長度不可超過 200"
+            }
+          ]
+        },
+        {
+          "BindField": "EffectiveYear",
+          "Title": "適用年度",
+          "Component": "InputNumber",
+          "Section": "SecBase",
+          "Span": 12,
+          "Mode": "Editable",
+          "DefaultValue": 2026,
+          "Validations": [
+            {
+              "Rule": "Required",
+              "Message": "適用年度為必填"
+            }
+          ],
+          "Props": {
+            "Min": 2000,
+            "Max": 2100
+          }
+        },
+        {
+          "BindField": "Grade",
+          "Title": "考評等級",
+          "Component": "Select",
+          "Section": "SecBase",
+          "Span": 12,
+          "Mode": "Editable",
+          "Validations": [
+            {
+              "Rule": "Required",
+              "Message": "考評等級為必填"
+            }
+          ],
+          "Props": {
+            "OptionKey": "Grade"
+          }
+        },
+        {
+          "BindField": "GradeFromLevel",
+          "Title": "適用職等下限",
+          "Component": "Input",
+          "Section": "SecBase",
+          "Span": 12,
+          "Mode": "Editable",
+          "Props": {
+            "Placeholder": "留空＝不限"
+          }
+        },
+        {
+          "BindField": "GradeToLevel",
+          "Title": "適用職等上限",
+          "Component": "Input",
+          "Section": "SecBase",
+          "Span": 12,
+          "Mode": "Editable",
+          "Props": {
+            "Placeholder": "留空＝不限"
+          }
+        },
+        {
+          "BindField": "Status",
+          "Title": "資料狀態",
+          "Component": "Select",
+          "Section": "SecBase",
+          "Span": 12,
+          "Mode": "Editable",
+          "DefaultValue": "1",
+          "Validations": [
+            {
+              "Rule": "Required",
+              "Message": "資料狀態為必填"
+            }
+          ],
+          "Props": {
+            "OptionKey": "Status"
+          }
+        },
+        {
+          "BindField": "BonusMonths",
+          "Title": "獎金月數 (×底薪)",
+          "Component": "InputNumber",
+          "Section": "SecBonus",
+          "Span": 12,
+          "Mode": "Editable",
+          "DefaultValue": 0,
+          "Validations": [
+            {
+              "Rule": "Range",
+              "Min": 0,
+              "Max": 99,
+              "Message": "月數須介於 0 ~ 99"
+            }
+          ],
+          "Props": {
+            "Min": 0,
+            "Placeholder": "可與固定金額擇一或併用"
+          }
+        },
+        {
+          "BindField": "FixedAmount",
+          "Title": "固定金額",
+          "Component": "InputNumber",
+          "Section": "SecBonus",
+          "Span": 12,
+          "Mode": "Editable",
+          "DefaultValue": 0,
+          "Validations": [
+            {
+              "Rule": "Range",
+              "Min": 0,
+              "Max": 99999999,
+              "Message": "金額不可為負"
+            }
+          ],
+          "Props": {
+            "Min": 0
+          }
+        },
+        {
+          "BindField": "CapAmount",
+          "Title": "獎金上限",
+          "Component": "InputNumber",
+          "Section": "SecBonus",
+          "Span": 12,
+          "Mode": "Editable",
+          "Props": {
+            "Min": 0,
+            "Placeholder": "留空＝無上限"
+          }
+        },
+        {
+          "BindField": "Priority",
+          "Title": "優先權",
+          "Component": "Select",
+          "Section": "SecExtra",
+          "Span": 12,
+          "Mode": "Editable",
+          "DefaultValue": "C",
+          "Props": {
+            "OptionKey": "Priority"
+          }
+        },
+        {
+          "BindField": "SortNo",
+          "Title": "顯示排序",
+          "Component": "Input",
+          "Section": "SecExtra",
+          "Span": 12,
+          "Mode": "Editable",
+          "DefaultValue": "C0000",
+          "Validations": [
+            {
+              "Rule": "MaxLength",
+              "Value": 5,
+              "Message": "排序編號長度不可超過 5"
+            }
+          ]
+        },
+        {
+          "BindField": "Description",
+          "Title": "備註說明",
+          "Component": "TextArea",
+          "Section": "SecExtra",
+          "Span": 24,
+          "Mode": "Editable",
+          "Props": {
+            "Rows": 3
+          }
+        },
+        {
+          "BindField": "CreatedBy",
+          "Title": "建立者",
+          "Component": "Input",
+          "Section": "SecExtra",
+          "Span": 12,
+          "Mode": "Readonly"
+        },
+        {
+          "BindField": "CreatedAt",
+          "Title": "建立時間",
+          "Component": "DatePicker",
+          "Section": "SecExtra",
+          "Span": 12,
+          "Mode": "Readonly"
+        },
+        {
+          "BindField": "UpdatedBy",
+          "Title": "更新者",
+          "Component": "Input",
+          "Section": "SecExtra",
+          "Span": 12,
+          "Mode": "Readonly"
+        },
+        {
+          "BindField": "UpdatedAt",
+          "Title": "更新時間",
+          "Component": "DatePicker",
+          "Section": "SecExtra",
+          "Span": 12,
+          "Mode": "Readonly"
+        }
+      ]
+    }
+  },
+  "Features": {
+    "ImportSpec": {
+      "ImportColumns": [
+        {
+          "FieldID": "BonusRuleCode",
+          "ExcelHeader": "規則代碼",
+          "DataType": "String",
+          "Required": true,
+          "MaxLength": 50
+        },
+        {
+          "FieldID": "BonusRuleName",
+          "ExcelHeader": "規則名稱",
+          "DataType": "String",
+          "Required": true,
+          "MaxLength": 200
+        },
+        {
+          "FieldID": "EffectiveYear",
+          "ExcelHeader": "適用年度",
+          "DataType": "Number",
+          "Required": true
+        },
+        {
+          "FieldID": "Grade",
+          "ExcelHeader": "考評等級",
+          "DataType": "String",
+          "Required": true,
+          "MaxLength": 1,
+          "OptionKey": "Grade"
+        },
+        {
+          "FieldID": "GradeFromLevel",
+          "ExcelHeader": "職等下限",
+          "DataType": "String",
+          "Required": false,
+          "MaxLength": 20
+        },
+        {
+          "FieldID": "GradeToLevel",
+          "ExcelHeader": "職等上限",
+          "DataType": "String",
+          "Required": false,
+          "MaxLength": 20
+        },
+        {
+          "FieldID": "BonusMonths",
+          "ExcelHeader": "獎金月數",
+          "DataType": "Number",
+          "Required": false
+        },
+        {
+          "FieldID": "FixedAmount",
+          "ExcelHeader": "固定金額",
+          "DataType": "Number",
+          "Required": false
+        },
+        {
+          "FieldID": "CapAmount",
+          "ExcelHeader": "獎金上限",
+          "DataType": "Number",
+          "Required": false
+        }
+      ],
+      "ImportRules": {
+        "DuplicateAction": "Update",
+        "MaxRowCount": 2000,
+        "AtomicImport": true
+      },
+      "TemplateMeta": {
+        "FileName": "考評獎金級距匯入樣板",
+        "SheetName": "獎金級距",
+        "HeaderColor": "#FFE9C7",
+        "Instructions": [
+          "1. 規則代碼 + 考評等級 + 職等下限 構成唯一鍵，不可重複。",
+          "2. 考評等級請輸入字典值：A / B / C / D / E。",
+          "3. 職等下限／上限可留空代表不限；獎金月數與固定金額可擇一或併用。"
+        ]
+      }
+    },
+    "ExportSpec": {
+      "ExportColumns": [
+        {
+          "DataKey": "BonusRuleCode",
+          "Header": "規則代碼",
+          "Width": 18
+        },
+        {
+          "DataKey": "BonusRuleName",
+          "Header": "規則名稱",
+          "Width": 28
+        },
+        {
+          "DataKey": "EffectiveYear",
+          "Header": "適用年度",
+          "Width": 12
+        },
+        {
+          "DataKey": "Grade",
+          "Header": "考評等級",
+          "Width": 12,
+          "Format": "CodeName:Grade"
+        },
+        {
+          "DataKey": "GradeFromLevel",
+          "Header": "職等下限",
+          "Width": 12
+        },
+        {
+          "DataKey": "GradeToLevel",
+          "Header": "職等上限",
+          "Width": 12
+        },
+        {
+          "DataKey": "BonusMonths",
+          "Header": "獎金月數",
+          "Width": 12
+        },
+        {
+          "DataKey": "FixedAmount",
+          "Header": "固定金額",
+          "Width": 14
+        },
+        {
+          "DataKey": "CapAmount",
+          "Header": "獎金上限",
+          "Width": 14
+        },
+        {
+          "DataKey": "Status",
+          "Header": "狀態",
+          "Width": 10,
+          "Format": "CodeName:Status"
+        }
+      ],
+      "ExportRules": {
+        "MaxDownloadRows": 50000,
+        "AllowFullExport": true,
+        "AppendQuerySummary": true
+      }
+    }
+  },
+  "DataScope": {
+    "DefaultWhere": "EntityID = 'hrm' AND Status = '1'",
+    "AuthLevel": 3,
+    "SortExp": "SortNo ASC, BonusRuleCode ASC, Grade ASC",
+    "DataConfig": {
+      "RowLimit": 2000,
+      "AllowExport": true
+    }
+  },
+  "CustomMeta": {
+    "CustomSchema": {
+      "WidgetType": "Grid",
+      "KeyField": "BonusRuleCode",
+      "TitleField": "BonusRuleName",
+      "ParentKeyField": null,
+      "PathField": null,
+      "PathSeparator": "/"
+    },
+    "BusinessRules": {
+      "BusinessValidation": [],
+      "SensitiveFields": [
+        "BonusMonths",
+        "FixedAmount",
+        "CapAmount"
+      ]
+    }
+  },
+  "SeedData": [
+    {
+      "RowGuid": "e2000000-0000-0000-0000-000000000001",
+      "EntityID": "hrm",
+      "Status": "1",
+      "BonusRuleCode": "BNS-2026-STD",
+      "BonusRuleName": "2026 標準獎金規則",
+      "EffectiveYear": 2026,
+      "Grade": "A",
+      "GradeFromLevel": null,
+      "GradeToLevel": null,
+      "BonusMonths": 3,
+      "FixedAmount": 0,
+      "CapAmount": null,
+      "Priority": "A",
+      "SortNo": "C0001",
+      "Description": "A 級全職等適用",
+      "CreatedBy": "system",
+      "CreatedAt": "2026-01-02 09:00",
+      "UpdatedBy": "linda.hr",
+      "UpdatedAt": "2026-01-10 10:00"
+    },
+    {
+      "RowGuid": "e2000000-0000-0000-0000-000000000002",
+      "EntityID": "hrm",
+      "Status": "1",
+      "BonusRuleCode": "BNS-2026-STD",
+      "BonusRuleName": "2026 標準獎金規則",
+      "EffectiveYear": 2026,
+      "Grade": "B",
+      "GradeFromLevel": null,
+      "GradeToLevel": null,
+      "BonusMonths": 2,
+      "FixedAmount": 0,
+      "CapAmount": null,
+      "Priority": "B",
+      "SortNo": "C0002",
+      "Description": "B 級全職等適用",
+      "CreatedBy": "system",
+      "CreatedAt": "2026-01-02 09:01",
+      "UpdatedBy": "linda.hr",
+      "UpdatedAt": "2026-01-10 10:00"
+    },
+    {
+      "RowGuid": "e2000000-0000-0000-0000-000000000003",
+      "EntityID": "hrm",
+      "Status": "1",
+      "BonusRuleCode": "BNS-2026-STD",
+      "BonusRuleName": "2026 標準獎金規則",
+      "EffectiveYear": 2026,
+      "Grade": "C",
+      "GradeFromLevel": null,
+      "GradeToLevel": null,
+      "BonusMonths": 1,
+      "FixedAmount": 0,
+      "CapAmount": null,
+      "Priority": "C",
+      "SortNo": "C0003",
+      "Description": "C 級全職等適用",
+      "CreatedBy": "system",
+      "CreatedAt": "2026-01-02 09:02",
+      "UpdatedBy": "linda.hr",
+      "UpdatedAt": "2026-01-10 10:00"
+    },
+    {
+      "RowGuid": "e2000000-0000-0000-0000-000000000004",
+      "EntityID": "hrm",
+      "Status": "1",
+      "BonusRuleCode": "BNS-2026-MGR",
+      "BonusRuleName": "2026 主管加碼規則",
+      "EffectiveYear": 2026,
+      "Grade": "A",
+      "GradeFromLevel": "S1",
+      "GradeToLevel": "S4",
+      "BonusMonths": 4,
+      "FixedAmount": 50000,
+      "CapAmount": 1000000,
+      "Priority": "A",
+      "SortNo": "C0004",
+      "Description": "課長以上 A 級主管加碼",
+      "CreatedBy": "system",
+      "CreatedAt": "2026-01-02 09:03",
+      "UpdatedBy": "linda.hr",
+      "UpdatedAt": "2026-01-10 10:00"
+    }
+  ]
+}

@@ -1,0 +1,573 @@
+{
+  "EntityID": "hrm",
+  "SystemCode": "MUEIP",
+  "ModuleCode": "HRM",
+  "FuncCode": "hrmEvalRate",
+  "ConfigHash": "sha256:b04r0000000000000000000000000000000000000000000000000000000003",
+  "PageMeta": {
+    "PageTitle": "考評換算率設定",
+    "Lang": "zh-TW",
+    "FormType": "ListForm",
+    "EditDisplayType": "Drawer",
+    "Breadcrumb": [
+      {
+        "Title": "首頁",
+        "Path": "/"
+      },
+      {
+        "Title": "考評管理",
+        "Path": null
+      },
+      {
+        "Title": "考評換算率設定",
+        "Path": "/hrm/eval/rate"
+      }
+    ],
+    "IsApproval": false,
+    "TenantLocked": false,
+    "Icon": "ri-exchange-dollar-line",
+    "Remark": "每積分換算金額,依年度×考評週期設定;歷史換算率保留不刪,確保獎金計算依據可追溯。"
+  },
+  "Resources": {
+    "CodeSets": {
+      "Status": [
+        {
+          "CodeID": "1",
+          "CodeName": "啟用",
+          "IsDefault": true
+        },
+        {
+          "CodeID": "0",
+          "CodeName": "停用"
+        }
+      ],
+      "Priority": [
+        {
+          "CodeID": "A",
+          "CodeName": "高"
+        },
+        {
+          "CodeID": "B",
+          "CodeName": "中"
+        },
+        {
+          "CodeID": "C",
+          "CodeName": "低",
+          "IsDefault": true
+        }
+      ],
+      "EvalRound": [
+        {
+          "CodeID": "Y",
+          "CodeName": "年度",
+          "IsDefault": true
+        },
+        {
+          "CodeID": "H1",
+          "CodeName": "上半年"
+        },
+        {
+          "CodeID": "H2",
+          "CodeName": "下半年"
+        },
+        {
+          "CodeID": "PROB",
+          "CodeName": "試用期滿"
+        },
+        {
+          "CodeID": "PRJ",
+          "CodeName": "專案"
+        }
+      ]
+    },
+    "FeatureFlags": {
+      "IsReadOnly": false,
+      "EnableDraft": false,
+      "EnableBatchDelete": true,
+      "AutoRefreshInterval": 0,
+      "DefaultViewMode": "Table",
+      "RequireConfirmOnSave": true
+    }
+  },
+  "AllowAction": {
+    "DataActions": [
+      {
+        "ActionID": "Add",
+        "Label": "新增",
+        "Icon": "ri-add-line",
+        "Type": "Primary",
+        "Position": "Toolbar",
+        "Confirm": null
+      },
+      {
+        "ActionID": "Save",
+        "Label": "儲存",
+        "Icon": "ri-save-line",
+        "Type": "Primary",
+        "Position": "Toolbar",
+        "Confirm": null
+      },
+      {
+        "ActionID": "Delete",
+        "Label": "刪除",
+        "Icon": "ri-delete-bin-line",
+        "Type": "Danger",
+        "Position": "Both",
+        "Confirm": "停用此換算率,確定執行?"
+      },
+      {
+        "ActionID": "Query",
+        "Label": "查詢",
+        "Icon": "ri-search-line",
+        "Type": "Default",
+        "Position": "Toolbar",
+        "Confirm": null
+      }
+    ],
+    "ExtensionActions": [
+      {
+        "ActionID": "Import",
+        "Label": "匯入",
+        "Icon": "ri-upload-2-line",
+        "Type": "Default",
+        "Position": "Toolbar",
+        "Confirm": null
+      },
+      {
+        "ActionID": "Export",
+        "Label": "匯出",
+        "Icon": "ri-file-excel-line",
+        "Type": "Default",
+        "Position": "Toolbar",
+        "Confirm": null
+      }
+    ]
+  },
+  "View": {
+    "RowKey": "RowGuid",
+    "ListView": {
+      "ListSpec": {
+        "RowKey": "RowGuid",
+        "SelectMode": "Single",
+        "FixedColumns": [
+          "Action",
+          "No"
+        ],
+        "RowActionMode": "Menu",
+        "ShowRowNo": true,
+        "Pagination": {
+          "PageSize": 100,
+          "SizeOptions": [
+            50,
+            100,
+            200,
+            500
+          ],
+          "ShowJumper": false,
+          "FullPageScroll": true
+        },
+        "DefaultSort": {
+          "Field": "SortNo",
+          "Order": "asc"
+        },
+        "EmptyText": "目前查無換算率設定",
+        "GridBordered": true
+      },
+      "FieldSpecs": [
+        {
+          "BindField": "EffectiveYear",
+          "Title": "年度",
+          "Width": 90,
+          "Align": "Center",
+          "Fixed": "Left",
+          "Sorter": true,
+          "DefaultVisible": true
+        },
+        {
+          "BindField": "EvalRound",
+          "Title": "考評週期",
+          "Width": 120,
+          "Align": "Center",
+          "Formatter": "Tag",
+          "DefaultVisible": true
+        },
+        {
+          "BindField": "ConversionRate",
+          "Title": "換算率(元/積分)",
+          "Width": 140,
+          "Align": "Center",
+          "DefaultVisible": true
+        },
+        {
+          "BindField": "EffectiveDate",
+          "Title": "生效日",
+          "Width": 120,
+          "Align": "Center",
+          "Sorter": true,
+          "DefaultVisible": true
+        },
+        {
+          "BindField": "Remark",
+          "Title": "說明",
+          "Width": 240,
+          "Align": "Left",
+          "DefaultVisible": true
+        },
+        {
+          "BindField": "Status",
+          "Title": "狀態",
+          "Width": 90,
+          "Align": "Center",
+          "Formatter": "StatusTag",
+          "DefaultVisible": true
+        }
+      ]
+    },
+    "FormView": {
+      "FormSpec": {
+        "RowKey": "RowGuid",
+        "Layout": "Horizontal",
+        "Sections": [
+          {
+            "SectionID": "SecBase",
+            "Type": "Card",
+            "Title": "換算率",
+            "IsCollapsible": false,
+            "DefaultOpen": true,
+            "Icon": "ri-exchange-dollar-line"
+          },
+          {
+            "SectionID": "SecExtra",
+            "Type": "Card",
+            "Title": "其他與系統",
+            "IsCollapsible": true,
+            "DefaultOpen": false,
+            "Icon": "ri-settings-4-line"
+          }
+        ],
+        "FormLogic": []
+      },
+      "FieldSpecs": [
+        {
+          "BindField": "RowKey",
+          "Title": "系統識別碼",
+          "Component": "Input",
+          "Section": "SecExtra",
+          "Span": 24,
+          "Mode": "Hidden"
+        },
+        {
+          "BindField": "EntityID",
+          "Title": "系統實體",
+          "Component": "Input",
+          "Section": "SecExtra",
+          "Span": 12,
+          "Mode": "Hidden",
+          "DefaultValue": "hrm"
+        },
+        {
+          "BindField": "EffectiveYear",
+          "Title": "適用年度",
+          "Component": "InputNumber",
+          "Section": "SecBase",
+          "Span": 12,
+          "Mode": "Editable",
+          "DefaultValue": 2025,
+          "Validations": [
+            {
+              "Rule": "Required",
+              "Message": "年度為必填"
+            }
+          ],
+          "Props": {
+            "Min": 2000,
+            "Max": 2100
+          }
+        },
+        {
+          "BindField": "EvalRound",
+          "Title": "考評週期",
+          "Component": "Select",
+          "Section": "SecBase",
+          "Span": 12,
+          "Mode": "Editable",
+          "DefaultValue": "Y",
+          "Validations": [
+            {
+              "Rule": "Required",
+              "Message": "週期為必填"
+            }
+          ],
+          "Props": {
+            "OptionKey": "EvalRound"
+          }
+        },
+        {
+          "BindField": "ConversionRate",
+          "Title": "換算率 (元/積分)",
+          "Component": "InputNumber",
+          "Section": "SecBase",
+          "Span": 12,
+          "Mode": "Editable",
+          "DefaultValue": 500,
+          "Validations": [
+            {
+              "Rule": "Required",
+              "Message": "換算率為必填"
+            },
+            {
+              "Rule": "Range",
+              "Min": 0,
+              "Max": 99999,
+              "Message": "不可為負"
+            }
+          ],
+          "Props": {
+            "Min": 0
+          }
+        },
+        {
+          "BindField": "EffectiveDate",
+          "Title": "生效日",
+          "Component": "DatePicker",
+          "Section": "SecBase",
+          "Span": 12,
+          "Mode": "Editable",
+          "Validations": [
+            {
+              "Rule": "Required",
+              "Message": "生效日為必填"
+            }
+          ]
+        },
+        {
+          "BindField": "Remark",
+          "Title": "說明",
+          "Component": "Input",
+          "Section": "SecBase",
+          "Span": 12,
+          "Mode": "Editable",
+          "Validations": [
+            {
+              "Rule": "MaxLength",
+              "Value": 200,
+              "Message": "不可超過200"
+            }
+          ]
+        },
+        {
+          "BindField": "Status",
+          "Title": "資料狀態",
+          "Component": "Select",
+          "Section": "SecBase",
+          "Span": 12,
+          "Mode": "Editable",
+          "DefaultValue": "1",
+          "Validations": [
+            {
+              "Rule": "Required",
+              "Message": "狀態為必填"
+            }
+          ],
+          "Props": {
+            "OptionKey": "Status"
+          }
+        },
+        {
+          "BindField": "Priority",
+          "Title": "優先權",
+          "Component": "Select",
+          "Section": "SecExtra",
+          "Span": 12,
+          "Mode": "Editable",
+          "DefaultValue": "C",
+          "Props": {
+            "OptionKey": "Priority"
+          }
+        },
+        {
+          "BindField": "SortNo",
+          "Title": "顯示排序",
+          "Component": "Input",
+          "Section": "SecExtra",
+          "Span": 12,
+          "Mode": "Editable",
+          "DefaultValue": "C0000",
+          "Validations": [
+            {
+              "Rule": "MaxLength",
+              "Value": 5,
+              "Message": "排序編號長度不可超過 5"
+            }
+          ]
+        },
+        {
+          "BindField": "Description",
+          "Title": "備註說明",
+          "Component": "TextArea",
+          "Section": "SecExtra",
+          "Span": 24,
+          "Mode": "Editable",
+          "Props": {
+            "Rows": 3
+          }
+        },
+        {
+          "BindField": "CreatedBy",
+          "Title": "建立者",
+          "Component": "Input",
+          "Section": "SecExtra",
+          "Span": 12,
+          "Mode": "Readonly"
+        },
+        {
+          "BindField": "CreatedAt",
+          "Title": "建立時間",
+          "Component": "DatePicker",
+          "Section": "SecExtra",
+          "Span": 12,
+          "Mode": "Readonly"
+        },
+        {
+          "BindField": "UpdatedBy",
+          "Title": "更新者",
+          "Component": "Input",
+          "Section": "SecExtra",
+          "Span": 12,
+          "Mode": "Readonly"
+        },
+        {
+          "BindField": "UpdatedAt",
+          "Title": "更新時間",
+          "Component": "DatePicker",
+          "Section": "SecExtra",
+          "Span": 12,
+          "Mode": "Readonly"
+        }
+      ]
+    }
+  },
+  "DataScope": {
+    "DefaultWhere": "EntityID = 'hrm' AND Status = '1'",
+    "AuthLevel": 3,
+    "SortExp": "EffectiveYear DESC, EvalRound ASC",
+    "DataConfig": {
+      "RowLimit": 2000,
+      "AllowExport": true
+    }
+  },
+  "CustomMeta": {
+    "CustomSchema": {
+      "WidgetType": "Grid",
+      "KeyField": "RowGuid",
+      "TitleField": "Remark",
+      "ParentKeyField": null,
+      "PathField": null,
+      "PathSeparator": "/"
+    },
+    "BusinessRules": {
+      "SensitiveFields": [
+        "ConversionRate"
+      ],
+      "BusinessValidation": []
+    }
+  },
+  "SeedData": [
+    {
+      "RowGuid": "rt-0001",
+      "EntityID": "hrm",
+      "Status": "1",
+      "EffectiveYear": 2025,
+      "EvalRound": "Y",
+      "ConversionRate": 500,
+      "EffectiveDate": "2025-01-01",
+      "Remark": "較去年提升10%",
+      "Priority": "B",
+      "SortNo": "C0001",
+      "CreatedBy": "system",
+      "CreatedAt": "2025-01-01 09:00",
+      "UpdatedBy": "linda.hr",
+      "UpdatedAt": "2025-01-10 10:00"
+    },
+    {
+      "RowGuid": "rt-0002",
+      "EntityID": "hrm",
+      "Status": "1",
+      "EffectiveYear": 2025,
+      "EvalRound": "H1",
+      "ConversionRate": 250,
+      "EffectiveDate": "2025-01-01",
+      "Remark": "年度的一半",
+      "Priority": "B",
+      "SortNo": "C0002",
+      "CreatedBy": "system",
+      "CreatedAt": "2025-01-01 09:00",
+      "UpdatedBy": "linda.hr",
+      "UpdatedAt": "2025-01-10 10:00"
+    },
+    {
+      "RowGuid": "rt-0003",
+      "EntityID": "hrm",
+      "Status": "1",
+      "EffectiveYear": 2025,
+      "EvalRound": "H2",
+      "ConversionRate": 250,
+      "EffectiveDate": "2025-07-01",
+      "Remark": "上半+下半=年度",
+      "Priority": "B",
+      "SortNo": "C0003",
+      "CreatedBy": "system",
+      "CreatedAt": "2025-01-01 09:00",
+      "UpdatedBy": "linda.hr",
+      "UpdatedAt": "2025-01-10 10:00"
+    },
+    {
+      "RowGuid": "rt-0004",
+      "EntityID": "hrm",
+      "Status": "1",
+      "EffectiveYear": 2025,
+      "EvalRound": "PROB",
+      "ConversionRate": 150,
+      "EffectiveDate": "2025-01-01",
+      "Remark": "新人較低係數",
+      "Priority": "B",
+      "SortNo": "C0004",
+      "CreatedBy": "system",
+      "CreatedAt": "2025-01-01 09:00",
+      "UpdatedBy": "linda.hr",
+      "UpdatedAt": "2025-01-10 10:00"
+    },
+    {
+      "RowGuid": "rt-0005",
+      "EntityID": "hrm",
+      "Status": "1",
+      "EffectiveYear": 2025,
+      "EvalRound": "PRJ",
+      "ConversionRate": 300,
+      "EffectiveDate": "2025-01-01",
+      "Remark": "依專案貢獻",
+      "Priority": "B",
+      "SortNo": "C0005",
+      "CreatedBy": "system",
+      "CreatedAt": "2025-01-01 09:00",
+      "UpdatedBy": "linda.hr",
+      "UpdatedAt": "2025-01-10 10:00"
+    },
+    {
+      "RowGuid": "rt-0006",
+      "EntityID": "hrm",
+      "Status": "0",
+      "EffectiveYear": 2024,
+      "EvalRound": "Y",
+      "ConversionRate": 450,
+      "EffectiveDate": "2024-01-01",
+      "Remark": "歷史,僅供查閱",
+      "Priority": "B",
+      "SortNo": "C0006",
+      "CreatedBy": "system",
+      "CreatedAt": "2024-01-01 09:00",
+      "UpdatedBy": "linda.hr",
+      "UpdatedAt": "2025-01-10 10:00"
+    }
+  ]
+}

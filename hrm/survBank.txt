@@ -1,0 +1,819 @@
+{
+  "EntityID": "hrm",
+  "SystemCode": "MUEIP",
+  "ModuleCode": "HRM",
+  "FuncCode": "survBank",
+  "ConfigHash": "sha256:survbank00000000000000000000000000000000000000000000000000000040",
+  "PageMeta": {
+    "PageTitle": "題庫維護",
+    "Lang": "zh-TW",
+    "FormType": "ListForm",
+    "EditDisplayType": "Drawer",
+    "Breadcrumb": [
+      {
+        "Title": "首頁",
+        "Path": "/"
+      },
+      {
+        "Title": "問卷題庫",
+        "Path": null
+      },
+      {
+        "Title": "題庫維護",
+        "Path": "/surv/bank"
+      }
+    ],
+    "IsApproval": false,
+    "TenantLocked": false,
+    "Icon": "ri-stack-line",
+    "Remark": "題庫主檔(可重複用):BankType×ScoringMode 一份結構涵蓋考評/滿意度/公告回覆;群組於明細維護。"
+  },
+  "Resources": {
+    "CodeSets": {
+      "Status": [
+        {
+          "CodeID": "1",
+          "CodeName": "啟用",
+          "IsDefault": true
+        },
+        {
+          "CodeID": "0",
+          "CodeName": "停用"
+        }
+      ],
+      "Priority": [
+        {
+          "CodeID": "A",
+          "CodeName": "高"
+        },
+        {
+          "CodeID": "B",
+          "CodeName": "中"
+        },
+        {
+          "CodeID": "C",
+          "CodeName": "低",
+          "IsDefault": true
+        }
+      ],
+      "BankType": [
+        {
+          "CodeID": "EVAL",
+          "CodeName": "考評表"
+        },
+        {
+          "CodeID": "SATISFY",
+          "CodeName": "滿意度調查"
+        },
+        {
+          "CodeID": "REPLY",
+          "CodeName": "公告回覆"
+        }
+      ],
+      "ScoringMode": [
+        {
+          "CodeID": "none",
+          "CodeName": "不計分",
+          "IsDefault": true
+        },
+        {
+          "CodeID": "weighted",
+          "CodeName": "加權計分"
+        },
+        {
+          "CodeID": "sum",
+          "CodeName": "加總計分"
+        }
+      ],
+      "Anonymous": [
+        {
+          "CodeID": "0",
+          "CodeName": "否",
+          "IsDefault": true
+        },
+        {
+          "CodeID": "1",
+          "CodeName": "是"
+        }
+      ],
+      "DocStatus": [
+        {
+          "CodeID": "0",
+          "CodeName": "草稿",
+          "IsDefault": true
+        },
+        {
+          "CodeID": "1",
+          "CodeName": "送審"
+        },
+        {
+          "CodeID": "2",
+          "CodeName": "核定"
+        },
+        {
+          "CodeID": "3",
+          "CodeName": "結案"
+        },
+        {
+          "CodeID": "9",
+          "CodeName": "作廢"
+        }
+      ]
+    },
+    "FeatureFlags": {
+      "IsReadOnly": false,
+      "EnableDraft": false,
+      "EnableBatchDelete": true,
+      "AutoRefreshInterval": 0,
+      "DefaultViewMode": "Table",
+      "RequireConfirmOnSave": true
+    }
+  },
+  "AllowAction": {
+    "DataActions": [
+      {
+        "ActionID": "Add",
+        "Label": "新增",
+        "Icon": "ri-add-line",
+        "Type": "Primary",
+        "Position": "Toolbar",
+        "Confirm": null
+      },
+      {
+        "ActionID": "Save",
+        "Label": "儲存",
+        "Icon": "ri-save-line",
+        "Type": "Primary",
+        "Position": "Toolbar",
+        "Confirm": null
+      },
+      {
+        "ActionID": "Delete",
+        "Label": "刪除",
+        "Icon": "ri-delete-bin-line",
+        "Type": "Danger",
+        "Position": "Both",
+        "Confirm": "刪除題庫將一併移除其群組/問題/選項,確定刪除?"
+      },
+      {
+        "ActionID": "Query",
+        "Label": "查詢",
+        "Icon": "ri-search-line",
+        "Type": "Default",
+        "Position": "Toolbar",
+        "Confirm": null
+      }
+    ],
+    "ExtensionActions": [
+      {
+        "ActionID": "Import",
+        "Label": "匯入",
+        "Icon": "ri-upload-2-line",
+        "Type": "Default",
+        "Position": "Toolbar",
+        "Confirm": null
+      },
+      {
+        "ActionID": "Export",
+        "Label": "匯出",
+        "Icon": "ri-file-excel-line",
+        "Type": "Default",
+        "Position": "Toolbar",
+        "Confirm": null
+      }
+    ]
+  },
+  "View": {
+    "RowKey": "RowGuid",
+    "ListView": {
+      "ListSpec": {
+        "RowKey": "RowGuid",
+        "SelectMode": "Single",
+        "FixedColumns": [
+          "Action",
+          "No"
+        ],
+        "RowActionMode": "Menu",
+        "ShowRowNo": true,
+        "Pagination": {
+          "PageSize": 100,
+          "SizeOptions": [
+            50,
+            100,
+            200,
+            500
+          ],
+          "ShowJumper": false,
+          "FullPageScroll": true
+        },
+        "DefaultSort": {
+          "Field": "SortNo",
+          "Order": "asc"
+        },
+        "EmptyText": "目前查無題庫",
+        "GridBordered": true
+      },
+      "FieldSpecs": [
+        {
+          "BindField": "BankName",
+          "Title": "題庫名稱",
+          "Width": 240,
+          "Align": "Left",
+          "Fixed": "Left",
+          "Formatter": "Link",
+          "Sorter": true,
+          "DefaultVisible": true
+        },
+        {
+          "BindField": "BankCode",
+          "Title": "題庫代碼",
+          "Width": 170,
+          "Align": "Left",
+          "Fixed": "Left",
+          "Formatter": "Link",
+          "DefaultVisible": true
+        },
+        {
+          "BindField": "BankType",
+          "Title": "類型",
+          "Width": 110,
+          "Align": "Center",
+          "Formatter": "Tag",
+          "Sorter": true,
+          "DefaultVisible": true
+        },
+        {
+          "BindField": "ScoringMode",
+          "Title": "計分方式",
+          "Width": 110,
+          "Align": "Center",
+          "Formatter": "Tag",
+          "DefaultVisible": true
+        },
+        {
+          "BindField": "Version",
+          "Title": "版本",
+          "Width": 80,
+          "Align": "Center",
+          "DefaultVisible": true
+        },
+        {
+          "BindField": "DocStatus",
+          "Title": "狀態",
+          "Width": 100,
+          "Align": "Center",
+          "Formatter": "Tag",
+          "DefaultVisible": true
+        },
+        {
+          "BindField": "Status",
+          "Title": "資料狀態",
+          "Width": 90,
+          "Align": "Center",
+          "Formatter": "StatusTag",
+          "DefaultVisible": true
+        }
+      ]
+    },
+    "FormView": {
+      "FormSpec": {
+        "RowKey": "RowGuid",
+        "Layout": "Horizontal",
+        "Sections": [
+          {
+            "SectionID": "SecBase",
+            "Type": "Card",
+            "Title": "題庫基本資料",
+            "IsCollapsible": false,
+            "DefaultOpen": true,
+            "Icon": "ri-stack-line"
+          },
+          {
+            "SectionID": "SecScore",
+            "Type": "Card",
+            "Title": "計分設定",
+            "IsCollapsible": false,
+            "DefaultOpen": true,
+            "Icon": "ri-calculator-line"
+          },
+          {
+            "SectionID": "SecText",
+            "Type": "Card",
+            "Title": "引言與結語",
+            "IsCollapsible": true,
+            "DefaultOpen": false,
+            "Icon": "ri-chat-quote-line"
+          },
+          {
+            "SectionID": "SecExtra",
+            "Type": "Card",
+            "Title": "其他與系統",
+            "IsCollapsible": true,
+            "DefaultOpen": false,
+            "Icon": "ri-settings-4-line"
+          }
+        ],
+        "FormLogic": []
+      },
+      "FieldSpecs": [
+        {
+          "BindField": "RowKey",
+          "Title": "系統識別碼",
+          "Component": "Input",
+          "Section": "SecExtra",
+          "Span": 24,
+          "Mode": "Hidden"
+        },
+        {
+          "BindField": "EntityID",
+          "Title": "系統實體",
+          "Component": "Input",
+          "Section": "SecExtra",
+          "Span": 12,
+          "Mode": "Hidden",
+          "DefaultValue": "hrm"
+        },
+        {
+          "BindField": "BankCode",
+          "Title": "題庫代碼",
+          "Component": "Input",
+          "Section": "SecBase",
+          "Span": 12,
+          "Mode": "Editable",
+          "Validations": [
+            {
+              "Rule": "Required",
+              "Message": "題庫代碼為必填"
+            },
+            {
+              "Rule": "MaxLength",
+              "Value": 50,
+              "Message": "不可超過50"
+            },
+            {
+              "Rule": "Unique",
+              "Message": "題庫代碼不可重複"
+            }
+          ]
+        },
+        {
+          "BindField": "BankName",
+          "Title": "題庫名稱",
+          "Component": "Input",
+          "Section": "SecBase",
+          "Span": 12,
+          "Mode": "Editable",
+          "Validations": [
+            {
+              "Rule": "Required",
+              "Message": "題庫名稱為必填"
+            },
+            {
+              "Rule": "MaxLength",
+              "Value": 200,
+              "Message": "不可超過200"
+            }
+          ]
+        },
+        {
+          "BindField": "BankType",
+          "Title": "題庫類型",
+          "Component": "Select",
+          "Section": "SecBase",
+          "Span": 12,
+          "Mode": "Editable",
+          "DefaultValue": "SATISFY",
+          "Validations": [
+            {
+              "Rule": "Required",
+              "Message": "類型為必填"
+            }
+          ],
+          "Props": {
+            "OptionKey": "BankType"
+          }
+        },
+        {
+          "BindField": "Version",
+          "Title": "版本",
+          "Component": "Input",
+          "Section": "SecBase",
+          "Span": 12,
+          "Mode": "Editable",
+          "DefaultValue": "1.0"
+        },
+        {
+          "BindField": "EffectiveDate",
+          "Title": "生效日",
+          "Component": "DatePicker",
+          "Section": "SecBase",
+          "Span": 12,
+          "Mode": "Editable"
+        },
+        {
+          "BindField": "DocStatus",
+          "Title": "簽核狀態",
+          "Component": "Select",
+          "Section": "SecBase",
+          "Span": 12,
+          "Mode": "Editable",
+          "DefaultValue": "0",
+          "Props": {
+            "OptionKey": "DocStatus"
+          }
+        },
+        {
+          "BindField": "Status",
+          "Title": "資料狀態",
+          "Component": "Select",
+          "Section": "SecBase",
+          "Span": 12,
+          "Mode": "Editable",
+          "DefaultValue": "1",
+          "Validations": [
+            {
+              "Rule": "Required",
+              "Message": "狀態為必填"
+            }
+          ],
+          "Props": {
+            "OptionKey": "Status"
+          }
+        },
+        {
+          "BindField": "ScoringMode",
+          "Title": "計分方式",
+          "Component": "Select",
+          "Section": "SecScore",
+          "Span": 12,
+          "Mode": "Editable",
+          "DefaultValue": "none",
+          "Validations": [
+            {
+              "Rule": "Required",
+              "Message": "計分方式為必填"
+            }
+          ],
+          "Props": {
+            "OptionKey": "ScoringMode"
+          }
+        },
+        {
+          "BindField": "PassScore",
+          "Title": "及格分數",
+          "Component": "InputNumber",
+          "Section": "SecScore",
+          "Span": 12,
+          "Mode": "Editable",
+          "Props": {
+            "Min": 0,
+            "Max": 100,
+            "Placeholder": "計分型用"
+          }
+        },
+        {
+          "BindField": "Anonymous",
+          "Title": "匿名填寫",
+          "Component": "Select",
+          "Section": "SecScore",
+          "Span": 12,
+          "Mode": "Editable",
+          "DefaultValue": "0",
+          "Props": {
+            "OptionKey": "Anonymous"
+          }
+        },
+        {
+          "BindField": "GradeRule",
+          "Title": "等級門檻(JSON)",
+          "Component": "JsonEditor",
+          "Section": "SecScore",
+          "Span": 24,
+          "Mode": "Editable",
+          "Validations": [
+            {
+              "Rule": "JsonFormat",
+              "Message": "須為合法JSON"
+            }
+          ],
+          "Props": {
+            "Placeholder": "[{\"Grade\":\"A\",\"Min\":85}]"
+          }
+        },
+        {
+          "BindField": "Intro",
+          "Title": "引言",
+          "Component": "TextArea",
+          "Section": "SecText",
+          "Span": 24,
+          "Mode": "Editable",
+          "Props": {
+            "Rows": 2
+          }
+        },
+        {
+          "BindField": "ThankYou",
+          "Title": "結語",
+          "Component": "TextArea",
+          "Section": "SecText",
+          "Span": 24,
+          "Mode": "Editable",
+          "Props": {
+            "Rows": 2
+          }
+        },
+        {
+          "BindField": "Priority",
+          "Title": "優先權",
+          "Component": "Select",
+          "Section": "SecExtra",
+          "Span": 12,
+          "Mode": "Editable",
+          "DefaultValue": "C",
+          "Props": {
+            "OptionKey": "Priority"
+          }
+        },
+        {
+          "BindField": "SortNo",
+          "Title": "顯示排序",
+          "Component": "Input",
+          "Section": "SecExtra",
+          "Span": 12,
+          "Mode": "Editable",
+          "DefaultValue": "C0000",
+          "Validations": [
+            {
+              "Rule": "MaxLength",
+              "Value": 5,
+              "Message": "排序編號長度不可超過 5"
+            }
+          ]
+        },
+        {
+          "BindField": "Description",
+          "Title": "備註說明",
+          "Component": "TextArea",
+          "Section": "SecExtra",
+          "Span": 24,
+          "Mode": "Editable",
+          "Props": {
+            "Rows": 3
+          }
+        },
+        {
+          "BindField": "CreatedBy",
+          "Title": "建立者",
+          "Component": "Input",
+          "Section": "SecExtra",
+          "Span": 12,
+          "Mode": "Readonly"
+        },
+        {
+          "BindField": "CreatedAt",
+          "Title": "建立時間",
+          "Component": "DatePicker",
+          "Section": "SecExtra",
+          "Span": 12,
+          "Mode": "Readonly"
+        },
+        {
+          "BindField": "UpdatedBy",
+          "Title": "更新者",
+          "Component": "Input",
+          "Section": "SecExtra",
+          "Span": 12,
+          "Mode": "Readonly"
+        },
+        {
+          "BindField": "UpdatedAt",
+          "Title": "更新時間",
+          "Component": "DatePicker",
+          "Section": "SecExtra",
+          "Span": 12,
+          "Mode": "Readonly"
+        }
+      ]
+    },
+    "DetailViews": [
+      {
+        "DetailID": "Group",
+        "Title": "問題群組",
+        "Icon": "ri-folder-line",
+        "Entity": "survBankGroup",
+        "RelationKey": "BankCode",
+        "RowKey": "RowGuid",
+        "AllowAdd": true,
+        "AllowEdit": true,
+        "AllowDelete": true,
+        "EmptyText": "尚無問題群組(weighted 計分時各群組權重加總須=100)",
+        "CodeSets": {},
+        "Columns": [
+          {
+            "BindField": "GroupCode",
+            "Title": "群組代碼",
+            "Width": 110,
+            "Align": "Left"
+          },
+          {
+            "BindField": "GroupName",
+            "Title": "群組名稱",
+            "Width": 180,
+            "Align": "Left"
+          },
+          {
+            "BindField": "GroupWeight",
+            "Title": "權重%",
+            "Width": 80,
+            "Align": "Center"
+          },
+          {
+            "BindField": "DisplayOrder",
+            "Title": "順序",
+            "Width": 70,
+            "Align": "Center"
+          }
+        ],
+        "FormFields": [
+          {
+            "BindField": "GroupCode",
+            "Title": "群組代碼",
+            "Component": "Input",
+            "Section": "",
+            "Span": 12,
+            "Mode": "Editable",
+            "Validations": [
+              {
+                "Rule": "Required",
+                "Message": "群組代碼為必填"
+              }
+            ]
+          },
+          {
+            "BindField": "GroupName",
+            "Title": "群組名稱",
+            "Component": "Input",
+            "Section": "",
+            "Span": 12,
+            "Mode": "Editable",
+            "Validations": [
+              {
+                "Rule": "Required",
+                "Message": "群組名稱為必填"
+              }
+            ]
+          },
+          {
+            "BindField": "GroupDesc",
+            "Title": "群組說明",
+            "Component": "TextArea",
+            "Section": "",
+            "Span": 24,
+            "Mode": "Editable"
+          },
+          {
+            "BindField": "GroupWeight",
+            "Title": "群組權重(%)",
+            "Component": "InputNumber",
+            "Section": "",
+            "Span": 12,
+            "Mode": "Editable",
+            "Props": {
+              "Placeholder": "weighted 模式用"
+            }
+          },
+          {
+            "BindField": "DisplayOrder",
+            "Title": "顯示順序",
+            "Component": "InputNumber",
+            "Section": "",
+            "Span": 12,
+            "Mode": "Editable",
+            "DefaultValue": 0
+          }
+        ],
+        "SeedData": [
+          {
+            "RowGuid": "bg-01",
+            "EntityID": "hrm",
+            "Status": "1",
+            "BankCode": "BANK-EVAL-ENG",
+            "GroupCode": "G1",
+            "GroupName": "工作績效",
+            "GroupWeight": 40,
+            "DisplayOrder": 1
+          },
+          {
+            "RowGuid": "bg-02",
+            "EntityID": "hrm",
+            "Status": "1",
+            "BankCode": "BANK-EVAL-ENG",
+            "GroupCode": "G2",
+            "GroupName": "工作態度",
+            "GroupWeight": 30,
+            "DisplayOrder": 2
+          },
+          {
+            "RowGuid": "bg-03",
+            "EntityID": "hrm",
+            "Status": "1",
+            "BankCode": "BANK-EVAL-ENG",
+            "GroupCode": "G3",
+            "GroupName": "專業能力",
+            "GroupWeight": 30,
+            "DisplayOrder": 3
+          }
+        ]
+      }
+    ]
+  },
+  "DataScope": {
+    "DefaultWhere": "EntityID = 'hrm' AND Status = '1'",
+    "AuthLevel": 3,
+    "SortExp": "BankType ASC, BankCode ASC",
+    "DataConfig": {
+      "RowLimit": 1000,
+      "AllowExport": true
+    }
+  },
+  "CustomMeta": {
+    "CustomSchema": {
+      "WidgetType": "Grid",
+      "KeyField": "BankCode",
+      "TitleField": "BankName",
+      "ParentKeyField": null,
+      "PathField": null,
+      "PathSeparator": "/"
+    },
+    "BusinessRules": {
+      "BusinessValidation": [
+        {
+          "Field": "BankCode",
+          "Rule": "Unique",
+          "Message": "題庫代碼不可重複"
+        }
+      ]
+    }
+  },
+  "SeedData": [
+    {
+      "RowGuid": "bk-01",
+      "EntityID": "hrm",
+      "Status": "1",
+      "BankCode": "BANK-EVAL-ENG",
+      "BankName": "工程師年度考評表",
+      "BankType": "EVAL",
+      "ScoringMode": "weighted",
+      "PassScore": 60,
+      "Anonymous": "0",
+      "Version": "1.0",
+      "GradeRule": "[{\"Grade\":\"S\",\"Min\":95},{\"Grade\":\"A\",\"Min\":85},{\"Grade\":\"B\",\"Min\":70},{\"Grade\":\"C\",\"Min\":60},{\"Grade\":\"D\",\"Min\":0}]",
+      "Intro": "請就各構面覈實評分。",
+      "DocStatus": "2",
+      "Priority": "A",
+      "SortNo": "C0001",
+      "CreatedBy": "system",
+      "CreatedAt": "2025-01-05 09:00",
+      "UpdatedBy": "linda.hr",
+      "UpdatedAt": "2025-01-10 10:00"
+    },
+    {
+      "RowGuid": "bk-02",
+      "EntityID": "hrm",
+      "Status": "1",
+      "BankCode": "BANK-SAT-2026",
+      "BankName": "2026 內部服務滿意度調查",
+      "BankType": "SATISFY",
+      "ScoringMode": "none",
+      "Anonymous": "1",
+      "Version": "1.0",
+      "Intro": "您的回饋將協助我們改善。",
+      "DocStatus": "2",
+      "Priority": "B",
+      "SortNo": "C0002",
+      "CreatedBy": "system",
+      "CreatedAt": "2026-04-01 09:00",
+      "UpdatedBy": "linda.hr",
+      "UpdatedAt": "2026-04-10 10:00"
+    },
+    {
+      "RowGuid": "bk-03",
+      "EntityID": "hrm",
+      "Status": "1",
+      "BankCode": "BANK-RPL-202606",
+      "BankName": "資安政策更新-閱讀確認與回覆",
+      "BankType": "REPLY",
+      "ScoringMode": "none",
+      "Anonymous": "0",
+      "Version": "1.0",
+      "Intro": "請閱讀後完成確認。",
+      "DocStatus": "2",
+      "Priority": "B",
+      "SortNo": "C0003",
+      "CreatedBy": "system",
+      "CreatedAt": "2026-06-01 09:00",
+      "UpdatedBy": "system",
+      "UpdatedAt": "2026-06-01 09:00"
+    }
+  ]
+}

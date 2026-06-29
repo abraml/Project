@@ -1,0 +1,1744 @@
+{
+  "EntityID": "hrm",
+  "SystemCode": "MUEIP",
+  "ModuleCode": "HRM",
+  "FuncCode": "hrmCrs",
+  "ConfigHash": "sha256:d4e5f60718293a4b5c6d7e8f9011223a3b4c5d6e7f8091a2b3c4d5e6f7081920",
+  "PageMeta": {
+    "PageTitle": "教育訓練課程維護",
+    "Lang": "zh-TW",
+    "FormType": "ListForm",
+    "EditDisplayType": "Drawer",
+    "Breadcrumb": [
+      {
+        "Title": "首頁",
+        "Path": "/"
+      },
+      {
+        "Title": "教育訓練",
+        "Path": null
+      },
+      {
+        "Title": "教育訓練課程維護",
+        "Path": "/hrm/course"
+      }
+    ],
+    "IsApproval": false,
+    "TenantLocked": false,
+    "Icon": "ri-book-open-line",
+    "Remark": "課程主檔；維護課程資訊、期程與報名控管。明細含開課申請、學員報名、結訓紀錄，結訓回寫參訓津貼／離職扣款至薪資。"
+  },
+  "Resources": {
+    "CodeSets": {
+      "Status": [
+        {
+          "CodeID": "1",
+          "CodeName": "啟用",
+          "IsDefault": true
+        },
+        {
+          "CodeID": "0",
+          "CodeName": "停用"
+        }
+      ],
+      "Priority": [
+        {
+          "CodeID": "A",
+          "CodeName": "高"
+        },
+        {
+          "CodeID": "B",
+          "CodeName": "中"
+        },
+        {
+          "CodeID": "C",
+          "CodeName": "低",
+          "IsDefault": true
+        }
+      ],
+      "CourseCategory": [
+        {
+          "CodeID": "IN",
+          "CodeName": "內訓",
+          "IsDefault": true
+        },
+        {
+          "CodeID": "EX",
+          "CodeName": "外訓"
+        },
+        {
+          "CodeID": "ON",
+          "CodeName": "線上"
+        },
+        {
+          "CodeID": "CERT",
+          "CodeName": "認證"
+        }
+      ],
+      "CourseStatus": [
+        {
+          "CodeID": "D",
+          "CodeName": "草稿",
+          "IsDefault": true
+        },
+        {
+          "CodeID": "O",
+          "CodeName": "開放報名"
+        },
+        {
+          "CodeID": "C",
+          "CodeName": "關閉報名"
+        },
+        {
+          "CodeID": "F",
+          "CodeName": "結訓"
+        },
+        {
+          "CodeID": "X",
+          "CodeName": "取消"
+        }
+      ],
+      "IsAfterHours": [
+        {
+          "CodeID": "0",
+          "CodeName": "否",
+          "IsDefault": true
+        },
+        {
+          "CodeID": "1",
+          "CodeName": "是"
+        }
+      ]
+    },
+    "FeatureFlags": {
+      "IsReadOnly": false,
+      "EnableDraft": false,
+      "EnableBatchDelete": true,
+      "AutoRefreshInterval": 0,
+      "DefaultViewMode": "Table",
+      "RequireConfirmOnSave": true
+    }
+  },
+  "AllowAction": {
+    "DataActions": [
+      {
+        "ActionID": "Add",
+        "Label": "新增",
+        "Icon": "ri-add-line",
+        "Type": "Primary",
+        "Position": "Toolbar",
+        "Confirm": null
+      },
+      {
+        "ActionID": "Save",
+        "Label": "儲存",
+        "Icon": "ri-save-line",
+        "Type": "Primary",
+        "Position": "Toolbar",
+        "Confirm": null
+      },
+      {
+        "ActionID": "Delete",
+        "Label": "刪除",
+        "Icon": "ri-delete-bin-line",
+        "Type": "Danger",
+        "Position": "Both",
+        "Confirm": "刪除課程將一併移除其開課申請、報名與結訓紀錄，確定要刪除嗎？"
+      },
+      {
+        "ActionID": "Query",
+        "Label": "查詢",
+        "Icon": "ri-search-line",
+        "Type": "Default",
+        "Position": "Toolbar",
+        "Confirm": null
+      }
+    ],
+    "ExtensionActions": [
+      {
+        "ActionID": "Import",
+        "Label": "匯入",
+        "Icon": "ri-upload-2-line",
+        "Type": "Default",
+        "Position": "Toolbar",
+        "Confirm": null
+      },
+      {
+        "ActionID": "Export",
+        "Label": "匯出",
+        "Icon": "ri-file-excel-line",
+        "Type": "Default",
+        "Position": "Toolbar",
+        "Confirm": null
+      }
+    ]
+  },
+  "View": {
+    "RowKey": "RowGuid",
+    "ListView": {
+      "ListSpec": {
+        "RowKey": "RowGuid",
+        "SelectMode": "Single",
+        "FixedColumns": [
+          "Action",
+          "No"
+        ],
+        "RowActionMode": "Menu",
+        "ShowRowNo": true,
+        "Pagination": {
+          "PageSize": 100,
+          "SizeOptions": [
+            50,
+            100,
+            200,
+            500
+          ],
+          "ShowJumper": false,
+          "FullPageScroll": true
+        },
+        "DefaultSort": {
+          "Field": "SortNo",
+          "Order": "asc"
+        },
+        "EmptyText": "目前查無課程資料",
+        "GridBordered": true
+      },
+      "FieldSpecs": [
+        {
+          "BindField": "CourseName",
+          "Title": "課程名稱",
+          "Width": 240,
+          "Align": "Left",
+          "Fixed": "Left",
+          "Formatter": "Link",
+          "Sorter": true,
+          "DefaultVisible": true
+        },
+        {
+          "BindField": "CourseCode",
+          "Title": "課程代碼",
+          "Width": 140,
+          "Align": "Left",
+          "Fixed": "Left",
+          "Formatter": "Link",
+          "Sorter": true,
+          "DefaultVisible": true
+        },
+        {
+          "BindField": "CourseCategory",
+          "Title": "課程類別",
+          "Width": 110,
+          "Align": "Center",
+          "Formatter": "Tag",
+          "DefaultVisible": true
+        },
+        {
+          "BindField": "Instructor",
+          "Title": "講師",
+          "Width": 120,
+          "Align": "Left",
+          "DefaultVisible": true
+        },
+        {
+          "BindField": "CourseHours",
+          "Title": "時數",
+          "Width": 80,
+          "Align": "Center",
+          "DefaultVisible": true
+        },
+        {
+          "BindField": "StartDate",
+          "Title": "上課起日",
+          "Width": 120,
+          "Align": "Center",
+          "Sorter": true,
+          "DefaultVisible": true
+        },
+        {
+          "BindField": "EndDate",
+          "Title": "上課迄日",
+          "Width": 120,
+          "Align": "Center",
+          "Sorter": true,
+          "DefaultVisible": true
+        },
+        {
+          "BindField": "MaxAttendees",
+          "Title": "人數上限",
+          "Width": 90,
+          "Align": "Center",
+          "DefaultVisible": true
+        },
+        {
+          "BindField": "CourseStatus",
+          "Title": "課程狀態",
+          "Width": 110,
+          "Align": "Center",
+          "Formatter": "Tag",
+          "Sorter": true,
+          "DefaultVisible": true
+        },
+        {
+          "BindField": "Status",
+          "Title": "資料狀態",
+          "Width": 90,
+          "Align": "Center",
+          "Formatter": "StatusTag",
+          "DefaultVisible": true
+        },
+        {
+          "BindField": "CourseFee",
+          "Title": "費用",
+          "Width": 100,
+          "Align": "Center",
+          "DefaultVisible": false
+        },
+        {
+          "BindField": "UpdatedAt",
+          "Title": "更新時間",
+          "Width": 160,
+          "Align": "Center",
+          "Formatter": "DateTime",
+          "Sorter": true,
+          "DefaultVisible": false
+        }
+      ]
+    },
+    "FormView": {
+      "FormSpec": {
+        "RowKey": "RowGuid",
+        "Layout": "Horizontal",
+        "Sections": [
+          {
+            "SectionID": "SecBase",
+            "Type": "Card",
+            "Title": "課程基本資料",
+            "IsCollapsible": false,
+            "DefaultOpen": true,
+            "Icon": "ri-book-2-line"
+          },
+          {
+            "SectionID": "SecSchedule",
+            "Type": "Card",
+            "Title": "課程期程與地點",
+            "IsCollapsible": false,
+            "DefaultOpen": true,
+            "Icon": "ri-calendar-event-line"
+          },
+          {
+            "SectionID": "SecEnroll",
+            "Type": "Card",
+            "Title": "報名控管",
+            "IsCollapsible": false,
+            "DefaultOpen": true,
+            "Icon": "ri-team-line"
+          },
+          {
+            "SectionID": "SecExtra",
+            "Type": "Card",
+            "Title": "其他與系統",
+            "IsCollapsible": true,
+            "DefaultOpen": false,
+            "Icon": "ri-settings-4-line"
+          }
+        ],
+        "FormLogic": []
+      },
+      "FieldSpecs": [
+        {
+          "BindField": "RowKey",
+          "Title": "系統識別碼",
+          "Component": "Input",
+          "Section": "SecExtra",
+          "Span": 24,
+          "Mode": "Hidden"
+        },
+        {
+          "BindField": "EntityID",
+          "Title": "系統實體",
+          "Component": "Input",
+          "Section": "SecExtra",
+          "Span": 12,
+          "Mode": "Hidden",
+          "DefaultValue": "hrm"
+        },
+        {
+          "BindField": "CourseCode",
+          "Title": "課程代碼",
+          "Component": "Input",
+          "Section": "SecBase",
+          "Span": 12,
+          "Mode": "Editable",
+          "Validations": [
+            {
+              "Rule": "Required",
+              "Message": "課程代碼為必填"
+            },
+            {
+              "Rule": "MaxLength",
+              "Value": 50,
+              "Message": "課程代碼長度不可超過 50"
+            },
+            {
+              "Rule": "Unique",
+              "Message": "課程代碼不可重複"
+            }
+          ]
+        },
+        {
+          "BindField": "CourseName",
+          "Title": "課程名稱",
+          "Component": "Input",
+          "Section": "SecBase",
+          "Span": 12,
+          "Mode": "Editable",
+          "Validations": [
+            {
+              "Rule": "Required",
+              "Message": "課程名稱為必填"
+            },
+            {
+              "Rule": "MaxLength",
+              "Value": 200,
+              "Message": "課程名稱長度不可超過 200"
+            }
+          ]
+        },
+        {
+          "BindField": "CourseCategory",
+          "Title": "課程類別",
+          "Component": "Select",
+          "Section": "SecBase",
+          "Span": 12,
+          "Mode": "Editable",
+          "DefaultValue": "IN",
+          "Validations": [
+            {
+              "Rule": "Required",
+              "Message": "課程類別為必填"
+            }
+          ],
+          "Props": {
+            "OptionKey": "CourseCategory"
+          }
+        },
+        {
+          "BindField": "CourseStatus",
+          "Title": "課程狀態",
+          "Component": "Select",
+          "Section": "SecBase",
+          "Span": 12,
+          "Mode": "Editable",
+          "DefaultValue": "D",
+          "Validations": [
+            {
+              "Rule": "Required",
+              "Message": "課程狀態為必填"
+            }
+          ],
+          "Props": {
+            "OptionKey": "CourseStatus"
+          }
+        },
+        {
+          "BindField": "Instructor",
+          "Title": "講師",
+          "Component": "Input",
+          "Section": "SecBase",
+          "Span": 12,
+          "Mode": "Editable",
+          "Validations": [
+            {
+              "Rule": "MaxLength",
+              "Value": 100,
+              "Message": "講師長度不可超過 100"
+            }
+          ]
+        },
+        {
+          "BindField": "InstructorOrg",
+          "Title": "講師機構",
+          "Component": "Input",
+          "Section": "SecBase",
+          "Span": 12,
+          "Mode": "Editable",
+          "Validations": [
+            {
+              "Rule": "MaxLength",
+              "Value": 200,
+              "Message": "機構長度不可超過 200"
+            }
+          ],
+          "Props": {
+            "Placeholder": "外訓填寫"
+          }
+        },
+        {
+          "BindField": "CourseHours",
+          "Title": "課程總時數",
+          "Component": "InputNumber",
+          "Section": "SecBase",
+          "Span": 12,
+          "Mode": "Editable",
+          "Props": {
+            "Min": 0,
+            "Placeholder": "小時"
+          }
+        },
+        {
+          "BindField": "CourseFee",
+          "Title": "每位學員費用",
+          "Component": "InputNumber",
+          "Section": "SecBase",
+          "Span": 12,
+          "Mode": "Editable",
+          "DefaultValue": 0,
+          "Props": {
+            "Min": 0
+          }
+        },
+        {
+          "BindField": "Status",
+          "Title": "資料狀態",
+          "Component": "Select",
+          "Section": "SecBase",
+          "Span": 12,
+          "Mode": "Editable",
+          "DefaultValue": "1",
+          "Validations": [
+            {
+              "Rule": "Required",
+              "Message": "資料狀態為必填"
+            }
+          ],
+          "Props": {
+            "OptionKey": "Status"
+          }
+        },
+        {
+          "BindField": "StartDate",
+          "Title": "上課起日",
+          "Component": "DatePicker",
+          "Section": "SecSchedule",
+          "Span": 12,
+          "Mode": "Editable"
+        },
+        {
+          "BindField": "EndDate",
+          "Title": "上課迄日",
+          "Component": "DatePicker",
+          "Section": "SecSchedule",
+          "Span": 12,
+          "Mode": "Editable"
+        },
+        {
+          "BindField": "Location",
+          "Title": "上課地點",
+          "Component": "Input",
+          "Section": "SecSchedule",
+          "Span": 24,
+          "Mode": "Editable",
+          "Validations": [
+            {
+              "Rule": "MaxLength",
+              "Value": 200,
+              "Message": "地點長度不可超過 200"
+            }
+          ]
+        },
+        {
+          "BindField": "MaxAttendees",
+          "Title": "人數上限",
+          "Component": "InputNumber",
+          "Section": "SecEnroll",
+          "Span": 12,
+          "Mode": "Editable",
+          "Props": {
+            "Min": 0,
+            "Placeholder": "留空＝無上限"
+          }
+        },
+        {
+          "BindField": "IsAfterHours",
+          "Title": "非上班時間舉辦",
+          "Component": "Select",
+          "Section": "SecEnroll",
+          "Span": 12,
+          "Mode": "Editable",
+          "DefaultValue": "0",
+          "Props": {
+            "OptionKey": "IsAfterHours",
+            "Placeholder": "是＝可產生參訓津貼"
+          }
+        },
+        {
+          "BindField": "GradeRestriction",
+          "Title": "職等限制 (JSON)",
+          "Component": "JsonEditor",
+          "Section": "SecEnroll",
+          "Span": 24,
+          "Mode": "Editable",
+          "Validations": [
+            {
+              "Rule": "JsonFormat",
+              "Message": "職等限制必須為合法 JSON"
+            }
+          ],
+          "Props": {
+            "Placeholder": "[\"P1\",\"P2\",\"P3\"]"
+          }
+        },
+        {
+          "BindField": "DeptRestriction",
+          "Title": "部門限制 (JSON)",
+          "Component": "JsonEditor",
+          "Section": "SecEnroll",
+          "Span": 24,
+          "Mode": "Editable",
+          "Validations": [
+            {
+              "Rule": "JsonFormat",
+              "Message": "部門限制必須為合法 JSON"
+            }
+          ],
+          "Props": {
+            "Placeholder": "[\"D130\",\"D131\"]"
+          }
+        },
+        {
+          "BindField": "Attributes",
+          "Title": "擴展屬性 (JSON)",
+          "Component": "JsonEditor",
+          "Section": "SecExtra",
+          "Span": 24,
+          "Mode": "Editable",
+          "Validations": [
+            {
+              "Rule": "JsonFormat",
+              "Message": "擴展屬性必須為合法 JSON"
+            }
+          ]
+        },
+        {
+          "BindField": "Priority",
+          "Title": "優先權",
+          "Component": "Select",
+          "Section": "SecExtra",
+          "Span": 12,
+          "Mode": "Editable",
+          "DefaultValue": "C",
+          "Props": {
+            "OptionKey": "Priority"
+          }
+        },
+        {
+          "BindField": "SortNo",
+          "Title": "顯示排序",
+          "Component": "Input",
+          "Section": "SecExtra",
+          "Span": 12,
+          "Mode": "Editable",
+          "DefaultValue": "C0000",
+          "Validations": [
+            {
+              "Rule": "MaxLength",
+              "Value": 5,
+              "Message": "排序編號長度不可超過 5"
+            }
+          ]
+        },
+        {
+          "BindField": "Description",
+          "Title": "備註說明",
+          "Component": "TextArea",
+          "Section": "SecExtra",
+          "Span": 24,
+          "Mode": "Editable",
+          "Props": {
+            "Rows": 3
+          }
+        },
+        {
+          "BindField": "CreatedBy",
+          "Title": "建立者",
+          "Component": "Input",
+          "Section": "SecExtra",
+          "Span": 12,
+          "Mode": "Readonly"
+        },
+        {
+          "BindField": "CreatedAt",
+          "Title": "建立時間",
+          "Component": "DatePicker",
+          "Section": "SecExtra",
+          "Span": 12,
+          "Mode": "Readonly"
+        },
+        {
+          "BindField": "UpdatedBy",
+          "Title": "更新者",
+          "Component": "Input",
+          "Section": "SecExtra",
+          "Span": 12,
+          "Mode": "Readonly"
+        },
+        {
+          "BindField": "UpdatedAt",
+          "Title": "更新時間",
+          "Component": "DatePicker",
+          "Section": "SecExtra",
+          "Span": 12,
+          "Mode": "Readonly"
+        }
+      ]
+    },
+    "DetailViews": [
+      {
+        "DetailID": "Apply",
+        "Title": "開課申請",
+        "Icon": "ri-file-add-line",
+        "Entity": "hrmCrs_App",
+        "RelationKey": "CourseCode",
+        "RowKey": "RowGuid",
+        "AllowAdd": true,
+        "AllowEdit": true,
+        "AllowDelete": true,
+        "EmptyText": "尚無開課申請",
+        "CodeSets": {
+          "EmpNo": [
+            {
+              "CodeID": "E001",
+              "CodeName": "陳建宏（總經理）"
+            },
+            {
+              "CodeID": "E002",
+              "CodeName": "林雅婷（人資經理）"
+            },
+            {
+              "CodeID": "E003",
+              "CodeName": "王志明（財務專員）"
+            },
+            {
+              "CodeID": "E004",
+              "CodeName": "張美玲（資訊經理）"
+            },
+            {
+              "CodeID": "E005",
+              "CodeName": "李俊賢（系統工程師）"
+            },
+            {
+              "CodeID": "E006",
+              "CodeName": "黃淑芬（維運工程師）"
+            },
+            {
+              "CodeID": "E007",
+              "CodeName": "吳承翰（產線領班）"
+            },
+            {
+              "CodeID": "E008",
+              "CodeName": "蔡宜君（研發工程師）"
+            },
+            {
+              "CodeID": "E009",
+              "CodeName": "鄭家豪（前端工程師）"
+            }
+          ],
+          "FeeShareType": [
+            {
+              "CodeID": "F",
+              "CodeName": "公司全額",
+              "IsDefault": true
+            },
+            {
+              "CodeID": "S",
+              "CodeName": "員工自費"
+            },
+            {
+              "CodeID": "P",
+              "CodeName": "部分補助"
+            }
+          ],
+          "DocStatus": [
+            {
+              "CodeID": "0",
+              "CodeName": "草稿",
+              "IsDefault": true
+            },
+            {
+              "CodeID": "1",
+              "CodeName": "陳核中"
+            },
+            {
+              "CodeID": "2",
+              "CodeName": "已核准"
+            },
+            {
+              "CodeID": "3",
+              "CodeName": "退回"
+            },
+            {
+              "CodeID": "9",
+              "CodeName": "作廢"
+            }
+          ]
+        },
+        "Columns": [
+          {
+            "BindField": "ApplyNo",
+            "Title": "申請單號",
+            "Width": 150,
+            "Align": "Left"
+          },
+          {
+            "BindField": "EmpNo",
+            "Title": "申請員工",
+            "Width": 140,
+            "Align": "Left",
+            "Formatter": "Tag",
+            "OptionKey": "EmpNo"
+          },
+          {
+            "BindField": "ApplyDate",
+            "Title": "申請日期",
+            "Width": 110,
+            "Align": "Center",
+            "Formatter": "Date"
+          },
+          {
+            "BindField": "FeeShareType",
+            "Title": "費用分攤",
+            "Width": 100,
+            "Align": "Center",
+            "Formatter": "Tag",
+            "OptionKey": "FeeShareType"
+          },
+          {
+            "BindField": "DocStatus",
+            "Title": "簽核狀態",
+            "Width": 100,
+            "Align": "Center",
+            "Formatter": "Tag",
+            "OptionKey": "DocStatus"
+          }
+        ],
+        "FormFields": [
+          {
+            "BindField": "ApplyNo",
+            "Title": "申請單號",
+            "Component": "Input",
+            "Section": "",
+            "Span": 12,
+            "Mode": "Editable",
+            "Validations": [
+              {
+                "Rule": "Required",
+                "Message": "申請單號為必填"
+              }
+            ]
+          },
+          {
+            "BindField": "EmpNo",
+            "Title": "申請員工",
+            "Component": "Select",
+            "Section": "",
+            "Span": 12,
+            "Mode": "Editable",
+            "Validations": [
+              {
+                "Rule": "Required",
+                "Message": "申請員工為必填"
+              }
+            ],
+            "Props": {
+              "OptionKey": "EmpNo"
+            }
+          },
+          {
+            "BindField": "ApplyDate",
+            "Title": "申請日期",
+            "Component": "DatePicker",
+            "Section": "",
+            "Span": 12,
+            "Mode": "Editable"
+          },
+          {
+            "BindField": "FeeShareType",
+            "Title": "費用分攤",
+            "Component": "Select",
+            "Section": "",
+            "Span": 12,
+            "Mode": "Editable",
+            "DefaultValue": "F",
+            "Props": {
+              "OptionKey": "FeeShareType"
+            }
+          },
+          {
+            "BindField": "CompanyFee",
+            "Title": "公司負擔金額",
+            "Component": "InputNumber",
+            "Section": "",
+            "Span": 12,
+            "Mode": "Editable",
+            "DefaultValue": 0
+          },
+          {
+            "BindField": "EmpFee",
+            "Title": "員工自付金額",
+            "Component": "InputNumber",
+            "Section": "",
+            "Span": 12,
+            "Mode": "Editable",
+            "DefaultValue": 0
+          },
+          {
+            "BindField": "DocStatus",
+            "Title": "簽核狀態",
+            "Component": "Select",
+            "Section": "",
+            "Span": 12,
+            "Mode": "Editable",
+            "DefaultValue": "0",
+            "Props": {
+              "OptionKey": "DocStatus"
+            }
+          },
+          {
+            "BindField": "ApplyReason",
+            "Title": "申請理由",
+            "Component": "TextArea",
+            "Section": "",
+            "Span": 24,
+            "Mode": "Editable"
+          },
+          {
+            "BindField": "Description",
+            "Title": "備註",
+            "Component": "TextArea",
+            "Section": "",
+            "Span": 24,
+            "Mode": "Editable"
+          }
+        ],
+        "SeedData": [
+          {
+            "RowGuid": "ca-0001",
+            "EntityID": "hrm",
+            "Status": "1",
+            "CourseCode": "CRS-2026-001",
+            "ApplyNo": "AP-2026-0001",
+            "EmpNo": "E005",
+            "ApplyDate": "2026-03-01",
+            "FeeShareType": "F",
+            "CompanyFee": 8000,
+            "EmpFee": 0,
+            "DocStatus": "2",
+            "ApplyReason": "提升雲端架構能力"
+          },
+          {
+            "RowGuid": "ca-0002",
+            "EntityID": "hrm",
+            "Status": "1",
+            "CourseCode": "CRS-2026-001",
+            "ApplyNo": "AP-2026-0002",
+            "EmpNo": "E006",
+            "ApplyDate": "2026-03-02",
+            "FeeShareType": "P",
+            "CompanyFee": 6000,
+            "EmpFee": 2000,
+            "DocStatus": "1",
+            "ApplyReason": "維運自動化需求"
+          }
+        ]
+      },
+      {
+        "DetailID": "Attendee",
+        "Title": "學員報名",
+        "Icon": "ri-user-add-line",
+        "Entity": "hrmCrs_Att",
+        "RelationKey": "CourseCode",
+        "RowKey": "RowGuid",
+        "AllowAdd": true,
+        "AllowEdit": true,
+        "AllowDelete": true,
+        "EmptyText": "尚無報名學員",
+        "CodeSets": {
+          "EmpNo": [
+            {
+              "CodeID": "E001",
+              "CodeName": "陳建宏（總經理）"
+            },
+            {
+              "CodeID": "E002",
+              "CodeName": "林雅婷（人資經理）"
+            },
+            {
+              "CodeID": "E003",
+              "CodeName": "王志明（財務專員）"
+            },
+            {
+              "CodeID": "E004",
+              "CodeName": "張美玲（資訊經理）"
+            },
+            {
+              "CodeID": "E005",
+              "CodeName": "李俊賢（系統工程師）"
+            },
+            {
+              "CodeID": "E006",
+              "CodeName": "黃淑芬（維運工程師）"
+            },
+            {
+              "CodeID": "E007",
+              "CodeName": "吳承翰（產線領班）"
+            },
+            {
+              "CodeID": "E008",
+              "CodeName": "蔡宜君（研發工程師）"
+            },
+            {
+              "CodeID": "E009",
+              "CodeName": "鄭家豪（前端工程師）"
+            }
+          ],
+          "AttendSource": [
+            {
+              "CodeID": "APPLY",
+              "CodeName": "員工申請",
+              "IsDefault": true
+            },
+            {
+              "CodeID": "HR",
+              "CodeName": "HR 指派"
+            },
+            {
+              "CodeID": "MGR",
+              "CodeName": "主管指派"
+            }
+          ],
+          "FeeShareType": [
+            {
+              "CodeID": "F",
+              "CodeName": "公司全額",
+              "IsDefault": true
+            },
+            {
+              "CodeID": "S",
+              "CodeName": "員工自費"
+            },
+            {
+              "CodeID": "P",
+              "CodeName": "部分補助"
+            }
+          ]
+        },
+        "Columns": [
+          {
+            "BindField": "EmpNo",
+            "Title": "學員",
+            "Width": 140,
+            "Align": "Left",
+            "Formatter": "Tag",
+            "OptionKey": "EmpNo"
+          },
+          {
+            "BindField": "AttendSource",
+            "Title": "報名來源",
+            "Width": 110,
+            "Align": "Center",
+            "Formatter": "Tag",
+            "OptionKey": "AttendSource"
+          },
+          {
+            "BindField": "RefApplyNo",
+            "Title": "對應申請單",
+            "Width": 140,
+            "Align": "Left"
+          },
+          {
+            "BindField": "FeeShareType",
+            "Title": "費用分攤",
+            "Width": 100,
+            "Align": "Center",
+            "Formatter": "Tag",
+            "OptionKey": "FeeShareType"
+          }
+        ],
+        "FormFields": [
+          {
+            "BindField": "EmpNo",
+            "Title": "學員",
+            "Component": "Select",
+            "Section": "",
+            "Span": 12,
+            "Mode": "Editable",
+            "Validations": [
+              {
+                "Rule": "Required",
+                "Message": "學員為必填"
+              }
+            ],
+            "Props": {
+              "OptionKey": "EmpNo"
+            }
+          },
+          {
+            "BindField": "AttendSource",
+            "Title": "報名來源",
+            "Component": "Select",
+            "Section": "",
+            "Span": 12,
+            "Mode": "Editable",
+            "DefaultValue": "APPLY",
+            "Props": {
+              "OptionKey": "AttendSource"
+            }
+          },
+          {
+            "BindField": "RefApplyNo",
+            "Title": "對應申請單號",
+            "Component": "Input",
+            "Section": "",
+            "Span": 12,
+            "Mode": "Editable",
+            "Props": {
+              "Placeholder": "員工申請時對應 ApplyNo"
+            }
+          },
+          {
+            "BindField": "FeeShareType",
+            "Title": "費用分攤",
+            "Component": "Select",
+            "Section": "",
+            "Span": 12,
+            "Mode": "Editable",
+            "DefaultValue": "F",
+            "Props": {
+              "OptionKey": "FeeShareType"
+            }
+          },
+          {
+            "BindField": "CompanyFee",
+            "Title": "公司負擔",
+            "Component": "InputNumber",
+            "Section": "",
+            "Span": 12,
+            "Mode": "Editable",
+            "DefaultValue": 0
+          },
+          {
+            "BindField": "EmpFee",
+            "Title": "員工自付",
+            "Component": "InputNumber",
+            "Section": "",
+            "Span": 12,
+            "Mode": "Editable",
+            "DefaultValue": 0
+          },
+          {
+            "BindField": "Description",
+            "Title": "備註",
+            "Component": "TextArea",
+            "Section": "",
+            "Span": 24,
+            "Mode": "Editable"
+          }
+        ],
+        "SeedData": [
+          {
+            "RowGuid": "ct-0001",
+            "EntityID": "hrm",
+            "Status": "1",
+            "CourseCode": "CRS-2026-001",
+            "EmpNo": "E005",
+            "AttendSource": "APPLY",
+            "RefApplyNo": "AP-2026-0001",
+            "FeeShareType": "F",
+            "CompanyFee": 8000,
+            "EmpFee": 0
+          },
+          {
+            "RowGuid": "ct-0002",
+            "EntityID": "hrm",
+            "Status": "1",
+            "CourseCode": "CRS-2026-001",
+            "EmpNo": "E006",
+            "AttendSource": "APPLY",
+            "RefApplyNo": "AP-2026-0002",
+            "FeeShareType": "P",
+            "CompanyFee": 6000,
+            "EmpFee": 2000
+          },
+          {
+            "RowGuid": "ct-0003",
+            "EntityID": "hrm",
+            "Status": "1",
+            "CourseCode": "CRS-2026-002",
+            "EmpNo": "E002",
+            "AttendSource": "HR",
+            "RefApplyNo": null,
+            "FeeShareType": "F",
+            "CompanyFee": 0,
+            "EmpFee": 0
+          }
+        ]
+      },
+      {
+        "DetailID": "Complete",
+        "Title": "結訓紀錄",
+        "Icon": "ri-award-line",
+        "Entity": "hrmCrs_Cmp",
+        "RelationKey": "CourseCode",
+        "RowKey": "RowGuid",
+        "AllowAdd": true,
+        "AllowEdit": true,
+        "AllowDelete": true,
+        "EmptyText": "尚無結訓紀錄",
+        "CodeSets": {
+          "EmpNo": [
+            {
+              "CodeID": "E001",
+              "CodeName": "陳建宏（總經理）"
+            },
+            {
+              "CodeID": "E002",
+              "CodeName": "林雅婷（人資經理）"
+            },
+            {
+              "CodeID": "E003",
+              "CodeName": "王志明（財務專員）"
+            },
+            {
+              "CodeID": "E004",
+              "CodeName": "張美玲（資訊經理）"
+            },
+            {
+              "CodeID": "E005",
+              "CodeName": "李俊賢（系統工程師）"
+            },
+            {
+              "CodeID": "E006",
+              "CodeName": "黃淑芬（維運工程師）"
+            },
+            {
+              "CodeID": "E007",
+              "CodeName": "吳承翰（產線領班）"
+            },
+            {
+              "CodeID": "E008",
+              "CodeName": "蔡宜君（研發工程師）"
+            },
+            {
+              "CodeID": "E009",
+              "CodeName": "鄭家豪（前端工程師）"
+            }
+          ],
+          "AttendStatus": [
+            {
+              "CodeID": "P",
+              "CodeName": "出席",
+              "IsDefault": true
+            },
+            {
+              "CodeID": "A",
+              "CodeName": "缺席"
+            },
+            {
+              "CodeID": "L",
+              "CodeName": "遲到"
+            }
+          ],
+          "CompleteStatus": [
+            {
+              "CodeID": "C",
+              "CodeName": "結訓",
+              "IsDefault": true
+            },
+            {
+              "CodeID": "W",
+              "CodeName": "退訓"
+            },
+            {
+              "CodeID": "A",
+              "CodeName": "缺席"
+            }
+          ]
+        },
+        "Columns": [
+          {
+            "BindField": "EmpNo",
+            "Title": "學員",
+            "Width": 140,
+            "Align": "Left",
+            "Formatter": "Tag",
+            "OptionKey": "EmpNo"
+          },
+          {
+            "BindField": "AttendStatus",
+            "Title": "出席狀態",
+            "Width": 100,
+            "Align": "Center",
+            "Formatter": "Tag",
+            "OptionKey": "AttendStatus"
+          },
+          {
+            "BindField": "AttendHours",
+            "Title": "出席時數",
+            "Width": 90,
+            "Align": "Center"
+          },
+          {
+            "BindField": "CompleteStatus",
+            "Title": "結訓狀態",
+            "Width": 100,
+            "Align": "Center",
+            "Formatter": "Tag",
+            "OptionKey": "CompleteStatus"
+          },
+          {
+            "BindField": "Score",
+            "Title": "成績",
+            "Width": 80,
+            "Align": "Center"
+          },
+          {
+            "BindField": "IsTransferredToSalar",
+            "Title": "已拋轉薪資",
+            "Width": 100,
+            "Align": "Center",
+            "Formatter": "YesNo"
+          }
+        ],
+        "FormFields": [
+          {
+            "BindField": "EmpNo",
+            "Title": "學員",
+            "Component": "Select",
+            "Section": "",
+            "Span": 12,
+            "Mode": "Editable",
+            "Validations": [
+              {
+                "Rule": "Required",
+                "Message": "學員為必填"
+              }
+            ],
+            "Props": {
+              "OptionKey": "EmpNo"
+            }
+          },
+          {
+            "BindField": "AttendStatus",
+            "Title": "出席狀態",
+            "Component": "Select",
+            "Section": "",
+            "Span": 12,
+            "Mode": "Editable",
+            "DefaultValue": "P",
+            "Props": {
+              "OptionKey": "AttendStatus"
+            }
+          },
+          {
+            "BindField": "AttendHours",
+            "Title": "實際出席時數",
+            "Component": "InputNumber",
+            "Section": "",
+            "Span": 12,
+            "Mode": "Editable",
+            "DefaultValue": 0
+          },
+          {
+            "BindField": "CompleteStatus",
+            "Title": "結訓狀態",
+            "Component": "Select",
+            "Section": "",
+            "Span": 12,
+            "Mode": "Editable",
+            "DefaultValue": "C",
+            "Props": {
+              "OptionKey": "CompleteStatus"
+            }
+          },
+          {
+            "BindField": "Score",
+            "Title": "成績",
+            "Component": "InputNumber",
+            "Section": "",
+            "Span": 12,
+            "Mode": "Editable"
+          },
+          {
+            "BindField": "CertificateNo",
+            "Title": "證書編號",
+            "Component": "Input",
+            "Section": "",
+            "Span": 12,
+            "Mode": "Editable",
+            "Props": {
+              "Placeholder": "認證課程填寫"
+            }
+          },
+          {
+            "BindField": "CertIssueDate",
+            "Title": "證書核發日",
+            "Component": "DatePicker",
+            "Section": "",
+            "Span": 12,
+            "Mode": "Editable"
+          },
+          {
+            "BindField": "AllowanceAmount",
+            "Title": "參訓津貼金額",
+            "Component": "InputNumber",
+            "Section": "",
+            "Span": 12,
+            "Mode": "Editable",
+            "Props": {
+              "Placeholder": "非上班時間課程結訓回寫"
+            }
+          },
+          {
+            "BindField": "DeductionAmount",
+            "Title": "離職教育訓練費扣款",
+            "Component": "InputNumber",
+            "Section": "",
+            "Span": 12,
+            "Mode": "Editable"
+          },
+          {
+            "BindField": "IsTransferredToSalar",
+            "Title": "是否已拋轉至薪資",
+            "Component": "YesNo",
+            "Section": "",
+            "Span": 12,
+            "Mode": "Editable",
+            "DefaultValue": "0"
+          },
+          {
+            "BindField": "Description",
+            "Title": "備註",
+            "Component": "TextArea",
+            "Section": "",
+            "Span": 24,
+            "Mode": "Editable"
+          }
+        ],
+        "SeedData": [
+          {
+            "RowGuid": "cc-0001",
+            "EntityID": "hrm",
+            "Status": "1",
+            "CourseCode": "CRS-2026-002",
+            "EmpNo": "E002",
+            "AttendStatus": "P",
+            "AttendHours": 6,
+            "CompleteStatus": "C",
+            "Score": 92,
+            "CertificateNo": null,
+            "CertIssueDate": null,
+            "AllowanceAmount": 0,
+            "DeductionAmount": null,
+            "IsTransferredToSalar": "0"
+          },
+          {
+            "RowGuid": "cc-0002",
+            "EntityID": "hrm",
+            "Status": "1",
+            "CourseCode": "CRS-2026-003",
+            "EmpNo": "E007",
+            "AttendStatus": "P",
+            "AttendHours": 8,
+            "CompleteStatus": "C",
+            "Score": 88,
+            "CertificateNo": "CERT-2026-0007",
+            "CertIssueDate": "2026-04-30",
+            "AllowanceAmount": 800,
+            "DeductionAmount": null,
+            "IsTransferredToSalar": "1"
+          }
+        ]
+      }
+    ]
+  },
+  "Features": {
+    "ImportSpec": {
+      "ImportColumns": [
+        {
+          "FieldID": "CourseCode",
+          "ExcelHeader": "課程代碼",
+          "DataType": "String",
+          "Required": true,
+          "MaxLength": 50
+        },
+        {
+          "FieldID": "CourseName",
+          "ExcelHeader": "課程名稱",
+          "DataType": "String",
+          "Required": true,
+          "MaxLength": 200
+        },
+        {
+          "FieldID": "CourseCategory",
+          "ExcelHeader": "課程類別",
+          "DataType": "String",
+          "Required": true,
+          "MaxLength": 20,
+          "OptionKey": "CourseCategory"
+        },
+        {
+          "FieldID": "Instructor",
+          "ExcelHeader": "講師",
+          "DataType": "String",
+          "Required": false,
+          "MaxLength": 100
+        },
+        {
+          "FieldID": "CourseHours",
+          "ExcelHeader": "課程時數",
+          "DataType": "Number",
+          "Required": false
+        },
+        {
+          "FieldID": "StartDate",
+          "ExcelHeader": "上課起日",
+          "DataType": "Date",
+          "Required": false
+        },
+        {
+          "FieldID": "EndDate",
+          "ExcelHeader": "上課迄日",
+          "DataType": "Date",
+          "Required": false
+        },
+        {
+          "FieldID": "MaxAttendees",
+          "ExcelHeader": "人數上限",
+          "DataType": "Number",
+          "Required": false
+        }
+      ],
+      "ImportRules": {
+        "DuplicateAction": "Update",
+        "MaxRowCount": 2000,
+        "AtomicImport": true
+      },
+      "TemplateMeta": {
+        "FileName": "教育訓練課程匯入樣板",
+        "SheetName": "課程資料",
+        "HeaderColor": "#D7F0E3",
+        "Instructions": [
+          "1. 課程代碼為必填且不可重複。",
+          "2. 課程類別請輸入字典值：IN(內訓)、EX(外訓)、ON(線上)、CERT(認證)。",
+          "3. 日期請使用 YYYY-MM-DD 格式；上課迄日須大於或等於起日。",
+          "4. 開課申請、學員報名、結訓紀錄請於課程儲存後，於明細頁籤維護。"
+        ]
+      }
+    },
+    "ExportSpec": {
+      "ExportColumns": [
+        {
+          "DataKey": "CourseCode",
+          "Header": "課程代碼",
+          "Width": 16
+        },
+        {
+          "DataKey": "CourseName",
+          "Header": "課程名稱",
+          "Width": 30
+        },
+        {
+          "DataKey": "CourseCategory",
+          "Header": "課程類別",
+          "Width": 12,
+          "Format": "CodeName:CourseCategory"
+        },
+        {
+          "DataKey": "Instructor",
+          "Header": "講師",
+          "Width": 14
+        },
+        {
+          "DataKey": "CourseHours",
+          "Header": "時數",
+          "Width": 8
+        },
+        {
+          "DataKey": "StartDate",
+          "Header": "上課起日",
+          "Width": 14
+        },
+        {
+          "DataKey": "EndDate",
+          "Header": "上課迄日",
+          "Width": 14
+        },
+        {
+          "DataKey": "CourseStatus",
+          "Header": "課程狀態",
+          "Width": 12,
+          "Format": "CodeName:CourseStatus"
+        },
+        {
+          "DataKey": "Status",
+          "Header": "資料狀態",
+          "Width": 10,
+          "Format": "CodeName:Status"
+        }
+      ],
+      "ExportRules": {
+        "MaxDownloadRows": 50000,
+        "AllowFullExport": true,
+        "AppendQuerySummary": true
+      }
+    }
+  },
+  "DataScope": {
+    "DefaultWhere": "EntityID = 'hrm' AND Status = '1'",
+    "AuthLevel": 3,
+    "SortExp": "SortNo ASC, StartDate DESC, CourseCode ASC",
+    "DataConfig": {
+      "RowLimit": 2000,
+      "AllowExport": true
+    }
+  },
+  "CustomMeta": {
+    "CustomSchema": {
+      "WidgetType": "Grid",
+      "KeyField": "CourseCode",
+      "TitleField": "CourseName",
+      "ParentKeyField": null,
+      "PathField": null,
+      "PathSeparator": "/"
+    },
+    "BusinessRules": {
+      "BusinessValidation": [
+        {
+          "Field": "CourseCode",
+          "Rule": "Unique",
+          "Message": "課程代碼不可重複"
+        },
+        {
+          "Field": "EndDate",
+          "Rule": "GreaterOrEqual",
+          "CompareTo": "StartDate",
+          "Message": "上課迄日不可早於起日"
+        }
+      ]
+    }
+  },
+  "SeedData": [
+    {
+      "RowGuid": "f1000000-0000-0000-0000-000000000001",
+      "EntityID": "hrm",
+      "Status": "1",
+      "CourseCode": "CRS-2026-001",
+      "CourseName": "AWS 雲端架構實戰",
+      "CourseCategory": "EX",
+      "Instructor": "王大明",
+      "InstructorOrg": "台灣雲端學院",
+      "CourseHours": 16,
+      "CourseFee": 8000,
+      "StartDate": "2026-04-10",
+      "EndDate": "2026-04-11",
+      "Location": "台北南港訓練中心",
+      "MaxAttendees": 30,
+      "GradeRestriction": "[]",
+      "DeptRestriction": "[\"D130\",\"D131\",\"D132\"]",
+      "IsAfterHours": "0",
+      "CourseStatus": "O",
+      "Priority": "A",
+      "SortNo": "C0001",
+      "Description": "資訊部年度技術培訓",
+      "Attributes": "{}",
+      "CreatedBy": "system",
+      "CreatedAt": "2026-02-15 09:00",
+      "UpdatedBy": "linda.hr",
+      "UpdatedAt": "2026-03-01 10:00"
+    },
+    {
+      "RowGuid": "f1000000-0000-0000-0000-000000000002",
+      "EntityID": "hrm",
+      "Status": "1",
+      "CourseCode": "CRS-2026-002",
+      "CourseName": "勞動法令與人資實務",
+      "CourseCategory": "IN",
+      "Instructor": "林雅婷",
+      "InstructorOrg": null,
+      "CourseHours": 6,
+      "CourseFee": 0,
+      "StartDate": "2026-03-20",
+      "EndDate": "2026-03-20",
+      "Location": "總公司 3F 會議室",
+      "MaxAttendees": 50,
+      "GradeRestriction": "[]",
+      "DeptRestriction": "[]",
+      "IsAfterHours": "0",
+      "CourseStatus": "F",
+      "Priority": "B",
+      "SortNo": "C0002",
+      "Description": "全體主管必修",
+      "Attributes": "{}",
+      "CreatedBy": "system",
+      "CreatedAt": "2026-02-15 09:05",
+      "UpdatedBy": "linda.hr",
+      "UpdatedAt": "2026-03-21 17:00"
+    },
+    {
+      "RowGuid": "f1000000-0000-0000-0000-000000000003",
+      "EntityID": "hrm",
+      "Status": "1",
+      "CourseCode": "CRS-2026-003",
+      "CourseName": "產線安全衛生認證",
+      "CourseCategory": "CERT",
+      "Instructor": "職安署講師",
+      "InstructorOrg": "勞動部職安署",
+      "CourseHours": 8,
+      "CourseFee": 1200,
+      "StartDate": "2026-04-25",
+      "EndDate": "2026-04-25",
+      "Location": "製造處教育訓練室",
+      "MaxAttendees": 40,
+      "GradeRestriction": "[]",
+      "DeptRestriction": "[\"D200\",\"D210\",\"D220\"]",
+      "IsAfterHours": "1",
+      "CourseStatus": "F",
+      "Priority": "A",
+      "SortNo": "C0003",
+      "Description": "產線人員年度必修認證；非上班時間舉辦，結訓給予參訓津貼",
+      "Attributes": "{}",
+      "CreatedBy": "system",
+      "CreatedAt": "2026-02-15 09:10",
+      "UpdatedBy": "system",
+      "UpdatedAt": "2026-04-26 09:00"
+    },
+    {
+      "RowGuid": "f1000000-0000-0000-0000-000000000004",
+      "EntityID": "hrm",
+      "Status": "1",
+      "CourseCode": "CRS-2026-004",
+      "CourseName": "TypeScript 進階線上課",
+      "CourseCategory": "ON",
+      "Instructor": "外部平台",
+      "InstructorOrg": "Udemy",
+      "CourseHours": 12,
+      "CourseFee": 1500,
+      "StartDate": "2026-05-01",
+      "EndDate": "2026-06-30",
+      "Location": "線上",
+      "MaxAttendees": null,
+      "GradeRestriction": "[]",
+      "DeptRestriction": "[\"D131\",\"D310\"]",
+      "IsAfterHours": "1",
+      "CourseStatus": "O",
+      "Priority": "C",
+      "SortNo": "C0004",
+      "Description": "前端／系統開發課自主學習",
+      "Attributes": "{}",
+      "CreatedBy": "system",
+      "CreatedAt": "2026-04-01 09:00",
+      "UpdatedBy": "system",
+      "UpdatedAt": "2026-04-20 14:00"
+    }
+  ]
+}

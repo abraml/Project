@@ -1,0 +1,175 @@
+{
+  "EntityID": "hrm",
+  "SystemCode": "MUEIP",
+  "ModuleCode": "SURV",
+  "FuncCode": "survReplyPolicy",
+  "ConfigHash": "sha256:survlyPolicy0000000000000000000000000000000000000000000000000000",
+  "PageMeta": {
+    "PageTitle": "資安政策閱讀回覆",
+    "Lang": "zh-TW",
+    "FormType": "SurveyForm",
+    "EditDisplayType": "Page",
+    "Breadcrumb": [
+      {
+        "Title": "首頁",
+        "Path": "/"
+      },
+      {
+        "Title": "問卷",
+        "Path": null
+      },
+      {
+        "Title": "資安政策閱讀回覆",
+        "Path": "/surv/survReplyPolicy"
+      }
+    ],
+    "IsApproval": false,
+    "TenantLocked": false,
+    "Icon": "ri-mail-check-line",
+    "Remark": "題庫式問卷(REPLY);渲染為問卷供填寫,作答存入 survResponse + survAnswer。"
+  },
+  "Resources": {
+    "CodeSets": {
+      "BankType": [
+        {
+          "CodeID": "EVAL",
+          "CodeName": "考評表"
+        },
+        {
+          "CodeID": "SATISFY",
+          "CodeName": "滿意度調查"
+        },
+        {
+          "CodeID": "REPLY",
+          "CodeName": "公告回覆"
+        }
+      ],
+      "ScoringMode": [
+        {
+          "CodeID": "none",
+          "CodeName": "不計分"
+        },
+        {
+          "CodeID": "weighted",
+          "CodeName": "加權計分"
+        },
+        {
+          "CodeID": "sum",
+          "CodeName": "加總計分"
+        }
+      ]
+    },
+    "FeatureFlags": {
+      "EnableQuery": true,
+      "EnableInsert": true,
+      "EnableUpdate": true,
+      "EnableDelete": false,
+      "EnableImport": false,
+      "EnableExport": true,
+      "EnableBatch": false
+    }
+  },
+  "SurveySpec": {
+    "Bank": {
+      "BankCode": "BANK-RPL-202606",
+      "BankName": "資安政策更新 — 閱讀確認與回覆",
+      "BankType": "REPLY",
+      "Version": "1.0",
+      "ScoringMode": "none",
+      "RefSourceType": "ANNOUNCE",
+      "Intro": "請閱讀《2026 資訊安全政策》後完成下列確認與回覆。"
+    },
+    "Groups": [
+      {
+        "GroupCode": "G1",
+        "GroupName": "閱讀確認",
+        "DisplayOrder": 1,
+        "Questions": [
+          {
+            "QuestionCode": "Q1",
+            "QuestionText": "我已詳細閱讀本次公告內容",
+            "QuestionType": "yesno",
+            "IsRequired": true,
+            "DisplayOrder": 1
+          },
+          {
+            "QuestionCode": "Q2",
+            "QuestionText": "我對本政策的立場",
+            "QuestionType": "single",
+            "IsRequired": true,
+            "DisplayOrder": 2,
+            "Options": [
+              {
+                "OptionCode": "AGREE",
+                "OptionText": "同意並遵循"
+              },
+              {
+                "OptionCode": "REJECT",
+                "OptionText": "不同意"
+              },
+              {
+                "OptionCode": "DISCUSS",
+                "OptionText": "需進一步討論"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "GroupCode": "G2",
+        "GroupName": "回覆意見",
+        "DisplayOrder": 2,
+        "Questions": [
+          {
+            "QuestionCode": "Q3",
+            "QuestionText": "補充說明或疑問",
+            "QuestionType": "textarea",
+            "IsRequired": false,
+            "Placeholder": "如有疑問請說明...",
+            "DisplayOrder": 1
+          },
+          {
+            "QuestionCode": "Q4",
+            "QuestionText": "希望安排討論的日期",
+            "QuestionType": "date",
+            "IsRequired": true,
+            "DisplayOrder": 2,
+            "Condition": {
+              "QuestionCode": "Q2",
+              "Equals": "DISCUSS"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "DataScope": {
+    "DefaultWhere": "EntityID = 'hrm'",
+    "AuthLevel": 1,
+    "SortExp": "DisplayOrder ASC",
+    "DataConfig": {
+      "RowLimit": 1,
+      "AllowExport": false
+    },
+    "Remark": "作答層 survResponse/survAnswer 由 @Action=DoSubmit 寫入;考評含分數為機敏(L2)。"
+  },
+  "ResponseSchema": {
+    "ResponseEntity": "survResponse",
+    "AnswerEntity": "survAnswer",
+    "ResponseKey": "ResponseNo",
+    "RelationKey": "ResponseNo",
+    "AnswerFields": {
+      "Group": "GroupCode",
+      "Question": "QuestionCode",
+      "Value": "AnswerValue",
+      "Text": "AnswerText",
+      "Score": "AnswerScore"
+    },
+    "Actions": [
+      "DoInit",
+      "DoSaveDraft",
+      "DoSubmit",
+      "DoQueryResult"
+    ]
+  }
+}

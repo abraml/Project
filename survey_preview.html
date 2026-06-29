@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>CDE 題庫式問卷格式 — 設計預覽(SurveyForm)</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" rel="stylesheet">
+<style>
+:root{
+  --body:#f0f2f5;--card:#fff;--bdr:#e4e6ea;--pri:#1f5fd0;--pril:#eaf0fc;--suc:#0ab39c;--sucl:#d6f5f0;
+  --warn:#f7b84b;--warnl:#fef7e5;--dan:#f06548;--danl:#feece8;--info:#299cdb;--infol:#e0f1fb;
+  --txt:#212529;--muted:#6c757d;--sh:0 1px 4px rgba(0,0,0,.08);--sh2:0 6px 24px rgba(0,0,0,.14);--r:8px;
+  --font:'Noto Sans TC',system-ui,sans-serif;--mono:'JetBrains Mono',monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font);background:var(--body);color:var(--txt);font-size:14px;line-height:1.55}
+.wrap{max-width:880px;margin:0 auto;padding:18px}
+.apphdr{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+.apphdr .mk{width:38px;height:38px;border-radius:10px;background:linear-gradient(135deg,#1f5fd0,#3d4d8a);color:#fff;display:grid;place-items:center;font-weight:700;font-size:18px}
+.apphdr h1{font-size:17px;font-weight:600}.apphdr p{font-size:12px;color:var(--muted)}
+.tabs{display:flex;gap:6px;margin-bottom:16px;border-bottom:2px solid var(--bdr);flex-wrap:wrap}
+.tab{padding:9px 16px;cursor:pointer;font-weight:600;font-size:13px;color:var(--muted);border-bottom:2px solid transparent;margin-bottom:-2px;display:flex;align-items:center;gap:6px}
+.tab.on{color:var(--pri);border-bottom-color:var(--pri)}.tab i{font-size:15px}
+.tag{display:inline-flex;align-items:center;gap:4px;padding:2px 9px;border-radius:20px;font-size:11px;font-weight:600}
+.tag.EVAL{background:var(--pril);color:var(--pri)}.tag.SATISFY{background:var(--sucl);color:#08877a}.tag.REPLY{background:var(--warnl);color:#c98a14}
+.tag.req{background:var(--danl);color:#c8472f}.tag.S{background:#f3e8ff;color:#7e22ce}.tag.A{background:var(--sucl);color:#08877a}
+.tag.B{background:var(--infol);color:#1d7fb8}.tag.C{background:var(--warnl);color:#c98a14}.tag.D{background:var(--danl);color:#c8472f}
+/* 抬頭 */
+.q-hd{border:1px solid var(--bdr);border-radius:var(--r);overflow:hidden;box-shadow:var(--sh);margin-bottom:16px}
+.q-hd .bar{background:linear-gradient(135deg,#1f5fd0,#3d4d8a);color:#fff;padding:20px 24px}
+.q-hd .bar h2{font-size:20px;font-weight:600;display:flex;align-items:center;gap:10px}
+.q-hd .bar .meta{font-size:12px;opacity:.9;margin-top:6px;display:flex;gap:14px;flex-wrap:wrap}
+.q-hd .intro{padding:14px 24px;font-size:13px;color:#5b6270;background:#fafbfd;border-top:1px solid var(--bdr)}
+.progress{height:5px;background:#eef0f3}.progress>i{display:block;height:100%;background:linear-gradient(90deg,#1f5fd0,#0ab39c);transition:width .25s}
+/* 群組 */
+.grp{margin-bottom:18px}
+.grp-hd{display:flex;align-items:center;justify-content:space-between;padding:10px 4px;margin-bottom:8px;border-bottom:2px solid var(--pril)}
+.grp-hd .lhs{display:flex;align-items:center;gap:10px}
+.grp-hd .gi{width:28px;height:28px;border-radius:8px;background:var(--pri);color:#fff;display:grid;place-items:center;font-weight:700;font-size:13px}
+.grp-hd .gn{font-size:16px;font-weight:600}.grp-hd .gd{font-size:12px;color:var(--muted)}
+.grp-hd .gw{font-size:12px;color:var(--muted)}.grp-hd .gw b{color:var(--pri);font-family:var(--mono)}
+/* 問題卡 */
+.q{background:#fff;border:1px solid var(--bdr);border-radius:var(--r);box-shadow:var(--sh);padding:16px 18px;margin-bottom:11px}
+.q.invalid{border-color:var(--dan);box-shadow:0 0 0 2px var(--danl)}
+.q-t{font-size:14px;font-weight:600;margin-bottom:4px;display:flex;gap:7px;align-items:baseline}
+.q-t .seq{color:var(--pri);font-family:var(--mono);font-weight:700}
+.q-t .rq{color:var(--dan);font-weight:700}
+.q-help{font-size:12px;color:var(--muted);margin-bottom:11px}
+/* 選項型 */
+.opts{display:flex;flex-direction:column;gap:8px}
+.opts.inline{flex-direction:row;flex-wrap:wrap;gap:10px}
+.opt{display:flex;align-items:center;gap:9px;padding:9px 13px;border:1px solid var(--bdr);border-radius:7px;cursor:pointer;font-size:13px;transition:.12s;background:#fff}
+.opt:hover{border-color:var(--pri);background:var(--pril)}
+.opt.sel{border-color:var(--pri);background:var(--pril);font-weight:600}
+.opt .mk{width:18px;height:18px;border:2px solid var(--light,#ced4da);border-radius:50%;flex-shrink:0;display:grid;place-items:center}
+.opt.multi .mk{border-radius:4px}
+.opt.sel .mk{border-color:var(--pri);background:var(--pri)}
+.opt.sel .mk:after{content:'';width:8px;height:8px;background:#fff;border-radius:inherit}
+.opt .sc{margin-left:auto;font-size:11px;color:var(--muted);font-family:var(--mono)}
+/* Likert 量表 */
+.scale{display:flex;gap:6px}
+.scale .s{flex:1;text-align:center;padding:10px 4px;border:1px solid var(--bdr);border-radius:7px;cursor:pointer;font-size:12px;transition:.12s}
+.scale .s:hover{border-color:var(--pri);background:var(--pril)}
+.scale .s.sel{border-color:var(--pri);background:var(--pri);color:#fff;font-weight:600}
+.scale .s .v{font-size:17px;font-weight:700;font-family:var(--mono);display:block}
+/* rating slider */
+.rate{display:flex;align-items:center;gap:14px}
+.rate input[type=range]{flex:1;accent-color:var(--pri)}
+.rate .num{width:64px;text-align:center;font-family:var(--mono);font-size:18px;font-weight:700;color:var(--pri);border:2px solid var(--bdr);border-radius:8px;padding:5px}
+/* stars */
+.stars{display:flex;gap:5px;font-size:28px;color:#dfe3e8}
+.stars i{cursor:pointer;transition:.1s}.stars i.on{color:var(--warn)}.stars i:hover{transform:scale(1.12)}
+/* yesno */
+.yn{display:flex;gap:10px}
+.yn .b{flex:1;padding:11px;text-align:center;border:1px solid var(--bdr);border-radius:7px;cursor:pointer;font-weight:600;font-size:14px}
+.yn .b:hover{border-color:var(--pri)}
+.yn .b.sel.y{border-color:var(--suc);background:var(--sucl);color:#08877a}
+.yn .b.sel.n{border-color:var(--dan);background:var(--danl);color:#c8472f}
+/* text */
+.q input.txt,.q textarea,.q input.dt,.q input.nm{width:100%;border:1px solid var(--bdr);border-radius:7px;padding:10px 12px;font-family:inherit;font-size:13px}
+.q textarea{resize:vertical;min-height:70px}
+.q input:focus,.q textarea:focus{outline:none;border-color:var(--pri)}
+.other-in{margin-top:7px;width:100%;border:1px solid var(--bdr);border-radius:6px;padding:7px 10px;font-size:13px}
+/* matrix */
+.mtx{width:100%;border-collapse:collapse;font-size:12px}
+.mtx th{padding:7px 5px;text-align:center;color:var(--muted);font-weight:600;border-bottom:1px solid var(--bdr)}
+.mtx td{padding:7px 5px;text-align:center;border-bottom:1px solid #f0f1f3}
+.mtx td.sub{text-align:left;font-weight:500}
+.mtx .r{width:18px;height:18px;border:2px solid #ced4da;border-radius:50%;display:inline-block;cursor:pointer}
+.mtx .r.sel{border-color:var(--pri);background:var(--pri);box-shadow:inset 0 0 0 3px #fff}
+/* footer */
+.q-foot{position:sticky;bottom:0;background:#fff;border:1px solid var(--bdr);border-radius:var(--r);box-shadow:var(--sh2);padding:14px 20px;display:flex;justify-content:space-between;align-items:center;margin-top:14px}
+.q-foot .calc{display:flex;gap:24px}
+.q-foot .calc .c .k{font-size:11px;color:var(--muted)}
+.q-foot .calc .c .v{font-size:22px;font-weight:700;font-family:var(--mono);color:var(--pri)}
+.q-foot .acts{display:flex;gap:9px}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:9px 17px;border:1px solid var(--bdr);border-radius:6px;background:#fff;cursor:pointer;font-family:inherit;font-size:13px;font-weight:600;color:var(--txt)}
+.btn:hover{background:#f5f6f8}.btn-pri{background:var(--pri);border-color:var(--pri);color:#fff}.btn-pri:hover{background:#1850b8}
+.toast{position:fixed;right:20px;bottom:20px;background:#fff;border:1px solid var(--bdr);border-left:4px solid var(--suc);border-radius:8px;box-shadow:var(--sh2);padding:12px 16px;display:none;align-items:center;gap:9px;font-size:13px;z-index:99}
+.toast.show{display:flex}.toast i{color:var(--suc);font-size:18px}.toast.err{border-left-color:var(--dan)}.toast.err i{color:var(--dan)}
+.hint{font-size:12px;color:var(--muted);padding:0 2px 12px}
+.cond{font-size:11px;color:var(--info);margin-top:3px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="apphdr">
+    <div class="mk">兆</div>
+    <div><h1>CDE 題庫式問卷格式 — SurveyForm</h1>
+      <p>一套題庫結構(題庫→群組→問題→選項)驅動三種場景 · 同一引擎 renderSurvey() · 本機驗證原型</p></div>
+  </div>
+  <div class="tabs" id="tabs"></div>
+  <div id="surveyHost"></div>
+</div>
+<div class="toast" id="toast"><i class="ri-checkbox-circle-line"></i><span id="toastMsg"></span></div>
+
+<script>
+/* ===================================================================
+   新 JSON 格式:SurveySpec(Bank → Groups → Questions → Options)
+   一份題庫即可驅動 SurveyForm 渲染;ScoringMode 決定是否計分
+   =================================================================== */
+const SURVEYS = {
+
+  /* ① 員工考評表(EVAL,加權計分) */
+  eval:{
+    Bank:{ BankCode:"BANK-EVAL-ENG", BankName:"工程師年度考評表", BankType:"EVAL", Version:"1.0",
+      ScoringMode:"weighted", PassScore:60, Respondent:"蔡宜君 (E008)", Period:"2025 年度",
+      Intro:"請就各構面覈實評分。系統依群組權重加總,即時試算加權總分與等級。" },
+    Groups:[
+      { GroupCode:"G1", GroupName:"工作績效", GroupDesc:"衡量工作成果", GroupWeight:40, Questions:[
+        { QuestionCode:"Q1", QuestionText:"工作品質", QuestionType:"rating", IsRequired:true, QuestionWeight:50, MaxScore:100,
+          HelpText:"交付成果之品質、正確性與影響力(0–100)", Min:0, Max:100, Step:1 },
+        { QuestionCode:"Q2", QuestionText:"工作效率", QuestionType:"rating", IsRequired:true, QuestionWeight:50, MaxScore:100,
+          HelpText:"產出速度與時程掌握(0–100)", Min:0, Max:100, Step:1 } ]},
+      { GroupCode:"G2", GroupName:"工作態度", GroupDesc:"衡量行為表現", GroupWeight:30, Questions:[
+        { QuestionCode:"Q3", QuestionText:"責任心與主動性", QuestionType:"scale", IsRequired:true, QuestionWeight:100, MaxScore:100,
+          Options:[ {OptionCode:"5",OptionText:"卓越",OptionScore:100},{OptionCode:"4",OptionText:"良好",OptionScore:85},
+                    {OptionCode:"3",OptionText:"符合",OptionScore:70},{OptionCode:"2",OptionText:"待加強",OptionScore:55},{OptionCode:"1",OptionText:"不足",OptionScore:40} ] } ]},
+      { GroupCode:"G3", GroupName:"專業能力", GroupDesc:"衡量專業度", GroupWeight:30, Questions:[
+        { QuestionCode:"Q4", QuestionText:"專業知識深度", QuestionType:"rating", IsRequired:true, QuestionWeight:70, MaxScore:100, Min:0,Max:100,Step:1 },
+        { QuestionCode:"Q5", QuestionText:"是否達成本期專業目標", QuestionType:"yesno", IsRequired:true, QuestionWeight:30, MaxScore:100,
+          YesScore:100, NoScore:0 } ]}
+    ]},
+
+  /* ② 滿意度調查(SATISFY,不計分) */
+  satis:{
+    Bank:{ BankCode:"BANK-SAT-2026", BankName:"2026 內部服務滿意度調查", BankType:"SATISFY", Version:"1.0",
+      ScoringMode:"none", Anonymous:true, Respondent:"匿名", Period:"2026 Q2",
+      Intro:"您的回饋將協助我們持續改善內部服務。本調查匿名進行,約需 2 分鐘。" },
+    Groups:[
+      { GroupCode:"G1", GroupName:"整體滿意度", Questions:[
+        { QuestionCode:"Q1", QuestionText:"您對 IT 服務台的整體滿意度?", QuestionType:"scale", IsRequired:true,
+          Options:[ {OptionCode:"5",OptionText:"非常滿意"},{OptionCode:"4",OptionText:"滿意"},{OptionCode:"3",OptionText:"普通"},
+                    {OptionCode:"2",OptionText:"不滿意"},{OptionCode:"1",OptionText:"非常不滿意"} ] },
+        { QuestionCode:"Q2", QuestionText:"請為本季服務體驗評星", QuestionType:"stars", IsRequired:true, Max:5 } ]},
+      { GroupCode:"G2", GroupName:"服務面向", Questions:[
+        { QuestionCode:"Q3", QuestionText:"您使用過下列哪些服務?(可複選)", QuestionType:"multiple", IsRequired:false,
+          Options:[ {OptionCode:"A",OptionText:"設備報修"},{OptionCode:"B",OptionText:"帳號權限"},{OptionCode:"C",OptionText:"軟體安裝"},
+                    {OptionCode:"D",OptionText:"網路問題"},{OptionCode:"X",OptionText:"其他",AllowInput:true} ] },
+        { QuestionCode:"Q4", QuestionText:"各面向滿意度", QuestionType:"matrix", IsRequired:true,
+          SubQuestions:[ {Code:"M1",Text:"回應速度"},{Code:"M2",Text:"專業度"},{Code:"M3",Text:"態度"} ],
+          Options:[ {OptionCode:"5",OptionText:"很滿意"},{OptionCode:"4",OptionText:"滿意"},{OptionCode:"3",OptionText:"普通"},{OptionCode:"2",OptionText:"不滿意"},{OptionCode:"1",OptionText:"很不滿意"} ] } ]},
+      { GroupCode:"G3", GroupName:"建議", Questions:[
+        { QuestionCode:"Q5", QuestionText:"您對我們的服務有什麼建議?", QuestionType:"textarea", IsRequired:false, Placeholder:"歡迎留下寶貴意見..." } ]}
+    ]},
+
+  /* ③ 公告回覆表(REPLY,不計分,含條件顯示) */
+  reply:{
+    Bank:{ BankCode:"BANK-RPL-202606", BankName:"資安政策更新 — 閱讀確認與回覆", BankType:"REPLY", Version:"1.0",
+      ScoringMode:"none", Respondent:"陳大明 (E001)", Period:"2026-06",
+      Intro:"請閱讀《2026 資訊安全政策》後完成下列確認與回覆。" },
+    Groups:[
+      { GroupCode:"G1", GroupName:"閱讀確認", Questions:[
+        { QuestionCode:"Q1", QuestionText:"我已詳細閱讀本次公告內容", QuestionType:"yesno", IsRequired:true },
+        { QuestionCode:"Q2", QuestionText:"我對本政策的立場", QuestionType:"single", IsRequired:true,
+          Options:[ {OptionCode:"AGREE",OptionText:"同意並遵循"},{OptionCode:"REJECT",OptionText:"不同意"},{OptionCode:"DISCUSS",OptionText:"需進一步討論"} ] } ]},
+      { GroupCode:"G2", GroupName:"回覆意見", Questions:[
+        { QuestionCode:"Q3", QuestionText:"補充說明或疑問", QuestionType:"textarea", IsRequired:false, Placeholder:"如有疑問請說明..." },
+        { QuestionCode:"Q4", QuestionText:"希望安排討論的日期", QuestionType:"date", IsRequired:true,
+          Condition:{ QuestionCode:"Q2", Equals:"DISCUSS" } } ]}
+    ]}
+};
+
+const $=id=>document.getElementById(id);
+const ANS={};  // 各問卷答案 { surveyKey: { qCode: value } }
+let CUR="eval";
+function toast(m,err){const t=$("toast");$("toastMsg").textContent=m;t.className="toast show"+(err?" err":"");setTimeout(()=>t.classList.remove("show"),2000);}
+
+/* tabs */
+const TABMETA={eval:["ri-award-line","員工考評表"],satis:["ri-emotion-line","滿意度調查"],reply:["ri-mail-check-line","公告回覆表"]};
+$("tabs").innerHTML=Object.entries(TABMETA).map(([k,[ic,nm]])=>`<div class="tab ${k===CUR?'on':''}" data-k="${k}"><i class="${ic}"></i>${nm}</div>`).join("");
+$("tabs").querySelectorAll(".tab").forEach(t=>t.onclick=()=>{CUR=t.dataset.k;$("tabs").querySelectorAll(".tab").forEach(x=>x.classList.toggle("on",x===t));renderSurvey(CUR);});
+
+/* ===== 引擎參考實作:renderSurvey(spec) ===== */
+function renderSurvey(key){
+  const spec=SURVEYS[key]; if(!ANS[key])ANS[key]={};
+  const b=spec.Bank, A=ANS[key];
+  let seq=0, gi=0, html="";
+  spec.Groups.forEach(g=>{ gi++;
+    let qhtml="";
+    g.Questions.forEach(q=>{ seq++;
+      qhtml+=`<div class="q" data-q="${q.QuestionCode}" id="q_${q.QuestionCode}">
+        <div class="q-t"><span class="seq">${seq}.</span><span>${q.QuestionText}</span>${q.IsRequired?'<span class="rq">*</span>':''}</div>
+        ${q.HelpText?`<div class="q-help">${q.HelpText}</div>`:''}
+        ${renderInput(key,q,A[q.QuestionCode])}
+        ${q.Condition?`<div class="cond"><i class="ri-git-branch-line"></i> 條件題:當「${q.Condition.QuestionCode}=${q.Condition.Equals}」時顯示</div>`:''}
+      </div>`;
+    });
+    html+=`<div class="grp" data-g="${g.GroupCode}">
+      <div class="grp-hd"><div class="lhs"><span class="gi">${gi}</span><div>
+        <div class="gn">${g.GroupName}</div>${g.GroupDesc?`<div class="gd">${g.GroupDesc}</div>`:''}</div></div>
+        ${g.GroupWeight?`<div class="gw">群組權重 <b>${g.GroupWeight}%</b></div>`:''}</div>
+      ${qhtml}</div>`;
+  });
+  const scoring=b.ScoringMode==="weighted";
+  $("surveyHost").innerHTML=`
+    <div class="hint"><i class="ri-information-line"></i> 同一份 <b>SurveySpec</b> JSON 驅動此問卷;ScoringMode=<b>${b.ScoringMode}</b>。必填題標 <span style="color:var(--dan)">*</span>,條件題依作答動態顯示/隱藏。</div>
+    <div class="q-hd"><div class="bar">
+        <h2><i class="ri-survey-line"></i> ${b.BankName} <span class="tag ${b.BankType}">${b.BankType}</span></h2>
+        <div class="meta"><span><i class="ri-user-line"></i> ${b.Respondent}</span><span><i class="ri-calendar-line"></i> ${b.Period||''}</span>
+          <span><i class="ri-price-tag-3-line"></i> ${b.BankCode} · v${b.Version}</span>${b.Anonymous?'<span><i class="ri-spy-line"></i> 匿名</span>':''}</div></div>
+      ${b.Intro?`<div class="intro">${b.Intro}</div>`:''}
+      <div class="progress"><i id="prog" style="width:0%"></i></div></div>
+    <form id="surveyForm" onsubmit="return false">${html}</form>
+    <div class="q-foot">
+      <div class="calc">
+        <div class="c"><div class="k">作答進度</div><div class="v"><span id="progTxt">0/0</span></div></div>
+        ${scoring?`<div class="c"><div class="k">加權總分</div><div class="v"><span id="totalScore">—</span><small style="font-size:12px;color:var(--muted)"> 分</small></div></div>
+        <div class="c"><div class="k">等級</div><div class="v"><span id="gradeBox">—</span></div></div>`:''}
+      </div>
+      <div class="acts">
+        <button class="btn" onclick="saveDraft()"><i class="ri-save-line"></i>暫存</button>
+        <button class="btn btn-pri" onclick="submitSurvey()"><i class="ri-send-plane-line"></i>送出</button>
+      </div></div>`;
+  bindInputs(key);
+  applyConditions(key);
+  recalc(key);
+}
+
+function renderInput(key,q,val){
+  const t=q.QuestionType;
+  if(t==="single"||t==="multiple"){
+    const multi=t==="multiple", arr=Array.isArray(val)?val:(val!=null?[val]:[]);
+    return `<div class="opts">`+q.Options.map(o=>{
+      const sel=arr.includes(o.OptionCode);
+      return `<div class="opt ${multi?'multi':''} ${sel?'sel':''}" data-opt="${o.OptionCode}" data-q="${q.QuestionCode}" data-type="${t}">
+        <span class="mk"></span><span>${o.OptionText}</span>${o.OptionScore!=null?`<span class="sc">${o.OptionScore}分</span>`:''}
+        ${o.AllowInput&&sel?`<input class="other-in" placeholder="請說明..." data-other="${q.QuestionCode}" onclick="event.stopPropagation()">`:''}</div>`;
+    }).join("")+`</div>`;
+  }
+  if(t==="scale"){
+    return `<div class="scale">`+q.Options.map(o=>`
+      <div class="s ${val===o.OptionCode?'sel':''}" data-opt="${o.OptionCode}" data-q="${q.QuestionCode}" data-type="scale">
+        <span class="v">${o.OptionCode}</span>${o.OptionText}</div>`).join("")+`</div>`;
+  }
+  if(t==="rating"){
+    const v=val??q.Min??0;
+    return `<div class="rate"><input type="range" min="${q.Min??0}" max="${q.Max??100}" step="${q.Step??1}" value="${v}" data-q="${q.QuestionCode}" data-type="rating">
+      <input class="num" type="number" min="${q.Min??0}" max="${q.Max??100}" value="${val??''}" placeholder="—" data-qn="${q.QuestionCode}"></div>`;
+  }
+  if(t==="stars"){
+    const v=val||0, mx=q.Max||5; let s="";
+    for(let i=1;i<=mx;i++) s+=`<i class="ri-star-${i<=v?'fill':'line'} ${i<=v?'on':''}" data-star="${i}" data-q="${q.QuestionCode}"></i>`;
+    return `<div class="stars">${s}</div>`;
+  }
+  if(t==="yesno"){
+    return `<div class="yn">
+      <div class="b y ${val==='Y'?'sel':''}" data-val="Y" data-q="${q.QuestionCode}" data-type="yesno"><i class="ri-check-line"></i> 是</div>
+      <div class="b n ${val==='N'?'sel':''}" data-val="N" data-q="${q.QuestionCode}" data-type="yesno"><i class="ri-close-line"></i> 否</div></div>`;
+  }
+  if(t==="textarea") return `<textarea data-qt="${q.QuestionCode}" placeholder="${q.Placeholder||''}">${val||''}</textarea>`;
+  if(t==="text")     return `<input class="txt" data-qt="${q.QuestionCode}" placeholder="${q.Placeholder||''}" value="${val||''}">`;
+  if(t==="number")   return `<input class="nm" type="number" data-qt="${q.QuestionCode}" placeholder="${q.Placeholder||''}" value="${val??''}">`;
+  if(t==="date")     return `<input class="dt" type="date" data-qt="${q.QuestionCode}" value="${val||''}">`;
+  if(t==="matrix"){
+    let head=`<tr><th></th>`+q.Options.map(o=>`<th>${o.OptionText}</th>`).join("")+`</tr>`;
+    let rows=q.SubQuestions.map(sq=>{
+      const cur=(val||{})[sq.Code];
+      return `<tr><td class="sub">${sq.Text}</td>`+q.Options.map(o=>
+        `<td><span class="r ${cur===o.OptionCode?'sel':''}" data-mtx="${q.QuestionCode}" data-sub="${sq.Code}" data-opt="${o.OptionCode}"></span></td>`).join("")+`</tr>`;
+    }).join("");
+    return `<table class="mtx"><thead>${head}</thead><tbody>${rows}</tbody></table>`;
+  }
+  return `<div class="muted">未支援題型:${t}</div>`;
+}
+
+function bindInputs(key){
+  const A=ANS[key], host=$("surveyHost");
+  host.querySelectorAll('.opt').forEach(el=>el.onclick=()=>{
+    const q=el.dataset.q, opt=el.dataset.opt, multi=el.dataset.type==="multiple";
+    if(multi){ let a=Array.isArray(A[q])?A[q].slice():[]; const i=a.indexOf(opt); i>=0?a.splice(i,1):a.push(opt); A[q]=a; }
+    else A[q]=opt;
+    renderSurvey(key);
+  });
+  host.querySelectorAll('.scale .s').forEach(el=>el.onclick=()=>{A[el.dataset.q]=el.dataset.opt;renderSurvey(key);});
+  host.querySelectorAll('.yn .b').forEach(el=>el.onclick=()=>{A[el.dataset.q]=el.dataset.val;renderSurvey(key);});
+  host.querySelectorAll('.stars i').forEach(el=>el.onclick=()=>{A[el.dataset.q]=+el.dataset.star;renderSurvey(key);});
+  host.querySelectorAll('input[type=range][data-q]').forEach(el=>el.oninput=()=>{A[el.dataset.q]=+el.value;
+    const n=host.querySelector(`input[data-qn="${el.dataset.q}"]`); if(n)n.value=el.value; recalc(key); updateProgress(key);});
+  host.querySelectorAll('input[data-qn]').forEach(el=>el.oninput=()=>{A[el.dataset.qn]=el.value===''?null:+el.value;
+    const r=host.querySelector(`input[type=range][data-q="${el.dataset.qn}"]`); if(r&&el.value!=='')r.value=el.value; recalc(key); updateProgress(key);});
+  host.querySelectorAll('[data-qt]').forEach(el=>el.oninput=()=>{A[el.dataset.qt]=el.value; updateProgress(key);});
+  host.querySelectorAll('[data-other]').forEach(el=>el.oninput=()=>{A["_other_"+el.dataset.other]=el.value;});
+  host.querySelectorAll('.mtx .r').forEach(el=>el.onclick=()=>{const q=el.dataset.mtx;A[q]=A[q]||{};A[q][el.dataset.sub]=el.dataset.opt;renderSurvey(key);});
+}
+
+/* 條件顯示:不符條件的問題隱藏並排除計算 */
+function applyConditions(key){
+  const spec=SURVEYS[key], A=ANS[key];
+  spec.Groups.forEach(g=>g.Questions.forEach(q=>{
+    if(q.Condition){ const ok=A[q.Condition.QuestionCode]===q.Condition.Equals;
+      const el=$("q_"+q.QuestionCode); if(el) el.style.display=ok?"":"none"; }
+  }));
+}
+function visibleQuestions(key){
+  const spec=SURVEYS[key], A=ANS[key], out=[];
+  spec.Groups.forEach(g=>g.Questions.forEach(q=>{
+    if(q.Condition && A[q.Condition.QuestionCode]!==q.Condition.Equals) return; out.push({g,q});
+  }));
+  return out;
+}
+function answered(q,v){
+  if(v==null||v==="") return false;
+  if(Array.isArray(v)) return v.length>0;
+  if(typeof v==="object") return Object.keys(v).length>0;
+  return true;
+}
+function updateProgress(key){
+  const vis=visibleQuestions(key), A=ANS[key];
+  const done=vis.filter(({q})=>answered(q,A[q.QuestionCode])).length;
+  const pct=vis.length?Math.round(done/vis.length*100):0;
+  $("prog")&&($("prog").style.width=pct+"%"); $("progTxt")&&($("progTxt").textContent=`${done}/${vis.length}`);
+}
+
+/* 計分:rating→值;scale/single→OptionScore;yesno→Yes/NoScore;
+   題分→群組加權→總分(weighted) */
+function questionScore(q,v){
+  if(v==null) return null;
+  if(q.QuestionType==="rating") return v/(q.Max||100)*(q.MaxScore||100);
+  if(q.QuestionType==="yesno") return v==='Y'?(q.YesScore??100):(q.NoScore??0);
+  if(q.QuestionType==="scale"||q.QuestionType==="single"){
+    const o=(q.Options||[]).find(o=>o.OptionCode===v); return o&&o.OptionScore!=null?o.OptionScore:null;
+  }
+  return null;
+}
+function recalc(key){
+  const spec=SURVEYS[key], A=ANS[key];
+  updateProgress(key);
+  if(spec.Bank.ScoringMode!=="weighted") return;
+  let total=0, wsum=0;
+  spec.Groups.forEach(g=>{
+    let gScore=0, gw=0;
+    g.Questions.forEach(q=>{ const s=questionScore(q,A[q.QuestionCode]);
+      if(s!=null){ gScore+=s*(q.QuestionWeight||0)/100; gw+=(q.QuestionWeight||0); } });
+    if(gw>0){ const gNorm=gScore*(100/gw); total+=gNorm*(g.GroupWeight||0)/100; wsum+=(g.GroupWeight||0); }
+  });
+  const final = wsum>0? total*(100/wsum) : 0;
+  const filledAll = visibleQuestions(key).every(({q})=>questionScore(q,A[q.QuestionCode])!=null);
+  $("totalScore")&&($("totalScore").textContent=filledAll?final.toFixed(1):"—");
+  const g=filledAll?gradeOf(final):null;
+  $("gradeBox")&&($("gradeBox").innerHTML=g?`<span class="tag ${g}">${g}</span>`:`<span class="muted" style="font-size:13px">填寫中</span>`);
+  return final;
+}
+function gradeOf(s){ return s>=95?"S":s>=85?"A":s>=70?"B":s>=60?"C":"D"; }
+
+function requiredMissing(key){
+  const A=ANS[key];
+  return visibleQuestions(key).filter(({q})=>q.IsRequired && !answered(q,A[q.QuestionCode]));
+}
+function saveDraft(){toast("已暫存草稿(survResponse.DocStatus=0)");}
+function submitSurvey(){
+  const miss=requiredMissing(CUR);
+  document.querySelectorAll(".q").forEach(e=>e.classList.remove("invalid"));
+  if(miss.length){ miss.forEach(({q})=>$("q_"+q.QuestionCode)?.classList.add("invalid"));
+    $("q_"+miss[0].q.QuestionCode)?.scrollIntoView?.({behavior:"smooth",block:"center"});
+    toast(`尚有 ${miss.length} 題必填未完成`,true); return; }
+  const spec=SURVEYS[CUR];
+  let msg="已送出(survResponse.DocStatus=1)";
+  if(spec.Bank.ScoringMode==="weighted"){ const f=recalc(CUR); msg=`已送出 · 加權總分 ${f.toFixed(1)} · 等級 ${gradeOf(f)}`; }
+  toast(msg);
+}
+renderSurvey(CUR);
+</script>
+</body>
+</html>

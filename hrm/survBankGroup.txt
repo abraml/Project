@@ -1,0 +1,511 @@
+{
+  "EntityID": "hrm",
+  "SystemCode": "MUEIP",
+  "ModuleCode": "HRM",
+  "FuncCode": "survBankGroup",
+  "ConfigHash": "sha256:survgrp000000000000000000000000000000000000000000000000000000041",
+  "PageMeta": {
+    "PageTitle": "題庫群組維護",
+    "Lang": "zh-TW",
+    "FormType": "ListForm",
+    "EditDisplayType": "Drawer",
+    "Breadcrumb": [
+      {
+        "Title": "首頁",
+        "Path": "/"
+      },
+      {
+        "Title": "問卷題庫",
+        "Path": null
+      },
+      {
+        "Title": "題庫群組維護",
+        "Path": "/surv/group"
+      }
+    ],
+    "IsApproval": false,
+    "TenantLocked": false,
+    "Icon": "ri-folder-line",
+    "Remark": "題庫問題群組;FK→survBank.BankCode。weighted 計分時群組權重加總=100。"
+  },
+  "Resources": {
+    "CodeSets": {
+      "Status": [
+        {
+          "CodeID": "1",
+          "CodeName": "啟用",
+          "IsDefault": true
+        },
+        {
+          "CodeID": "0",
+          "CodeName": "停用"
+        }
+      ],
+      "Priority": [
+        {
+          "CodeID": "A",
+          "CodeName": "高"
+        },
+        {
+          "CodeID": "B",
+          "CodeName": "中"
+        },
+        {
+          "CodeID": "C",
+          "CodeName": "低",
+          "IsDefault": true
+        }
+      ],
+      "BankCode": [
+        {
+          "CodeID": "BANK-EVAL-ENG",
+          "CodeName": "工程師年度考評表"
+        },
+        {
+          "CodeID": "BANK-SAT-2026",
+          "CodeName": "2026 滿意度調查"
+        },
+        {
+          "CodeID": "BANK-RPL-202606",
+          "CodeName": "資安政策回覆"
+        }
+      ]
+    },
+    "FeatureFlags": {
+      "IsReadOnly": false,
+      "EnableDraft": false,
+      "EnableBatchDelete": true,
+      "AutoRefreshInterval": 0,
+      "DefaultViewMode": "Table",
+      "RequireConfirmOnSave": true
+    }
+  },
+  "AllowAction": {
+    "DataActions": [
+      {
+        "ActionID": "Add",
+        "Label": "新增",
+        "Icon": "ri-add-line",
+        "Type": "Primary",
+        "Position": "Toolbar",
+        "Confirm": null
+      },
+      {
+        "ActionID": "Save",
+        "Label": "儲存",
+        "Icon": "ri-save-line",
+        "Type": "Primary",
+        "Position": "Toolbar",
+        "Confirm": null
+      },
+      {
+        "ActionID": "Delete",
+        "Label": "刪除",
+        "Icon": "ri-delete-bin-line",
+        "Type": "Danger",
+        "Position": "Both",
+        "Confirm": "刪除群組將連動其下問題,確定刪除?"
+      },
+      {
+        "ActionID": "Query",
+        "Label": "查詢",
+        "Icon": "ri-search-line",
+        "Type": "Default",
+        "Position": "Toolbar",
+        "Confirm": null
+      }
+    ],
+    "ExtensionActions": [
+      {
+        "ActionID": "Import",
+        "Label": "匯入",
+        "Icon": "ri-upload-2-line",
+        "Type": "Default",
+        "Position": "Toolbar",
+        "Confirm": null
+      },
+      {
+        "ActionID": "Export",
+        "Label": "匯出",
+        "Icon": "ri-file-excel-line",
+        "Type": "Default",
+        "Position": "Toolbar",
+        "Confirm": null
+      }
+    ]
+  },
+  "View": {
+    "RowKey": "RowGuid",
+    "ListView": {
+      "ListSpec": {
+        "RowKey": "RowGuid",
+        "SelectMode": "Single",
+        "FixedColumns": [
+          "Action",
+          "No"
+        ],
+        "RowActionMode": "Menu",
+        "ShowRowNo": true,
+        "Pagination": {
+          "PageSize": 100,
+          "SizeOptions": [
+            50,
+            100,
+            200,
+            500
+          ],
+          "ShowJumper": false,
+          "FullPageScroll": true
+        },
+        "DefaultSort": {
+          "Field": "SortNo",
+          "Order": "asc"
+        },
+        "EmptyText": "目前查無群組",
+        "GridBordered": true
+      },
+      "FieldSpecs": [
+        {
+          "BindField": "GroupName",
+          "Title": "群組名稱",
+          "Width": 220,
+          "Align": "Left",
+          "Fixed": "Left",
+          "Formatter": "Link",
+          "Sorter": true,
+          "DefaultVisible": true
+        },
+        {
+          "BindField": "GroupCode",
+          "Title": "群組代碼",
+          "Width": 130,
+          "Align": "Left",
+          "Fixed": "Left",
+          "Formatter": "Link",
+          "DefaultVisible": true
+        },
+        {
+          "BindField": "BankCode",
+          "Title": "所屬題庫",
+          "Width": 200,
+          "Align": "Left",
+          "Formatter": "Tag",
+          "Sorter": true,
+          "DefaultVisible": true
+        },
+        {
+          "BindField": "GroupWeight",
+          "Title": "權重%",
+          "Width": 90,
+          "Align": "Center",
+          "DefaultVisible": true
+        },
+        {
+          "BindField": "DisplayOrder",
+          "Title": "順序",
+          "Width": 80,
+          "Align": "Center",
+          "Sorter": true,
+          "DefaultVisible": true
+        },
+        {
+          "BindField": "Status",
+          "Title": "狀態",
+          "Width": 90,
+          "Align": "Center",
+          "Formatter": "StatusTag",
+          "DefaultVisible": true
+        }
+      ]
+    },
+    "FormView": {
+      "FormSpec": {
+        "RowKey": "RowGuid",
+        "Layout": "Horizontal",
+        "Sections": [
+          {
+            "SectionID": "SecBase",
+            "Type": "Card",
+            "Title": "群組資料",
+            "IsCollapsible": false,
+            "DefaultOpen": true,
+            "Icon": "ri-folder-line"
+          },
+          {
+            "SectionID": "SecExtra",
+            "Type": "Card",
+            "Title": "其他與系統",
+            "IsCollapsible": true,
+            "DefaultOpen": false,
+            "Icon": "ri-settings-4-line"
+          }
+        ],
+        "FormLogic": []
+      },
+      "FieldSpecs": [
+        {
+          "BindField": "RowKey",
+          "Title": "系統識別碼",
+          "Component": "Input",
+          "Section": "SecExtra",
+          "Span": 24,
+          "Mode": "Hidden"
+        },
+        {
+          "BindField": "EntityID",
+          "Title": "系統實體",
+          "Component": "Input",
+          "Section": "SecExtra",
+          "Span": 12,
+          "Mode": "Hidden",
+          "DefaultValue": "hrm"
+        },
+        {
+          "BindField": "BankCode",
+          "Title": "所屬題庫",
+          "Component": "Select",
+          "Section": "SecBase",
+          "Span": 12,
+          "Mode": "Editable",
+          "Validations": [
+            {
+              "Rule": "Required",
+              "Message": "題庫為必填"
+            }
+          ],
+          "Props": {
+            "OptionKey": "BankCode"
+          }
+        },
+        {
+          "BindField": "GroupCode",
+          "Title": "群組代碼",
+          "Component": "Input",
+          "Section": "SecBase",
+          "Span": 12,
+          "Mode": "Editable",
+          "Validations": [
+            {
+              "Rule": "Required",
+              "Message": "群組代碼為必填"
+            },
+            {
+              "Rule": "MaxLength",
+              "Value": 50,
+              "Message": "不可超過50"
+            }
+          ]
+        },
+        {
+          "BindField": "GroupName",
+          "Title": "群組名稱",
+          "Component": "Input",
+          "Section": "SecBase",
+          "Span": 12,
+          "Mode": "Editable",
+          "Validations": [
+            {
+              "Rule": "Required",
+              "Message": "群組名稱為必填"
+            },
+            {
+              "Rule": "MaxLength",
+              "Value": 200,
+              "Message": "不可超過200"
+            }
+          ]
+        },
+        {
+          "BindField": "GroupDesc",
+          "Title": "群組說明",
+          "Component": "TextArea",
+          "Section": "SecBase",
+          "Span": 24,
+          "Mode": "Editable"
+        },
+        {
+          "BindField": "GroupWeight",
+          "Title": "群組權重(%)",
+          "Component": "InputNumber",
+          "Section": "SecBase",
+          "Span": 12,
+          "Mode": "Editable",
+          "Props": {
+            "Min": 0,
+            "Max": 100,
+            "Placeholder": "weighted 模式;同題庫加總=100"
+          }
+        },
+        {
+          "BindField": "DisplayOrder",
+          "Title": "顯示順序",
+          "Component": "InputNumber",
+          "Section": "SecBase",
+          "Span": 12,
+          "Mode": "Editable",
+          "DefaultValue": 0
+        },
+        {
+          "BindField": "Status",
+          "Title": "資料狀態",
+          "Component": "Select",
+          "Section": "SecBase",
+          "Span": 12,
+          "Mode": "Editable",
+          "DefaultValue": "1",
+          "Validations": [
+            {
+              "Rule": "Required",
+              "Message": "狀態為必填"
+            }
+          ],
+          "Props": {
+            "OptionKey": "Status"
+          }
+        },
+        {
+          "BindField": "Priority",
+          "Title": "優先權",
+          "Component": "Select",
+          "Section": "SecExtra",
+          "Span": 12,
+          "Mode": "Editable",
+          "DefaultValue": "C",
+          "Props": {
+            "OptionKey": "Priority"
+          }
+        },
+        {
+          "BindField": "SortNo",
+          "Title": "顯示排序",
+          "Component": "Input",
+          "Section": "SecExtra",
+          "Span": 12,
+          "Mode": "Editable",
+          "DefaultValue": "C0000",
+          "Validations": [
+            {
+              "Rule": "MaxLength",
+              "Value": 5,
+              "Message": "排序編號長度不可超過 5"
+            }
+          ]
+        },
+        {
+          "BindField": "Description",
+          "Title": "備註說明",
+          "Component": "TextArea",
+          "Section": "SecExtra",
+          "Span": 24,
+          "Mode": "Editable",
+          "Props": {
+            "Rows": 3
+          }
+        },
+        {
+          "BindField": "CreatedBy",
+          "Title": "建立者",
+          "Component": "Input",
+          "Section": "SecExtra",
+          "Span": 12,
+          "Mode": "Readonly"
+        },
+        {
+          "BindField": "CreatedAt",
+          "Title": "建立時間",
+          "Component": "DatePicker",
+          "Section": "SecExtra",
+          "Span": 12,
+          "Mode": "Readonly"
+        },
+        {
+          "BindField": "UpdatedBy",
+          "Title": "更新者",
+          "Component": "Input",
+          "Section": "SecExtra",
+          "Span": 12,
+          "Mode": "Readonly"
+        },
+        {
+          "BindField": "UpdatedAt",
+          "Title": "更新時間",
+          "Component": "DatePicker",
+          "Section": "SecExtra",
+          "Span": 12,
+          "Mode": "Readonly"
+        }
+      ]
+    }
+  },
+  "DataScope": {
+    "DefaultWhere": "EntityID = 'hrm' AND Status = '1'",
+    "AuthLevel": 3,
+    "SortExp": "BankCode ASC, DisplayOrder ASC",
+    "DataConfig": {
+      "RowLimit": 3000,
+      "AllowExport": true
+    }
+  },
+  "CustomMeta": {
+    "CustomSchema": {
+      "WidgetType": "Grid",
+      "KeyField": "GroupCode",
+      "TitleField": "GroupName",
+      "ParentKeyField": "BankCode",
+      "PathField": null,
+      "PathSeparator": "/"
+    },
+    "BusinessRules": {
+      "BusinessValidation": []
+    }
+  },
+  "SeedData": [
+    {
+      "RowGuid": "bg-01",
+      "EntityID": "hrm",
+      "Status": "1",
+      "BankCode": "BANK-EVAL-ENG",
+      "GroupCode": "G1",
+      "GroupName": "工作績效",
+      "GroupWeight": 40,
+      "DisplayOrder": 1,
+      "Priority": "B",
+      "SortNo": "C0001",
+      "CreatedBy": "system",
+      "CreatedAt": "2025-01-05 09:00",
+      "UpdatedBy": "system",
+      "UpdatedAt": "2025-01-05 09:00"
+    },
+    {
+      "RowGuid": "bg-02",
+      "EntityID": "hrm",
+      "Status": "1",
+      "BankCode": "BANK-EVAL-ENG",
+      "GroupCode": "G2",
+      "GroupName": "工作態度",
+      "GroupWeight": 30,
+      "DisplayOrder": 2,
+      "Priority": "B",
+      "SortNo": "C0002",
+      "CreatedBy": "system",
+      "CreatedAt": "2025-01-05 09:00",
+      "UpdatedBy": "system",
+      "UpdatedAt": "2025-01-05 09:00"
+    },
+    {
+      "RowGuid": "bg-s1",
+      "EntityID": "hrm",
+      "Status": "1",
+      "BankCode": "BANK-SAT-2026",
+      "GroupCode": "G1",
+      "GroupName": "整體滿意度",
+      "DisplayOrder": 1,
+      "Priority": "B",
+      "SortNo": "C0003",
+      "CreatedBy": "system",
+      "CreatedAt": "2026-04-01 09:00",
+      "UpdatedBy": "system",
+      "UpdatedAt": "2026-04-01 09:00"
+    }
+  ]
+}

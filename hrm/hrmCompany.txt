@@ -1,0 +1,1037 @@
+{
+  "EntityID": "hrm",
+  "SystemCode": "MUEIP",
+  "ModuleCode": "HRM",
+  "FuncCode": "hrmCompany",
+  "ConfigHash": "sha256:0a7c4e91f2b8d63c5e1a9f04b7d2c8e6a1f3b59d0c4e7a26b8d1f3c5e9a0b2d4",
+  "PageMeta": {
+    "PageTitle": "公司資料維護",
+    "Lang": "zh-TW",
+    "FormType": "ListForm",
+    "EditDisplayType": "Drawer",
+    "Breadcrumb": [
+      {
+        "Title": "首頁",
+        "Path": "/"
+      },
+      {
+        "Title": "人資管理",
+        "Path": null
+      },
+      {
+        "Title": "公司資料維護",
+        "Path": "/hrm/company"
+      }
+    ],
+    "IsApproval": false,
+    "TenantLocked": false,
+    "Icon": "ri-building-2-line",
+    "Remark": "公司資料維護（總公司 / 子公司 / 分公司，平面列表）"
+  },
+  "Resources": {
+    "CodeSets": {
+      "Status": [
+        {
+          "CodeID": "1",
+          "CodeName": "啟用",
+          "IsDefault": true
+        },
+        {
+          "CodeID": "0",
+          "CodeName": "停用",
+          "IsDefault": false
+        }
+      ],
+      "CompanyType": [
+        {
+          "CodeID": "H",
+          "CodeName": "總公司",
+          "IsDefault": true
+        },
+        {
+          "CodeID": "S",
+          "CodeName": "子公司",
+          "IsDefault": false
+        },
+        {
+          "CodeID": "B",
+          "CodeName": "分公司",
+          "IsDefault": false
+        }
+      ],
+      "Priority": [
+        {
+          "CodeID": "A",
+          "CodeName": "高"
+        },
+        {
+          "CodeID": "B",
+          "CodeName": "中"
+        },
+        {
+          "CodeID": "C",
+          "CodeName": "低",
+          "IsDefault": true
+        }
+      ],
+      "IndustryType": [
+        {
+          "CodeID": "MFG",
+          "CodeName": "製造業"
+        },
+        {
+          "CodeID": "TRD",
+          "CodeName": "貿易業"
+        },
+        {
+          "CodeID": "SVC",
+          "CodeName": "服務業"
+        },
+        {
+          "CodeID": "TEC",
+          "CodeName": "科技業"
+        },
+        {
+          "CodeID": "FIN",
+          "CodeName": "金融業"
+        }
+      ]
+    },
+    "FeatureFlags": {
+      "IsReadOnly": false,
+      "EnableDraft": false,
+      "EnableBatchDelete": true,
+      "AutoRefreshInterval": 0,
+      "DefaultViewMode": "Table",
+      "RequireConfirmOnSave": true
+    }
+  },
+  "AllowAction": {
+    "DataActions": [
+      {
+        "ActionID": "Add",
+        "Label": "新增",
+        "Icon": "ri-add-line",
+        "Type": "Primary",
+        "Position": "Toolbar",
+        "Confirm": null
+      },
+      {
+        "ActionID": "Save",
+        "Label": "儲存",
+        "Icon": "ri-save-line",
+        "Type": "Primary",
+        "Position": "Toolbar",
+        "Confirm": null
+      },
+      {
+        "ActionID": "Delete",
+        "Label": "刪除",
+        "Icon": "ri-delete-bin-line",
+        "Type": "Danger",
+        "Position": "Both",
+        "Confirm": "刪除公司將一併停用其下屬子／分公司，確定要刪除嗎？"
+      },
+      {
+        "ActionID": "Query",
+        "Label": "查詢",
+        "Icon": "ri-search-line",
+        "Type": "Default",
+        "Position": "Toolbar",
+        "Confirm": null
+      }
+    ],
+    "ExtensionActions": [
+      {
+        "ActionID": "Import",
+        "Label": "匯入",
+        "Icon": "ri-upload-2-line",
+        "Type": "Default",
+        "Position": "Toolbar",
+        "Confirm": null
+      },
+      {
+        "ActionID": "Export",
+        "Label": "匯出",
+        "Icon": "ri-file-excel-line",
+        "Type": "Default",
+        "Position": "Toolbar",
+        "Confirm": null
+      }
+    ]
+  },
+  "View": {
+    "RowKey": "RowGuid",
+    "ListView": {
+      "ListSpec": {
+        "RowKey": "RowGuid",
+        "SelectMode": "Single",
+        "FixedColumns": [
+          "Action",
+          "No"
+        ],
+        "RowActionMode": "Menu",
+        "ShowRowNo": true,
+        "Pagination": {
+          "PageSize": 100,
+          "SizeOptions": [
+            50,
+            100,
+            200,
+            500
+          ],
+          "ShowJumper": false,
+          "FullPageScroll": true
+        },
+        "DefaultSort": {
+          "Field": "SortNo",
+          "Order": "asc"
+        },
+        "EmptyText": "目前查無公司資料",
+        "GridBordered": true
+      },
+      "FieldSpecs": [
+        {
+          "BindField": "CompanyName",
+          "Title": "公司名稱",
+          "Width": 260,
+          "Align": "Left",
+          "Fixed": "Left",
+          "Formatter": "Link",
+          "Sorter": true,
+          "DefaultVisible": true
+        },
+        {
+          "BindField": "CompanyCode",
+          "Title": "公司代碼",
+          "Width": 130,
+          "Align": "Left",
+          "Fixed": "Left",
+          "Formatter": "Link",
+          "Sorter": true,
+          "DefaultVisible": true
+        },
+        {
+          "BindField": "CompanyType",
+          "Title": "公司類型",
+          "Width": 100,
+          "Align": "Center",
+          "Formatter": "Tag",
+          "DefaultVisible": true
+        },
+        {
+          "BindField": "ParentCompanyCode",
+          "Title": "上層公司",
+          "Width": 180,
+          "Align": "Left",
+          "Formatter": "ParentName",
+          "Sorter": true,
+          "DefaultVisible": true
+        },
+        {
+          "BindField": "IndustryType",
+          "Title": "產業類型",
+          "Width": 120,
+          "Align": "Center",
+          "Formatter": "Tag",
+          "DefaultVisible": true
+        },
+        {
+          "BindField": "EstablishYear",
+          "Title": "成立年份",
+          "Width": 100,
+          "Align": "Center",
+          "Sorter": true,
+          "DefaultVisible": true
+        },
+        {
+          "BindField": "Phone",
+          "Title": "公司電話",
+          "Width": 140,
+          "Align": "Left",
+          "DefaultVisible": true
+        },
+        {
+          "BindField": "Status",
+          "Title": "狀態",
+          "Width": 90,
+          "Align": "Center",
+          "Formatter": "StatusTag",
+          "DefaultVisible": true
+        },
+        {
+          "BindField": "SortNo",
+          "Title": "排序",
+          "Width": 90,
+          "Align": "Center",
+          "Sorter": true,
+          "DefaultVisible": false
+        },
+        {
+          "BindField": "UpdatedAt",
+          "Title": "更新時間",
+          "Width": 160,
+          "Align": "Center",
+          "Formatter": "DateTime",
+          "Sorter": true,
+          "DefaultVisible": false
+        }
+      ]
+    },
+    "FormView": {
+      "FormSpec": {
+        "RowKey": "RowGuid",
+        "Layout": "Horizontal",
+        "Sections": [
+          {
+            "SectionID": "SecBase",
+            "Type": "Card",
+            "Title": "基本資料",
+            "IsCollapsible": false,
+            "DefaultOpen": true,
+            "Icon": "ri-file-list-3-line"
+          },
+          {
+            "SectionID": "SecHierarchy",
+            "Type": "Card",
+            "Title": "組織層級",
+            "IsCollapsible": false,
+            "DefaultOpen": true,
+            "Icon": "ri-node-tree"
+          },
+          {
+            "SectionID": "SecContact",
+            "Type": "Card",
+            "Title": "聯絡資訊",
+            "IsCollapsible": true,
+            "DefaultOpen": true,
+            "Icon": "ri-contacts-book-line"
+          },
+          {
+            "SectionID": "SecExtra",
+            "Type": "Card",
+            "Title": "其他與系統",
+            "IsCollapsible": true,
+            "DefaultOpen": false,
+            "Icon": "ri-settings-4-line"
+          }
+        ],
+        "FormLogic": [
+          {
+            "TriggerField": "CompanyType",
+            "Condition": "== 'H'",
+            "Action": "SetMode",
+            "Params": {
+              "Mode": "Readonly"
+            },
+            "TargetFields": [
+              "ParentCompanyCode"
+            ]
+          },
+          {
+            "TriggerField": "CompanyType",
+            "Condition": "== 'H'",
+            "Action": "ClearValue",
+            "TargetFields": [
+              "ParentCompanyCode"
+            ]
+          },
+          {
+            "TriggerField": "CompanyType",
+            "Condition": "!= 'H'",
+            "Action": "SetRequired",
+            "Params": {
+              "Required": true
+            },
+            "TargetFields": [
+              "ParentCompanyCode"
+            ]
+          }
+        ]
+      },
+      "FieldSpecs": [
+        {
+          "BindField": "RowKey",
+          "Title": "系統識別碼",
+          "Component": "Input",
+          "Section": "SecExtra",
+          "Span": 24,
+          "Mode": "Hidden"
+        },
+        {
+          "BindField": "EntityID",
+          "Title": "系統實體",
+          "Component": "Input",
+          "Section": "SecExtra",
+          "Span": 12,
+          "Mode": "Hidden",
+          "DefaultValue": "hrm"
+        },
+        {
+          "BindField": "CompanyCode",
+          "Title": "公司代碼",
+          "Component": "Input",
+          "Section": "SecBase",
+          "Span": 12,
+          "Mode": "Editable",
+          "Validations": [
+            {
+              "Rule": "Required",
+              "Message": "公司代碼為必填"
+            },
+            {
+              "Rule": "MaxLength",
+              "Value": 50,
+              "Message": "公司代碼長度不可超過 50"
+            },
+            {
+              "Rule": "Unique",
+              "Message": "公司代碼不可重複"
+            }
+          ]
+        },
+        {
+          "BindField": "CompanyName",
+          "Title": "公司名稱",
+          "Component": "Input",
+          "Section": "SecBase",
+          "Span": 12,
+          "Mode": "Editable",
+          "Validations": [
+            {
+              "Rule": "Required",
+              "Message": "公司名稱為必填"
+            },
+            {
+              "Rule": "MaxLength",
+              "Value": 200,
+              "Message": "公司名稱長度不可超過 200"
+            }
+          ]
+        },
+        {
+          "BindField": "CompanyType",
+          "Title": "公司類型",
+          "Component": "Select",
+          "Section": "SecBase",
+          "Span": 12,
+          "Mode": "Editable",
+          "DefaultValue": "H",
+          "Validations": [
+            {
+              "Rule": "Required",
+              "Message": "公司類型為必填"
+            }
+          ],
+          "Props": {
+            "OptionKey": "CompanyType"
+          }
+        },
+        {
+          "BindField": "IndustryType",
+          "Title": "產業類型",
+          "Component": "Select",
+          "Section": "SecBase",
+          "Span": 12,
+          "Mode": "Editable",
+          "Props": {
+            "OptionKey": "IndustryType"
+          }
+        },
+        {
+          "BindField": "EstablishYear",
+          "Title": "成立年份",
+          "Component": "InputNumber",
+          "Section": "SecBase",
+          "Span": 12,
+          "Mode": "Editable",
+          "Validations": [
+            {
+              "Rule": "Range",
+              "Min": 1800,
+              "Max": 2026,
+              "Message": "成立年份須介於 1800 ~ 本年度之間"
+            }
+          ],
+          "Props": {
+            "Min": 1800,
+            "Max": 2026
+          }
+        },
+        {
+          "BindField": "Priority",
+          "Title": "優先權",
+          "Component": "Select",
+          "Section": "SecBase",
+          "Span": 12,
+          "Mode": "Editable",
+          "DefaultValue": "C",
+          "Props": {
+            "OptionKey": "Priority"
+          }
+        },
+        {
+          "BindField": "Status",
+          "Title": "狀態",
+          "Component": "Select",
+          "Section": "SecBase",
+          "Span": 12,
+          "Mode": "Editable",
+          "DefaultValue": "1",
+          "Validations": [
+            {
+              "Rule": "Required",
+              "Message": "狀態為必填"
+            }
+          ],
+          "Props": {
+            "OptionKey": "Status"
+          }
+        },
+        {
+          "BindField": "SortNo",
+          "Title": "顯示排序",
+          "Component": "Input",
+          "Section": "SecBase",
+          "Span": 12,
+          "Mode": "Editable",
+          "DefaultValue": "C0000",
+          "Validations": [
+            {
+              "Rule": "MaxLength",
+              "Value": 5,
+              "Message": "排序編號長度不可超過 5"
+            }
+          ]
+        },
+        {
+          "BindField": "ParentCompanyCode",
+          "Title": "上層公司",
+          "Component": "TreeSelect",
+          "Section": "SecHierarchy",
+          "Span": 12,
+          "Mode": "Editable",
+          "Props": {
+            "OptionKey": "ParentCompany",
+            "SelfReference": true,
+            "ValueField": "CompanyCode",
+            "TitleField": "CompanyName",
+            "ExcludeSelfAndDescendants": true
+          }
+        },
+        {
+          "BindField": "CompanyPath",
+          "Title": "組織路徑",
+          "Component": "Input",
+          "Section": "SecHierarchy",
+          "Span": 12,
+          "Mode": "Readonly",
+          "Props": {
+            "Placeholder": "系統依上層公司自動產生（如 /H001/S010/）"
+          }
+        },
+        {
+          "BindField": "Address",
+          "Title": "公司地址",
+          "Component": "Input",
+          "Section": "SecContact",
+          "Span": 24,
+          "Mode": "Editable",
+          "Validations": [
+            {
+              "Rule": "MaxLength",
+              "Value": 500,
+              "Message": "地址長度不可超過 500"
+            }
+          ]
+        },
+        {
+          "BindField": "Phone",
+          "Title": "公司電話",
+          "Component": "Input",
+          "Section": "SecContact",
+          "Span": 12,
+          "Mode": "Editable",
+          "Validations": [
+            {
+              "Rule": "MaxLength",
+              "Value": 50,
+              "Message": "電話長度不可超過 50"
+            }
+          ]
+        },
+        {
+          "BindField": "Email",
+          "Title": "公司信箱",
+          "Component": "Input",
+          "Section": "SecContact",
+          "Span": 12,
+          "Mode": "Editable",
+          "Validations": [
+            {
+              "Rule": "Email",
+              "Message": "信箱格式不正確"
+            },
+            {
+              "Rule": "MaxLength",
+              "Value": 200,
+              "Message": "信箱長度不可超過 200"
+            }
+          ]
+        },
+        {
+          "BindField": "Description",
+          "Title": "備註說明",
+          "Component": "TextArea",
+          "Section": "SecExtra",
+          "Span": 24,
+          "Mode": "Editable",
+          "Props": {
+            "Rows": 3
+          }
+        },
+        {
+          "BindField": "Attributes",
+          "Title": "擴展屬性 (JSON)",
+          "Component": "JsonEditor",
+          "Section": "SecExtra",
+          "Span": 24,
+          "Mode": "Editable",
+          "Validations": [
+            {
+              "Rule": "JsonFormat",
+              "Message": "擴展屬性必須為合法 JSON"
+            }
+          ]
+        },
+        {
+          "BindField": "CreatedBy",
+          "Title": "建立者",
+          "Component": "Input",
+          "Section": "SecExtra",
+          "Span": 12,
+          "Mode": "Readonly"
+        },
+        {
+          "BindField": "CreatedAt",
+          "Title": "建立時間",
+          "Component": "DatePicker",
+          "Section": "SecExtra",
+          "Span": 12,
+          "Mode": "Readonly"
+        },
+        {
+          "BindField": "UpdatedBy",
+          "Title": "更新者",
+          "Component": "Input",
+          "Section": "SecExtra",
+          "Span": 12,
+          "Mode": "Readonly"
+        },
+        {
+          "BindField": "UpdatedAt",
+          "Title": "更新時間",
+          "Component": "DatePicker",
+          "Section": "SecExtra",
+          "Span": 12,
+          "Mode": "Readonly"
+        }
+      ]
+    },
+    "ReportView": {
+      "Title": "公司組織報表",
+      "ReportTypes": [
+        {
+          "Type": "summary",
+          "Title": "組織彙總報表",
+          "Layout": "StatsAndTable",
+          "GroupBy": "CompanyType"
+        },
+        {
+          "Type": "industry",
+          "Title": "產業別統計表",
+          "Layout": "GroupTable",
+          "GroupBy": "IndustryType"
+        },
+        {
+          "Type": "hierarchy",
+          "Title": "組織層級明細表",
+          "Layout": "PathTable",
+          "GroupBy": null
+        }
+      ]
+    }
+  },
+  "Features": {
+    "ImportSpec": {
+      "ImportColumns": [
+        {
+          "FieldID": "CompanyCode",
+          "ExcelHeader": "公司代碼",
+          "DataType": "String",
+          "Required": true,
+          "MaxLength": 50
+        },
+        {
+          "FieldID": "CompanyName",
+          "ExcelHeader": "公司名稱",
+          "DataType": "String",
+          "Required": true,
+          "MaxLength": 200
+        },
+        {
+          "FieldID": "CompanyType",
+          "ExcelHeader": "公司類型",
+          "DataType": "String",
+          "Required": true,
+          "MaxLength": 1,
+          "OptionKey": "CompanyType"
+        },
+        {
+          "FieldID": "ParentCompanyCode",
+          "ExcelHeader": "上層公司代碼",
+          "DataType": "String",
+          "Required": false,
+          "MaxLength": 50
+        },
+        {
+          "FieldID": "IndustryType",
+          "ExcelHeader": "產業類型",
+          "DataType": "String",
+          "Required": false,
+          "OptionKey": "IndustryType"
+        },
+        {
+          "FieldID": "EstablishYear",
+          "ExcelHeader": "成立年份",
+          "DataType": "Number",
+          "Required": false
+        },
+        {
+          "FieldID": "Address",
+          "ExcelHeader": "公司地址",
+          "DataType": "String",
+          "Required": false,
+          "MaxLength": 500
+        },
+        {
+          "FieldID": "Phone",
+          "ExcelHeader": "公司電話",
+          "DataType": "String",
+          "Required": false,
+          "MaxLength": 50
+        },
+        {
+          "FieldID": "Email",
+          "ExcelHeader": "公司信箱",
+          "DataType": "String",
+          "Required": false,
+          "MaxLength": 200
+        }
+      ],
+      "ImportRules": {
+        "DuplicateAction": "Update",
+        "MaxRowCount": 1000,
+        "AtomicImport": true
+      },
+      "TemplateMeta": {
+        "FileName": "公司資料匯入樣板",
+        "SheetName": "公司資料",
+        "HeaderColor": "#FFCCCB",
+        "Instructions": [
+          "1. 公司代碼為必填且不可重複。",
+          "2. 公司類型請輸入字典值：H(總公司)、S(子公司)、B(分公司)。",
+          "3. 子公司／分公司之上層公司代碼必須已存在，請先匯入上層後再匯入下層。",
+          "4. 上層公司代碼不可指向自身，避免產生循環結構。"
+        ]
+      }
+    },
+    "ExportSpec": {
+      "ExportColumns": [
+        {
+          "DataKey": "CompanyCode",
+          "Header": "公司代碼",
+          "Width": 18
+        },
+        {
+          "DataKey": "CompanyName",
+          "Header": "公司名稱",
+          "Width": 28
+        },
+        {
+          "DataKey": "CompanyType",
+          "Header": "公司類型",
+          "Width": 12,
+          "Format": "CodeName:CompanyType"
+        },
+        {
+          "DataKey": "ParentCompanyCode",
+          "Header": "上層公司代碼",
+          "Width": 18
+        },
+        {
+          "DataKey": "CompanyPath",
+          "Header": "組織路徑",
+          "Width": 30
+        },
+        {
+          "DataKey": "IndustryType",
+          "Header": "產業類型",
+          "Width": 14,
+          "Format": "CodeName:IndustryType"
+        },
+        {
+          "DataKey": "EstablishYear",
+          "Header": "成立年份",
+          "Width": 12
+        },
+        {
+          "DataKey": "Phone",
+          "Header": "公司電話",
+          "Width": 16
+        },
+        {
+          "DataKey": "Email",
+          "Header": "公司信箱",
+          "Width": 24
+        },
+        {
+          "DataKey": "Status",
+          "Header": "狀態",
+          "Width": 10,
+          "Format": "CodeName:Status"
+        }
+      ],
+      "ExportRules": {
+        "MaxDownloadRows": 50000,
+        "AllowFullExport": true,
+        "AppendQuerySummary": true
+      }
+    }
+  },
+  "DataScope": {
+    "DefaultWhere": "EntityID = 'hrm' AND Status = '1'",
+    "AuthLevel": 3,
+    "SortExp": "SortNo ASC, CompanyCode ASC",
+    "DataConfig": {
+      "RowLimit": 2000,
+      "AllowExport": true
+    }
+  },
+  "CustomMeta": {
+    "CustomSchema": {
+      "WidgetType": "Grid",
+      "KeyField": "CompanyCode",
+      "TitleField": "CompanyName",
+      "ParentKeyField": "ParentCompanyCode",
+      "PathField": "CompanyPath",
+      "PathSeparator": "/"
+    },
+    "BusinessRules": {
+      "BusinessValidation": [
+        {
+          "Field": "ParentCompanyCode",
+          "Rule": "NoSelfReference",
+          "Message": "上層公司不可選擇自身或其下屬節點，以避免循環結構"
+        },
+        {
+          "Field": "EstablishYear",
+          "Rule": "MaxCurrentYear",
+          "Message": "成立年份不可大於本年度"
+        }
+      ],
+      "PathGeneration": {
+        "Target": "CompanyPath",
+        "Strategy": "MaterializedPath",
+        "BaseOn": "ParentCompanyCode",
+        "Pattern": "{ParentPath}{CompanyCode}/"
+      }
+    }
+  },
+  "SeedData": [
+    {
+      "RowGuid": "a1000000-0000-0000-0000-000000000001",
+      "EntityID": "hrm",
+      "Status": "1",
+      "CompanyCode": "H001",
+      "CompanyName": "兆聯實業股份有限公司",
+      "CompanyType": "H",
+      "ParentCompanyCode": null,
+      "CompanyPath": "/H001/",
+      "IndustryType": "MFG",
+      "EstablishYear": 1987,
+      "Priority": "A",
+      "SortNo": "C0001",
+      "Address": "新北市板橋區文化路一段100號",
+      "Phone": "02-2960-1000",
+      "Email": "hq@megaunion.com.tw",
+      "Description": "集團總公司，統籌全集團營運",
+      "Attributes": "{\"taxId\":\"12345678\",\"capital\":500000000}",
+      "CreatedBy": "system",
+      "CreatedAt": "2024-01-05 09:00",
+      "UpdatedBy": "abram.chen",
+      "UpdatedAt": "2026-05-20 14:32"
+    },
+    {
+      "RowGuid": "a1000000-0000-0000-0000-000000000002",
+      "EntityID": "hrm",
+      "Status": "1",
+      "CompanyCode": "S010",
+      "CompanyName": "兆聯智慧製造子公司",
+      "CompanyType": "S",
+      "ParentCompanyCode": "H001",
+      "CompanyPath": "/H001/S010/",
+      "IndustryType": "MFG",
+      "EstablishYear": 2005,
+      "Priority": "B",
+      "SortNo": "C0010",
+      "Address": "桃園市龜山區工業一路50號",
+      "Phone": "03-3270-2000",
+      "Email": "mfg@megaunion.com.tw",
+      "Description": "智慧製造與自動化",
+      "Attributes": "{}",
+      "CreatedBy": "system",
+      "CreatedAt": "2024-01-05 09:10",
+      "UpdatedBy": "abram.chen",
+      "UpdatedAt": "2026-04-11 10:05"
+    },
+    {
+      "RowGuid": "a1000000-0000-0000-0000-000000000003",
+      "EntityID": "hrm",
+      "Status": "1",
+      "CompanyCode": "B011",
+      "CompanyName": "兆聯製造台北分公司",
+      "CompanyType": "B",
+      "ParentCompanyCode": "S010",
+      "CompanyPath": "/H001/S010/B011/",
+      "IndustryType": "MFG",
+      "EstablishYear": 2010,
+      "Priority": "C",
+      "SortNo": "C0011",
+      "Address": "台北市內湖區瑞光路200號",
+      "Phone": "02-8751-3000",
+      "Email": "tpe.mfg@megaunion.com.tw",
+      "Description": "北區製造據點",
+      "Attributes": "{}",
+      "CreatedBy": "system",
+      "CreatedAt": "2024-01-06 08:30",
+      "UpdatedBy": "system",
+      "UpdatedAt": "2025-12-01 09:00"
+    },
+    {
+      "RowGuid": "a1000000-0000-0000-0000-000000000004",
+      "EntityID": "hrm",
+      "Status": "1",
+      "CompanyCode": "B012",
+      "CompanyName": "兆聯製造台中分公司",
+      "CompanyType": "B",
+      "ParentCompanyCode": "S010",
+      "CompanyPath": "/H001/S010/B012/",
+      "IndustryType": "MFG",
+      "EstablishYear": 2012,
+      "Priority": "C",
+      "SortNo": "C0012",
+      "Address": "台中市西屯區工業區一路30號",
+      "Phone": "04-2358-4000",
+      "Email": "txg.mfg@megaunion.com.tw",
+      "Description": "中區製造據點",
+      "Attributes": "{}",
+      "CreatedBy": "system",
+      "CreatedAt": "2024-01-06 08:40",
+      "UpdatedBy": "system",
+      "UpdatedAt": "2025-11-18 16:20"
+    },
+    {
+      "RowGuid": "a1000000-0000-0000-0000-000000000005",
+      "EntityID": "hrm",
+      "Status": "1",
+      "CompanyCode": "S020",
+      "CompanyName": "兆聯國際貿易子公司",
+      "CompanyType": "S",
+      "ParentCompanyCode": "H001",
+      "CompanyPath": "/H001/S020/",
+      "IndustryType": "TRD",
+      "EstablishYear": 2008,
+      "Priority": "B",
+      "SortNo": "C0020",
+      "Address": "台北市信義區松高路9號",
+      "Phone": "02-2722-5000",
+      "Email": "trade@megaunion.com.tw",
+      "Description": "進出口貿易事業",
+      "Attributes": "{}",
+      "CreatedBy": "system",
+      "CreatedAt": "2024-01-07 11:00",
+      "UpdatedBy": "abram.chen",
+      "UpdatedAt": "2026-03-22 13:45"
+    },
+    {
+      "RowGuid": "a1000000-0000-0000-0000-000000000006",
+      "EntityID": "hrm",
+      "Status": "1",
+      "CompanyCode": "B021",
+      "CompanyName": "兆聯貿易高雄分公司",
+      "CompanyType": "B",
+      "ParentCompanyCode": "S020",
+      "CompanyPath": "/H001/S020/B021/",
+      "IndustryType": "TRD",
+      "EstablishYear": 2015,
+      "Priority": "C",
+      "SortNo": "C0021",
+      "Address": "高雄市前鎮區成功二路25號",
+      "Phone": "07-3318-6000",
+      "Email": "khh.trade@megaunion.com.tw",
+      "Description": "南區貿易暨港口物流",
+      "Attributes": "{}",
+      "CreatedBy": "system",
+      "CreatedAt": "2024-01-07 11:20",
+      "UpdatedBy": "system",
+      "UpdatedAt": "2025-10-09 08:15"
+    },
+    {
+      "RowGuid": "a1000000-0000-0000-0000-000000000007",
+      "EntityID": "hrm",
+      "Status": "1",
+      "CompanyCode": "S030",
+      "CompanyName": "兆聯數位科技子公司",
+      "CompanyType": "S",
+      "ParentCompanyCode": "H001",
+      "CompanyPath": "/H001/S030/",
+      "IndustryType": "TEC",
+      "EstablishYear": 2018,
+      "Priority": "A",
+      "SortNo": "C0030",
+      "Address": "新竹市東區光復路二段295號",
+      "Phone": "03-5779-7000",
+      "Email": "tech@megaunion.com.tw",
+      "Description": "軟體研發與數位轉型",
+      "Attributes": "{\"team\":\"R&D\"}",
+      "CreatedBy": "system",
+      "CreatedAt": "2024-01-08 14:00",
+      "UpdatedBy": "abram.chen",
+      "UpdatedAt": "2026-06-01 11:30"
+    },
+    {
+      "RowGuid": "a1000000-0000-0000-0000-000000000008",
+      "EntityID": "hrm",
+      "Status": "1",
+      "CompanyCode": "S040",
+      "CompanyName": "兆聯金融服務子公司",
+      "CompanyType": "S",
+      "ParentCompanyCode": "H001",
+      "CompanyPath": "/H001/S040/",
+      "IndustryType": "FIN",
+      "EstablishYear": 2020,
+      "Priority": "B",
+      "SortNo": "C0040",
+      "Address": "台北市中正區忠孝西路一段66號",
+      "Phone": "02-2370-8000",
+      "Email": "fin@megaunion.com.tw",
+      "Description": "集團財務與投資管理",
+      "Attributes": "{}",
+      "CreatedBy": "system",
+      "CreatedAt": "2024-01-09 09:30",
+      "UpdatedBy": "system",
+      "UpdatedAt": "2026-02-14 10:00"
+    }
+  ]
+}

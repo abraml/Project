@@ -1,0 +1,271 @@
+{
+  "EntityID": "hrm",
+  "SystemCode": "MUEIP",
+  "ModuleCode": "HRM",
+  "FuncCode": "hrmCmp_Tit",
+  "ConfigHash": "sha256:2c9e6a13b4d0f85e7a3c1b26d9f4e0a8c3b5d72f1e6a0b4c8d2f5e7a3b1c6d09",
+  "PageMeta": {
+    "PageTitle": "職稱管理",
+    "Lang": "zh-TW",
+    "FormType": "ListForm",
+    "EditDisplayType": "Drawer",
+    "Breadcrumb": [
+      { "Title": "首頁", "Path": "/" },
+      { "Title": "人資管理", "Path": null },
+      { "Title": "職稱管理", "Path": "/hrm/title" }
+    ],
+    "IsApproval": false,
+    "TenantLocked": false,
+    "Icon": "ri-user-star-line",
+    "Remark": "公司職稱字典（職稱、對應職等與主管職標記，平面列表）"
+  },
+  "Resources": {
+    "CodeSets": {
+      "Status": [
+        { "CodeID": "1", "CodeName": "啟用", "IsDefault": true },
+        { "CodeID": "0", "CodeName": "停用", "IsDefault": false }
+      ],
+      "Priority": [
+        { "CodeID": "A", "CodeName": "高" },
+        { "CodeID": "B", "CodeName": "中" },
+        { "CodeID": "C", "CodeName": "低", "IsDefault": true }
+      ],
+      "TitleCategory": [
+        { "CodeID": "M", "CodeName": "管理", "IsDefault": false },
+        { "CodeID": "P", "CodeName": "專業", "IsDefault": true },
+        { "CodeID": "E", "CodeName": "技術", "IsDefault": false },
+        { "CodeID": "A", "CodeName": "行政", "IsDefault": false }
+      ],
+      "IsManager": [
+        { "CodeID": "0", "CodeName": "否", "IsDefault": true },
+        { "CodeID": "1", "CodeName": "是", "IsDefault": false }
+      ],
+      "GradeCode": [
+        { "CodeID": "G1", "CodeName": "一般職一等（G1）" },
+        { "CodeID": "G2", "CodeName": "一般職二等（G2）" },
+        { "CodeID": "T1", "CodeName": "專業職一等（T1）" },
+        { "CodeID": "T2", "CodeName": "專業職二等（T2）" },
+        { "CodeID": "T3", "CodeName": "專業職三等（T3）" },
+        { "CodeID": "S1", "CodeName": "管理職一等（S1）" },
+        { "CodeID": "S2", "CodeName": "管理職二等（S2）" },
+        { "CodeID": "S3", "CodeName": "管理職三等（S3）" },
+        { "CodeID": "S4", "CodeName": "管理職四等（S4）" }
+      ],
+      "CompanyCode": [
+        { "CodeID": "H001", "CodeName": "兆聯實業股份有限公司" },
+        { "CodeID": "S010", "CodeName": "兆聯智慧製造子公司" },
+        { "CodeID": "S020", "CodeName": "兆聯國際貿易子公司" },
+        { "CodeID": "S030", "CodeName": "兆聯數位科技子公司" },
+        { "CodeID": "S040", "CodeName": "兆聯金融服務子公司" }
+      ]
+    },
+    "FeatureFlags": {
+      "IsReadOnly": false,
+      "EnableDraft": false,
+      "EnableBatchDelete": true,
+      "AutoRefreshInterval": 0,
+      "DefaultViewMode": "Table",
+      "RequireConfirmOnSave": true
+    }
+  },
+  "AllowAction": {
+    "DataActions": [
+      { "ActionID": "Add", "Label": "新增", "Icon": "ri-add-line", "Type": "Primary", "Position": "Toolbar", "Confirm": null },
+      { "ActionID": "Save", "Label": "儲存", "Icon": "ri-save-line", "Type": "Primary", "Position": "Toolbar", "Confirm": null },
+      { "ActionID": "Delete", "Label": "刪除", "Icon": "ri-delete-bin-line", "Type": "Danger", "Position": "Both", "Confirm": "刪除職稱可能影響已套用此職稱之員工，確定要刪除嗎？" },
+      { "ActionID": "Query", "Label": "查詢", "Icon": "ri-search-line", "Type": "Default", "Position": "Toolbar", "Confirm": null }
+    ],
+    "ExtensionActions": [
+      { "ActionID": "Import", "Label": "匯入", "Icon": "ri-upload-2-line", "Type": "Default", "Position": "Toolbar", "Confirm": null },
+      { "ActionID": "Export", "Label": "匯出", "Icon": "ri-file-excel-line", "Type": "Default", "Position": "Toolbar", "Confirm": null }
+    ]
+  },
+  "View": {
+    "RowKey": "RowGuid",
+    "ListView": {
+      "ListSpec": {
+        "RowKey": "RowGuid",
+        "SelectMode": "Single",
+        "FixedColumns": ["Action", "No"],
+        "RowActionMode": "Menu",
+        "ShowRowNo": true,
+        "Pagination": {
+          "PageSize": 100,
+          "SizeOptions": [50, 100, 200, 500],
+          "ShowJumper": false,
+          "FullPageScroll": true
+        },
+        "DefaultSort": { "Field": "SortNo", "Order": "asc" },
+        "EmptyText": "目前查無職稱資料",
+        "GridBordered": true
+      },
+      "FieldSpecs": [
+        { "BindField": "TitleName", "Title": "職稱名稱", "Width": 180, "Align": "Left", "Fixed": "Left", "Formatter": "Link", "Sorter": true, "DefaultVisible": true },
+        { "BindField": "TitleCode", "Title": "職稱代碼", "Width": 120, "Align": "Left", "Fixed": "Left", "Formatter": "Link", "Sorter": true, "DefaultVisible": true },
+        { "BindField": "TitleEName", "Title": "英文職稱", "Width": 200, "Align": "Left", "DefaultVisible": true },
+        { "BindField": "TitleCategory", "Title": "職稱類別", "Width": 100, "Align": "Center", "Formatter": "Tag", "DefaultVisible": true },
+        { "BindField": "GradeCode", "Title": "對應職等", "Width": 160, "Align": "Center", "Formatter": "Tag", "DefaultVisible": true },
+        { "BindField": "IsManager", "Title": "主管職", "Width": 90, "Align": "Center", "Formatter": "Tag", "DefaultVisible": true },
+        { "BindField": "CompanyCode", "Title": "所屬公司", "Width": 180, "Align": "Left", "Formatter": "Tag", "DefaultVisible": true },
+        { "BindField": "Status", "Title": "狀態", "Width": 90, "Align": "Center", "Formatter": "StatusTag", "DefaultVisible": true },
+        { "BindField": "SortNo", "Title": "排序", "Width": 90, "Align": "Center", "Sorter": true, "DefaultVisible": false },
+        { "BindField": "UpdatedAt", "Title": "更新時間", "Width": 160, "Align": "Center", "Formatter": "DateTime", "Sorter": true, "DefaultVisible": false }
+      ]
+    },
+    "FormView": {
+      "FormSpec": {
+        "RowKey": "RowGuid",
+        "Layout": "Horizontal",
+        "Sections": [
+          { "SectionID": "SecBase", "Type": "Card", "Title": "基本資料", "IsCollapsible": false, "DefaultOpen": true, "Icon": "ri-file-list-3-line" },
+          { "SectionID": "SecClassify", "Type": "Card", "Title": "分類與職等", "IsCollapsible": false, "DefaultOpen": true, "Icon": "ri-price-tag-3-line" },
+          { "SectionID": "SecExtra", "Type": "Card", "Title": "其他與系統", "IsCollapsible": true, "DefaultOpen": false, "Icon": "ri-settings-4-line" }
+        ],
+        "FormLogic": [
+          {
+            "TriggerField": "TitleCategory",
+            "Condition": "== 'M'",
+            "Action": "SetValue",
+            "Params": { "Value": "1" },
+            "TargetFields": ["IsManager"]
+          }
+        ]
+      },
+      "FieldSpecs": [
+        { "BindField": "RowKey", "Title": "系統識別碼", "Component": "Input", "Section": "SecExtra", "Span": 24, "Mode": "Hidden" },
+        { "BindField": "EntityID", "Title": "系統實體", "Component": "Input", "Section": "SecExtra", "Span": 12, "Mode": "Hidden", "DefaultValue": "hrm" },
+        {
+          "BindField": "TitleCode", "Title": "職稱代碼", "Component": "Input", "Section": "SecBase", "Span": 12, "Mode": "Editable",
+          "Validations": [
+            { "Rule": "Required", "Message": "職稱代碼為必填" },
+            { "Rule": "MaxLength", "Value": 50, "Message": "職稱代碼長度不可超過 50" },
+            { "Rule": "Unique", "Message": "職稱代碼不可重複" }
+          ]
+        },
+        {
+          "BindField": "TitleName", "Title": "職稱名稱", "Component": "Input", "Section": "SecBase", "Span": 12, "Mode": "Editable",
+          "Validations": [
+            { "Rule": "Required", "Message": "職稱名稱為必填" },
+            { "Rule": "MaxLength", "Value": 100, "Message": "職稱名稱長度不可超過 100" }
+          ]
+        },
+        {
+          "BindField": "TitleEName", "Title": "英文職稱", "Component": "Input", "Section": "SecBase", "Span": 12, "Mode": "Editable",
+          "Validations": [ { "Rule": "MaxLength", "Value": 200, "Message": "英文職稱長度不可超過 200" } ]
+        },
+        {
+          "BindField": "CompanyCode", "Title": "所屬公司", "Component": "Select", "Section": "SecBase", "Span": 12, "Mode": "Editable",
+          "Props": { "OptionKey": "CompanyCode", "Placeholder": "留空＝集團共用" }
+        },
+        {
+          "BindField": "TitleCategory", "Title": "職稱類別", "Component": "Select", "Section": "SecClassify", "Span": 12, "Mode": "Editable", "DefaultValue": "P",
+          "Validations": [ { "Rule": "Required", "Message": "職稱類別為必填" } ],
+          "Props": { "OptionKey": "TitleCategory" }
+        },
+        {
+          "BindField": "GradeCode", "Title": "建議/對應職等", "Component": "Select", "Section": "SecClassify", "Span": 12, "Mode": "Editable",
+          "Props": { "OptionKey": "GradeCode", "Placeholder": "對應職等字典 hrmCmp_Grd" }
+        },
+        {
+          "BindField": "IsManager", "Title": "是否主管職", "Component": "Select", "Section": "SecClassify", "Span": 12, "Mode": "Editable", "DefaultValue": "0",
+          "Props": { "OptionKey": "IsManager" }
+        },
+        {
+          "BindField": "Status", "Title": "狀態", "Component": "Select", "Section": "SecClassify", "Span": 12, "Mode": "Editable", "DefaultValue": "1",
+          "Validations": [ { "Rule": "Required", "Message": "狀態為必填" } ],
+          "Props": { "OptionKey": "Status" }
+        },
+        {
+          "BindField": "SortNo", "Title": "顯示排序", "Component": "Input", "Section": "SecClassify", "Span": 12, "Mode": "Editable", "DefaultValue": "C0000",
+          "Validations": [ { "Rule": "MaxLength", "Value": 5, "Message": "排序編號長度不可超過 5" } ]
+        },
+        {
+          "BindField": "Description", "Title": "備註說明", "Component": "TextArea", "Section": "SecExtra", "Span": 24, "Mode": "Editable",
+          "Props": { "Rows": 3 }
+        },
+        {
+          "BindField": "Attributes", "Title": "擴展屬性 (JSON)", "Component": "JsonEditor", "Section": "SecExtra", "Span": 24, "Mode": "Editable",
+          "Validations": [ { "Rule": "JsonFormat", "Message": "擴展屬性必須為合法 JSON" } ]
+        },
+        { "BindField": "CreatedBy", "Title": "建立者", "Component": "Input", "Section": "SecExtra", "Span": 12, "Mode": "Readonly" },
+        { "BindField": "CreatedAt", "Title": "建立時間", "Component": "DatePicker", "Section": "SecExtra", "Span": 12, "Mode": "Readonly" },
+        { "BindField": "UpdatedBy", "Title": "更新者", "Component": "Input", "Section": "SecExtra", "Span": 12, "Mode": "Readonly" },
+        { "BindField": "UpdatedAt", "Title": "更新時間", "Component": "DatePicker", "Section": "SecExtra", "Span": 12, "Mode": "Readonly" }
+      ]
+    }
+  },
+  "Features": {
+    "ImportSpec": {
+      "ImportColumns": [
+        { "FieldID": "TitleCode", "ExcelHeader": "職稱代碼", "DataType": "String", "Required": true, "MaxLength": 50 },
+        { "FieldID": "TitleName", "ExcelHeader": "職稱名稱", "DataType": "String", "Required": true, "MaxLength": 100 },
+        { "FieldID": "TitleEName", "ExcelHeader": "英文職稱", "DataType": "String", "Required": false, "MaxLength": 200 },
+        { "FieldID": "CompanyCode", "ExcelHeader": "所屬公司代碼", "DataType": "String", "Required": false, "MaxLength": 50, "OptionKey": "CompanyCode" },
+        { "FieldID": "TitleCategory", "ExcelHeader": "職稱類別", "DataType": "String", "Required": false, "MaxLength": 1, "OptionKey": "TitleCategory" },
+        { "FieldID": "GradeCode", "ExcelHeader": "對應職等代碼", "DataType": "String", "Required": false, "MaxLength": 50, "OptionKey": "GradeCode" },
+        { "FieldID": "IsManager", "ExcelHeader": "是否主管職", "DataType": "String", "Required": false, "MaxLength": 1, "OptionKey": "IsManager" }
+      ],
+      "ImportRules": { "DuplicateAction": "Update", "MaxRowCount": 1000, "AtomicImport": true },
+      "TemplateMeta": {
+        "FileName": "職稱資料匯入樣板",
+        "SheetName": "職稱資料",
+        "HeaderColor": "#FFCCCB",
+        "Instructions": [
+          "1. 職稱代碼為必填且不可重複。",
+          "2. 職稱類別請輸入字典值：M(管理)、P(專業)、E(技術)、A(行政)。",
+          "3. 對應職等代碼須為職等字典 hrmCmp_Grd 已存在之代碼。",
+          "4. 是否主管職請輸入 1(是) 或 0(否)。"
+        ]
+      }
+    },
+    "ExportSpec": {
+      "ExportColumns": [
+        { "DataKey": "TitleCode", "Header": "職稱代碼", "Width": 16 },
+        { "DataKey": "TitleName", "Header": "職稱名稱", "Width": 20 },
+        { "DataKey": "TitleEName", "Header": "英文職稱", "Width": 26 },
+        { "DataKey": "TitleCategory", "Header": "職稱類別", "Width": 12, "Format": "CodeName:TitleCategory" },
+        { "DataKey": "GradeCode", "Header": "對應職等", "Width": 18, "Format": "CodeName:GradeCode" },
+        { "DataKey": "IsManager", "Header": "主管職", "Width": 10, "Format": "CodeName:IsManager" },
+        { "DataKey": "CompanyCode", "Header": "所屬公司", "Width": 22, "Format": "CodeName:CompanyCode" },
+        { "DataKey": "Status", "Header": "狀態", "Width": 10, "Format": "CodeName:Status" }
+      ],
+      "ExportRules": { "MaxDownloadRows": 50000, "AllowFullExport": true, "AppendQuerySummary": true }
+    }
+  },
+  "DataScope": {
+    "DefaultWhere": "EntityID = 'hrm' AND Status = '1'",
+    "AuthLevel": 1,
+    "SortExp": "SortNo ASC, TitleCode ASC",
+    "DataConfig": { "RowLimit": 2000, "AllowExport": true }
+  },
+  "CustomMeta": {
+    "CustomSchema": {
+      "WidgetType": "Grid",
+      "KeyField": "TitleCode",
+      "TitleField": "TitleName",
+      "ParentKeyField": null,
+      "PathField": null,
+      "PathSeparator": "/"
+    },
+    "BusinessRules": {
+      "BusinessValidation": [
+        { "Field": "TitleCode", "Rule": "Unique", "Message": "職稱代碼不可重複" },
+        { "Field": "GradeCode", "Rule": "ReferenceExists", "RefEntity": "hrmCmp_Grd", "RefField": "GradeCode", "Message": "對應職等須為職等字典已存在之代碼" }
+      ]
+    }
+  },
+  "SeedData": [
+    { "RowGuid": "d2000000-0000-0000-0000-000000000001", "EntityID": "hrm", "Status": "1", "TitleCode": "GM", "TitleName": "總經理", "TitleEName": "General Manager", "CompanyCode": null, "TitleCategory": "M", "GradeCode": "S4", "IsManager": "1", "Priority": "A", "SortNo": "C0001", "Description": "公司最高經營主管", "Attributes": "{}", "CreatedBy": "system", "CreatedAt": "2024-01-12 09:00", "UpdatedBy": "abram.chen", "UpdatedAt": "2026-05-20 14:32" },
+    { "RowGuid": "d2000000-0000-0000-0000-000000000002", "EntityID": "hrm", "Status": "1", "TitleCode": "VP", "TitleName": "營運協理", "TitleEName": "Vice President of Operations", "CompanyCode": null, "TitleCategory": "M", "GradeCode": "S2", "IsManager": "1", "Priority": "A", "SortNo": "C0002", "Description": "營運體系最高主管", "Attributes": "{}", "CreatedBy": "system", "CreatedAt": "2024-01-12 09:05", "UpdatedBy": "system", "UpdatedAt": "2025-12-01 09:00" },
+    { "RowGuid": "d2000000-0000-0000-0000-000000000003", "EntityID": "hrm", "Status": "1", "TitleCode": "HRMGR", "TitleName": "人資經理", "TitleEName": "HR Manager", "CompanyCode": null, "TitleCategory": "M", "GradeCode": "S1", "IsManager": "1", "Priority": "A", "SortNo": "C0003", "Description": "人力資源部門主管", "Attributes": "{}", "CreatedBy": "system", "CreatedAt": "2024-01-12 09:10", "UpdatedBy": "system", "UpdatedAt": "2025-11-18 16:20" },
+    { "RowGuid": "d2000000-0000-0000-0000-000000000004", "EntityID": "hrm", "Status": "1", "TitleCode": "ITMGR", "TitleName": "資訊經理", "TitleEName": "IT Manager", "CompanyCode": null, "TitleCategory": "M", "GradeCode": "S1", "IsManager": "1", "Priority": "A", "SortNo": "C0004", "Description": "資訊部門主管", "Attributes": "{}", "CreatedBy": "system", "CreatedAt": "2024-01-12 09:15", "UpdatedBy": "abram.chen", "UpdatedAt": "2026-04-11 10:05" },
+    { "RowGuid": "d2000000-0000-0000-0000-000000000005", "EntityID": "hrm", "Status": "1", "TitleCode": "LEAD", "TitleName": "產線領班", "TitleEName": "Production Line Leader", "CompanyCode": "S010", "TitleCategory": "E", "GradeCode": "T2", "IsManager": "1", "Priority": "B", "SortNo": "C0005", "Description": "產線現場帶班", "Attributes": "{}", "CreatedBy": "system", "CreatedAt": "2024-01-12 09:20", "UpdatedBy": "system", "UpdatedAt": "2025-10-09 08:15" },
+    { "RowGuid": "d2000000-0000-0000-0000-000000000006", "EntityID": "hrm", "Status": "1", "TitleCode": "RDENG", "TitleName": "研發工程師", "TitleEName": "R&D Engineer", "CompanyCode": "S030", "TitleCategory": "P", "GradeCode": "T3", "IsManager": "0", "Priority": "B", "SortNo": "C0006", "Description": "產品研發", "Attributes": "{}", "CreatedBy": "system", "CreatedAt": "2024-01-12 09:25", "UpdatedBy": "abram.chen", "UpdatedAt": "2026-06-01 11:30" },
+    { "RowGuid": "d2000000-0000-0000-0000-000000000007", "EntityID": "hrm", "Status": "1", "TitleCode": "SYSENG", "TitleName": "系統工程師", "TitleEName": "System Engineer", "CompanyCode": "S030", "TitleCategory": "P", "GradeCode": "T2", "IsManager": "0", "Priority": "B", "SortNo": "C0007", "Description": "系統建置與整合", "Attributes": "{}", "CreatedBy": "system", "CreatedAt": "2024-01-12 09:30", "UpdatedBy": "system", "UpdatedAt": "2026-02-14 10:00" },
+    { "RowGuid": "d2000000-0000-0000-0000-000000000008", "EntityID": "hrm", "Status": "1", "TitleCode": "OPSENG", "TitleName": "維運工程師", "TitleEName": "Operations Engineer", "CompanyCode": "S030", "TitleCategory": "P", "GradeCode": "T2", "IsManager": "0", "Priority": "B", "SortNo": "C0008", "Description": "系統維運與監控", "Attributes": "{}", "CreatedBy": "system", "CreatedAt": "2024-01-12 09:35", "UpdatedBy": "system", "UpdatedAt": "2025-12-01 09:00" },
+    { "RowGuid": "d2000000-0000-0000-0000-000000000009", "EntityID": "hrm", "Status": "1", "TitleCode": "FEENG", "TitleName": "前端工程師", "TitleEName": "Frontend Engineer", "CompanyCode": "S030", "TitleCategory": "P", "GradeCode": "T2", "IsManager": "0", "Priority": "B", "SortNo": "C0009", "Description": "前端介面開發", "Attributes": "{}", "CreatedBy": "system", "CreatedAt": "2024-01-12 09:40", "UpdatedBy": "abram.chen", "UpdatedAt": "2026-03-22 13:45" },
+    { "RowGuid": "d2000000-0000-0000-0000-000000000010", "EntityID": "hrm", "Status": "1", "TitleCode": "QASPC", "TitleName": "品保專員", "TitleEName": "QA Specialist", "CompanyCode": "S010", "TitleCategory": "P", "GradeCode": "T2", "IsManager": "0", "Priority": "B", "SortNo": "C0010", "Description": "品質保證與檢驗", "Attributes": "{}", "CreatedBy": "system", "CreatedAt": "2024-01-12 09:45", "UpdatedBy": "system", "UpdatedAt": "2025-11-18 16:20" },
+    { "RowGuid": "d2000000-0000-0000-0000-000000000011", "EntityID": "hrm", "Status": "1", "TitleCode": "FINSPC", "TitleName": "財務專員", "TitleEName": "Finance Specialist", "CompanyCode": "S040", "TitleCategory": "A", "GradeCode": "T2", "IsManager": "0", "Priority": "B", "SortNo": "C0011", "Description": "財務作業與帳務", "Attributes": "{}", "CreatedBy": "system", "CreatedAt": "2024-01-12 09:50", "UpdatedBy": "system", "UpdatedAt": "2026-02-14 10:00" },
+    { "RowGuid": "d2000000-0000-0000-0000-000000000012", "EntityID": "hrm", "Status": "1", "TitleCode": "INTERN", "TitleName": "實習工程師", "TitleEName": "Intern Engineer", "CompanyCode": "S030", "TitleCategory": "E", "GradeCode": "G1", "IsManager": "0", "Priority": "C", "SortNo": "C0012", "Description": "工讀／實習職", "Attributes": "{}", "CreatedBy": "system", "CreatedAt": "2024-01-12 09:55", "UpdatedBy": "system", "UpdatedAt": "2025-10-09 08:15" }
+  ]
+}

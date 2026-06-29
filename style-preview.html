@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CDE × MUW 風格預覽</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="CDE.css">
+</head>
+<body>
+<div class="app">
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sb-logo">
+      <div class="sb-logo-mark">兆</div>
+      <div class="sb-logo-txt">
+        <div class="sb-logo-name">兆聯 EIP</div>
+        <div class="sb-logo-sub">工作協作中心</div>
+      </div>
+    </div>
+    <nav class="sb-nav">
+      <div class="nb-group">
+        <div class="nb-hdr">人資管理 HRM</div>
+        <div class="nb-item"><i class="nb-icon ri-building-2-line"></i><span>公司資料</span></div>
+        <div class="nb-item"><i class="nb-icon ri-group-line"></i><span>部門組織</span></div>
+        <div class="nb-item"><i class="nb-icon ri-projector-line"></i><span>專案資料</span></div>
+        <div class="nb-item active"><i class="nb-icon ri-user-3-line"></i><span>員工主檔</span></div>
+        <div class="nb-item"><i class="nb-icon ri-bar-chart-grouped-line"></i><span>職等管理</span></div>
+        <div class="nb-item"><i class="nb-icon ri-user-star-line"></i><span>職稱管理</span></div>
+        <div class="nb-item"><i class="nb-icon ri-medal-line"></i><span>職能字典</span></div>
+      </div>
+      <div class="nb-group">
+        <div class="nb-hdr">系統 SYS</div>
+        <div class="nb-item"><i class="nb-icon ri-shield-keyhole-line"></i><span>權限角色</span></div>
+        <div class="nb-item"><i class="nb-icon ri-settings-3-line"></i><span>系統設定</span></div>
+      </div>
+    </nav>
+  </aside>
+
+  <!-- MAIN -->
+  <div class="main">
+    <header class="topbar">
+      <div class="top-title">
+        <span class="top-pill">EipDB</span>
+        <b>EipDB</b> · 企業資訊平台
+      </div>
+      <div class="top-spacer"></div>
+      <div class="top-tools">
+        <div class="top-ic"><i class="ri-notification-3-line"></i><span class="dot">8</span></div>
+        <div class="top-online"><span class="od"></span>線上<i class="ri-arrow-down-s-line"></i></div>
+        <div class="top-user">
+          <div class="top-avatar">王</div>
+          <div class="top-uinfo">
+            <span class="top-uname">王小明</span>
+            <span class="top-urole">採購部</span>
+          </div>
+          <i class="ri-arrow-down-s-line muted"></i>
+        </div>
+      </div>
+    </header>
+
+    <div class="content">
+      <div class="page-head">
+        <div class="ph-left">
+          <div class="ph-icon"><i class="ri-user-3-line"></i></div>
+          <div><div class="ph-title">員工主檔</div></div>
+        </div>
+        <div class="ph-bc">
+          <a>首頁</a><span class="ph-bc-sep">/</span><a>人資管理</a><span class="ph-bc-sep">/</span><span class="ph-bc-cur">員工主檔</span>
+        </div>
+      </div>
+
+      <div class="op-tabs">
+        <div class="op-tab active"><i class="ri-table-2"></i>列表 / 查詢<span class="badge">128</span></div>
+        <div class="op-tab"><i class="ri-bar-chart-box-line"></i>報表產生</div>
+        <div class="op-tab"><i class="ri-node-tree"></i>DoInit 配置</div>
+      </div>
+
+      <div class="panel-wrap">
+        <!-- 查詢卡 -->
+        <div class="card">
+          <div class="card-head">
+            <div class="card-title"><i class="ri-search-2-line"></i>資料查詢<span class="card-sub">@Action = DoQuery</span></div>
+            <button class="btn btn-ghost btn-sm"><i class="ri-arrow-up-s-line"></i></button>
+          </div>
+          <div class="card-body">
+            <div class="search-grid">
+              <div class="fld"><span class="fld-lbl">員工編號</span><input class="inp" placeholder="輸入編號"></div>
+              <div class="fld"><span class="fld-lbl">姓名</span><input class="inp" placeholder="輸入姓名"></div>
+              <div class="fld"><span class="fld-lbl">部門</span><select class="sel"><option>全部部門</option><option>採購部</option><option>工程部</option></select></div>
+              <div class="fld"><span class="fld-lbl">在職狀態</span><select class="sel"><option>全部</option><option>在職</option><option>離職</option></select></div>
+            </div>
+            <div style="display:flex;gap:7px;margin-top:14px;justify-content:flex-end">
+              <button class="btn btn-def btn-sm"><i class="ri-refresh-line"></i>重設</button>
+              <button class="btn btn-pri btn-sm"><i class="ri-search-line"></i>查詢</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 工具列 + 表格 -->
+        <div class="card" style="display:flex;flex-direction:column">
+          <div class="card-head">
+            <div class="card-title"><i class="ri-table-2"></i>員工列表<span class="card-sub">ListView · 平面分頁</span></div>
+            <div class="toolbar">
+              <button class="btn btn-pri btn-sm"><i class="ri-add-line"></i>新增</button>
+              <button class="btn btn-def btn-sm"><i class="ri-upload-2-line"></i>匯入</button>
+              <button class="btn btn-def btn-sm"><i class="ri-file-excel-2-line"></i>匯出</button>
+            </div>
+          </div>
+          <div class="tbl-wrap">
+            <table class="grid">
+              <thead><tr>
+                <th style="width:36px"><input type="checkbox" class="chk"></th>
+                <th>員工編號</th><th>姓名</th><th>部門</th><th>職稱</th><th>職等</th><th class="col-center">狀態</th><th class="col-center">操作</th>
+              </tr></thead>
+              <tbody>
+                <tr>
+                  <td><input type="checkbox" class="chk"></td>
+                  <td><span class="link">EMP-0001</span></td><td>王小明</td><td>採購部</td><td>採購專員</td>
+                  <td><span class="badge-no">G5</span></td>
+                  <td class="col-center"><span class="tag on">在職</span></td>
+                  <td class="col-center"><div class="row-act"><button class="ico-btn edit"><i class="ri-edit-line"></i></button><button class="ico-btn view"><i class="ri-eye-line"></i></button><button class="ico-btn del"><i class="ri-delete-bin-line"></i></button></div></td>
+                </tr>
+                <tr>
+                  <td><input type="checkbox" class="chk"></td>
+                  <td><span class="link">EMP-0002</span></td><td>陳怡君</td><td>工程部</td><td>專案經理</td>
+                  <td><span class="badge-no">G7</span></td>
+                  <td class="col-center"><span class="tag on">在職</span></td>
+                  <td class="col-center"><div class="row-act"><button class="ico-btn edit"><i class="ri-edit-line"></i></button><button class="ico-btn view"><i class="ri-eye-line"></i></button><button class="ico-btn del"><i class="ri-delete-bin-line"></i></button></div></td>
+                </tr>
+                <tr>
+                  <td><input type="checkbox" class="chk"></td>
+                  <td><span class="link">EMP-0003</span></td><td>林建國</td><td>維運部</td><td>維運工程師</td>
+                  <td><span class="badge-no">G4</span></td>
+                  <td class="col-center"><span class="tag off">離職</span></td>
+                  <td class="col-center"><div class="row-act"><button class="ico-btn edit"><i class="ri-edit-line"></i></button><button class="ico-btn view"><i class="ri-eye-line"></i></button><button class="ico-btn del"><i class="ri-delete-bin-line"></i></button></div></td>
+                </tr>
+                <tr>
+                  <td><input type="checkbox" class="chk"></td>
+                  <td><span class="link">EMP-0004</span></td><td>張雅雯</td><td>實驗室</td><td>檢測主管</td>
+                  <td><span class="badge-no">G6</span></td>
+                  <td class="col-center"><span class="tag on">在職</span></td>
+                  <td class="col-center"><div class="row-act"><button class="ico-btn edit"><i class="ri-edit-line"></i></button><button class="ico-btn view"><i class="ri-eye-line"></i></button><button class="ico-btn del"><i class="ri-delete-bin-line"></i></button></div></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="pager">
+            <div class="pager-info">共 <b>128</b> 筆 · 第 <b>1</b> / 32 頁</div>
+            <div class="pager-ctrl">
+              <button class="pg" disabled><i class="ri-arrow-left-s-line"></i></button>
+              <button class="pg active">1</button><button class="pg">2</button><button class="pg">3</button>
+              <span class="pg-gap">…</span><button class="pg">32</button>
+              <button class="pg"><i class="ri-arrow-right-s-line"></i></button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 表單區段預覽 (含機敏區) -->
+        <div class="card">
+          <div class="card-head"><div class="card-title"><i class="ri-edit-box-line"></i>表單區段樣式預覽</div></div>
+          <div class="card-body" style="display:flex;flex-direction:column;gap:13px;background:var(--body)">
+            <div class="sec">
+              <div class="sec-head">
+                <div class="st"><div class="sec-ic"><i class="ri-user-3-line"></i></div><div class="sec-tt"><div class="sec-title">基本資料</div><div class="sec-sub">員工識別與聯絡資訊</div></div></div>
+                <i class="ri-arrow-up-s-line caret"></i>
+              </div>
+              <div class="sec-body">
+                <div class="fld" style="grid-column:span 12"><span class="fld-lbl">員工姓名 <span class="req">*</span></span><input class="inp" value="王小明"></div>
+                <div class="fld" style="grid-column:span 12"><span class="fld-lbl">部門</span><select class="sel"><option>採購部</option></select></div>
+              </div>
+            </div>
+            <div class="sec sec-sensitive">
+              <div class="sec-head">
+                <div class="st"><div class="sec-ic"><i class="ri-lock-2-line"></i></div><div class="sec-tt"><div class="sec-title">薪資與機敏資料 <i class="ri-lock-fill sec-lock"></i></div><div class="sec-sub">AuthLevel ≥ 3 方可檢視</div></div></div>
+                <i class="ri-arrow-up-s-line caret"></i>
+              </div>
+              <div class="sec-body">
+                <div class="fld" style="grid-column:span 12"><span class="fld-lbl">基本月薪</span><input class="inp" value="NT$ 52,000"></div>
+                <div class="fld" style="grid-column:span 12"><span class="fld-lbl">銀行帳號</span><input class="inp" value="****-****-1234"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

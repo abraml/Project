@@ -1,0 +1,1001 @@
+{
+  "EntityID": "hrm",
+  "SystemCode": "MUEIP",
+  "ModuleCode": "HRM",
+  "FuncCode": "hrmCompanyDept",
+  "ConfigHash": "sha256:7b1d9f33c0a52e64f8d71a4b96e0c2d5837f1a4ce92b06d8453a7c1e9f60b2a8",
+  "PageMeta": {
+    "PageTitle": "部門組織維護",
+    "Lang": "zh-TW",
+    "FormType": "ListForm",
+    "EditDisplayType": "Drawer",
+    "Breadcrumb": [
+      {
+        "Title": "首頁",
+        "Path": "/"
+      },
+      {
+        "Title": "人資管理",
+        "Path": null
+      },
+      {
+        "Title": "部門組織維護",
+        "Path": "/hrm/dept"
+      }
+    ],
+    "IsApproval": false,
+    "TenantLocked": false,
+    "Icon": "ri-group-line",
+    "Remark": "部門組織維護（隸屬公司、可樹狀自參照，物化路徑 DeptPath）"
+  },
+  "Resources": {
+    "CodeSets": {
+      "Status": [
+        {
+          "CodeID": "1",
+          "CodeName": "啟用",
+          "IsDefault": true
+        },
+        {
+          "CodeID": "0",
+          "CodeName": "停用",
+          "IsDefault": false
+        }
+      ],
+      "Type": [
+        {
+          "CodeID": "MGT",
+          "CodeName": "管理部門",
+          "IsDefault": true
+        },
+        {
+          "CodeID": "HR",
+          "CodeName": "人資部門"
+        },
+        {
+          "CodeID": "FIN",
+          "CodeName": "財務部門"
+        },
+        {
+          "CodeID": "IT",
+          "CodeName": "資訊部門"
+        },
+        {
+          "CodeID": "MFG",
+          "CodeName": "生產部門"
+        },
+        {
+          "CodeID": "RD",
+          "CodeName": "研發部門"
+        },
+        {
+          "CodeID": "BIZ",
+          "CodeName": "業務部門"
+        }
+      ],
+      "Priority": [
+        {
+          "CodeID": "A",
+          "CodeName": "高"
+        },
+        {
+          "CodeID": "B",
+          "CodeName": "中"
+        },
+        {
+          "CodeID": "C",
+          "CodeName": "低",
+          "IsDefault": true
+        }
+      ],
+      "CompanyCode": [
+        {
+          "CodeID": "H001",
+          "CodeName": "兆聯實業股份有限公司",
+          "IsDefault": true
+        },
+        {
+          "CodeID": "S010",
+          "CodeName": "兆聯智慧製造子公司"
+        },
+        {
+          "CodeID": "S020",
+          "CodeName": "兆聯國際貿易子公司"
+        },
+        {
+          "CodeID": "S030",
+          "CodeName": "兆聯數位科技子公司"
+        },
+        {
+          "CodeID": "S040",
+          "CodeName": "兆聯金融服務子公司"
+        },
+        {
+          "CodeID": "B011",
+          "CodeName": "兆聯製造台北分公司"
+        },
+        {
+          "CodeID": "B012",
+          "CodeName": "兆聯製造台中分公司"
+        },
+        {
+          "CodeID": "B021",
+          "CodeName": "兆聯貿易高雄分公司"
+        }
+      ]
+    },
+    "FeatureFlags": {
+      "IsReadOnly": false,
+      "EnableDraft": false,
+      "EnableBatchDelete": true,
+      "AutoRefreshInterval": 0,
+      "DefaultViewMode": "Table",
+      "RequireConfirmOnSave": true
+    }
+  },
+  "AllowAction": {
+    "DataActions": [
+      {
+        "ActionID": "Add",
+        "Label": "新增",
+        "Icon": "ri-add-line",
+        "Type": "Primary",
+        "Position": "Toolbar",
+        "Confirm": null
+      },
+      {
+        "ActionID": "Save",
+        "Label": "儲存",
+        "Icon": "ri-save-line",
+        "Type": "Primary",
+        "Position": "Toolbar",
+        "Confirm": null
+      },
+      {
+        "ActionID": "Delete",
+        "Label": "刪除",
+        "Icon": "ri-delete-bin-line",
+        "Type": "Danger",
+        "Position": "Both",
+        "Confirm": "刪除部門將一併停用其下屬子部門，確定要刪除嗎？"
+      },
+      {
+        "ActionID": "Query",
+        "Label": "查詢",
+        "Icon": "ri-search-line",
+        "Type": "Default",
+        "Position": "Toolbar",
+        "Confirm": null
+      }
+    ],
+    "ExtensionActions": [
+      {
+        "ActionID": "Import",
+        "Label": "匯入",
+        "Icon": "ri-upload-2-line",
+        "Type": "Default",
+        "Position": "Toolbar",
+        "Confirm": null
+      },
+      {
+        "ActionID": "Export",
+        "Label": "匯出",
+        "Icon": "ri-file-excel-line",
+        "Type": "Default",
+        "Position": "Toolbar",
+        "Confirm": null
+      }
+    ]
+  },
+  "View": {
+    "RowKey": "RowGuid",
+    "ListView": {
+      "ListSpec": {
+        "RowKey": "RowGuid",
+        "SelectMode": "Single",
+        "FixedColumns": [
+          "Action",
+          "No"
+        ],
+        "RowActionMode": "Menu",
+        "ShowRowNo": true,
+        "Pagination": {
+          "PageSize": 100,
+          "SizeOptions": [
+            50,
+            100,
+            200,
+            500
+          ],
+          "ShowJumper": false,
+          "FullPageScroll": true
+        },
+        "DefaultSort": {
+          "Field": "SortNo",
+          "Order": "asc"
+        },
+        "EmptyText": "目前查無部門資料",
+        "GridBordered": true
+      },
+      "FieldSpecs": [
+        {
+          "BindField": "DeptName",
+          "Title": "部門名稱",
+          "Width": 240,
+          "Align": "Left",
+          "Fixed": "Left",
+          "Formatter": "Link",
+          "Sorter": true,
+          "DefaultVisible": true
+        },
+        {
+          "BindField": "DeptCode",
+          "Title": "部門代碼",
+          "Width": 130,
+          "Align": "Left",
+          "Fixed": "Left",
+          "Formatter": "Link",
+          "Sorter": true,
+          "DefaultVisible": true
+        },
+        {
+          "BindField": "CompanyCode",
+          "Title": "所屬公司",
+          "Width": 200,
+          "Align": "Left",
+          "Formatter": "Tag",
+          "Sorter": true,
+          "DefaultVisible": true
+        },
+        {
+          "BindField": "ParentDeptCode",
+          "Title": "上層部門",
+          "Width": 180,
+          "Align": "Left",
+          "Formatter": "ParentName",
+          "Sorter": true,
+          "DefaultVisible": true
+        },
+        {
+          "BindField": "Type",
+          "Title": "部門類型",
+          "Width": 110,
+          "Align": "Center",
+          "Formatter": "Tag",
+          "DefaultVisible": true
+        },
+        {
+          "BindField": "CostCenter",
+          "Title": "成本中心",
+          "Width": 120,
+          "Align": "Left",
+          "DefaultVisible": true
+        },
+        {
+          "BindField": "Status",
+          "Title": "狀態",
+          "Width": 90,
+          "Align": "Center",
+          "Formatter": "StatusTag",
+          "DefaultVisible": true
+        },
+        {
+          "BindField": "DeptPath",
+          "Title": "組織路徑",
+          "Width": 200,
+          "Align": "Left",
+          "DefaultVisible": false
+        },
+        {
+          "BindField": "SortNo",
+          "Title": "排序",
+          "Width": 90,
+          "Align": "Center",
+          "Sorter": true,
+          "DefaultVisible": false
+        },
+        {
+          "BindField": "UpdatedAt",
+          "Title": "更新時間",
+          "Width": 160,
+          "Align": "Center",
+          "Formatter": "DateTime",
+          "Sorter": true,
+          "DefaultVisible": false
+        }
+      ]
+    },
+    "FormView": {
+      "FormSpec": {
+        "RowKey": "RowGuid",
+        "Layout": "Horizontal",
+        "Sections": [
+          {
+            "SectionID": "SecBase",
+            "Type": "Card",
+            "Title": "基本資料",
+            "IsCollapsible": false,
+            "DefaultOpen": true,
+            "Icon": "ri-file-list-3-line"
+          },
+          {
+            "SectionID": "SecHierarchy",
+            "Type": "Card",
+            "Title": "組織層級",
+            "IsCollapsible": false,
+            "DefaultOpen": true,
+            "Icon": "ri-node-tree"
+          },
+          {
+            "SectionID": "SecExtra",
+            "Type": "Card",
+            "Title": "其他與系統",
+            "IsCollapsible": true,
+            "DefaultOpen": false,
+            "Icon": "ri-settings-4-line"
+          }
+        ],
+        "FormLogic": []
+      },
+      "FieldSpecs": [
+        {
+          "BindField": "RowKey",
+          "Title": "系統識別碼",
+          "Component": "Input",
+          "Section": "SecExtra",
+          "Span": 24,
+          "Mode": "Hidden"
+        },
+        {
+          "BindField": "EntityID",
+          "Title": "系統實體",
+          "Component": "Input",
+          "Section": "SecExtra",
+          "Span": 12,
+          "Mode": "Hidden",
+          "DefaultValue": "hrm"
+        },
+        {
+          "BindField": "DeptCode",
+          "Title": "部門代碼",
+          "Component": "Input",
+          "Section": "SecBase",
+          "Span": 12,
+          "Mode": "Editable",
+          "Validations": [
+            {
+              "Rule": "Required",
+              "Message": "部門代碼為必填"
+            },
+            {
+              "Rule": "MaxLength",
+              "Value": 50,
+              "Message": "部門代碼長度不可超過 50"
+            },
+            {
+              "Rule": "Unique",
+              "Message": "部門代碼不可重複"
+            }
+          ]
+        },
+        {
+          "BindField": "DeptName",
+          "Title": "部門名稱",
+          "Component": "Input",
+          "Section": "SecBase",
+          "Span": 12,
+          "Mode": "Editable",
+          "Validations": [
+            {
+              "Rule": "Required",
+              "Message": "部門名稱為必填"
+            },
+            {
+              "Rule": "MaxLength",
+              "Value": 200,
+              "Message": "部門名稱長度不可超過 200"
+            }
+          ]
+        },
+        {
+          "BindField": "Type",
+          "Title": "部門類型",
+          "Component": "Select",
+          "Section": "SecBase",
+          "Span": 12,
+          "Mode": "Editable",
+          "DefaultValue": "MGT",
+          "Props": {
+            "OptionKey": "Type"
+          }
+        },
+        {
+          "BindField": "CostCenter",
+          "Title": "成本中心",
+          "Component": "Input",
+          "Section": "SecBase",
+          "Span": 12,
+          "Mode": "Editable",
+          "Validations": [
+            {
+              "Rule": "MaxLength",
+              "Value": 50,
+              "Message": "成本中心長度不可超過 50"
+            }
+          ]
+        },
+        {
+          "BindField": "Priority",
+          "Title": "優先權",
+          "Component": "Select",
+          "Section": "SecBase",
+          "Span": 12,
+          "Mode": "Editable",
+          "DefaultValue": "C",
+          "Props": {
+            "OptionKey": "Priority"
+          }
+        },
+        {
+          "BindField": "Status",
+          "Title": "狀態",
+          "Component": "Select",
+          "Section": "SecBase",
+          "Span": 12,
+          "Mode": "Editable",
+          "DefaultValue": "1",
+          "Validations": [
+            {
+              "Rule": "Required",
+              "Message": "狀態為必填"
+            }
+          ],
+          "Props": {
+            "OptionKey": "Status"
+          }
+        },
+        {
+          "BindField": "SortNo",
+          "Title": "顯示排序",
+          "Component": "Input",
+          "Section": "SecBase",
+          "Span": 12,
+          "Mode": "Editable",
+          "DefaultValue": "C0000",
+          "Validations": [
+            {
+              "Rule": "MaxLength",
+              "Value": 5,
+              "Message": "排序編號長度不可超過 5"
+            }
+          ]
+        },
+        {
+          "BindField": "CompanyCode",
+          "Title": "所屬公司",
+          "Component": "Select",
+          "Section": "SecHierarchy",
+          "Span": 12,
+          "Mode": "Editable",
+          "DefaultValue": "H001",
+          "Validations": [
+            {
+              "Rule": "Required",
+              "Message": "所屬公司為必填"
+            }
+          ],
+          "Props": {
+            "OptionKey": "CompanyCode"
+          }
+        },
+        {
+          "BindField": "ParentDeptCode",
+          "Title": "上層部門",
+          "Component": "TreeSelect",
+          "Section": "SecHierarchy",
+          "Span": 12,
+          "Mode": "Editable",
+          "Props": {
+            "OptionKey": "ParentDept",
+            "SelfReference": true,
+            "ValueField": "DeptCode",
+            "TitleField": "DeptName",
+            "ExcludeSelfAndDescendants": true
+          }
+        },
+        {
+          "BindField": "DeptPath",
+          "Title": "組織路徑",
+          "Component": "Input",
+          "Section": "SecHierarchy",
+          "Span": 24,
+          "Mode": "Readonly",
+          "Props": {
+            "Placeholder": "系統依上層部門自動產生（如 /D100/D110/）"
+          }
+        },
+        {
+          "BindField": "Description",
+          "Title": "備註說明",
+          "Component": "TextArea",
+          "Section": "SecExtra",
+          "Span": 24,
+          "Mode": "Editable",
+          "Props": {
+            "Rows": 3
+          }
+        },
+        {
+          "BindField": "Attributes",
+          "Title": "擴展屬性 (JSON)",
+          "Component": "JsonEditor",
+          "Section": "SecExtra",
+          "Span": 24,
+          "Mode": "Editable",
+          "Validations": [
+            {
+              "Rule": "JsonFormat",
+              "Message": "擴展屬性必須為合法 JSON"
+            }
+          ]
+        },
+        {
+          "BindField": "CreatedBy",
+          "Title": "建立者",
+          "Component": "Input",
+          "Section": "SecExtra",
+          "Span": 12,
+          "Mode": "Readonly"
+        },
+        {
+          "BindField": "CreatedAt",
+          "Title": "建立時間",
+          "Component": "DatePicker",
+          "Section": "SecExtra",
+          "Span": 12,
+          "Mode": "Readonly"
+        },
+        {
+          "BindField": "UpdatedBy",
+          "Title": "更新者",
+          "Component": "Input",
+          "Section": "SecExtra",
+          "Span": 12,
+          "Mode": "Readonly"
+        },
+        {
+          "BindField": "UpdatedAt",
+          "Title": "更新時間",
+          "Component": "DatePicker",
+          "Section": "SecExtra",
+          "Span": 12,
+          "Mode": "Readonly"
+        }
+      ]
+    },
+    "ReportView": {
+      "Title": "部門組織報表",
+      "ReportTypes": [
+        {
+          "Type": "summary",
+          "Title": "部門彙總報表",
+          "Layout": "StatsAndTable",
+          "GroupBy": "Type"
+        },
+        {
+          "Type": "company",
+          "Title": "各公司部門統計表",
+          "Layout": "GroupTable",
+          "GroupBy": "CompanyCode"
+        },
+        {
+          "Type": "hierarchy",
+          "Title": "部門層級明細表",
+          "Layout": "PathTable",
+          "GroupBy": null
+        }
+      ]
+    }
+  },
+  "Features": {
+    "ImportSpec": {
+      "ImportColumns": [
+        {
+          "FieldID": "DeptCode",
+          "ExcelHeader": "部門代碼",
+          "DataType": "String",
+          "Required": true,
+          "MaxLength": 50
+        },
+        {
+          "FieldID": "DeptName",
+          "ExcelHeader": "部門名稱",
+          "DataType": "String",
+          "Required": true,
+          "MaxLength": 200
+        },
+        {
+          "FieldID": "CompanyCode",
+          "ExcelHeader": "所屬公司代碼",
+          "DataType": "String",
+          "Required": true,
+          "MaxLength": 50,
+          "OptionKey": "CompanyCode"
+        },
+        {
+          "FieldID": "ParentDeptCode",
+          "ExcelHeader": "上層部門代碼",
+          "DataType": "String",
+          "Required": false,
+          "MaxLength": 50
+        },
+        {
+          "FieldID": "Type",
+          "ExcelHeader": "部門類型",
+          "DataType": "String",
+          "Required": false,
+          "MaxLength": 100,
+          "OptionKey": "Type"
+        },
+        {
+          "FieldID": "CostCenter",
+          "ExcelHeader": "成本中心",
+          "DataType": "String",
+          "Required": false,
+          "MaxLength": 50
+        },
+        {
+          "FieldID": "Description",
+          "ExcelHeader": "備註說明",
+          "DataType": "String",
+          "Required": false
+        }
+      ],
+      "ImportRules": {
+        "DuplicateAction": "Update",
+        "MaxRowCount": 2000,
+        "AtomicImport": true
+      },
+      "TemplateMeta": {
+        "FileName": "部門組織匯入樣板",
+        "SheetName": "部門資料",
+        "HeaderColor": "#D6E4FF",
+        "Instructions": [
+          "1. 部門代碼為必填且不可重複。",
+          "2. 所屬公司代碼為必填，且必須為已存在之公司代碼。",
+          "3. 部門類型請輸入字典值：MGT(管理)、HR(人資)、FIN(財務)、IT(資訊)、MFG(生產)、RD(研發)、BIZ(業務)。",
+          "4. 子部門之上層部門代碼必須已存在，請先匯入上層後再匯入下層。",
+          "5. 上層部門代碼不可指向自身或其下屬節點，避免產生循環結構。"
+        ]
+      }
+    },
+    "ExportSpec": {
+      "ExportColumns": [
+        {
+          "DataKey": "DeptCode",
+          "Header": "部門代碼",
+          "Width": 18
+        },
+        {
+          "DataKey": "DeptName",
+          "Header": "部門名稱",
+          "Width": 28
+        },
+        {
+          "DataKey": "CompanyCode",
+          "Header": "所屬公司",
+          "Width": 24,
+          "Format": "CodeName:CompanyCode"
+        },
+        {
+          "DataKey": "ParentDeptCode",
+          "Header": "上層部門代碼",
+          "Width": 18
+        },
+        {
+          "DataKey": "DeptPath",
+          "Header": "組織路徑",
+          "Width": 26
+        },
+        {
+          "DataKey": "Type",
+          "Header": "部門類型",
+          "Width": 14,
+          "Format": "CodeName:Type"
+        },
+        {
+          "DataKey": "CostCenter",
+          "Header": "成本中心",
+          "Width": 16
+        },
+        {
+          "DataKey": "Status",
+          "Header": "狀態",
+          "Width": 10,
+          "Format": "CodeName:Status"
+        }
+      ],
+      "ExportRules": {
+        "MaxDownloadRows": 50000,
+        "AllowFullExport": true,
+        "AppendQuerySummary": true
+      }
+    }
+  },
+  "DataScope": {
+    "DefaultWhere": "EntityID = 'hrm' AND Status = '1'",
+    "AuthLevel": 3,
+    "SortExp": "SortNo ASC, DeptCode ASC",
+    "DataConfig": {
+      "RowLimit": 5000,
+      "AllowExport": true
+    }
+  },
+  "CustomMeta": {
+    "CustomSchema": {
+      "WidgetType": "Grid",
+      "KeyField": "DeptCode",
+      "TitleField": "DeptName",
+      "ParentKeyField": "ParentDeptCode",
+      "PathField": "DeptPath",
+      "PathSeparator": "/"
+    },
+    "BusinessRules": {
+      "BusinessValidation": [
+        {
+          "Field": "ParentDeptCode",
+          "Rule": "NoSelfReference",
+          "Message": "上層部門不可選擇自身或其下屬節點，以避免循環結構"
+        }
+      ],
+      "PathGeneration": {
+        "Target": "DeptPath",
+        "Strategy": "MaterializedPath",
+        "BaseOn": "ParentDeptCode",
+        "Pattern": "{ParentPath}{DeptCode}/"
+      }
+    }
+  },
+  "SeedData": [
+    {
+      "RowGuid": "b2000000-0000-0000-0000-000000000001",
+      "EntityID": "hrm",
+      "Status": "1",
+      "DeptCode": "D100",
+      "DeptName": "總經理室",
+      "CompanyCode": "H001",
+      "ParentDeptCode": null,
+      "DeptPath": "/D100/",
+      "Type": "MGT",
+      "CostCenter": "CC100",
+      "Priority": "A",
+      "SortNo": "D0100",
+      "Description": "集團最高管理單位，統籌策略與營運",
+      "Attributes": "{\"headcount\":8,\"manager\":\"abram.chen\"}",
+      "CreatedBy": "system",
+      "CreatedAt": "2024-01-10 09:00",
+      "UpdatedBy": "abram.chen",
+      "UpdatedAt": "2026-05-20 14:40"
+    },
+    {
+      "RowGuid": "b2000000-0000-0000-0000-000000000002",
+      "EntityID": "hrm",
+      "Status": "1",
+      "DeptCode": "D110",
+      "DeptName": "人力資源部",
+      "CompanyCode": "H001",
+      "ParentDeptCode": "D100",
+      "DeptPath": "/D100/D110/",
+      "Type": "HR",
+      "CostCenter": "CC110",
+      "Priority": "B",
+      "SortNo": "D0110",
+      "Description": "招募、訓練、薪酬與員工關係",
+      "Attributes": "{\"headcount\":12}",
+      "CreatedBy": "system",
+      "CreatedAt": "2024-01-10 09:10",
+      "UpdatedBy": "abram.chen",
+      "UpdatedAt": "2026-04-11 10:12"
+    },
+    {
+      "RowGuid": "b2000000-0000-0000-0000-000000000003",
+      "EntityID": "hrm",
+      "Status": "1",
+      "DeptCode": "D120",
+      "DeptName": "財務部",
+      "CompanyCode": "H001",
+      "ParentDeptCode": "D100",
+      "DeptPath": "/D100/D120/",
+      "Type": "FIN",
+      "CostCenter": "CC120",
+      "Priority": "B",
+      "SortNo": "D0120",
+      "Description": "會計、出納、預算與財務報表",
+      "Attributes": "{\"headcount\":9}",
+      "CreatedBy": "system",
+      "CreatedAt": "2024-01-10 09:20",
+      "UpdatedBy": "system",
+      "UpdatedAt": "2025-12-01 09:30"
+    },
+    {
+      "RowGuid": "b2000000-0000-0000-0000-000000000004",
+      "EntityID": "hrm",
+      "Status": "1",
+      "DeptCode": "D130",
+      "DeptName": "資訊部",
+      "CompanyCode": "H001",
+      "ParentDeptCode": "D100",
+      "DeptPath": "/D100/D130/",
+      "Type": "IT",
+      "CostCenter": "CC130",
+      "Priority": "A",
+      "SortNo": "D0130",
+      "Description": "資訊系統、網路與資安治理",
+      "Attributes": "{\"headcount\":15}",
+      "CreatedBy": "system",
+      "CreatedAt": "2024-01-10 09:30",
+      "UpdatedBy": "abram.chen",
+      "UpdatedAt": "2026-06-02 11:05"
+    },
+    {
+      "RowGuid": "b2000000-0000-0000-0000-000000000005",
+      "EntityID": "hrm",
+      "Status": "1",
+      "DeptCode": "D131",
+      "DeptName": "系統開發課",
+      "CompanyCode": "H001",
+      "ParentDeptCode": "D130",
+      "DeptPath": "/D100/D130/D131/",
+      "Type": "IT",
+      "CostCenter": "CC131",
+      "Priority": "B",
+      "SortNo": "D0131",
+      "Description": "企業應用系統開發與整合",
+      "Attributes": "{\"headcount\":7}",
+      "CreatedBy": "system",
+      "CreatedAt": "2024-01-11 08:30",
+      "UpdatedBy": "system",
+      "UpdatedAt": "2026-03-18 16:45"
+    },
+    {
+      "RowGuid": "b2000000-0000-0000-0000-000000000006",
+      "EntityID": "hrm",
+      "Status": "1",
+      "DeptCode": "D132",
+      "DeptName": "維運課",
+      "CompanyCode": "H001",
+      "ParentDeptCode": "D130",
+      "DeptPath": "/D100/D130/D132/",
+      "Type": "IT",
+      "CostCenter": "CC132",
+      "Priority": "C",
+      "SortNo": "D0132",
+      "Description": "系統維運、監控與機房管理",
+      "Attributes": "{\"headcount\":5}",
+      "CreatedBy": "system",
+      "CreatedAt": "2024-01-11 08:40",
+      "UpdatedBy": "system",
+      "UpdatedAt": "2025-11-22 13:20"
+    },
+    {
+      "RowGuid": "b2000000-0000-0000-0000-000000000007",
+      "EntityID": "hrm",
+      "Status": "1",
+      "DeptCode": "D200",
+      "DeptName": "製造處",
+      "CompanyCode": "S010",
+      "ParentDeptCode": null,
+      "DeptPath": "/D200/",
+      "Type": "MFG",
+      "CostCenter": "CC200",
+      "Priority": "A",
+      "SortNo": "D0200",
+      "Description": "智慧製造子公司生產營運最高單位",
+      "Attributes": "{\"headcount\":40}",
+      "CreatedBy": "system",
+      "CreatedAt": "2024-01-12 09:00",
+      "UpdatedBy": "abram.chen",
+      "UpdatedAt": "2026-04-30 09:50"
+    },
+    {
+      "RowGuid": "b2000000-0000-0000-0000-000000000008",
+      "EntityID": "hrm",
+      "Status": "1",
+      "DeptCode": "D210",
+      "DeptName": "生產一課",
+      "CompanyCode": "S010",
+      "ParentDeptCode": "D200",
+      "DeptPath": "/D200/D210/",
+      "Type": "MFG",
+      "CostCenter": "CC210",
+      "Priority": "B",
+      "SortNo": "D0210",
+      "Description": "主力產線生產與排程",
+      "Attributes": "{\"headcount\":22,\"shift\":3}",
+      "CreatedBy": "system",
+      "CreatedAt": "2024-01-12 09:10",
+      "UpdatedBy": "system",
+      "UpdatedAt": "2026-01-15 08:00"
+    },
+    {
+      "RowGuid": "b2000000-0000-0000-0000-000000000009",
+      "EntityID": "hrm",
+      "Status": "1",
+      "DeptCode": "D220",
+      "DeptName": "品保課",
+      "CompanyCode": "S010",
+      "ParentDeptCode": "D200",
+      "DeptPath": "/D200/D220/",
+      "Type": "MFG",
+      "CostCenter": "CC220",
+      "Priority": "B",
+      "SortNo": "D0220",
+      "Description": "品質檢驗、進料與出貨管制",
+      "Attributes": "{\"headcount\":10}",
+      "CreatedBy": "system",
+      "CreatedAt": "2024-01-12 09:20",
+      "UpdatedBy": "system",
+      "UpdatedAt": "2025-10-28 14:10"
+    },
+    {
+      "RowGuid": "b2000000-0000-0000-0000-000000000010",
+      "EntityID": "hrm",
+      "Status": "1",
+      "DeptCode": "D300",
+      "DeptName": "研發處",
+      "CompanyCode": "S030",
+      "ParentDeptCode": null,
+      "DeptPath": "/D300/",
+      "Type": "RD",
+      "CostCenter": "CC300",
+      "Priority": "A",
+      "SortNo": "D0300",
+      "Description": "數位科技子公司產品研發最高單位",
+      "Attributes": "{\"headcount\":18,\"team\":\"R&D\"}",
+      "CreatedBy": "system",
+      "CreatedAt": "2024-01-15 10:00",
+      "UpdatedBy": "abram.chen",
+      "UpdatedAt": "2026-06-10 15:30"
+    },
+    {
+      "RowGuid": "b2000000-0000-0000-0000-000000000011",
+      "EntityID": "hrm",
+      "Status": "1",
+      "DeptCode": "D310",
+      "DeptName": "前端開發課",
+      "CompanyCode": "S030",
+      "ParentDeptCode": "D300",
+      "DeptPath": "/D300/D310/",
+      "Type": "RD",
+      "CostCenter": "CC310",
+      "Priority": "B",
+      "SortNo": "D0310",
+      "Description": "Web 與行動應用前端開發",
+      "Attributes": "{\"headcount\":8,\"stack\":\"TypeScript\"}",
+      "CreatedBy": "system",
+      "CreatedAt": "2024-01-15 10:10",
+      "UpdatedBy": "abram.chen",
+      "UpdatedAt": "2026-05-05 11:25"
+    },
+    {
+      "RowGuid": "b2000000-0000-0000-0000-000000000012",
+      "EntityID": "hrm",
+      "Status": "0",
+      "DeptCode": "D900",
+      "DeptName": "籌備處（已裁撤）",
+      "CompanyCode": "H001",
+      "ParentDeptCode": "D100",
+      "DeptPath": "/D100/D900/",
+      "Type": "MGT",
+      "CostCenter": "CC900",
+      "Priority": "C",
+      "SortNo": "D0900",
+      "Description": "新事業籌備單位，任務結束後裁撤（停用範例）",
+      "Attributes": "{}",
+      "CreatedBy": "system",
+      "CreatedAt": "2024-02-01 09:00",
+      "UpdatedBy": "abram.chen",
+      "UpdatedAt": "2025-09-30 17:00"
+    }
+  ]
+}

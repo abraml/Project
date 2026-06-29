@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>考評模組新功能預覽 — 自評考評單 / 考評結果查詢(積分制)</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" rel="stylesheet">
+<style>
+:root{
+  --sb:#3d4d8a;--body:#f0f2f5;--card:#fff;--bdr:#e4e6ea;
+  --pri:#1f5fd0;--pril:#eaf0fc;--suc:#0ab39c;--sucl:#d6f5f0;--warn:#f7b84b;--warnl:#fef7e5;
+  --dan:#f06548;--danl:#feece8;--info:#299cdb;--infol:#e0f1fb;--txt:#212529;--muted:#6c757d;
+  --light:#ced4da;--sh:0 1px 4px rgba(0,0,0,.08);--sh2:0 6px 24px rgba(0,0,0,.14);--r:8px;
+  --font:'Noto Sans TC',system-ui,sans-serif;--mono:'JetBrains Mono',monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font);background:var(--body);color:var(--txt);font-size:14px;line-height:1.5}
+.wrap{max-width:1200px;margin:0 auto;padding:18px}
+.apphdr{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+.apphdr .mk{width:38px;height:38px;border-radius:10px;background:linear-gradient(135deg,#1f5fd0,#3d4d8a);color:#fff;display:grid;place-items:center;font-weight:700;font-size:18px}
+.apphdr h1{font-size:17px;font-weight:600}
+.apphdr p{font-size:12px;color:var(--muted)}
+.tabs{display:flex;gap:6px;margin-bottom:16px;border-bottom:2px solid var(--bdr)}
+.tab{padding:10px 18px;cursor:pointer;font-weight:600;font-size:14px;color:var(--muted);border-bottom:2px solid transparent;margin-bottom:-2px;display:flex;align-items:center;gap:7px}
+.tab.on{color:var(--pri);border-bottom-color:var(--pri)}
+.tab i{font-size:16px}
+.view{display:none}.view.on{display:block}
+.card{background:var(--card);border:1px solid var(--bdr);border-radius:var(--r);box-shadow:var(--sh)}
+.tag{display:inline-flex;align-items:center;gap:4px;padding:2px 9px;border-radius:20px;font-size:12px;font-weight:600;line-height:1.7}
+.tag.S{background:#f3e8ff;color:#7e22ce}.tag.A{background:var(--sucl);color:#08877a}.tag.B{background:var(--infol);color:#1d7fb8}
+.tag.C{background:var(--warnl);color:#c98a14}.tag.D{background:var(--danl);color:#c8472f}.tag.gray{background:#eef0f3;color:#5b6270}
+.tag.KPI{background:var(--pril);color:var(--pri)}.tag.COMP{background:#ecf7ee;color:#2f9e44}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:8px 15px;border:1px solid var(--bdr);border-radius:6px;background:#fff;cursor:pointer;font-family:inherit;font-size:13px;font-weight:600;color:var(--txt)}
+.btn:hover{background:#f5f6f8}
+.btn-pri{background:var(--pri);border-color:var(--pri);color:#fff}.btn-pri:hover{background:#1850b8}
+.btn-warn{background:var(--warn);border-color:var(--warn);color:#623f04}
+.muted{color:var(--muted)}
+.sheet{max-width:860px;margin:0 auto}
+.sheet-hd{border:1px solid var(--bdr);border-radius:var(--r);overflow:hidden;box-shadow:var(--sh)}
+.sheet-hd .bar{background:linear-gradient(135deg,#1f5fd0,#3d4d8a);color:#fff;padding:16px 22px;display:flex;justify-content:space-between;align-items:flex-start}
+.sheet-hd .bar h2{font-size:18px;font-weight:600;display:flex;align-items:center;gap:9px}
+.sheet-hd .bar .no{font-family:var(--mono);font-size:12px;opacity:.85;margin-top:4px}
+.sheet-meta{display:grid;grid-template-columns:repeat(4,1fr)}
+.sheet-meta .m{padding:12px 18px;border-right:1px solid var(--bdr);border-top:1px solid var(--bdr)}
+.sheet-meta .m:nth-child(4n){border-right:none}
+.sheet-meta .m .k{font-size:11px;color:var(--muted);margin-bottom:3px}
+.sheet-meta .m .v{font-size:14px;font-weight:600}
+.weight-band{display:flex;margin:14px 0;border:1px solid var(--bdr);border-radius:var(--r);overflow:hidden;box-shadow:var(--sh)}
+.weight-band .wb{flex:1;padding:13px 18px;text-align:center;border-right:1px solid var(--bdr);background:#fff}
+.weight-band .wb:last-child{border-right:none}
+.weight-band .wb .k{font-size:11px;color:var(--muted)}
+.weight-band .wb .v{font-size:20px;font-weight:700;color:var(--pri);font-family:var(--mono)}
+.weight-band .wb.pass .v{color:var(--warn)}
+.item{background:#fff;border:1px solid var(--bdr);border-radius:var(--r);margin-bottom:13px;box-shadow:var(--sh);overflow:hidden}
+.item.comp{background:#fbfdfb}
+.item-hd{display:flex;justify-content:space-between;align-items:center;padding:13px 18px;background:linear-gradient(90deg,#f7f9fd,#fff);border-bottom:1px solid var(--bdr)}
+.item.comp .item-hd{background:linear-gradient(90deg,#f3faf4,#fff)}
+.item-hd .lhs{display:flex;align-items:center;gap:11px}
+.item-hd .seq{width:26px;height:26px;border-radius:7px;background:var(--pril);color:var(--pri);display:grid;place-items:center;font-weight:700;font-size:13px}
+.item.comp .seq{background:#ecf7ee;color:#2f9e44}
+.item-hd .nm{font-size:15px;font-weight:600}
+.item-hd .wt{font-size:12px;color:var(--muted)}.item-hd .wt b{color:var(--pri);font-family:var(--mono)}
+.item-bd{padding:16px 18px}
+.guide{background:#fafbfc;border:1px dashed var(--bdr);border-radius:6px;padding:10px 13px;font-size:12.5px;color:#5b6270;margin-bottom:14px;display:flex;gap:8px}
+.guide i{color:var(--info);margin-top:1px}
+.score-ctl{display:flex;align-items:center;gap:13px}
+.score-ctl input[type=range]{flex:1;accent-color:var(--pri);height:5px}
+.score-num{width:84px;text-align:center;font-family:var(--mono);font-size:20px;font-weight:700;color:var(--pri);border:2px solid var(--bdr);border-radius:8px;padding:6px 4px}
+.score-num:focus{outline:none;border-color:var(--pri)}
+.score-max{font-size:12px;color:var(--muted)}
+.score-bar{width:100%;height:7px;background:#eef0f3;border-radius:5px;margin-top:11px;overflow:hidden}
+.score-bar>i{display:block;height:100%;background:linear-gradient(90deg,#1f5fd0,#0ab39c);border-radius:5px;transition:width .2s}
+.self-note{margin-top:13px}
+.self-note label{display:block;font-size:12px;color:var(--muted);margin-bottom:5px;font-weight:600}
+.self-note textarea{width:100%;border:1px solid var(--bdr);border-radius:6px;padding:9px 11px;font-family:inherit;font-size:13px;resize:vertical;min-height:54px}
+.self-note textarea:focus{outline:none;border-color:var(--pri)}
+.comp-lock{padding:12px 14px;background:#f3faf4;border:1px dashed #b7e0bf;border-radius:6px;font-size:13px;color:#2f7a3c;display:flex;align-items:center;gap:8px}
+.sheet-foot{position:sticky;bottom:0;background:#fff;border:1px solid var(--bdr);border-radius:var(--r);box-shadow:var(--sh2);padding:14px 20px;display:flex;justify-content:space-between;align-items:center;margin-top:8px}
+.sheet-foot .calc{display:flex;gap:26px}
+.sheet-foot .calc .c .k{font-size:11px;color:var(--muted)}
+.sheet-foot .calc .c .v{font-size:22px;font-weight:700;font-family:var(--mono);color:var(--pri)}
+.sheet-foot .calc .c .v small{font-size:12px;color:var(--muted);font-weight:400}
+.sheet-foot .acts{display:flex;gap:9px}
+.filter{padding:15px 18px;display:grid;grid-template-columns:repeat(5,1fr) auto;gap:12px;align-items:end;margin-bottom:14px}
+.filter .f label{display:block;font-size:11px;color:var(--muted);margin-bottom:5px;font-weight:600}
+.filter select,.filter input{width:100%;border:1px solid var(--bdr);border-radius:6px;padding:8px 10px;font-family:inherit;font-size:13px;background:#fff}
+.param{margin-bottom:14px;overflow:hidden}
+.param-hd{padding:11px 18px;background:linear-gradient(90deg,#fff7ea,#fff);border-bottom:1px solid var(--bdr);display:flex;align-items:center;gap:8px;font-weight:600;font-size:14px}
+.param-hd i{color:var(--warn)}
+.param-bd{padding:15px 18px;display:grid;grid-template-columns:repeat(4,1fr) auto auto;gap:14px;align-items:end}
+.param-bd .p label{display:block;font-size:11px;color:var(--muted);margin-bottom:5px;font-weight:600}
+.param-bd select,.param-bd input{width:100%;border:1px solid var(--bdr);border-radius:6px;padding:8px 10px;font-family:inherit;font-size:13px}
+.coef-wrap{display:flex;align-items:center;gap:9px}
+.coef-wrap input[type=range]{flex:1;accent-color:var(--warn)}
+.coef-val{font-family:var(--mono);font-weight:700;color:#c98a14;width:64px;text-align:right}
+table{width:100%;border-collapse:collapse;font-size:13px}
+thead th{background:#f5f6f8;text-align:left;padding:10px 12px;font-weight:600;font-size:12px;color:#5b6270;border-bottom:1px solid var(--bdr);white-space:nowrap}
+thead th.c{text-align:center}thead th.r{text-align:right}
+tbody td{padding:9px 12px;border-bottom:1px solid #f0f1f3}
+tbody td.c{text-align:center}tbody td.r{text-align:right;font-family:var(--mono)}
+tbody tr:hover{background:#fafbfd}
+tbody tr.adj{background:#fff9ec}tbody tr.adj:hover{background:#fff4dc}
+.emp .nm{font-weight:600}.emp .no{font-size:11px;color:var(--muted);font-family:var(--mono)}
+.cell-edit{width:74px;text-align:center;font-family:var(--mono);font-weight:600;border:1px solid var(--bdr);border-radius:5px;padding:4px}
+.cell-edit:focus{outline:none;border-color:var(--pri)}
+.cell-edit.ovr{border-color:var(--warn);background:#fffaf0}
+.amt{font-weight:700;font-family:var(--mono)}
+.badge-adj{font-size:10px;background:var(--warnl);color:#c98a14;padding:1px 6px;border-radius:10px;font-weight:600;margin-left:5px}
+.rowbtn{border:none;background:transparent;cursor:pointer;color:var(--muted);font-size:15px;padding:3px 5px;border-radius:5px}
+.rowbtn:hover{background:#eef0f3;color:var(--pri)}
+tfoot td{padding:12px;background:#f7f9fd;font-weight:700;border-top:2px solid var(--bdr)}
+.summary{display:flex;margin-bottom:14px;border:1px solid var(--bdr);border-radius:var(--r);overflow:hidden;box-shadow:var(--sh)}
+.summary .s{flex:1;padding:14px 18px;border-right:1px solid var(--bdr);background:#fff}
+.summary .s:last-child{border-right:none}
+.summary .s .k{font-size:11px;color:var(--muted)}
+.summary .s .v{font-size:21px;font-weight:700;font-family:var(--mono)}
+.summary .s .v.money{color:var(--suc)}
+.toast{position:fixed;right:20px;bottom:20px;background:#fff;border:1px solid var(--bdr);border-left:4px solid var(--suc);border-radius:8px;box-shadow:var(--sh2);padding:12px 16px;display:none;align-items:center;gap:9px;font-size:13px;z-index:99}
+.toast.show{display:flex}.toast i{color:var(--suc);font-size:18px}
+.hint{font-size:12px;color:var(--muted);padding:0 2px 12px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="apphdr">
+    <div class="mk">兆</div>
+    <div>
+      <h1>考評模組 — 新功能預覽(積分制)</h1>
+      <p>① 受評者填寫考評單(表單式) · ② 考評結果查詢與獎金調整 · 對齊 B04 積分制 hrmEval · 本機驗證原型</p>
+    </div>
+  </div>
+  <div class="tabs">
+    <div class="tab on" data-tab="sheet"><i class="ri-survey-line"></i>受評者填寫考評單</div>
+    <div class="tab" data-tab="result"><i class="ri-search-eye-line"></i>考評結果查詢</div>
+  </div>
+  <div class="view on" id="view-sheet">
+    <div class="hint"><i class="ri-information-line"></i> 受評者視角:KPI 績效項目逐項自評(0–100),職能項目由主管單獨評定(職能不自評)。下方即時試算自評加權貢獻分。</div>
+    <div class="sheet" id="evalSheet"></div>
+  </div>
+  <div class="view" id="view-result">
+    <div class="hint"><i class="ri-information-line"></i> 依公司/部門/個人查詢核定結果。獎金基數 = <b>積分</b>(查積分對照表 等級×職等);獎金金額 = 積分 × 換算率 + 加扣項。參數式調整套用整批,個人調整逐筆。</div>
+    <div class="card filter" id="filterBar"></div>
+    <div class="card param" id="paramPanel"></div>
+    <div class="summary" id="summary"></div>
+    <div class="card" style="overflow:hidden"><div style="overflow-x:auto"><table id="resultTable"></table></div></div>
+  </div>
+</div>
+<div class="toast" id="toast"><i class="ri-checkbox-circle-line"></i><span id="toastMsg"></span></div>
+
+<script>
+const ROUND={Y:"年度",H1:"上半年",H2:"下半年",PROB:"試用期滿",PRJ:"專案"};
+const EvalConfig={
+  template:{ TemplateCode:"TPL-ENG-Y", TemplateName:"工程師年度考評", SelfWeight:25, ManagerWeight:55, CompWeight:20, PassScore:60,
+    Items:[
+      {ItemCode:"QUAL",ItemName:"工作品質",ItemType:"KPI",ItemWeight:30,MaxScore:100,ScoreDesc:"交付成果之品質、正確性與影響力。90↑卓越、80-89達標、70-79尚可、60↓需改善。"},
+      {ItemCode:"EFF",ItemName:"工作效率",ItemType:"KPI",ItemWeight:25,MaxScore:100,ScoreDesc:"產出速度、時程掌握與資源運用效率。"},
+      {ItemCode:"TECH",ItemName:"技術能力",ItemType:"KPI",ItemWeight:25,MaxScore:100,ScoreDesc:"專業知識深度、問題分析與解決能力。"},
+      {ItemCode:"COMM",ItemName:"溝通合作",ItemType:"COMP",ItemWeight:10,MaxScore:100,ScoreDesc:"跨部門協作與溝通品質(職能項目,由主管評定)。"},
+      {ItemCode:"GROW",ItemName:"學習成長",ItemType:"COMP",ItemWeight:10,MaxScore:100,ScoreDesc:"自我精進與知識更新(職能項目,由主管評定)。"}
+    ]},
+  gradeRule:[{Grade:"S",Min:95},{Grade:"A",Min:85},{Grade:"B",Min:70},{Grade:"C",Min:60},{Grade:"D",Min:0}],
+  currentEval:{ EvalNo:"EV-2025-Y-0008", EmpNo:"E008", EmpName:"蔡宜君", DeptName:"研發處", DeptCode:"D300",
+    GradeLevel:"P3", EvalYear:2025, EvalRound:"Y", TemplateCode:"TPL-ENG-Y", DocStatus:"0", Manager:"張美玲",
+    detail:{QUAL:null,EFF:null,TECH:null} }
+};
+const EMP={
+  E001:{name:"王小明",dept:"D300",deptName:"研發處",lv:"P3",score:87.1,grade:"A"},
+  E002:{name:"李美玲",dept:"D130",deptName:"資訊技術部",lv:"P3",score:91.3,grade:"A"},
+  E003:{name:"王志明",dept:"D120",deptName:"財務部",lv:"P2",score:72.0,grade:"B"},
+  E004:{name:"張美玲",dept:"D130",deptName:"資訊技術部",lv:"M2",score:96.2,grade:"S"},
+  E005:{name:"李俊賢",dept:"D131",deptName:"系統開發課",lv:"P3",score:87.9,grade:"A"},
+  E006:{name:"黃淑芬",dept:"D132",deptName:"維運課",lv:"P2",score:78.4,grade:"B"},
+  E007:{name:"吳承翰",dept:"D210",deptName:"生產一課",lv:"P3",score:68.5,grade:"C"},
+  E008:{name:"蔡宜君",dept:"D300",deptName:"研發處",lv:"P3",score:90.6,grade:"A"},
+  E009:{name:"鄭家豪",dept:"D310",deptName:"前端開發課",lv:"P2",score:58.0,grade:"D"}
+};
+const COMPANY={H001:"兆聯實業股份有限公司",S010:"兆聯智慧製造子公司",S030:"兆聯數位科技子公司"};
+const DEPT_OF_CO={H001:["D100","D110","D120","D130","D131","D132","D300","D310"],S010:["D200","D210","D220"],S030:["D130","D131","D310"]};
+const DEPTNAME={D100:"總經理室",D110:"人力資源部",D120:"財務部",D130:"資訊技術部",D131:"系統開發課",D132:"維運課",D200:"製造處",D210:"生產一課",D220:"品保課",D300:"研發處",D310:"前端開發課"};
+function rangeOf(lv){ if(/^M/.test(lv))return"M1-M3"; const n=+lv.slice(1); return n<=3?"P1-P3":"P4-P5"; }
+const POINTS={
+  "P1-P3":{S:{p:400,cap:null},A:{p:300,cap:null},B:{p:200,cap:null},C:{p:100,cap:null},D:{p:0,cap:null}},
+  "P4-P5":{S:{p:450,cap:null},A:{p:350,cap:null},B:{p:220,cap:null},C:{p:100,cap:null},D:{p:0,cap:null}},
+  "M1-M3":{S:{p:600,cap:800000},A:{p:480,cap:600000},B:{p:300,cap:null},C:{p:120,cap:null},D:{p:0,cap:null}}
+};
+const RATE={"2025":{Y:500,H1:250,H2:250,PROB:150,PRJ:300},"2024":{Y:450,H1:225,H2:225,PROB:150,PRJ:280}};
+
+const $=id=>document.getElementById(id);
+function toast(m){$("toastMsg").textContent=m;$("toast").classList.add("show");setTimeout(()=>$("toast").classList.remove("show"),1900);}
+function nf(n){return n==null?"—":Number(n).toLocaleString("en-US");}
+document.querySelectorAll(".tab").forEach(t=>t.onclick=()=>{
+  document.querySelectorAll(".tab").forEach(x=>x.classList.remove("on"));
+  document.querySelectorAll(".view").forEach(x=>x.classList.remove("on"));
+  t.classList.add("on");$("view-"+t.dataset.tab).classList.add("on");
+});
+
+/* ===== 功能一:表單式自評考評單 ===== */
+function renderEvalSheet(){
+  const t=EvalConfig.template,e=EvalConfig.currentEval;
+  const meta=[["受評員工",`${e.EmpName} <span class="muted">(${e.EmpNo})</span>`],["所屬部門",e.DeptName],
+    ["職等",e.GradeLevel],["考評期間",`${e.EvalYear} · ${ROUND[e.EvalRound]}`]];
+  let items="";
+  t.Items.forEach((it,i)=>{
+    if(it.ItemType==="KPI"){
+      const sv=e.detail[it.ItemCode];
+      items+=`<div class="item" data-code="${it.ItemCode}">
+        <div class="item-hd"><div class="lhs"><span class="seq">${i+1}</span><span class="nm">${it.ItemName}</span>
+          <span class="tag KPI">績效</span></div><div class="wt">權重 <b>${it.ItemWeight}%</b> · 滿分 ${it.MaxScore}</div></div>
+        <div class="item-bd">
+          <div class="guide"><i class="ri-lightbulb-line"></i><div>${it.ScoreDesc}</div></div>
+          <div class="score-ctl">
+            <input type="range" min="0" max="${it.MaxScore}" step="1" value="${sv??0}" data-role="range" data-code="${it.ItemCode}">
+            <input class="score-num" type="number" min="0" max="${it.MaxScore}" value="${sv??''}" placeholder="—" data-role="num" data-code="${it.ItemCode}">
+            <span class="score-max">/ ${it.MaxScore} 分</span></div>
+          <div class="score-bar"><i data-role="bar" data-code="${it.ItemCode}" style="width:${(sv??0)}%"></i></div>
+          <div class="self-note"><label><i class="ri-edit-line"></i> 自評說明 / 具體事蹟佐證</label>
+            <textarea placeholder="請描述本項目之具體表現與佐證..."></textarea></div>
+        </div></div>`;
+    } else {
+      items+=`<div class="item comp"><div class="item-hd"><div class="lhs"><span class="seq">${i+1}</span>
+          <span class="nm">${it.ItemName}</span><span class="tag COMP">職能</span></div>
+          <div class="wt">權重 <b>${it.ItemWeight}%</b></div></div>
+        <div class="item-bd"><div class="guide"><i class="ri-lightbulb-line"></i><div>${it.ScoreDesc}</div></div>
+          <div class="comp-lock"><i class="ri-shield-user-line"></i> 職能項目不自評 — 由主管(${e.Manager})單獨評定,評核時帶入 B01 最新職能評分為基準</div>
+        </div></div>`;
+    }
+  });
+  $("evalSheet").innerHTML=`
+    <div class="sheet-hd"><div class="bar"><div>
+        <h2><i class="ri-survey-line"></i> ${t.TemplateName}</h2>
+        <div class="no">考評單號 ${e.EvalNo} · 範本 ${t.TemplateCode}</div></div>
+      <div><span class="tag gray" id="docStatusTag">草稿 · 待自評</span></div></div>
+      <div class="sheet-meta">${meta.map(m=>`<div class="m"><div class="k">${m[0]}</div><div class="v">${m[1]}</div></div>`).join("")}</div></div>
+    <div class="weight-band">
+      <div class="wb"><div class="k">自評權重</div><div class="v">${t.SelfWeight}%</div></div>
+      <div class="wb"><div class="k">主管評權重</div><div class="v">${t.ManagerWeight}%</div></div>
+      <div class="wb"><div class="k">職能評權重</div><div class="v">${t.CompWeight}%</div></div>
+      <div class="wb pass"><div class="k">及格分數</div><div class="v">${t.PassScore}</div></div></div>
+    ${items}
+    <div class="sheet-foot"><div class="calc">
+        <div class="c"><div class="k">KPI 自評平均</div><div class="v"><span id="selfRaw">—</span><small> 分</small></div></div>
+        <div class="c"><div class="k">自評加權貢獻 (×${t.SelfWeight}%)</div><div class="v"><span id="selfWeighted">—</span><small> 分</small></div></div>
+        <div class="c"><div class="k">填寫進度</div><div class="v"><span id="selfProg">0/3</span></div></div>
+      </div><div class="acts">
+        <button class="btn" onclick="saveDraft()"><i class="ri-save-line"></i>暫存草稿</button>
+        <button class="btn btn-pri" onclick="submitSelf()"><i class="ri-send-plane-line"></i>提交自評</button></div></div>`;
+  $("evalSheet").querySelectorAll('[data-role=range]').forEach(r=>r.oninput=()=>setScore(r.dataset.code,r.value,'range'));
+  $("evalSheet").querySelectorAll('[data-role=num]').forEach(n=>n.oninput=()=>setScore(n.dataset.code,n.value,'num'));
+  recalcSheet();
+}
+function setScore(code,val,src){
+  let v=val===''?null:Math.max(0,Math.min(100,Number(val)));
+  EvalConfig.currentEval.detail[code]=v;
+  const sel=`[data-code="${code}"]`;
+  if(src!=='range')$("evalSheet").querySelector(`input[data-role=range]${sel}`).value=v??0;
+  if(src!=='num')$("evalSheet").querySelector(`input[data-role=num]${sel}`).value=v??'';
+  $("evalSheet").querySelector(`[data-role=bar]${sel}`).style.width=(v??0)+"%";
+  recalcSheet();
+}
+function recalcSheet(){
+  const t=EvalConfig.template,d=EvalConfig.currentEval.detail;
+  const kpi=t.Items.filter(it=>it.ItemType==="KPI");
+  let raw=0,filled=0,wsum=0;
+  kpi.forEach(it=>{const s=d[it.ItemCode];if(s!=null){raw+=s;filled++;wsum+=s*it.ItemWeight/100;}});
+  $("selfRaw").textContent=filled?(raw/filled).toFixed(1):"—";
+  $("selfWeighted").textContent=filled?(wsum*t.SelfWeight/100).toFixed(2):"—";
+  $("selfProg").textContent=`${filled}/${kpi.length}`;
+}
+function saveDraft(){toast("已暫存草稿(DocStatus=0)");}
+function submitSelf(){
+  const d=EvalConfig.currentEval.detail,kpi=EvalConfig.template.Items.filter(it=>it.ItemType==="KPI");
+  const miss=kpi.filter(it=>d[it.ItemCode]==null);
+  if(miss.length){toast("尚有 "+miss.length+" 個 KPI 項目未評分");return;}
+  EvalConfig.currentEval.DocStatus="1";
+  $("docStatusTag").className="tag B";$("docStatusTag").textContent="已提交 · 待主管評核";
+  toast("自評已提交鎖定,SelfSubmittedAt 已記錄");
+}
+renderEvalSheet();
+
+/* ===== 功能二:考評結果查詢 + 積分制調整 ===== */
+const RQ={ filter:{company:"H001",dept:"",emp:"",year:"2025",round:"Y"},
+  param:{coef:1.00,scope:"ALL",rateOverride:null}, rows:[] };
+function buildRows(){ RQ.rows=Object.keys(EMP).map(no=>({EmpNo:no,pointOverride:null,addDeduct:0,note:""})); }
+buildRows();
+function filteredRows(){
+  const f=RQ.filter;
+  return RQ.rows.filter(r=>{ const e=EMP[r.EmpNo];
+    if(f.company){const deps=DEPT_OF_CO[f.company]||[];if(!deps.includes(e.dept))return false;}
+    if(f.dept&&e.dept!==f.dept)return false;
+    if(f.emp&&r.EmpNo!==f.emp)return false; return true; });
+}
+function curRate(){ return RQ.param.rateOverride!=null?RQ.param.rateOverride:(RATE[RQ.filter.year]||{})[RQ.filter.round]||0; }
+function calcRow(r){
+  const e=EMP[r.EmpNo], rng=rangeOf(e.lv), pe=(POINTS[rng]||{})[e.grade]||{p:0,cap:null};
+  const basePoints=pe.p;
+  const points = r.pointOverride!=null ? r.pointOverride : Math.round(basePoints*RQ.param.coef);
+  const rate=curRate();
+  let amt = points*rate + (r.addDeduct||0);
+  if(pe.cap!=null) amt=Math.min(amt,pe.cap);
+  amt=Math.max(0,Math.round(amt));
+  return { basePoints, points, rate, cap:pe.cap, amount:amt, adjusted:(r.pointOverride!=null||(r.addDeduct||0)!==0) };
+}
+function renderResultQuery(){
+  const coOpts=Object.entries(COMPANY).map(([k,v])=>`<option value="${k}" ${RQ.filter.company===k?'selected':''}>${v}</option>`).join("");
+  const deps=DEPT_OF_CO[RQ.filter.company]||[];
+  const deptOpts=`<option value="">全部部門</option>`+deps.map(d=>`<option value="${d}" ${RQ.filter.dept===d?'selected':''}>${DEPTNAME[d]}</option>`).join("");
+  const pool=Object.keys(EMP).filter(no=>deps.includes(EMP[no].dept)&&(!RQ.filter.dept||EMP[no].dept===RQ.filter.dept));
+  const empOpts=`<option value="">全部個人</option>`+pool.map(no=>`<option value="${no}" ${RQ.filter.emp===no?'selected':''}>${EMP[no].name} (${no})</option>`).join("");
+  $("filterBar").innerHTML=`
+    <div class="f"><label>公司</label><select onchange="RQ.filter.company=this.value;RQ.filter.dept='';RQ.filter.emp='';renderResultQuery()">${coOpts}</select></div>
+    <div class="f"><label>部門</label><select onchange="RQ.filter.dept=this.value;RQ.filter.emp='';renderResultQuery()">${deptOpts}</select></div>
+    <div class="f"><label>個人</label><select onchange="RQ.filter.emp=this.value;renderResultQuery()">${empOpts}</select></div>
+    <div class="f"><label>考評年度</label><select onchange="RQ.filter.year=this.value;renderResultQuery()"><option ${RQ.filter.year==='2025'?'selected':''}>2025</option><option ${RQ.filter.year==='2024'?'selected':''}>2024</option></select></div>
+    <div class="f"><label>週期</label><select onchange="RQ.filter.round=this.value;renderResultQuery()">
+        ${Object.entries(ROUND).map(([k,v])=>`<option value="${k}" ${RQ.filter.round===k?'selected':''}>${v}</option>`).join("")}</select></div>
+    <div class="f"><button class="btn btn-pri" onclick="renderResultQuery();toast('已套用查詢條件')"><i class="ri-search-line"></i>查詢</button></div>`;
+  const defaultRate=(RATE[RQ.filter.year]||{})[RQ.filter.round]||0;
+  $("paramPanel").innerHTML=`
+    <div class="param-hd"><i class="ri-equalizer-line"></i> 參數式調整 — 套用至下方查詢結果(積分制:換算率 / 積分係數)</div>
+    <div class="param-bd">
+      <div class="p"><label>換算率 (元/積分)</label>
+        <input type="number" value="${curRate()}" onchange="RQ.param.rateOverride=(+this.value===${defaultRate}?null:+this.value);repaintTable()">
+        <div style="font-size:11px;color:var(--muted);margin-top:3px">年度預設 ${nf(defaultRate)} ${RQ.param.rateOverride!=null?'· 已覆寫':''}</div></div>
+      <div class="p"><label>積分調整係數</label>
+        <div class="coef-wrap"><input type="range" min="0" max="1.5" step="0.05" value="${RQ.param.coef}" oninput="RQ.param.coef=+this.value;repaintTable()">
+          <span class="coef-val" id="coefVal">${RQ.param.coef.toFixed(2)}×</span></div></div>
+      <div class="p"><label>套用範圍</label>
+        <select onchange="RQ.param.scope=this.value">
+          <option value="ALL" ${RQ.param.scope==='ALL'?'selected':''}>全公司</option>
+          <option value="DEPT" ${RQ.param.scope==='DEPT'?'selected':''}>本部門</option>
+          <option value="JOB" ${RQ.param.scope==='JOB'?'selected':''}>本職等</option></select></div>
+      <div class="p"><label>　</label><button class="btn" onclick="RQ.param.rateOverride=null;RQ.param.coef=1;renderResultQuery();toast('已還原參數')"><i class="ri-restart-line"></i>還原</button></div>
+      <div class="p"><button class="btn btn-warn" onclick="toast('已套用參數('+({ALL:'全公司',DEPT:'本部門',JOB:'本職等'})[RQ.param.scope]+',個別調整保留)')"><i class="ri-refresh-line"></i>套用參數</button></div>
+    </div>`;
+  repaintTable();
+}
+function repaintTable(){
+  $("coefVal")&&($("coefVal").textContent=RQ.param.coef.toFixed(2)+"×");
+  const rows=filteredRows();
+  let body="",total=0,scoreSum=0,adjCnt=0,ptSum=0;
+  rows.forEach(r=>{ const e=EMP[r.EmpNo],c=calcRow(r);
+    total+=c.amount;scoreSum+=e.score;ptSum+=c.points;if(c.adjusted)adjCnt++;
+    const hasAdd=(r.addDeduct||0)!==0;
+    body+=`<tr class="${c.adjusted?'adj':''}">
+      <td class="emp"><div class="nm">${e.name}${c.adjusted?'<span class="badge-adj">已調</span>':''}</div><div class="no">${r.EmpNo} · ${e.lv}</div></td>
+      <td>${e.deptName}</td>
+      <td class="c">${e.score.toFixed(1)}</td>
+      <td class="c"><span class="tag ${e.grade}">${e.grade}</span></td>
+      <td class="c"><input class="cell-edit ${r.pointOverride!=null?'ovr':''}" type="number" step="10" value="${c.points}"
+            title="獎金基數=積分;編輯即為個人調整" onchange="setPoints('${r.EmpNo}',this.value)"></td>
+      <td class="c"><input class="cell-edit ${hasAdd?'ovr':''}" type="number" step="1000" value="${r.addDeduct||0}"
+            title="加扣項(加項正/扣項負)" onchange="setAddDeduct('${r.EmpNo}',this.value)"></td>
+      <td class="r"><span class="amt" style="color:${c.adjusted?'#c98a14':'#0ab39c'}">${nf(c.amount)}</span></td>
+      <td class="c">${c.adjusted?`<button class="rowbtn" title="還原" onclick="resetRow('${r.EmpNo}')"><i class="ri-arrow-go-back-line"></i></button>`:'<span class="muted" style="font-size:11px">—</span>'}</td>
+      <td><input class="cell-edit" style="width:150px;text-align:left" placeholder="個人調整必填原因..." value="${r.note}" onchange="setNote('${r.EmpNo}',this.value)"></td>
+    </tr>`;
+  });
+  if(!rows.length)body=`<tr><td colspan="9" style="text-align:center;padding:30px;color:var(--muted)">查無符合條件之考評結果</td></tr>`;
+  $("resultTable").innerHTML=`
+    <thead><tr><th>受評員工</th><th>部門</th><th class="c">評分</th><th class="c">等級</th>
+      <th class="c">獎金基數(積分)</th><th class="c">加扣項</th><th class="r">獎金金額</th><th class="c">還原</th><th>調整原因</th></tr></thead>
+    <tbody>${body}</tbody>
+    <tfoot><tr><td colspan="4">合計 ${rows.length} 人 · 其中 ${adjCnt} 人個別調整</td>
+      <td class="c">${nf(ptSum)}</td><td></td><td class="r" style="color:var(--suc);font-size:15px">${nf(total)}</td><td colspan="2"></td></tr></tfoot>`;
+  const avg=rows.length?(scoreSum/rows.length):null;
+  $("summary").innerHTML=`
+    <div class="s"><div class="k">受評人數</div><div class="v">${rows.length}</div></div>
+    <div class="s"><div class="k">平均評分</div><div class="v">${avg!=null?avg.toFixed(1):'—'}</div></div>
+    <div class="s"><div class="k">積分合計</div><div class="v">${nf(ptSum)}</div></div>
+    <div class="s"><div class="k">獎金合計</div><div class="v money">${nf(total)}</div></div>`;
+}
+function setPoints(emp,v){RQ.rows.find(x=>x.EmpNo===emp).pointOverride=(v===''?null:+v);repaintTable();}
+function setAddDeduct(emp,v){RQ.rows.find(x=>x.EmpNo===emp).addDeduct=(v===''?0:+v);repaintTable();}
+function setNote(emp,v){RQ.rows.find(x=>x.EmpNo===emp).note=v;}
+function resetRow(emp){const r=RQ.rows.find(x=>x.EmpNo===emp);r.pointOverride=null;r.addDeduct=0;repaintTable();toast("已還原 "+EMP[emp].name);}
+renderResultQuery();
+</script>
+</body>
+</html>

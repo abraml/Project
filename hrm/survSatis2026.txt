@@ -1,0 +1,259 @@
+{
+  "EntityID": "hrm",
+  "SystemCode": "MUEIP",
+  "ModuleCode": "SURV",
+  "FuncCode": "survSatis2026",
+  "ConfigHash": "sha256:survatis20260000000000000000000000000000000000000000000000000000",
+  "PageMeta": {
+    "PageTitle": "2026 滿意度調查",
+    "Lang": "zh-TW",
+    "FormType": "SurveyForm",
+    "EditDisplayType": "Page",
+    "Breadcrumb": [
+      {
+        "Title": "首頁",
+        "Path": "/"
+      },
+      {
+        "Title": "問卷",
+        "Path": null
+      },
+      {
+        "Title": "2026 滿意度調查",
+        "Path": "/surv/survSatis2026"
+      }
+    ],
+    "IsApproval": false,
+    "TenantLocked": false,
+    "Icon": "ri-emotion-line",
+    "Remark": "題庫式問卷(SATISFY);渲染為問卷供填寫,作答存入 survResponse + survAnswer。"
+  },
+  "Resources": {
+    "CodeSets": {
+      "BankType": [
+        {
+          "CodeID": "EVAL",
+          "CodeName": "考評表"
+        },
+        {
+          "CodeID": "SATISFY",
+          "CodeName": "滿意度調查"
+        },
+        {
+          "CodeID": "REPLY",
+          "CodeName": "公告回覆"
+        }
+      ],
+      "ScoringMode": [
+        {
+          "CodeID": "none",
+          "CodeName": "不計分"
+        },
+        {
+          "CodeID": "weighted",
+          "CodeName": "加權計分"
+        },
+        {
+          "CodeID": "sum",
+          "CodeName": "加總計分"
+        }
+      ]
+    },
+    "FeatureFlags": {
+      "EnableQuery": true,
+      "EnableInsert": true,
+      "EnableUpdate": true,
+      "EnableDelete": false,
+      "EnableImport": false,
+      "EnableExport": true,
+      "EnableBatch": false
+    }
+  },
+  "SurveySpec": {
+    "Bank": {
+      "BankCode": "BANK-SAT-2026",
+      "BankName": "2026 內部服務滿意度調查",
+      "BankType": "SATISFY",
+      "Version": "1.0",
+      "ScoringMode": "none",
+      "Anonymous": true,
+      "Intro": "您的回饋將協助我們持續改善內部服務。本調查匿名進行。",
+      "ThankYou": "感謝您的填寫!"
+    },
+    "Groups": [
+      {
+        "GroupCode": "G1",
+        "GroupName": "整體滿意度",
+        "DisplayOrder": 1,
+        "Questions": [
+          {
+            "QuestionCode": "Q1",
+            "QuestionText": "您對 IT 服務台的整體滿意度?",
+            "QuestionType": "scale",
+            "IsRequired": true,
+            "DisplayOrder": 1,
+            "Options": [
+              {
+                "OptionCode": "5",
+                "OptionText": "非常滿意",
+                "DisplayOrder": 1
+              },
+              {
+                "OptionCode": "4",
+                "OptionText": "滿意",
+                "DisplayOrder": 2
+              },
+              {
+                "OptionCode": "3",
+                "OptionText": "普通",
+                "DisplayOrder": 3
+              },
+              {
+                "OptionCode": "2",
+                "OptionText": "不滿意",
+                "DisplayOrder": 4
+              },
+              {
+                "OptionCode": "1",
+                "OptionText": "非常不滿意",
+                "DisplayOrder": 5
+              }
+            ]
+          },
+          {
+            "QuestionCode": "Q2",
+            "QuestionText": "請為本季服務體驗評星",
+            "QuestionType": "stars",
+            "IsRequired": true,
+            "Max": 5,
+            "DisplayOrder": 2
+          }
+        ]
+      },
+      {
+        "GroupCode": "G2",
+        "GroupName": "服務面向",
+        "DisplayOrder": 2,
+        "Questions": [
+          {
+            "QuestionCode": "Q3",
+            "QuestionText": "您使用過下列哪些服務?(可複選)",
+            "QuestionType": "multiple",
+            "IsRequired": false,
+            "DisplayOrder": 1,
+            "Options": [
+              {
+                "OptionCode": "A",
+                "OptionText": "設備報修"
+              },
+              {
+                "OptionCode": "B",
+                "OptionText": "帳號權限"
+              },
+              {
+                "OptionCode": "C",
+                "OptionText": "軟體安裝"
+              },
+              {
+                "OptionCode": "D",
+                "OptionText": "網路問題"
+              },
+              {
+                "OptionCode": "X",
+                "OptionText": "其他",
+                "AllowInput": true
+              }
+            ]
+          },
+          {
+            "QuestionCode": "Q4",
+            "QuestionText": "各面向滿意度",
+            "QuestionType": "matrix",
+            "IsRequired": true,
+            "DisplayOrder": 2,
+            "SubQuestions": [
+              {
+                "Code": "M1",
+                "Text": "回應速度"
+              },
+              {
+                "Code": "M2",
+                "Text": "專業度"
+              },
+              {
+                "Code": "M3",
+                "Text": "態度"
+              }
+            ],
+            "Options": [
+              {
+                "OptionCode": "5",
+                "OptionText": "很滿意"
+              },
+              {
+                "OptionCode": "4",
+                "OptionText": "滿意"
+              },
+              {
+                "OptionCode": "3",
+                "OptionText": "普通"
+              },
+              {
+                "OptionCode": "2",
+                "OptionText": "不滿意"
+              },
+              {
+                "OptionCode": "1",
+                "OptionText": "很不滿意"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "GroupCode": "G3",
+        "GroupName": "建議",
+        "DisplayOrder": 3,
+        "Questions": [
+          {
+            "QuestionCode": "Q5",
+            "QuestionText": "您對我們的服務有什麼建議?",
+            "QuestionType": "textarea",
+            "IsRequired": false,
+            "Placeholder": "歡迎留下寶貴意見...",
+            "DisplayOrder": 1
+          }
+        ]
+      }
+    ]
+  },
+  "DataScope": {
+    "DefaultWhere": "EntityID = 'hrm'",
+    "AuthLevel": 1,
+    "SortExp": "DisplayOrder ASC",
+    "DataConfig": {
+      "RowLimit": 1,
+      "AllowExport": true
+    },
+    "Remark": "作答層 survResponse/survAnswer 由 @Action=DoSubmit 寫入;考評含分數為機敏(L2)。"
+  },
+  "ResponseSchema": {
+    "ResponseEntity": "survResponse",
+    "AnswerEntity": "survAnswer",
+    "ResponseKey": "ResponseNo",
+    "RelationKey": "ResponseNo",
+    "AnswerFields": {
+      "Group": "GroupCode",
+      "Question": "QuestionCode",
+      "Value": "AnswerValue",
+      "Text": "AnswerText",
+      "Score": "AnswerScore"
+    },
+    "Actions": [
+      "DoInit",
+      "DoSaveDraft",
+      "DoSubmit",
+      "DoQueryResult"
+    ]
+  }
+}

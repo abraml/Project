@@ -1,0 +1,970 @@
+{
+  "EntityID": "hrm",
+  "SystemCode": "MUEIP",
+  "ModuleCode": "HRM",
+  "FuncCode": "hrmEvalTemplate",
+  "ConfigHash": "sha256:b04t0000000000000000000000000000000000000000000000000000000001",
+  "PageMeta": {
+    "PageTitle": "考評模板維護",
+    "Lang": "zh-TW",
+    "FormType": "ListForm",
+    "EditDisplayType": "Drawer",
+    "Breadcrumb": [
+      {
+        "Title": "首頁",
+        "Path": "/"
+      },
+      {
+        "Title": "考評管理",
+        "Path": null
+      },
+      {
+        "Title": "考評模板維護",
+        "Path": "/hrm/eval/template"
+      }
+    ],
+    "IsApproval": false,
+    "TenantLocked": false,
+    "Icon": "ri-layout-grid-line",
+    "Remark": "考評模板(SSOT):自評/主管/職能三軌比例(加總100)、等級門檻、評核項目;發起後凍結快照。"
+  },
+  "Resources": {
+    "CodeSets": {
+      "Status": [
+        {
+          "CodeID": "1",
+          "CodeName": "啟用",
+          "IsDefault": true
+        },
+        {
+          "CodeID": "0",
+          "CodeName": "停用"
+        }
+      ],
+      "Priority": [
+        {
+          "CodeID": "A",
+          "CodeName": "高"
+        },
+        {
+          "CodeID": "B",
+          "CodeName": "中"
+        },
+        {
+          "CodeID": "C",
+          "CodeName": "低",
+          "IsDefault": true
+        }
+      ],
+      "JobFamily": [
+        {
+          "CodeID": "ENG",
+          "CodeName": "工程研發"
+        },
+        {
+          "CodeID": "SALES",
+          "CodeName": "業務行銷"
+        },
+        {
+          "CodeID": "MGR",
+          "CodeName": "管理幹部"
+        },
+        {
+          "CodeID": "ADMIN",
+          "CodeName": "行政人員"
+        },
+        {
+          "CodeID": "PROB",
+          "CodeName": "試用期"
+        }
+      ],
+      "EvalRound": [
+        {
+          "CodeID": "Y",
+          "CodeName": "年度",
+          "IsDefault": true
+        },
+        {
+          "CodeID": "H1",
+          "CodeName": "上半年"
+        },
+        {
+          "CodeID": "H2",
+          "CodeName": "下半年"
+        },
+        {
+          "CodeID": "PROB",
+          "CodeName": "試用期滿"
+        },
+        {
+          "CodeID": "PRJ",
+          "CodeName": "專案"
+        }
+      ],
+      "EnableComp": [
+        {
+          "CodeID": "0",
+          "CodeName": "否",
+          "IsDefault": true
+        },
+        {
+          "CodeID": "1",
+          "CodeName": "是"
+        }
+      ]
+    },
+    "FeatureFlags": {
+      "IsReadOnly": false,
+      "EnableDraft": false,
+      "EnableBatchDelete": true,
+      "AutoRefreshInterval": 0,
+      "DefaultViewMode": "Table",
+      "RequireConfirmOnSave": true
+    }
+  },
+  "AllowAction": {
+    "DataActions": [
+      {
+        "ActionID": "Add",
+        "Label": "新增",
+        "Icon": "ri-add-line",
+        "Type": "Primary",
+        "Position": "Toolbar",
+        "Confirm": null
+      },
+      {
+        "ActionID": "Save",
+        "Label": "儲存",
+        "Icon": "ri-save-line",
+        "Type": "Primary",
+        "Position": "Toolbar",
+        "Confirm": null
+      },
+      {
+        "ActionID": "Delete",
+        "Label": "刪除",
+        "Icon": "ri-delete-bin-line",
+        "Type": "Danger",
+        "Position": "Both",
+        "Confirm": "刪除模板將一併影響其評核項目,確定刪除?"
+      },
+      {
+        "ActionID": "Query",
+        "Label": "查詢",
+        "Icon": "ri-search-line",
+        "Type": "Default",
+        "Position": "Toolbar",
+        "Confirm": null
+      }
+    ],
+    "ExtensionActions": [
+      {
+        "ActionID": "Import",
+        "Label": "匯入",
+        "Icon": "ri-upload-2-line",
+        "Type": "Default",
+        "Position": "Toolbar",
+        "Confirm": null
+      },
+      {
+        "ActionID": "Export",
+        "Label": "匯出",
+        "Icon": "ri-file-excel-line",
+        "Type": "Default",
+        "Position": "Toolbar",
+        "Confirm": null
+      }
+    ]
+  },
+  "View": {
+    "RowKey": "RowGuid",
+    "ListView": {
+      "ListSpec": {
+        "RowKey": "RowGuid",
+        "SelectMode": "Single",
+        "FixedColumns": [
+          "Action",
+          "No"
+        ],
+        "RowActionMode": "Menu",
+        "ShowRowNo": true,
+        "Pagination": {
+          "PageSize": 100,
+          "SizeOptions": [
+            50,
+            100,
+            200,
+            500
+          ],
+          "ShowJumper": false,
+          "FullPageScroll": true
+        },
+        "DefaultSort": {
+          "Field": "SortNo",
+          "Order": "asc"
+        },
+        "EmptyText": "目前查無考評模板",
+        "GridBordered": true
+      },
+      "FieldSpecs": [
+        {
+          "BindField": "TemplateName",
+          "Title": "模板名稱",
+          "Width": 220,
+          "Align": "Left",
+          "Fixed": "Left",
+          "Formatter": "Link",
+          "Sorter": true,
+          "DefaultVisible": true
+        },
+        {
+          "BindField": "TemplateCode",
+          "Title": "模板代碼",
+          "Width": 150,
+          "Align": "Left",
+          "Fixed": "Left",
+          "Formatter": "Link",
+          "DefaultVisible": true
+        },
+        {
+          "BindField": "JobFamily",
+          "Title": "適用職系",
+          "Width": 110,
+          "Align": "Center",
+          "Formatter": "Tag",
+          "DefaultVisible": true
+        },
+        {
+          "BindField": "EvalRound",
+          "Title": "週期",
+          "Width": 100,
+          "Align": "Center",
+          "Formatter": "Tag",
+          "DefaultVisible": true
+        },
+        {
+          "BindField": "SelfWeight",
+          "Title": "自評%",
+          "Width": 80,
+          "Align": "Center",
+          "DefaultVisible": true
+        },
+        {
+          "BindField": "ManagerWeight",
+          "Title": "主管%",
+          "Width": 80,
+          "Align": "Center",
+          "DefaultVisible": true
+        },
+        {
+          "BindField": "CompWeight",
+          "Title": "職能%",
+          "Width": 80,
+          "Align": "Center",
+          "DefaultVisible": true
+        },
+        {
+          "BindField": "EffectiveYear",
+          "Title": "年度",
+          "Width": 80,
+          "Align": "Center",
+          "Sorter": true,
+          "DefaultVisible": true
+        },
+        {
+          "BindField": "Status",
+          "Title": "狀態",
+          "Width": 90,
+          "Align": "Center",
+          "Formatter": "StatusTag",
+          "DefaultVisible": true
+        },
+        {
+          "BindField": "UpdatedAt",
+          "Title": "更新時間",
+          "Width": 160,
+          "Align": "Center",
+          "Formatter": "DateTime",
+          "DefaultVisible": false
+        }
+      ]
+    },
+    "FormView": {
+      "FormSpec": {
+        "RowKey": "RowGuid",
+        "Layout": "Horizontal",
+        "Sections": [
+          {
+            "SectionID": "SecBase",
+            "Type": "Card",
+            "Title": "模板基本資料",
+            "IsCollapsible": false,
+            "DefaultOpen": true,
+            "Icon": "ri-file-list-3-line"
+          },
+          {
+            "SectionID": "SecWeight",
+            "Type": "Card",
+            "Title": "評分比例與等級",
+            "IsCollapsible": false,
+            "DefaultOpen": true,
+            "Icon": "ri-scales-3-line"
+          },
+          {
+            "SectionID": "SecExtra",
+            "Type": "Card",
+            "Title": "其他與系統",
+            "IsCollapsible": true,
+            "DefaultOpen": false,
+            "Icon": "ri-settings-4-line"
+          }
+        ],
+        "FormLogic": []
+      },
+      "FieldSpecs": [
+        {
+          "BindField": "RowKey",
+          "Title": "系統識別碼",
+          "Component": "Input",
+          "Section": "SecExtra",
+          "Span": 24,
+          "Mode": "Hidden"
+        },
+        {
+          "BindField": "EntityID",
+          "Title": "系統實體",
+          "Component": "Input",
+          "Section": "SecExtra",
+          "Span": 12,
+          "Mode": "Hidden",
+          "DefaultValue": "hrm"
+        },
+        {
+          "BindField": "TemplateCode",
+          "Title": "模板代碼",
+          "Component": "Input",
+          "Section": "SecBase",
+          "Span": 12,
+          "Mode": "Editable",
+          "Validations": [
+            {
+              "Rule": "Required",
+              "Message": "模板代碼為必填"
+            },
+            {
+              "Rule": "MaxLength",
+              "Value": 50,
+              "Message": "不可超過50"
+            },
+            {
+              "Rule": "Unique",
+              "Message": "模板代碼不可重複"
+            }
+          ]
+        },
+        {
+          "BindField": "TemplateName",
+          "Title": "模板名稱",
+          "Component": "Input",
+          "Section": "SecBase",
+          "Span": 12,
+          "Mode": "Editable",
+          "Validations": [
+            {
+              "Rule": "Required",
+              "Message": "模板名稱為必填"
+            },
+            {
+              "Rule": "MaxLength",
+              "Value": 200,
+              "Message": "不可超過200"
+            }
+          ]
+        },
+        {
+          "BindField": "JobFamily",
+          "Title": "適用職系",
+          "Component": "Select",
+          "Section": "SecBase",
+          "Span": 12,
+          "Mode": "Editable",
+          "Validations": [
+            {
+              "Rule": "Required",
+              "Message": "適用職系為必填"
+            }
+          ],
+          "Props": {
+            "OptionKey": "JobFamily"
+          }
+        },
+        {
+          "BindField": "EvalRound",
+          "Title": "適用週期",
+          "Component": "Select",
+          "Section": "SecBase",
+          "Span": 12,
+          "Mode": "Editable",
+          "DefaultValue": "Y",
+          "Validations": [
+            {
+              "Rule": "Required",
+              "Message": "週期為必填"
+            }
+          ],
+          "Props": {
+            "OptionKey": "EvalRound"
+          }
+        },
+        {
+          "BindField": "EffectiveYear",
+          "Title": "適用年度",
+          "Component": "InputNumber",
+          "Section": "SecBase",
+          "Span": 12,
+          "Mode": "Editable",
+          "DefaultValue": 2025,
+          "Validations": [
+            {
+              "Rule": "Required",
+              "Message": "年度為必填"
+            }
+          ],
+          "Props": {
+            "Min": 2000,
+            "Max": 2100
+          }
+        },
+        {
+          "BindField": "Status",
+          "Title": "資料狀態",
+          "Component": "Select",
+          "Section": "SecBase",
+          "Span": 12,
+          "Mode": "Editable",
+          "DefaultValue": "1",
+          "Validations": [
+            {
+              "Rule": "Required",
+              "Message": "狀態為必填"
+            }
+          ],
+          "Props": {
+            "OptionKey": "Status"
+          }
+        },
+        {
+          "BindField": "SelfWeight",
+          "Title": "自評比例 (%)",
+          "Component": "InputNumber",
+          "Section": "SecWeight",
+          "Span": 12,
+          "Mode": "Editable",
+          "DefaultValue": 25,
+          "Validations": [
+            {
+              "Rule": "Required",
+              "Message": "自評比例為必填"
+            },
+            {
+              "Rule": "Range",
+              "Min": 0,
+              "Max": 100,
+              "Message": "0~100"
+            }
+          ],
+          "Props": {
+            "Min": 0,
+            "Max": 100
+          }
+        },
+        {
+          "BindField": "ManagerWeight",
+          "Title": "主管評比例 (%)",
+          "Component": "InputNumber",
+          "Section": "SecWeight",
+          "Span": 12,
+          "Mode": "Editable",
+          "DefaultValue": 55,
+          "Validations": [
+            {
+              "Rule": "Required",
+              "Message": "主管評比例為必填"
+            },
+            {
+              "Rule": "Range",
+              "Min": 0,
+              "Max": 100,
+              "Message": "0~100"
+            }
+          ],
+          "Props": {
+            "Min": 0,
+            "Max": 100
+          }
+        },
+        {
+          "BindField": "EnableComp",
+          "Title": "啟用職能評核",
+          "Component": "Select",
+          "Section": "SecWeight",
+          "Span": 12,
+          "Mode": "Editable",
+          "DefaultValue": "1",
+          "Props": {
+            "OptionKey": "EnableComp"
+          }
+        },
+        {
+          "BindField": "CompWeight",
+          "Title": "職能評比例 (%)",
+          "Component": "InputNumber",
+          "Section": "SecWeight",
+          "Span": 12,
+          "Mode": "Editable",
+          "DefaultValue": 20,
+          "Validations": [
+            {
+              "Rule": "Range",
+              "Min": 0,
+              "Max": 100,
+              "Message": "0~100"
+            }
+          ],
+          "Props": {
+            "Min": 0,
+            "Max": 100,
+            "Placeholder": "三者加總須=100"
+          }
+        },
+        {
+          "BindField": "GradeRule",
+          "Title": "等級門檻 (JSON)",
+          "Component": "JsonEditor",
+          "Section": "SecWeight",
+          "Span": 24,
+          "Mode": "Editable",
+          "Validations": [
+            {
+              "Rule": "JsonFormat",
+              "Message": "須為合法JSON"
+            }
+          ],
+          "Props": {
+            "Placeholder": "[{\"Grade\":\"S\",\"Min\":95,\"Max\":100},{\"Grade\":\"A\",\"Min\":85,\"Max\":94}]"
+          }
+        },
+        {
+          "BindField": "Priority",
+          "Title": "優先權",
+          "Component": "Select",
+          "Section": "SecExtra",
+          "Span": 12,
+          "Mode": "Editable",
+          "DefaultValue": "C",
+          "Props": {
+            "OptionKey": "Priority"
+          }
+        },
+        {
+          "BindField": "SortNo",
+          "Title": "顯示排序",
+          "Component": "Input",
+          "Section": "SecExtra",
+          "Span": 12,
+          "Mode": "Editable",
+          "DefaultValue": "C0000",
+          "Validations": [
+            {
+              "Rule": "MaxLength",
+              "Value": 5,
+              "Message": "排序編號長度不可超過 5"
+            }
+          ]
+        },
+        {
+          "BindField": "Description",
+          "Title": "備註說明",
+          "Component": "TextArea",
+          "Section": "SecExtra",
+          "Span": 24,
+          "Mode": "Editable",
+          "Props": {
+            "Rows": 3
+          }
+        },
+        {
+          "BindField": "CreatedBy",
+          "Title": "建立者",
+          "Component": "Input",
+          "Section": "SecExtra",
+          "Span": 12,
+          "Mode": "Readonly"
+        },
+        {
+          "BindField": "CreatedAt",
+          "Title": "建立時間",
+          "Component": "DatePicker",
+          "Section": "SecExtra",
+          "Span": 12,
+          "Mode": "Readonly"
+        },
+        {
+          "BindField": "UpdatedBy",
+          "Title": "更新者",
+          "Component": "Input",
+          "Section": "SecExtra",
+          "Span": 12,
+          "Mode": "Readonly"
+        },
+        {
+          "BindField": "UpdatedAt",
+          "Title": "更新時間",
+          "Component": "DatePicker",
+          "Section": "SecExtra",
+          "Span": 12,
+          "Mode": "Readonly"
+        }
+      ]
+    },
+    "DetailViews": [
+      {
+        "DetailID": "Item",
+        "Title": "評核項目",
+        "Icon": "ri-list-check-2",
+        "Entity": "hrmEvalTemplate_Item",
+        "RelationKey": "TemplateCode",
+        "RowKey": "RowGuid",
+        "AllowAdd": true,
+        "AllowEdit": true,
+        "AllowDelete": true,
+        "EmptyText": "尚無評核項目(同模板項目權重加總須=100)",
+        "CodeSets": {
+          "ItemType": [
+            {
+              "CodeID": "KPI",
+              "CodeName": "績效項目",
+              "IsDefault": true
+            },
+            {
+              "CodeID": "COMP",
+              "CodeName": "職能項目"
+            }
+          ]
+        },
+        "Columns": [
+          {
+            "BindField": "ItemCode",
+            "Title": "項目代碼",
+            "Width": 110,
+            "Align": "Left"
+          },
+          {
+            "BindField": "ItemName",
+            "Title": "項目名稱",
+            "Width": 180,
+            "Align": "Left"
+          },
+          {
+            "BindField": "ItemType",
+            "Title": "類型",
+            "Width": 90,
+            "Align": "Center",
+            "Formatter": "Tag",
+            "OptionKey": "ItemType"
+          },
+          {
+            "BindField": "ItemWeight",
+            "Title": "權重%",
+            "Width": 80,
+            "Align": "Center"
+          },
+          {
+            "BindField": "MaxScore",
+            "Title": "滿分",
+            "Width": 70,
+            "Align": "Center"
+          },
+          {
+            "BindField": "FuncName",
+            "Title": "對應職能",
+            "Width": 140,
+            "Align": "Left"
+          },
+          {
+            "BindField": "DisplayOrder",
+            "Title": "順序",
+            "Width": 70,
+            "Align": "Center"
+          }
+        ],
+        "FormFields": [
+          {
+            "BindField": "ItemCode",
+            "Title": "項目代碼",
+            "Component": "Input",
+            "Section": "",
+            "Span": 12,
+            "Mode": "Editable",
+            "Validations": [
+              {
+                "Rule": "Required",
+                "Message": "項目代碼為必填"
+              }
+            ]
+          },
+          {
+            "BindField": "ItemName",
+            "Title": "項目名稱",
+            "Component": "Input",
+            "Section": "",
+            "Span": 12,
+            "Mode": "Editable",
+            "Validations": [
+              {
+                "Rule": "Required",
+                "Message": "項目名稱為必填"
+              }
+            ]
+          },
+          {
+            "BindField": "ItemType",
+            "Title": "項目類型",
+            "Component": "Select",
+            "Section": "",
+            "Span": 12,
+            "Mode": "Editable",
+            "DefaultValue": "KPI",
+            "Props": {
+              "OptionKey": "ItemType"
+            }
+          },
+          {
+            "BindField": "ItemWeight",
+            "Title": "項目權重 (%)",
+            "Component": "InputNumber",
+            "Section": "",
+            "Span": 12,
+            "Mode": "Editable",
+            "Validations": [
+              {
+                "Rule": "Required",
+                "Message": "權重為必填"
+              }
+            ]
+          },
+          {
+            "BindField": "MaxScore",
+            "Title": "滿分",
+            "Component": "InputNumber",
+            "Section": "",
+            "Span": 12,
+            "Mode": "Editable",
+            "DefaultValue": 100
+          },
+          {
+            "BindField": "FuncCategory",
+            "Title": "對應職能類別",
+            "Component": "Input",
+            "Section": "",
+            "Span": 12,
+            "Mode": "Editable",
+            "Props": {
+              "Placeholder": "職能項目專用,選配"
+            }
+          },
+          {
+            "BindField": "FuncName",
+            "Title": "對應職能名稱",
+            "Component": "Input",
+            "Section": "",
+            "Span": 12,
+            "Mode": "Editable",
+            "Props": {
+              "Placeholder": "職能項目專用,選配"
+            }
+          },
+          {
+            "BindField": "DisplayOrder",
+            "Title": "顯示順序",
+            "Component": "InputNumber",
+            "Section": "",
+            "Span": 12,
+            "Mode": "Editable",
+            "DefaultValue": 0
+          },
+          {
+            "BindField": "ScoreDesc",
+            "Title": "評分說明",
+            "Component": "TextArea",
+            "Section": "",
+            "Span": 24,
+            "Mode": "Editable"
+          }
+        ],
+        "SeedData": [
+          {
+            "RowGuid": "ti-01",
+            "EntityID": "hrm",
+            "Status": "1",
+            "TemplateCode": "TPL-ENG-Y",
+            "ItemCode": "QUAL",
+            "ItemName": "工作品質",
+            "ItemType": "KPI",
+            "ItemWeight": 30,
+            "MaxScore": 100,
+            "DisplayOrder": 1
+          },
+          {
+            "RowGuid": "ti-02",
+            "EntityID": "hrm",
+            "Status": "1",
+            "TemplateCode": "TPL-ENG-Y",
+            "ItemCode": "EFF",
+            "ItemName": "工作效率",
+            "ItemType": "KPI",
+            "ItemWeight": 25,
+            "MaxScore": 100,
+            "DisplayOrder": 2
+          },
+          {
+            "RowGuid": "ti-03",
+            "EntityID": "hrm",
+            "Status": "1",
+            "TemplateCode": "TPL-ENG-Y",
+            "ItemCode": "TECH",
+            "ItemName": "技術能力",
+            "ItemType": "KPI",
+            "ItemWeight": 25,
+            "MaxScore": 100,
+            "DisplayOrder": 3
+          },
+          {
+            "RowGuid": "ti-04",
+            "EntityID": "hrm",
+            "Status": "1",
+            "TemplateCode": "TPL-ENG-Y",
+            "ItemCode": "COMM",
+            "ItemName": "溝通合作",
+            "ItemType": "COMP",
+            "ItemWeight": 10,
+            "MaxScore": 100,
+            "FuncCategory": "管理能力",
+            "FuncName": "跨部門協作",
+            "DisplayOrder": 4
+          },
+          {
+            "RowGuid": "ti-05",
+            "EntityID": "hrm",
+            "Status": "1",
+            "TemplateCode": "TPL-ENG-Y",
+            "ItemCode": "GROW",
+            "ItemName": "學習成長",
+            "ItemType": "COMP",
+            "ItemWeight": 10,
+            "MaxScore": 100,
+            "FuncCategory": "專業技能",
+            "FuncName": "自我精進",
+            "DisplayOrder": 5
+          }
+        ]
+      }
+    ]
+  },
+  "DataScope": {
+    "DefaultWhere": "EntityID = 'hrm' AND Status = '1'",
+    "AuthLevel": 3,
+    "SortExp": "EffectiveYear DESC, TemplateCode ASC",
+    "DataConfig": {
+      "RowLimit": 1000,
+      "AllowExport": true
+    }
+  },
+  "CustomMeta": {
+    "CustomSchema": {
+      "WidgetType": "Grid",
+      "KeyField": "TemplateCode",
+      "TitleField": "TemplateName",
+      "ParentKeyField": null,
+      "PathField": null,
+      "PathSeparator": "/"
+    },
+    "BusinessRules": {
+      "BusinessValidation": [
+        {
+          "Field": "TemplateCode",
+          "Rule": "Unique",
+          "Message": "模板代碼不可重複"
+        }
+      ]
+    }
+  },
+  "SeedData": [
+    {
+      "RowGuid": "tpl-0001",
+      "EntityID": "hrm",
+      "Status": "1",
+      "TemplateCode": "TPL-ENG-Y",
+      "TemplateName": "工程師年度考評",
+      "JobFamily": "ENG",
+      "EvalRound": "Y",
+      "EffectiveYear": 2025,
+      "SelfWeight": 25,
+      "ManagerWeight": 55,
+      "EnableComp": "1",
+      "CompWeight": 20,
+      "GradeRule": "[{\"Grade\":\"S\",\"Min\":95,\"Max\":100},{\"Grade\":\"A\",\"Min\":85,\"Max\":94},{\"Grade\":\"B\",\"Min\":70,\"Max\":84},{\"Grade\":\"C\",\"Min\":60,\"Max\":69},{\"Grade\":\"D\",\"Min\":0,\"Max\":59}]",
+      "Priority": "A",
+      "SortNo": "C0001",
+      "Description": "工程研發職系年度考評,KPI80%+職能20%",
+      "CreatedBy": "system",
+      "CreatedAt": "2025-01-05 09:00",
+      "UpdatedBy": "linda.hr",
+      "UpdatedAt": "2025-01-10 10:00"
+    },
+    {
+      "RowGuid": "tpl-0002",
+      "EntityID": "hrm",
+      "Status": "1",
+      "TemplateCode": "TPL-SALES-H",
+      "TemplateName": "業務半年考評",
+      "JobFamily": "SALES",
+      "EvalRound": "H1",
+      "EffectiveYear": 2025,
+      "SelfWeight": 20,
+      "ManagerWeight": 65,
+      "EnableComp": "1",
+      "CompWeight": 15,
+      "GradeRule": "[{\"Grade\":\"S\",\"Min\":95,\"Max\":100},{\"Grade\":\"A\",\"Min\":85,\"Max\":94},{\"Grade\":\"B\",\"Min\":70,\"Max\":84},{\"Grade\":\"C\",\"Min\":60,\"Max\":69},{\"Grade\":\"D\",\"Min\":0,\"Max\":59}]",
+      "Priority": "B",
+      "SortNo": "C0002",
+      "Description": "業務行銷半年度考評",
+      "CreatedBy": "system",
+      "CreatedAt": "2025-01-05 09:05",
+      "UpdatedBy": "linda.hr",
+      "UpdatedAt": "2025-01-10 10:05"
+    },
+    {
+      "RowGuid": "tpl-0003",
+      "EntityID": "hrm",
+      "Status": "1",
+      "TemplateCode": "TPL-PROB",
+      "TemplateName": "試用期考評",
+      "JobFamily": "PROB",
+      "EvalRound": "PROB",
+      "EffectiveYear": 2025,
+      "SelfWeight": 20,
+      "ManagerWeight": 80,
+      "EnableComp": "0",
+      "CompWeight": 0,
+      "GradeRule": "[{\"Grade\":\"A\",\"Min\":85,\"Max\":100},{\"Grade\":\"B\",\"Min\":70,\"Max\":84},{\"Grade\":\"D\",\"Min\":0,\"Max\":69}]",
+      "Priority": "B",
+      "SortNo": "C0003",
+      "Description": "新人試用期滿考評,主管評80%",
+      "CreatedBy": "system",
+      "CreatedAt": "2025-01-05 09:10",
+      "UpdatedBy": "system",
+      "UpdatedAt": "2025-01-10 10:10"
+    }
+  ]
+}

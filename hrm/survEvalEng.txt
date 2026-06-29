@@ -1,0 +1,239 @@
+{
+  "EntityID": "hrm",
+  "SystemCode": "MUEIP",
+  "ModuleCode": "SURV",
+  "FuncCode": "survEvalEng",
+  "ConfigHash": "sha256:survvEvalEng0000000000000000000000000000000000000000000000000000",
+  "PageMeta": {
+    "PageTitle": "工程師年度考評表",
+    "Lang": "zh-TW",
+    "FormType": "SurveyForm",
+    "EditDisplayType": "Page",
+    "Breadcrumb": [
+      {
+        "Title": "首頁",
+        "Path": "/"
+      },
+      {
+        "Title": "問卷",
+        "Path": null
+      },
+      {
+        "Title": "工程師年度考評表",
+        "Path": "/surv/survEvalEng"
+      }
+    ],
+    "IsApproval": true,
+    "TenantLocked": false,
+    "Icon": "ri-award-line",
+    "Remark": "題庫式問卷(EVAL);渲染為問卷供填寫,作答存入 survResponse + survAnswer。"
+  },
+  "Resources": {
+    "CodeSets": {
+      "BankType": [
+        {
+          "CodeID": "EVAL",
+          "CodeName": "考評表"
+        },
+        {
+          "CodeID": "SATISFY",
+          "CodeName": "滿意度調查"
+        },
+        {
+          "CodeID": "REPLY",
+          "CodeName": "公告回覆"
+        }
+      ],
+      "ScoringMode": [
+        {
+          "CodeID": "none",
+          "CodeName": "不計分"
+        },
+        {
+          "CodeID": "weighted",
+          "CodeName": "加權計分"
+        },
+        {
+          "CodeID": "sum",
+          "CodeName": "加總計分"
+        }
+      ]
+    },
+    "FeatureFlags": {
+      "EnableQuery": true,
+      "EnableInsert": true,
+      "EnableUpdate": true,
+      "EnableDelete": false,
+      "EnableImport": false,
+      "EnableExport": true,
+      "EnableBatch": false
+    }
+  },
+  "SurveySpec": {
+    "Bank": {
+      "BankCode": "BANK-EVAL-ENG",
+      "BankName": "工程師年度考評表",
+      "BankType": "EVAL",
+      "Version": "1.0",
+      "ScoringMode": "weighted",
+      "PassScore": 60,
+      "Intro": "請就各構面覈實評分;系統依群組權重即時試算加權總分與等級。",
+      "GradeRule": [
+        {
+          "Grade": "S",
+          "Min": 95
+        },
+        {
+          "Grade": "A",
+          "Min": 85
+        },
+        {
+          "Grade": "B",
+          "Min": 70
+        },
+        {
+          "Grade": "C",
+          "Min": 60
+        },
+        {
+          "Grade": "D",
+          "Min": 0
+        }
+      ]
+    },
+    "Groups": [
+      {
+        "GroupCode": "G1",
+        "GroupName": "工作績效",
+        "GroupWeight": 40,
+        "DisplayOrder": 1,
+        "Questions": [
+          {
+            "QuestionCode": "Q1",
+            "QuestionText": "工作品質",
+            "QuestionType": "rating",
+            "IsRequired": true,
+            "QuestionWeight": 50,
+            "MaxScore": 100,
+            "Min": 0,
+            "Max": 100,
+            "Step": 1,
+            "HelpText": "交付成果之品質、正確性與影響力"
+          },
+          {
+            "QuestionCode": "Q2",
+            "QuestionText": "工作效率",
+            "QuestionType": "rating",
+            "IsRequired": true,
+            "QuestionWeight": 50,
+            "MaxScore": 100,
+            "Min": 0,
+            "Max": 100,
+            "Step": 1
+          }
+        ]
+      },
+      {
+        "GroupCode": "G2",
+        "GroupName": "工作態度",
+        "GroupWeight": 30,
+        "DisplayOrder": 2,
+        "Questions": [
+          {
+            "QuestionCode": "Q3",
+            "QuestionText": "責任心與主動性",
+            "QuestionType": "scale",
+            "IsRequired": true,
+            "QuestionWeight": 100,
+            "MaxScore": 100,
+            "Options": [
+              {
+                "OptionCode": "5",
+                "OptionText": "卓越",
+                "OptionScore": 100
+              },
+              {
+                "OptionCode": "4",
+                "OptionText": "良好",
+                "OptionScore": 85
+              },
+              {
+                "OptionCode": "3",
+                "OptionText": "符合",
+                "OptionScore": 70
+              },
+              {
+                "OptionCode": "2",
+                "OptionText": "待加強",
+                "OptionScore": 55
+              },
+              {
+                "OptionCode": "1",
+                "OptionText": "不足",
+                "OptionScore": 40
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "GroupCode": "G3",
+        "GroupName": "專業能力",
+        "GroupWeight": 30,
+        "DisplayOrder": 3,
+        "Questions": [
+          {
+            "QuestionCode": "Q4",
+            "QuestionText": "專業知識深度",
+            "QuestionType": "rating",
+            "IsRequired": true,
+            "QuestionWeight": 70,
+            "MaxScore": 100,
+            "Min": 0,
+            "Max": 100,
+            "Step": 1
+          },
+          {
+            "QuestionCode": "Q5",
+            "QuestionText": "是否達成本期專業目標",
+            "QuestionType": "yesno",
+            "IsRequired": true,
+            "QuestionWeight": 30,
+            "MaxScore": 100,
+            "YesScore": 100,
+            "NoScore": 0
+          }
+        ]
+      }
+    ]
+  },
+  "DataScope": {
+    "DefaultWhere": "EntityID = 'hrm'",
+    "AuthLevel": 4,
+    "SortExp": "DisplayOrder ASC",
+    "DataConfig": {
+      "RowLimit": 1,
+      "AllowExport": true
+    },
+    "Remark": "作答層 survResponse/survAnswer 由 @Action=DoSubmit 寫入;考評含分數為機敏(L2)。"
+  },
+  "ResponseSchema": {
+    "ResponseEntity": "survResponse",
+    "AnswerEntity": "survAnswer",
+    "ResponseKey": "ResponseNo",
+    "RelationKey": "ResponseNo",
+    "AnswerFields": {
+      "Group": "GroupCode",
+      "Question": "QuestionCode",
+      "Value": "AnswerValue",
+      "Text": "AnswerText",
+      "Score": "AnswerScore"
+    },
+    "Actions": [
+      "DoInit",
+      "DoSaveDraft",
+      "DoSubmit",
+      "DoQueryResult"
+    ]
+  }
+}

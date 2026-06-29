@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>兆聯 EIP — UI 變更預覽(可縮放選單 + 開發者工具 FAB)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="CDE.css">
+<style>
+  body{margin:0}
+  .pv-note{position:fixed;left:50%;top:14px;transform:translateX(-50%);z-index:5000;background:#1c2434;color:#fff;
+    font:500 12px/1.5 'Noto Sans TC',sans-serif;padding:9px 16px;border-radius:999px;box-shadow:0 8px 24px rgba(0,0,0,.25)}
+  .pv-note b{color:#7fb0ff}
+</style>
+</head>
+<body>
+<div class="pv-note">預覽:左側 <b>可縮放模組選單</b> · 右下 <b>開發者工具</b> FAB(含 DoInit 配置)· 工具列僅保留 <b>報表產生</b></div>
+
+<div class="app">
+  <!-- ── SIDEBAR(可縮放式分組,與 renderMenu 產出一致) ── -->
+  <aside class="sidebar">
+    <div class="sb-logo">
+      <div class="sb-logo-mark">兆</div>
+      <div class="sb-logo-txt">
+        <div class="sb-logo-name">兆聯 EIP</div>
+        <div class="sb-logo-sub">工作協作中心</div>
+      </div>
+    </div>
+    <nav id="sidebarNav" class="sb-nav"></nav>
+  </aside>
+
+  <!-- ── MAIN ── -->
+  <div class="main">
+    <header class="topbar">
+      <div class="top-title"><span class="top-pill">MUEIP</span><b>EipDB</b> · 企業資訊平台</div>
+      <div class="top-spacer"></div>
+    </header>
+    <div class="content">
+      <div class="page-head">
+        <div class="ph-left">
+          <div class="ph-icon"><i class="ri-stack-line"></i></div>
+          <div><div class="ph-title">題庫維護</div></div>
+        </div>
+      </div>
+
+      <!-- 工具列(無上方分頁列;報表產生/ DoInit 配置 列於匯出之後) -->
+      <div class="card" style="display:flex;flex-direction:column">
+        <div class="card-head">
+          <div class="card-title"><i class="ri-table-2"></i><span>題庫維護</span><span class="badge">3</span><span class="card-sub">ListView · 平面分頁</span></div>
+          <div class="toolbar">
+            <button class="btn btn-pri btn-sm"><i class="ri-add-line"></i>新增</button>
+            <button class="btn btn-dan btn-sm"><i class="ri-delete-bin-line"></i>刪除</button>
+            <span class="sp"></span>
+            <button class="btn btn-def btn-sm"><i class="ri-upload-2-line"></i>匯入</button>
+            <button class="btn btn-def btn-sm"><i class="ri-file-excel-2-line"></i>匯出</button>
+            <button class="btn btn-def btn-sm" style="outline:2px dashed var(--pri);outline-offset:2px"><i class="ri-bar-chart-box-line"></i>報表產生</button>
+            <button class="btn btn-ghost btn-sm" title="欄位顯示"><i class="ri-layout-column-line"></i></button>
+          </div>
+        </div>
+        <div style="padding:26px;color:var(--muted);font-size:13px;line-height:1.9">
+          上方原本的「列表 / 查詢 · 報表產生 · DoInit 配置」分頁列已移除。<br>
+          「列表 / 查詢」本就是預設畫面;「報表產生」改列為擴充動作(虛線標示),置於 <b>匯出</b> 之後;<br>
+          「DoInit 配置」改放到右下角「開發者工具」FAB 選單內,點選即切換到配置檢視。
+        </div>
+      </div>
+
+      <div class="card" style="padding:22px">
+        <div class="card-title"><i class="ri-information-line"></i>其他調整</div>
+        <p style="font-size:13px;color:var(--muted);line-height:1.9;margin:12px 0 0">
+          ・配置驅動橫幅移至右下「開發者工具」浮動鈕 → 選單 →「配置驅動引擎說明」popup。<br>
+          ・載入 JSON 配置成功時不再跳訊息;僅失敗(讀取失敗 / JSON 解析失敗 / 結構不符)才提示。<br>
+          ・左側模組標題加大加粗並加上圖示底色,功能項目縮排於左側導引線下,層次更分明。
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── 開發者工具 FAB ── -->
+<div class="devfab" id="devFab">
+  <div class="devfab-menu" id="devFabMenu">
+    <div class="devfab-cap"><i class="ri-flow-chart"></i>配置驅動引擎 · 開發者工具</div>
+    <button class="devfab-mi" onclick="openCfg()"><i class="ri-information-2-line"></i><span>配置驅動引擎說明</span><em class="devfab-srcdot live" id="devFabSrcDot"></em></button>
+    <button class="devfab-mi"><i class="ri-node-tree"></i><span>DoInit 配置</span></button>
+    <button class="devfab-mi"><i class="ri-upload-cloud-2-line"></i><span>載入 JSON 配置</span></button>
+    <button class="devfab-mi"><i class="ri-refresh-line"></i><span>重新讀取配置</span></button>
+    <button class="devfab-mi"><i class="ri-terminal-box-line"></i><span>派發封包追蹤</span><em class="devfab-badge">84</em></button>
+  </div>
+  <button class="devfab-btn" onclick="toggleFab(event)" title="開發者工具">
+    <i class="ri-tools-fill"></i>
+    <span class="devfab-caret"><i class="ri-arrow-up-s-line"></i></span>
+  </button>
+</div>
+
+<!-- ── 配置驅動引擎 popup modal ── -->
+<div class="modal-mask" id="cfgModalMask">
+  <div class="modal" style="width:560px">
+    <div class="modal-head">
+      <div class="modal-title"><i class="ri-flow-chart"></i>配置驅動引擎<span class="card-sub" style="font-weight:400;margin-left:6px">spf_cdeFunc_DoInit</span></div>
+      <button class="drawer-close" onclick="closeCfg()"><i class="ri-close-line"></i></button>
+    </div>
+    <div class="modal-body">
+      <div class="cfg-modal-src"><span class="cfg-src live"><i class="ri-link"></i>配置來源：survBank.txt (動態讀取)</span></div>
+      <div class="cfg-modal-desc">
+        本畫面由 <code>spf_cdeFunc_DoInit</code> 的 JSON 配置即時產生 — 換一份 JSON,畫面即動態改變。
+        工具列、欄位、表單區段、字典皆來自配置,非寫死;所有操作經 <code>spf_cde_DoDispatch</code> 以 <code>@Action</code> 路由。
+      </div>
+      <div class="cfg-modal-kv">
+        <div><span class="k">FormType</span><code>ListForm</code></div>
+        <div><span class="k">WidgetType</span><code>None</code></div>
+      </div>
+      <div class="cfg-modal-acts">
+        <button class="btn btn-pri btn-sm"><i class="ri-upload-cloud-2-line"></i>載入 JSON 配置</button>
+        <button class="btn btn-def btn-sm"><i class="ri-refresh-line"></i>重新讀取 .json</button>
+        <button class="btn btn-def btn-sm"><i class="ri-terminal-box-line"></i>派發封包</button>
+      </div>
+      <div class="cfg-modal-hint"><i class="ri-drag-drop-line"></i>可將 .json / .txt 配置檔拖放至此視窗載入</div>
+    </div>
+  </div>
+</div>
+
+<script>
+// 與 menu.txt 一致的分組;預設展開「問卷題庫」(模擬目前位於題庫維護)
+const GROUPS = [
+  {Header:"人事資料", Icon:"ri-team-line", Items:[
+    {Icon:"ri-user-3-line",Label:"員工主檔",FuncCode:"hrmEmp"},
+    {Icon:"ri-building-2-line",Label:"公司資料",FuncCode:"hrmCompany"},
+    {Icon:"ri-node-tree",Label:"部門組織",FuncCode:"hrmCompanyDept"},
+    {Icon:"ri-folder-chart-line",Label:"專案資料",FuncCode:"hrmPrj"}]},
+  {Header:"考評管理", Icon:"ri-award-line", Items:[
+    {Icon:"ri-layout-grid-line",Label:"考評模板",FuncCode:"hrmEvalTemplate"},
+    {Icon:"ri-bar-chart-box-line",Label:"積分對照表",FuncCode:"hrmEvalBonus"},
+    {Icon:"ri-exchange-dollar-line",Label:"換算率設定",FuncCode:"hrmEvalRate"},
+    {Icon:"ri-file-chart-line",Label:"考評單",FuncCode:"hrmEval"},
+    {Icon:"ri-edit-box-line",Label:"自評填寫",FuncCode:"hrmEvalSheet"},
+    {Icon:"ri-search-eye-line",Label:"結果查詢",FuncCode:"hrmEvalResult"}]},
+  {Header:"教育訓練", Icon:"ri-book-open-line", Items:[
+    {Icon:"ri-book-open-line",Label:"課程維護",FuncCode:"hrmTrainCourse"}]},
+  {Header:"問卷題庫", Icon:"ri-survey-line", Items:[
+    {Icon:"ri-stack-line",Label:"題庫維護",FuncCode:"survBank"},
+    {Icon:"ri-folder-line",Label:"群組維護",FuncCode:"survBankGroup"},
+    {Icon:"ri-question-line",Label:"問題維護",FuncCode:"survBankQuestion"},
+    {Icon:"ri-list-check",Label:"選項維護",FuncCode:"survBankOption"},
+    {Icon:"ri-award-line",Label:"考評問卷(範例)",FuncCode:"survEvalEng"},
+    {Icon:"ri-emotion-line",Label:"滿意度調查(範例)",FuncCode:"survSatis2026"},
+    {Icon:"ri-mail-check-line",Label:"公告回覆(範例)",FuncCode:"survReplyPolicy"}]},
+];
+const ACTIVE = "survBank";
+const esc = s => String(s||"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+document.getElementById("sidebarNav").innerHTML = GROUPS.map((g,gi)=>{
+  const open = g.Items.some(it=>it.FuncCode===ACTIVE);
+  return `<div class="nb-group${open?"":" collapsed"}" data-grp="${gi}">
+    <div class="nb-hdr" onclick="this.parentNode.classList.toggle('collapsed')">
+      <i class="nb-hdr-ic ${esc(g.Icon)}"></i><span class="nb-hdr-t">${esc(g.Header)}</span>
+      <span class="nb-hdr-cnt">${g.Items.length}</span><i class="nb-hdr-caret ri-arrow-down-s-line"></i>
+    </div>
+    <div class="nb-items">
+      ${g.Items.map(it=>`<div class="nb-item ${it.FuncCode===ACTIVE?"active":""}"><i class="nb-icon ${esc(it.Icon)}"></i><span>${esc(it.Label)}</span></div>`).join("")}
+    </div></div>`;
+}).join("");
+
+function toggleFab(e){ e.stopPropagation(); document.getElementById("devFab").classList.toggle("open"); }
+function openCfg(){ document.getElementById("devFab").classList.remove("open"); document.getElementById("cfgModalMask").classList.add("open"); }
+function closeCfg(){ document.getElementById("cfgModalMask").classList.remove("open"); }
+document.addEventListener("click",e=>{ const f=document.getElementById("devFab");
+  if(f.classList.contains("open") && !e.target.closest(".devfab-btn")) f.classList.remove("open"); });
+</script>
+</body>
+</html>

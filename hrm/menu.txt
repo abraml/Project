@@ -1,0 +1,126 @@
+{
+  "SystemCode": "MUEIP",
+  "ModuleCode": "HRM",
+  "Folder": "hrm",
+  "Brand": {
+    "Mark": "兆",
+    "Name": "兆聯 EIP",
+    "Sub": "人力資源管理"
+  },
+  "Groups": [
+    {
+      "Header": "人事資料",
+      "Icon": "ri-team-line",
+      "Items": [
+        {
+          "Icon": "ri-user-3-line",
+          "Label": "員工主檔",
+          "FuncCode": "hrmEmp"
+        },
+        {
+          "Icon": "ri-building-2-line",
+          "Label": "公司資料",
+          "FuncCode": "hrmCompany"
+        },
+        {
+          "Icon": "ri-node-tree",
+          "Label": "部門組織",
+          "FuncCode": "hrmCompanyDept"
+        },
+        {
+          "Icon": "ri-folder-chart-line",
+          "Label": "專案資料",
+          "FuncCode": "hrmPrj"
+        }
+      ]
+    },
+    {
+      "Header": "考評管理",
+      "Icon": "ri-award-line",
+      "Items": [
+        {
+          "Icon": "ri-layout-grid-line",
+          "Label": "考評模板",
+          "FuncCode": "hrmEvalTemplate"
+        },
+        {
+          "Icon": "ri-bar-chart-box-line",
+          "Label": "積分對照表",
+          "FuncCode": "hrmEvalBonus"
+        },
+        {
+          "Icon": "ri-exchange-dollar-line",
+          "Label": "換算率設定",
+          "FuncCode": "hrmEvalRate"
+        },
+        {
+          "Icon": "ri-file-chart-line",
+          "Label": "考評單",
+          "FuncCode": "hrmEval"
+        },
+        {
+          "Icon": "ri-edit-box-line",
+          "Label": "自評填寫",
+          "FuncCode": "hrmEvalSheet"
+        },
+        {
+          "Icon": "ri-search-eye-line",
+          "Label": "結果查詢",
+          "FuncCode": "hrmEvalResult"
+        }
+      ]
+    },
+    {
+      "Header": "教育訓練",
+      "Icon": "ri-book-open-line",
+      "Items": [
+        {
+          "Icon": "ri-book-open-line",
+          "Label": "課程維護",
+          "FuncCode": "hrmTrainCourse"
+        }
+      ]
+    },
+    {
+      "Header": "問卷題庫",
+      "Icon": "ri-survey-line",
+      "Items": [
+        {
+          "Icon": "ri-stack-line",
+          "Label": "題庫維護",
+          "FuncCode": "survBank"
+        },
+        {
+          "Icon": "ri-folder-line",
+          "Label": "群組維護",
+          "FuncCode": "survBankGroup"
+        },
+        {
+          "Icon": "ri-question-line",
+          "Label": "問題維護",
+          "FuncCode": "survBankQuestion"
+        },
+        {
+          "Icon": "ri-list-check",
+          "Label": "選項維護",
+          "FuncCode": "survBankOption"
+        },
+        {
+          "Icon": "ri-award-line",
+          "Label": "考評問卷(範例)",
+          "FuncCode": "survEvalEng"
+        },
+        {
+          "Icon": "ri-emotion-line",
+          "Label": "滿意度調查(範例)",
+          "FuncCode": "survSatis2026"
+        },
+        {
+          "Icon": "ri-mail-check-line",
+          "Label": "公告回覆(範例)",
+          "FuncCode": "survReplyPolicy"
+        }
+      ]
+    }
+  ]
+}
