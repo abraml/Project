@@ -1,5 +1,5 @@
 {
- "SystemCode": "MUEIP",
+  "SystemCode": "MUEIP",
   "ModuleCode": "HRM",
   "Folder": "hrm",
   "Brand": {
@@ -31,6 +31,21 @@
           "Icon": "ri-folder-chart-line",
           "Label": "專案資料",
           "FuncCode": "hrmPrj"
+        },
+        {
+          "Icon": "ri-stairs-line",
+          "Label": "職等管理",
+          "FuncCode": "hrmCmp_Grd"
+        },
+        {
+          "Icon": "ri-function-line",
+          "Label": "職能字典",
+          "FuncCode": "hrmCmp_Fnc"
+        },
+        {
+          "Icon": "ri-bookmark-3-line",
+          "Label": "職稱管理",
+          "FuncCode": "hrmCmp_Tit"
         }
       ]
     },
