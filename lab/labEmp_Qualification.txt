@@ -1,0 +1,835 @@
+{
+ "EntityID": "lab",
+ "SystemCode": "MUEIP",
+ "ModuleCode": "LIMS",
+ "FuncCode": "labEmp_Qualification",
+ "ConfigHash": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+ "PageMeta": {
+  "PageTitle": "資格授權管理",
+  "Lang": "zh-TW",
+  "FormType": "ListForm",
+  "EditDisplayType": "Drawer",
+  "Breadcrumb": [
+   {
+    "Title": "首頁",
+    "Path": "/"
+   },
+   {
+    "Title": "實驗室人員管理",
+    "Path": null
+   },
+   {
+    "Title": "資格授權管理",
+    "Path": "/lab/labEmp_Qualification"
+   }
+  ],
+  "IsApproval": false,
+  "TenantLocked": false,
+  "Icon": "ri-shield-star-line",
+  "Remark": "資格授權管理（由 labEmp_Qualification 規格書產生）"
+ },
+ "Resources": {
+  "CodeSets": {
+   "Status": [
+    {
+     "CodeID": "1",
+     "CodeName": "啟用",
+     "IsDefault": true
+    },
+    {
+     "CodeID": "0",
+     "CodeName": "停用"
+    }
+   ],
+   "Priority": [
+    {
+     "CodeID": "A",
+     "CodeName": "急件"
+    },
+    {
+     "CodeID": "B",
+     "CodeName": "高"
+    },
+    {
+     "CodeID": "C",
+     "CodeName": "一般",
+     "IsDefault": true
+    },
+    {
+     "CodeID": "D",
+     "CodeName": "低"
+    }
+   ]
+  },
+  "FeatureFlags": {
+   "IsReadOnly": false,
+   "EnableDraft": false,
+   "EnableBatchDelete": true,
+   "AutoRefreshInterval": 0,
+   "DefaultViewMode": "Table",
+   "RequireConfirmOnSave": true
+  }
+ },
+ "AllowAction": {
+  "DataActions": [
+   {
+    "ActionID": "Add",
+    "Label": "新增",
+    "Icon": "ri-add-line",
+    "Type": "Primary",
+    "Position": "Toolbar",
+    "Confirm": null
+   },
+   {
+    "ActionID": "Save",
+    "Label": "儲存",
+    "Icon": "ri-save-line",
+    "Type": "Primary",
+    "Position": "Toolbar",
+    "Confirm": null
+   },
+   {
+    "ActionID": "Delete",
+    "Label": "刪除",
+    "Icon": "ri-delete-bin-line",
+    "Type": "Danger",
+    "Position": "Both",
+    "Confirm": "確定要刪除此資格授權管理資料嗎？"
+   },
+   {
+    "ActionID": "Query",
+    "Label": "查詢",
+    "Icon": "ri-search-line",
+    "Type": "Default",
+    "Position": "Toolbar",
+    "Confirm": null
+   }
+  ],
+  "ExtensionActions": [
+   {
+    "ActionID": "Import",
+    "Label": "匯入",
+    "Icon": "ri-upload-2-line",
+    "Type": "Default",
+    "Position": "Toolbar"
+   },
+   {
+    "ActionID": "Export",
+    "Label": "匯出",
+    "Icon": "ri-download-2-line",
+    "Type": "Default",
+    "Position": "Toolbar"
+   }
+  ]
+ },
+ "View": {
+  "RowKey": "RowGuid",
+  "ListView": {
+   "ListSpec": {
+    "RowKey": "RowGuid",
+    "SelectMode": "Single",
+    "FixedColumns": [
+     "Action",
+     "No"
+    ],
+    "RowActionMode": "Menu",
+    "ShowRowNo": true,
+    "Pagination": {
+     "PageSize": 100,
+     "SizeOptions": [
+      50,
+      100,
+      200,
+      500
+     ],
+     "ShowJumper": false,
+     "FullPageScroll": true
+    },
+    "DefaultSort": {
+     "Field": "SortNo",
+     "Order": "asc"
+    },
+    "EmptyText": "目前查無資格授權管理資料",
+    "GridBordered": true
+   },
+   "FieldSpecs": [
+    {
+     "BindField": "EmpId",
+     "Title": "員工編號",
+     "Align": "Left",
+     "DefaultVisible": true,
+     "Formatter": "Link",
+     "Fixed": "Left",
+     "Width": 160,
+     "Sorter": true
+    },
+    {
+     "BindField": "ComponentCode",
+     "Title": "檢驗成分代碼",
+     "Align": "Left",
+     "DefaultVisible": true,
+     "Width": 140
+    },
+    {
+     "BindField": "CompetencyResult",
+     "Title": "能力測試結果",
+     "Align": "Left",
+     "DefaultVisible": true,
+     "Width": 140
+    },
+    {
+     "BindField": "CompetencyDate",
+     "Title": "能力測試日期",
+     "Align": "Left",
+     "DefaultVisible": true,
+     "Formatter": "DateTime",
+     "Width": 150,
+     "Sorter": true
+    },
+    {
+     "BindField": "BlindTestResult",
+     "Title": "盲樣測試結果",
+     "Align": "Left",
+     "DefaultVisible": true,
+     "Width": 140
+    },
+    {
+     "BindField": "BlindTestDate",
+     "Title": "盲樣測試日期",
+     "Align": "Left",
+     "DefaultVisible": true,
+     "Formatter": "DateTime",
+     "Width": 150,
+     "Sorter": true
+    },
+    {
+     "BindField": "Status",
+     "Title": "狀態標記",
+     "Align": "Center",
+     "DefaultVisible": true,
+     "Formatter": "Tag",
+     "Width": 80
+    }
+   ]
+  },
+  "FormView": {
+   "FormSpec": {
+    "RowKey": "RowGuid",
+    "Layout": "Horizontal",
+    "Sections": [
+     {
+      "SectionID": "SecBase",
+      "Type": "Card",
+      "Title": "基本資料",
+      "IsCollapsible": false,
+      "DefaultOpen": true,
+      "Icon": "ri-shield-star-line"
+     },
+     {
+      "SectionID": "SecRecv",
+      "Type": "Card",
+      "Title": "作業資訊",
+      "IsCollapsible": true,
+      "DefaultOpen": true,
+      "Icon": "ri-file-list-3-line"
+     },
+     {
+      "SectionID": "SecExtra",
+      "Type": "Card",
+      "Title": "系統資訊",
+      "IsCollapsible": true,
+      "DefaultOpen": false,
+      "Icon": "ri-settings-4-line"
+     }
+    ],
+    "FormLogic": []
+   },
+   "FieldSpecs": [
+    {
+     "BindField": "RowKey",
+     "Title": "系統識別碼",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 24,
+     "Mode": "Hidden"
+    },
+    {
+     "BindField": "EntityID",
+     "Title": "系統實體",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "Hidden",
+     "DefaultValue": "lab"
+    },
+    {
+     "BindField": "EmpId",
+     "Title": "員工編號",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "Required",
+       "Message": "員工編號為必填"
+      },
+      {
+       "Rule": "MaxLength",
+       "Value": 50,
+       "Message": "長度不可超過 50"
+      }
+     ]
+    },
+    {
+     "BindField": "ComponentCode",
+     "Title": "檢驗成分代碼",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "Required",
+       "Message": "檢驗成分代碼為必填"
+      },
+      {
+       "Rule": "MaxLength",
+       "Value": 50,
+       "Message": "長度不可超過 50"
+      }
+     ]
+    },
+    {
+     "BindField": "CompetencyResult",
+     "Title": "能力測試結果",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 200,
+       "Message": "長度不可超過 200"
+      }
+     ]
+    },
+    {
+     "BindField": "CompetencyDate",
+     "Title": "能力測試日期",
+     "Component": "DatePicker",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Props": {
+      "Mode": "Editable",
+      "ShowTime": false
+     }
+    },
+    {
+     "BindField": "BlindTestResult",
+     "Title": "盲樣測試結果",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 200,
+       "Message": "長度不可超過 200"
+      }
+     ]
+    },
+    {
+     "BindField": "BlindTestDate",
+     "Title": "盲樣測試日期",
+     "Component": "DatePicker",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Props": {
+      "Mode": "Editable",
+      "ShowTime": false
+     }
+    },
+    {
+     "BindField": "ReviewerId",
+     "Title": "審核人員",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 100,
+       "Message": "長度不可超過 100"
+      }
+     ]
+    },
+    {
+     "BindField": "ReviewComment",
+     "Title": "審核意見",
+     "Component": "Textarea",
+     "Section": "SecRecv",
+     "Span": 24,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 500,
+       "Message": "長度不可超過 500"
+      }
+     ],
+     "Props": {
+      "Rows": 3
+     }
+    },
+    {
+     "BindField": "AuthResult",
+     "Title": "授權結果",
+     "Component": "Input",
+     "Section": "SecRecv",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 20,
+       "Message": "長度不可超過 20"
+      }
+     ]
+    },
+    {
+     "BindField": "AuthDate",
+     "Title": "授權日期",
+     "Component": "DatePicker",
+     "Section": "SecRecv",
+     "Span": 12,
+     "Mode": "Editable",
+     "Props": {
+      "Mode": "Editable",
+      "ShowTime": false
+     }
+    },
+    {
+     "BindField": "AuthExpiryDate",
+     "Title": "授權到期日",
+     "Component": "DatePicker",
+     "Section": "SecRecv",
+     "Span": 12,
+     "Mode": "Editable",
+     "Props": {
+      "Mode": "Editable",
+      "ShowTime": false
+     }
+    },
+    {
+     "BindField": "Description",
+     "Title": "備註說明",
+     "Component": "Textarea",
+     "Section": "SecRecv",
+     "Span": 24,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 500,
+       "Message": "長度不可超過 500"
+      }
+     ],
+     "Props": {
+      "Rows": 3
+     }
+    },
+    {
+     "BindField": "Attributes",
+     "Title": "擴展屬性",
+     "Component": "Textarea",
+     "Section": "SecExtra",
+     "Span": 24,
+     "Mode": "Editable",
+     "Props": {
+      "Rows": 3
+     }
+    },
+    {
+     "BindField": "Status",
+     "Title": "啟用狀態",
+     "Component": "Select",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "DefaultValue": "1",
+     "Props": {
+      "OptionKey": "Status"
+     }
+    },
+    {
+     "BindField": "CreatedBy",
+     "Title": "建立者帳號",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "ReadOnly"
+    },
+    {
+     "BindField": "CreatedAt",
+     "Title": "資料建立日期時間",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "ReadOnly"
+    },
+    {
+     "BindField": "UpdatedBy",
+     "Title": "最後更新者帳號",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "ReadOnly"
+    },
+    {
+     "BindField": "UpdatedAt",
+     "Title": "最後更新日期時間",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "ReadOnly"
+    }
+   ]
+  }
+ },
+ "Features": {},
+ "DataScope": {
+  "DefaultWhere": "EntityID = 'lab' AND Status = '1'",
+  "AuthLevel": 2,
+  "SortExp": "SortNo ASC",
+  "DataConfig": {
+   "RowLimit": 2000,
+   "AllowExport": true
+  }
+ },
+ "CustomMeta": {
+  "CustomSchema": {
+   "WidgetType": "Grid",
+   "KeyField": "EmpId",
+   "TitleField": "ComponentCode",
+   "ParentKeyField": null,
+   "PathField": null,
+   "PathSeparator": "/"
+  }
+ },
+ "SeedData": [
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000000",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-10-12 12:38",
+   "UpdatedBy": "abram.chen",
+   "UpdatedAt": "2026-01-14 17:25",
+   "EmpId": "Q-2026-0001",
+   "ComponentCode": "Q-2026-0001",
+   "CompetencyResult": "能力測試結果01",
+   "CompetencyDate": "2025-08-22",
+   "BlindTestResult": "盲樣測試結果01",
+   "BlindTestDate": "2025-02-17",
+   "ReviewerId": "郭品管",
+   "ReviewComment": "",
+   "AuthResult": "授權結果01",
+   "AuthDate": "2025-03-23",
+   "AuthExpiryDate": "2025-07-11",
+   "Description": "",
+   "Attributes": "擴展屬性01"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000001",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-12-12 18:38",
+   "UpdatedBy": "wu.dir",
+   "UpdatedAt": "2026-04-20 11:17",
+   "EmpId": "Q-2025-0002",
+   "ComponentCode": "Q-2026-0002",
+   "CompetencyResult": "能力測試結果02",
+   "CompetencyDate": "2026-06-20",
+   "BlindTestResult": "盲樣測試結果02",
+   "BlindTestDate": "2026-06-20",
+   "ReviewerId": "林品保",
+   "ReviewComment": "",
+   "AuthResult": "授權結果02",
+   "AuthDate": "2026-10-14",
+   "AuthExpiryDate": "2025-01-12",
+   "Description": "急件已加收費用",
+   "Attributes": "擴展屬性02"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000002",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-05-18 14:04",
+   "UpdatedBy": "lin.pb",
+   "UpdatedAt": "2026-10-01 11:14",
+   "EmpId": "Q-2025-0003",
+   "ComponentCode": "Q-2026-0003",
+   "CompetencyResult": "能力測試結果03",
+   "CompetencyDate": "2025-03-06",
+   "BlindTestResult": "盲樣測試結果03",
+   "BlindTestDate": "2025-11-17",
+   "ReviewerId": "楊化驗",
+   "ReviewComment": "",
+   "AuthResult": "授權結果03",
+   "AuthDate": "2025-05-26",
+   "AuthExpiryDate": "2026-05-21",
+   "Description": "",
+   "Attributes": "擴展屬性03"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000003",
+   "EntityID": "lab",
+   "Status": "0",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-01-26 09:16",
+   "UpdatedBy": "liu.as",
+   "UpdatedAt": "2026-05-25 14:29",
+   "EmpId": "Q-2026-0004",
+   "ComponentCode": "Q-2025-0004",
+   "CompetencyResult": "能力測試結果04",
+   "CompetencyDate": "2025-10-07",
+   "BlindTestResult": "盲樣測試結果04",
+   "BlindTestDate": "2025-12-28",
+   "ReviewerId": "李檢測",
+   "ReviewComment": "",
+   "AuthResult": "授權結果04",
+   "AuthDate": "2025-11-26",
+   "AuthExpiryDate": "2026-08-11",
+   "Description": "",
+   "Attributes": "擴展屬性04"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000004",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-12-22 18:21",
+   "UpdatedBy": "cheng.gl",
+   "UpdatedAt": "2026-07-25 12:26",
+   "EmpId": "Q-2025-0005",
+   "ComponentCode": "Q-2025-0005",
+   "CompetencyResult": "能力測試結果05",
+   "CompetencyDate": "2025-03-10",
+   "BlindTestResult": "盲樣測試結果05",
+   "BlindTestDate": "2026-10-12",
+   "ReviewerId": "何環安",
+   "ReviewComment": "客戶要求附 TAF Logo",
+   "AuthResult": "授權結果05",
+   "AuthDate": "2025-02-09",
+   "AuthExpiryDate": "2025-04-12",
+   "Description": "",
+   "Attributes": "擴展屬性05"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000005",
+   "EntityID": "lab",
+   "Status": "0",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-07-05 15:20",
+   "UpdatedBy": "cheng.gl",
+   "UpdatedAt": "2026-12-13 17:25",
+   "EmpId": "Q-2026-0006",
+   "ComponentCode": "Q-2025-0006",
+   "CompetencyResult": "能力測試結果06",
+   "CompetencyDate": "2026-11-27",
+   "BlindTestResult": "盲樣測試結果06",
+   "BlindTestDate": "2025-12-01",
+   "ReviewerId": "周技士",
+   "ReviewComment": "",
+   "AuthResult": "授權結果06",
+   "AuthDate": "2025-09-07",
+   "AuthExpiryDate": "2025-05-28",
+   "Description": "",
+   "Attributes": "擴展屬性06"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000006",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-08-06 10:20",
+   "UpdatedBy": "huang.tc",
+   "UpdatedAt": "2026-06-24 14:21",
+   "EmpId": "Q-2025-0007",
+   "ComponentCode": "Q-2025-0007",
+   "CompetencyResult": "能力測試結果07",
+   "CompetencyDate": "2026-04-14",
+   "BlindTestResult": "盲樣測試結果07",
+   "BlindTestDate": "2026-04-10",
+   "ReviewerId": "許工程",
+   "ReviewComment": "客戶要求附 TAF Logo",
+   "AuthResult": "授權結果07",
+   "AuthDate": "2025-09-17",
+   "AuthExpiryDate": "2026-02-16",
+   "Description": "",
+   "Attributes": "擴展屬性07"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000007",
+   "EntityID": "lab",
+   "Status": "0",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-12-21 08:06",
+   "UpdatedBy": "liu.as",
+   "UpdatedAt": "2026-08-27 16:00",
+   "EmpId": "Q-2025-0008",
+   "ComponentCode": "Q-2026-0008",
+   "CompetencyResult": "能力測試結果08",
+   "CompetencyDate": "2025-04-24",
+   "BlindTestResult": "盲樣測試結果08",
+   "BlindTestDate": "2026-01-09",
+   "ReviewerId": "陳審核",
+   "ReviewComment": "",
+   "AuthResult": "授權結果08",
+   "AuthDate": "2026-01-02",
+   "AuthExpiryDate": "2026-02-01",
+   "Description": "",
+   "Attributes": "擴展屬性08"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000008",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-02-18 15:32",
+   "UpdatedBy": "wang.cy",
+   "UpdatedAt": "2026-05-25 14:31",
+   "EmpId": "Q-2026-0009",
+   "ComponentCode": "Q-2026-0009",
+   "CompetencyResult": "能力測試結果09",
+   "CompetencyDate": "2025-11-22",
+   "BlindTestResult": "盲樣測試結果09",
+   "BlindTestDate": "2025-02-01",
+   "ReviewerId": "蔡研究",
+   "ReviewComment": "",
+   "AuthResult": "授權結果09",
+   "AuthDate": "2026-04-22",
+   "AuthExpiryDate": "2026-03-18",
+   "Description": "",
+   "Attributes": "擴展屬性09"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000009",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-03-10 10:23",
+   "UpdatedBy": "chen.sh",
+   "UpdatedAt": "2026-05-28 15:15",
+   "EmpId": "Q-2025-0010",
+   "ComponentCode": "Q-2026-0010",
+   "CompetencyResult": "能力測試結果10",
+   "CompetencyDate": "2026-08-24",
+   "BlindTestResult": "盲樣測試結果10",
+   "BlindTestDate": "2026-06-01",
+   "ReviewerId": "劉助理",
+   "ReviewComment": "",
+   "AuthResult": "授權結果10",
+   "AuthDate": "2025-03-08",
+   "AuthExpiryDate": "2026-11-26",
+   "Description": "",
+   "Attributes": "擴展屬性10"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000010",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-05-22 10:09",
+   "UpdatedBy": "lee.jc",
+   "UpdatedAt": "2026-10-01 10:21",
+   "EmpId": "Q-2025-0011",
+   "ComponentCode": "Q-2026-0011",
+   "CompetencyResult": "能力測試結果11",
+   "CompetencyDate": "2025-07-14",
+   "BlindTestResult": "盲樣測試結果11",
+   "BlindTestDate": "2025-04-22",
+   "ReviewerId": "郭品管",
+   "ReviewComment": "待主管覆核",
+   "AuthResult": "授權結果11",
+   "AuthDate": "2026-01-11",
+   "AuthExpiryDate": "2026-11-27",
+   "Description": "",
+   "Attributes": "擴展屬性11"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000011",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-03-20 14:04",
+   "UpdatedBy": "lin.pb",
+   "UpdatedAt": "2026-07-28 14:39",
+   "EmpId": "Q-2025-0012",
+   "ComponentCode": "Q-2025-0012",
+   "CompetencyResult": "能力測試結果12",
+   "CompetencyDate": "2025-05-24",
+   "BlindTestResult": "盲樣測試結果12",
+   "BlindTestDate": "2025-02-05",
+   "ReviewerId": "黃技正",
+   "ReviewComment": "",
+   "AuthResult": "授權結果12",
+   "AuthDate": "2026-10-15",
+   "AuthExpiryDate": "2025-07-04",
+   "Description": "",
+   "Attributes": "擴展屬性12"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000012",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-09-25 14:39",
+   "UpdatedBy": "liu.as",
+   "UpdatedAt": "2026-01-14 15:23",
+   "EmpId": "Q-2026-0013",
+   "ComponentCode": "Q-2026-0013",
+   "CompetencyResult": "能力測試結果13",
+   "CompetencyDate": "2026-07-20",
+   "BlindTestResult": "盲樣測試結果13",
+   "BlindTestDate": "2025-11-03",
+   "ReviewerId": "陳審核",
+   "ReviewComment": "",
+   "AuthResult": "授權結果13",
+   "AuthDate": "2025-12-24",
+   "AuthExpiryDate": "2025-07-07",
+   "Description": "",
+   "Attributes": "擴展屬性13"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000013",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-04-20 08:33",
+   "UpdatedBy": "chang.fa",
+   "UpdatedAt": "2026-07-02 18:10",
+   "EmpId": "Q-2026-0014",
+   "ComponentCode": "Q-2025-0014",
+   "CompetencyResult": "能力測試結果14",
+   "CompetencyDate": "2025-12-11",
+   "BlindTestResult": "盲樣測試結果14",
+   "BlindTestDate": "2026-11-23",
+   "ReviewerId": "周技士",
+   "ReviewComment": "樣品外觀正常",
+   "AuthResult": "授權結果14",
+   "AuthDate": "2026-05-21",
+   "AuthExpiryDate": "2025-03-08",
+   "Description": "樣品外觀正常",
+   "Attributes": "擴展屬性14"
+  }
+ ]
+}

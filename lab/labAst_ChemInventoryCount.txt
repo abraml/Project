@@ -1,0 +1,1395 @@
+{
+ "EntityID": "lab",
+ "SystemCode": "MUEIP",
+ "ModuleCode": "LIMS",
+ "FuncCode": "labAst_ChemInventoryCount",
+ "ConfigHash": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+ "PageMeta": {
+  "PageTitle": "藥品盤點",
+  "Lang": "zh-TW",
+  "FormType": "ListForm",
+  "EditDisplayType": "Drawer",
+  "Breadcrumb": [
+   {
+    "Title": "首頁",
+    "Path": "/"
+   },
+   {
+    "Title": "實驗室資材管理",
+    "Path": null
+   },
+   {
+    "Title": "藥品盤點",
+    "Path": "/lab/labAst_ChemInventoryCount"
+   }
+  ],
+  "IsApproval": false,
+  "TenantLocked": false,
+  "Icon": "ri-checkbox-multiple-line",
+  "Remark": "藥品盤點（由 labAst_ChemInventoryCount 規格書產生）"
+ },
+ "Resources": {
+  "CodeSets": {
+   "Status": [
+    {
+     "CodeID": "1",
+     "CodeName": "啟用",
+     "IsDefault": true
+    },
+    {
+     "CodeID": "0",
+     "CodeName": "停用"
+    }
+   ],
+   "Priority": [
+    {
+     "CodeID": "A",
+     "CodeName": "急件"
+    },
+    {
+     "CodeID": "B",
+     "CodeName": "高"
+    },
+    {
+     "CodeID": "C",
+     "CodeName": "一般",
+     "IsDefault": true
+    },
+    {
+     "CodeID": "D",
+     "CodeName": "低"
+    }
+   ],
+   "CountType": [
+    {
+     "CodeID": "F",
+     "CodeName": "全面盤點",
+     "IsDefault": true
+    },
+    {
+     "CodeID": "S",
+     "CodeName": "抽樣盤點"
+    },
+    {
+     "CodeID": "C",
+     "CodeName": "循環盤點"
+    }
+   ],
+   "CountStatus": [
+    {
+     "CodeID": "D",
+     "CodeName": "草稿",
+     "IsDefault": true
+    },
+    {
+     "CodeID": "P",
+     "CodeName": "盤點中"
+    },
+    {
+     "CodeID": "F",
+     "CodeName": "已完成"
+    },
+    {
+     "CodeID": "X",
+     "CodeName": "作廢"
+    }
+   ]
+  },
+  "FeatureFlags": {
+   "IsReadOnly": false,
+   "EnableDraft": false,
+   "EnableBatchDelete": true,
+   "AutoRefreshInterval": 0,
+   "DefaultViewMode": "Table",
+   "RequireConfirmOnSave": true
+  }
+ },
+ "AllowAction": {
+  "DataActions": [
+   {
+    "ActionID": "Add",
+    "Label": "新增",
+    "Icon": "ri-add-line",
+    "Type": "Primary",
+    "Position": "Toolbar",
+    "Confirm": null
+   },
+   {
+    "ActionID": "Save",
+    "Label": "儲存",
+    "Icon": "ri-save-line",
+    "Type": "Primary",
+    "Position": "Toolbar",
+    "Confirm": null
+   },
+   {
+    "ActionID": "Delete",
+    "Label": "刪除",
+    "Icon": "ri-delete-bin-line",
+    "Type": "Danger",
+    "Position": "Both",
+    "Confirm": "確定要刪除此藥品盤點資料嗎？"
+   },
+   {
+    "ActionID": "Query",
+    "Label": "查詢",
+    "Icon": "ri-search-line",
+    "Type": "Default",
+    "Position": "Toolbar",
+    "Confirm": null
+   }
+  ],
+  "ExtensionActions": [
+   {
+    "ActionID": "Import",
+    "Label": "匯入",
+    "Icon": "ri-upload-2-line",
+    "Type": "Default",
+    "Position": "Toolbar"
+   },
+   {
+    "ActionID": "Export",
+    "Label": "匯出",
+    "Icon": "ri-download-2-line",
+    "Type": "Default",
+    "Position": "Toolbar"
+   }
+  ]
+ },
+ "View": {
+  "RowKey": "RowGuid",
+  "ListView": {
+   "ListSpec": {
+    "RowKey": "RowGuid",
+    "SelectMode": "Single",
+    "FixedColumns": [
+     "Action",
+     "No"
+    ],
+    "RowActionMode": "Menu",
+    "ShowRowNo": true,
+    "Pagination": {
+     "PageSize": 100,
+     "SizeOptions": [
+      50,
+      100,
+      200,
+      500
+     ],
+     "ShowJumper": false,
+     "FullPageScroll": true
+    },
+    "DefaultSort": {
+     "Field": "SortNo",
+     "Order": "asc"
+    },
+    "EmptyText": "目前查無藥品盤點資料",
+    "GridBordered": true
+   },
+   "FieldSpecs": [
+    {
+     "BindField": "CountNo",
+     "Title": "盤點單號",
+     "Align": "Left",
+     "DefaultVisible": true,
+     "Formatter": "Link",
+     "Fixed": "Left",
+     "Width": 160,
+     "Sorter": true
+    },
+    {
+     "BindField": "CountType",
+     "Title": "盤點類型",
+     "Align": "Center",
+     "DefaultVisible": true,
+     "Formatter": "Tag",
+     "Width": 110
+    },
+    {
+     "BindField": "CountDate",
+     "Title": "盤點日期",
+     "Align": "Left",
+     "DefaultVisible": true,
+     "Formatter": "DateTime",
+     "Width": 150,
+     "Sorter": true
+    },
+    {
+     "BindField": "CountedBy",
+     "Title": "盤點人員",
+     "Align": "Left",
+     "DefaultVisible": true,
+     "Width": 140
+    },
+    {
+     "BindField": "CountStatus",
+     "Title": "盤點單狀態",
+     "Align": "Center",
+     "DefaultVisible": true,
+     "Formatter": "Tag",
+     "Width": 110
+    },
+    {
+     "BindField": "Status",
+     "Title": "啟用狀態",
+     "Align": "Center",
+     "DefaultVisible": true,
+     "Formatter": "Tag",
+     "Width": 80
+    }
+   ]
+  },
+  "FormView": {
+   "FormSpec": {
+    "RowKey": "RowGuid",
+    "Layout": "Horizontal",
+    "Sections": [
+     {
+      "SectionID": "SecBase",
+      "Type": "Card",
+      "Title": "基本資料",
+      "IsCollapsible": false,
+      "DefaultOpen": true,
+      "Icon": "ri-checkbox-multiple-line"
+     },
+     {
+      "SectionID": "SecExtra",
+      "Type": "Card",
+      "Title": "系統資訊",
+      "IsCollapsible": true,
+      "DefaultOpen": false,
+      "Icon": "ri-settings-4-line"
+     }
+    ],
+    "FormLogic": []
+   },
+   "FieldSpecs": [
+    {
+     "BindField": "RowKey",
+     "Title": "系統識別碼",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 24,
+     "Mode": "Hidden"
+    },
+    {
+     "BindField": "EntityID",
+     "Title": "系統實體",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "Hidden",
+     "DefaultValue": "lab"
+    },
+    {
+     "BindField": "CountNo",
+     "Title": "盤點單號",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "Required",
+       "Message": "盤點單號為必填"
+      },
+      {
+       "Rule": "MaxLength",
+       "Value": 30,
+       "Message": "長度不可超過 30"
+      }
+     ]
+    },
+    {
+     "BindField": "CountType",
+     "Title": "盤點類型",
+     "Component": "Select",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "Required",
+       "Message": "盤點類型為必填"
+      }
+     ],
+     "Props": {
+      "OptionKey": "CountType"
+     },
+     "DefaultValue": "F"
+    },
+    {
+     "BindField": "CountDate",
+     "Title": "盤點日期",
+     "Component": "DatePicker",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "Required",
+       "Message": "盤點日期為必填"
+      }
+     ],
+     "Props": {
+      "Mode": "Editable",
+      "ShowTime": false
+     }
+    },
+    {
+     "BindField": "CountedBy",
+     "Title": "盤點人員",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "Required",
+       "Message": "盤點人員為必填"
+      },
+      {
+       "Rule": "MaxLength",
+       "Value": 50,
+       "Message": "長度不可超過 50"
+      }
+     ]
+    },
+    {
+     "BindField": "CountStatus",
+     "Title": "盤點單狀態",
+     "Component": "Select",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Props": {
+      "OptionKey": "CountStatus"
+     },
+     "DefaultValue": "D"
+    },
+    {
+     "BindField": "Status",
+     "Title": "啟用狀態",
+     "Component": "Select",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "DefaultValue": "1",
+     "Props": {
+      "OptionKey": "Status"
+     }
+    },
+    {
+     "BindField": "CreatedBy",
+     "Title": "建立者帳號",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "ReadOnly"
+    },
+    {
+     "BindField": "CreatedAt",
+     "Title": "資料建立日期時間",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "ReadOnly"
+    },
+    {
+     "BindField": "UpdatedBy",
+     "Title": "最後更新者帳號",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "ReadOnly"
+    },
+    {
+     "BindField": "UpdatedAt",
+     "Title": "最後更新日期時間",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "ReadOnly"
+    }
+   ]
+  },
+  "DetailViews": [
+   {
+    "DetailID": "Detail",
+    "Title": "盤點明細",
+    "Icon": "ri-list-check",
+    "Entity": "labAst_ChemInventoryCountDetail",
+    "RelationKey": "CountNo",
+    "RowKey": "RowGuid",
+    "AllowAdd": true,
+    "AllowEdit": true,
+    "AllowDelete": true,
+    "EmptyText": "尚無盤點明細資料",
+    "CodeSets": {
+     "Status": [
+      {
+       "CodeID": "1",
+       "CodeName": "啟用",
+       "IsDefault": true
+      },
+      {
+       "CodeID": "0",
+       "CodeName": "停用"
+      }
+     ],
+     "Priority": [
+      {
+       "CodeID": "A",
+       "CodeName": "急件"
+      },
+      {
+       "CodeID": "B",
+       "CodeName": "高"
+      },
+      {
+       "CodeID": "C",
+       "CodeName": "一般",
+       "IsDefault": true
+      },
+      {
+       "CodeID": "D",
+       "CodeName": "低"
+      }
+     ]
+    },
+    "Columns": [
+     {
+      "BindField": "CountGuid",
+      "Title": "所屬盤點單",
+      "Width": 120,
+      "Align": "Left"
+     },
+     {
+      "BindField": "BookQty",
+      "Title": "帳面庫存量",
+      "Width": 120,
+      "Align": "Center"
+     },
+     {
+      "BindField": "ActualQty",
+      "Title": "實盤數量",
+      "Width": 120,
+      "Align": "Center"
+     },
+     {
+      "BindField": "DiffQty",
+      "Title": "[計算欄位] 盤盈",
+      "Width": 120,
+      "Align": "Left"
+     },
+     {
+      "BindField": "DiffReason",
+      "Title": "差異原因說明",
+      "Width": 120,
+      "Align": "Left"
+     }
+    ],
+    "FormFields": [
+     {
+      "BindField": "CountGuid",
+      "Title": "所屬盤點單",
+      "Component": "Input",
+      "Section": "",
+      "Span": 12,
+      "Mode": "ReadOnly",
+      "Validations": [
+       {
+        "Rule": "Required",
+        "Message": "所屬盤點單為必填"
+       }
+      ]
+     },
+     {
+      "BindField": "LotGuid",
+      "Title": "盤點批號",
+      "Component": "Input",
+      "Section": "",
+      "Span": 12,
+      "Mode": "ReadOnly",
+      "Validations": [
+       {
+        "Rule": "Required",
+        "Message": "盤點批號為必填"
+       }
+      ]
+     },
+     {
+      "BindField": "BookQty",
+      "Title": "帳面庫存量",
+      "Component": "Input",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Validations": [
+       {
+        "Rule": "Required",
+        "Message": "帳面庫存量為必填"
+       }
+      ],
+      "Props": {
+       "Type": "number"
+      }
+     },
+     {
+      "BindField": "ActualQty",
+      "Title": "實盤數量",
+      "Component": "Input",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Validations": [
+       {
+        "Rule": "Required",
+        "Message": "實盤數量為必填"
+       }
+      ],
+      "Props": {
+       "Type": "number"
+      }
+     },
+     {
+      "BindField": "DiffQty",
+      "Title": "[計算欄位] 盤盈",
+      "Component": "Input",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable"
+     },
+     {
+      "BindField": "DiffReason",
+      "Title": "差異原因說明",
+      "Component": "Input",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Validations": [
+       {
+        "Rule": "MaxLength",
+        "Value": 255,
+        "Message": "長度不可超過 255"
+       }
+      ]
+     },
+     {
+      "BindField": "IsAdjusted",
+      "Title": "是否已完成帳面調整",
+      "Component": "Input",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable"
+     }
+    ],
+    "SeedData": [
+     {
+      "RowGuid": "00000366-0000-0000-0001-000000000001",
+      "EntityID": "lab",
+      "Status": "1",
+      "CountNo": "CIC-2026-0001",
+      "CountGuid": "所屬盤點單02",
+      "LotGuid": "盤點批號02",
+      "BookQty": 193,
+      "ActualQty": 17,
+      "DiffQty": "[計算欄位] 盤盈02",
+      "DiffReason": "",
+      "IsAdjusted": "是否已完成帳面調整02"
+     },
+     {
+      "RowGuid": "00000366-0000-0000-0001-000000000002",
+      "EntityID": "lab",
+      "Status": "1",
+      "CountNo": "CIC-2026-0001",
+      "CountGuid": "所屬盤點單03",
+      "LotGuid": "盤點批號03",
+      "BookQty": 141,
+      "ActualQty": 169,
+      "DiffQty": "[計算欄位] 盤盈03",
+      "DiffReason": "客戶要求附 TAF Logo",
+      "IsAdjusted": "是否已完成帳面調整03"
+     },
+     {
+      "RowGuid": "00000366-0000-0000-0001-000000000003",
+      "EntityID": "lab",
+      "Status": "1",
+      "CountNo": "CIC-2026-0001",
+      "CountGuid": "所屬盤點單04",
+      "LotGuid": "盤點批號04",
+      "BookQty": 154,
+      "ActualQty": 194,
+      "DiffQty": "[計算欄位] 盤盈04",
+      "DiffReason": "客戶要求附 TAF Logo",
+      "IsAdjusted": "是否已完成帳面調整04"
+     },
+     {
+      "RowGuid": "00000366-0000-0000-0001-000000000004",
+      "EntityID": "lab",
+      "Status": "1",
+      "CountNo": "CIC-2026-0001",
+      "CountGuid": "所屬盤點單05",
+      "LotGuid": "盤點批號05",
+      "BookQty": 71,
+      "ActualQty": 134,
+      "DiffQty": "[計算欄位] 盤盈05",
+      "DiffReason": "",
+      "IsAdjusted": "是否已完成帳面調整05"
+     },
+     {
+      "RowGuid": "00000366-0000-0000-0001-000000000005",
+      "EntityID": "lab",
+      "Status": "1",
+      "CountNo": "CIC-2025-0002",
+      "CountGuid": "所屬盤點單06",
+      "LotGuid": "盤點批號06",
+      "BookQty": 59,
+      "ActualQty": 43,
+      "DiffQty": "[計算欄位] 盤盈06",
+      "DiffReason": "",
+      "IsAdjusted": "是否已完成帳面調整06"
+     },
+     {
+      "RowGuid": "00000366-0000-0000-0001-000000000006",
+      "EntityID": "lab",
+      "Status": "1",
+      "CountNo": "CIC-2025-0002",
+      "CountGuid": "所屬盤點單07",
+      "LotGuid": "盤點批號07",
+      "BookQty": 92,
+      "ActualQty": 22,
+      "DiffQty": "[計算欄位] 盤盈07",
+      "DiffReason": "待主管覆核",
+      "IsAdjusted": "是否已完成帳面調整07"
+     },
+     {
+      "RowGuid": "00000366-0000-0000-0001-000000000007",
+      "EntityID": "lab",
+      "Status": "1",
+      "CountNo": "CIC-2026-0003",
+      "CountGuid": "所屬盤點單08",
+      "LotGuid": "盤點批號08",
+      "BookQty": 102,
+      "ActualQty": 30,
+      "DiffQty": "[計算欄位] 盤盈08",
+      "DiffReason": "",
+      "IsAdjusted": "是否已完成帳面調整08"
+     },
+     {
+      "RowGuid": "00000366-0000-0000-0001-000000000008",
+      "EntityID": "lab",
+      "Status": "1",
+      "CountNo": "CIC-2026-0003",
+      "CountGuid": "所屬盤點單09",
+      "LotGuid": "盤點批號09",
+      "BookQty": 130,
+      "ActualQty": 145,
+      "DiffQty": "[計算欄位] 盤盈09",
+      "DiffReason": "",
+      "IsAdjusted": "是否已完成帳面調整09"
+     },
+     {
+      "RowGuid": "00000366-0000-0000-0001-000000000009",
+      "EntityID": "lab",
+      "Status": "1",
+      "CountNo": "CIC-2026-0003",
+      "CountGuid": "所屬盤點單10",
+      "LotGuid": "盤點批號10",
+      "BookQty": 140,
+      "ActualQty": 22,
+      "DiffQty": "[計算欄位] 盤盈10",
+      "DiffReason": "",
+      "IsAdjusted": "是否已完成帳面調整10"
+     },
+     {
+      "RowGuid": "00000366-0000-0000-0001-000000000010",
+      "EntityID": "lab",
+      "Status": "1",
+      "CountNo": "CIC-2026-0004",
+      "CountGuid": "所屬盤點單11",
+      "LotGuid": "盤點批號11",
+      "BookQty": 43,
+      "ActualQty": 169,
+      "DiffQty": "[計算欄位] 盤盈11",
+      "DiffReason": "已通知申請單位",
+      "IsAdjusted": "是否已完成帳面調整11"
+     },
+     {
+      "RowGuid": "00000366-0000-0000-0001-000000000011",
+      "EntityID": "lab",
+      "Status": "1",
+      "CountNo": "CIC-2026-0004",
+      "CountGuid": "所屬盤點單12",
+      "LotGuid": "盤點批號12",
+      "BookQty": 50,
+      "ActualQty": 26,
+      "DiffQty": "[計算欄位] 盤盈12",
+      "DiffReason": "",
+      "IsAdjusted": "是否已完成帳面調整12"
+     },
+     {
+      "RowGuid": "00000366-0000-0000-0001-000000000012",
+      "EntityID": "lab",
+      "Status": "1",
+      "CountNo": "CIC-2026-0004",
+      "CountGuid": "所屬盤點單13",
+      "LotGuid": "盤點批號13",
+      "BookQty": 150,
+      "ActualQty": 129,
+      "DiffQty": "[計算欄位] 盤盈13",
+      "DiffReason": "",
+      "IsAdjusted": "是否已完成帳面調整13"
+     },
+     {
+      "RowGuid": "00000366-0000-0000-0001-000000000013",
+      "EntityID": "lab",
+      "Status": "1",
+      "CountNo": "CIC-2026-0005",
+      "CountGuid": "所屬盤點單14",
+      "LotGuid": "盤點批號14",
+      "BookQty": 158,
+      "ActualQty": 44,
+      "DiffQty": "[計算欄位] 盤盈14",
+      "DiffReason": "",
+      "IsAdjusted": "是否已完成帳面調整14"
+     },
+     {
+      "RowGuid": "00000366-0000-0000-0001-000000000014",
+      "EntityID": "lab",
+      "Status": "1",
+      "CountNo": "CIC-2026-0005",
+      "CountGuid": "所屬盤點單15",
+      "LotGuid": "盤點批號15",
+      "BookQty": 105,
+      "ActualQty": 141,
+      "DiffQty": "[計算欄位] 盤盈15",
+      "DiffReason": "",
+      "IsAdjusted": "是否已完成帳面調整15"
+     },
+     {
+      "RowGuid": "00000366-0000-0000-0001-000000000015",
+      "EntityID": "lab",
+      "Status": "1",
+      "CountNo": "CIC-2026-0005",
+      "CountGuid": "所屬盤點單16",
+      "LotGuid": "盤點批號16",
+      "BookQty": 82,
+      "ActualQty": 89,
+      "DiffQty": "[計算欄位] 盤盈16",
+      "DiffReason": "",
+      "IsAdjusted": "是否已完成帳面調整16"
+     },
+     {
+      "RowGuid": "00000366-0000-0000-0001-000000000016",
+      "EntityID": "lab",
+      "Status": "1",
+      "CountNo": "CIC-2026-0006",
+      "CountGuid": "所屬盤點單17",
+      "LotGuid": "盤點批號17",
+      "BookQty": 148,
+      "ActualQty": 171,
+      "DiffQty": "[計算欄位] 盤盈17",
+      "DiffReason": "",
+      "IsAdjusted": "是否已完成帳面調整17"
+     },
+     {
+      "RowGuid": "00000366-0000-0000-0001-000000000017",
+      "EntityID": "lab",
+      "Status": "1",
+      "CountNo": "CIC-2026-0006",
+      "CountGuid": "所屬盤點單18",
+      "LotGuid": "盤點批號18",
+      "BookQty": 132,
+      "ActualQty": 14,
+      "DiffQty": "[計算欄位] 盤盈18",
+      "DiffReason": "",
+      "IsAdjusted": "是否已完成帳面調整18"
+     },
+     {
+      "RowGuid": "00000366-0000-0000-0001-000000000018",
+      "EntityID": "lab",
+      "Status": "1",
+      "CountNo": "CIC-2026-0007",
+      "CountGuid": "所屬盤點單19",
+      "LotGuid": "盤點批號19",
+      "BookQty": 47,
+      "ActualQty": 190,
+      "DiffQty": "[計算欄位] 盤盈19",
+      "DiffReason": "",
+      "IsAdjusted": "是否已完成帳面調整19"
+     },
+     {
+      "RowGuid": "00000366-0000-0000-0001-000000000019",
+      "EntityID": "lab",
+      "Status": "1",
+      "CountNo": "CIC-2026-0007",
+      "CountGuid": "所屬盤點單20",
+      "LotGuid": "盤點批號20",
+      "BookQty": 160,
+      "ActualQty": 85,
+      "DiffQty": "[計算欄位] 盤盈20",
+      "DiffReason": "",
+      "IsAdjusted": "是否已完成帳面調整20"
+     },
+     {
+      "RowGuid": "00000366-0000-0000-0001-000000000020",
+      "EntityID": "lab",
+      "Status": "1",
+      "CountNo": "CIC-2026-0007",
+      "CountGuid": "所屬盤點單21",
+      "LotGuid": "盤點批號21",
+      "BookQty": 80,
+      "ActualQty": 182,
+      "DiffQty": "[計算欄位] 盤盈21",
+      "DiffReason": "",
+      "IsAdjusted": "是否已完成帳面調整21"
+     },
+     {
+      "RowGuid": "00000366-0000-0000-0001-000000000021",
+      "EntityID": "lab",
+      "Status": "1",
+      "CountNo": "CIC-2025-0008",
+      "CountGuid": "所屬盤點單22",
+      "LotGuid": "盤點批號22",
+      "BookQty": 22,
+      "ActualQty": 195,
+      "DiffQty": "[計算欄位] 盤盈22",
+      "DiffReason": "",
+      "IsAdjusted": "是否已完成帳面調整22"
+     },
+     {
+      "RowGuid": "00000366-0000-0000-0001-000000000022",
+      "EntityID": "lab",
+      "Status": "1",
+      "CountNo": "CIC-2025-0008",
+      "CountGuid": "所屬盤點單23",
+      "LotGuid": "盤點批號23",
+      "BookQty": 118,
+      "ActualQty": 151,
+      "DiffQty": "[計算欄位] 盤盈23",
+      "DiffReason": "已通知申請單位",
+      "IsAdjusted": "是否已完成帳面調整23"
+     },
+     {
+      "RowGuid": "00000366-0000-0000-0001-000000000023",
+      "EntityID": "lab",
+      "Status": "1",
+      "CountNo": "CIC-2025-0008",
+      "CountGuid": "所屬盤點單24",
+      "LotGuid": "盤點批號24",
+      "BookQty": 197,
+      "ActualQty": 156,
+      "DiffQty": "[計算欄位] 盤盈24",
+      "DiffReason": "",
+      "IsAdjusted": "是否已完成帳面調整24"
+     },
+     {
+      "RowGuid": "00000366-0000-0000-0001-000000000024",
+      "EntityID": "lab",
+      "Status": "1",
+      "CountNo": "CIC-2025-0009",
+      "CountGuid": "所屬盤點單25",
+      "LotGuid": "盤點批號25",
+      "BookQty": 175,
+      "ActualQty": 15,
+      "DiffQty": "[計算欄位] 盤盈25",
+      "DiffReason": "",
+      "IsAdjusted": "是否已完成帳面調整25"
+     },
+     {
+      "RowGuid": "00000366-0000-0000-0001-000000000025",
+      "EntityID": "lab",
+      "Status": "1",
+      "CountNo": "CIC-2025-0009",
+      "CountGuid": "所屬盤點單26",
+      "LotGuid": "盤點批號26",
+      "BookQty": 164,
+      "ActualQty": 68,
+      "DiffQty": "[計算欄位] 盤盈26",
+      "DiffReason": "",
+      "IsAdjusted": "是否已完成帳面調整26"
+     },
+     {
+      "RowGuid": "00000366-0000-0000-0001-000000000026",
+      "EntityID": "lab",
+      "Status": "1",
+      "CountNo": "CIC-2025-0009",
+      "CountGuid": "所屬盤點單27",
+      "LotGuid": "盤點批號27",
+      "BookQty": 19,
+      "ActualQty": 90,
+      "DiffQty": "[計算欄位] 盤盈27",
+      "DiffReason": "",
+      "IsAdjusted": "是否已完成帳面調整27"
+     },
+     {
+      "RowGuid": "00000366-0000-0000-0001-000000000027",
+      "EntityID": "lab",
+      "Status": "1",
+      "CountNo": "CIC-2025-0009",
+      "CountGuid": "所屬盤點單28",
+      "LotGuid": "盤點批號28",
+      "BookQty": 200,
+      "ActualQty": 48,
+      "DiffQty": "[計算欄位] 盤盈28",
+      "DiffReason": "樣品外觀正常",
+      "IsAdjusted": "是否已完成帳面調整28"
+     },
+     {
+      "RowGuid": "00000366-0000-0000-0001-000000000028",
+      "EntityID": "lab",
+      "Status": "1",
+      "CountNo": "CIC-2026-0010",
+      "CountGuid": "所屬盤點單29",
+      "LotGuid": "盤點批號29",
+      "BookQty": 66,
+      "ActualQty": 46,
+      "DiffQty": "[計算欄位] 盤盈29",
+      "DiffReason": "",
+      "IsAdjusted": "是否已完成帳面調整29"
+     },
+     {
+      "RowGuid": "00000366-0000-0000-0001-000000000029",
+      "EntityID": "lab",
+      "Status": "1",
+      "CountNo": "CIC-2026-0010",
+      "CountGuid": "所屬盤點單30",
+      "LotGuid": "盤點批號30",
+      "BookQty": 11,
+      "ActualQty": 22,
+      "DiffQty": "[計算欄位] 盤盈30",
+      "DiffReason": "",
+      "IsAdjusted": "是否已完成帳面調整30"
+     },
+     {
+      "RowGuid": "00000366-0000-0000-0001-000000000030",
+      "EntityID": "lab",
+      "Status": "1",
+      "CountNo": "CIC-2026-0010",
+      "CountGuid": "所屬盤點單31",
+      "LotGuid": "盤點批號31",
+      "BookQty": 7,
+      "ActualQty": 189,
+      "DiffQty": "[計算欄位] 盤盈31",
+      "DiffReason": "已通知申請單位",
+      "IsAdjusted": "是否已完成帳面調整31"
+     },
+     {
+      "RowGuid": "00000366-0000-0000-0001-000000000031",
+      "EntityID": "lab",
+      "Status": "1",
+      "CountNo": "CIC-2026-0010",
+      "CountGuid": "所屬盤點單32",
+      "LotGuid": "盤點批號32",
+      "BookQty": 106,
+      "ActualQty": 138,
+      "DiffQty": "[計算欄位] 盤盈32",
+      "DiffReason": "已通知申請單位",
+      "IsAdjusted": "是否已完成帳面調整32"
+     },
+     {
+      "RowGuid": "00000366-0000-0000-0001-000000000032",
+      "EntityID": "lab",
+      "Status": "1",
+      "CountNo": "CIC-2026-0011",
+      "CountGuid": "所屬盤點單33",
+      "LotGuid": "盤點批號33",
+      "BookQty": 18,
+      "ActualQty": 44,
+      "DiffQty": "[計算欄位] 盤盈33",
+      "DiffReason": "",
+      "IsAdjusted": "是否已完成帳面調整33"
+     },
+     {
+      "RowGuid": "00000366-0000-0000-0001-000000000033",
+      "EntityID": "lab",
+      "Status": "1",
+      "CountNo": "CIC-2026-0011",
+      "CountGuid": "所屬盤點單34",
+      "LotGuid": "盤點批號34",
+      "BookQty": 180,
+      "ActualQty": 187,
+      "DiffQty": "[計算欄位] 盤盈34",
+      "DiffReason": "",
+      "IsAdjusted": "是否已完成帳面調整34"
+     },
+     {
+      "RowGuid": "00000366-0000-0000-0001-000000000034",
+      "EntityID": "lab",
+      "Status": "1",
+      "CountNo": "CIC-2026-0012",
+      "CountGuid": "所屬盤點單35",
+      "LotGuid": "盤點批號35",
+      "BookQty": 26,
+      "ActualQty": 84,
+      "DiffQty": "[計算欄位] 盤盈35",
+      "DiffReason": "待主管覆核",
+      "IsAdjusted": "是否已完成帳面調整35"
+     },
+     {
+      "RowGuid": "00000366-0000-0000-0001-000000000035",
+      "EntityID": "lab",
+      "Status": "1",
+      "CountNo": "CIC-2026-0012",
+      "CountGuid": "所屬盤點單36",
+      "LotGuid": "盤點批號36",
+      "BookQty": 161,
+      "ActualQty": 55,
+      "DiffQty": "[計算欄位] 盤盈36",
+      "DiffReason": "客戶要求附 TAF Logo",
+      "IsAdjusted": "是否已完成帳面調整36"
+     },
+     {
+      "RowGuid": "00000366-0000-0000-0001-000000000036",
+      "EntityID": "lab",
+      "Status": "1",
+      "CountNo": "CIC-2026-0012",
+      "CountGuid": "所屬盤點單37",
+      "LotGuid": "盤點批號37",
+      "BookQty": 64,
+      "ActualQty": 52,
+      "DiffQty": "[計算欄位] 盤盈37",
+      "DiffReason": "已通知申請單位",
+      "IsAdjusted": "是否已完成帳面調整37"
+     },
+     {
+      "RowGuid": "00000366-0000-0000-0001-000000000037",
+      "EntityID": "lab",
+      "Status": "1",
+      "CountNo": "CIC-2026-0012",
+      "CountGuid": "所屬盤點單38",
+      "LotGuid": "盤點批號38",
+      "BookQty": 200,
+      "ActualQty": 187,
+      "DiffQty": "[計算欄位] 盤盈38",
+      "DiffReason": "",
+      "IsAdjusted": "是否已完成帳面調整38"
+     },
+     {
+      "RowGuid": "00000366-0000-0000-0001-000000000038",
+      "EntityID": "lab",
+      "Status": "1",
+      "CountNo": "CIC-2025-0013",
+      "CountGuid": "所屬盤點單39",
+      "LotGuid": "盤點批號39",
+      "BookQty": 71,
+      "ActualQty": 23,
+      "DiffQty": "[計算欄位] 盤盈39",
+      "DiffReason": "複驗確認無誤",
+      "IsAdjusted": "是否已完成帳面調整39"
+     },
+     {
+      "RowGuid": "00000366-0000-0000-0001-000000000039",
+      "EntityID": "lab",
+      "Status": "1",
+      "CountNo": "CIC-2025-0013",
+      "CountGuid": "所屬盤點單40",
+      "LotGuid": "盤點批號40",
+      "BookQty": 112,
+      "ActualQty": 95,
+      "DiffQty": "[計算欄位] 盤盈40",
+      "DiffReason": "需注意保存效期",
+      "IsAdjusted": "是否已完成帳面調整40"
+     },
+     {
+      "RowGuid": "00000366-0000-0000-0001-000000000040",
+      "EntityID": "lab",
+      "Status": "1",
+      "CountNo": "CIC-2025-0013",
+      "CountGuid": "所屬盤點單41",
+      "LotGuid": "盤點批號41",
+      "BookQty": 149,
+      "ActualQty": 96,
+      "DiffQty": "[計算欄位] 盤盈41",
+      "DiffReason": "",
+      "IsAdjusted": "是否已完成帳面調整41"
+     },
+     {
+      "RowGuid": "00000366-0000-0000-0001-000000000041",
+      "EntityID": "lab",
+      "Status": "1",
+      "CountNo": "CIC-2025-0013",
+      "CountGuid": "所屬盤點單42",
+      "LotGuid": "盤點批號42",
+      "BookQty": 177,
+      "ActualQty": 92,
+      "DiffQty": "[計算欄位] 盤盈42",
+      "DiffReason": "",
+      "IsAdjusted": "是否已完成帳面調整42"
+     },
+     {
+      "RowGuid": "00000366-0000-0000-0001-000000000042",
+      "EntityID": "lab",
+      "Status": "1",
+      "CountNo": "CIC-2026-0014",
+      "CountGuid": "所屬盤點單43",
+      "LotGuid": "盤點批號43",
+      "BookQty": 91,
+      "ActualQty": 132,
+      "DiffQty": "[計算欄位] 盤盈43",
+      "DiffReason": "",
+      "IsAdjusted": "是否已完成帳面調整43"
+     },
+     {
+      "RowGuid": "00000366-0000-0000-0001-000000000043",
+      "EntityID": "lab",
+      "Status": "1",
+      "CountNo": "CIC-2026-0014",
+      "CountGuid": "所屬盤點單44",
+      "LotGuid": "盤點批號44",
+      "BookQty": 17,
+      "ActualQty": 64,
+      "DiffQty": "[計算欄位] 盤盈44",
+      "DiffReason": "複驗確認無誤",
+      "IsAdjusted": "是否已完成帳面調整44"
+     },
+     {
+      "RowGuid": "00000366-0000-0000-0001-000000000044",
+      "EntityID": "lab",
+      "Status": "1",
+      "CountNo": "CIC-2026-0014",
+      "CountGuid": "所屬盤點單45",
+      "LotGuid": "盤點批號45",
+      "BookQty": 119,
+      "ActualQty": 131,
+      "DiffQty": "[計算欄位] 盤盈45",
+      "DiffReason": "",
+      "IsAdjusted": "是否已完成帳面調整45"
+     },
+     {
+      "RowGuid": "00000366-0000-0000-0001-000000000045",
+      "EntityID": "lab",
+      "Status": "1",
+      "CountNo": "CIC-2026-0014",
+      "CountGuid": "所屬盤點單46",
+      "LotGuid": "盤點批號46",
+      "BookQty": 182,
+      "ActualQty": 175,
+      "DiffQty": "[計算欄位] 盤盈46",
+      "DiffReason": "",
+      "IsAdjusted": "是否已完成帳面調整46"
+     }
+    ]
+   }
+  ]
+ },
+ "Features": {},
+ "DataScope": {
+  "DefaultWhere": "EntityID = 'lab' AND Status = '1'",
+  "AuthLevel": 2,
+  "SortExp": "SortNo ASC",
+  "DataConfig": {
+   "RowLimit": 2000,
+   "AllowExport": true
+  }
+ },
+ "CustomMeta": {
+  "CustomSchema": {
+   "WidgetType": "Grid",
+   "KeyField": "CountNo",
+   "TitleField": "CountType",
+   "ParentKeyField": null,
+   "PathField": null,
+   "PathSeparator": "/"
+  }
+ },
+ "SeedData": [
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000000",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-10-26 10:13",
+   "UpdatedBy": "huang.tc",
+   "UpdatedAt": "2026-02-19 13:23",
+   "CountNo": "CIC-2026-0001",
+   "CountType": "F",
+   "CountDate": "2026-09-23",
+   "CountedBy": "蔡研究",
+   "CountStatus": "X"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000001",
+   "EntityID": "lab",
+   "Status": "0",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-07-06 12:35",
+   "UpdatedBy": "hsu.eng",
+   "UpdatedAt": "2026-03-13 13:28",
+   "CountNo": "CIC-2025-0002",
+   "CountType": "S",
+   "CountDate": "2025-11-17",
+   "CountedBy": "謝校正",
+   "CountStatus": "D"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000002",
+   "EntityID": "lab",
+   "Status": "0",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-02-27 15:17",
+   "UpdatedBy": "wu.dir",
+   "UpdatedAt": "2026-07-07 14:16",
+   "CountNo": "CIC-2026-0003",
+   "CountType": "F",
+   "CountDate": "2026-12-22",
+   "CountedBy": "劉助理",
+   "CountStatus": "D"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000003",
+   "EntityID": "lab",
+   "Status": "0",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-10-28 12:27",
+   "UpdatedBy": "huang.tc",
+   "UpdatedAt": "2026-07-23 10:31",
+   "CountNo": "CIC-2026-0004",
+   "CountType": "S",
+   "CountDate": "2026-04-13",
+   "CountedBy": "謝校正",
+   "CountStatus": "X"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000004",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-09-12 12:34",
+   "UpdatedBy": "huang.tc",
+   "UpdatedAt": "2026-01-07 10:38",
+   "CountNo": "CIC-2026-0005",
+   "CountType": "S",
+   "CountDate": "2025-12-10",
+   "CountedBy": "蔡研究",
+   "CountStatus": "F"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000005",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-08-25 13:06",
+   "UpdatedBy": "huang.tc",
+   "UpdatedAt": "2026-08-04 17:33",
+   "CountNo": "CIC-2026-0006",
+   "CountType": "F",
+   "CountDate": "2025-08-21",
+   "CountedBy": "鄭組長",
+   "CountStatus": "D"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000006",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-01-15 09:07",
+   "UpdatedBy": "abram.chen",
+   "UpdatedAt": "2026-05-27 08:35",
+   "CountNo": "CIC-2026-0007",
+   "CountType": "F",
+   "CountDate": "2026-02-14",
+   "CountedBy": "謝校正",
+   "CountStatus": "X"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000007",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-04-06 09:30",
+   "UpdatedBy": "lee.jc",
+   "UpdatedAt": "2026-01-13 13:17",
+   "CountNo": "CIC-2025-0008",
+   "CountType": "F",
+   "CountDate": "2025-06-08",
+   "CountedBy": "謝校正",
+   "CountStatus": "P"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000008",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-02-06 09:19",
+   "UpdatedBy": "hsu.eng",
+   "UpdatedAt": "2026-04-17 11:14",
+   "CountNo": "CIC-2025-0009",
+   "CountType": "S",
+   "CountDate": "2026-09-06",
+   "CountedBy": "謝校正",
+   "CountStatus": "F"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000009",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-09-17 18:34",
+   "UpdatedBy": "abram.chen",
+   "UpdatedAt": "2026-06-17 10:03",
+   "CountNo": "CIC-2026-0010",
+   "CountType": "F",
+   "CountDate": "2025-10-14",
+   "CountedBy": "謝校正",
+   "CountStatus": "D"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000010",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-11-08 08:01",
+   "UpdatedBy": "chen.sh",
+   "UpdatedAt": "2026-02-08 10:34",
+   "CountNo": "CIC-2026-0011",
+   "CountType": "F",
+   "CountDate": "2025-10-21",
+   "CountedBy": "陳審核",
+   "CountStatus": "D"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000011",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-01-23 13:14",
+   "UpdatedBy": "hsu.eng",
+   "UpdatedAt": "2026-06-08 08:38",
+   "CountNo": "CIC-2026-0012",
+   "CountType": "F",
+   "CountDate": "2026-10-16",
+   "CountedBy": "吳主任",
+   "CountStatus": "F"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000012",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-07-16 12:04",
+   "UpdatedBy": "huang.tc",
+   "UpdatedAt": "2026-04-23 16:27",
+   "CountNo": "CIC-2025-0013",
+   "CountType": "F",
+   "CountDate": "2026-05-25",
+   "CountedBy": "何環安",
+   "CountStatus": "D"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000013",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-01-17 13:24",
+   "UpdatedBy": "abram.chen",
+   "UpdatedAt": "2026-03-15 12:27",
+   "CountNo": "CIC-2026-0014",
+   "CountType": "S",
+   "CountDate": "2025-05-28",
+   "CountedBy": "陳審核",
+   "CountStatus": "F"
+  }
+ ]
+}

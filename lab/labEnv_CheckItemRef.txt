@@ -1,0 +1,555 @@
+{
+ "EntityID": "lab",
+ "SystemCode": "MUEIP",
+ "ModuleCode": "LIMS",
+ "FuncCode": "labEnv_CheckItemRef",
+ "ConfigHash": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+ "PageMeta": {
+  "PageTitle": "溫濕度檢查項目參考",
+  "Lang": "zh-TW",
+  "FormType": "ListForm",
+  "EditDisplayType": "Drawer",
+  "Breadcrumb": [
+   {
+    "Title": "首頁",
+    "Path": "/"
+   },
+   {
+    "Title": "實驗室環境管理",
+    "Path": null
+   },
+   {
+    "Title": "溫濕度檢查項目參考",
+    "Path": "/lab/labEnv_CheckItemRef"
+   }
+  ],
+  "IsApproval": false,
+  "TenantLocked": false,
+  "Icon": "ri-list-check-2",
+  "Remark": "溫濕度檢查項目參考（由 labEnv_CheckItemRef 規格書產生）"
+ },
+ "Resources": {
+  "CodeSets": {
+   "Status": [
+    {
+     "CodeID": "1",
+     "CodeName": "啟用",
+     "IsDefault": true
+    },
+    {
+     "CodeID": "0",
+     "CodeName": "停用"
+    }
+   ],
+   "Priority": [
+    {
+     "CodeID": "A",
+     "CodeName": "急件"
+    },
+    {
+     "CodeID": "B",
+     "CodeName": "高"
+    },
+    {
+     "CodeID": "C",
+     "CodeName": "一般",
+     "IsDefault": true
+    },
+    {
+     "CodeID": "D",
+     "CodeName": "低"
+    }
+   ]
+  },
+  "FeatureFlags": {
+   "IsReadOnly": false,
+   "EnableDraft": false,
+   "EnableBatchDelete": true,
+   "AutoRefreshInterval": 0,
+   "DefaultViewMode": "Table",
+   "RequireConfirmOnSave": true
+  }
+ },
+ "AllowAction": {
+  "DataActions": [
+   {
+    "ActionID": "Add",
+    "Label": "新增",
+    "Icon": "ri-add-line",
+    "Type": "Primary",
+    "Position": "Toolbar",
+    "Confirm": null
+   },
+   {
+    "ActionID": "Save",
+    "Label": "儲存",
+    "Icon": "ri-save-line",
+    "Type": "Primary",
+    "Position": "Toolbar",
+    "Confirm": null
+   },
+   {
+    "ActionID": "Delete",
+    "Label": "刪除",
+    "Icon": "ri-delete-bin-line",
+    "Type": "Danger",
+    "Position": "Both",
+    "Confirm": "確定要刪除此溫濕度檢查項目參考資料嗎？"
+   },
+   {
+    "ActionID": "Query",
+    "Label": "查詢",
+    "Icon": "ri-search-line",
+    "Type": "Default",
+    "Position": "Toolbar",
+    "Confirm": null
+   }
+  ],
+  "ExtensionActions": [
+   {
+    "ActionID": "Import",
+    "Label": "匯入",
+    "Icon": "ri-upload-2-line",
+    "Type": "Default",
+    "Position": "Toolbar"
+   },
+   {
+    "ActionID": "Export",
+    "Label": "匯出",
+    "Icon": "ri-download-2-line",
+    "Type": "Default",
+    "Position": "Toolbar"
+   }
+  ]
+ },
+ "View": {
+  "RowKey": "RowGuid",
+  "ListView": {
+   "ListSpec": {
+    "RowKey": "RowGuid",
+    "SelectMode": "Single",
+    "FixedColumns": [
+     "Action",
+     "No"
+    ],
+    "RowActionMode": "Menu",
+    "ShowRowNo": true,
+    "Pagination": {
+     "PageSize": 100,
+     "SizeOptions": [
+      50,
+      100,
+      200,
+      500
+     ],
+     "ShowJumper": false,
+     "FullPageScroll": true
+    },
+    "DefaultSort": {
+     "Field": "SortNo",
+     "Order": "asc"
+    },
+    "EmptyText": "目前查無溫濕度檢查項目參考資料",
+    "GridBordered": true
+   },
+   "FieldSpecs": [
+    {
+     "BindField": "ItemCode",
+     "Title": "檢查項目代碼",
+     "Align": "Left",
+     "DefaultVisible": true,
+     "Formatter": "Link",
+     "Fixed": "Left",
+     "Width": 160,
+     "Sorter": true
+    },
+    {
+     "BindField": "ItemName",
+     "Title": "檢查項目名稱",
+     "Align": "Left",
+     "DefaultVisible": true,
+     "Width": 140
+    },
+    {
+     "BindField": "Unit",
+     "Title": "單位",
+     "Align": "Left",
+     "DefaultVisible": true,
+     "Width": 140
+    },
+    {
+     "BindField": "SortOrder",
+     "Title": "顯示順序",
+     "Align": "Left",
+     "DefaultVisible": true,
+     "Width": 140
+    },
+    {
+     "BindField": "Status",
+     "Title": "啟用狀態",
+     "Align": "Center",
+     "DefaultVisible": true,
+     "Formatter": "Tag",
+     "Width": 80
+    }
+   ]
+  },
+  "FormView": {
+   "FormSpec": {
+    "RowKey": "RowGuid",
+    "Layout": "Horizontal",
+    "Sections": [
+     {
+      "SectionID": "SecBase",
+      "Type": "Card",
+      "Title": "基本資料",
+      "IsCollapsible": false,
+      "DefaultOpen": true,
+      "Icon": "ri-list-check-2"
+     },
+     {
+      "SectionID": "SecExtra",
+      "Type": "Card",
+      "Title": "系統資訊",
+      "IsCollapsible": true,
+      "DefaultOpen": false,
+      "Icon": "ri-settings-4-line"
+     }
+    ],
+    "FormLogic": []
+   },
+   "FieldSpecs": [
+    {
+     "BindField": "RowKey",
+     "Title": "系統識別碼",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 24,
+     "Mode": "Hidden"
+    },
+    {
+     "BindField": "EntityID",
+     "Title": "系統實體",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "Hidden",
+     "DefaultValue": "lab"
+    },
+    {
+     "BindField": "ItemCode",
+     "Title": "檢查項目代碼",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "Required",
+       "Message": "檢查項目代碼為必填"
+      },
+      {
+       "Rule": "MaxLength",
+       "Value": 10,
+       "Message": "長度不可超過 10"
+      }
+     ]
+    },
+    {
+     "BindField": "ItemName",
+     "Title": "檢查項目名稱",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "Required",
+       "Message": "檢查項目名稱為必填"
+      },
+      {
+       "Rule": "MaxLength",
+       "Value": 50,
+       "Message": "長度不可超過 50"
+      }
+     ]
+    },
+    {
+     "BindField": "Unit",
+     "Title": "單位",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "Required",
+       "Message": "單位為必填"
+      },
+      {
+       "Rule": "MaxLength",
+       "Value": 10,
+       "Message": "長度不可超過 10"
+      }
+     ]
+    },
+    {
+     "BindField": "SortOrder",
+     "Title": "顯示順序",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable"
+    },
+    {
+     "BindField": "Status",
+     "Title": "啟用狀態",
+     "Component": "Select",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "DefaultValue": "1",
+     "Props": {
+      "OptionKey": "Status"
+     }
+    },
+    {
+     "BindField": "CreatedBy",
+     "Title": "建立者帳號",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "ReadOnly"
+    },
+    {
+     "BindField": "CreatedAt",
+     "Title": "資料建立日期時間",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "ReadOnly"
+    },
+    {
+     "BindField": "UpdatedBy",
+     "Title": "最後更新者帳號",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "ReadOnly"
+    },
+    {
+     "BindField": "UpdatedAt",
+     "Title": "最後更新日期時間",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "ReadOnly"
+    }
+   ]
+  }
+ },
+ "Features": {},
+ "DataScope": {
+  "DefaultWhere": "EntityID = 'lab' AND Status = '1'",
+  "AuthLevel": 2,
+  "SortExp": "SortNo ASC",
+  "DataConfig": {
+   "RowLimit": 2000,
+   "AllowExport": true
+  }
+ },
+ "CustomMeta": {
+  "CustomSchema": {
+   "WidgetType": "Grid",
+   "KeyField": "ItemCode",
+   "TitleField": "ItemName",
+   "ParentKeyField": null,
+   "PathField": null,
+   "PathSeparator": "/"
+  }
+ },
+ "SeedData": [
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000000",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-05-23 13:18",
+   "UpdatedBy": "lee.jc",
+   "UpdatedAt": "2026-10-10 09:01",
+   "ItemCode": "CIR-2026-0001",
+   "ItemName": "總磷 TP",
+   "Unit": "M021 品保處",
+   "SortOrder": "顯示順序01"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000001",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-04-18 11:27",
+   "UpdatedBy": "chang.fa",
+   "UpdatedAt": "2026-02-25 13:08",
+   "ItemCode": "CIR-2025-0002",
+   "ItemName": "化學需氧量 COD",
+   "Unit": "M021 品保處",
+   "SortOrder": "顯示順序02"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000002",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-08-28 12:28",
+   "UpdatedBy": "chang.fa",
+   "UpdatedAt": "2026-09-04 12:28",
+   "ItemCode": "CIR-2026-0003",
+   "ItemName": "生化需氧量 BOD",
+   "Unit": "M051 製造二處",
+   "SortOrder": "顯示順序03"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000003",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-08-06 08:28",
+   "UpdatedBy": "chang.fa",
+   "UpdatedAt": "2026-01-22 13:36",
+   "ItemCode": "CIR-2026-0004",
+   "ItemName": "懸浮固體 SS",
+   "Unit": "M021 品保處",
+   "SortOrder": "顯示順序04"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000004",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-08-01 17:29",
+   "UpdatedBy": "cheng.gl",
+   "UpdatedAt": "2026-08-18 18:11",
+   "ItemCode": "CIR-2026-0005",
+   "ItemName": "氨氮 NH3-N",
+   "Unit": "M021 品保處",
+   "SortOrder": "顯示順序05"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000005",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-08-01 11:11",
+   "UpdatedBy": "abram.chen",
+   "UpdatedAt": "2026-02-05 10:25",
+   "ItemCode": "CIR-2025-0006",
+   "ItemName": "硝酸鹽氮",
+   "Unit": "M011 工程處",
+   "SortOrder": "顯示順序06"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000006",
+   "EntityID": "lab",
+   "Status": "0",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-01-21 16:39",
+   "UpdatedBy": "chang.fa",
+   "UpdatedAt": "2026-11-11 17:05",
+   "ItemCode": "CIR-2025-0007",
+   "ItemName": "鎘 Cd",
+   "Unit": "M021 品保處",
+   "SortOrder": "顯示順序07"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000007",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-05-16 18:27",
+   "UpdatedBy": "lin.pb",
+   "UpdatedAt": "2026-01-12 15:02",
+   "ItemCode": "CIR-2025-0008",
+   "ItemName": "鉛 Pb",
+   "Unit": "M041 製造一處",
+   "SortOrder": "顯示順序08"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000008",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-07-12 09:00",
+   "UpdatedBy": "wu.dir",
+   "UpdatedAt": "2026-02-04 10:21",
+   "ItemCode": "CIR-2026-0009",
+   "ItemName": "銅 Cu",
+   "Unit": "M071 工務處",
+   "SortOrder": "顯示順序09"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000009",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-12-03 15:39",
+   "UpdatedBy": "cheng.gl",
+   "UpdatedAt": "2026-07-06 16:09",
+   "ItemCode": "CIR-2026-0010",
+   "ItemName": "鋅 Zn",
+   "Unit": "M071 工務處",
+   "SortOrder": "顯示順序10"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000010",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-07-27 18:28",
+   "UpdatedBy": "lee.jc",
+   "UpdatedAt": "2026-01-05 15:25",
+   "ItemCode": "CIR-2025-0011",
+   "ItemName": "pH值",
+   "Unit": "M021 品保處",
+   "SortOrder": "顯示順序11"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000011",
+   "EntityID": "lab",
+   "Status": "0",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-12-03 17:03",
+   "UpdatedBy": "liu.as",
+   "UpdatedAt": "2026-06-06 14:07",
+   "ItemCode": "CIR-2025-0012",
+   "ItemName": "導電度",
+   "Unit": "M041 製造一處",
+   "SortOrder": "顯示順序12"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000012",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-02-15 15:28",
+   "UpdatedBy": "hsu.eng",
+   "UpdatedAt": "2026-12-09 09:35",
+   "ItemCode": "CIR-2026-0013",
+   "ItemName": "濁度",
+   "Unit": "M061 採購處",
+   "SortOrder": "顯示順序13"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000013",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-12-20 13:18",
+   "UpdatedBy": "chang.fa",
+   "UpdatedAt": "2026-02-03 16:39",
+   "ItemCode": "CIR-2026-0014",
+   "ItemName": "大腸桿菌群",
+   "Unit": "M031 環安處",
+   "SortOrder": "顯示順序14"
+  }
+ ]
+}

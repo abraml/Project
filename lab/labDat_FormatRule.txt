@@ -1,0 +1,1665 @@
+{
+ "EntityID": "lab",
+ "SystemCode": "MUEIP",
+ "ModuleCode": "LIMS",
+ "FuncCode": "labDat_FormatRule",
+ "ConfigHash": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+ "PageMeta": {
+  "PageTitle": "格式規則",
+  "Lang": "zh-TW",
+  "FormType": "ListForm",
+  "EditDisplayType": "Drawer",
+  "Breadcrumb": [
+   {
+    "Title": "首頁",
+    "Path": "/"
+   },
+   {
+    "Title": "實驗數據儲存管理",
+    "Path": null
+   },
+   {
+    "Title": "格式規則",
+    "Path": "/lab/labDat_FormatRule"
+   }
+  ],
+  "IsApproval": false,
+  "TenantLocked": false,
+  "Icon": "ri-file-code-line",
+  "Remark": "格式規則（由 labDat_FormatRule 規格書產生）"
+ },
+ "Resources": {
+  "CodeSets": {
+   "Status": [
+    {
+     "CodeID": "1",
+     "CodeName": "啟用",
+     "IsDefault": true
+    },
+    {
+     "CodeID": "0",
+     "CodeName": "停用"
+    }
+   ],
+   "Priority": [
+    {
+     "CodeID": "A",
+     "CodeName": "急件"
+    },
+    {
+     "CodeID": "B",
+     "CodeName": "高"
+    },
+    {
+     "CodeID": "C",
+     "CodeName": "一般",
+     "IsDefault": true
+    },
+    {
+     "CodeID": "D",
+     "CodeName": "低"
+    }
+   ]
+  },
+  "FeatureFlags": {
+   "IsReadOnly": false,
+   "EnableDraft": false,
+   "EnableBatchDelete": true,
+   "AutoRefreshInterval": 0,
+   "DefaultViewMode": "Table",
+   "RequireConfirmOnSave": true
+  }
+ },
+ "AllowAction": {
+  "DataActions": [
+   {
+    "ActionID": "Add",
+    "Label": "新增",
+    "Icon": "ri-add-line",
+    "Type": "Primary",
+    "Position": "Toolbar",
+    "Confirm": null
+   },
+   {
+    "ActionID": "Save",
+    "Label": "儲存",
+    "Icon": "ri-save-line",
+    "Type": "Primary",
+    "Position": "Toolbar",
+    "Confirm": null
+   },
+   {
+    "ActionID": "Delete",
+    "Label": "刪除",
+    "Icon": "ri-delete-bin-line",
+    "Type": "Danger",
+    "Position": "Both",
+    "Confirm": "確定要刪除此格式規則資料嗎？"
+   },
+   {
+    "ActionID": "Query",
+    "Label": "查詢",
+    "Icon": "ri-search-line",
+    "Type": "Default",
+    "Position": "Toolbar",
+    "Confirm": null
+   }
+  ],
+  "ExtensionActions": [
+   {
+    "ActionID": "Import",
+    "Label": "匯入",
+    "Icon": "ri-upload-2-line",
+    "Type": "Default",
+    "Position": "Toolbar"
+   },
+   {
+    "ActionID": "Export",
+    "Label": "匯出",
+    "Icon": "ri-download-2-line",
+    "Type": "Default",
+    "Position": "Toolbar"
+   }
+  ]
+ },
+ "View": {
+  "RowKey": "RowGuid",
+  "ListView": {
+   "ListSpec": {
+    "RowKey": "RowGuid",
+    "SelectMode": "Single",
+    "FixedColumns": [
+     "Action",
+     "No"
+    ],
+    "RowActionMode": "Menu",
+    "ShowRowNo": true,
+    "Pagination": {
+     "PageSize": 100,
+     "SizeOptions": [
+      50,
+      100,
+      200,
+      500
+     ],
+     "ShowJumper": false,
+     "FullPageScroll": true
+    },
+    "DefaultSort": {
+     "Field": "SortNo",
+     "Order": "asc"
+    },
+    "EmptyText": "目前查無格式規則資料",
+    "GridBordered": true
+   },
+   "FieldSpecs": [
+    {
+     "BindField": "DeviceGuid",
+     "Title": "所屬設備",
+     "Align": "Left",
+     "DefaultVisible": true,
+     "Formatter": "Link",
+     "Fixed": "Left",
+     "Width": 160,
+     "Sorter": true
+    },
+    {
+     "BindField": "DeviceCode",
+     "Title": "設備代碼",
+     "Align": "Left",
+     "DefaultVisible": true,
+     "Width": 140
+    },
+    {
+     "BindField": "SourceFormat",
+     "Title": "來源格式",
+     "Align": "Left",
+     "DefaultVisible": true,
+     "Width": 140
+    },
+    {
+     "BindField": "Delimiter",
+     "Title": "欄位分隔符",
+     "Align": "Left",
+     "DefaultVisible": true,
+     "Width": 140
+    },
+    {
+     "BindField": "HeaderSkipRows",
+     "Title": "標頭跳過列數",
+     "Align": "Left",
+     "DefaultVisible": true,
+     "Width": 140
+    },
+    {
+     "BindField": "Encoding",
+     "Title": "檔案編碼",
+     "Align": "Left",
+     "DefaultVisible": true,
+     "Width": 140
+    },
+    {
+     "BindField": "Status",
+     "Title": "規則狀態",
+     "Align": "Center",
+     "DefaultVisible": true,
+     "Formatter": "Tag",
+     "Width": 80
+    }
+   ]
+  },
+  "FormView": {
+   "FormSpec": {
+    "RowKey": "RowGuid",
+    "Layout": "Horizontal",
+    "Sections": [
+     {
+      "SectionID": "SecBase",
+      "Type": "Card",
+      "Title": "基本資料",
+      "IsCollapsible": false,
+      "DefaultOpen": true,
+      "Icon": "ri-file-code-line"
+     },
+     {
+      "SectionID": "SecRecv",
+      "Type": "Card",
+      "Title": "作業資訊",
+      "IsCollapsible": true,
+      "DefaultOpen": true,
+      "Icon": "ri-file-list-3-line"
+     },
+     {
+      "SectionID": "SecExtra",
+      "Type": "Card",
+      "Title": "系統資訊",
+      "IsCollapsible": true,
+      "DefaultOpen": false,
+      "Icon": "ri-settings-4-line"
+     }
+    ],
+    "FormLogic": []
+   },
+   "FieldSpecs": [
+    {
+     "BindField": "RowKey",
+     "Title": "系統識別碼",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 24,
+     "Mode": "Hidden"
+    },
+    {
+     "BindField": "EntityID",
+     "Title": "系統實體",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "Hidden",
+     "DefaultValue": "lab"
+    },
+    {
+     "BindField": "DeviceGuid",
+     "Title": "所屬設備",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "ReadOnly",
+     "Validations": [
+      {
+       "Rule": "Required",
+       "Message": "所屬設備為必填"
+      }
+     ]
+    },
+    {
+     "BindField": "DeviceCode",
+     "Title": "設備代碼",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "Required",
+       "Message": "設備代碼為必填"
+      },
+      {
+       "Rule": "MaxLength",
+       "Value": 30,
+       "Message": "長度不可超過 30"
+      }
+     ]
+    },
+    {
+     "BindField": "SourceFormat",
+     "Title": "來源格式",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "Required",
+       "Message": "來源格式為必填"
+      },
+      {
+       "Rule": "MaxLength",
+       "Value": 15,
+       "Message": "長度不可超過 15"
+      }
+     ]
+    },
+    {
+     "BindField": "Delimiter",
+     "Title": "欄位分隔符",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 5,
+       "Message": "長度不可超過 5"
+      }
+     ]
+    },
+    {
+     "BindField": "HeaderSkipRows",
+     "Title": "標頭跳過列數",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable"
+    },
+    {
+     "BindField": "Encoding",
+     "Title": "檔案編碼",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 20,
+       "Message": "長度不可超過 20"
+      }
+     ]
+    },
+    {
+     "BindField": "SampleCodeColumn",
+     "Title": "樣品碼所在欄位",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 20,
+       "Message": "長度不可超過 20"
+      }
+     ]
+    },
+    {
+     "BindField": "DatetimeColumn",
+     "Title": "量測時間所在欄位",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 20,
+       "Message": "長度不可超過 20"
+      }
+     ]
+    },
+    {
+     "BindField": "ComponentNameColumn",
+     "Title": "成分名稱所在欄位",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 20,
+       "Message": "長度不可超過 20"
+      }
+     ]
+    },
+    {
+     "BindField": "ValueColumn",
+     "Title": "量測值所在欄位",
+     "Component": "Input",
+     "Section": "SecRecv",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 20,
+       "Message": "長度不可超過 20"
+      }
+     ]
+    },
+    {
+     "BindField": "SampleFilePath",
+     "Title": "已上傳之範例檔案路徑",
+     "Component": "Input",
+     "Section": "SecRecv",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 255,
+       "Message": "長度不可超過 255"
+      }
+     ]
+    },
+    {
+     "BindField": "DxpMappingRef",
+     "Title": "對應 DXP dxpFileTransferMappingColumn 設定識別碼",
+     "Component": "Input",
+     "Section": "SecRecv",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 50,
+       "Message": "長度不可超過 50"
+      }
+     ]
+    },
+    {
+     "BindField": "Status",
+     "Title": "啟用狀態",
+     "Component": "Select",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "DefaultValue": "1",
+     "Props": {
+      "OptionKey": "Status"
+     }
+    },
+    {
+     "BindField": "CreatedBy",
+     "Title": "建立者帳號",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "ReadOnly"
+    },
+    {
+     "BindField": "CreatedAt",
+     "Title": "資料建立日期時間",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "ReadOnly"
+    },
+    {
+     "BindField": "UpdatedBy",
+     "Title": "最後更新者帳號",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "ReadOnly"
+    },
+    {
+     "BindField": "UpdatedAt",
+     "Title": "最後更新日期時間",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "ReadOnly"
+    }
+   ]
+  },
+  "DetailViews": [
+   {
+    "DetailID": "Mapping",
+    "Title": "欄位對應",
+    "Icon": "ri-arrow-left-right-line",
+    "Entity": "labDat_FieldMapping",
+    "RelationKey": "FormatCode",
+    "RowKey": "RowGuid",
+    "AllowAdd": true,
+    "AllowEdit": true,
+    "AllowDelete": true,
+    "EmptyText": "尚無欄位對應資料",
+    "CodeSets": {
+     "Status": [
+      {
+       "CodeID": "1",
+       "CodeName": "啟用",
+       "IsDefault": true
+      },
+      {
+       "CodeID": "0",
+       "CodeName": "停用"
+      }
+     ],
+     "Priority": [
+      {
+       "CodeID": "A",
+       "CodeName": "急件"
+      },
+      {
+       "CodeID": "B",
+       "CodeName": "高"
+      },
+      {
+       "CodeID": "C",
+       "CodeName": "一般",
+       "IsDefault": true
+      },
+      {
+       "CodeID": "D",
+       "CodeName": "低"
+      }
+     ]
+    },
+    "Columns": [
+     {
+      "BindField": "DeviceGuid",
+      "Title": "所屬設備",
+      "Width": 120,
+      "Align": "Left"
+     },
+     {
+      "BindField": "DeviceCode",
+      "Title": "設備代碼",
+      "Width": 120,
+      "Align": "Left"
+     },
+     {
+      "BindField": "SourceField",
+      "Title": "設備輸出欄位名稱",
+      "Width": 120,
+      "Align": "Left"
+     },
+     {
+      "BindField": "ComponentCode",
+      "Title": "對應 B06 labAna_Component 成分代碼",
+      "Width": 120,
+      "Align": "Left"
+     },
+     {
+      "BindField": "ComponentName",
+      "Title": "成分名稱",
+      "Width": 120,
+      "Align": "Left"
+     }
+    ],
+    "FormFields": [
+     {
+      "BindField": "DeviceGuid",
+      "Title": "所屬設備",
+      "Component": "Input",
+      "Section": "",
+      "Span": 12,
+      "Mode": "ReadOnly",
+      "Validations": [
+       {
+        "Rule": "Required",
+        "Message": "所屬設備為必填"
+       }
+      ]
+     },
+     {
+      "BindField": "DeviceCode",
+      "Title": "設備代碼",
+      "Component": "Input",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Validations": [
+       {
+        "Rule": "Required",
+        "Message": "設備代碼為必填"
+       },
+       {
+        "Rule": "MaxLength",
+        "Value": 30,
+        "Message": "長度不可超過 30"
+       }
+      ]
+     },
+     {
+      "BindField": "SourceField",
+      "Title": "設備輸出欄位名稱",
+      "Component": "Input",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Validations": [
+       {
+        "Rule": "Required",
+        "Message": "設備輸出欄位名稱為必填"
+       },
+       {
+        "Rule": "MaxLength",
+        "Value": 50,
+        "Message": "長度不可超過 50"
+       }
+      ]
+     },
+     {
+      "BindField": "ComponentCode",
+      "Title": "對應 B06 labAna_Component 成分代碼",
+      "Component": "Input",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Validations": [
+       {
+        "Rule": "Required",
+        "Message": "對應 B06 labAna_Component 成分代碼為必填"
+       },
+       {
+        "Rule": "MaxLength",
+        "Value": 30,
+        "Message": "長度不可超過 30"
+       }
+      ]
+     },
+     {
+      "BindField": "ComponentName",
+      "Title": "成分名稱",
+      "Component": "Input",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Validations": [
+       {
+        "Rule": "MaxLength",
+        "Value": 50,
+        "Message": "長度不可超過 50"
+       }
+      ]
+     },
+     {
+      "BindField": "SourceUnit",
+      "Title": "來源單位",
+      "Component": "Input",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Validations": [
+       {
+        "Rule": "MaxLength",
+        "Value": 20,
+        "Message": "長度不可超過 20"
+       }
+      ]
+     },
+     {
+      "BindField": "TargetUnit",
+      "Title": "目標單位",
+      "Component": "Input",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Validations": [
+       {
+        "Rule": "MaxLength",
+        "Value": 20,
+        "Message": "長度不可超過 20"
+       }
+      ]
+     },
+     {
+      "BindField": "ConversionFactor",
+      "Title": "單位換算乘數係數",
+      "Component": "Input",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Props": {
+       "Type": "number"
+      }
+     },
+     {
+      "BindField": "ConversionFormula",
+      "Title": "特殊計算公式說明",
+      "Component": "Input",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Validations": [
+       {
+        "Rule": "MaxLength",
+        "Value": 150,
+        "Message": "長度不可超過 150"
+       }
+      ]
+     },
+     {
+      "BindField": "Remark",
+      "Title": "備註",
+      "Component": "Input",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Validations": [
+       {
+        "Rule": "MaxLength",
+        "Value": 255,
+        "Message": "長度不可超過 255"
+       }
+      ]
+     }
+    ],
+    "SeedData": [
+     {
+      "RowGuid": "00000147-0000-0000-0001-000000000001",
+      "EntityID": "lab",
+      "Status": "1",
+      "FormatCode": "FR-2026-0001",
+      "DeviceGuid": "所屬設備02",
+      "DeviceCode": "FM-2025-0002",
+      "SourceField": "化學需氧量 COD",
+      "ComponentCode": "FM-2025-0002",
+      "ComponentName": "化學需氧量 COD",
+      "SourceUnit": "M011 工程處",
+      "TargetUnit": "M031 環安處",
+      "ConversionFactor": 78,
+      "ConversionFormula": "",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000147-0000-0000-0001-000000000002",
+      "EntityID": "lab",
+      "Status": "1",
+      "FormatCode": "FR-2026-0001",
+      "DeviceGuid": "所屬設備03",
+      "DeviceCode": "FM-2025-0003",
+      "SourceField": "生化需氧量 BOD",
+      "ComponentCode": "FM-2025-0003",
+      "ComponentName": "生化需氧量 BOD",
+      "SourceUnit": "M031 環安處",
+      "TargetUnit": "M021 品保處",
+      "ConversionFactor": 10,
+      "ConversionFormula": "",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000147-0000-0000-0001-000000000003",
+      "EntityID": "lab",
+      "Status": "1",
+      "FormatCode": "FR-2026-0002",
+      "DeviceGuid": "所屬設備04",
+      "DeviceCode": "FM-2026-0004",
+      "SourceField": "懸浮固體 SS",
+      "ComponentCode": "FM-2026-0004",
+      "ComponentName": "懸浮固體 SS",
+      "SourceUnit": "M031 環安處",
+      "TargetUnit": "M031 環安處",
+      "ConversionFactor": 1,
+      "ConversionFormula": "",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000147-0000-0000-0001-000000000004",
+      "EntityID": "lab",
+      "Status": "1",
+      "FormatCode": "FR-2026-0002",
+      "DeviceGuid": "所屬設備05",
+      "DeviceCode": "FM-2026-0005",
+      "SourceField": "氨氮 NH3-N",
+      "ComponentCode": "FM-2026-0005",
+      "ComponentName": "氨氮 NH3-N",
+      "SourceUnit": "M011 工程處",
+      "TargetUnit": "M041 製造一處",
+      "ConversionFactor": 67,
+      "ConversionFormula": "待主管覆核",
+      "Remark": "樣品外觀正常"
+     },
+     {
+      "RowGuid": "00000147-0000-0000-0001-000000000005",
+      "EntityID": "lab",
+      "Status": "1",
+      "FormatCode": "FR-2026-0002",
+      "DeviceGuid": "所屬設備06",
+      "DeviceCode": "FM-2026-0006",
+      "SourceField": "硝酸鹽氮",
+      "ComponentCode": "FM-2026-0006",
+      "ComponentName": "硝酸鹽氮",
+      "SourceUnit": "M071 工務處",
+      "TargetUnit": "M061 採購處",
+      "ConversionFactor": 22,
+      "ConversionFormula": "客戶要求附 TAF Logo",
+      "Remark": "已通知申請單位"
+     },
+     {
+      "RowGuid": "00000147-0000-0000-0001-000000000006",
+      "EntityID": "lab",
+      "Status": "1",
+      "FormatCode": "FR-2026-0003",
+      "DeviceGuid": "所屬設備07",
+      "DeviceCode": "FM-2025-0007",
+      "SourceField": "鎘 Cd",
+      "ComponentCode": "FM-2025-0007",
+      "ComponentName": "鎘 Cd",
+      "SourceUnit": "M041 製造一處",
+      "TargetUnit": "M061 採購處",
+      "ConversionFactor": 70,
+      "ConversionFormula": "",
+      "Remark": "待主管覆核"
+     },
+     {
+      "RowGuid": "00000147-0000-0000-0001-000000000007",
+      "EntityID": "lab",
+      "Status": "1",
+      "FormatCode": "FR-2026-0003",
+      "DeviceGuid": "所屬設備08",
+      "DeviceCode": "FM-2025-0008",
+      "SourceField": "鉛 Pb",
+      "ComponentCode": "FM-2025-0008",
+      "ComponentName": "鉛 Pb",
+      "SourceUnit": "M021 品保處",
+      "TargetUnit": "M071 工務處",
+      "ConversionFactor": 50,
+      "ConversionFormula": "",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000147-0000-0000-0001-000000000008",
+      "EntityID": "lab",
+      "Status": "1",
+      "FormatCode": "FR-2026-0003",
+      "DeviceGuid": "所屬設備09",
+      "DeviceCode": "FM-2025-0009",
+      "SourceField": "銅 Cu",
+      "ComponentCode": "FM-2025-0009",
+      "ComponentName": "銅 Cu",
+      "SourceUnit": "M041 製造一處",
+      "TargetUnit": "R001 研發中心",
+      "ConversionFactor": 34,
+      "ConversionFormula": "",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000147-0000-0000-0001-000000000009",
+      "EntityID": "lab",
+      "Status": "1",
+      "FormatCode": "FR-2026-0004",
+      "DeviceGuid": "所屬設備10",
+      "DeviceCode": "FM-2025-0010",
+      "SourceField": "鋅 Zn",
+      "ComponentCode": "FM-2026-0010",
+      "ComponentName": "鋅 Zn",
+      "SourceUnit": "M011 工程處",
+      "TargetUnit": "M061 採購處",
+      "ConversionFactor": 53,
+      "ConversionFormula": "定期校正合格",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000147-0000-0000-0001-000000000010",
+      "EntityID": "lab",
+      "Status": "1",
+      "FormatCode": "FR-2026-0004",
+      "DeviceGuid": "所屬設備11",
+      "DeviceCode": "FM-2025-0011",
+      "SourceField": "pH值",
+      "ComponentCode": "FM-2026-0011",
+      "ComponentName": "pH值",
+      "SourceUnit": "M061 採購處",
+      "TargetUnit": "M021 品保處",
+      "ConversionFactor": 90,
+      "ConversionFormula": "",
+      "Remark": "定期校正合格"
+     },
+     {
+      "RowGuid": "00000147-0000-0000-0001-000000000011",
+      "EntityID": "lab",
+      "Status": "1",
+      "FormatCode": "FR-2026-0005",
+      "DeviceGuid": "所屬設備12",
+      "DeviceCode": "FM-2025-0012",
+      "SourceField": "導電度",
+      "ComponentCode": "FM-2026-0012",
+      "ComponentName": "導電度",
+      "SourceUnit": "M031 環安處",
+      "TargetUnit": "M031 環安處",
+      "ConversionFactor": 56,
+      "ConversionFormula": "樣品外觀正常",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000147-0000-0000-0001-000000000012",
+      "EntityID": "lab",
+      "Status": "1",
+      "FormatCode": "FR-2026-0005",
+      "DeviceGuid": "所屬設備13",
+      "DeviceCode": "FM-2026-0013",
+      "SourceField": "濁度",
+      "ComponentCode": "FM-2026-0013",
+      "ComponentName": "濁度",
+      "SourceUnit": "M061 採購處",
+      "TargetUnit": "M041 製造一處",
+      "ConversionFactor": 53,
+      "ConversionFormula": "",
+      "Remark": "複驗確認無誤"
+     },
+     {
+      "RowGuid": "00000147-0000-0000-0001-000000000013",
+      "EntityID": "lab",
+      "Status": "1",
+      "FormatCode": "FR-2026-0005",
+      "DeviceGuid": "所屬設備14",
+      "DeviceCode": "FM-2025-0014",
+      "SourceField": "大腸桿菌群",
+      "ComponentCode": "FM-2025-0014",
+      "ComponentName": "大腸桿菌群",
+      "SourceUnit": "M071 工務處",
+      "TargetUnit": "M031 環安處",
+      "ConversionFactor": 84,
+      "ConversionFormula": "複驗確認無誤",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000147-0000-0000-0001-000000000014",
+      "EntityID": "lab",
+      "Status": "1",
+      "FormatCode": "FR-2026-0006",
+      "DeviceGuid": "所屬設備15",
+      "DeviceCode": "FM-2026-0015",
+      "SourceField": "總有機碳 TOC",
+      "ComponentCode": "FM-2025-0015",
+      "ComponentName": "總有機碳 TOC",
+      "SourceUnit": "M071 工務處",
+      "TargetUnit": "M051 製造二處",
+      "ConversionFactor": 55,
+      "ConversionFormula": "",
+      "Remark": "急件已加收費用"
+     },
+     {
+      "RowGuid": "00000147-0000-0000-0001-000000000015",
+      "EntityID": "lab",
+      "Status": "1",
+      "FormatCode": "FR-2026-0006",
+      "DeviceGuid": "所屬設備16",
+      "DeviceCode": "FM-2025-0016",
+      "SourceField": "總磷 TP",
+      "ComponentCode": "FM-2026-0016",
+      "ComponentName": "總磷 TP",
+      "SourceUnit": "M051 製造二處",
+      "TargetUnit": "M041 製造一處",
+      "ConversionFactor": 74,
+      "ConversionFormula": "",
+      "Remark": "定期校正合格"
+     },
+     {
+      "RowGuid": "00000147-0000-0000-0001-000000000016",
+      "EntityID": "lab",
+      "Status": "1",
+      "FormatCode": "FR-2026-0007",
+      "DeviceGuid": "所屬設備17",
+      "DeviceCode": "FM-2026-0017",
+      "SourceField": "化學需氧量 COD",
+      "ComponentCode": "FM-2025-0017",
+      "ComponentName": "化學需氧量 COD",
+      "SourceUnit": "M051 製造二處",
+      "TargetUnit": "M071 工務處",
+      "ConversionFactor": 97,
+      "ConversionFormula": "",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000147-0000-0000-0001-000000000017",
+      "EntityID": "lab",
+      "Status": "1",
+      "FormatCode": "FR-2026-0007",
+      "DeviceGuid": "所屬設備18",
+      "DeviceCode": "FM-2026-0018",
+      "SourceField": "生化需氧量 BOD",
+      "ComponentCode": "FM-2025-0018",
+      "ComponentName": "生化需氧量 BOD",
+      "SourceUnit": "M041 製造一處",
+      "TargetUnit": "M021 品保處",
+      "ConversionFactor": 28,
+      "ConversionFormula": "",
+      "Remark": "客戶要求附 TAF Logo"
+     },
+     {
+      "RowGuid": "00000147-0000-0000-0001-000000000018",
+      "EntityID": "lab",
+      "Status": "1",
+      "FormatCode": "FR-2026-0007",
+      "DeviceGuid": "所屬設備19",
+      "DeviceCode": "FM-2026-0019",
+      "SourceField": "懸浮固體 SS",
+      "ComponentCode": "FM-2026-0019",
+      "ComponentName": "懸浮固體 SS",
+      "SourceUnit": "M061 採購處",
+      "TargetUnit": "M071 工務處",
+      "ConversionFactor": 76,
+      "ConversionFormula": "急件已加收費用",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000147-0000-0000-0001-000000000019",
+      "EntityID": "lab",
+      "Status": "1",
+      "FormatCode": "FR-2026-0008",
+      "DeviceGuid": "所屬設備20",
+      "DeviceCode": "FM-2025-0020",
+      "SourceField": "氨氮 NH3-N",
+      "ComponentCode": "FM-2025-0020",
+      "ComponentName": "氨氮 NH3-N",
+      "SourceUnit": "R001 研發中心",
+      "TargetUnit": "M051 製造二處",
+      "ConversionFactor": 91,
+      "ConversionFormula": "",
+      "Remark": "已通知申請單位"
+     },
+     {
+      "RowGuid": "00000147-0000-0000-0001-000000000020",
+      "EntityID": "lab",
+      "Status": "1",
+      "FormatCode": "FR-2026-0008",
+      "DeviceGuid": "所屬設備21",
+      "DeviceCode": "FM-2025-0021",
+      "SourceField": "硝酸鹽氮",
+      "ComponentCode": "FM-2026-0021",
+      "ComponentName": "硝酸鹽氮",
+      "SourceUnit": "M061 採購處",
+      "TargetUnit": "M061 採購處",
+      "ConversionFactor": 95,
+      "ConversionFormula": "",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000147-0000-0000-0001-000000000021",
+      "EntityID": "lab",
+      "Status": "1",
+      "FormatCode": "FR-2026-0008",
+      "DeviceGuid": "所屬設備22",
+      "DeviceCode": "FM-2026-0022",
+      "SourceField": "鎘 Cd",
+      "ComponentCode": "FM-2026-0022",
+      "ComponentName": "鎘 Cd",
+      "SourceUnit": "M011 工程處",
+      "TargetUnit": "M011 工程處",
+      "ConversionFactor": 53,
+      "ConversionFormula": "",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000147-0000-0000-0001-000000000022",
+      "EntityID": "lab",
+      "Status": "1",
+      "FormatCode": "FR-2026-0009",
+      "DeviceGuid": "所屬設備23",
+      "DeviceCode": "FM-2026-0023",
+      "SourceField": "鉛 Pb",
+      "ComponentCode": "FM-2026-0023",
+      "ComponentName": "鉛 Pb",
+      "SourceUnit": "M071 工務處",
+      "TargetUnit": "R001 研發中心",
+      "ConversionFactor": 75,
+      "ConversionFormula": "",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000147-0000-0000-0001-000000000023",
+      "EntityID": "lab",
+      "Status": "1",
+      "FormatCode": "FR-2026-0009",
+      "DeviceGuid": "所屬設備24",
+      "DeviceCode": "FM-2026-0024",
+      "SourceField": "銅 Cu",
+      "ComponentCode": "FM-2026-0024",
+      "ComponentName": "銅 Cu",
+      "SourceUnit": "M061 採購處",
+      "TargetUnit": "M031 環安處",
+      "ConversionFactor": 75,
+      "ConversionFormula": "",
+      "Remark": "急件已加收費用"
+     },
+     {
+      "RowGuid": "00000147-0000-0000-0001-000000000024",
+      "EntityID": "lab",
+      "Status": "1",
+      "FormatCode": "FR-2026-0010",
+      "DeviceGuid": "所屬設備25",
+      "DeviceCode": "FM-2025-0025",
+      "SourceField": "鋅 Zn",
+      "ComponentCode": "FM-2025-0025",
+      "ComponentName": "鋅 Zn",
+      "SourceUnit": "M071 工務處",
+      "TargetUnit": "M061 採購處",
+      "ConversionFactor": 92,
+      "ConversionFormula": "急件已加收費用",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000147-0000-0000-0001-000000000025",
+      "EntityID": "lab",
+      "Status": "1",
+      "FormatCode": "FR-2026-0010",
+      "DeviceGuid": "所屬設備26",
+      "DeviceCode": "FM-2026-0026",
+      "SourceField": "pH值",
+      "ComponentCode": "FM-2026-0026",
+      "ComponentName": "pH值",
+      "SourceUnit": "M061 採購處",
+      "TargetUnit": "R001 研發中心",
+      "ConversionFactor": 39,
+      "ConversionFormula": "急件已加收費用",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000147-0000-0000-0001-000000000026",
+      "EntityID": "lab",
+      "Status": "1",
+      "FormatCode": "FR-2026-0010",
+      "DeviceGuid": "所屬設備27",
+      "DeviceCode": "FM-2026-0027",
+      "SourceField": "導電度",
+      "ComponentCode": "FM-2025-0027",
+      "ComponentName": "導電度",
+      "SourceUnit": "R001 研發中心",
+      "TargetUnit": "M011 工程處",
+      "ConversionFactor": 27,
+      "ConversionFormula": "",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000147-0000-0000-0001-000000000027",
+      "EntityID": "lab",
+      "Status": "1",
+      "FormatCode": "FR-2026-0010",
+      "DeviceGuid": "所屬設備28",
+      "DeviceCode": "FM-2026-0028",
+      "SourceField": "濁度",
+      "ComponentCode": "FM-2026-0028",
+      "ComponentName": "濁度",
+      "SourceUnit": "M031 環安處",
+      "TargetUnit": "R001 研發中心",
+      "ConversionFactor": 77,
+      "ConversionFormula": "",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000147-0000-0000-0001-000000000028",
+      "EntityID": "lab",
+      "Status": "1",
+      "FormatCode": "FR-2026-0011",
+      "DeviceGuid": "所屬設備29",
+      "DeviceCode": "FM-2025-0029",
+      "SourceField": "大腸桿菌群",
+      "ComponentCode": "FM-2026-0029",
+      "ComponentName": "大腸桿菌群",
+      "SourceUnit": "M031 環安處",
+      "TargetUnit": "M011 工程處",
+      "ConversionFactor": 35,
+      "ConversionFormula": "",
+      "Remark": "定期校正合格"
+     },
+     {
+      "RowGuid": "00000147-0000-0000-0001-000000000029",
+      "EntityID": "lab",
+      "Status": "1",
+      "FormatCode": "FR-2026-0011",
+      "DeviceGuid": "所屬設備30",
+      "DeviceCode": "FM-2025-0030",
+      "SourceField": "總有機碳 TOC",
+      "ComponentCode": "FM-2026-0030",
+      "ComponentName": "總有機碳 TOC",
+      "SourceUnit": "M011 工程處",
+      "TargetUnit": "M021 品保處",
+      "ConversionFactor": 2,
+      "ConversionFormula": "已通知申請單位",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000147-0000-0000-0001-000000000030",
+      "EntityID": "lab",
+      "Status": "1",
+      "FormatCode": "FR-2026-0011",
+      "DeviceGuid": "所屬設備31",
+      "DeviceCode": "FM-2026-0031",
+      "SourceField": "總磷 TP",
+      "ComponentCode": "FM-2026-0031",
+      "ComponentName": "總磷 TP",
+      "SourceUnit": "M021 品保處",
+      "TargetUnit": "M061 採購處",
+      "ConversionFactor": 8,
+      "ConversionFormula": "",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000147-0000-0000-0001-000000000031",
+      "EntityID": "lab",
+      "Status": "1",
+      "FormatCode": "FR-2026-0012",
+      "DeviceGuid": "所屬設備32",
+      "DeviceCode": "FM-2025-0032",
+      "SourceField": "化學需氧量 COD",
+      "ComponentCode": "FM-2025-0032",
+      "ComponentName": "化學需氧量 COD",
+      "SourceUnit": "M031 環安處",
+      "TargetUnit": "M071 工務處",
+      "ConversionFactor": 37,
+      "ConversionFormula": "需注意保存效期",
+      "Remark": "待主管覆核"
+     },
+     {
+      "RowGuid": "00000147-0000-0000-0001-000000000032",
+      "EntityID": "lab",
+      "Status": "1",
+      "FormatCode": "FR-2026-0012",
+      "DeviceGuid": "所屬設備33",
+      "DeviceCode": "FM-2025-0033",
+      "SourceField": "生化需氧量 BOD",
+      "ComponentCode": "FM-2026-0033",
+      "ComponentName": "生化需氧量 BOD",
+      "SourceUnit": "M031 環安處",
+      "TargetUnit": "R001 研發中心",
+      "ConversionFactor": 44,
+      "ConversionFormula": "",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000147-0000-0000-0001-000000000033",
+      "EntityID": "lab",
+      "Status": "1",
+      "FormatCode": "FR-2026-0013",
+      "DeviceGuid": "所屬設備34",
+      "DeviceCode": "FM-2026-0034",
+      "SourceField": "懸浮固體 SS",
+      "ComponentCode": "FM-2026-0034",
+      "ComponentName": "懸浮固體 SS",
+      "SourceUnit": "M031 環安處",
+      "TargetUnit": "M041 製造一處",
+      "ConversionFactor": 54,
+      "ConversionFormula": "",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000147-0000-0000-0001-000000000034",
+      "EntityID": "lab",
+      "Status": "1",
+      "FormatCode": "FR-2026-0013",
+      "DeviceGuid": "所屬設備35",
+      "DeviceCode": "FM-2026-0035",
+      "SourceField": "氨氮 NH3-N",
+      "ComponentCode": "FM-2025-0035",
+      "ComponentName": "氨氮 NH3-N",
+      "SourceUnit": "M061 採購處",
+      "TargetUnit": "M071 工務處",
+      "ConversionFactor": 22,
+      "ConversionFormula": "客戶要求附 TAF Logo",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000147-0000-0000-0001-000000000035",
+      "EntityID": "lab",
+      "Status": "1",
+      "FormatCode": "FR-2026-0013",
+      "DeviceGuid": "所屬設備36",
+      "DeviceCode": "FM-2026-0036",
+      "SourceField": "硝酸鹽氮",
+      "ComponentCode": "FM-2025-0036",
+      "ComponentName": "硝酸鹽氮",
+      "SourceUnit": "M071 工務處",
+      "TargetUnit": "M041 製造一處",
+      "ConversionFactor": 62,
+      "ConversionFormula": "",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000147-0000-0000-0001-000000000036",
+      "EntityID": "lab",
+      "Status": "1",
+      "FormatCode": "FR-2026-0014",
+      "DeviceGuid": "所屬設備37",
+      "DeviceCode": "FM-2026-0037",
+      "SourceField": "鎘 Cd",
+      "ComponentCode": "FM-2026-0037",
+      "ComponentName": "鎘 Cd",
+      "SourceUnit": "R001 研發中心",
+      "TargetUnit": "M021 品保處",
+      "ConversionFactor": 43,
+      "ConversionFormula": "",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000147-0000-0000-0001-000000000037",
+      "EntityID": "lab",
+      "Status": "1",
+      "FormatCode": "FR-2026-0014",
+      "DeviceGuid": "所屬設備38",
+      "DeviceCode": "FM-2025-0038",
+      "SourceField": "鉛 Pb",
+      "ComponentCode": "FM-2025-0038",
+      "ComponentName": "鉛 Pb",
+      "SourceUnit": "M061 採購處",
+      "TargetUnit": "M031 環安處",
+      "ConversionFactor": 88,
+      "ConversionFormula": "定期校正合格",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000147-0000-0000-0001-000000000038",
+      "EntityID": "lab",
+      "Status": "1",
+      "FormatCode": "FR-2026-0014",
+      "DeviceGuid": "所屬設備39",
+      "DeviceCode": "FM-2026-0039",
+      "SourceField": "銅 Cu",
+      "ComponentCode": "FM-2026-0039",
+      "ComponentName": "銅 Cu",
+      "SourceUnit": "M041 製造一處",
+      "TargetUnit": "M011 工程處",
+      "ConversionFactor": 49,
+      "ConversionFormula": "需注意保存效期",
+      "Remark": ""
+     }
+    ]
+   }
+  ]
+ },
+ "Features": {},
+ "DataScope": {
+  "DefaultWhere": "EntityID = 'lab' AND Status = '1'",
+  "AuthLevel": 2,
+  "SortExp": "SortNo ASC",
+  "DataConfig": {
+   "RowLimit": 2000,
+   "AllowExport": true
+  }
+ },
+ "CustomMeta": {
+  "CustomSchema": {
+   "WidgetType": "Grid",
+   "KeyField": "DeviceGuid",
+   "TitleField": "DeviceCode",
+   "ParentKeyField": null,
+   "PathField": null,
+   "PathSeparator": "/"
+  }
+ },
+ "SeedData": [
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000000",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-09-04 10:17",
+   "UpdatedBy": "abram.chen",
+   "UpdatedAt": "2026-12-27 15:33",
+   "DeviceGuid": "所屬設備01",
+   "DeviceCode": "FR-2026-0001",
+   "SourceFormat": "來源格式01",
+   "Delimiter": "欄位分隔符01",
+   "HeaderSkipRows": "標頭跳過列數01",
+   "Encoding": "檔案編碼01",
+   "SampleCodeColumn": "樣品碼所在欄位01",
+   "DatetimeColumn": "量測時間所在欄位01",
+   "ComponentNameColumn": "總磷 TP",
+   "ValueColumn": "量測值所在欄位01",
+   "SampleFilePath": "已上傳之範例檔案路徑01",
+   "DxpMappingRef": "JIS",
+   "FormatCode": "FR-2026-0001"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000001",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-02-02 11:24",
+   "UpdatedBy": "abram.chen",
+   "UpdatedAt": "2026-06-22 14:11",
+   "DeviceGuid": "所屬設備02",
+   "DeviceCode": "FR-2026-0002",
+   "SourceFormat": "來源格式02",
+   "Delimiter": "欄位分隔符02",
+   "HeaderSkipRows": "標頭跳過列數02",
+   "Encoding": "檔案編碼02",
+   "SampleCodeColumn": "樣品碼所在欄位02",
+   "DatetimeColumn": "量測時間所在欄位02",
+   "ComponentNameColumn": "化學需氧量 COD",
+   "ValueColumn": "量測值所在欄位02",
+   "SampleFilePath": "已上傳之範例檔案路徑02",
+   "DxpMappingRef": "NIEA",
+   "FormatCode": "FR-2026-0002"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000002",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-07-05 18:20",
+   "UpdatedBy": "lee.jc",
+   "UpdatedAt": "2026-10-22 15:14",
+   "DeviceGuid": "所屬設備03",
+   "DeviceCode": "FR-2026-0003",
+   "SourceFormat": "來源格式03",
+   "Delimiter": "欄位分隔符03",
+   "HeaderSkipRows": "標頭跳過列數03",
+   "Encoding": "檔案編碼03",
+   "SampleCodeColumn": "樣品碼所在欄位03",
+   "DatetimeColumn": "量測時間所在欄位03",
+   "ComponentNameColumn": "生化需氧量 BOD",
+   "ValueColumn": "量測值所在欄位03",
+   "SampleFilePath": "已上傳之範例檔案路徑03",
+   "DxpMappingRef": "原廠提供",
+   "FormatCode": "FR-2026-0003"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000003",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-11-28 15:16",
+   "UpdatedBy": "cheng.gl",
+   "UpdatedAt": "2026-06-13 12:14",
+   "DeviceGuid": "所屬設備04",
+   "DeviceCode": "FR-2026-0004",
+   "SourceFormat": "來源格式04",
+   "Delimiter": "欄位分隔符04",
+   "HeaderSkipRows": "標頭跳過列數04",
+   "Encoding": "檔案編碼04",
+   "SampleCodeColumn": "樣品碼所在欄位04",
+   "DatetimeColumn": "量測時間所在欄位04",
+   "ComponentNameColumn": "懸浮固體 SS",
+   "ValueColumn": "量測值所在欄位04",
+   "SampleFilePath": "已上傳之範例檔案路徑04",
+   "DxpMappingRef": "NIEA",
+   "FormatCode": "FR-2026-0004"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000004",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-12-18 17:06",
+   "UpdatedBy": "lin.pb",
+   "UpdatedAt": "2026-09-14 12:02",
+   "DeviceGuid": "所屬設備05",
+   "DeviceCode": "FR-2026-0005",
+   "SourceFormat": "來源格式05",
+   "Delimiter": "欄位分隔符05",
+   "HeaderSkipRows": "標頭跳過列數05",
+   "Encoding": "檔案編碼05",
+   "SampleCodeColumn": "樣品碼所在欄位05",
+   "DatetimeColumn": "量測時間所在欄位05",
+   "ComponentNameColumn": "氨氮 NH3-N",
+   "ValueColumn": "量測值所在欄位05",
+   "SampleFilePath": "已上傳之範例檔案路徑05",
+   "DxpMappingRef": "原廠提供",
+   "FormatCode": "FR-2026-0005"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000005",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-04-27 16:10",
+   "UpdatedBy": "lee.jc",
+   "UpdatedAt": "2026-11-25 17:00",
+   "DeviceGuid": "所屬設備06",
+   "DeviceCode": "FR-2026-0006",
+   "SourceFormat": "來源格式06",
+   "Delimiter": "欄位分隔符06",
+   "HeaderSkipRows": "標頭跳過列數06",
+   "Encoding": "檔案編碼06",
+   "SampleCodeColumn": "樣品碼所在欄位06",
+   "DatetimeColumn": "量測時間所在欄位06",
+   "ComponentNameColumn": "硝酸鹽氮",
+   "ValueColumn": "量測值所在欄位06",
+   "SampleFilePath": "已上傳之範例檔案路徑06",
+   "DxpMappingRef": "原廠提供",
+   "FormatCode": "FR-2026-0006"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000006",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-07-05 08:31",
+   "UpdatedBy": "lin.pb",
+   "UpdatedAt": "2026-11-21 11:01",
+   "DeviceGuid": "所屬設備07",
+   "DeviceCode": "FR-2026-0007",
+   "SourceFormat": "來源格式07",
+   "Delimiter": "欄位分隔符07",
+   "HeaderSkipRows": "標頭跳過列數07",
+   "Encoding": "檔案編碼07",
+   "SampleCodeColumn": "樣品碼所在欄位07",
+   "DatetimeColumn": "量測時間所在欄位07",
+   "ComponentNameColumn": "鎘 Cd",
+   "ValueColumn": "量測值所在欄位07",
+   "SampleFilePath": "已上傳之範例檔案路徑07",
+   "DxpMappingRef": "EPA",
+   "FormatCode": "FR-2026-0007"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000007",
+   "EntityID": "lab",
+   "Status": "0",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-01-14 11:00",
+   "UpdatedBy": "abram.chen",
+   "UpdatedAt": "2026-08-11 17:33",
+   "DeviceGuid": "所屬設備08",
+   "DeviceCode": "FR-2025-0008",
+   "SourceFormat": "來源格式08",
+   "Delimiter": "欄位分隔符08",
+   "HeaderSkipRows": "標頭跳過列數08",
+   "Encoding": "檔案編碼08",
+   "SampleCodeColumn": "樣品碼所在欄位08",
+   "DatetimeColumn": "量測時間所在欄位08",
+   "ComponentNameColumn": "鉛 Pb",
+   "ValueColumn": "量測值所在欄位08",
+   "SampleFilePath": "已上傳之範例檔案路徑08",
+   "DxpMappingRef": "EPA",
+   "FormatCode": "FR-2026-0008"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000008",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-02-13 17:39",
+   "UpdatedBy": "lee.jc",
+   "UpdatedAt": "2026-11-24 17:35",
+   "DeviceGuid": "所屬設備09",
+   "DeviceCode": "FR-2026-0009",
+   "SourceFormat": "來源格式09",
+   "Delimiter": "欄位分隔符09",
+   "HeaderSkipRows": "標頭跳過列數09",
+   "Encoding": "檔案編碼09",
+   "SampleCodeColumn": "樣品碼所在欄位09",
+   "DatetimeColumn": "量測時間所在欄位09",
+   "ComponentNameColumn": "銅 Cu",
+   "ValueColumn": "量測值所在欄位09",
+   "SampleFilePath": "已上傳之範例檔案路徑09",
+   "DxpMappingRef": "原廠提供",
+   "FormatCode": "FR-2026-0009"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000009",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-03-28 18:13",
+   "UpdatedBy": "liu.as",
+   "UpdatedAt": "2026-07-20 17:15",
+   "DeviceGuid": "所屬設備10",
+   "DeviceCode": "FR-2025-0010",
+   "SourceFormat": "來源格式10",
+   "Delimiter": "欄位分隔符10",
+   "HeaderSkipRows": "標頭跳過列數10",
+   "Encoding": "檔案編碼10",
+   "SampleCodeColumn": "樣品碼所在欄位10",
+   "DatetimeColumn": "量測時間所在欄位10",
+   "ComponentNameColumn": "鋅 Zn",
+   "ValueColumn": "量測值所在欄位10",
+   "SampleFilePath": "已上傳之範例檔案路徑10",
+   "DxpMappingRef": "NIEA",
+   "FormatCode": "FR-2026-0010"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000010",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-07-15 10:32",
+   "UpdatedBy": "liu.as",
+   "UpdatedAt": "2026-08-17 08:12",
+   "DeviceGuid": "所屬設備11",
+   "DeviceCode": "FR-2025-0011",
+   "SourceFormat": "來源格式11",
+   "Delimiter": "欄位分隔符11",
+   "HeaderSkipRows": "標頭跳過列數11",
+   "Encoding": "檔案編碼11",
+   "SampleCodeColumn": "樣品碼所在欄位11",
+   "DatetimeColumn": "量測時間所在欄位11",
+   "ComponentNameColumn": "pH值",
+   "ValueColumn": "量測值所在欄位11",
+   "SampleFilePath": "已上傳之範例檔案路徑11",
+   "DxpMappingRef": "CNS",
+   "FormatCode": "FR-2026-0011"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000011",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-08-18 08:34",
+   "UpdatedBy": "chang.fa",
+   "UpdatedAt": "2026-04-14 16:06",
+   "DeviceGuid": "所屬設備12",
+   "DeviceCode": "FR-2026-0012",
+   "SourceFormat": "來源格式12",
+   "Delimiter": "欄位分隔符12",
+   "HeaderSkipRows": "標頭跳過列數12",
+   "Encoding": "檔案編碼12",
+   "SampleCodeColumn": "樣品碼所在欄位12",
+   "DatetimeColumn": "量測時間所在欄位12",
+   "ComponentNameColumn": "導電度",
+   "ValueColumn": "量測值所在欄位12",
+   "SampleFilePath": "已上傳之範例檔案路徑12",
+   "DxpMappingRef": "CNS",
+   "FormatCode": "FR-2026-0012"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000012",
+   "EntityID": "lab",
+   "Status": "0",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-05-20 08:30",
+   "UpdatedBy": "huang.tc",
+   "UpdatedAt": "2026-01-26 15:05",
+   "DeviceGuid": "所屬設備13",
+   "DeviceCode": "FR-2026-0013",
+   "SourceFormat": "來源格式13",
+   "Delimiter": "欄位分隔符13",
+   "HeaderSkipRows": "標頭跳過列數13",
+   "Encoding": "檔案編碼13",
+   "SampleCodeColumn": "樣品碼所在欄位13",
+   "DatetimeColumn": "量測時間所在欄位13",
+   "ComponentNameColumn": "濁度",
+   "ValueColumn": "量測值所在欄位13",
+   "SampleFilePath": "已上傳之範例檔案路徑13",
+   "DxpMappingRef": "JIS",
+   "FormatCode": "FR-2026-0013"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000013",
+   "EntityID": "lab",
+   "Status": "0",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-08-26 12:30",
+   "UpdatedBy": "lin.pb",
+   "UpdatedAt": "2026-05-23 17:14",
+   "DeviceGuid": "所屬設備14",
+   "DeviceCode": "FR-2026-0014",
+   "SourceFormat": "來源格式14",
+   "Delimiter": "欄位分隔符14",
+   "HeaderSkipRows": "標頭跳過列數14",
+   "Encoding": "檔案編碼14",
+   "SampleCodeColumn": "樣品碼所在欄位14",
+   "DatetimeColumn": "量測時間所在欄位14",
+   "ComponentNameColumn": "大腸桿菌群",
+   "ValueColumn": "量測值所在欄位14",
+   "SampleFilePath": "已上傳之範例檔案路徑14",
+   "DxpMappingRef": "CNS",
+   "FormatCode": "FR-2026-0014"
+  }
+ ]
+}

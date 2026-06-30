@@ -1,0 +1,1285 @@
+{
+ "EntityID": "lab",
+ "SystemCode": "MUEIP",
+ "ModuleCode": "LIMS",
+ "FuncCode": "labAna_RoundingRule",
+ "ConfigHash": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+ "PageMeta": {
+  "PageTitle": "數值修約規則",
+  "Lang": "zh-TW",
+  "FormType": "ListForm",
+  "EditDisplayType": "Drawer",
+  "Breadcrumb": [
+   {
+    "Title": "首頁",
+    "Path": "/"
+   },
+   {
+    "Title": "檢測項目分析方法管理",
+    "Path": null
+   },
+   {
+    "Title": "數值修約規則",
+    "Path": "/lab/labAna_RoundingRule"
+   }
+  ],
+  "IsApproval": false,
+  "TenantLocked": false,
+  "Icon": "ri-calculator-line",
+  "Remark": "數值修約規則（由 labAna_RoundingRule 規格書產生）"
+ },
+ "Resources": {
+  "CodeSets": {
+   "Status": [
+    {
+     "CodeID": "1",
+     "CodeName": "啟用",
+     "IsDefault": true
+    },
+    {
+     "CodeID": "0",
+     "CodeName": "停用"
+    }
+   ],
+   "Priority": [
+    {
+     "CodeID": "A",
+     "CodeName": "急件"
+    },
+    {
+     "CodeID": "B",
+     "CodeName": "高"
+    },
+    {
+     "CodeID": "C",
+     "CodeName": "一般",
+     "IsDefault": true
+    },
+    {
+     "CodeID": "D",
+     "CodeName": "低"
+    }
+   ],
+   "RuleType": [
+    {
+     "CodeID": "R",
+     "CodeName": "四捨五入",
+     "IsDefault": true
+    },
+    {
+     "CodeID": "U",
+     "CodeName": "無條件進位"
+    },
+    {
+     "CodeID": "F",
+     "CodeName": "無條件捨去"
+    },
+    {
+     "CodeID": "E",
+     "CodeName": "五捨六入"
+    }
+   ]
+  },
+  "FeatureFlags": {
+   "IsReadOnly": false,
+   "EnableDraft": false,
+   "EnableBatchDelete": true,
+   "AutoRefreshInterval": 0,
+   "DefaultViewMode": "Table",
+   "RequireConfirmOnSave": true
+  }
+ },
+ "AllowAction": {
+  "DataActions": [
+   {
+    "ActionID": "Add",
+    "Label": "新增",
+    "Icon": "ri-add-line",
+    "Type": "Primary",
+    "Position": "Toolbar",
+    "Confirm": null
+   },
+   {
+    "ActionID": "Save",
+    "Label": "儲存",
+    "Icon": "ri-save-line",
+    "Type": "Primary",
+    "Position": "Toolbar",
+    "Confirm": null
+   },
+   {
+    "ActionID": "Delete",
+    "Label": "刪除",
+    "Icon": "ri-delete-bin-line",
+    "Type": "Danger",
+    "Position": "Both",
+    "Confirm": "確定要刪除此數值修約規則資料嗎？"
+   },
+   {
+    "ActionID": "Query",
+    "Label": "查詢",
+    "Icon": "ri-search-line",
+    "Type": "Default",
+    "Position": "Toolbar",
+    "Confirm": null
+   }
+  ],
+  "ExtensionActions": [
+   {
+    "ActionID": "Import",
+    "Label": "匯入",
+    "Icon": "ri-upload-2-line",
+    "Type": "Default",
+    "Position": "Toolbar"
+   },
+   {
+    "ActionID": "Export",
+    "Label": "匯出",
+    "Icon": "ri-download-2-line",
+    "Type": "Default",
+    "Position": "Toolbar"
+   }
+  ]
+ },
+ "View": {
+  "RowKey": "RowGuid",
+  "ListView": {
+   "ListSpec": {
+    "RowKey": "RowGuid",
+    "SelectMode": "Single",
+    "FixedColumns": [
+     "Action",
+     "No"
+    ],
+    "RowActionMode": "Menu",
+    "ShowRowNo": true,
+    "Pagination": {
+     "PageSize": 100,
+     "SizeOptions": [
+      50,
+      100,
+      200,
+      500
+     ],
+     "ShowJumper": false,
+     "FullPageScroll": true
+    },
+    "DefaultSort": {
+     "Field": "SortNo",
+     "Order": "asc"
+    },
+    "EmptyText": "目前查無數值修約規則資料",
+    "GridBordered": true
+   },
+   "FieldSpecs": [
+    {
+     "BindField": "RuleCode",
+     "Title": "捨位規則代碼",
+     "Align": "Left",
+     "DefaultVisible": true,
+     "Formatter": "Link",
+     "Fixed": "Left",
+     "Width": 160,
+     "Sorter": true
+    },
+    {
+     "BindField": "RuleName",
+     "Title": "規則名稱",
+     "Align": "Left",
+     "DefaultVisible": true,
+     "Width": 140
+    },
+    {
+     "BindField": "RuleType",
+     "Title": "規則類型",
+     "Align": "Center",
+     "DefaultVisible": true,
+     "Formatter": "Tag",
+     "Width": 110
+    },
+    {
+     "BindField": "BasisSource",
+     "Title": "規則來源",
+     "Align": "Left",
+     "DefaultVisible": true,
+     "Width": 140
+    },
+    {
+     "BindField": "RuleStatus",
+     "Title": "狀態",
+     "Align": "Left",
+     "DefaultVisible": true,
+     "Width": 140
+    },
+    {
+     "BindField": "Status",
+     "Title": "啟用狀態",
+     "Align": "Center",
+     "DefaultVisible": true,
+     "Formatter": "Tag",
+     "Width": 80
+    }
+   ]
+  },
+  "FormView": {
+   "FormSpec": {
+    "RowKey": "RowGuid",
+    "Layout": "Horizontal",
+    "Sections": [
+     {
+      "SectionID": "SecBase",
+      "Type": "Card",
+      "Title": "基本資料",
+      "IsCollapsible": false,
+      "DefaultOpen": true,
+      "Icon": "ri-calculator-line"
+     },
+     {
+      "SectionID": "SecRecv",
+      "Type": "Card",
+      "Title": "作業資訊",
+      "IsCollapsible": true,
+      "DefaultOpen": true,
+      "Icon": "ri-file-list-3-line"
+     },
+     {
+      "SectionID": "SecExtra",
+      "Type": "Card",
+      "Title": "系統資訊",
+      "IsCollapsible": true,
+      "DefaultOpen": false,
+      "Icon": "ri-settings-4-line"
+     }
+    ],
+    "FormLogic": []
+   },
+   "FieldSpecs": [
+    {
+     "BindField": "RowKey",
+     "Title": "系統識別碼",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 24,
+     "Mode": "Hidden"
+    },
+    {
+     "BindField": "EntityID",
+     "Title": "系統實體",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "Hidden",
+     "DefaultValue": "lab"
+    },
+    {
+     "BindField": "RuleCode",
+     "Title": "捨位規則代碼",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "Required",
+       "Message": "捨位規則代碼為必填"
+      },
+      {
+       "Rule": "MaxLength",
+       "Value": 50,
+       "Message": "長度不可超過 50"
+      }
+     ]
+    },
+    {
+     "BindField": "RuleName",
+     "Title": "規則名稱",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "Required",
+       "Message": "規則名稱為必填"
+      },
+      {
+       "Rule": "MaxLength",
+       "Value": 200,
+       "Message": "長度不可超過 200"
+      }
+     ]
+    },
+    {
+     "BindField": "RuleType",
+     "Title": "規則類型",
+     "Component": "Select",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Props": {
+      "OptionKey": "RuleType"
+     },
+     "DefaultValue": "R"
+    },
+    {
+     "BindField": "BasisSource",
+     "Title": "規則來源",
+     "Component": "Textarea",
+     "Section": "SecRecv",
+     "Span": 24,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 300,
+       "Message": "長度不可超過 300"
+      }
+     ],
+     "Props": {
+      "Rows": 3
+     }
+    },
+    {
+     "BindField": "RuleStatus",
+     "Title": "狀態",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 20,
+       "Message": "長度不可超過 20"
+      }
+     ]
+    },
+    {
+     "BindField": "Description",
+     "Title": "備註說明",
+     "Component": "Textarea",
+     "Section": "SecRecv",
+     "Span": 24,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 500,
+       "Message": "長度不可超過 500"
+      }
+     ],
+     "Props": {
+      "Rows": 3
+     }
+    },
+    {
+     "BindField": "Attributes",
+     "Title": "擴展屬性",
+     "Component": "Textarea",
+     "Section": "SecExtra",
+     "Span": 24,
+     "Mode": "Editable",
+     "Props": {
+      "Rows": 3
+     }
+    },
+    {
+     "BindField": "Status",
+     "Title": "啟用狀態",
+     "Component": "Select",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "DefaultValue": "1",
+     "Props": {
+      "OptionKey": "Status"
+     }
+    },
+    {
+     "BindField": "CreatedBy",
+     "Title": "建立者帳號",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "ReadOnly"
+    },
+    {
+     "BindField": "CreatedAt",
+     "Title": "資料建立日期時間",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "ReadOnly"
+    },
+    {
+     "BindField": "UpdatedBy",
+     "Title": "最後更新者帳號",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "ReadOnly"
+    },
+    {
+     "BindField": "UpdatedAt",
+     "Title": "最後更新日期時間",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "ReadOnly"
+    }
+   ]
+  },
+  "DetailViews": [
+   {
+    "DetailID": "Detail",
+    "Title": "修約級距",
+    "Icon": "ri-list-ordered",
+    "Entity": "labAna_RoundingRuleDetail",
+    "RelationKey": "RuleCode",
+    "RowKey": "RowGuid",
+    "AllowAdd": true,
+    "AllowEdit": true,
+    "AllowDelete": true,
+    "EmptyText": "尚無修約級距資料",
+    "CodeSets": {
+     "Status": [
+      {
+       "CodeID": "1",
+       "CodeName": "啟用",
+       "IsDefault": true
+      },
+      {
+       "CodeID": "0",
+       "CodeName": "停用"
+      }
+     ],
+     "Priority": [
+      {
+       "CodeID": "A",
+       "CodeName": "急件"
+      },
+      {
+       "CodeID": "B",
+       "CodeName": "高"
+      },
+      {
+       "CodeID": "C",
+       "CodeName": "一般",
+       "IsDefault": true
+      },
+      {
+       "CodeID": "D",
+       "CodeName": "低"
+      }
+     ]
+    },
+    "Columns": [
+     {
+      "BindField": "RuleCode",
+      "Title": "捨位規則代碼",
+      "Width": 120,
+      "Align": "Left"
+     },
+     {
+      "BindField": "RangeLower",
+      "Title": "區間下限",
+      "Width": 120,
+      "Align": "Center"
+     },
+     {
+      "BindField": "RangeUpper",
+      "Title": "區間上限",
+      "Width": 120,
+      "Align": "Center"
+     },
+     {
+      "BindField": "RoundStep",
+      "Title": "就近捨位間距",
+      "Width": 120,
+      "Align": "Center"
+     },
+     {
+      "BindField": "ExampleNote",
+      "Title": "範例說明",
+      "Width": 120,
+      "Align": "Left"
+     }
+    ],
+    "FormFields": [
+     {
+      "BindField": "RangeLower",
+      "Title": "區間下限",
+      "Component": "Input",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Validations": [
+       {
+        "Rule": "Required",
+        "Message": "區間下限為必填"
+       }
+      ],
+      "Props": {
+       "Type": "number"
+      }
+     },
+     {
+      "BindField": "RangeUpper",
+      "Title": "區間上限",
+      "Component": "Input",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Props": {
+       "Type": "number"
+      }
+     },
+     {
+      "BindField": "RoundStep",
+      "Title": "就近捨位間距",
+      "Component": "Input",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Validations": [
+       {
+        "Rule": "Required",
+        "Message": "就近捨位間距為必填"
+       }
+      ],
+      "Props": {
+       "Type": "number"
+      }
+     },
+     {
+      "BindField": "ExampleNote",
+      "Title": "範例說明",
+      "Component": "Textarea",
+      "Section": "",
+      "Span": 24,
+      "Mode": "Editable",
+      "Validations": [
+       {
+        "Rule": "MaxLength",
+        "Value": 300,
+        "Message": "長度不可超過 300"
+       }
+      ],
+      "Props": {
+       "Rows": 3
+      }
+     },
+     {
+      "BindField": "Description",
+      "Title": "說明文字",
+      "Component": "Textarea",
+      "Section": "",
+      "Span": 24,
+      "Mode": "Editable",
+      "Validations": [
+       {
+        "Rule": "MaxLength",
+        "Value": 500,
+        "Message": "長度不可超過 500"
+       }
+      ],
+      "Props": {
+       "Rows": 3
+      }
+     },
+     {
+      "BindField": "Attributes",
+      "Title": "擴展屬性",
+      "Component": "Textarea",
+      "Section": "",
+      "Span": 24,
+      "Mode": "Editable",
+      "Props": {
+       "Rows": 3
+      }
+     }
+    ],
+    "SeedData": [
+     {
+      "RowGuid": "000003c5-0000-0000-0001-000000000001",
+      "EntityID": "lab",
+      "Status": "1",
+      "RuleCode": "RR-2025-0001",
+      "RangeLower": 74,
+      "RangeUpper": 14,
+      "RoundStep": 1,
+      "ExampleNote": "",
+      "Description": "",
+      "Attributes": "擴展屬性02"
+     },
+     {
+      "RowGuid": "000003c5-0000-0000-0001-000000000002",
+      "EntityID": "lab",
+      "Status": "1",
+      "RuleCode": "RR-2025-0001",
+      "RangeLower": 41,
+      "RangeUpper": 36,
+      "RoundStep": 3,
+      "ExampleNote": "定期校正合格",
+      "Description": "",
+      "Attributes": "擴展屬性03"
+     },
+     {
+      "RowGuid": "000003c5-0000-0000-0001-000000000003",
+      "EntityID": "lab",
+      "Status": "1",
+      "RuleCode": "RR-2026-0002",
+      "RangeLower": 11,
+      "RangeUpper": 65,
+      "RoundStep": 39,
+      "ExampleNote": "複驗確認無誤",
+      "Description": "",
+      "Attributes": "擴展屬性04"
+     },
+     {
+      "RowGuid": "000003c5-0000-0000-0001-000000000004",
+      "EntityID": "lab",
+      "Status": "1",
+      "RuleCode": "RR-2026-0002",
+      "RangeLower": 57,
+      "RangeUpper": 26,
+      "RoundStep": 48,
+      "ExampleNote": "",
+      "Description": "",
+      "Attributes": "擴展屬性05"
+     },
+     {
+      "RowGuid": "000003c5-0000-0000-0001-000000000005",
+      "EntityID": "lab",
+      "Status": "1",
+      "RuleCode": "RR-2026-0002",
+      "RangeLower": 74,
+      "RangeUpper": 71,
+      "RoundStep": 78,
+      "ExampleNote": "",
+      "Description": "客戶要求附 TAF Logo",
+      "Attributes": "擴展屬性06"
+     },
+     {
+      "RowGuid": "000003c5-0000-0000-0001-000000000006",
+      "EntityID": "lab",
+      "Status": "1",
+      "RuleCode": "RR-2025-0003",
+      "RangeLower": 20,
+      "RangeUpper": 80,
+      "RoundStep": 61,
+      "ExampleNote": "",
+      "Description": "",
+      "Attributes": "擴展屬性07"
+     },
+     {
+      "RowGuid": "000003c5-0000-0000-0001-000000000007",
+      "EntityID": "lab",
+      "Status": "1",
+      "RuleCode": "RR-2025-0003",
+      "RangeLower": 43,
+      "RangeUpper": 72,
+      "RoundStep": 84,
+      "ExampleNote": "",
+      "Description": "",
+      "Attributes": "擴展屬性08"
+     },
+     {
+      "RowGuid": "000003c5-0000-0000-0001-000000000008",
+      "EntityID": "lab",
+      "Status": "1",
+      "RuleCode": "RR-2025-0004",
+      "RangeLower": 82,
+      "RangeUpper": 63,
+      "RoundStep": 50,
+      "ExampleNote": "",
+      "Description": "需注意保存效期",
+      "Attributes": "擴展屬性09"
+     },
+     {
+      "RowGuid": "000003c5-0000-0000-0001-000000000009",
+      "EntityID": "lab",
+      "Status": "1",
+      "RuleCode": "RR-2025-0004",
+      "RangeLower": 65,
+      "RangeUpper": 35,
+      "RoundStep": 10,
+      "ExampleNote": "定期校正合格",
+      "Description": "",
+      "Attributes": "擴展屬性10"
+     },
+     {
+      "RowGuid": "000003c5-0000-0000-0001-000000000010",
+      "EntityID": "lab",
+      "Status": "1",
+      "RuleCode": "RR-2026-0005",
+      "RangeLower": 91,
+      "RangeUpper": 13,
+      "RoundStep": 55,
+      "ExampleNote": "",
+      "Description": "定期校正合格",
+      "Attributes": "擴展屬性11"
+     },
+     {
+      "RowGuid": "000003c5-0000-0000-0001-000000000011",
+      "EntityID": "lab",
+      "Status": "1",
+      "RuleCode": "RR-2026-0005",
+      "RangeLower": 39,
+      "RangeUpper": 60,
+      "RoundStep": 71,
+      "ExampleNote": "",
+      "Description": "客戶要求附 TAF Logo",
+      "Attributes": "擴展屬性12"
+     },
+     {
+      "RowGuid": "000003c5-0000-0000-0001-000000000012",
+      "EntityID": "lab",
+      "Status": "1",
+      "RuleCode": "RR-2026-0006",
+      "RangeLower": 73,
+      "RangeUpper": 30,
+      "RoundStep": 59,
+      "ExampleNote": "",
+      "Description": "已通知申請單位",
+      "Attributes": "擴展屬性13"
+     },
+     {
+      "RowGuid": "000003c5-0000-0000-0001-000000000013",
+      "EntityID": "lab",
+      "Status": "1",
+      "RuleCode": "RR-2026-0006",
+      "RangeLower": 67,
+      "RangeUpper": 84,
+      "RoundStep": 43,
+      "ExampleNote": "",
+      "Description": "",
+      "Attributes": "擴展屬性14"
+     },
+     {
+      "RowGuid": "000003c5-0000-0000-0001-000000000014",
+      "EntityID": "lab",
+      "Status": "1",
+      "RuleCode": "RR-2026-0006",
+      "RangeLower": 94,
+      "RangeUpper": 24,
+      "RoundStep": 16,
+      "ExampleNote": "已通知申請單位",
+      "Description": "",
+      "Attributes": "擴展屬性15"
+     },
+     {
+      "RowGuid": "000003c5-0000-0000-0001-000000000015",
+      "EntityID": "lab",
+      "Status": "1",
+      "RuleCode": "RR-2026-0006",
+      "RangeLower": 6,
+      "RangeUpper": 11,
+      "RoundStep": 68,
+      "ExampleNote": "",
+      "Description": "",
+      "Attributes": "擴展屬性16"
+     },
+     {
+      "RowGuid": "000003c5-0000-0000-0001-000000000016",
+      "EntityID": "lab",
+      "Status": "1",
+      "RuleCode": "RR-2026-0007",
+      "RangeLower": 53,
+      "RangeUpper": 15,
+      "RoundStep": 57,
+      "ExampleNote": "",
+      "Description": "",
+      "Attributes": "擴展屬性17"
+     },
+     {
+      "RowGuid": "000003c5-0000-0000-0001-000000000017",
+      "EntityID": "lab",
+      "Status": "1",
+      "RuleCode": "RR-2026-0007",
+      "RangeLower": 35,
+      "RangeUpper": 6,
+      "RoundStep": 64,
+      "ExampleNote": "",
+      "Description": "待主管覆核",
+      "Attributes": "擴展屬性18"
+     },
+     {
+      "RowGuid": "000003c5-0000-0000-0001-000000000018",
+      "EntityID": "lab",
+      "Status": "1",
+      "RuleCode": "RR-2026-0007",
+      "RangeLower": 75,
+      "RangeUpper": 7,
+      "RoundStep": 76,
+      "ExampleNote": "",
+      "Description": "",
+      "Attributes": "擴展屬性19"
+     },
+     {
+      "RowGuid": "000003c5-0000-0000-0001-000000000019",
+      "EntityID": "lab",
+      "Status": "1",
+      "RuleCode": "RR-2025-0008",
+      "RangeLower": 75,
+      "RangeUpper": 12,
+      "RoundStep": 42,
+      "ExampleNote": "",
+      "Description": "",
+      "Attributes": "擴展屬性20"
+     },
+     {
+      "RowGuid": "000003c5-0000-0000-0001-000000000020",
+      "EntityID": "lab",
+      "Status": "1",
+      "RuleCode": "RR-2025-0008",
+      "RangeLower": 63,
+      "RangeUpper": 30,
+      "RoundStep": 10,
+      "ExampleNote": "已通知申請單位",
+      "Description": "定期校正合格",
+      "Attributes": "擴展屬性21"
+     },
+     {
+      "RowGuid": "000003c5-0000-0000-0001-000000000021",
+      "EntityID": "lab",
+      "Status": "1",
+      "RuleCode": "RR-2025-0009",
+      "RangeLower": 83,
+      "RangeUpper": 38,
+      "RoundStep": 81,
+      "ExampleNote": "樣品外觀正常",
+      "Description": "",
+      "Attributes": "擴展屬性22"
+     },
+     {
+      "RowGuid": "000003c5-0000-0000-0001-000000000022",
+      "EntityID": "lab",
+      "Status": "1",
+      "RuleCode": "RR-2025-0009",
+      "RangeLower": 56,
+      "RangeUpper": 69,
+      "RoundStep": 44,
+      "ExampleNote": "客戶要求附 TAF Logo",
+      "Description": "樣品外觀正常",
+      "Attributes": "擴展屬性23"
+     },
+     {
+      "RowGuid": "000003c5-0000-0000-0001-000000000023",
+      "EntityID": "lab",
+      "Status": "1",
+      "RuleCode": "RR-2026-0010",
+      "RangeLower": 88,
+      "RangeUpper": 45,
+      "RoundStep": 28,
+      "ExampleNote": "",
+      "Description": "",
+      "Attributes": "擴展屬性24"
+     },
+     {
+      "RowGuid": "000003c5-0000-0000-0001-000000000024",
+      "EntityID": "lab",
+      "Status": "1",
+      "RuleCode": "RR-2026-0010",
+      "RangeLower": 14,
+      "RangeUpper": 64,
+      "RoundStep": 25,
+      "ExampleNote": "急件已加收費用",
+      "Description": "",
+      "Attributes": "擴展屬性25"
+     },
+     {
+      "RowGuid": "000003c5-0000-0000-0001-000000000025",
+      "EntityID": "lab",
+      "Status": "1",
+      "RuleCode": "RR-2025-0011",
+      "RangeLower": 7,
+      "RangeUpper": 25,
+      "RoundStep": 93,
+      "ExampleNote": "",
+      "Description": "",
+      "Attributes": "擴展屬性26"
+     },
+     {
+      "RowGuid": "000003c5-0000-0000-0001-000000000026",
+      "EntityID": "lab",
+      "Status": "1",
+      "RuleCode": "RR-2025-0011",
+      "RangeLower": 38,
+      "RangeUpper": 59,
+      "RoundStep": 71,
+      "ExampleNote": "待主管覆核",
+      "Description": "",
+      "Attributes": "擴展屬性27"
+     },
+     {
+      "RowGuid": "000003c5-0000-0000-0001-000000000027",
+      "EntityID": "lab",
+      "Status": "1",
+      "RuleCode": "RR-2025-0011",
+      "RangeLower": 68,
+      "RangeUpper": 75,
+      "RoundStep": 25,
+      "ExampleNote": "",
+      "Description": "",
+      "Attributes": "擴展屬性28"
+     },
+     {
+      "RowGuid": "000003c5-0000-0000-0001-000000000028",
+      "EntityID": "lab",
+      "Status": "1",
+      "RuleCode": "RR-2025-0011",
+      "RangeLower": 81,
+      "RangeUpper": 1,
+      "RoundStep": 50,
+      "ExampleNote": "",
+      "Description": "複驗確認無誤",
+      "Attributes": "擴展屬性29"
+     },
+     {
+      "RowGuid": "000003c5-0000-0000-0001-000000000029",
+      "EntityID": "lab",
+      "Status": "1",
+      "RuleCode": "RR-2025-0012",
+      "RangeLower": 53,
+      "RangeUpper": 45,
+      "RoundStep": 83,
+      "ExampleNote": "",
+      "Description": "待主管覆核",
+      "Attributes": "擴展屬性30"
+     },
+     {
+      "RowGuid": "000003c5-0000-0000-0001-000000000030",
+      "EntityID": "lab",
+      "Status": "1",
+      "RuleCode": "RR-2025-0012",
+      "RangeLower": 8,
+      "RangeUpper": 4,
+      "RoundStep": 76,
+      "ExampleNote": "",
+      "Description": "",
+      "Attributes": "擴展屬性31"
+     },
+     {
+      "RowGuid": "000003c5-0000-0000-0001-000000000031",
+      "EntityID": "lab",
+      "Status": "1",
+      "RuleCode": "RR-2025-0012",
+      "RangeLower": 1,
+      "RangeUpper": 4,
+      "RoundStep": 64,
+      "ExampleNote": "急件已加收費用",
+      "Description": "",
+      "Attributes": "擴展屬性32"
+     },
+     {
+      "RowGuid": "000003c5-0000-0000-0001-000000000032",
+      "EntityID": "lab",
+      "Status": "1",
+      "RuleCode": "RR-2026-0013",
+      "RangeLower": 52,
+      "RangeUpper": 70,
+      "RoundStep": 66,
+      "ExampleNote": "已通知申請單位",
+      "Description": "複驗確認無誤",
+      "Attributes": "擴展屬性33"
+     },
+     {
+      "RowGuid": "000003c5-0000-0000-0001-000000000033",
+      "EntityID": "lab",
+      "Status": "1",
+      "RuleCode": "RR-2026-0013",
+      "RangeLower": 33,
+      "RangeUpper": 18,
+      "RoundStep": 6,
+      "ExampleNote": "",
+      "Description": "",
+      "Attributes": "擴展屬性34"
+     },
+     {
+      "RowGuid": "000003c5-0000-0000-0001-000000000034",
+      "EntityID": "lab",
+      "Status": "1",
+      "RuleCode": "RR-2026-0013",
+      "RangeLower": 73,
+      "RangeUpper": 10,
+      "RoundStep": 29,
+      "ExampleNote": "定期校正合格",
+      "Description": "",
+      "Attributes": "擴展屬性35"
+     },
+     {
+      "RowGuid": "000003c5-0000-0000-0001-000000000035",
+      "EntityID": "lab",
+      "Status": "1",
+      "RuleCode": "RR-2025-0014",
+      "RangeLower": 65,
+      "RangeUpper": 7,
+      "RoundStep": 99,
+      "ExampleNote": "定期校正合格",
+      "Description": "待主管覆核",
+      "Attributes": "擴展屬性36"
+     },
+     {
+      "RowGuid": "000003c5-0000-0000-0001-000000000036",
+      "EntityID": "lab",
+      "Status": "1",
+      "RuleCode": "RR-2025-0014",
+      "RangeLower": 85,
+      "RangeUpper": 93,
+      "RoundStep": 55,
+      "ExampleNote": "",
+      "Description": "",
+      "Attributes": "擴展屬性37"
+     }
+    ]
+   }
+  ]
+ },
+ "Features": {},
+ "DataScope": {
+  "DefaultWhere": "EntityID = 'lab' AND Status = '1'",
+  "AuthLevel": 2,
+  "SortExp": "SortNo ASC",
+  "DataConfig": {
+   "RowLimit": 2000,
+   "AllowExport": true
+  }
+ },
+ "CustomMeta": {
+  "CustomSchema": {
+   "WidgetType": "Grid",
+   "KeyField": "RuleCode",
+   "TitleField": "RuleName",
+   "ParentKeyField": null,
+   "PathField": null,
+   "PathSeparator": "/"
+  }
+ },
+ "SeedData": [
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000000",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-08-28 09:21",
+   "UpdatedBy": "wang.cy",
+   "UpdatedAt": "2026-02-04 12:04",
+   "RuleCode": "RR-2025-0001",
+   "RuleName": "張分析",
+   "RuleType": "R",
+   "BasisSource": "規則來源01",
+   "RuleStatus": "狀態01",
+   "Description": "",
+   "Attributes": "擴展屬性01"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000001",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-09-06 09:27",
+   "UpdatedBy": "wu.dir",
+   "UpdatedAt": "2026-08-19 12:22",
+   "RuleCode": "RR-2026-0002",
+   "RuleName": "周技士",
+   "RuleType": "R",
+   "BasisSource": "規則來源02",
+   "RuleStatus": "狀態02",
+   "Description": "",
+   "Attributes": "擴展屬性02"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000002",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-08-23 11:00",
+   "UpdatedBy": "abram.chen",
+   "UpdatedAt": "2026-02-10 09:26",
+   "RuleCode": "RR-2025-0003",
+   "RuleName": "張分析",
+   "RuleType": "R",
+   "BasisSource": "規則來源03",
+   "RuleStatus": "狀態03",
+   "Description": "",
+   "Attributes": "擴展屬性03"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000003",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-09-21 17:25",
+   "UpdatedBy": "chang.fa",
+   "UpdatedAt": "2026-10-06 17:39",
+   "RuleCode": "RR-2025-0004",
+   "RuleName": "林品保",
+   "RuleType": "F",
+   "BasisSource": "規則來源04",
+   "RuleStatus": "狀態04",
+   "Description": "",
+   "Attributes": "擴展屬性04"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000004",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-04-12 08:33",
+   "UpdatedBy": "liu.as",
+   "UpdatedAt": "2026-10-08 12:01",
+   "RuleCode": "RR-2026-0005",
+   "RuleName": "許工程",
+   "RuleType": "F",
+   "BasisSource": "規則來源05",
+   "RuleStatus": "狀態05",
+   "Description": "待主管覆核",
+   "Attributes": "擴展屬性05"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000005",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-10-21 16:17",
+   "UpdatedBy": "wu.dir",
+   "UpdatedAt": "2026-02-19 12:05",
+   "RuleCode": "RR-2026-0006",
+   "RuleName": "楊化驗",
+   "RuleType": "U",
+   "BasisSource": "規則來源06",
+   "RuleStatus": "狀態06",
+   "Description": "樣品外觀正常",
+   "Attributes": "擴展屬性06"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000006",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-03-16 08:20",
+   "UpdatedBy": "abram.chen",
+   "UpdatedAt": "2026-03-21 11:24",
+   "RuleCode": "RR-2026-0007",
+   "RuleName": "李檢測",
+   "RuleType": "R",
+   "BasisSource": "規則來源07",
+   "RuleStatus": "狀態07",
+   "Description": "需注意保存效期",
+   "Attributes": "擴展屬性07"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000007",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-03-19 08:05",
+   "UpdatedBy": "hsu.eng",
+   "UpdatedAt": "2026-12-01 10:07",
+   "RuleCode": "RR-2025-0008",
+   "RuleName": "何環安",
+   "RuleType": "R",
+   "BasisSource": "規則來源08",
+   "RuleStatus": "狀態08",
+   "Description": "",
+   "Attributes": "擴展屬性08"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000008",
+   "EntityID": "lab",
+   "Status": "0",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-02-13 11:07",
+   "UpdatedBy": "wang.cy",
+   "UpdatedAt": "2026-11-20 17:25",
+   "RuleCode": "RR-2025-0009",
+   "RuleName": "王采樣",
+   "RuleType": "U",
+   "BasisSource": "規則來源09",
+   "RuleStatus": "狀態09",
+   "Description": "",
+   "Attributes": "擴展屬性09"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000009",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-12-02 10:28",
+   "UpdatedBy": "chang.fa",
+   "UpdatedAt": "2026-05-27 11:32",
+   "RuleCode": "RR-2026-0010",
+   "RuleName": "林品保",
+   "RuleType": "R",
+   "BasisSource": "規則來源10",
+   "RuleStatus": "狀態10",
+   "Description": "",
+   "Attributes": "擴展屬性10"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000010",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-10-18 15:07",
+   "UpdatedBy": "hsu.eng",
+   "UpdatedAt": "2026-09-04 11:29",
+   "RuleCode": "RR-2025-0011",
+   "RuleName": "楊化驗",
+   "RuleType": "E",
+   "BasisSource": "規則來源11",
+   "RuleStatus": "狀態11",
+   "Description": "",
+   "Attributes": "擴展屬性11"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000011",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-10-20 11:29",
+   "UpdatedBy": "lin.pb",
+   "UpdatedAt": "2026-05-13 08:14",
+   "RuleCode": "RR-2025-0012",
+   "RuleName": "郭品管",
+   "RuleType": "F",
+   "BasisSource": "規則來源12",
+   "RuleStatus": "狀態12",
+   "Description": "已通知申請單位",
+   "Attributes": "擴展屬性12"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000012",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-05-16 09:02",
+   "UpdatedBy": "liu.as",
+   "UpdatedAt": "2026-08-17 13:32",
+   "RuleCode": "RR-2026-0013",
+   "RuleName": "陳審核",
+   "RuleType": "R",
+   "BasisSource": "規則來源13",
+   "RuleStatus": "狀態13",
+   "Description": "",
+   "Attributes": "擴展屬性13"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000013",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-10-19 11:00",
+   "UpdatedBy": "chang.fa",
+   "UpdatedAt": "2026-08-25 11:09",
+   "RuleCode": "RR-2025-0014",
+   "RuleName": "郭品管",
+   "RuleType": "E",
+   "BasisSource": "規則來源14",
+   "RuleStatus": "狀態14",
+   "Description": "",
+   "Attributes": "擴展屬性14"
+  }
+ ]
+}

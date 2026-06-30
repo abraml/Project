@@ -1,0 +1,847 @@
+{
+ "EntityID": "lab",
+ "SystemCode": "MUEIP",
+ "ModuleCode": "LIMS",
+ "FuncCode": "labAna_Method",
+ "ConfigHash": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+ "PageMeta": {
+  "PageTitle": "分析方法主檔",
+  "Lang": "zh-TW",
+  "FormType": "ListForm",
+  "EditDisplayType": "Drawer",
+  "Breadcrumb": [
+   {
+    "Title": "首頁",
+    "Path": "/"
+   },
+   {
+    "Title": "檢測項目分析方法管理",
+    "Path": null
+   },
+   {
+    "Title": "分析方法主檔",
+    "Path": "/lab/labAna_Method"
+   }
+  ],
+  "IsApproval": false,
+  "TenantLocked": false,
+  "Icon": "ri-flask-line",
+  "Remark": "分析方法主檔（由 labAna_Method 規格書產生）"
+ },
+ "Resources": {
+  "CodeSets": {
+   "Status": [
+    {
+     "CodeID": "1",
+     "CodeName": "啟用",
+     "IsDefault": true
+    },
+    {
+     "CodeID": "0",
+     "CodeName": "停用"
+    }
+   ],
+   "Priority": [
+    {
+     "CodeID": "A",
+     "CodeName": "急件"
+    },
+    {
+     "CodeID": "B",
+     "CodeName": "高"
+    },
+    {
+     "CodeID": "C",
+     "CodeName": "一般",
+     "IsDefault": true
+    },
+    {
+     "CodeID": "D",
+     "CodeName": "低"
+    }
+   ],
+   "MethodStatus": [
+    {
+     "CodeID": "啟用",
+     "CodeName": "啟用",
+     "IsDefault": true
+    },
+    {
+     "CodeID": "停用",
+     "CodeName": "停用"
+    }
+   ]
+  },
+  "FeatureFlags": {
+   "IsReadOnly": false,
+   "EnableDraft": false,
+   "EnableBatchDelete": true,
+   "AutoRefreshInterval": 0,
+   "DefaultViewMode": "Table",
+   "RequireConfirmOnSave": true
+  }
+ },
+ "AllowAction": {
+  "DataActions": [
+   {
+    "ActionID": "Add",
+    "Label": "新增",
+    "Icon": "ri-add-line",
+    "Type": "Primary",
+    "Position": "Toolbar",
+    "Confirm": null
+   },
+   {
+    "ActionID": "Save",
+    "Label": "儲存",
+    "Icon": "ri-save-line",
+    "Type": "Primary",
+    "Position": "Toolbar",
+    "Confirm": null
+   },
+   {
+    "ActionID": "Delete",
+    "Label": "刪除",
+    "Icon": "ri-delete-bin-line",
+    "Type": "Danger",
+    "Position": "Both",
+    "Confirm": "確定要刪除此分析方法主檔資料嗎？"
+   },
+   {
+    "ActionID": "Query",
+    "Label": "查詢",
+    "Icon": "ri-search-line",
+    "Type": "Default",
+    "Position": "Toolbar",
+    "Confirm": null
+   }
+  ],
+  "ExtensionActions": [
+   {
+    "ActionID": "Import",
+    "Label": "匯入",
+    "Icon": "ri-upload-2-line",
+    "Type": "Default",
+    "Position": "Toolbar"
+   },
+   {
+    "ActionID": "Export",
+    "Label": "匯出",
+    "Icon": "ri-download-2-line",
+    "Type": "Default",
+    "Position": "Toolbar"
+   }
+  ]
+ },
+ "View": {
+  "RowKey": "RowGuid",
+  "ListView": {
+   "ListSpec": {
+    "RowKey": "RowGuid",
+    "SelectMode": "Single",
+    "FixedColumns": [
+     "Action",
+     "No"
+    ],
+    "RowActionMode": "Menu",
+    "ShowRowNo": true,
+    "Pagination": {
+     "PageSize": 100,
+     "SizeOptions": [
+      50,
+      100,
+      200,
+      500
+     ],
+     "ShowJumper": false,
+     "FullPageScroll": true
+    },
+    "DefaultSort": {
+     "Field": "SortNo",
+     "Order": "asc"
+    },
+    "EmptyText": "目前查無分析方法主檔資料",
+    "GridBordered": true
+   },
+   "FieldSpecs": [
+    {
+     "BindField": "MethodCode",
+     "Title": "方法代碼",
+     "Align": "Left",
+     "DefaultVisible": true,
+     "Formatter": "Link",
+     "Fixed": "Left",
+     "Width": 160,
+     "Sorter": true
+    },
+    {
+     "BindField": "MethodName",
+     "Title": "方法名稱",
+     "Align": "Left",
+     "DefaultVisible": true,
+     "Width": 140
+    },
+    {
+     "BindField": "StandardRef",
+     "Title": "標準依據",
+     "Align": "Left",
+     "DefaultVisible": true,
+     "Width": 140
+    },
+    {
+     "BindField": "MethodVersion",
+     "Title": "方法版次",
+     "Align": "Left",
+     "DefaultVisible": true,
+     "Width": 140
+    },
+    {
+     "BindField": "MethodStatus",
+     "Title": "狀態",
+     "Align": "Center",
+     "DefaultVisible": true,
+     "Formatter": "Tag",
+     "Width": 110
+    },
+    {
+     "BindField": "Status",
+     "Title": "狀態標記",
+     "Align": "Center",
+     "DefaultVisible": true,
+     "Formatter": "Tag",
+     "Width": 80
+    }
+   ]
+  },
+  "FormView": {
+   "FormSpec": {
+    "RowKey": "RowGuid",
+    "Layout": "Horizontal",
+    "Sections": [
+     {
+      "SectionID": "SecBase",
+      "Type": "Card",
+      "Title": "基本資料",
+      "IsCollapsible": false,
+      "DefaultOpen": true,
+      "Icon": "ri-flask-line"
+     },
+     {
+      "SectionID": "SecRecv",
+      "Type": "Card",
+      "Title": "作業資訊",
+      "IsCollapsible": true,
+      "DefaultOpen": true,
+      "Icon": "ri-file-list-3-line"
+     },
+     {
+      "SectionID": "SecExtra",
+      "Type": "Card",
+      "Title": "系統資訊",
+      "IsCollapsible": true,
+      "DefaultOpen": false,
+      "Icon": "ri-settings-4-line"
+     }
+    ],
+    "FormLogic": []
+   },
+   "FieldSpecs": [
+    {
+     "BindField": "RowKey",
+     "Title": "系統識別碼",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 24,
+     "Mode": "Hidden"
+    },
+    {
+     "BindField": "EntityID",
+     "Title": "系統實體",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "Hidden",
+     "DefaultValue": "lab"
+    },
+    {
+     "BindField": "MethodCode",
+     "Title": "方法代碼",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "Required",
+       "Message": "方法代碼為必填"
+      },
+      {
+       "Rule": "MaxLength",
+       "Value": 50,
+       "Message": "長度不可超過 50"
+      }
+     ]
+    },
+    {
+     "BindField": "MethodName",
+     "Title": "方法名稱",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "Required",
+       "Message": "方法名稱為必填"
+      },
+      {
+       "Rule": "MaxLength",
+       "Value": 200,
+       "Message": "長度不可超過 200"
+      }
+     ]
+    },
+    {
+     "BindField": "StandardRef",
+     "Title": "標準依據",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 200,
+       "Message": "長度不可超過 200"
+      }
+     ]
+    },
+    {
+     "BindField": "EquipReq",
+     "Title": "儀器需求",
+     "Component": "Textarea",
+     "Section": "SecRecv",
+     "Span": 24,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 500,
+       "Message": "長度不可超過 500"
+      }
+     ],
+     "Props": {
+      "Rows": 3
+     }
+    },
+    {
+     "BindField": "GlassReq",
+     "Title": "容器需求",
+     "Component": "Textarea",
+     "Section": "SecRecv",
+     "Span": 24,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 500,
+       "Message": "長度不可超過 500"
+      }
+     ],
+     "Props": {
+      "Rows": 3
+     }
+    },
+    {
+     "BindField": "PreserveMethod",
+     "Title": "保存方式",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 200,
+       "Message": "長度不可超過 200"
+      }
+     ]
+    },
+    {
+     "BindField": "PreserveDays",
+     "Title": "保存期限",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Props": {
+      "Type": "number"
+     }
+    },
+    {
+     "BindField": "MinSampleQty",
+     "Title": "需要樣品量",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 100,
+       "Message": "長度不可超過 100"
+      }
+     ]
+    },
+    {
+     "BindField": "ApplicableMatrix",
+     "Title": "適用基質",
+     "Component": "Textarea",
+     "Section": "SecRecv",
+     "Span": 24,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 500,
+       "Message": "長度不可超過 500"
+      }
+     ],
+     "Props": {
+      "Rows": 3
+     }
+    },
+    {
+     "BindField": "MethodVersion",
+     "Title": "方法版次",
+     "Component": "Input",
+     "Section": "SecRecv",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 50,
+       "Message": "長度不可超過 50"
+      }
+     ]
+    },
+    {
+     "BindField": "MethodStatus",
+     "Title": "狀態",
+     "Component": "Select",
+     "Section": "SecRecv",
+     "Span": 12,
+     "Mode": "Editable",
+     "Props": {
+      "OptionKey": "MethodStatus"
+     },
+     "DefaultValue": "啟用"
+    },
+    {
+     "BindField": "Description",
+     "Title": "方法描述／備註",
+     "Component": "Textarea",
+     "Section": "SecRecv",
+     "Span": 24,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 500,
+       "Message": "長度不可超過 500"
+      }
+     ],
+     "Props": {
+      "Rows": 3
+     }
+    },
+    {
+     "BindField": "Attributes",
+     "Title": "擴展屬性",
+     "Component": "Textarea",
+     "Section": "SecExtra",
+     "Span": 24,
+     "Mode": "Editable",
+     "Props": {
+      "Rows": 3
+     }
+    },
+    {
+     "BindField": "Status",
+     "Title": "啟用狀態",
+     "Component": "Select",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "DefaultValue": "1",
+     "Props": {
+      "OptionKey": "Status"
+     }
+    },
+    {
+     "BindField": "CreatedBy",
+     "Title": "建立者帳號",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "ReadOnly"
+    },
+    {
+     "BindField": "CreatedAt",
+     "Title": "資料建立日期時間",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "ReadOnly"
+    },
+    {
+     "BindField": "UpdatedBy",
+     "Title": "最後更新者帳號",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "ReadOnly"
+    },
+    {
+     "BindField": "UpdatedAt",
+     "Title": "最後更新日期時間",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "ReadOnly"
+    }
+   ]
+  }
+ },
+ "Features": {},
+ "DataScope": {
+  "DefaultWhere": "EntityID = 'lab' AND Status = '1'",
+  "AuthLevel": 2,
+  "SortExp": "SortNo ASC",
+  "DataConfig": {
+   "RowLimit": 2000,
+   "AllowExport": true
+  }
+ },
+ "CustomMeta": {
+  "CustomSchema": {
+   "WidgetType": "Grid",
+   "KeyField": "MethodCode",
+   "TitleField": "MethodName",
+   "ParentKeyField": null,
+   "PathField": null,
+   "PathSeparator": "/"
+  }
+ },
+ "SeedData": [
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000000",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-01-14 14:07",
+   "UpdatedBy": "wang.cy",
+   "UpdatedAt": "2026-01-03 13:08",
+   "MethodCode": "M-2026-0001",
+   "MethodName": "NIEA W424.53A",
+   "StandardRef": "NIEA",
+   "EquipReq": "儀器需求01",
+   "GlassReq": "容器需求01",
+   "PreserveMethod": "JIS K0102",
+   "PreserveDays": 23,
+   "MinSampleQty": "需要樣品量01",
+   "ApplicableMatrix": "適用基質01",
+   "MethodVersion": "ASTM D1193",
+   "MethodStatus": "啟用",
+   "Description": "HACH Method 8000",
+   "Attributes": "擴展屬性01"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000001",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-03-26 13:16",
+   "UpdatedBy": "abram.chen",
+   "UpdatedAt": "2026-06-13 14:09",
+   "MethodCode": "M-2026-0002",
+   "MethodName": "NIEA W415.55B",
+   "StandardRef": "ASTM",
+   "EquipReq": "儀器需求02",
+   "GlassReq": "容器需求02",
+   "PreserveMethod": "JIS K0102",
+   "PreserveDays": 14,
+   "MinSampleQty": "需要樣品量02",
+   "ApplicableMatrix": "適用基質02",
+   "MethodVersion": "EPA 200.8",
+   "MethodStatus": "啟用",
+   "Description": "JIS K0102",
+   "Attributes": "擴展屬性02"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000002",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-07-21 17:16",
+   "UpdatedBy": "liu.as",
+   "UpdatedAt": "2026-04-10 13:24",
+   "MethodCode": "M-2026-0003",
+   "MethodName": "NIEA W415.55B",
+   "StandardRef": "JIS",
+   "EquipReq": "儀器需求03",
+   "GlassReq": "容器需求03",
+   "PreserveMethod": "CNS 11423",
+   "PreserveDays": 244,
+   "MinSampleQty": "需要樣品量03",
+   "ApplicableMatrix": "適用基質03",
+   "MethodVersion": "HACH Method 8000",
+   "MethodStatus": "啟用",
+   "Description": "ASTM D1193",
+   "Attributes": "擴展屬性03"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000003",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-05-01 08:14",
+   "UpdatedBy": "cheng.gl",
+   "UpdatedAt": "2026-11-25 14:34",
+   "MethodCode": "M-2025-0004",
+   "MethodName": "ASTM D1193",
+   "StandardRef": "EPA",
+   "EquipReq": "儀器需求04",
+   "GlassReq": "容器需求04",
+   "PreserveMethod": "JIS K0102",
+   "PreserveDays": 144,
+   "MinSampleQty": "需要樣品量04",
+   "ApplicableMatrix": "適用基質04",
+   "MethodVersion": "ASTM D1193",
+   "MethodStatus": "啟用",
+   "Description": "NIEA W415.55B",
+   "Attributes": "擴展屬性04"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000004",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-08-10 17:20",
+   "UpdatedBy": "lin.pb",
+   "UpdatedAt": "2026-09-25 12:26",
+   "MethodCode": "M-2025-0005",
+   "MethodName": "ASTM D1193",
+   "StandardRef": "JIS",
+   "EquipReq": "儀器需求05",
+   "GlassReq": "容器需求05",
+   "PreserveMethod": "EPA 200.8",
+   "PreserveDays": 40,
+   "MinSampleQty": "需要樣品量05",
+   "ApplicableMatrix": "適用基質05",
+   "MethodVersion": "HACH Method 8000",
+   "MethodStatus": "啟用",
+   "Description": "CNS 11423",
+   "Attributes": "擴展屬性05"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000005",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-02-16 09:33",
+   "UpdatedBy": "liu.as",
+   "UpdatedAt": "2026-01-14 18:07",
+   "MethodCode": "M-2025-0006",
+   "MethodName": "CNS 13289",
+   "StandardRef": "Standard Methods",
+   "EquipReq": "儀器需求06",
+   "GlassReq": "容器需求06",
+   "PreserveMethod": "CNS 13289",
+   "PreserveDays": 332,
+   "MinSampleQty": "需要樣品量06",
+   "ApplicableMatrix": "適用基質06",
+   "MethodVersion": "NIEA W415.55B",
+   "MethodStatus": "啟用",
+   "Description": "ASTM D1193",
+   "Attributes": "擴展屬性06"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000006",
+   "EntityID": "lab",
+   "Status": "0",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-01-09 16:31",
+   "UpdatedBy": "hsu.eng",
+   "UpdatedAt": "2026-08-05 10:27",
+   "MethodCode": "M-2025-0007",
+   "MethodName": "NIEA W508.05B",
+   "StandardRef": "Standard Methods",
+   "EquipReq": "儀器需求07",
+   "GlassReq": "容器需求07",
+   "PreserveMethod": "ASTM D1193",
+   "PreserveDays": 98,
+   "MinSampleQty": "需要樣品量07",
+   "ApplicableMatrix": "適用基質07",
+   "MethodVersion": "HACH Method 8000",
+   "MethodStatus": "啟用",
+   "Description": "NIEA W424.53A",
+   "Attributes": "擴展屬性07"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000007",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-10-01 10:29",
+   "UpdatedBy": "lee.jc",
+   "UpdatedAt": "2026-08-20 18:11",
+   "MethodCode": "M-2026-0008",
+   "MethodName": "ASTM D1193",
+   "StandardRef": "JIS",
+   "EquipReq": "儀器需求08",
+   "GlassReq": "容器需求08",
+   "PreserveMethod": "NIEA W424.53A",
+   "PreserveDays": 145,
+   "MinSampleQty": "需要樣品量08",
+   "ApplicableMatrix": "適用基質08",
+   "MethodVersion": "NIEA W415.55B",
+   "MethodStatus": "停用",
+   "Description": "JIS K0102",
+   "Attributes": "擴展屬性08"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000008",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-11-26 08:22",
+   "UpdatedBy": "abram.chen",
+   "UpdatedAt": "2026-08-10 08:09",
+   "MethodCode": "M-2026-0009",
+   "MethodName": "HACH Method 8000",
+   "StandardRef": "CNS",
+   "EquipReq": "儀器需求09",
+   "GlassReq": "容器需求09",
+   "PreserveMethod": "SM 4500-P",
+   "PreserveDays": 287,
+   "MinSampleQty": "需要樣品量09",
+   "ApplicableMatrix": "適用基質09",
+   "MethodVersion": "HACH Method 8000",
+   "MethodStatus": "啟用",
+   "Description": "NIEA W424.53A",
+   "Attributes": "擴展屬性09"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000009",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-10-02 15:16",
+   "UpdatedBy": "lee.jc",
+   "UpdatedAt": "2026-03-20 15:02",
+   "MethodCode": "M-2026-0010",
+   "MethodName": "SM 4500-P",
+   "StandardRef": "JIS",
+   "EquipReq": "儀器需求10",
+   "GlassReq": "容器需求10",
+   "PreserveMethod": "NIEA W424.53A",
+   "PreserveDays": 324,
+   "MinSampleQty": "需要樣品量10",
+   "ApplicableMatrix": "適用基質10",
+   "MethodVersion": "JIS K0102",
+   "MethodStatus": "停用",
+   "Description": "NIEA W424.53A",
+   "Attributes": "擴展屬性10"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000010",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-10-19 14:15",
+   "UpdatedBy": "chang.fa",
+   "UpdatedAt": "2026-08-04 08:28",
+   "MethodCode": "M-2025-0011",
+   "MethodName": "JIS K0102",
+   "StandardRef": "ASTM",
+   "EquipReq": "儀器需求11",
+   "GlassReq": "容器需求11",
+   "PreserveMethod": "SM 4500-P",
+   "PreserveDays": 297,
+   "MinSampleQty": "需要樣品量11",
+   "ApplicableMatrix": "適用基質11",
+   "MethodVersion": "JIS K0102",
+   "MethodStatus": "啟用",
+   "Description": "CNS 13289",
+   "Attributes": "擴展屬性11"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000011",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-07-14 11:23",
+   "UpdatedBy": "chen.sh",
+   "UpdatedAt": "2026-03-25 08:12",
+   "MethodCode": "M-2026-0012",
+   "MethodName": "ASTM D1193",
+   "StandardRef": "EPA",
+   "EquipReq": "儀器需求12",
+   "GlassReq": "容器需求12",
+   "PreserveMethod": "EPA 200.8",
+   "PreserveDays": 303,
+   "MinSampleQty": "需要樣品量12",
+   "ApplicableMatrix": "適用基質12",
+   "MethodVersion": "ASTM D1193",
+   "MethodStatus": "啟用",
+   "Description": "NIEA W424.53A",
+   "Attributes": "擴展屬性12"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000012",
+   "EntityID": "lab",
+   "Status": "0",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-12-18 09:20",
+   "UpdatedBy": "cheng.gl",
+   "UpdatedAt": "2026-06-19 12:24",
+   "MethodCode": "M-2026-0013",
+   "MethodName": "NIEA W415.55B",
+   "StandardRef": "NIEA",
+   "EquipReq": "儀器需求13",
+   "GlassReq": "容器需求13",
+   "PreserveMethod": "NIEA W424.53A",
+   "PreserveDays": 55,
+   "MinSampleQty": "需要樣品量13",
+   "ApplicableMatrix": "適用基質13",
+   "MethodVersion": "NIEA W415.55B",
+   "MethodStatus": "啟用",
+   "Description": "HACH Method 8000",
+   "Attributes": "擴展屬性13"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000013",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-11-02 15:34",
+   "UpdatedBy": "wang.cy",
+   "UpdatedAt": "2026-06-22 14:34",
+   "MethodCode": "M-2026-0014",
+   "MethodName": "NIEA W415.55B",
+   "StandardRef": "原廠提供",
+   "EquipReq": "儀器需求14",
+   "GlassReq": "容器需求14",
+   "PreserveMethod": "SM 4500-P",
+   "PreserveDays": 327,
+   "MinSampleQty": "需要樣品量14",
+   "ApplicableMatrix": "適用基質14",
+   "MethodVersion": "JIS K0102",
+   "MethodStatus": "停用",
+   "Description": "CNS 11423",
+   "Attributes": "擴展屬性14"
+  }
+ ]
+}

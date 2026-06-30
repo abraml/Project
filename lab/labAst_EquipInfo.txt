@@ -1,0 +1,4672 @@
+{
+ "EntityID": "lab",
+ "SystemCode": "MUEIP",
+ "ModuleCode": "LIMS",
+ "FuncCode": "labAst_EquipInfo",
+ "ConfigHash": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+ "PageMeta": {
+  "PageTitle": "儀器設備清單",
+  "Lang": "zh-TW",
+  "FormType": "ListForm",
+  "EditDisplayType": "Drawer",
+  "Breadcrumb": [
+   {
+    "Title": "首頁",
+    "Path": "/"
+   },
+   {
+    "Title": "實驗室資材管理",
+    "Path": null
+   },
+   {
+    "Title": "儀器設備清單",
+    "Path": "/lab/labAst_EquipInfo"
+   }
+  ],
+  "IsApproval": false,
+  "TenantLocked": false,
+  "Icon": "ri-settings-5-line",
+  "Remark": "儀器設備清單（由 labAst_EquipInfo 規格書產生）"
+ },
+ "Resources": {
+  "CodeSets": {
+   "Status": [
+    {
+     "CodeID": "1",
+     "CodeName": "啟用",
+     "IsDefault": true
+    },
+    {
+     "CodeID": "0",
+     "CodeName": "停用"
+    }
+   ],
+   "Priority": [
+    {
+     "CodeID": "A",
+     "CodeName": "急件"
+    },
+    {
+     "CodeID": "B",
+     "CodeName": "高"
+    },
+    {
+     "CodeID": "C",
+     "CodeName": "一般",
+     "IsDefault": true
+    },
+    {
+     "CodeID": "D",
+     "CodeName": "低"
+    }
+   ],
+   "EquipStatus": [
+    {
+     "CodeID": "N",
+     "CodeName": "正常",
+     "IsDefault": true
+    },
+    {
+     "CodeID": "R",
+     "CodeName": "維修中"
+    },
+    {
+     "CodeID": "C",
+     "CodeName": "校正中"
+    },
+    {
+     "CodeID": "S",
+     "CodeName": "停用"
+    },
+    {
+     "CodeID": "X",
+     "CodeName": "報廢"
+    }
+   ]
+  },
+  "FeatureFlags": {
+   "IsReadOnly": false,
+   "EnableDraft": false,
+   "EnableBatchDelete": true,
+   "AutoRefreshInterval": 0,
+   "DefaultViewMode": "Table",
+   "RequireConfirmOnSave": true
+  }
+ },
+ "AllowAction": {
+  "DataActions": [
+   {
+    "ActionID": "Add",
+    "Label": "新增",
+    "Icon": "ri-add-line",
+    "Type": "Primary",
+    "Position": "Toolbar",
+    "Confirm": null
+   },
+   {
+    "ActionID": "Save",
+    "Label": "儲存",
+    "Icon": "ri-save-line",
+    "Type": "Primary",
+    "Position": "Toolbar",
+    "Confirm": null
+   },
+   {
+    "ActionID": "Delete",
+    "Label": "刪除",
+    "Icon": "ri-delete-bin-line",
+    "Type": "Danger",
+    "Position": "Both",
+    "Confirm": "確定要刪除此儀器設備清單資料嗎？"
+   },
+   {
+    "ActionID": "Query",
+    "Label": "查詢",
+    "Icon": "ri-search-line",
+    "Type": "Default",
+    "Position": "Toolbar",
+    "Confirm": null
+   }
+  ],
+  "ExtensionActions": [
+   {
+    "ActionID": "Import",
+    "Label": "匯入",
+    "Icon": "ri-upload-2-line",
+    "Type": "Default",
+    "Position": "Toolbar"
+   },
+   {
+    "ActionID": "Export",
+    "Label": "匯出",
+    "Icon": "ri-download-2-line",
+    "Type": "Default",
+    "Position": "Toolbar"
+   }
+  ]
+ },
+ "View": {
+  "RowKey": "RowGuid",
+  "ListView": {
+   "ListSpec": {
+    "RowKey": "RowGuid",
+    "SelectMode": "Single",
+    "FixedColumns": [
+     "Action",
+     "No"
+    ],
+    "RowActionMode": "Menu",
+    "ShowRowNo": true,
+    "Pagination": {
+     "PageSize": 100,
+     "SizeOptions": [
+      50,
+      100,
+      200,
+      500
+     ],
+     "ShowJumper": false,
+     "FullPageScroll": true
+    },
+    "DefaultSort": {
+     "Field": "SortNo",
+     "Order": "asc"
+    },
+    "EmptyText": "目前查無儀器設備清單資料",
+    "GridBordered": true
+   },
+   "FieldSpecs": [
+    {
+     "BindField": "DefinitionCode",
+     "Title": "定義類碼",
+     "Align": "Left",
+     "DefaultVisible": true,
+     "Formatter": "Link",
+     "Fixed": "Left",
+     "Width": 160,
+     "Sorter": true
+    },
+    {
+     "BindField": "EquipTypeCode",
+     "Title": "設備代號",
+     "Align": "Left",
+     "DefaultVisible": true,
+     "Width": 140
+    },
+    {
+     "BindField": "EquipSeqNo",
+     "Title": "序號",
+     "Align": "Center",
+     "DefaultVisible": true,
+     "Width": 140
+    },
+    {
+     "BindField": "NewEquipNo",
+     "Title": "[計算欄位] 新設備編號",
+     "Align": "Left",
+     "DefaultVisible": true,
+     "Width": 140
+    },
+    {
+     "BindField": "LegacyEquipNo",
+     "Title": "財產編號",
+     "Align": "Left",
+     "DefaultVisible": true,
+     "Width": 140
+    },
+    {
+     "BindField": "EquipName",
+     "Title": "設備名稱",
+     "Align": "Left",
+     "DefaultVisible": true,
+     "Width": 140
+    },
+    {
+     "BindField": "Status",
+     "Title": "啟用狀態",
+     "Align": "Center",
+     "DefaultVisible": true,
+     "Formatter": "Tag",
+     "Width": 80
+    }
+   ]
+  },
+  "FormView": {
+   "FormSpec": {
+    "RowKey": "RowGuid",
+    "Layout": "Horizontal",
+    "Sections": [
+     {
+      "SectionID": "SecBase",
+      "Type": "Card",
+      "Title": "基本資料",
+      "IsCollapsible": false,
+      "DefaultOpen": true,
+      "Icon": "ri-settings-5-line"
+     },
+     {
+      "SectionID": "SecRecv",
+      "Type": "Card",
+      "Title": "作業資訊",
+      "IsCollapsible": true,
+      "DefaultOpen": true,
+      "Icon": "ri-file-list-3-line"
+     },
+     {
+      "SectionID": "SecExtra",
+      "Type": "Card",
+      "Title": "系統資訊",
+      "IsCollapsible": true,
+      "DefaultOpen": false,
+      "Icon": "ri-settings-4-line"
+     }
+    ],
+    "FormLogic": []
+   },
+   "FieldSpecs": [
+    {
+     "BindField": "RowKey",
+     "Title": "系統識別碼",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 24,
+     "Mode": "Hidden"
+    },
+    {
+     "BindField": "EntityID",
+     "Title": "系統實體",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "Hidden",
+     "DefaultValue": "lab"
+    },
+    {
+     "BindField": "DefinitionCode",
+     "Title": "定義類碼",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "Required",
+       "Message": "定義類碼為必填"
+      },
+      {
+       "Rule": "MaxLength",
+       "Value": 1,
+       "Message": "長度不可超過 1"
+      }
+     ]
+    },
+    {
+     "BindField": "EquipTypeCode",
+     "Title": "設備代號",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "Required",
+       "Message": "設備代號為必填"
+      },
+      {
+       "Rule": "MaxLength",
+       "Value": 3,
+       "Message": "長度不可超過 3"
+      }
+     ]
+    },
+    {
+     "BindField": "EquipSeqNo",
+     "Title": "序號",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "Required",
+       "Message": "序號為必填"
+      }
+     ],
+     "Props": {
+      "Type": "number"
+     }
+    },
+    {
+     "BindField": "NewEquipNo",
+     "Title": "[計算欄位] 新設備編號",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable"
+    },
+    {
+     "BindField": "LegacyEquipNo",
+     "Title": "財產編號",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 30,
+       "Message": "長度不可超過 30"
+      }
+     ]
+    },
+    {
+     "BindField": "CategoryGuid",
+     "Title": "所屬分類",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "ReadOnly"
+    },
+    {
+     "BindField": "EquipName",
+     "Title": "設備名稱",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "Required",
+       "Message": "設備名稱為必填"
+      },
+      {
+       "Rule": "MaxLength",
+       "Value": 100,
+       "Message": "長度不可超過 100"
+      }
+     ]
+    },
+    {
+     "BindField": "Brand",
+     "Title": "廠牌",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 50,
+       "Message": "長度不可超過 50"
+      }
+     ]
+    },
+    {
+     "BindField": "ModelNo",
+     "Title": "型號",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 50,
+       "Message": "長度不可超過 50"
+      }
+     ]
+    },
+    {
+     "BindField": "Manufacturer",
+     "Title": "製造商",
+     "Component": "Input",
+     "Section": "SecRecv",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 100,
+       "Message": "長度不可超過 100"
+      }
+     ]
+    },
+    {
+     "BindField": "VendorName",
+     "Title": "供應商",
+     "Component": "Input",
+     "Section": "SecRecv",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 100,
+       "Message": "長度不可超過 100"
+      }
+     ]
+    },
+    {
+     "BindField": "VendorContact",
+     "Title": "供應商聯絡人／電話",
+     "Component": "Input",
+     "Section": "SecRecv",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 100,
+       "Message": "長度不可超過 100"
+      }
+     ]
+    },
+    {
+     "BindField": "SpecDesc",
+     "Title": "規格",
+     "Component": "Input",
+     "Section": "SecRecv",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 255,
+       "Message": "長度不可超過 255"
+      }
+     ]
+    },
+    {
+     "BindField": "LocationGuid",
+     "Title": "放置地點",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "ReadOnly"
+    },
+    {
+     "BindField": "AssetNo",
+     "Title": "財產編號",
+     "Component": "Input",
+     "Section": "SecRecv",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 30,
+       "Message": "長度不可超過 30"
+      }
+     ]
+    },
+    {
+     "BindField": "PurchaseDate",
+     "Title": "購入日期",
+     "Component": "DatePicker",
+     "Section": "SecRecv",
+     "Span": 12,
+     "Mode": "Editable",
+     "Props": {
+      "Mode": "Editable",
+      "ShowTime": false
+     }
+    },
+    {
+     "BindField": "PurchaseAmount",
+     "Title": "購入金額",
+     "Component": "Input",
+     "Section": "SecRecv",
+     "Span": 12,
+     "Mode": "Editable",
+     "Props": {
+      "Type": "number"
+     }
+    },
+    {
+     "BindField": "UsefulLifeYear",
+     "Title": "使用年限",
+     "Component": "Input",
+     "Section": "SecRecv",
+     "Span": 12,
+     "Mode": "Editable"
+    },
+    {
+     "BindField": "EquipStatus",
+     "Title": "設備狀態",
+     "Component": "Select",
+     "Section": "SecRecv",
+     "Span": 12,
+     "Mode": "Editable",
+     "Props": {
+      "OptionKey": "EquipStatus"
+     },
+     "DefaultValue": "N"
+    },
+    {
+     "BindField": "Remark",
+     "Title": "備註",
+     "Component": "Input",
+     "Section": "SecRecv",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 255,
+       "Message": "長度不可超過 255"
+      }
+     ]
+    },
+    {
+     "BindField": "Attributes",
+     "Title": "擴展屬性",
+     "Component": "Textarea",
+     "Section": "SecExtra",
+     "Span": 24,
+     "Mode": "Editable",
+     "Props": {
+      "Rows": 3
+     }
+    },
+    {
+     "BindField": "Status",
+     "Title": "啟用狀態",
+     "Component": "Select",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "DefaultValue": "1",
+     "Props": {
+      "OptionKey": "Status"
+     }
+    },
+    {
+     "BindField": "CreatedBy",
+     "Title": "建檔人員",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "ReadOnly"
+    },
+    {
+     "BindField": "CreatedAt",
+     "Title": "資料建立日期時間",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "ReadOnly"
+    },
+    {
+     "BindField": "UpdatedBy",
+     "Title": "最後更新者帳號",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "ReadOnly"
+    },
+    {
+     "BindField": "UpdatedAt",
+     "Title": "最後更新日期時間",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "ReadOnly"
+    }
+   ]
+  },
+  "DetailViews": [
+   {
+    "DetailID": "Serial",
+    "Title": "序號／配件",
+    "Icon": "ri-barcode-line",
+    "Entity": "labAst_EquipSerialNo",
+    "RelationKey": "EquipCode",
+    "RowKey": "RowGuid",
+    "AllowAdd": true,
+    "AllowEdit": true,
+    "AllowDelete": true,
+    "EmptyText": "尚無序號／配件資料",
+    "CodeSets": {
+     "Status": [
+      {
+       "CodeID": "1",
+       "CodeName": "啟用",
+       "IsDefault": true
+      },
+      {
+       "CodeID": "0",
+       "CodeName": "停用"
+      }
+     ],
+     "Priority": [
+      {
+       "CodeID": "A",
+       "CodeName": "急件"
+      },
+      {
+       "CodeID": "B",
+       "CodeName": "高"
+      },
+      {
+       "CodeID": "C",
+       "CodeName": "一般",
+       "IsDefault": true
+      },
+      {
+       "CodeID": "D",
+       "CodeName": "低"
+      }
+     ]
+    },
+    "Columns": [
+     {
+      "BindField": "EquipGuid",
+      "Title": "所屬設備",
+      "Width": 120,
+      "Align": "Left"
+     },
+     {
+      "BindField": "ModuleLabel",
+      "Title": "子模組標籤",
+      "Width": 120,
+      "Align": "Left"
+     },
+     {
+      "BindField": "SerialNo",
+      "Title": "儀器序號",
+      "Width": 120,
+      "Align": "Left"
+     }
+    ],
+    "FormFields": [
+     {
+      "BindField": "EquipGuid",
+      "Title": "所屬設備",
+      "Component": "Input",
+      "Section": "",
+      "Span": 12,
+      "Mode": "ReadOnly",
+      "Validations": [
+       {
+        "Rule": "Required",
+        "Message": "所屬設備為必填"
+       }
+      ]
+     },
+     {
+      "BindField": "ModuleLabel",
+      "Title": "子模組標籤",
+      "Component": "Input",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Validations": [
+       {
+        "Rule": "MaxLength",
+        "Value": 30,
+        "Message": "長度不可超過 30"
+       }
+      ]
+     },
+     {
+      "BindField": "SerialNo",
+      "Title": "儀器序號",
+      "Component": "Input",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Validations": [
+       {
+        "Rule": "Required",
+        "Message": "儀器序號為必填"
+       },
+       {
+        "Rule": "MaxLength",
+        "Value": 50,
+        "Message": "長度不可超過 50"
+       }
+      ]
+     }
+    ],
+    "SeedData": [
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000001",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0001",
+      "EquipGuid": "所屬設備02",
+      "ModuleLabel": "子模組標籤02",
+      "SerialNo": "ESN-2026-0002"
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000002",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0001",
+      "EquipGuid": "所屬設備03",
+      "ModuleLabel": "子模組標籤03",
+      "SerialNo": "ESN-2025-0003"
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000003",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0002",
+      "EquipGuid": "所屬設備04",
+      "ModuleLabel": "子模組標籤04",
+      "SerialNo": "ESN-2025-0004"
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000004",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0002",
+      "EquipGuid": "所屬設備05",
+      "ModuleLabel": "子模組標籤05",
+      "SerialNo": "ESN-2025-0005"
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000005",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0002",
+      "EquipGuid": "所屬設備06",
+      "ModuleLabel": "子模組標籤06",
+      "SerialNo": "ESN-2025-0006"
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000006",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0002",
+      "EquipGuid": "所屬設備07",
+      "ModuleLabel": "子模組標籤07",
+      "SerialNo": "ESN-2026-0007"
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000007",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0003",
+      "EquipGuid": "所屬設備08",
+      "ModuleLabel": "子模組標籤08",
+      "SerialNo": "ESN-2026-0008"
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000008",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0003",
+      "EquipGuid": "所屬設備09",
+      "ModuleLabel": "子模組標籤09",
+      "SerialNo": "ESN-2025-0009"
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000009",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0003",
+      "EquipGuid": "所屬設備10",
+      "ModuleLabel": "子模組標籤10",
+      "SerialNo": "ESN-2026-0010"
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000010",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0004",
+      "EquipGuid": "所屬設備11",
+      "ModuleLabel": "子模組標籤11",
+      "SerialNo": "ESN-2025-0011"
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000011",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0004",
+      "EquipGuid": "所屬設備12",
+      "ModuleLabel": "子模組標籤12",
+      "SerialNo": "ESN-2025-0012"
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000012",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0004",
+      "EquipGuid": "所屬設備13",
+      "ModuleLabel": "子模組標籤13",
+      "SerialNo": "ESN-2026-0013"
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000013",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0005",
+      "EquipGuid": "所屬設備14",
+      "ModuleLabel": "子模組標籤14",
+      "SerialNo": "ESN-2025-0014"
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000014",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0005",
+      "EquipGuid": "所屬設備15",
+      "ModuleLabel": "子模組標籤15",
+      "SerialNo": "ESN-2026-0015"
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000015",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0005",
+      "EquipGuid": "所屬設備16",
+      "ModuleLabel": "子模組標籤16",
+      "SerialNo": "ESN-2026-0016"
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000016",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0005",
+      "EquipGuid": "所屬設備17",
+      "ModuleLabel": "子模組標籤17",
+      "SerialNo": "ESN-2025-0017"
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000017",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0006",
+      "EquipGuid": "所屬設備18",
+      "ModuleLabel": "子模組標籤18",
+      "SerialNo": "ESN-2025-0018"
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000018",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0006",
+      "EquipGuid": "所屬設備19",
+      "ModuleLabel": "子模組標籤19",
+      "SerialNo": "ESN-2025-0019"
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000019",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0007",
+      "EquipGuid": "所屬設備20",
+      "ModuleLabel": "子模組標籤20",
+      "SerialNo": "ESN-2025-0020"
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000020",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0007",
+      "EquipGuid": "所屬設備21",
+      "ModuleLabel": "子模組標籤21",
+      "SerialNo": "ESN-2026-0021"
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000021",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0007",
+      "EquipGuid": "所屬設備22",
+      "ModuleLabel": "子模組標籤22",
+      "SerialNo": "ESN-2026-0022"
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000022",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0008",
+      "EquipGuid": "所屬設備23",
+      "ModuleLabel": "子模組標籤23",
+      "SerialNo": "ESN-2025-0023"
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000023",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0008",
+      "EquipGuid": "所屬設備24",
+      "ModuleLabel": "子模組標籤24",
+      "SerialNo": "ESN-2025-0024"
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000024",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0009",
+      "EquipGuid": "所屬設備25",
+      "ModuleLabel": "子模組標籤25",
+      "SerialNo": "ESN-2026-0025"
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000025",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0009",
+      "EquipGuid": "所屬設備26",
+      "ModuleLabel": "子模組標籤26",
+      "SerialNo": "ESN-2025-0026"
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000026",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0009",
+      "EquipGuid": "所屬設備27",
+      "ModuleLabel": "子模組標籤27",
+      "SerialNo": "ESN-2026-0027"
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000027",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0009",
+      "EquipGuid": "所屬設備28",
+      "ModuleLabel": "子模組標籤28",
+      "SerialNo": "ESN-2025-0028"
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000028",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0010",
+      "EquipGuid": "所屬設備29",
+      "ModuleLabel": "子模組標籤29",
+      "SerialNo": "ESN-2025-0029"
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000029",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0010",
+      "EquipGuid": "所屬設備30",
+      "ModuleLabel": "子模組標籤30",
+      "SerialNo": "ESN-2025-0030"
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000030",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0010",
+      "EquipGuid": "所屬設備31",
+      "ModuleLabel": "子模組標籤31",
+      "SerialNo": "ESN-2025-0031"
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000031",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0011",
+      "EquipGuid": "所屬設備32",
+      "ModuleLabel": "子模組標籤32",
+      "SerialNo": "ESN-2025-0032"
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000032",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0011",
+      "EquipGuid": "所屬設備33",
+      "ModuleLabel": "子模組標籤33",
+      "SerialNo": "ESN-2026-0033"
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000033",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0011",
+      "EquipGuid": "所屬設備34",
+      "ModuleLabel": "子模組標籤34",
+      "SerialNo": "ESN-2025-0034"
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000034",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0012",
+      "EquipGuid": "所屬設備35",
+      "ModuleLabel": "子模組標籤35",
+      "SerialNo": "ESN-2025-0035"
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000035",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0012",
+      "EquipGuid": "所屬設備36",
+      "ModuleLabel": "子模組標籤36",
+      "SerialNo": "ESN-2026-0036"
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000036",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0013",
+      "EquipGuid": "所屬設備37",
+      "ModuleLabel": "子模組標籤37",
+      "SerialNo": "ESN-2025-0037"
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000037",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0013",
+      "EquipGuid": "所屬設備38",
+      "ModuleLabel": "子模組標籤38",
+      "SerialNo": "ESN-2026-0038"
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000038",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0013",
+      "EquipGuid": "所屬設備39",
+      "ModuleLabel": "子模組標籤39",
+      "SerialNo": "ESN-2025-0039"
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000039",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0014",
+      "EquipGuid": "所屬設備40",
+      "ModuleLabel": "子模組標籤40",
+      "SerialNo": "ESN-2025-0040"
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000040",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0014",
+      "EquipGuid": "所屬設備41",
+      "ModuleLabel": "子模組標籤41",
+      "SerialNo": "ESN-2025-0041"
+     }
+    ]
+   },
+   {
+    "DetailID": "CalCycle",
+    "Title": "校正週期",
+    "Icon": "ri-loop-right-line",
+    "Entity": "labAst_EquipCalCycle",
+    "RelationKey": "EquipCode",
+    "RowKey": "RowGuid",
+    "AllowAdd": true,
+    "AllowEdit": true,
+    "AllowDelete": true,
+    "EmptyText": "尚無校正週期資料",
+    "CodeSets": {
+     "Status": [
+      {
+       "CodeID": "1",
+       "CodeName": "啟用",
+       "IsDefault": true
+      },
+      {
+       "CodeID": "0",
+       "CodeName": "停用"
+      }
+     ],
+     "Priority": [
+      {
+       "CodeID": "A",
+       "CodeName": "急件"
+      },
+      {
+       "CodeID": "B",
+       "CodeName": "高"
+      },
+      {
+       "CodeID": "C",
+       "CodeName": "一般",
+       "IsDefault": true
+      },
+      {
+       "CodeID": "D",
+       "CodeName": "低"
+      }
+     ],
+     "CalMethod": [
+      {
+       "CodeID": "IN",
+       "CodeName": "內部校正",
+       "IsDefault": true
+      },
+      {
+       "CodeID": "EX",
+       "CodeName": "外部校正"
+      },
+      {
+       "CodeID": "SC",
+       "CodeName": "送校"
+      }
+     ]
+    },
+    "Columns": [
+     {
+      "BindField": "EquipGuid",
+      "Title": "所屬設備",
+      "Width": 120,
+      "Align": "Left"
+     },
+     {
+      "BindField": "CycleMonths",
+      "Title": "校正週期",
+      "Width": 120,
+      "Align": "Center"
+     },
+     {
+      "BindField": "CalMethod",
+      "Title": "校正方式",
+      "Width": 120,
+      "Align": "Center",
+      "Formatter": "Tag",
+      "OptionKey": "CalMethod"
+     },
+     {
+      "BindField": "CalAgency",
+      "Title": "校正單位",
+      "Width": 120,
+      "Align": "Left"
+     },
+     {
+      "BindField": "AcceptanceCriteria",
+      "Title": "允收標準",
+      "Width": 120,
+      "Align": "Left"
+     }
+    ],
+    "FormFields": [
+     {
+      "BindField": "EquipGuid",
+      "Title": "所屬設備",
+      "Component": "Input",
+      "Section": "",
+      "Span": 12,
+      "Mode": "ReadOnly",
+      "Validations": [
+       {
+        "Rule": "Required",
+        "Message": "所屬設備為必填"
+       }
+      ]
+     },
+     {
+      "BindField": "CycleMonths",
+      "Title": "校正週期",
+      "Component": "Input",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Validations": [
+       {
+        "Rule": "Required",
+        "Message": "校正週期為必填"
+       }
+      ],
+      "Props": {
+       "Type": "number"
+      }
+     },
+     {
+      "BindField": "CalMethod",
+      "Title": "校正方式",
+      "Component": "Select",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Validations": [
+       {
+        "Rule": "Required",
+        "Message": "校正方式為必填"
+       }
+      ],
+      "Props": {
+       "OptionKey": "CalMethod"
+      },
+      "DefaultValue": "IN"
+     },
+     {
+      "BindField": "CalAgency",
+      "Title": "校正單位",
+      "Component": "Input",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Validations": [
+       {
+        "Rule": "MaxLength",
+        "Value": 100,
+        "Message": "長度不可超過 100"
+       }
+      ]
+     },
+     {
+      "BindField": "AcceptanceCriteria",
+      "Title": "允收標準",
+      "Component": "Input",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Validations": [
+       {
+        "Rule": "MaxLength",
+        "Value": 255,
+        "Message": "長度不可超過 255"
+       }
+      ]
+     },
+     {
+      "BindField": "EffectiveDate",
+      "Title": "生效日期",
+      "Component": "DatePicker",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Validations": [
+       {
+        "Rule": "Required",
+        "Message": "生效日期為必填"
+       }
+      ],
+      "Props": {
+       "Mode": "Editable",
+       "ShowTime": false
+      }
+     }
+    ],
+    "SeedData": [
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000041",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0001",
+      "EquipGuid": "所屬設備42",
+      "CycleMonths": 100,
+      "CalMethod": "IN",
+      "CalAgency": "M071 工務處",
+      "AcceptanceCriteria": "EPA",
+      "EffectiveDate": "2026-07-17"
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000042",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0001",
+      "EquipGuid": "所屬設備43",
+      "CycleMonths": 96,
+      "CalMethod": "SC",
+      "CalAgency": "M011 工程處",
+      "AcceptanceCriteria": "NIEA",
+      "EffectiveDate": "2026-12-26"
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000043",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0001",
+      "EquipGuid": "所屬設備44",
+      "CycleMonths": 100,
+      "CalMethod": "IN",
+      "CalAgency": "M021 品保處",
+      "AcceptanceCriteria": "CNS",
+      "EffectiveDate": "2025-02-12"
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000044",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0001",
+      "EquipGuid": "所屬設備45",
+      "CycleMonths": 19,
+      "CalMethod": "IN",
+      "CalAgency": "R001 研發中心",
+      "AcceptanceCriteria": "JIS",
+      "EffectiveDate": "2025-05-06"
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000045",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0002",
+      "EquipGuid": "所屬設備46",
+      "CycleMonths": 87,
+      "CalMethod": "IN",
+      "CalAgency": "M051 製造二處",
+      "AcceptanceCriteria": "Standard Methods",
+      "EffectiveDate": "2025-10-04"
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000046",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0002",
+      "EquipGuid": "所屬設備47",
+      "CycleMonths": 89,
+      "CalMethod": "IN",
+      "CalAgency": "M021 品保處",
+      "AcceptanceCriteria": "ASTM",
+      "EffectiveDate": "2026-11-16"
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000047",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0003",
+      "EquipGuid": "所屬設備48",
+      "CycleMonths": 85,
+      "CalMethod": "EX",
+      "CalAgency": "R001 研發中心",
+      "AcceptanceCriteria": "EPA",
+      "EffectiveDate": "2026-07-11"
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000048",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0003",
+      "EquipGuid": "所屬設備49",
+      "CycleMonths": 46,
+      "CalMethod": "IN",
+      "CalAgency": "M031 環安處",
+      "AcceptanceCriteria": "NIEA",
+      "EffectiveDate": "2026-06-10"
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000049",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0004",
+      "EquipGuid": "所屬設備50",
+      "CycleMonths": 25,
+      "CalMethod": "EX",
+      "CalAgency": "R001 研發中心",
+      "AcceptanceCriteria": "NIEA",
+      "EffectiveDate": "2026-10-16"
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000050",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0004",
+      "EquipGuid": "所屬設備51",
+      "CycleMonths": 39,
+      "CalMethod": "SC",
+      "CalAgency": "M061 採購處",
+      "AcceptanceCriteria": "JIS",
+      "EffectiveDate": "2025-09-06"
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000051",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0004",
+      "EquipGuid": "所屬設備52",
+      "CycleMonths": 20,
+      "CalMethod": "IN",
+      "CalAgency": "M051 製造二處",
+      "AcceptanceCriteria": "JIS",
+      "EffectiveDate": "2025-02-04"
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000052",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0005",
+      "EquipGuid": "所屬設備53",
+      "CycleMonths": 42,
+      "CalMethod": "EX",
+      "CalAgency": "M011 工程處",
+      "AcceptanceCriteria": "Standard Methods",
+      "EffectiveDate": "2026-12-04"
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000053",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0005",
+      "EquipGuid": "所屬設備54",
+      "CycleMonths": 66,
+      "CalMethod": "EX",
+      "CalAgency": "M061 採購處",
+      "AcceptanceCriteria": "CNS",
+      "EffectiveDate": "2025-02-26"
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000054",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0005",
+      "EquipGuid": "所屬設備55",
+      "CycleMonths": 16,
+      "CalMethod": "EX",
+      "CalAgency": "M041 製造一處",
+      "AcceptanceCriteria": "CNS",
+      "EffectiveDate": "2025-06-04"
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000055",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0006",
+      "EquipGuid": "所屬設備56",
+      "CycleMonths": 21,
+      "CalMethod": "IN",
+      "CalAgency": "M011 工程處",
+      "AcceptanceCriteria": "JIS",
+      "EffectiveDate": "2025-10-25"
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000056",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0006",
+      "EquipGuid": "所屬設備57",
+      "CycleMonths": 72,
+      "CalMethod": "IN",
+      "CalAgency": "M071 工務處",
+      "AcceptanceCriteria": "原廠提供",
+      "EffectiveDate": "2026-12-08"
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000057",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0007",
+      "EquipGuid": "所屬設備58",
+      "CycleMonths": 7,
+      "CalMethod": "IN",
+      "CalAgency": "M031 環安處",
+      "AcceptanceCriteria": "原廠提供",
+      "EffectiveDate": "2025-06-10"
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000058",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0007",
+      "EquipGuid": "所屬設備59",
+      "CycleMonths": 29,
+      "CalMethod": "IN",
+      "CalAgency": "M071 工務處",
+      "AcceptanceCriteria": "NIEA",
+      "EffectiveDate": "2026-10-06"
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000059",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0007",
+      "EquipGuid": "所屬設備60",
+      "CycleMonths": 43,
+      "CalMethod": "IN",
+      "CalAgency": "M051 製造二處",
+      "AcceptanceCriteria": "JIS",
+      "EffectiveDate": "2025-05-16"
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000060",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0007",
+      "EquipGuid": "所屬設備61",
+      "CycleMonths": 47,
+      "CalMethod": "IN",
+      "CalAgency": "M071 工務處",
+      "AcceptanceCriteria": "EPA",
+      "EffectiveDate": "2026-12-22"
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000061",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0008",
+      "EquipGuid": "所屬設備62",
+      "CycleMonths": 36,
+      "CalMethod": "IN",
+      "CalAgency": "M031 環安處",
+      "AcceptanceCriteria": "JIS",
+      "EffectiveDate": "2025-08-25"
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000062",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0008",
+      "EquipGuid": "所屬設備63",
+      "CycleMonths": 78,
+      "CalMethod": "IN",
+      "CalAgency": "M071 工務處",
+      "AcceptanceCriteria": "原廠提供",
+      "EffectiveDate": "2026-08-09"
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000063",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0008",
+      "EquipGuid": "所屬設備64",
+      "CycleMonths": 61,
+      "CalMethod": "IN",
+      "CalAgency": "M071 工務處",
+      "AcceptanceCriteria": "NIEA",
+      "EffectiveDate": "2025-09-26"
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000064",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0008",
+      "EquipGuid": "所屬設備65",
+      "CycleMonths": 57,
+      "CalMethod": "IN",
+      "CalAgency": "M031 環安處",
+      "AcceptanceCriteria": "原廠提供",
+      "EffectiveDate": "2025-12-19"
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000065",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0009",
+      "EquipGuid": "所屬設備66",
+      "CycleMonths": 42,
+      "CalMethod": "EX",
+      "CalAgency": "R001 研發中心",
+      "AcceptanceCriteria": "EPA",
+      "EffectiveDate": "2025-10-05"
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000066",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0009",
+      "EquipGuid": "所屬設備67",
+      "CycleMonths": 52,
+      "CalMethod": "IN",
+      "CalAgency": "M021 品保處",
+      "AcceptanceCriteria": "原廠提供",
+      "EffectiveDate": "2025-06-09"
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000067",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0010",
+      "EquipGuid": "所屬設備68",
+      "CycleMonths": 63,
+      "CalMethod": "IN",
+      "CalAgency": "M051 製造二處",
+      "AcceptanceCriteria": "EPA",
+      "EffectiveDate": "2026-08-22"
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000068",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0010",
+      "EquipGuid": "所屬設備69",
+      "CycleMonths": 93,
+      "CalMethod": "IN",
+      "CalAgency": "M021 品保處",
+      "AcceptanceCriteria": "原廠提供",
+      "EffectiveDate": "2025-11-03"
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000069",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0011",
+      "EquipGuid": "所屬設備70",
+      "CycleMonths": 43,
+      "CalMethod": "IN",
+      "CalAgency": "M061 採購處",
+      "AcceptanceCriteria": "Standard Methods",
+      "EffectiveDate": "2026-03-05"
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000070",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0011",
+      "EquipGuid": "所屬設備71",
+      "CycleMonths": 64,
+      "CalMethod": "EX",
+      "CalAgency": "M061 採購處",
+      "AcceptanceCriteria": "JIS",
+      "EffectiveDate": "2026-04-22"
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000071",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0011",
+      "EquipGuid": "所屬設備72",
+      "CycleMonths": 38,
+      "CalMethod": "SC",
+      "CalAgency": "M021 品保處",
+      "AcceptanceCriteria": "EPA",
+      "EffectiveDate": "2026-07-20"
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000072",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0011",
+      "EquipGuid": "所屬設備73",
+      "CycleMonths": 16,
+      "CalMethod": "IN",
+      "CalAgency": "M071 工務處",
+      "AcceptanceCriteria": "NIEA",
+      "EffectiveDate": "2025-08-24"
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000073",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0012",
+      "EquipGuid": "所屬設備74",
+      "CycleMonths": 89,
+      "CalMethod": "IN",
+      "CalAgency": "M031 環安處",
+      "AcceptanceCriteria": "原廠提供",
+      "EffectiveDate": "2025-06-05"
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000074",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0012",
+      "EquipGuid": "所屬設備75",
+      "CycleMonths": 24,
+      "CalMethod": "IN",
+      "CalAgency": "M011 工程處",
+      "AcceptanceCriteria": "JIS",
+      "EffectiveDate": "2026-01-18"
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000075",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0012",
+      "EquipGuid": "所屬設備76",
+      "CycleMonths": 76,
+      "CalMethod": "IN",
+      "CalAgency": "M031 環安處",
+      "AcceptanceCriteria": "ASTM",
+      "EffectiveDate": "2025-05-04"
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000076",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0013",
+      "EquipGuid": "所屬設備77",
+      "CycleMonths": 31,
+      "CalMethod": "IN",
+      "CalAgency": "M051 製造二處",
+      "AcceptanceCriteria": "CNS",
+      "EffectiveDate": "2026-03-01"
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000077",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0013",
+      "EquipGuid": "所屬設備78",
+      "CycleMonths": 52,
+      "CalMethod": "IN",
+      "CalAgency": "R001 研發中心",
+      "AcceptanceCriteria": "原廠提供",
+      "EffectiveDate": "2026-09-14"
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000078",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0013",
+      "EquipGuid": "所屬設備79",
+      "CycleMonths": 37,
+      "CalMethod": "IN",
+      "CalAgency": "M071 工務處",
+      "AcceptanceCriteria": "ASTM",
+      "EffectiveDate": "2025-06-19"
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000079",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0013",
+      "EquipGuid": "所屬設備80",
+      "CycleMonths": 10,
+      "CalMethod": "IN",
+      "CalAgency": "M031 環安處",
+      "AcceptanceCriteria": "EPA",
+      "EffectiveDate": "2026-09-18"
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000080",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0014",
+      "EquipGuid": "所屬設備81",
+      "CycleMonths": 88,
+      "CalMethod": "SC",
+      "CalAgency": "M041 製造一處",
+      "AcceptanceCriteria": "JIS",
+      "EffectiveDate": "2026-06-20"
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000081",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0014",
+      "EquipGuid": "所屬設備82",
+      "CycleMonths": 24,
+      "CalMethod": "EX",
+      "CalAgency": "R001 研發中心",
+      "AcceptanceCriteria": "Standard Methods",
+      "EffectiveDate": "2026-09-04"
+     }
+    ]
+   },
+   {
+    "DetailID": "CalRecord",
+    "Title": "校正紀錄",
+    "Icon": "ri-ruler-line",
+    "Entity": "labAst_EquipCalRecord",
+    "RelationKey": "EquipCode",
+    "RowKey": "RowGuid",
+    "AllowAdd": true,
+    "AllowEdit": true,
+    "AllowDelete": true,
+    "EmptyText": "尚無校正紀錄資料",
+    "CodeSets": {
+     "Status": [
+      {
+       "CodeID": "1",
+       "CodeName": "啟用",
+       "IsDefault": true
+      },
+      {
+       "CodeID": "0",
+       "CodeName": "停用"
+      }
+     ],
+     "Priority": [
+      {
+       "CodeID": "A",
+       "CodeName": "急件"
+      },
+      {
+       "CodeID": "B",
+       "CodeName": "高"
+      },
+      {
+       "CodeID": "C",
+       "CodeName": "一般",
+       "IsDefault": true
+      },
+      {
+       "CodeID": "D",
+       "CodeName": "低"
+      }
+     ],
+     "CalResult": [
+      {
+       "CodeID": "P",
+       "CodeName": "合格",
+       "IsDefault": true
+      },
+      {
+       "CodeID": "F",
+       "CodeName": "不合格"
+      },
+      {
+       "CodeID": "L",
+       "CodeName": "臨界"
+      }
+     ]
+    },
+    "Columns": [
+     {
+      "BindField": "EquipGuid",
+      "Title": "所屬設備",
+      "Width": 120,
+      "Align": "Left"
+     },
+     {
+      "BindField": "CalDate",
+      "Title": "校正日期",
+      "Width": 120,
+      "Align": "Left",
+      "Formatter": "Date"
+     },
+     {
+      "BindField": "CalResult",
+      "Title": "校正結果",
+      "Width": 120,
+      "Align": "Center",
+      "Formatter": "Tag",
+      "OptionKey": "CalResult"
+     },
+     {
+      "BindField": "NextCalDate",
+      "Title": "下次校正日",
+      "Width": 120,
+      "Align": "Left",
+      "Formatter": "Date"
+     },
+     {
+      "BindField": "CalAgency",
+      "Title": "實際執行校正單位",
+      "Width": 120,
+      "Align": "Left"
+     }
+    ],
+    "FormFields": [
+     {
+      "BindField": "EquipGuid",
+      "Title": "所屬設備",
+      "Component": "Input",
+      "Section": "",
+      "Span": 12,
+      "Mode": "ReadOnly",
+      "Validations": [
+       {
+        "Rule": "Required",
+        "Message": "所屬設備為必填"
+       }
+      ]
+     },
+     {
+      "BindField": "CycleGuid",
+      "Title": "套用之週期設定版本",
+      "Component": "Input",
+      "Section": "",
+      "Span": 12,
+      "Mode": "ReadOnly"
+     },
+     {
+      "BindField": "CalDate",
+      "Title": "校正日期",
+      "Component": "DatePicker",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Validations": [
+       {
+        "Rule": "Required",
+        "Message": "校正日期為必填"
+       }
+      ],
+      "Props": {
+       "Mode": "Editable",
+       "ShowTime": false
+      }
+     },
+     {
+      "BindField": "CalResult",
+      "Title": "校正結果",
+      "Component": "Select",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Validations": [
+       {
+        "Rule": "Required",
+        "Message": "校正結果為必填"
+       }
+      ],
+      "Props": {
+       "OptionKey": "CalResult"
+      },
+      "DefaultValue": "P"
+     },
+     {
+      "BindField": "NextCalDate",
+      "Title": "下次校正日",
+      "Component": "DatePicker",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Validations": [
+       {
+        "Rule": "Required",
+        "Message": "下次校正日為必填"
+       }
+      ],
+      "Props": {
+       "Mode": "Editable",
+       "ShowTime": false
+      }
+     },
+     {
+      "BindField": "CalAgency",
+      "Title": "實際執行校正單位",
+      "Component": "Input",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Validations": [
+       {
+        "Rule": "MaxLength",
+        "Value": 100,
+        "Message": "長度不可超過 100"
+       }
+      ]
+     },
+     {
+      "BindField": "Executor",
+      "Title": "校正執行人員",
+      "Component": "Input",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Validations": [
+       {
+        "Rule": "MaxLength",
+        "Value": 50,
+        "Message": "長度不可超過 50"
+       }
+      ]
+     },
+     {
+      "BindField": "ReportNo",
+      "Title": "校正報告編號",
+      "Component": "Input",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Validations": [
+       {
+        "Rule": "MaxLength",
+        "Value": 50,
+        "Message": "長度不可超過 50"
+       }
+      ]
+     },
+     {
+      "BindField": "Remark",
+      "Title": "備註",
+      "Component": "Input",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Validations": [
+       {
+        "Rule": "MaxLength",
+        "Value": 255,
+        "Message": "長度不可超過 255"
+       }
+      ]
+     }
+    ],
+    "SeedData": [
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000082",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0001",
+      "EquipGuid": "所屬設備83",
+      "CycleGuid": "v5.7",
+      "CalDate": "2026-01-05",
+      "CalResult": "L",
+      "NextCalDate": "2025-03-20",
+      "CalAgency": "M041 製造一處",
+      "Executor": "何環安",
+      "ReportNo": "ECR-2026-0083",
+      "Remark": "客戶要求附 TAF Logo"
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000083",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0001",
+      "EquipGuid": "所屬設備84",
+      "CycleGuid": "v4.9",
+      "CalDate": "2025-12-07",
+      "CalResult": "L",
+      "NextCalDate": "2025-11-17",
+      "CalAgency": "M051 製造二處",
+      "Executor": "周技士",
+      "ReportNo": "ECR-2026-0084",
+      "Remark": "急件已加收費用"
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000084",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0002",
+      "EquipGuid": "所屬設備85",
+      "CycleGuid": "v2.8",
+      "CalDate": "2025-01-09",
+      "CalResult": "L",
+      "NextCalDate": "2026-09-05",
+      "CalAgency": "R001 研發中心",
+      "Executor": "楊化驗",
+      "ReportNo": "ECR-2026-0085",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000085",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0002",
+      "EquipGuid": "所屬設備86",
+      "CycleGuid": "v2.2",
+      "CalDate": "2025-12-10",
+      "CalResult": "L",
+      "NextCalDate": "2025-10-03",
+      "CalAgency": "M071 工務處",
+      "Executor": "許工程",
+      "ReportNo": "ECR-2025-0086",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000086",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0003",
+      "EquipGuid": "所屬設備87",
+      "CycleGuid": "v2.7",
+      "CalDate": "2026-09-08",
+      "CalResult": "P",
+      "NextCalDate": "2025-09-27",
+      "CalAgency": "M071 工務處",
+      "Executor": "楊化驗",
+      "ReportNo": "ECR-2026-0087",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000087",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0003",
+      "EquipGuid": "所屬設備88",
+      "CycleGuid": "v4.0",
+      "CalDate": "2025-03-14",
+      "CalResult": "P",
+      "NextCalDate": "2026-07-14",
+      "CalAgency": "M041 製造一處",
+      "Executor": "郭品管",
+      "ReportNo": "ECR-2025-0088",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000088",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0004",
+      "EquipGuid": "所屬設備89",
+      "CycleGuid": "v5.2",
+      "CalDate": "2026-06-24",
+      "CalResult": "F",
+      "NextCalDate": "2025-05-02",
+      "CalAgency": "M011 工程處",
+      "Executor": "劉助理",
+      "ReportNo": "ECR-2026-0089",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000089",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0004",
+      "EquipGuid": "所屬設備90",
+      "CycleGuid": "v1.7",
+      "CalDate": "2026-10-28",
+      "CalResult": "F",
+      "NextCalDate": "2026-09-07",
+      "CalAgency": "M041 製造一處",
+      "Executor": "林品保",
+      "ReportNo": "ECR-2026-0090",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000090",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0005",
+      "EquipGuid": "所屬設備91",
+      "CycleGuid": "v1.5",
+      "CalDate": "2025-08-12",
+      "CalResult": "P",
+      "NextCalDate": "2025-07-05",
+      "CalAgency": "M021 品保處",
+      "Executor": "黃技正",
+      "ReportNo": "ECR-2026-0091",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000091",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0005",
+      "EquipGuid": "所屬設備92",
+      "CycleGuid": "v2.4",
+      "CalDate": "2025-06-03",
+      "CalResult": "L",
+      "NextCalDate": "2025-01-23",
+      "CalAgency": "M021 品保處",
+      "Executor": "李檢測",
+      "ReportNo": "ECR-2026-0092",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000092",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0005",
+      "EquipGuid": "所屬設備93",
+      "CycleGuid": "v2.0",
+      "CalDate": "2025-10-06",
+      "CalResult": "P",
+      "NextCalDate": "2025-10-23",
+      "CalAgency": "M061 採購處",
+      "Executor": "楊化驗",
+      "ReportNo": "ECR-2026-0093",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000093",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0005",
+      "EquipGuid": "所屬設備94",
+      "CycleGuid": "v3.9",
+      "CalDate": "2025-01-03",
+      "CalResult": "L",
+      "NextCalDate": "2026-11-23",
+      "CalAgency": "M061 採購處",
+      "Executor": "楊化驗",
+      "ReportNo": "ECR-2025-0094",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000094",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0006",
+      "EquipGuid": "所屬設備95",
+      "CycleGuid": "v3.0",
+      "CalDate": "2025-11-06",
+      "CalResult": "P",
+      "NextCalDate": "2026-05-02",
+      "CalAgency": "M021 品保處",
+      "Executor": "吳主任",
+      "ReportNo": "ECR-2026-0095",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000095",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0006",
+      "EquipGuid": "所屬設備96",
+      "CycleGuid": "v5.2",
+      "CalDate": "2025-06-23",
+      "CalResult": "P",
+      "NextCalDate": "2026-01-02",
+      "CalAgency": "M041 製造一處",
+      "Executor": "王采樣",
+      "ReportNo": "ECR-2026-0096",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000096",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0006",
+      "EquipGuid": "所屬設備97",
+      "CycleGuid": "v2.1",
+      "CalDate": "2026-08-19",
+      "CalResult": "P",
+      "NextCalDate": "2025-02-21",
+      "CalAgency": "M071 工務處",
+      "Executor": "周技士",
+      "ReportNo": "ECR-2025-0097",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000097",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0007",
+      "EquipGuid": "所屬設備98",
+      "CycleGuid": "v1.5",
+      "CalDate": "2026-03-03",
+      "CalResult": "P",
+      "NextCalDate": "2025-03-19",
+      "CalAgency": "M061 採購處",
+      "Executor": "張分析",
+      "ReportNo": "ECR-2026-0098",
+      "Remark": "需注意保存效期"
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000098",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0007",
+      "EquipGuid": "所屬設備99",
+      "CycleGuid": "v2.1",
+      "CalDate": "2025-04-06",
+      "CalResult": "P",
+      "NextCalDate": "2025-09-28",
+      "CalAgency": "M011 工程處",
+      "Executor": "黃技正",
+      "ReportNo": "ECR-2025-0099",
+      "Remark": "待主管覆核"
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000099",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0007",
+      "EquipGuid": "所屬設備100",
+      "CycleGuid": "v1.1",
+      "CalDate": "2025-04-28",
+      "CalResult": "P",
+      "NextCalDate": "2026-02-02",
+      "CalAgency": "M051 製造二處",
+      "Executor": "郭品管",
+      "ReportNo": "ECR-2025-0100",
+      "Remark": "定期校正合格"
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000100",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0008",
+      "EquipGuid": "所屬設備101",
+      "CycleGuid": "v3.1",
+      "CalDate": "2025-08-10",
+      "CalResult": "P",
+      "NextCalDate": "2025-07-20",
+      "CalAgency": "M041 製造一處",
+      "Executor": "郭品管",
+      "ReportNo": "ECR-2025-0101",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000101",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0008",
+      "EquipGuid": "所屬設備102",
+      "CycleGuid": "v3.9",
+      "CalDate": "2025-09-16",
+      "CalResult": "P",
+      "NextCalDate": "2025-05-16",
+      "CalAgency": "M031 環安處",
+      "Executor": "林品保",
+      "ReportNo": "ECR-2026-0102",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000102",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0008",
+      "EquipGuid": "所屬設備103",
+      "CycleGuid": "v5.1",
+      "CalDate": "2026-05-28",
+      "CalResult": "L",
+      "NextCalDate": "2025-09-22",
+      "CalAgency": "M051 製造二處",
+      "Executor": "劉助理",
+      "ReportNo": "ECR-2025-0103",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000103",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0009",
+      "EquipGuid": "所屬設備104",
+      "CycleGuid": "v2.1",
+      "CalDate": "2026-01-15",
+      "CalResult": "P",
+      "NextCalDate": "2025-12-08",
+      "CalAgency": "M051 製造二處",
+      "Executor": "陳審核",
+      "ReportNo": "ECR-2026-0104",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000104",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0009",
+      "EquipGuid": "所屬設備105",
+      "CycleGuid": "v3.6",
+      "CalDate": "2025-08-20",
+      "CalResult": "P",
+      "NextCalDate": "2026-11-16",
+      "CalAgency": "R001 研發中心",
+      "Executor": "謝校正",
+      "ReportNo": "ECR-2025-0105",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000105",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0009",
+      "EquipGuid": "所屬設備106",
+      "CycleGuid": "v1.3",
+      "CalDate": "2025-01-09",
+      "CalResult": "P",
+      "NextCalDate": "2025-09-15",
+      "CalAgency": "R001 研發中心",
+      "Executor": "林品保",
+      "ReportNo": "ECR-2025-0106",
+      "Remark": "樣品外觀正常"
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000106",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0010",
+      "EquipGuid": "所屬設備107",
+      "CycleGuid": "v1.4",
+      "CalDate": "2025-06-12",
+      "CalResult": "P",
+      "NextCalDate": "2025-09-14",
+      "CalAgency": "R001 研發中心",
+      "Executor": "鄭組長",
+      "ReportNo": "ECR-2026-0107",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000107",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0010",
+      "EquipGuid": "所屬設備108",
+      "CycleGuid": "v5.4",
+      "CalDate": "2026-10-23",
+      "CalResult": "P",
+      "NextCalDate": "2025-06-26",
+      "CalAgency": "M021 品保處",
+      "Executor": "劉助理",
+      "ReportNo": "ECR-2025-0108",
+      "Remark": "樣品外觀正常"
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000108",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0010",
+      "EquipGuid": "所屬設備109",
+      "CycleGuid": "v3.0",
+      "CalDate": "2025-04-09",
+      "CalResult": "L",
+      "NextCalDate": "2025-07-02",
+      "CalAgency": "M051 製造二處",
+      "Executor": "鄭組長",
+      "ReportNo": "ECR-2026-0109",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000109",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0011",
+      "EquipGuid": "所屬設備110",
+      "CycleGuid": "v1.6",
+      "CalDate": "2026-11-07",
+      "CalResult": "P",
+      "NextCalDate": "2026-04-27",
+      "CalAgency": "M051 製造二處",
+      "Executor": "李檢測",
+      "ReportNo": "ECR-2025-0110",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000110",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0011",
+      "EquipGuid": "所屬設備111",
+      "CycleGuid": "v3.4",
+      "CalDate": "2026-03-28",
+      "CalResult": "F",
+      "NextCalDate": "2025-05-05",
+      "CalAgency": "M011 工程處",
+      "Executor": "王采樣",
+      "ReportNo": "ECR-2026-0111",
+      "Remark": "需注意保存效期"
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000111",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0011",
+      "EquipGuid": "所屬設備112",
+      "CycleGuid": "v5.2",
+      "CalDate": "2025-05-25",
+      "CalResult": "P",
+      "NextCalDate": "2026-10-27",
+      "CalAgency": "M041 製造一處",
+      "Executor": "李檢測",
+      "ReportNo": "ECR-2025-0112",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000112",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0011",
+      "EquipGuid": "所屬設備113",
+      "CycleGuid": "v4.2",
+      "CalDate": "2026-12-26",
+      "CalResult": "P",
+      "NextCalDate": "2026-08-15",
+      "CalAgency": "M021 品保處",
+      "Executor": "鄭組長",
+      "ReportNo": "ECR-2025-0113",
+      "Remark": "需注意保存效期"
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000113",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0012",
+      "EquipGuid": "所屬設備114",
+      "CycleGuid": "v2.9",
+      "CalDate": "2026-04-09",
+      "CalResult": "P",
+      "NextCalDate": "2025-03-17",
+      "CalAgency": "M031 環安處",
+      "Executor": "張分析",
+      "ReportNo": "ECR-2026-0114",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000114",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0012",
+      "EquipGuid": "所屬設備115",
+      "CycleGuid": "v4.6",
+      "CalDate": "2026-11-07",
+      "CalResult": "P",
+      "NextCalDate": "2026-02-22",
+      "CalAgency": "R001 研發中心",
+      "Executor": "陳審核",
+      "ReportNo": "ECR-2025-0115",
+      "Remark": "待主管覆核"
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000115",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0012",
+      "EquipGuid": "所屬設備116",
+      "CycleGuid": "v3.8",
+      "CalDate": "2025-08-15",
+      "CalResult": "P",
+      "NextCalDate": "2025-02-07",
+      "CalAgency": "R001 研發中心",
+      "Executor": "吳主任",
+      "ReportNo": "ECR-2025-0116",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000116",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0012",
+      "EquipGuid": "所屬設備117",
+      "CycleGuid": "v4.4",
+      "CalDate": "2025-04-15",
+      "CalResult": "P",
+      "NextCalDate": "2025-05-25",
+      "CalAgency": "M021 品保處",
+      "Executor": "張分析",
+      "ReportNo": "ECR-2026-0117",
+      "Remark": "急件已加收費用"
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000117",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0013",
+      "EquipGuid": "所屬設備118",
+      "CycleGuid": "v1.2",
+      "CalDate": "2026-01-19",
+      "CalResult": "F",
+      "NextCalDate": "2025-12-10",
+      "CalAgency": "M051 製造二處",
+      "Executor": "許工程",
+      "ReportNo": "ECR-2026-0118",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000118",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0013",
+      "EquipGuid": "所屬設備119",
+      "CycleGuid": "v2.7",
+      "CalDate": "2026-05-04",
+      "CalResult": "F",
+      "NextCalDate": "2026-02-17",
+      "CalAgency": "M061 採購處",
+      "Executor": "郭品管",
+      "ReportNo": "ECR-2025-0119",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000119",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0013",
+      "EquipGuid": "所屬設備120",
+      "CycleGuid": "v2.9",
+      "CalDate": "2026-05-10",
+      "CalResult": "P",
+      "NextCalDate": "2025-01-17",
+      "CalAgency": "M041 製造一處",
+      "Executor": "何環安",
+      "ReportNo": "ECR-2026-0120",
+      "Remark": "複驗確認無誤"
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000120",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0013",
+      "EquipGuid": "所屬設備121",
+      "CycleGuid": "v5.3",
+      "CalDate": "2025-12-18",
+      "CalResult": "P",
+      "NextCalDate": "2025-09-18",
+      "CalAgency": "M021 品保處",
+      "Executor": "蔡研究",
+      "ReportNo": "ECR-2026-0121",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000121",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0014",
+      "EquipGuid": "所屬設備122",
+      "CycleGuid": "v3.6",
+      "CalDate": "2025-11-02",
+      "CalResult": "P",
+      "NextCalDate": "2025-01-20",
+      "CalAgency": "M061 採購處",
+      "Executor": "何環安",
+      "ReportNo": "ECR-2026-0122",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000122",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0014",
+      "EquipGuid": "所屬設備123",
+      "CycleGuid": "v3.7",
+      "CalDate": "2025-11-28",
+      "CalResult": "F",
+      "NextCalDate": "2026-02-09",
+      "CalAgency": "M071 工務處",
+      "Executor": "周技士",
+      "ReportNo": "ECR-2026-0123",
+      "Remark": "樣品外觀正常"
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000123",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0014",
+      "EquipGuid": "所屬設備124",
+      "CycleGuid": "v2.3",
+      "CalDate": "2026-02-12",
+      "CalResult": "P",
+      "NextCalDate": "2026-01-21",
+      "CalAgency": "M031 環安處",
+      "Executor": "楊化驗",
+      "ReportNo": "ECR-2026-0124",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000124",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0014",
+      "EquipGuid": "所屬設備125",
+      "CycleGuid": "v4.6",
+      "CalDate": "2026-05-16",
+      "CalResult": "P",
+      "NextCalDate": "2026-02-16",
+      "CalAgency": "M031 環安處",
+      "Executor": "周技士",
+      "ReportNo": "ECR-2026-0125",
+      "Remark": ""
+     }
+    ]
+   },
+   {
+    "DetailID": "Repair",
+    "Title": "維修紀錄",
+    "Icon": "ri-tools-line",
+    "Entity": "labAst_EquipRepairRecord",
+    "RelationKey": "EquipCode",
+    "RowKey": "RowGuid",
+    "AllowAdd": true,
+    "AllowEdit": true,
+    "AllowDelete": true,
+    "EmptyText": "尚無維修紀錄資料",
+    "CodeSets": {
+     "Status": [
+      {
+       "CodeID": "1",
+       "CodeName": "啟用",
+       "IsDefault": true
+      },
+      {
+       "CodeID": "0",
+       "CodeName": "停用"
+      }
+     ],
+     "Priority": [
+      {
+       "CodeID": "A",
+       "CodeName": "急件"
+      },
+      {
+       "CodeID": "B",
+       "CodeName": "高"
+      },
+      {
+       "CodeID": "C",
+       "CodeName": "一般",
+       "IsDefault": true
+      },
+      {
+       "CodeID": "D",
+       "CodeName": "低"
+      }
+     ],
+     "StatusBefore": [
+      {
+       "CodeID": "N",
+       "CodeName": "正常",
+       "IsDefault": true
+      },
+      {
+       "CodeID": "R",
+       "CodeName": "維修中"
+      },
+      {
+       "CodeID": "C",
+       "CodeName": "校正中"
+      },
+      {
+       "CodeID": "S",
+       "CodeName": "停用"
+      },
+      {
+       "CodeID": "X",
+       "CodeName": "報廢"
+      }
+     ],
+     "StatusAfter": [
+      {
+       "CodeID": "N",
+       "CodeName": "正常",
+       "IsDefault": true
+      },
+      {
+       "CodeID": "R",
+       "CodeName": "維修中"
+      },
+      {
+       "CodeID": "C",
+       "CodeName": "校正中"
+      },
+      {
+       "CodeID": "S",
+       "CodeName": "停用"
+      },
+      {
+       "CodeID": "X",
+       "CodeName": "報廢"
+      }
+     ]
+    },
+    "Columns": [
+     {
+      "BindField": "EquipGuid",
+      "Title": "所屬設備",
+      "Width": 120,
+      "Align": "Left"
+     },
+     {
+      "BindField": "ReportDate",
+      "Title": "報修日期",
+      "Width": 120,
+      "Align": "Left",
+      "Formatter": "Date"
+     },
+     {
+      "BindField": "FaultDesc",
+      "Title": "故障描述",
+      "Width": 120,
+      "Align": "Left"
+     },
+     {
+      "BindField": "RepairVendor",
+      "Title": "維修廠商",
+      "Width": 120,
+      "Align": "Left"
+     },
+     {
+      "BindField": "StatusBefore",
+      "Title": "維修前狀態",
+      "Width": 120,
+      "Align": "Center",
+      "Formatter": "Tag",
+      "OptionKey": "StatusBefore"
+     }
+    ],
+    "FormFields": [
+     {
+      "BindField": "EquipGuid",
+      "Title": "所屬設備",
+      "Component": "Input",
+      "Section": "",
+      "Span": 12,
+      "Mode": "ReadOnly",
+      "Validations": [
+       {
+        "Rule": "Required",
+        "Message": "所屬設備為必填"
+       }
+      ]
+     },
+     {
+      "BindField": "ReportDate",
+      "Title": "報修日期",
+      "Component": "DatePicker",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Validations": [
+       {
+        "Rule": "Required",
+        "Message": "報修日期為必填"
+       }
+      ],
+      "Props": {
+       "Mode": "Editable",
+       "ShowTime": false
+      }
+     },
+     {
+      "BindField": "FaultDesc",
+      "Title": "故障描述",
+      "Component": "Textarea",
+      "Section": "",
+      "Span": 24,
+      "Mode": "Editable",
+      "Validations": [
+       {
+        "Rule": "Required",
+        "Message": "故障描述為必填"
+       },
+       {
+        "Rule": "MaxLength",
+        "Value": 500,
+        "Message": "長度不可超過 500"
+       }
+      ],
+      "Props": {
+       "Rows": 3
+      }
+     },
+     {
+      "BindField": "RepairVendor",
+      "Title": "維修廠商",
+      "Component": "Input",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Validations": [
+       {
+        "Rule": "MaxLength",
+        "Value": 100,
+        "Message": "長度不可超過 100"
+       }
+      ]
+     },
+     {
+      "BindField": "StatusBefore",
+      "Title": "維修前狀態",
+      "Component": "Select",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Validations": [
+       {
+        "Rule": "Required",
+        "Message": "維修前狀態為必填"
+       }
+      ],
+      "Props": {
+       "OptionKey": "StatusBefore"
+      },
+      "DefaultValue": "N"
+     },
+     {
+      "BindField": "StatusAfter",
+      "Title": "維修後狀態",
+      "Component": "Select",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Props": {
+       "OptionKey": "StatusAfter"
+      },
+      "DefaultValue": "N"
+     },
+     {
+      "BindField": "CompletedDate",
+      "Title": "維修完成日",
+      "Component": "DatePicker",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Props": {
+       "Mode": "Editable",
+       "ShowTime": false
+      }
+     },
+     {
+      "BindField": "Cost",
+      "Title": "維修費用",
+      "Component": "Input",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Props": {
+       "Type": "number"
+      }
+     },
+     {
+      "BindField": "Remark",
+      "Title": "備註",
+      "Component": "Input",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Validations": [
+       {
+        "Rule": "MaxLength",
+        "Value": 255,
+        "Message": "長度不可超過 255"
+       }
+      ]
+     }
+    ],
+    "SeedData": [
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000125",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0001",
+      "EquipGuid": "所屬設備126",
+      "ReportDate": "2025-11-21",
+      "FaultDesc": "需注意保存效期",
+      "RepairVendor": "Mettler Toledo",
+      "StatusBefore": "R",
+      "StatusAfter": "X",
+      "CompletedDate": "2025-04-24",
+      "Cost": 3500,
+      "Remark": "需注意保存效期"
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000126",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0001",
+      "EquipGuid": "所屬設備127",
+      "ReportDate": "2026-02-28",
+      "FaultDesc": "已通知申請單位",
+      "RepairVendor": "HACH",
+      "StatusBefore": "N",
+      "StatusAfter": "R",
+      "CompletedDate": "2026-05-03",
+      "Cost": 1200,
+      "Remark": "定期校正合格"
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000127",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0001",
+      "EquipGuid": "所屬設備128",
+      "ReportDate": "2026-09-04",
+      "FaultDesc": "樣品外觀正常",
+      "RepairVendor": "HACH",
+      "StatusBefore": "N",
+      "StatusAfter": "R",
+      "CompletedDate": "2025-04-17",
+      "Cost": 5000,
+      "Remark": ""
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000128",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0001",
+      "EquipGuid": "所屬設備129",
+      "ReportDate": "2025-10-24",
+      "FaultDesc": "需注意保存效期",
+      "RepairVendor": "PerkinElmer",
+      "StatusBefore": "N",
+      "StatusAfter": "R",
+      "CompletedDate": "2026-03-22",
+      "Cost": 3500,
+      "Remark": ""
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000129",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0002",
+      "EquipGuid": "所屬設備130",
+      "ReportDate": "2026-10-01",
+      "FaultDesc": "",
+      "RepairVendor": "Mettler Toledo",
+      "StatusBefore": "N",
+      "StatusAfter": "C",
+      "CompletedDate": "2025-11-06",
+      "Cost": 5000,
+      "Remark": ""
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000130",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0002",
+      "EquipGuid": "所屬設備131",
+      "ReportDate": "2025-07-28",
+      "FaultDesc": "需注意保存效期",
+      "RepairVendor": "Thermo Fisher",
+      "StatusBefore": "N",
+      "StatusAfter": "N",
+      "CompletedDate": "2025-05-21",
+      "Cost": 3500,
+      "Remark": ""
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000131",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0002",
+      "EquipGuid": "所屬設備132",
+      "ReportDate": "2026-06-11",
+      "FaultDesc": "",
+      "RepairVendor": "Agilent",
+      "StatusBefore": "N",
+      "StatusAfter": "R",
+      "CompletedDate": "2026-11-07",
+      "Cost": 1500,
+      "Remark": "客戶要求附 TAF Logo"
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000132",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0003",
+      "EquipGuid": "所屬設備133",
+      "ReportDate": "2026-07-26",
+      "FaultDesc": "客戶要求附 TAF Logo",
+      "RepairVendor": "Thermo Fisher",
+      "StatusBefore": "X",
+      "StatusAfter": "N",
+      "CompletedDate": "2026-02-22",
+      "Cost": 1200,
+      "Remark": ""
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000133",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0003",
+      "EquipGuid": "所屬設備134",
+      "ReportDate": "2025-05-15",
+      "FaultDesc": "",
+      "RepairVendor": "Agilent",
+      "StatusBefore": "X",
+      "StatusAfter": "N",
+      "CompletedDate": "2026-07-26",
+      "Cost": 3500,
+      "Remark": ""
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000134",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0004",
+      "EquipGuid": "所屬設備135",
+      "ReportDate": "2026-01-24",
+      "FaultDesc": "",
+      "RepairVendor": "PerkinElmer",
+      "StatusBefore": "N",
+      "StatusAfter": "C",
+      "CompletedDate": "2025-01-17",
+      "Cost": 1500,
+      "Remark": "定期校正合格"
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000135",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0004",
+      "EquipGuid": "所屬設備136",
+      "ReportDate": "2025-02-19",
+      "FaultDesc": "",
+      "RepairVendor": "Thermo Fisher",
+      "StatusBefore": "N",
+      "StatusAfter": "N",
+      "CompletedDate": "2025-10-15",
+      "Cost": 2000,
+      "Remark": ""
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000136",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0005",
+      "EquipGuid": "所屬設備137",
+      "ReportDate": "2026-07-13",
+      "FaultDesc": "",
+      "RepairVendor": "Metrohm",
+      "StatusBefore": "R",
+      "StatusAfter": "N",
+      "CompletedDate": "2026-11-11",
+      "Cost": 3500,
+      "Remark": ""
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000137",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0005",
+      "EquipGuid": "所屬設備138",
+      "ReportDate": "2025-02-25",
+      "FaultDesc": "",
+      "RepairVendor": "HACH",
+      "StatusBefore": "N",
+      "StatusAfter": "N",
+      "CompletedDate": "2026-05-15",
+      "Cost": 2000,
+      "Remark": ""
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000138",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0006",
+      "EquipGuid": "所屬設備139",
+      "ReportDate": "2025-07-25",
+      "FaultDesc": "待主管覆核",
+      "RepairVendor": "Shimadzu",
+      "StatusBefore": "N",
+      "StatusAfter": "C",
+      "CompletedDate": "2025-02-04",
+      "Cost": 2000,
+      "Remark": ""
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000139",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0006",
+      "EquipGuid": "所屬設備140",
+      "ReportDate": "2025-08-14",
+      "FaultDesc": "客戶要求附 TAF Logo",
+      "RepairVendor": "Mettler Toledo",
+      "StatusBefore": "S",
+      "StatusAfter": "N",
+      "CompletedDate": "2026-03-23",
+      "Cost": 1500,
+      "Remark": ""
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000140",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0007",
+      "EquipGuid": "所屬設備141",
+      "ReportDate": "2026-07-17",
+      "FaultDesc": "樣品外觀正常",
+      "RepairVendor": "Metrohm",
+      "StatusBefore": "N",
+      "StatusAfter": "R",
+      "CompletedDate": "2025-10-16",
+      "Cost": 1500,
+      "Remark": "待主管覆核"
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000141",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0007",
+      "EquipGuid": "所屬設備142",
+      "ReportDate": "2025-06-09",
+      "FaultDesc": "樣品外觀正常",
+      "RepairVendor": "Thermo Fisher",
+      "StatusBefore": "N",
+      "StatusAfter": "N",
+      "CompletedDate": "2026-05-24",
+      "Cost": 800,
+      "Remark": ""
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000142",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0008",
+      "EquipGuid": "所屬設備143",
+      "ReportDate": "2025-10-01",
+      "FaultDesc": "",
+      "RepairVendor": "HACH",
+      "StatusBefore": "R",
+      "StatusAfter": "X",
+      "CompletedDate": "2025-07-09",
+      "Cost": 1500,
+      "Remark": ""
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000143",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0008",
+      "EquipGuid": "所屬設備144",
+      "ReportDate": "2026-10-22",
+      "FaultDesc": "",
+      "RepairVendor": "Agilent",
+      "StatusBefore": "N",
+      "StatusAfter": "N",
+      "CompletedDate": "2025-12-27",
+      "Cost": 3500,
+      "Remark": "需注意保存效期"
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000144",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0009",
+      "EquipGuid": "所屬設備145",
+      "ReportDate": "2025-06-14",
+      "FaultDesc": "",
+      "RepairVendor": "Agilent",
+      "StatusBefore": "X",
+      "StatusAfter": "R",
+      "CompletedDate": "2026-04-07",
+      "Cost": 1500,
+      "Remark": "定期校正合格"
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000145",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0009",
+      "EquipGuid": "所屬設備146",
+      "ReportDate": "2026-11-02",
+      "FaultDesc": "複驗確認無誤",
+      "RepairVendor": "PerkinElmer",
+      "StatusBefore": "N",
+      "StatusAfter": "S",
+      "CompletedDate": "2026-03-06",
+      "Cost": 800,
+      "Remark": ""
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000146",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0010",
+      "EquipGuid": "所屬設備147",
+      "ReportDate": "2025-08-13",
+      "FaultDesc": "",
+      "RepairVendor": "Shimadzu",
+      "StatusBefore": "X",
+      "StatusAfter": "N",
+      "CompletedDate": "2025-07-12",
+      "Cost": 2000,
+      "Remark": ""
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000147",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0010",
+      "EquipGuid": "所屬設備148",
+      "ReportDate": "2026-10-04",
+      "FaultDesc": "複驗確認無誤",
+      "RepairVendor": "HACH",
+      "StatusBefore": "X",
+      "StatusAfter": "N",
+      "CompletedDate": "2025-02-04",
+      "Cost": 5000,
+      "Remark": ""
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000148",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0010",
+      "EquipGuid": "所屬設備149",
+      "ReportDate": "2025-05-12",
+      "FaultDesc": "",
+      "RepairVendor": "Thermo Fisher",
+      "StatusBefore": "X",
+      "StatusAfter": "N",
+      "CompletedDate": "2025-04-23",
+      "Cost": 800,
+      "Remark": "複驗確認無誤"
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000149",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0010",
+      "EquipGuid": "所屬設備150",
+      "ReportDate": "2026-05-23",
+      "FaultDesc": "",
+      "RepairVendor": "Metrohm",
+      "StatusBefore": "N",
+      "StatusAfter": "N",
+      "CompletedDate": "2025-06-01",
+      "Cost": 2000,
+      "Remark": ""
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000150",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0011",
+      "EquipGuid": "所屬設備151",
+      "ReportDate": "2025-01-09",
+      "FaultDesc": "",
+      "RepairVendor": "Thermo Fisher",
+      "StatusBefore": "N",
+      "StatusAfter": "N",
+      "CompletedDate": "2025-11-19",
+      "Cost": 1200,
+      "Remark": ""
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000151",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0011",
+      "EquipGuid": "所屬設備152",
+      "ReportDate": "2025-09-01",
+      "FaultDesc": "急件已加收費用",
+      "RepairVendor": "Shimadzu",
+      "StatusBefore": "N",
+      "StatusAfter": "N",
+      "CompletedDate": "2026-10-02",
+      "Cost": 1500,
+      "Remark": "定期校正合格"
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000152",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0011",
+      "EquipGuid": "所屬設備153",
+      "ReportDate": "2026-09-08",
+      "FaultDesc": "客戶要求附 TAF Logo",
+      "RepairVendor": "HACH",
+      "StatusBefore": "X",
+      "StatusAfter": "N",
+      "CompletedDate": "2025-02-24",
+      "Cost": 5000,
+      "Remark": "樣品外觀正常"
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000153",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0012",
+      "EquipGuid": "所屬設備154",
+      "ReportDate": "2026-08-09",
+      "FaultDesc": "",
+      "RepairVendor": "Shimadzu",
+      "StatusBefore": "X",
+      "StatusAfter": "X",
+      "CompletedDate": "2025-03-19",
+      "Cost": 1200,
+      "Remark": ""
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000154",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0012",
+      "EquipGuid": "所屬設備155",
+      "ReportDate": "2026-01-13",
+      "FaultDesc": "",
+      "RepairVendor": "PerkinElmer",
+      "StatusBefore": "X",
+      "StatusAfter": "C",
+      "CompletedDate": "2025-04-16",
+      "Cost": 5000,
+      "Remark": ""
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000155",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0012",
+      "EquipGuid": "所屬設備156",
+      "ReportDate": "2026-12-04",
+      "FaultDesc": "樣品外觀正常",
+      "RepairVendor": "Shimadzu",
+      "StatusBefore": "N",
+      "StatusAfter": "X",
+      "CompletedDate": "2025-03-07",
+      "Cost": 5000,
+      "Remark": ""
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000156",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0013",
+      "EquipGuid": "所屬設備157",
+      "ReportDate": "2026-01-08",
+      "FaultDesc": "",
+      "RepairVendor": "Shimadzu",
+      "StatusBefore": "S",
+      "StatusAfter": "N",
+      "CompletedDate": "2026-10-24",
+      "Cost": 5000,
+      "Remark": "急件已加收費用"
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000157",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0013",
+      "EquipGuid": "所屬設備158",
+      "ReportDate": "2026-03-03",
+      "FaultDesc": "複驗確認無誤",
+      "RepairVendor": "Thermo Fisher",
+      "StatusBefore": "N",
+      "StatusAfter": "C",
+      "CompletedDate": "2026-12-22",
+      "Cost": 1500,
+      "Remark": ""
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000158",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0014",
+      "EquipGuid": "所屬設備159",
+      "ReportDate": "2026-01-22",
+      "FaultDesc": "定期校正合格",
+      "RepairVendor": "Metrohm",
+      "StatusBefore": "X",
+      "StatusAfter": "N",
+      "CompletedDate": "2026-10-21",
+      "Cost": 800,
+      "Remark": ""
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000159",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0014",
+      "EquipGuid": "所屬設備160",
+      "ReportDate": "2026-03-07",
+      "FaultDesc": "",
+      "RepairVendor": "PerkinElmer",
+      "StatusBefore": "S",
+      "StatusAfter": "S",
+      "CompletedDate": "2026-05-21",
+      "Cost": 2000,
+      "Remark": ""
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000160",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0014",
+      "EquipGuid": "所屬設備161",
+      "ReportDate": "2026-11-21",
+      "FaultDesc": "",
+      "RepairVendor": "HACH",
+      "StatusBefore": "C",
+      "StatusAfter": "N",
+      "CompletedDate": "2026-03-09",
+      "Cost": 3500,
+      "Remark": ""
+     }
+    ]
+   },
+   {
+    "DetailID": "Usage",
+    "Title": "使用紀錄",
+    "Icon": "ri-history-line",
+    "Entity": "labAst_EquipUsageRecord",
+    "RelationKey": "EquipCode",
+    "RowKey": "RowGuid",
+    "AllowAdd": true,
+    "AllowEdit": true,
+    "AllowDelete": true,
+    "EmptyText": "尚無使用紀錄資料",
+    "CodeSets": {
+     "Status": [
+      {
+       "CodeID": "1",
+       "CodeName": "啟用",
+       "IsDefault": true
+      },
+      {
+       "CodeID": "0",
+       "CodeName": "停用"
+      }
+     ],
+     "Priority": [
+      {
+       "CodeID": "A",
+       "CodeName": "急件"
+      },
+      {
+       "CodeID": "B",
+       "CodeName": "高"
+      },
+      {
+       "CodeID": "C",
+       "CodeName": "一般",
+       "IsDefault": true
+      },
+      {
+       "CodeID": "D",
+       "CodeName": "低"
+      }
+     ]
+    },
+    "Columns": [
+     {
+      "BindField": "EquipGuid",
+      "Title": "所屬設備",
+      "Width": 120,
+      "Align": "Left"
+     },
+     {
+      "BindField": "UserName",
+      "Title": "使用人員",
+      "Width": 120,
+      "Align": "Left"
+     },
+     {
+      "BindField": "StartTime",
+      "Title": "使用起始時間",
+      "Width": 120,
+      "Align": "Left",
+      "Formatter": "Date"
+     },
+     {
+      "BindField": "EndTime",
+      "Title": "使用結束時間",
+      "Width": 120,
+      "Align": "Left",
+      "Formatter": "Date"
+     },
+     {
+      "BindField": "UsageHours",
+      "Title": "[計算欄位] 使用時數",
+      "Width": 120,
+      "Align": "Left"
+     }
+    ],
+    "FormFields": [
+     {
+      "BindField": "EquipGuid",
+      "Title": "所屬設備",
+      "Component": "Input",
+      "Section": "",
+      "Span": 12,
+      "Mode": "ReadOnly",
+      "Validations": [
+       {
+        "Rule": "Required",
+        "Message": "所屬設備為必填"
+       }
+      ]
+     },
+     {
+      "BindField": "UserName",
+      "Title": "使用人員",
+      "Component": "Input",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Validations": [
+       {
+        "Rule": "Required",
+        "Message": "使用人員為必填"
+       },
+       {
+        "Rule": "MaxLength",
+        "Value": 50,
+        "Message": "長度不可超過 50"
+       }
+      ]
+     },
+     {
+      "BindField": "StartTime",
+      "Title": "使用起始時間",
+      "Component": "DatePicker",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Validations": [
+       {
+        "Rule": "Required",
+        "Message": "使用起始時間為必填"
+       }
+      ],
+      "Props": {
+       "Mode": "Editable",
+       "ShowTime": false
+      }
+     },
+     {
+      "BindField": "EndTime",
+      "Title": "使用結束時間",
+      "Component": "DatePicker",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Props": {
+       "Mode": "Editable",
+       "ShowTime": false
+      }
+     },
+     {
+      "BindField": "UsageHours",
+      "Title": "[計算欄位] 使用時數",
+      "Component": "Input",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Validations": [
+       {
+        "Rule": "Required",
+        "Message": "[計算欄位] 使用時數為必填"
+       }
+      ]
+     },
+     {
+      "BindField": "TestOrderNo",
+      "Title": "對應檢驗單編號",
+      "Component": "Input",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Validations": [
+       {
+        "Rule": "MaxLength",
+        "Value": 30,
+        "Message": "長度不可超過 30"
+       }
+      ]
+     },
+     {
+      "BindField": "Remark",
+      "Title": "備註",
+      "Component": "Input",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Validations": [
+       {
+        "Rule": "MaxLength",
+        "Value": 255,
+        "Message": "長度不可超過 255"
+       }
+      ]
+     }
+    ],
+    "SeedData": [
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000161",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0001",
+      "EquipGuid": "所屬設備162",
+      "UserName": "劉助理",
+      "StartTime": "2025-07-07",
+      "EndTime": "2026-10-20",
+      "UsageHours": "[計算欄位] 使用時數162",
+      "TestOrderNo": "EUR-2025-0162",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000162",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0001",
+      "EquipGuid": "所屬設備163",
+      "UserName": "謝校正",
+      "StartTime": "2026-08-20",
+      "EndTime": "2025-03-21",
+      "UsageHours": "[計算欄位] 使用時數163",
+      "TestOrderNo": "EUR-2026-0163",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000163",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0001",
+      "EquipGuid": "所屬設備164",
+      "UserName": "何環安",
+      "StartTime": "2026-08-27",
+      "EndTime": "2025-01-11",
+      "UsageHours": "[計算欄位] 使用時數164",
+      "TestOrderNo": "EUR-2025-0164",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000164",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0001",
+      "EquipGuid": "所屬設備165",
+      "UserName": "何環安",
+      "StartTime": "2025-12-11",
+      "EndTime": "2026-05-06",
+      "UsageHours": "[計算欄位] 使用時數165",
+      "TestOrderNo": "EUR-2025-0165",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000165",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0002",
+      "EquipGuid": "所屬設備166",
+      "UserName": "何環安",
+      "StartTime": "2026-12-09",
+      "EndTime": "2026-02-28",
+      "UsageHours": "[計算欄位] 使用時數166",
+      "TestOrderNo": "EUR-2026-0166",
+      "Remark": "急件已加收費用"
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000166",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0002",
+      "EquipGuid": "所屬設備167",
+      "UserName": "黃技正",
+      "StartTime": "2026-11-11",
+      "EndTime": "2026-05-28",
+      "UsageHours": "[計算欄位] 使用時數167",
+      "TestOrderNo": "EUR-2025-0167",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000167",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0002",
+      "EquipGuid": "所屬設備168",
+      "UserName": "楊化驗",
+      "StartTime": "2026-02-27",
+      "EndTime": "2025-10-01",
+      "UsageHours": "[計算欄位] 使用時數168",
+      "TestOrderNo": "EUR-2025-0168",
+      "Remark": "定期校正合格"
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000168",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0002",
+      "EquipGuid": "所屬設備169",
+      "UserName": "黃技正",
+      "StartTime": "2026-02-16",
+      "EndTime": "2026-10-08",
+      "UsageHours": "[計算欄位] 使用時數169",
+      "TestOrderNo": "EUR-2025-0169",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000169",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0003",
+      "EquipGuid": "所屬設備170",
+      "UserName": "劉助理",
+      "StartTime": "2026-05-24",
+      "EndTime": "2025-11-22",
+      "UsageHours": "[計算欄位] 使用時數170",
+      "TestOrderNo": "EUR-2026-0170",
+      "Remark": "需注意保存效期"
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000170",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0003",
+      "EquipGuid": "所屬設備171",
+      "UserName": "蔡研究",
+      "StartTime": "2026-08-11",
+      "EndTime": "2026-04-02",
+      "UsageHours": "[計算欄位] 使用時數171",
+      "TestOrderNo": "EUR-2025-0171",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000171",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0003",
+      "EquipGuid": "所屬設備172",
+      "UserName": "謝校正",
+      "StartTime": "2026-02-05",
+      "EndTime": "2026-01-21",
+      "UsageHours": "[計算欄位] 使用時數172",
+      "TestOrderNo": "EUR-2025-0172",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000172",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0004",
+      "EquipGuid": "所屬設備173",
+      "UserName": "林品保",
+      "StartTime": "2025-12-03",
+      "EndTime": "2025-05-20",
+      "UsageHours": "[計算欄位] 使用時數173",
+      "TestOrderNo": "EUR-2025-0173",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000173",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0004",
+      "EquipGuid": "所屬設備174",
+      "UserName": "郭品管",
+      "StartTime": "2026-08-04",
+      "EndTime": "2026-10-10",
+      "UsageHours": "[計算欄位] 使用時數174",
+      "TestOrderNo": "EUR-2026-0174",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000174",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0004",
+      "EquipGuid": "所屬設備175",
+      "UserName": "林品保",
+      "StartTime": "2025-10-11",
+      "EndTime": "2025-02-25",
+      "UsageHours": "[計算欄位] 使用時數175",
+      "TestOrderNo": "EUR-2026-0175",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000175",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0004",
+      "EquipGuid": "所屬設備176",
+      "UserName": "周技士",
+      "StartTime": "2026-06-11",
+      "EndTime": "2026-01-02",
+      "UsageHours": "[計算欄位] 使用時數176",
+      "TestOrderNo": "EUR-2025-0176",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000176",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0005",
+      "EquipGuid": "所屬設備177",
+      "UserName": "林品保",
+      "StartTime": "2026-04-05",
+      "EndTime": "2026-04-03",
+      "UsageHours": "[計算欄位] 使用時數177",
+      "TestOrderNo": "EUR-2025-0177",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000177",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0005",
+      "EquipGuid": "所屬設備178",
+      "UserName": "蔡研究",
+      "StartTime": "2026-09-09",
+      "EndTime": "2026-12-02",
+      "UsageHours": "[計算欄位] 使用時數178",
+      "TestOrderNo": "EUR-2026-0178",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000178",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0005",
+      "EquipGuid": "所屬設備179",
+      "UserName": "楊化驗",
+      "StartTime": "2025-03-27",
+      "EndTime": "2026-04-05",
+      "UsageHours": "[計算欄位] 使用時數179",
+      "TestOrderNo": "EUR-2025-0179",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000179",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0006",
+      "EquipGuid": "所屬設備180",
+      "UserName": "李檢測",
+      "StartTime": "2025-12-06",
+      "EndTime": "2025-09-02",
+      "UsageHours": "[計算欄位] 使用時數180",
+      "TestOrderNo": "EUR-2025-0180",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000180",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0006",
+      "EquipGuid": "所屬設備181",
+      "UserName": "何環安",
+      "StartTime": "2026-12-17",
+      "EndTime": "2026-03-19",
+      "UsageHours": "[計算欄位] 使用時數181",
+      "TestOrderNo": "EUR-2025-0181",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000181",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0007",
+      "EquipGuid": "所屬設備182",
+      "UserName": "李檢測",
+      "StartTime": "2025-10-28",
+      "EndTime": "2026-04-12",
+      "UsageHours": "[計算欄位] 使用時數182",
+      "TestOrderNo": "EUR-2026-0182",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000182",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0007",
+      "EquipGuid": "所屬設備183",
+      "UserName": "陳審核",
+      "StartTime": "2026-07-20",
+      "EndTime": "2025-06-11",
+      "UsageHours": "[計算欄位] 使用時數183",
+      "TestOrderNo": "EUR-2026-0183",
+      "Remark": "待主管覆核"
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000183",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0008",
+      "EquipGuid": "所屬設備184",
+      "UserName": "林品保",
+      "StartTime": "2025-01-18",
+      "EndTime": "2026-08-28",
+      "UsageHours": "[計算欄位] 使用時數184",
+      "TestOrderNo": "EUR-2025-0184",
+      "Remark": "需注意保存效期"
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000184",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0008",
+      "EquipGuid": "所屬設備185",
+      "UserName": "劉助理",
+      "StartTime": "2026-02-11",
+      "EndTime": "2025-12-18",
+      "UsageHours": "[計算欄位] 使用時數185",
+      "TestOrderNo": "EUR-2025-0185",
+      "Remark": "定期校正合格"
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000185",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0008",
+      "EquipGuid": "所屬設備186",
+      "UserName": "林品保",
+      "StartTime": "2025-08-18",
+      "EndTime": "2025-08-10",
+      "UsageHours": "[計算欄位] 使用時數186",
+      "TestOrderNo": "EUR-2025-0186",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000186",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0009",
+      "EquipGuid": "所屬設備187",
+      "UserName": "何環安",
+      "StartTime": "2025-08-13",
+      "EndTime": "2026-09-05",
+      "UsageHours": "[計算欄位] 使用時數187",
+      "TestOrderNo": "EUR-2025-0187",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000187",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0009",
+      "EquipGuid": "所屬設備188",
+      "UserName": "謝校正",
+      "StartTime": "2025-11-20",
+      "EndTime": "2025-07-23",
+      "UsageHours": "[計算欄位] 使用時數188",
+      "TestOrderNo": "EUR-2026-0188",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000188",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0010",
+      "EquipGuid": "所屬設備189",
+      "UserName": "謝校正",
+      "StartTime": "2025-08-15",
+      "EndTime": "2026-05-24",
+      "UsageHours": "[計算欄位] 使用時數189",
+      "TestOrderNo": "EUR-2026-0189",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000189",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0010",
+      "EquipGuid": "所屬設備190",
+      "UserName": "劉助理",
+      "StartTime": "2025-12-19",
+      "EndTime": "2026-01-02",
+      "UsageHours": "[計算欄位] 使用時數190",
+      "TestOrderNo": "EUR-2026-0190",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000190",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0011",
+      "EquipGuid": "所屬設備191",
+      "UserName": "鄭組長",
+      "StartTime": "2026-10-26",
+      "EndTime": "2025-03-14",
+      "UsageHours": "[計算欄位] 使用時數191",
+      "TestOrderNo": "EUR-2025-0191",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000191",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0011",
+      "EquipGuid": "所屬設備192",
+      "UserName": "吳主任",
+      "StartTime": "2025-02-27",
+      "EndTime": "2025-05-08",
+      "UsageHours": "[計算欄位] 使用時數192",
+      "TestOrderNo": "EUR-2025-0192",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000192",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0011",
+      "EquipGuid": "所屬設備193",
+      "UserName": "郭品管",
+      "StartTime": "2025-10-05",
+      "EndTime": "2025-05-21",
+      "UsageHours": "[計算欄位] 使用時數193",
+      "TestOrderNo": "EUR-2026-0193",
+      "Remark": "急件已加收費用"
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000193",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0011",
+      "EquipGuid": "所屬設備194",
+      "UserName": "李檢測",
+      "StartTime": "2026-02-18",
+      "EndTime": "2026-07-22",
+      "UsageHours": "[計算欄位] 使用時數194",
+      "TestOrderNo": "EUR-2026-0194",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000194",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0012",
+      "EquipGuid": "所屬設備195",
+      "UserName": "蔡研究",
+      "StartTime": "2026-04-04",
+      "EndTime": "2025-04-28",
+      "UsageHours": "[計算欄位] 使用時數195",
+      "TestOrderNo": "EUR-2026-0195",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000195",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0012",
+      "EquipGuid": "所屬設備196",
+      "UserName": "楊化驗",
+      "StartTime": "2025-03-16",
+      "EndTime": "2025-10-07",
+      "UsageHours": "[計算欄位] 使用時數196",
+      "TestOrderNo": "EUR-2026-0196",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000196",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0012",
+      "EquipGuid": "所屬設備197",
+      "UserName": "何環安",
+      "StartTime": "2025-07-15",
+      "EndTime": "2025-03-03",
+      "UsageHours": "[計算欄位] 使用時數197",
+      "TestOrderNo": "EUR-2026-0197",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000197",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0013",
+      "EquipGuid": "所屬設備198",
+      "UserName": "黃技正",
+      "StartTime": "2026-07-05",
+      "EndTime": "2025-10-13",
+      "UsageHours": "[計算欄位] 使用時數198",
+      "TestOrderNo": "EUR-2025-0198",
+      "Remark": "已通知申請單位"
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000198",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0013",
+      "EquipGuid": "所屬設備199",
+      "UserName": "楊化驗",
+      "StartTime": "2025-10-07",
+      "EndTime": "2026-11-24",
+      "UsageHours": "[計算欄位] 使用時數199",
+      "TestOrderNo": "EUR-2026-0199",
+      "Remark": "需注意保存效期"
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000199",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0013",
+      "EquipGuid": "所屬設備200",
+      "UserName": "楊化驗",
+      "StartTime": "2025-02-06",
+      "EndTime": "2026-01-10",
+      "UsageHours": "[計算欄位] 使用時數200",
+      "TestOrderNo": "EUR-2026-0200",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000200",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0013",
+      "EquipGuid": "所屬設備201",
+      "UserName": "郭品管",
+      "StartTime": "2025-03-27",
+      "EndTime": "2026-03-02",
+      "UsageHours": "[計算欄位] 使用時數201",
+      "TestOrderNo": "EUR-2026-0201",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000201",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0014",
+      "EquipGuid": "所屬設備202",
+      "UserName": "周技士",
+      "StartTime": "2026-07-12",
+      "EndTime": "2025-10-21",
+      "UsageHours": "[計算欄位] 使用時數202",
+      "TestOrderNo": "EUR-2026-0202",
+      "Remark": "需注意保存效期"
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000202",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0014",
+      "EquipGuid": "所屬設備203",
+      "UserName": "何環安",
+      "StartTime": "2026-06-03",
+      "EndTime": "2026-07-27",
+      "UsageHours": "[計算欄位] 使用時數203",
+      "TestOrderNo": "EUR-2025-0203",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "000003ae-0000-0000-0001-000000000203",
+      "EntityID": "lab",
+      "Status": "1",
+      "EquipCode": "EI-2026-0014",
+      "EquipGuid": "所屬設備204",
+      "UserName": "許工程",
+      "StartTime": "2026-02-13",
+      "EndTime": "2025-08-23",
+      "UsageHours": "[計算欄位] 使用時數204",
+      "TestOrderNo": "EUR-2026-0204",
+      "Remark": "需注意保存效期"
+     }
+    ]
+   }
+  ]
+ },
+ "Features": {},
+ "DataScope": {
+  "DefaultWhere": "EntityID = 'lab' AND Status = '1'",
+  "AuthLevel": 2,
+  "SortExp": "SortNo ASC",
+  "DataConfig": {
+   "RowLimit": 2000,
+   "AllowExport": true
+  }
+ },
+ "CustomMeta": {
+  "CustomSchema": {
+   "WidgetType": "Grid",
+   "KeyField": "DefinitionCode",
+   "TitleField": "EquipTypeCode",
+   "ParentKeyField": null,
+   "PathField": null,
+   "PathSeparator": "/"
+  }
+ },
+ "SeedData": [
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000000",
+   "EntityID": "lab",
+   "Status": "0",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-01-13 10:03",
+   "UpdatedBy": "lee.jc",
+   "UpdatedAt": "2026-12-01 09:07",
+   "DefinitionCode": "EI-2026-0001",
+   "EquipTypeCode": "EI-2026-0001",
+   "EquipSeqNo": 42,
+   "NewEquipNo": "EI-2025-0001",
+   "LegacyEquipNo": "EI-2026-0001",
+   "CategoryGuid": "所屬分類01",
+   "EquipName": "ICP-OES 電漿發射光譜儀",
+   "Brand": "Metrohm",
+   "ModelNo": "EI-2025-0001",
+   "Manufacturer": "製造商01",
+   "VendorName": "周技士",
+   "VendorContact": "許工程",
+   "SpecDesc": "",
+   "LocationGuid": "樣品庫",
+   "AssetNo": "EI-2025-0001",
+   "PurchaseDate": "2026-08-17",
+   "PurchaseAmount": 1200,
+   "UsefulLifeYear": "使用年限01",
+   "EquipStatus": "N",
+   "Remark": "",
+   "Attributes": "擴展屬性01",
+   "EquipCode": "EI-2026-0001"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000001",
+   "EntityID": "lab",
+   "Status": "0",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-10-20 18:17",
+   "UpdatedBy": "liu.as",
+   "UpdatedAt": "2026-08-07 14:11",
+   "DefinitionCode": "EI-2026-0002",
+   "EquipTypeCode": "EI-2026-0002",
+   "EquipSeqNo": 36,
+   "NewEquipNo": "EI-2025-0002",
+   "LegacyEquipNo": "EI-2025-0002",
+   "CategoryGuid": "所屬分類02",
+   "EquipName": "ICP-MS 感應耦合電漿質譜儀",
+   "Brand": "Metrohm",
+   "ModelNo": "EI-2025-0002",
+   "Manufacturer": "製造商02",
+   "VendorName": "謝校正",
+   "VendorContact": "謝校正",
+   "SpecDesc": "急件已加收費用",
+   "LocationGuid": "藥品櫃P2",
+   "AssetNo": "EI-2025-0002",
+   "PurchaseDate": "2026-05-22",
+   "PurchaseAmount": 1200,
+   "UsefulLifeYear": "使用年限02",
+   "EquipStatus": "C",
+   "Remark": "客戶要求附 TAF Logo",
+   "Attributes": "擴展屬性02",
+   "EquipCode": "EI-2026-0002"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000002",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-05-27 08:00",
+   "UpdatedBy": "wang.cy",
+   "UpdatedAt": "2026-01-23 18:09",
+   "DefinitionCode": "EI-2025-0003",
+   "EquipTypeCode": "EI-2025-0003",
+   "EquipSeqNo": 16,
+   "NewEquipNo": "EI-2025-0003",
+   "LegacyEquipNo": "EI-2026-0003",
+   "CategoryGuid": "所屬分類03",
+   "EquipName": "GC-MS 氣相層析質譜儀",
+   "Brand": "Thermo Fisher",
+   "ModelNo": "EI-2026-0003",
+   "Manufacturer": "製造商03",
+   "VendorName": "謝校正",
+   "VendorContact": "楊化驗",
+   "SpecDesc": "",
+   "LocationGuid": "前處理室",
+   "AssetNo": "EI-2025-0003",
+   "PurchaseDate": "2026-08-19",
+   "PurchaseAmount": 2000,
+   "UsefulLifeYear": "使用年限03",
+   "EquipStatus": "N",
+   "Remark": "樣品外觀正常",
+   "Attributes": "擴展屬性03",
+   "EquipCode": "EI-2026-0003"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000003",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-04-07 11:25",
+   "UpdatedBy": "wang.cy",
+   "UpdatedAt": "2026-04-04 15:30",
+   "DefinitionCode": "EI-2026-0004",
+   "EquipTypeCode": "EI-2025-0004",
+   "EquipSeqNo": 8,
+   "NewEquipNo": "EI-2026-0004",
+   "LegacyEquipNo": "EI-2025-0004",
+   "CategoryGuid": "所屬分類04",
+   "EquipName": "HPLC 高效液相層析儀",
+   "Brand": "Agilent",
+   "ModelNo": "EI-2025-0004",
+   "Manufacturer": "製造商04",
+   "VendorName": "吳主任",
+   "VendorContact": "許工程",
+   "SpecDesc": "定期校正合格",
+   "LocationGuid": "冷凍庫(-20°C)",
+   "AssetNo": "EI-2026-0004",
+   "PurchaseDate": "2026-11-14",
+   "PurchaseAmount": 800,
+   "UsefulLifeYear": "使用年限04",
+   "EquipStatus": "N",
+   "Remark": "待主管覆核",
+   "Attributes": "擴展屬性04",
+   "EquipCode": "EI-2026-0004"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000004",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-06-07 15:35",
+   "UpdatedBy": "wu.dir",
+   "UpdatedAt": "2026-12-01 15:23",
+   "DefinitionCode": "EI-2026-0005",
+   "EquipTypeCode": "EI-2026-0005",
+   "EquipSeqNo": 70,
+   "NewEquipNo": "EI-2026-0005",
+   "LegacyEquipNo": "EI-2026-0005",
+   "CategoryGuid": "所屬分類05",
+   "EquipName": "AAS 原子吸收光譜儀",
+   "Brand": "HACH",
+   "ModelNo": "EI-2025-0005",
+   "Manufacturer": "製造商05",
+   "VendorName": "何環安",
+   "VendorContact": "謝校正",
+   "SpecDesc": "待主管覆核",
+   "LocationGuid": "藥品櫃P2",
+   "AssetNo": "EI-2026-0005",
+   "PurchaseDate": "2025-03-20",
+   "PurchaseAmount": 3500,
+   "UsefulLifeYear": "使用年限05",
+   "EquipStatus": "N",
+   "Remark": "複驗確認無誤",
+   "Attributes": "擴展屬性05",
+   "EquipCode": "EI-2026-0005"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000005",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-08-15 17:19",
+   "UpdatedBy": "hsu.eng",
+   "UpdatedAt": "2026-05-01 12:00",
+   "DefinitionCode": "EI-2026-0006",
+   "EquipTypeCode": "EI-2025-0006",
+   "EquipSeqNo": 77,
+   "NewEquipNo": "EI-2025-0006",
+   "LegacyEquipNo": "EI-2025-0006",
+   "CategoryGuid": "所屬分類06",
+   "EquipName": "UV-Vis 分光光度計",
+   "Brand": "PerkinElmer",
+   "ModelNo": "EI-2026-0006",
+   "Manufacturer": "製造商06",
+   "VendorName": "何環安",
+   "VendorContact": "吳主任",
+   "SpecDesc": "",
+   "LocationGuid": "天平室",
+   "AssetNo": "EI-2026-0006",
+   "PurchaseDate": "2025-08-26",
+   "PurchaseAmount": 800,
+   "UsefulLifeYear": "使用年限06",
+   "EquipStatus": "N",
+   "Remark": "",
+   "Attributes": "擴展屬性06",
+   "EquipCode": "EI-2026-0006"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000006",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-04-21 10:16",
+   "UpdatedBy": "lee.jc",
+   "UpdatedAt": "2026-05-23 18:21",
+   "DefinitionCode": "EI-2026-0007",
+   "EquipTypeCode": "EI-2026-0007",
+   "EquipSeqNo": 83,
+   "NewEquipNo": "EI-2025-0007",
+   "LegacyEquipNo": "EI-2026-0007",
+   "CategoryGuid": "所屬分類07",
+   "EquipName": "IC 離子層析儀",
+   "Brand": "PerkinElmer",
+   "ModelNo": "EI-2025-0007",
+   "Manufacturer": "製造商07",
+   "VendorName": "陳審核",
+   "VendorContact": "陳審核",
+   "SpecDesc": "",
+   "LocationGuid": "樣品庫",
+   "AssetNo": "EI-2025-0007",
+   "PurchaseDate": "2026-03-14",
+   "PurchaseAmount": 2000,
+   "UsefulLifeYear": "使用年限07",
+   "EquipStatus": "S",
+   "Remark": "已通知申請單位",
+   "Attributes": "擴展屬性07",
+   "EquipCode": "EI-2026-0007"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000007",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-12-14 10:04",
+   "UpdatedBy": "wang.cy",
+   "UpdatedAt": "2026-11-13 12:28",
+   "DefinitionCode": "EI-2026-0008",
+   "EquipTypeCode": "EI-2026-0008",
+   "EquipSeqNo": 16,
+   "NewEquipNo": "EI-2026-0008",
+   "LegacyEquipNo": "EI-2026-0008",
+   "CategoryGuid": "所屬分類08",
+   "EquipName": "精密天平 0.0001g",
+   "Brand": "Metrohm",
+   "ModelNo": "EI-2025-0008",
+   "Manufacturer": "製造商08",
+   "VendorName": "楊化驗",
+   "VendorContact": "劉助理",
+   "SpecDesc": "",
+   "LocationGuid": "前處理室",
+   "AssetNo": "EI-2026-0008",
+   "PurchaseDate": "2025-11-08",
+   "PurchaseAmount": 1500,
+   "UsefulLifeYear": "使用年限08",
+   "EquipStatus": "N",
+   "Remark": "",
+   "Attributes": "擴展屬性08",
+   "EquipCode": "EI-2026-0008"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000008",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-10-11 11:27",
+   "UpdatedBy": "cheng.gl",
+   "UpdatedAt": "2026-06-01 11:30",
+   "DefinitionCode": "EI-2026-0009",
+   "EquipTypeCode": "EI-2026-0009",
+   "EquipSeqNo": 90,
+   "NewEquipNo": "EI-2025-0009",
+   "LegacyEquipNo": "EI-2025-0009",
+   "CategoryGuid": "所屬分類09",
+   "EquipName": "pH計",
+   "Brand": "Thermo Fisher",
+   "ModelNo": "EI-2026-0009",
+   "Manufacturer": "製造商09",
+   "VendorName": "何環安",
+   "VendorContact": "周技士",
+   "SpecDesc": "待主管覆核",
+   "LocationGuid": "儀器室B",
+   "AssetNo": "EI-2026-0009",
+   "PurchaseDate": "2026-05-21",
+   "PurchaseAmount": 5000,
+   "UsefulLifeYear": "使用年限09",
+   "EquipStatus": "N",
+   "Remark": "急件已加收費用",
+   "Attributes": "擴展屬性09",
+   "EquipCode": "EI-2026-0009"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000009",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-01-07 08:13",
+   "UpdatedBy": "wang.cy",
+   "UpdatedAt": "2026-07-15 17:10",
+   "DefinitionCode": "EI-2026-0010",
+   "EquipTypeCode": "EI-2026-0010",
+   "EquipSeqNo": 95,
+   "NewEquipNo": "EI-2026-0010",
+   "LegacyEquipNo": "EI-2026-0010",
+   "CategoryGuid": "所屬分類10",
+   "EquipName": "濁度計",
+   "Brand": "HACH",
+   "ModelNo": "EI-2025-0010",
+   "Manufacturer": "製造商10",
+   "VendorName": "許工程",
+   "VendorContact": "王采樣",
+   "SpecDesc": "",
+   "LocationGuid": "儀器室B",
+   "AssetNo": "EI-2026-0010",
+   "PurchaseDate": "2026-09-25",
+   "PurchaseAmount": 1500,
+   "UsefulLifeYear": "使用年限10",
+   "EquipStatus": "N",
+   "Remark": "",
+   "Attributes": "擴展屬性10",
+   "EquipCode": "EI-2026-0010"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000010",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-07-17 14:12",
+   "UpdatedBy": "chang.fa",
+   "UpdatedAt": "2026-02-04 13:05",
+   "DefinitionCode": "EI-2025-0011",
+   "EquipTypeCode": "EI-2025-0011",
+   "EquipSeqNo": 51,
+   "NewEquipNo": "EI-2025-0011",
+   "LegacyEquipNo": "EI-2026-0011",
+   "CategoryGuid": "所屬分類11",
+   "EquipName": "TOC 分析儀",
+   "Brand": "Thermo Fisher",
+   "ModelNo": "EI-2025-0011",
+   "Manufacturer": "製造商11",
+   "VendorName": "黃技正",
+   "VendorContact": "吳主任",
+   "SpecDesc": "",
+   "LocationGuid": "冷凍庫(-20°C)",
+   "AssetNo": "EI-2026-0011",
+   "PurchaseDate": "2026-04-09",
+   "PurchaseAmount": 5000,
+   "UsefulLifeYear": "使用年限11",
+   "EquipStatus": "S",
+   "Remark": "",
+   "Attributes": "擴展屬性11",
+   "EquipCode": "EI-2026-0011"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000011",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-07-28 09:27",
+   "UpdatedBy": "hsu.eng",
+   "UpdatedAt": "2026-01-21 15:30",
+   "DefinitionCode": "EI-2026-0012",
+   "EquipTypeCode": "EI-2026-0012",
+   "EquipSeqNo": 28,
+   "NewEquipNo": "EI-2025-0012",
+   "LegacyEquipNo": "EI-2026-0012",
+   "CategoryGuid": "所屬分類12",
+   "EquipName": "紫外光消化器",
+   "Brand": "Thermo Fisher",
+   "ModelNo": "EI-2026-0012",
+   "Manufacturer": "製造商12",
+   "VendorName": "郭品管",
+   "VendorContact": "李檢測",
+   "SpecDesc": "",
+   "LocationGuid": "儀器室A",
+   "AssetNo": "EI-2025-0012",
+   "PurchaseDate": "2025-02-27",
+   "PurchaseAmount": 5000,
+   "UsefulLifeYear": "使用年限12",
+   "EquipStatus": "N",
+   "Remark": "已通知申請單位",
+   "Attributes": "擴展屬性12",
+   "EquipCode": "EI-2026-0012"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000012",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-07-02 16:10",
+   "UpdatedBy": "abram.chen",
+   "UpdatedAt": "2026-03-01 18:00",
+   "DefinitionCode": "EI-2025-0013",
+   "EquipTypeCode": "EI-2025-0013",
+   "EquipSeqNo": 37,
+   "NewEquipNo": "EI-2025-0013",
+   "LegacyEquipNo": "EI-2026-0013",
+   "CategoryGuid": "所屬分類13",
+   "EquipName": "ICP-OES 電漿發射光譜儀",
+   "Brand": "Metrohm",
+   "ModelNo": "EI-2025-0013",
+   "Manufacturer": "製造商13",
+   "VendorName": "許工程",
+   "VendorContact": "楊化驗",
+   "SpecDesc": "",
+   "LocationGuid": "儀器室B",
+   "AssetNo": "EI-2026-0013",
+   "PurchaseDate": "2026-10-20",
+   "PurchaseAmount": 2000,
+   "UsefulLifeYear": "使用年限13",
+   "EquipStatus": "X",
+   "Remark": "",
+   "Attributes": "擴展屬性13",
+   "EquipCode": "EI-2026-0013"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000013",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-01-09 08:09",
+   "UpdatedBy": "lin.pb",
+   "UpdatedAt": "2026-06-18 17:08",
+   "DefinitionCode": "EI-2025-0014",
+   "EquipTypeCode": "EI-2025-0014",
+   "EquipSeqNo": 76,
+   "NewEquipNo": "EI-2026-0014",
+   "LegacyEquipNo": "EI-2025-0014",
+   "CategoryGuid": "所屬分類14",
+   "EquipName": "ICP-MS 感應耦合電漿質譜儀",
+   "Brand": "Thermo Fisher",
+   "ModelNo": "EI-2025-0014",
+   "Manufacturer": "製造商14",
+   "VendorName": "黃技正",
+   "VendorContact": "吳主任",
+   "SpecDesc": "待主管覆核",
+   "LocationGuid": "藥品櫃P2",
+   "AssetNo": "EI-2025-0014",
+   "PurchaseDate": "2025-03-22",
+   "PurchaseAmount": 5000,
+   "UsefulLifeYear": "使用年限14",
+   "EquipStatus": "N",
+   "Remark": "定期校正合格",
+   "Attributes": "擴展屬性14",
+   "EquipCode": "EI-2026-0014"
+  }
+ ]
+}

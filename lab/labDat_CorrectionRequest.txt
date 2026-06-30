@@ -1,0 +1,747 @@
+{
+ "EntityID": "lab",
+ "SystemCode": "MUEIP",
+ "ModuleCode": "LIMS",
+ "FuncCode": "labDat_CorrectionRequest",
+ "ConfigHash": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+ "PageMeta": {
+  "PageTitle": "數據更正申請",
+  "Lang": "zh-TW",
+  "FormType": "ListForm",
+  "EditDisplayType": "Drawer",
+  "Breadcrumb": [
+   {
+    "Title": "首頁",
+    "Path": "/"
+   },
+   {
+    "Title": "實驗數據儲存管理",
+    "Path": null
+   },
+   {
+    "Title": "數據更正申請",
+    "Path": "/lab/labDat_CorrectionRequest"
+   }
+  ],
+  "IsApproval": false,
+  "TenantLocked": false,
+  "Icon": "ri-edit-2-line",
+  "Remark": "數據更正申請（由 labDat_CorrectionRequest 規格書產生）"
+ },
+ "Resources": {
+  "CodeSets": {
+   "Status": [
+    {
+     "CodeID": "1",
+     "CodeName": "啟用",
+     "IsDefault": true
+    },
+    {
+     "CodeID": "0",
+     "CodeName": "停用"
+    }
+   ],
+   "Priority": [
+    {
+     "CodeID": "A",
+     "CodeName": "急件"
+    },
+    {
+     "CodeID": "B",
+     "CodeName": "高"
+    },
+    {
+     "CodeID": "C",
+     "CodeName": "一般",
+     "IsDefault": true
+    },
+    {
+     "CodeID": "D",
+     "CodeName": "低"
+    }
+   ]
+  },
+  "FeatureFlags": {
+   "IsReadOnly": false,
+   "EnableDraft": false,
+   "EnableBatchDelete": true,
+   "AutoRefreshInterval": 0,
+   "DefaultViewMode": "Table",
+   "RequireConfirmOnSave": true
+  }
+ },
+ "AllowAction": {
+  "DataActions": [
+   {
+    "ActionID": "Add",
+    "Label": "新增",
+    "Icon": "ri-add-line",
+    "Type": "Primary",
+    "Position": "Toolbar",
+    "Confirm": null
+   },
+   {
+    "ActionID": "Save",
+    "Label": "儲存",
+    "Icon": "ri-save-line",
+    "Type": "Primary",
+    "Position": "Toolbar",
+    "Confirm": null
+   },
+   {
+    "ActionID": "Delete",
+    "Label": "刪除",
+    "Icon": "ri-delete-bin-line",
+    "Type": "Danger",
+    "Position": "Both",
+    "Confirm": "確定要刪除此數據更正申請資料嗎？"
+   },
+   {
+    "ActionID": "Query",
+    "Label": "查詢",
+    "Icon": "ri-search-line",
+    "Type": "Default",
+    "Position": "Toolbar",
+    "Confirm": null
+   }
+  ],
+  "ExtensionActions": [
+   {
+    "ActionID": "Import",
+    "Label": "匯入",
+    "Icon": "ri-upload-2-line",
+    "Type": "Default",
+    "Position": "Toolbar"
+   },
+   {
+    "ActionID": "Export",
+    "Label": "匯出",
+    "Icon": "ri-download-2-line",
+    "Type": "Default",
+    "Position": "Toolbar"
+   }
+  ]
+ },
+ "View": {
+  "RowKey": "RowGuid",
+  "ListView": {
+   "ListSpec": {
+    "RowKey": "RowGuid",
+    "SelectMode": "Single",
+    "FixedColumns": [
+     "Action",
+     "No"
+    ],
+    "RowActionMode": "Menu",
+    "ShowRowNo": true,
+    "Pagination": {
+     "PageSize": 100,
+     "SizeOptions": [
+      50,
+      100,
+      200,
+      500
+     ],
+     "ShowJumper": false,
+     "FullPageScroll": true
+    },
+    "DefaultSort": {
+     "Field": "SortNo",
+     "Order": "asc"
+    },
+    "EmptyText": "目前查無數據更正申請資料",
+    "GridBordered": true
+   },
+   "FieldSpecs": [
+    {
+     "BindField": "ImportGuid",
+     "Title": "對應匯入明細記錄",
+     "Align": "Left",
+     "DefaultVisible": true,
+     "Formatter": "Link",
+     "Fixed": "Left",
+     "Width": 160,
+     "Sorter": true
+    },
+    {
+     "BindField": "OriginalValue",
+     "Title": "原始數值快照",
+     "Align": "Center",
+     "DefaultVisible": true,
+     "Width": 140
+    },
+    {
+     "BindField": "CorrectedValue",
+     "Title": "申請更正後數值",
+     "Align": "Center",
+     "DefaultVisible": true,
+     "Width": 140
+    },
+    {
+     "BindField": "Reason",
+     "Title": "更正原因說明",
+     "Align": "Left",
+     "DefaultVisible": true,
+     "Width": 140
+    },
+    {
+     "BindField": "Applicant",
+     "Title": "申請人員",
+     "Align": "Left",
+     "DefaultVisible": true,
+     "Width": 140
+    },
+    {
+     "BindField": "ApplyTime",
+     "Title": "申請時間",
+     "Align": "Left",
+     "DefaultVisible": true,
+     "Formatter": "DateTime",
+     "Width": 150,
+     "Sorter": true
+    },
+    {
+     "BindField": "Status",
+     "Title": "啟用狀態",
+     "Align": "Center",
+     "DefaultVisible": true,
+     "Formatter": "Tag",
+     "Width": 80
+    }
+   ]
+  },
+  "FormView": {
+   "FormSpec": {
+    "RowKey": "RowGuid",
+    "Layout": "Horizontal",
+    "Sections": [
+     {
+      "SectionID": "SecBase",
+      "Type": "Card",
+      "Title": "基本資料",
+      "IsCollapsible": false,
+      "DefaultOpen": true,
+      "Icon": "ri-edit-2-line"
+     },
+     {
+      "SectionID": "SecRecv",
+      "Type": "Card",
+      "Title": "作業資訊",
+      "IsCollapsible": true,
+      "DefaultOpen": true,
+      "Icon": "ri-file-list-3-line"
+     },
+     {
+      "SectionID": "SecExtra",
+      "Type": "Card",
+      "Title": "系統資訊",
+      "IsCollapsible": true,
+      "DefaultOpen": false,
+      "Icon": "ri-settings-4-line"
+     }
+    ],
+    "FormLogic": []
+   },
+   "FieldSpecs": [
+    {
+     "BindField": "RowKey",
+     "Title": "系統識別碼",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 24,
+     "Mode": "Hidden"
+    },
+    {
+     "BindField": "EntityID",
+     "Title": "系統實體",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "Hidden",
+     "DefaultValue": "lab"
+    },
+    {
+     "BindField": "ImportGuid",
+     "Title": "對應匯入明細記錄",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "ReadOnly",
+     "Validations": [
+      {
+       "Rule": "Required",
+       "Message": "對應匯入明細記錄為必填"
+      }
+     ]
+    },
+    {
+     "BindField": "OriginalValue",
+     "Title": "原始數值快照",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Props": {
+      "Type": "number"
+     }
+    },
+    {
+     "BindField": "CorrectedValue",
+     "Title": "申請更正後數值",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "Required",
+       "Message": "申請更正後數值為必填"
+      }
+     ],
+     "Props": {
+      "Type": "number"
+     }
+    },
+    {
+     "BindField": "Reason",
+     "Title": "更正原因說明",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "Required",
+       "Message": "更正原因說明為必填"
+      },
+      {
+       "Rule": "MaxLength",
+       "Value": 255,
+       "Message": "長度不可超過 255"
+      }
+     ]
+    },
+    {
+     "BindField": "Applicant",
+     "Title": "申請人員",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "Required",
+       "Message": "申請人員為必填"
+      },
+      {
+       "Rule": "MaxLength",
+       "Value": 50,
+       "Message": "長度不可超過 50"
+      }
+     ]
+    },
+    {
+     "BindField": "ApplyTime",
+     "Title": "申請時間",
+     "Component": "DatePicker",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Props": {
+      "Mode": "Editable",
+      "ShowTime": false
+     }
+    },
+    {
+     "BindField": "Approver",
+     "Title": "審核主管",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 50,
+       "Message": "長度不可超過 50"
+      }
+     ]
+    },
+    {
+     "BindField": "ApproveTime",
+     "Title": "審核時間",
+     "Component": "DatePicker",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Props": {
+      "Mode": "Editable",
+      "ShowTime": false
+     }
+    },
+    {
+     "BindField": "ApprovalStatus",
+     "Title": "審核狀態",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 10,
+       "Message": "長度不可超過 10"
+      }
+     ]
+    },
+    {
+     "BindField": "RejectReason",
+     "Title": "駁回原因",
+     "Component": "Input",
+     "Section": "SecRecv",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 255,
+       "Message": "長度不可超過 255"
+      }
+     ]
+    },
+    {
+     "BindField": "Status",
+     "Title": "啟用狀態",
+     "Component": "Select",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "DefaultValue": "1",
+     "Props": {
+      "OptionKey": "Status"
+     }
+    },
+    {
+     "BindField": "CreatedBy",
+     "Title": "建立者帳號",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "ReadOnly"
+    },
+    {
+     "BindField": "CreatedAt",
+     "Title": "資料建立日期時間",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "ReadOnly"
+    },
+    {
+     "BindField": "UpdatedBy",
+     "Title": "最後更新者帳號",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "ReadOnly"
+    },
+    {
+     "BindField": "UpdatedAt",
+     "Title": "最後更新日期時間",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "ReadOnly"
+    }
+   ]
+  }
+ },
+ "Features": {},
+ "DataScope": {
+  "DefaultWhere": "EntityID = 'lab' AND Status = '1'",
+  "AuthLevel": 2,
+  "SortExp": "SortNo ASC",
+  "DataConfig": {
+   "RowLimit": 2000,
+   "AllowExport": true
+  }
+ },
+ "CustomMeta": {
+  "CustomSchema": {
+   "WidgetType": "Grid",
+   "KeyField": "ImportGuid",
+   "TitleField": "OriginalValue",
+   "ParentKeyField": null,
+   "PathField": null,
+   "PathSeparator": "/"
+  }
+ },
+ "SeedData": [
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000000",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-03-17 08:02",
+   "UpdatedBy": "liu.as",
+   "UpdatedAt": "2026-06-19 11:25",
+   "ImportGuid": "對應匯入明細記錄01",
+   "OriginalValue": 20,
+   "CorrectedValue": 3,
+   "Reason": "需注意保存效期",
+   "Applicant": "楊化驗",
+   "ApplyTime": "2025-01-02",
+   "Approver": "審核主管01",
+   "ApproveTime": "2026-11-19",
+   "ApprovalStatus": "審核狀態01",
+   "RejectReason": ""
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000001",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-01-13 15:28",
+   "UpdatedBy": "hsu.eng",
+   "UpdatedAt": "2026-06-12 18:29",
+   "ImportGuid": "對應匯入明細記錄02",
+   "OriginalValue": 69,
+   "CorrectedValue": 23,
+   "Reason": "",
+   "Applicant": "吳主任",
+   "ApplyTime": "2026-03-07",
+   "Approver": "審核主管02",
+   "ApproveTime": "2025-06-13",
+   "ApprovalStatus": "審核狀態02",
+   "RejectReason": "客戶要求附 TAF Logo"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000002",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-08-03 14:33",
+   "UpdatedBy": "lee.jc",
+   "UpdatedAt": "2026-08-20 12:37",
+   "ImportGuid": "對應匯入明細記錄03",
+   "OriginalValue": 50,
+   "CorrectedValue": 33,
+   "Reason": "樣品外觀正常",
+   "Applicant": "林品保",
+   "ApplyTime": "2025-05-08",
+   "Approver": "審核主管03",
+   "ApproveTime": "2025-08-10",
+   "ApprovalStatus": "審核狀態03",
+   "RejectReason": "樣品外觀正常"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000003",
+   "EntityID": "lab",
+   "Status": "0",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-05-15 11:24",
+   "UpdatedBy": "cheng.gl",
+   "UpdatedAt": "2026-11-16 16:33",
+   "ImportGuid": "對應匯入明細記錄04",
+   "OriginalValue": 99,
+   "CorrectedValue": 20,
+   "Reason": "樣品外觀正常",
+   "Applicant": "李檢測",
+   "ApplyTime": "2025-09-03",
+   "Approver": "審核主管04",
+   "ApproveTime": "2025-12-23",
+   "ApprovalStatus": "審核狀態04",
+   "RejectReason": ""
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000004",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-10-23 09:26",
+   "UpdatedBy": "liu.as",
+   "UpdatedAt": "2026-05-06 13:07",
+   "ImportGuid": "對應匯入明細記錄05",
+   "OriginalValue": 9,
+   "CorrectedValue": 57,
+   "Reason": "",
+   "Applicant": "何環安",
+   "ApplyTime": "2026-03-17",
+   "Approver": "審核主管05",
+   "ApproveTime": "2026-08-06",
+   "ApprovalStatus": "審核狀態05",
+   "RejectReason": ""
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000005",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-02-24 16:07",
+   "UpdatedBy": "huang.tc",
+   "UpdatedAt": "2026-02-27 10:18",
+   "ImportGuid": "對應匯入明細記錄06",
+   "OriginalValue": 46,
+   "CorrectedValue": 72,
+   "Reason": "需注意保存效期",
+   "Applicant": "劉助理",
+   "ApplyTime": "2026-02-28",
+   "Approver": "審核主管06",
+   "ApproveTime": "2025-04-26",
+   "ApprovalStatus": "審核狀態06",
+   "RejectReason": ""
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000006",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-09-24 16:18",
+   "UpdatedBy": "chang.fa",
+   "UpdatedAt": "2026-08-11 12:11",
+   "ImportGuid": "對應匯入明細記錄07",
+   "OriginalValue": 21,
+   "CorrectedValue": 62,
+   "Reason": "",
+   "Applicant": "陳審核",
+   "ApplyTime": "2026-05-23",
+   "Approver": "審核主管07",
+   "ApproveTime": "2026-09-12",
+   "ApprovalStatus": "審核狀態07",
+   "RejectReason": "急件已加收費用"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000007",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-11-28 15:04",
+   "UpdatedBy": "wu.dir",
+   "UpdatedAt": "2026-04-19 10:09",
+   "ImportGuid": "對應匯入明細記錄08",
+   "OriginalValue": 8,
+   "CorrectedValue": 25,
+   "Reason": "",
+   "Applicant": "張分析",
+   "ApplyTime": "2026-05-15",
+   "Approver": "審核主管08",
+   "ApproveTime": "2025-04-17",
+   "ApprovalStatus": "審核狀態08",
+   "RejectReason": ""
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000008",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-03-04 10:01",
+   "UpdatedBy": "chang.fa",
+   "UpdatedAt": "2026-05-24 14:29",
+   "ImportGuid": "對應匯入明細記錄09",
+   "OriginalValue": 84,
+   "CorrectedValue": 79,
+   "Reason": "",
+   "Applicant": "郭品管",
+   "ApplyTime": "2025-04-28",
+   "Approver": "審核主管09",
+   "ApproveTime": "2025-08-28",
+   "ApprovalStatus": "審核狀態09",
+   "RejectReason": "已通知申請單位"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000009",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-11-28 12:12",
+   "UpdatedBy": "lin.pb",
+   "UpdatedAt": "2026-03-02 18:15",
+   "ImportGuid": "對應匯入明細記錄10",
+   "OriginalValue": 44,
+   "CorrectedValue": 57,
+   "Reason": "",
+   "Applicant": "李檢測",
+   "ApplyTime": "2025-12-28",
+   "Approver": "審核主管10",
+   "ApproveTime": "2025-06-08",
+   "ApprovalStatus": "審核狀態10",
+   "RejectReason": "客戶要求附 TAF Logo"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000010",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-03-05 14:14",
+   "UpdatedBy": "abram.chen",
+   "UpdatedAt": "2026-09-18 16:05",
+   "ImportGuid": "對應匯入明細記錄11",
+   "OriginalValue": 42,
+   "CorrectedValue": 100,
+   "Reason": "待主管覆核",
+   "Applicant": "李檢測",
+   "ApplyTime": "2026-02-15",
+   "Approver": "審核主管11",
+   "ApproveTime": "2026-05-11",
+   "ApprovalStatus": "審核狀態11",
+   "RejectReason": ""
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000011",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-11-15 16:30",
+   "UpdatedBy": "chen.sh",
+   "UpdatedAt": "2026-11-17 17:29",
+   "ImportGuid": "對應匯入明細記錄12",
+   "OriginalValue": 87,
+   "CorrectedValue": 42,
+   "Reason": "複驗確認無誤",
+   "Applicant": "鄭組長",
+   "ApplyTime": "2026-08-17",
+   "Approver": "審核主管12",
+   "ApproveTime": "2026-07-05",
+   "ApprovalStatus": "審核狀態12",
+   "RejectReason": "急件已加收費用"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000012",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-03-03 12:20",
+   "UpdatedBy": "liu.as",
+   "UpdatedAt": "2026-10-14 16:37",
+   "ImportGuid": "對應匯入明細記錄13",
+   "OriginalValue": 40,
+   "CorrectedValue": 40,
+   "Reason": "定期校正合格",
+   "Applicant": "張分析",
+   "ApplyTime": "2026-12-14",
+   "Approver": "審核主管13",
+   "ApproveTime": "2026-02-07",
+   "ApprovalStatus": "審核狀態13",
+   "RejectReason": ""
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000013",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-03-07 14:31",
+   "UpdatedBy": "lin.pb",
+   "UpdatedAt": "2026-02-20 09:29",
+   "ImportGuid": "對應匯入明細記錄14",
+   "OriginalValue": 52,
+   "CorrectedValue": 66,
+   "Reason": "樣品外觀正常",
+   "Applicant": "劉助理",
+   "ApplyTime": "2025-01-06",
+   "Approver": "審核主管14",
+   "ApproveTime": "2026-12-23",
+   "ApprovalStatus": "審核狀態14",
+   "RejectReason": "定期校正合格"
+  }
+ ]
+}

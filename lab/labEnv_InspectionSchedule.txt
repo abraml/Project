@@ -1,0 +1,582 @@
+{
+ "EntityID": "lab",
+ "SystemCode": "MUEIP",
+ "ModuleCode": "LIMS",
+ "FuncCode": "labEnv_InspectionSchedule",
+ "ConfigHash": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+ "PageMeta": {
+  "PageTitle": "檢查排程",
+  "Lang": "zh-TW",
+  "FormType": "ListForm",
+  "EditDisplayType": "Drawer",
+  "Breadcrumb": [
+   {
+    "Title": "首頁",
+    "Path": "/"
+   },
+   {
+    "Title": "實驗室環境管理",
+    "Path": null
+   },
+   {
+    "Title": "檢查排程",
+    "Path": "/lab/labEnv_InspectionSchedule"
+   }
+  ],
+  "IsApproval": false,
+  "TenantLocked": false,
+  "Icon": "ri-calendar-schedule-line",
+  "Remark": "檢查排程（由 labEnv_InspectionSchedule 規格書產生）"
+ },
+ "Resources": {
+  "CodeSets": {
+   "Status": [
+    {
+     "CodeID": "1",
+     "CodeName": "啟用",
+     "IsDefault": true
+    },
+    {
+     "CodeID": "0",
+     "CodeName": "停用"
+    }
+   ],
+   "Priority": [
+    {
+     "CodeID": "A",
+     "CodeName": "急件"
+    },
+    {
+     "CodeID": "B",
+     "CodeName": "高"
+    },
+    {
+     "CodeID": "C",
+     "CodeName": "一般",
+     "IsDefault": true
+    },
+    {
+     "CodeID": "D",
+     "CodeName": "低"
+    }
+   ]
+  },
+  "FeatureFlags": {
+   "IsReadOnly": false,
+   "EnableDraft": false,
+   "EnableBatchDelete": true,
+   "AutoRefreshInterval": 0,
+   "DefaultViewMode": "Table",
+   "RequireConfirmOnSave": true
+  }
+ },
+ "AllowAction": {
+  "DataActions": [
+   {
+    "ActionID": "Add",
+    "Label": "新增",
+    "Icon": "ri-add-line",
+    "Type": "Primary",
+    "Position": "Toolbar",
+    "Confirm": null
+   },
+   {
+    "ActionID": "Save",
+    "Label": "儲存",
+    "Icon": "ri-save-line",
+    "Type": "Primary",
+    "Position": "Toolbar",
+    "Confirm": null
+   },
+   {
+    "ActionID": "Delete",
+    "Label": "刪除",
+    "Icon": "ri-delete-bin-line",
+    "Type": "Danger",
+    "Position": "Both",
+    "Confirm": "確定要刪除此檢查排程資料嗎？"
+   },
+   {
+    "ActionID": "Query",
+    "Label": "查詢",
+    "Icon": "ri-search-line",
+    "Type": "Default",
+    "Position": "Toolbar",
+    "Confirm": null
+   }
+  ],
+  "ExtensionActions": [
+   {
+    "ActionID": "Import",
+    "Label": "匯入",
+    "Icon": "ri-upload-2-line",
+    "Type": "Default",
+    "Position": "Toolbar"
+   },
+   {
+    "ActionID": "Export",
+    "Label": "匯出",
+    "Icon": "ri-download-2-line",
+    "Type": "Default",
+    "Position": "Toolbar"
+   }
+  ]
+ },
+ "View": {
+  "RowKey": "RowGuid",
+  "ListView": {
+   "ListSpec": {
+    "RowKey": "RowGuid",
+    "SelectMode": "Single",
+    "FixedColumns": [
+     "Action",
+     "No"
+    ],
+    "RowActionMode": "Menu",
+    "ShowRowNo": true,
+    "Pagination": {
+     "PageSize": 100,
+     "SizeOptions": [
+      50,
+      100,
+      200,
+      500
+     ],
+     "ShowJumper": false,
+     "FullPageScroll": true
+    },
+    "DefaultSort": {
+     "Field": "SortNo",
+     "Order": "asc"
+    },
+    "EmptyText": "目前查無檢查排程資料",
+    "GridBordered": true
+   },
+   "FieldSpecs": [
+    {
+     "BindField": "TargetType",
+     "Title": "排程對象類型",
+     "Align": "Left",
+     "DefaultVisible": true,
+     "Formatter": "Link",
+     "Fixed": "Left",
+     "Width": 160,
+     "Sorter": true
+    },
+    {
+     "BindField": "FrequencyDays",
+     "Title": "檢查頻率",
+     "Align": "Center",
+     "DefaultVisible": true,
+     "Width": 140
+    },
+    {
+     "BindField": "LastGeneratedDate",
+     "Title": "最近一次產生待辦日期",
+     "Align": "Left",
+     "DefaultVisible": true,
+     "Formatter": "DateTime",
+     "Width": 150,
+     "Sorter": true
+    },
+    {
+     "BindField": "NextDueDate",
+     "Title": "下次應檢查日期",
+     "Align": "Left",
+     "DefaultVisible": true,
+     "Formatter": "DateTime",
+     "Width": 150,
+     "Sorter": true
+    },
+    {
+     "BindField": "Status",
+     "Title": "啟用狀態",
+     "Align": "Center",
+     "DefaultVisible": true,
+     "Formatter": "Tag",
+     "Width": 80
+    }
+   ]
+  },
+  "FormView": {
+   "FormSpec": {
+    "RowKey": "RowGuid",
+    "Layout": "Horizontal",
+    "Sections": [
+     {
+      "SectionID": "SecBase",
+      "Type": "Card",
+      "Title": "基本資料",
+      "IsCollapsible": false,
+      "DefaultOpen": true,
+      "Icon": "ri-calendar-schedule-line"
+     },
+     {
+      "SectionID": "SecExtra",
+      "Type": "Card",
+      "Title": "系統資訊",
+      "IsCollapsible": true,
+      "DefaultOpen": false,
+      "Icon": "ri-settings-4-line"
+     }
+    ],
+    "FormLogic": []
+   },
+   "FieldSpecs": [
+    {
+     "BindField": "RowKey",
+     "Title": "系統識別碼",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 24,
+     "Mode": "Hidden"
+    },
+    {
+     "BindField": "EntityID",
+     "Title": "系統實體",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "Hidden",
+     "DefaultValue": "lab"
+    },
+    {
+     "BindField": "TargetType",
+     "Title": "排程對象類型",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "Required",
+       "Message": "排程對象類型為必填"
+      },
+      {
+       "Rule": "MaxLength",
+       "Value": 20,
+       "Message": "長度不可超過 20"
+      }
+     ]
+    },
+    {
+     "BindField": "TargetGuid",
+     "Title": "對應 labEnv_Device.RowGuid 或 labEnv_GasCylinder.RowGuid",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "ReadOnly",
+     "Validations": [
+      {
+       "Rule": "Required",
+       "Message": "對應 labEnv_Device.RowGuid 或 labEnv_GasCylinder.RowGuid為必填"
+      }
+     ]
+    },
+    {
+     "BindField": "FrequencyDays",
+     "Title": "檢查頻率",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "Required",
+       "Message": "檢查頻率為必填"
+      }
+     ],
+     "Props": {
+      "Type": "number"
+     }
+    },
+    {
+     "BindField": "LastGeneratedDate",
+     "Title": "最近一次產生待辦日期",
+     "Component": "DatePicker",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Props": {
+      "Mode": "Editable",
+      "ShowTime": false
+     }
+    },
+    {
+     "BindField": "NextDueDate",
+     "Title": "下次應檢查日期",
+     "Component": "DatePicker",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Props": {
+      "Mode": "Editable",
+      "ShowTime": false
+     }
+    },
+    {
+     "BindField": "Status",
+     "Title": "啟用狀態",
+     "Component": "Select",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "DefaultValue": "1",
+     "Props": {
+      "OptionKey": "Status"
+     }
+    },
+    {
+     "BindField": "CreatedBy",
+     "Title": "建立者帳號",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "ReadOnly"
+    },
+    {
+     "BindField": "CreatedAt",
+     "Title": "資料建立日期時間",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "ReadOnly"
+    },
+    {
+     "BindField": "UpdatedBy",
+     "Title": "最後更新者帳號",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "ReadOnly"
+    },
+    {
+     "BindField": "UpdatedAt",
+     "Title": "最後更新日期時間",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "ReadOnly"
+    }
+   ]
+  }
+ },
+ "Features": {},
+ "DataScope": {
+  "DefaultWhere": "EntityID = 'lab' AND Status = '1'",
+  "AuthLevel": 2,
+  "SortExp": "SortNo ASC",
+  "DataConfig": {
+   "RowLimit": 2000,
+   "AllowExport": true
+  }
+ },
+ "CustomMeta": {
+  "CustomSchema": {
+   "WidgetType": "Grid",
+   "KeyField": "TargetType",
+   "TitleField": "FrequencyDays",
+   "ParentKeyField": null,
+   "PathField": null,
+   "PathSeparator": "/"
+  }
+ },
+ "SeedData": [
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000000",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-07-19 13:28",
+   "UpdatedBy": "cheng.gl",
+   "UpdatedAt": "2026-10-14 12:32",
+   "TargetType": "排程對象類型01",
+   "TargetGuid": "對應 labEnv_Device.RowGuid 或 labEnv_GasCylinder.RowGuid01",
+   "FrequencyDays": 309,
+   "LastGeneratedDate": "2025-10-26",
+   "NextDueDate": "2025-11-23"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000001",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-08-25 08:02",
+   "UpdatedBy": "cheng.gl",
+   "UpdatedAt": "2026-06-21 15:27",
+   "TargetType": "排程對象類型02",
+   "TargetGuid": "對應 labEnv_Device.RowGuid 或 labEnv_GasCylinder.RowGuid02",
+   "FrequencyDays": 365,
+   "LastGeneratedDate": "2026-07-21",
+   "NextDueDate": "2025-12-14"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000002",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-03-06 18:28",
+   "UpdatedBy": "hsu.eng",
+   "UpdatedAt": "2026-11-03 14:29",
+   "TargetType": "排程對象類型03",
+   "TargetGuid": "對應 labEnv_Device.RowGuid 或 labEnv_GasCylinder.RowGuid03",
+   "FrequencyDays": 356,
+   "LastGeneratedDate": "2025-06-16",
+   "NextDueDate": "2025-09-11"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000003",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-01-24 16:22",
+   "UpdatedBy": "lin.pb",
+   "UpdatedAt": "2026-03-10 12:19",
+   "TargetType": "排程對象類型04",
+   "TargetGuid": "對應 labEnv_Device.RowGuid 或 labEnv_GasCylinder.RowGuid04",
+   "FrequencyDays": 202,
+   "LastGeneratedDate": "2026-04-16",
+   "NextDueDate": "2026-11-09"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000004",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-06-12 09:18",
+   "UpdatedBy": "lee.jc",
+   "UpdatedAt": "2026-01-21 12:28",
+   "TargetType": "排程對象類型05",
+   "TargetGuid": "對應 labEnv_Device.RowGuid 或 labEnv_GasCylinder.RowGuid05",
+   "FrequencyDays": 187,
+   "LastGeneratedDate": "2026-03-05",
+   "NextDueDate": "2026-09-13"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000005",
+   "EntityID": "lab",
+   "Status": "0",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-09-24 17:37",
+   "UpdatedBy": "lee.jc",
+   "UpdatedAt": "2026-03-26 17:27",
+   "TargetType": "排程對象類型06",
+   "TargetGuid": "對應 labEnv_Device.RowGuid 或 labEnv_GasCylinder.RowGuid06",
+   "FrequencyDays": 186,
+   "LastGeneratedDate": "2025-12-22",
+   "NextDueDate": "2025-05-26"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000006",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-12-23 15:39",
+   "UpdatedBy": "wang.cy",
+   "UpdatedAt": "2026-01-16 12:36",
+   "TargetType": "排程對象類型07",
+   "TargetGuid": "對應 labEnv_Device.RowGuid 或 labEnv_GasCylinder.RowGuid07",
+   "FrequencyDays": 257,
+   "LastGeneratedDate": "2025-12-03",
+   "NextDueDate": "2025-09-10"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000007",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-05-09 17:20",
+   "UpdatedBy": "wu.dir",
+   "UpdatedAt": "2026-06-03 14:08",
+   "TargetType": "排程對象類型08",
+   "TargetGuid": "對應 labEnv_Device.RowGuid 或 labEnv_GasCylinder.RowGuid08",
+   "FrequencyDays": 337,
+   "LastGeneratedDate": "2025-08-23",
+   "NextDueDate": "2025-03-26"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000008",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-09-28 17:36",
+   "UpdatedBy": "chen.sh",
+   "UpdatedAt": "2026-05-28 09:05",
+   "TargetType": "排程對象類型09",
+   "TargetGuid": "對應 labEnv_Device.RowGuid 或 labEnv_GasCylinder.RowGuid09",
+   "FrequencyDays": 155,
+   "LastGeneratedDate": "2026-01-04",
+   "NextDueDate": "2025-04-10"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000009",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-04-08 11:23",
+   "UpdatedBy": "lin.pb",
+   "UpdatedAt": "2026-04-18 14:34",
+   "TargetType": "排程對象類型10",
+   "TargetGuid": "對應 labEnv_Device.RowGuid 或 labEnv_GasCylinder.RowGuid10",
+   "FrequencyDays": 41,
+   "LastGeneratedDate": "2025-06-23",
+   "NextDueDate": "2026-09-22"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000010",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-03-07 09:07",
+   "UpdatedBy": "liu.as",
+   "UpdatedAt": "2026-03-26 14:07",
+   "TargetType": "排程對象類型11",
+   "TargetGuid": "對應 labEnv_Device.RowGuid 或 labEnv_GasCylinder.RowGuid11",
+   "FrequencyDays": 101,
+   "LastGeneratedDate": "2026-12-22",
+   "NextDueDate": "2026-04-16"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000011",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-02-21 14:26",
+   "UpdatedBy": "lin.pb",
+   "UpdatedAt": "2026-03-05 11:33",
+   "TargetType": "排程對象類型12",
+   "TargetGuid": "對應 labEnv_Device.RowGuid 或 labEnv_GasCylinder.RowGuid12",
+   "FrequencyDays": 75,
+   "LastGeneratedDate": "2025-03-15",
+   "NextDueDate": "2025-01-23"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000012",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-06-19 10:31",
+   "UpdatedBy": "huang.tc",
+   "UpdatedAt": "2026-06-26 15:29",
+   "TargetType": "排程對象類型13",
+   "TargetGuid": "對應 labEnv_Device.RowGuid 或 labEnv_GasCylinder.RowGuid13",
+   "FrequencyDays": 304,
+   "LastGeneratedDate": "2026-12-21",
+   "NextDueDate": "2025-01-27"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000013",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-07-13 08:28",
+   "UpdatedBy": "chen.sh",
+   "UpdatedAt": "2026-10-24 15:03",
+   "TargetType": "排程對象類型14",
+   "TargetGuid": "對應 labEnv_Device.RowGuid 或 labEnv_GasCylinder.RowGuid14",
+   "FrequencyDays": 76,
+   "LastGeneratedDate": "2025-05-02",
+   "NextDueDate": "2025-10-02"
+  }
+ ]
+}

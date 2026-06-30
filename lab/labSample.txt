@@ -1,0 +1,818 @@
+{
+ "EntityID": "lab",
+ "SystemCode": "MUEIP",
+ "ModuleCode": "LIMS",
+ "FuncCode": "labSample",
+ "ConfigHash": "sha256:e1cc847d8d88419ca6f9f1b4ae86f458715a117446424edfb806d1ab001e1f91",
+ "PageMeta": {
+  "PageTitle": "樣品登錄",
+  "Lang": "zh-TW",
+  "FormType": "ListForm",
+  "EditDisplayType": "Drawer",
+  "Breadcrumb": [
+   {
+    "Title": "首頁",
+    "Path": "/"
+   },
+   {
+    "Title": "實驗室管理",
+    "Path": null
+   },
+   {
+    "Title": "樣品登錄",
+    "Path": "/lab/sample"
+   }
+  ],
+  "IsApproval": false,
+  "TenantLocked": false,
+  "Icon": "ri-flask-line",
+  "Remark": "樣品收件登錄主檔（樣品編號、類型、委託客戶、狀態，平面列表）"
+ },
+ "Resources": {
+  "CodeSets": {
+   "Status": [
+    {
+     "CodeID": "1",
+     "CodeName": "啟用",
+     "IsDefault": true
+    },
+    {
+     "CodeID": "0",
+     "CodeName": "停用",
+     "IsDefault": false
+    }
+   ],
+   "SampleType": [
+    {
+     "CodeID": "W",
+     "CodeName": "水質",
+     "IsDefault": true
+    },
+    {
+     "CodeID": "A",
+     "CodeName": "空氣",
+     "IsDefault": false
+    },
+    {
+     "CodeID": "S",
+     "CodeName": "土壤",
+     "IsDefault": false
+    },
+    {
+     "CodeID": "F",
+     "CodeName": "食品",
+     "IsDefault": false
+    },
+    {
+     "CodeID": "C",
+     "CodeName": "化學品",
+     "IsDefault": false
+    }
+   ],
+   "SampleStatus": [
+    {
+     "CodeID": "R",
+     "CodeName": "已登錄",
+     "IsDefault": true
+    },
+    {
+     "CodeID": "T",
+     "CodeName": "檢驗中",
+     "IsDefault": false
+    },
+    {
+     "CodeID": "D",
+     "CodeName": "已完成",
+     "IsDefault": false
+    },
+    {
+     "CodeID": "X",
+     "CodeName": "作廢",
+     "IsDefault": false
+    }
+   ],
+   "Priority": [
+    {
+     "CodeID": "A",
+     "CodeName": "急件"
+    },
+    {
+     "CodeID": "B",
+     "CodeName": "一般",
+     "IsDefault": true
+    }
+   ],
+   "ClientCode": [
+    {
+     "CodeID": "C001",
+     "CodeName": "兆聯環境檢測中心"
+    },
+    {
+     "CodeID": "C002",
+     "CodeName": "台灣自來水公司"
+    },
+    {
+     "CodeID": "C003",
+     "CodeName": "新北市環保局"
+    },
+    {
+     "CodeID": "C004",
+     "CodeName": "中華食品工業"
+    }
+   ]
+  },
+  "FeatureFlags": {
+   "IsReadOnly": false,
+   "EnableDraft": false,
+   "EnableBatchDelete": true,
+   "AutoRefreshInterval": 0,
+   "DefaultViewMode": "Table",
+   "RequireConfirmOnSave": true
+  }
+ },
+ "AllowAction": {
+  "DataActions": [
+   {
+    "ActionID": "Add",
+    "Label": "新增",
+    "Icon": "ri-add-line",
+    "Type": "Primary",
+    "Position": "Toolbar",
+    "Confirm": null
+   },
+   {
+    "ActionID": "Save",
+    "Label": "儲存",
+    "Icon": "ri-save-line",
+    "Type": "Primary",
+    "Position": "Toolbar",
+    "Confirm": null
+   },
+   {
+    "ActionID": "Delete",
+    "Label": "刪除",
+    "Icon": "ri-delete-bin-line",
+    "Type": "Danger",
+    "Position": "Both",
+    "Confirm": "刪除樣品將一併影響其檢驗委託與結果，確定要刪除嗎？"
+   },
+   {
+    "ActionID": "Query",
+    "Label": "查詢",
+    "Icon": "ri-search-line",
+    "Type": "Default",
+    "Position": "Toolbar",
+    "Confirm": null
+   }
+  ],
+  "ExtensionActions": [
+   {
+    "ActionID": "Import",
+    "Label": "匯入",
+    "Icon": "ri-upload-2-line",
+    "Type": "Default",
+    "Position": "Toolbar"
+   },
+   {
+    "ActionID": "Export",
+    "Label": "匯出",
+    "Icon": "ri-download-2-line",
+    "Type": "Default",
+    "Position": "Toolbar"
+   }
+  ]
+ },
+ "View": {
+  "RowKey": "RowGuid",
+  "ListView": {
+   "ListSpec": {
+    "RowKey": "RowGuid",
+    "SelectMode": "Single",
+    "FixedColumns": [
+     "Action",
+     "No"
+    ],
+    "RowActionMode": "Menu",
+    "ShowRowNo": true,
+    "Pagination": {
+     "PageSize": 100,
+     "SizeOptions": [
+      50,
+      100,
+      200,
+      500
+     ],
+     "ShowJumper": false,
+     "FullPageScroll": true
+    },
+    "DefaultSort": {
+     "Field": "ReceivedAt",
+     "Order": "desc"
+    },
+    "EmptyText": "目前查無樣品資料",
+    "GridBordered": true
+   },
+   "FieldSpecs": [
+    {
+     "BindField": "SampleNo",
+     "Title": "樣品編號",
+     "Width": 150,
+     "Align": "Left",
+     "Fixed": "Left",
+     "Formatter": "Link",
+     "Sorter": true,
+     "DefaultVisible": true
+    },
+    {
+     "BindField": "SampleName",
+     "Title": "樣品名稱",
+     "Width": 180,
+     "Align": "Left",
+     "Formatter": "Link",
+     "Sorter": true,
+     "DefaultVisible": true
+    },
+    {
+     "BindField": "SampleType",
+     "Title": "樣品類型",
+     "Width": 100,
+     "Align": "Center",
+     "Formatter": "Tag",
+     "DefaultVisible": true
+    },
+    {
+     "BindField": "ClientCode",
+     "Title": "委託客戶",
+     "Width": 180,
+     "Align": "Left",
+     "Formatter": "Tag",
+     "DefaultVisible": true
+    },
+    {
+     "BindField": "SampleStatus",
+     "Title": "狀態",
+     "Width": 100,
+     "Align": "Center",
+     "Formatter": "StatusTag",
+     "DefaultVisible": true
+    },
+    {
+     "BindField": "Priority",
+     "Title": "優先",
+     "Width": 80,
+     "Align": "Center",
+     "Formatter": "Tag",
+     "DefaultVisible": true
+    },
+    {
+     "BindField": "ReceivedAt",
+     "Title": "收件時間",
+     "Width": 150,
+     "Align": "Center",
+     "Formatter": "DateTime",
+     "Sorter": true,
+     "DefaultVisible": true
+    },
+    {
+     "BindField": "Sampler",
+     "Title": "採樣人",
+     "Width": 110,
+     "Align": "Left",
+     "DefaultVisible": true
+    },
+    {
+     "BindField": "Status",
+     "Title": "啟用",
+     "Width": 80,
+     "Align": "Center",
+     "Formatter": "Tag",
+     "DefaultVisible": true
+    }
+   ]
+  },
+  "FormView": {
+   "FormSpec": {
+    "RowKey": "RowGuid",
+    "Layout": "Horizontal",
+    "Sections": [
+     {
+      "SectionID": "SecBase",
+      "Type": "Card",
+      "Title": "樣品基本資料",
+      "IsCollapsible": false,
+      "DefaultOpen": true,
+      "Icon": "ri-flask-line"
+     },
+     {
+      "SectionID": "SecRecv",
+      "Type": "Card",
+      "Title": "收件與採樣",
+      "IsCollapsible": true,
+      "DefaultOpen": true,
+      "Icon": "ri-inbox-archive-line"
+     },
+     {
+      "SectionID": "SecExtra",
+      "Type": "Card",
+      "Title": "系統資訊",
+      "IsCollapsible": true,
+      "DefaultOpen": false,
+      "Icon": "ri-settings-4-line"
+     }
+    ],
+    "FormLogic": []
+   },
+   "FieldSpecs": [
+    {
+     "BindField": "RowKey",
+     "Title": "系統識別碼",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 24,
+     "Mode": "Hidden"
+    },
+    {
+     "BindField": "EntityID",
+     "Title": "系統實體",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "Hidden",
+     "DefaultValue": "lab"
+    },
+    {
+     "BindField": "SampleNo",
+     "Title": "樣品編號",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "Required",
+       "Message": "樣品編號為必填"
+      },
+      {
+       "Rule": "MaxLength",
+       "Value": 50,
+       "Message": "長度不可超過 50"
+      },
+      {
+       "Rule": "Unique",
+       "Message": "樣品編號不可重複"
+      }
+     ]
+    },
+    {
+     "BindField": "SampleName",
+     "Title": "樣品名稱",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "Required",
+       "Message": "樣品名稱為必填"
+      },
+      {
+       "Rule": "MaxLength",
+       "Value": 100,
+       "Message": "長度不可超過 100"
+      }
+     ]
+    },
+    {
+     "BindField": "SampleType",
+     "Title": "樣品類型",
+     "Component": "Select",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "DefaultValue": "W",
+     "Validations": [
+      {
+       "Rule": "Required",
+       "Message": "樣品類型為必填"
+      }
+     ],
+     "Props": {
+      "OptionKey": "SampleType"
+     }
+    },
+    {
+     "BindField": "ClientCode",
+     "Title": "委託客戶",
+     "Component": "Select",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "Required",
+       "Message": "委託客戶為必填"
+      }
+     ],
+     "Props": {
+      "OptionKey": "ClientCode"
+     }
+    },
+    {
+     "BindField": "Priority",
+     "Title": "優先序",
+     "Component": "Select",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "DefaultValue": "B",
+     "Props": {
+      "OptionKey": "Priority"
+     }
+    },
+    {
+     "BindField": "SampleStatus",
+     "Title": "樣品狀態",
+     "Component": "Select",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "DefaultValue": "R",
+     "Props": {
+      "OptionKey": "SampleStatus"
+     }
+    },
+    {
+     "BindField": "ReceivedAt",
+     "Title": "收件時間",
+     "Component": "DatePicker",
+     "Section": "SecRecv",
+     "Span": 12,
+     "Mode": "Editable",
+     "Props": {
+      "Mode": "Editable",
+      "ShowTime": true
+     }
+    },
+    {
+     "BindField": "Sampler",
+     "Title": "採樣人",
+     "Component": "Input",
+     "Section": "SecRecv",
+     "Span": 12,
+     "Mode": "Editable"
+    },
+    {
+     "BindField": "SamplingLocation",
+     "Title": "採樣地點",
+     "Component": "Input",
+     "Section": "SecRecv",
+     "Span": 24,
+     "Mode": "Editable"
+    },
+    {
+     "BindField": "Description",
+     "Title": "備註",
+     "Component": "Textarea",
+     "Section": "SecRecv",
+     "Span": 24,
+     "Mode": "Editable",
+     "Props": {
+      "Rows": 3
+     }
+    },
+    {
+     "BindField": "Status",
+     "Title": "啟用狀態",
+     "Component": "Select",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "DefaultValue": "1",
+     "Props": {
+      "OptionKey": "Status"
+     }
+    },
+    {
+     "BindField": "CreatedBy",
+     "Title": "建立者",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "ReadOnly"
+    },
+    {
+     "BindField": "CreatedAt",
+     "Title": "建立時間",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "ReadOnly"
+    },
+    {
+     "BindField": "UpdatedBy",
+     "Title": "異動者",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "ReadOnly"
+    },
+    {
+     "BindField": "UpdatedAt",
+     "Title": "異動時間",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "ReadOnly"
+    }
+   ]
+  }
+ },
+ "Features": {},
+ "DataScope": {
+  "DefaultWhere": "EntityID = 'lab' AND Status = '1'",
+  "AuthLevel": 2,
+  "SortExp": "ReceivedAt DESC, SampleNo ASC",
+  "DataConfig": {
+   "RowLimit": 2000,
+   "AllowExport": true
+  }
+ },
+ "CustomMeta": {
+  "CustomSchema": {
+   "WidgetType": "Grid",
+   "KeyField": "SampleNo",
+   "TitleField": "SampleName",
+   "ParentKeyField": null,
+   "PathField": null,
+   "PathSeparator": "/"
+  }
+ },
+ "SeedData": [
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000000",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-11-12 15:07",
+   "UpdatedBy": "liu.as",
+   "UpdatedAt": "2026-12-01 15:27",
+   "SampleNo": "S-2025-0001",
+   "SampleName": "總磷 TP",
+   "SampleType": "S",
+   "ClientCode": "C001",
+   "Priority": "A",
+   "SampleStatus": "T",
+   "ReceivedAt": "2026-01-08 11:00",
+   "Sampler": "許工程",
+   "SamplingLocation": "定容室",
+   "Description": ""
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000001",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-06-06 17:11",
+   "UpdatedBy": "lee.jc",
+   "UpdatedAt": "2026-02-27 12:38",
+   "SampleNo": "S-2025-0002",
+   "SampleName": "化學需氧量 COD",
+   "SampleType": "W",
+   "ClientCode": "C003",
+   "Priority": "A",
+   "SampleStatus": "D",
+   "ReceivedAt": "2026-02-18 09:37",
+   "Sampler": "李檢測",
+   "SamplingLocation": "冷凍庫(-20°C)",
+   "Description": ""
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000002",
+   "EntityID": "lab",
+   "Status": "0",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-10-22 14:07",
+   "UpdatedBy": "abram.chen",
+   "UpdatedAt": "2026-10-06 17:00",
+   "SampleNo": "S-2025-0003",
+   "SampleName": "生化需氧量 BOD",
+   "SampleType": "W",
+   "ClientCode": "C001",
+   "Priority": "B",
+   "SampleStatus": "T",
+   "ReceivedAt": "2025-08-28 17:14",
+   "Sampler": "何環安",
+   "SamplingLocation": "藥品櫃P2",
+   "Description": ""
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000003",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-01-18 16:24",
+   "UpdatedBy": "liu.as",
+   "UpdatedAt": "2026-01-11 13:01",
+   "SampleNo": "S-2025-0004",
+   "SampleName": "懸浮固體 SS",
+   "SampleType": "C",
+   "ClientCode": "C002",
+   "Priority": "B",
+   "SampleStatus": "X",
+   "ReceivedAt": "2025-04-14 15:26",
+   "Sampler": "劉助理",
+   "SamplingLocation": "前處理室",
+   "Description": ""
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000004",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-04-03 12:34",
+   "UpdatedBy": "chen.sh",
+   "UpdatedAt": "2026-10-28 13:39",
+   "SampleNo": "S-2026-0005",
+   "SampleName": "氨氮 NH3-N",
+   "SampleType": "W",
+   "ClientCode": "C001",
+   "Priority": "B",
+   "SampleStatus": "R",
+   "ReceivedAt": "2026-02-03 09:26",
+   "Sampler": "張分析",
+   "SamplingLocation": "冷藏庫(4°C)",
+   "Description": ""
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000005",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-06-23 17:01",
+   "UpdatedBy": "chen.sh",
+   "UpdatedAt": "2026-07-05 10:25",
+   "SampleNo": "S-2026-0006",
+   "SampleName": "硝酸鹽氮",
+   "SampleType": "W",
+   "ClientCode": "C002",
+   "Priority": "B",
+   "SampleStatus": "R",
+   "ReceivedAt": "2025-12-27 18:28",
+   "Sampler": "謝校正",
+   "SamplingLocation": "NAS機房",
+   "Description": ""
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000006",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-07-13 11:03",
+   "UpdatedBy": "hsu.eng",
+   "UpdatedAt": "2026-10-11 16:19",
+   "SampleNo": "S-2025-0007",
+   "SampleName": "鎘 Cd",
+   "SampleType": "W",
+   "ClientCode": "C001",
+   "Priority": "A",
+   "SampleStatus": "X",
+   "ReceivedAt": "2026-11-15 16:39",
+   "Sampler": "林品保",
+   "SamplingLocation": "藥品櫃P2",
+   "Description": ""
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000007",
+   "EntityID": "lab",
+   "Status": "0",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-08-26 15:10",
+   "UpdatedBy": "lin.pb",
+   "UpdatedAt": "2026-03-10 12:00",
+   "SampleNo": "S-2025-0008",
+   "SampleName": "鉛 Pb",
+   "SampleType": "W",
+   "ClientCode": "C002",
+   "Priority": "B",
+   "SampleStatus": "R",
+   "ReceivedAt": "2025-09-12 11:13",
+   "Sampler": "劉助理",
+   "SamplingLocation": "NAS機房",
+   "Description": ""
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000008",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-08-01 17:38",
+   "UpdatedBy": "lee.jc",
+   "UpdatedAt": "2026-04-09 08:05",
+   "SampleNo": "S-2026-0009",
+   "SampleName": "銅 Cu",
+   "SampleType": "W",
+   "ClientCode": "C001",
+   "Priority": "B",
+   "SampleStatus": "X",
+   "ReceivedAt": "2025-12-27 12:33",
+   "Sampler": "郭品管",
+   "SamplingLocation": "前處理室",
+   "Description": ""
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000009",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-05-23 14:04",
+   "UpdatedBy": "lee.jc",
+   "UpdatedAt": "2026-11-27 11:19",
+   "SampleNo": "S-2025-0010",
+   "SampleName": "鋅 Zn",
+   "SampleType": "W",
+   "ClientCode": "C002",
+   "Priority": "B",
+   "SampleStatus": "R",
+   "ReceivedAt": "2026-10-17 09:31",
+   "Sampler": "何環安",
+   "SamplingLocation": "儀器室B",
+   "Description": "急件已加收費用"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000010",
+   "EntityID": "lab",
+   "Status": "0",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-05-13 14:32",
+   "UpdatedBy": "chang.fa",
+   "UpdatedAt": "2026-04-09 09:39",
+   "SampleNo": "S-2026-0011",
+   "SampleName": "pH值",
+   "SampleType": "A",
+   "ClientCode": "C003",
+   "Priority": "A",
+   "SampleStatus": "D",
+   "ReceivedAt": "2026-08-18 16:11",
+   "Sampler": "謝校正",
+   "SamplingLocation": "藥品櫃P2",
+   "Description": ""
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000011",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-02-18 10:32",
+   "UpdatedBy": "lee.jc",
+   "UpdatedAt": "2026-04-18 17:18",
+   "SampleNo": "S-2025-0012",
+   "SampleName": "導電度",
+   "SampleType": "F",
+   "ClientCode": "C003",
+   "Priority": "B",
+   "SampleStatus": "T",
+   "ReceivedAt": "2025-07-08 13:01",
+   "Sampler": "楊化驗",
+   "SamplingLocation": "前處理室",
+   "Description": "樣品外觀正常"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000012",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-06-06 17:03",
+   "UpdatedBy": "cheng.gl",
+   "UpdatedAt": "2026-11-25 17:01",
+   "SampleNo": "S-2026-0013",
+   "SampleName": "濁度",
+   "SampleType": "F",
+   "ClientCode": "C001",
+   "Priority": "A",
+   "SampleStatus": "R",
+   "ReceivedAt": "2026-04-08 14:21",
+   "Sampler": "王采樣",
+   "SamplingLocation": "藥品櫃P2",
+   "Description": ""
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000013",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-04-05 15:24",
+   "UpdatedBy": "wu.dir",
+   "UpdatedAt": "2026-09-03 18:28",
+   "SampleNo": "S-2026-0014",
+   "SampleName": "大腸桿菌群",
+   "SampleType": "W",
+   "ClientCode": "C002",
+   "Priority": "A",
+   "SampleStatus": "T",
+   "ReceivedAt": "2025-06-21 10:18",
+   "Sampler": "郭品管",
+   "SamplingLocation": "前處理室",
+   "Description": ""
+  }
+ ]
+}

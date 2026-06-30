@@ -1,0 +1,19 @@
+{
+  "SystemCode": "MUEIP",
+  "Apps": [
+    {
+      "Code": "HRM",
+      "Folder": "hrm",
+      "Label": "人力資源管理",
+      "Sub": "HRM · 人事 / 差勤 / 薪資 / 考評",
+      "Icon": "ri-team-line"
+    },
+    {
+      "Code": "LIMS",
+      "Folder": "lab",
+      "Label": "實驗室管理系統",
+      "Sub": "LIMS · 樣品 / 檢驗 / 儀器 / 報告",
+      "Icon": "ri-flask-line"
+    }
+  ]
+}

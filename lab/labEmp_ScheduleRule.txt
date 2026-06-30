@@ -1,0 +1,748 @@
+{
+ "EntityID": "lab",
+ "SystemCode": "MUEIP",
+ "ModuleCode": "LIMS",
+ "FuncCode": "labEmp_ScheduleRule",
+ "ConfigHash": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+ "PageMeta": {
+  "PageTitle": "派工規則設定",
+  "Lang": "zh-TW",
+  "FormType": "ListForm",
+  "EditDisplayType": "Drawer",
+  "Breadcrumb": [
+   {
+    "Title": "首頁",
+    "Path": "/"
+   },
+   {
+    "Title": "實驗室人員管理",
+    "Path": null
+   },
+   {
+    "Title": "派工規則設定",
+    "Path": "/lab/labEmp_ScheduleRule"
+   }
+  ],
+  "IsApproval": false,
+  "TenantLocked": false,
+  "Icon": "ri-settings-3-line",
+  "Remark": "派工規則設定（由 labEmp_ScheduleRule 規格書產生）"
+ },
+ "Resources": {
+  "CodeSets": {
+   "Status": [
+    {
+     "CodeID": "1",
+     "CodeName": "啟用",
+     "IsDefault": true
+    },
+    {
+     "CodeID": "0",
+     "CodeName": "停用"
+    }
+   ],
+   "Priority": [
+    {
+     "CodeID": "A",
+     "CodeName": "急件"
+    },
+    {
+     "CodeID": "B",
+     "CodeName": "高"
+    },
+    {
+     "CodeID": "C",
+     "CodeName": "一般",
+     "IsDefault": true
+    },
+    {
+     "CodeID": "D",
+     "CodeName": "低"
+    }
+   ],
+   "ShiftType": [
+    {
+     "CodeID": "D",
+     "CodeName": "日班",
+     "IsDefault": true
+    },
+    {
+     "CodeID": "E",
+     "CodeName": "小夜"
+    },
+    {
+     "CodeID": "N",
+     "CodeName": "大夜"
+    },
+    {
+     "CodeID": "F",
+     "CodeName": "彈性"
+    }
+   ]
+  },
+  "FeatureFlags": {
+   "IsReadOnly": false,
+   "EnableDraft": false,
+   "EnableBatchDelete": true,
+   "AutoRefreshInterval": 0,
+   "DefaultViewMode": "Table",
+   "RequireConfirmOnSave": true
+  }
+ },
+ "AllowAction": {
+  "DataActions": [
+   {
+    "ActionID": "Add",
+    "Label": "新增",
+    "Icon": "ri-add-line",
+    "Type": "Primary",
+    "Position": "Toolbar",
+    "Confirm": null
+   },
+   {
+    "ActionID": "Save",
+    "Label": "儲存",
+    "Icon": "ri-save-line",
+    "Type": "Primary",
+    "Position": "Toolbar",
+    "Confirm": null
+   },
+   {
+    "ActionID": "Delete",
+    "Label": "刪除",
+    "Icon": "ri-delete-bin-line",
+    "Type": "Danger",
+    "Position": "Both",
+    "Confirm": "確定要刪除此派工規則設定資料嗎？"
+   },
+   {
+    "ActionID": "Query",
+    "Label": "查詢",
+    "Icon": "ri-search-line",
+    "Type": "Default",
+    "Position": "Toolbar",
+    "Confirm": null
+   }
+  ],
+  "ExtensionActions": [
+   {
+    "ActionID": "Import",
+    "Label": "匯入",
+    "Icon": "ri-upload-2-line",
+    "Type": "Default",
+    "Position": "Toolbar"
+   },
+   {
+    "ActionID": "Export",
+    "Label": "匯出",
+    "Icon": "ri-download-2-line",
+    "Type": "Default",
+    "Position": "Toolbar"
+   }
+  ]
+ },
+ "View": {
+  "RowKey": "RowGuid",
+  "ListView": {
+   "ListSpec": {
+    "RowKey": "RowGuid",
+    "SelectMode": "Single",
+    "FixedColumns": [
+     "Action",
+     "No"
+    ],
+    "RowActionMode": "Menu",
+    "ShowRowNo": true,
+    "Pagination": {
+     "PageSize": 100,
+     "SizeOptions": [
+      50,
+      100,
+      200,
+      500
+     ],
+     "ShowJumper": false,
+     "FullPageScroll": true
+    },
+    "DefaultSort": {
+     "Field": "SortNo",
+     "Order": "asc"
+    },
+    "EmptyText": "目前查無派工規則設定資料",
+    "GridBordered": true
+   },
+   "FieldSpecs": [
+    {
+     "BindField": "RuleName",
+     "Title": "規則名稱",
+     "Align": "Left",
+     "DefaultVisible": true,
+     "Formatter": "Link",
+     "Fixed": "Left",
+     "Width": 160,
+     "Sorter": true
+    },
+    {
+     "BindField": "LabGroup",
+     "Title": "適用組別",
+     "Align": "Left",
+     "DefaultVisible": true,
+     "Width": 140
+    },
+    {
+     "BindField": "ComponentCode",
+     "Title": "適用檢驗成分",
+     "Align": "Left",
+     "DefaultVisible": true,
+     "Width": 140
+    },
+    {
+     "BindField": "ShiftType",
+     "Title": "適用班別",
+     "Align": "Center",
+     "DefaultVisible": true,
+     "Formatter": "Tag",
+     "Width": 110
+    },
+    {
+     "BindField": "RequireQualification",
+     "Title": "是否須具備 labEmp_Qualification 授權通過才可派工",
+     "Align": "Left",
+     "DefaultVisible": true,
+     "Width": 140
+    },
+    {
+     "BindField": "MinHeadcount",
+     "Title": "該班別",
+     "Align": "Center",
+     "DefaultVisible": true,
+     "Width": 140
+    },
+    {
+     "BindField": "Status",
+     "Title": "狀態標記",
+     "Align": "Center",
+     "DefaultVisible": true,
+     "Formatter": "Tag",
+     "Width": 80
+    }
+   ]
+  },
+  "FormView": {
+   "FormSpec": {
+    "RowKey": "RowGuid",
+    "Layout": "Horizontal",
+    "Sections": [
+     {
+      "SectionID": "SecBase",
+      "Type": "Card",
+      "Title": "基本資料",
+      "IsCollapsible": false,
+      "DefaultOpen": true,
+      "Icon": "ri-settings-3-line"
+     },
+     {
+      "SectionID": "SecRecv",
+      "Type": "Card",
+      "Title": "作業資訊",
+      "IsCollapsible": true,
+      "DefaultOpen": true,
+      "Icon": "ri-file-list-3-line"
+     },
+     {
+      "SectionID": "SecExtra",
+      "Type": "Card",
+      "Title": "系統資訊",
+      "IsCollapsible": true,
+      "DefaultOpen": false,
+      "Icon": "ri-settings-4-line"
+     }
+    ],
+    "FormLogic": []
+   },
+   "FieldSpecs": [
+    {
+     "BindField": "RowKey",
+     "Title": "系統識別碼",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 24,
+     "Mode": "Hidden"
+    },
+    {
+     "BindField": "EntityID",
+     "Title": "系統實體",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "Hidden",
+     "DefaultValue": "lab"
+    },
+    {
+     "BindField": "RuleName",
+     "Title": "規則名稱",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "Required",
+       "Message": "規則名稱為必填"
+      },
+      {
+       "Rule": "MaxLength",
+       "Value": 100,
+       "Message": "長度不可超過 100"
+      }
+     ]
+    },
+    {
+     "BindField": "LabGroup",
+     "Title": "適用組別",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 100,
+       "Message": "長度不可超過 100"
+      }
+     ]
+    },
+    {
+     "BindField": "ComponentCode",
+     "Title": "適用檢驗成分",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 50,
+       "Message": "長度不可超過 50"
+      }
+     ]
+    },
+    {
+     "BindField": "ShiftType",
+     "Title": "適用班別",
+     "Component": "Select",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Props": {
+      "OptionKey": "ShiftType"
+     },
+     "DefaultValue": "D"
+    },
+    {
+     "BindField": "RequireQualification",
+     "Title": "是否須具備 labEmp_Qualification 授權通過才可派工",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable"
+    },
+    {
+     "BindField": "MinHeadcount",
+     "Title": "該班別",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Props": {
+      "Type": "number"
+     }
+    },
+    {
+     "BindField": "PriorityBy",
+     "Title": "自動建議派工的排序依據",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 50,
+       "Message": "長度不可超過 50"
+      }
+     ]
+    },
+    {
+     "BindField": "IsActive",
+     "Title": "規則是否啟用",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable"
+    },
+    {
+     "BindField": "Description",
+     "Title": "備註說明",
+     "Component": "Textarea",
+     "Section": "SecRecv",
+     "Span": 24,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 500,
+       "Message": "長度不可超過 500"
+      }
+     ],
+     "Props": {
+      "Rows": 3
+     }
+    },
+    {
+     "BindField": "Attributes",
+     "Title": "擴展屬性",
+     "Component": "Textarea",
+     "Section": "SecExtra",
+     "Span": 24,
+     "Mode": "Editable",
+     "Props": {
+      "Rows": 3
+     }
+    },
+    {
+     "BindField": "Status",
+     "Title": "啟用狀態",
+     "Component": "Select",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "DefaultValue": "1",
+     "Props": {
+      "OptionKey": "Status"
+     }
+    },
+    {
+     "BindField": "CreatedBy",
+     "Title": "建立者帳號",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "ReadOnly"
+    },
+    {
+     "BindField": "CreatedAt",
+     "Title": "資料建立日期時間",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "ReadOnly"
+    },
+    {
+     "BindField": "UpdatedBy",
+     "Title": "最後更新者帳號",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "ReadOnly"
+    },
+    {
+     "BindField": "UpdatedAt",
+     "Title": "最後更新日期時間",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "ReadOnly"
+    }
+   ]
+  }
+ },
+ "Features": {},
+ "DataScope": {
+  "DefaultWhere": "EntityID = 'lab' AND Status = '1'",
+  "AuthLevel": 2,
+  "SortExp": "SortNo ASC",
+  "DataConfig": {
+   "RowLimit": 2000,
+   "AllowExport": true
+  }
+ },
+ "CustomMeta": {
+  "CustomSchema": {
+   "WidgetType": "Grid",
+   "KeyField": "RuleName",
+   "TitleField": "LabGroup",
+   "ParentKeyField": null,
+   "PathField": null,
+   "PathSeparator": "/"
+  }
+ },
+ "SeedData": [
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000000",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-06-06 12:06",
+   "UpdatedBy": "liu.as",
+   "UpdatedAt": "2026-11-01 08:08",
+   "RuleName": "周技士",
+   "LabGroup": "適用組別01",
+   "ComponentCode": "SR-2025-0001",
+   "ShiftType": "D",
+   "RequireQualification": "是否須具備 labEmp_Qualification 授權通過才可派工01",
+   "MinHeadcount": 38,
+   "PriorityBy": "CNS",
+   "IsActive": "規則是否啟用01",
+   "Description": "待主管覆核",
+   "Attributes": "擴展屬性01"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000001",
+   "EntityID": "lab",
+   "Status": "0",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-11-19 17:03",
+   "UpdatedBy": "huang.tc",
+   "UpdatedAt": "2026-11-11 13:15",
+   "RuleName": "劉助理",
+   "LabGroup": "適用組別02",
+   "ComponentCode": "SR-2026-0002",
+   "ShiftType": "F",
+   "RequireQualification": "是否須具備 labEmp_Qualification 授權通過才可派工02",
+   "MinHeadcount": 39,
+   "PriorityBy": "Standard Methods",
+   "IsActive": "規則是否啟用02",
+   "Description": "",
+   "Attributes": "擴展屬性02"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000002",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-11-12 08:08",
+   "UpdatedBy": "huang.tc",
+   "UpdatedAt": "2026-05-19 10:33",
+   "RuleName": "許工程",
+   "LabGroup": "適用組別03",
+   "ComponentCode": "SR-2025-0003",
+   "ShiftType": "D",
+   "RequireQualification": "是否須具備 labEmp_Qualification 授權通過才可派工03",
+   "MinHeadcount": 93,
+   "PriorityBy": "JIS",
+   "IsActive": "規則是否啟用03",
+   "Description": "",
+   "Attributes": "擴展屬性03"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000003",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-12-03 08:30",
+   "UpdatedBy": "lin.pb",
+   "UpdatedAt": "2026-10-11 18:23",
+   "RuleName": "黃技正",
+   "LabGroup": "適用組別04",
+   "ComponentCode": "SR-2026-0004",
+   "ShiftType": "D",
+   "RequireQualification": "是否須具備 labEmp_Qualification 授權通過才可派工04",
+   "MinHeadcount": 4,
+   "PriorityBy": "CNS",
+   "IsActive": "規則是否啟用04",
+   "Description": "",
+   "Attributes": "擴展屬性04"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000004",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-10-07 17:21",
+   "UpdatedBy": "wang.cy",
+   "UpdatedAt": "2026-11-06 12:12",
+   "RuleName": "吳主任",
+   "LabGroup": "適用組別05",
+   "ComponentCode": "SR-2026-0005",
+   "ShiftType": "F",
+   "RequireQualification": "是否須具備 labEmp_Qualification 授權通過才可派工05",
+   "MinHeadcount": 47,
+   "PriorityBy": "EPA",
+   "IsActive": "規則是否啟用05",
+   "Description": "",
+   "Attributes": "擴展屬性05"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000005",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-11-25 14:27",
+   "UpdatedBy": "lin.pb",
+   "UpdatedAt": "2026-02-19 16:18",
+   "RuleName": "謝校正",
+   "LabGroup": "適用組別06",
+   "ComponentCode": "SR-2025-0006",
+   "ShiftType": "D",
+   "RequireQualification": "是否須具備 labEmp_Qualification 授權通過才可派工06",
+   "MinHeadcount": 5,
+   "PriorityBy": "Standard Methods",
+   "IsActive": "規則是否啟用06",
+   "Description": "",
+   "Attributes": "擴展屬性06"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000006",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-11-18 09:22",
+   "UpdatedBy": "huang.tc",
+   "UpdatedAt": "2026-02-02 11:32",
+   "RuleName": "周技士",
+   "LabGroup": "適用組別07",
+   "ComponentCode": "SR-2026-0007",
+   "ShiftType": "D",
+   "RequireQualification": "是否須具備 labEmp_Qualification 授權通過才可派工07",
+   "MinHeadcount": 48,
+   "PriorityBy": "NIEA",
+   "IsActive": "規則是否啟用07",
+   "Description": "",
+   "Attributes": "擴展屬性07"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000007",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-05-07 16:19",
+   "UpdatedBy": "hsu.eng",
+   "UpdatedAt": "2026-02-12 13:12",
+   "RuleName": "謝校正",
+   "LabGroup": "適用組別08",
+   "ComponentCode": "SR-2025-0008",
+   "ShiftType": "F",
+   "RequireQualification": "是否須具備 labEmp_Qualification 授權通過才可派工08",
+   "MinHeadcount": 23,
+   "PriorityBy": "EPA",
+   "IsActive": "規則是否啟用08",
+   "Description": "",
+   "Attributes": "擴展屬性08"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000008",
+   "EntityID": "lab",
+   "Status": "0",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-06-02 18:31",
+   "UpdatedBy": "chen.sh",
+   "UpdatedAt": "2026-11-22 13:01",
+   "RuleName": "李檢測",
+   "LabGroup": "適用組別09",
+   "ComponentCode": "SR-2026-0009",
+   "ShiftType": "D",
+   "RequireQualification": "是否須具備 labEmp_Qualification 授權通過才可派工09",
+   "MinHeadcount": 13,
+   "PriorityBy": "ASTM",
+   "IsActive": "規則是否啟用09",
+   "Description": "",
+   "Attributes": "擴展屬性09"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000009",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-12-11 15:33",
+   "UpdatedBy": "huang.tc",
+   "UpdatedAt": "2026-07-26 13:39",
+   "RuleName": "黃技正",
+   "LabGroup": "適用組別10",
+   "ComponentCode": "SR-2026-0010",
+   "ShiftType": "E",
+   "RequireQualification": "是否須具備 labEmp_Qualification 授權通過才可派工10",
+   "MinHeadcount": 57,
+   "PriorityBy": "JIS",
+   "IsActive": "規則是否啟用10",
+   "Description": "",
+   "Attributes": "擴展屬性10"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000010",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-02-04 12:17",
+   "UpdatedBy": "wang.cy",
+   "UpdatedAt": "2026-06-28 17:04",
+   "RuleName": "蔡研究",
+   "LabGroup": "適用組別11",
+   "ComponentCode": "SR-2026-0011",
+   "ShiftType": "D",
+   "RequireQualification": "是否須具備 labEmp_Qualification 授權通過才可派工11",
+   "MinHeadcount": 24,
+   "PriorityBy": "ASTM",
+   "IsActive": "規則是否啟用11",
+   "Description": "",
+   "Attributes": "擴展屬性11"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000011",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-11-15 15:18",
+   "UpdatedBy": "liu.as",
+   "UpdatedAt": "2026-10-20 13:30",
+   "RuleName": "吳主任",
+   "LabGroup": "適用組別12",
+   "ComponentCode": "SR-2026-0012",
+   "ShiftType": "D",
+   "RequireQualification": "是否須具備 labEmp_Qualification 授權通過才可派工12",
+   "MinHeadcount": 26,
+   "PriorityBy": "EPA",
+   "IsActive": "規則是否啟用12",
+   "Description": "",
+   "Attributes": "擴展屬性12"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000012",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-01-27 16:04",
+   "UpdatedBy": "wu.dir",
+   "UpdatedAt": "2026-06-16 15:31",
+   "RuleName": "吳主任",
+   "LabGroup": "適用組別13",
+   "ComponentCode": "SR-2025-0013",
+   "ShiftType": "D",
+   "RequireQualification": "是否須具備 labEmp_Qualification 授權通過才可派工13",
+   "MinHeadcount": 57,
+   "PriorityBy": "Standard Methods",
+   "IsActive": "規則是否啟用13",
+   "Description": "複驗確認無誤",
+   "Attributes": "擴展屬性13"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000013",
+   "EntityID": "lab",
+   "Status": "0",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-10-17 18:11",
+   "UpdatedBy": "wu.dir",
+   "UpdatedAt": "2026-05-13 13:27",
+   "RuleName": "周技士",
+   "LabGroup": "適用組別14",
+   "ComponentCode": "SR-2026-0014",
+   "ShiftType": "D",
+   "RequireQualification": "是否須具備 labEmp_Qualification 授權通過才可派工14",
+   "MinHeadcount": 45,
+   "PriorityBy": "NIEA",
+   "IsActive": "規則是否啟用14",
+   "Description": "需注意保存效期",
+   "Attributes": "擴展屬性14"
+  }
+ ]
+}

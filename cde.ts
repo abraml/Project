@@ -30,10 +30,13 @@ let   CURRENT_FUNC = DEFAULT_FUNC;                        // 目前載入中的 
 let   CURRENT_FOLDER = "";                                // 目前功能所屬資料夾(如 hrm / lab / mat);由 menu 解析
 // 功能配置檔路徑:<Folder>/<FuncCode>.txt;Folder 由 menu 指定(對應模組資料夾)
 const configUrlFor = (fc: string, folder: string = CURRENT_FOLDER) => folder ? `${folder}/${fc}.txt` : `${fc}.txt`;
-// 啟用模組:由網址 ?m=hrm(或 ?module=hrm)指定,預設 hrm;選單跟著模組走
-const ACTIVE_MODULE = (()=>{ try{ const q=new URLSearchParams(location.search); return (q.get("m")||q.get("module")||"hrm").toLowerCase(); }catch(e){ return "hrm"; } })();
-const MENU_URL   = `${ACTIVE_MODULE}/menu.txt`;   // 左側選單(JSON);置於模組資料夾,隨模組移動
+// 啟用模組:由網址 ?m=hrm(或 ?module=hrm)指定,預設 hrm;可由右上「模組切換器」動態改變
+let ACTIVE_MODULE = (()=>{ try{ const q=new URLSearchParams(location.search); return (q.get("m")||q.get("module")||"hrm").toLowerCase(); }catch(e){ return "hrm"; } })();
+let MENU_URL   = `${ACTIVE_MODULE}/menu.txt`;     // 左側選單(JSON);置於模組資料夾,隨模組移動
 let MENU: any = null;
+// 模組註冊表(modules.txt):右上模組切換下拉之來源;每筆 {Code,Folder,Label,Sub,Icon}
+let APPS: any[] = [];
+const APPS_URL = "modules.txt";
 let BRAND_NAME = "兆聯 EIP";           // 品牌主名(分頁標題前綴);由 menu.Brand.Name 覆寫
 // menu 預設資料夾:menu.Folder 優先,否則由 ModuleCode 小寫推導(HRM→hrm)
 function menuDefaultFolder(){ return (MENU && (MENU.Folder || (MENU.ModuleCode ? String(MENU.ModuleCode).toLowerCase() : ""))) || ""; }
@@ -43,6 +46,13 @@ function folderForFunc(fc: string){
     for(const g of MENU.Groups){ for(const it of (g.Items||[])){ if(it.FuncCode===fc) return it.Folder || g.Folder || menuDefaultFolder(); } }
   }
   return menuDefaultFolder();
+}
+// 取得目前 MENU 第一筆功能(切換模組 / 直接以 ?m= 啟動時作為該模組預設功能)
+function firstFuncOfMenu(): {fc:string, folder:string} | null {
+  if(MENU && Array.isArray(MENU.Groups)){
+    for(const g of MENU.Groups){ for(const it of (g.Items||[])){ if(it && it.FuncCode) return {fc: it.FuncCode, folder: it.Folder || g.Folder || menuDefaultFolder()}; } }
+  }
+  return null;
 }
 let __configSource = "loading";               // loading | external | upload | none
 
@@ -1438,6 +1448,48 @@ async function loadMenu(){
   catch(e){ MENU=null; }
   renderMenu();
 }
+
+/* ═══ 模組切換器 (讀取 modules.txt 動態產生;右上下拉,切換不同資料夾的 menu.txt) ═══ */
+async function loadApps(){
+  try{ const r=await fetch(APPS_URL,{cache:"no-store"}); if(r.ok){ const j=JSON.parse(await r.text()); APPS=Array.isArray(j.Apps)?j.Apps:[]; } else APPS=[]; }
+  catch(e){ APPS=[]; }
+  renderModSwitch();
+}
+function currentApp(){ return APPS.find((a:any)=>String(a.Folder||"").toLowerCase()===ACTIVE_MODULE) || null; }
+function renderModSwitch(){
+  const cur=currentApp();
+  const lbl=$("modSwLabel"), ic=$("modSwIcon"), list=$("modSwList");
+  if(lbl) lbl.textContent = cur ? (cur.Label||cur.Code||"模組") : (ACTIVE_MODULE.toUpperCase()||"模組");
+  if(ic)  ic.className = "modsw-ic " + esc((cur&&cur.Icon)||"ri-apps-2-line");
+  if(!list) return;
+  if(!APPS.length){ list.innerHTML=`<div class="modsw-empty">尚未設定模組<span>modules.txt</span></div>`; return; }
+  list.innerHTML = APPS.map((a:any)=>{
+    const folder=String(a.Folder||"").toLowerCase();
+    const on=folder===ACTIVE_MODULE;
+    return `<button class="modsw-item${on?" active":""}" data-act="switchModule" data-arg="${esc(folder)}">
+      <span class="modsw-item-ic"><i class="${esc(a.Icon||"ri-apps-2-line")}"></i></span>
+      <span class="modsw-item-tx"><b>${esc(a.Label||a.Code||folder)}</b><em>${esc(a.Sub||a.Code||"")}</em></span>
+      ${on?`<i class="ri-check-line modsw-item-ck"></i>`:`<i class="ri-arrow-right-s-line modsw-item-go"></i>`}
+    </button>`;
+  }).join("");
+}
+function toggleModSwitch(){ $("modSwitch")?.classList.toggle("open"); }
+function closeModSwitch(){ $("modSwitch")?.classList.remove("open"); }
+/* 切換模組:重讀該資料夾 menu.txt → 換品牌/側邊選單 → 載入該模組預設功能(不重整頁面) */
+async function switchModule(folder?: string){
+  const f=String(folder||"").toLowerCase().trim();
+  closeModSwitch();
+  if(!f || f===ACTIVE_MODULE) return;            // 已是當前模組
+  ACTIVE_MODULE=f;
+  MENU_URL=`${ACTIVE_MODULE}/menu.txt`;
+  // 同步網址 ?m=,保持可書籤 / 可重整(不觸發整頁重載)
+  try{ const u=new URL(location.href); u.searchParams.set("m",f); history.replaceState(null,"",u.toString()); }catch(e){}
+  await loadMenu();                              // 重讀該模組 menu → renderBrand + renderMenu
+  renderModSwitch();                             // 更新切換鈕標籤 / 高亮
+  const first=firstFuncOfMenu();                 // 載入該模組第一筆功能作為預設頁
+  if(first){ CURRENT_FOLDER=first.folder; await loadFuncConfig(first.fc, first.folder); }
+  else showNoConfigPrompt();
+}
 function renderBrand(){
   const b=(MENU&&MENU.Brand)||{};
   const mark=$("sbLogoMark"), name=$("sbLogoName"), sub=$("sbLogoSub");
@@ -1538,6 +1590,7 @@ const ACTIONS: Record<string, Handler> = {
   toggleColPicker,
   toggleCfgBanner,
   toggleDevFab,
+  toggleModSwitch,
   openCfgModal,
   openCreate,
   openImport,
@@ -1569,6 +1622,7 @@ const ACTIONS: Record<string, Handler> = {
   rowEdit:       (a) => { closeRowMenu(); openEdit(a!); },
   rowDel:        (a) => { closeRowMenu(); deleteOne(a!); },
   selectMenu:    (_a, el) => selectMenu(el!),
+  switchModule:  (a) => switchModule(a!),
   toggleNavGroup:(a) => toggleNavGroup(a!),
   goGrid:        () => switchView("grid"),
   goReport:      () => switchView("report"),
@@ -1598,6 +1652,9 @@ function bindDelegation() {
       const onToggle = (ev.target as any)?.closest?.('[data-act="toggleDevFab"]');
       if (!onToggle) closeDevFab();
     }
+    // 模組切換器:點選器外部即收合
+    const ms = $("modSwitch");
+    if (ms && ms.classList.contains("open") && !(ev.target as any)?.closest?.('#modSwitch')) closeModSwitch();
     const t = (ev.target as any)?.closest?.('[data-act]') as HTMLElement | null;
     if (!t) return;
     const fn = ACTIONS[t.dataset.act!];
@@ -1615,10 +1672,15 @@ function bindDelegation() {
 async function init() {
   bindDelegation();
   await loadMenu();           // 先讀取 menu.txt(含資料夾對應),再據以解析預設功能所屬資料夾
+  await loadApps();           // 讀取 modules.txt → 渲染右上模組切換器
   bindDropZone();
   setConfigSource('loading');
-  CURRENT_FOLDER = folderForFunc(DEFAULT_FUNC);              // 預設功能資料夾(如 hrm)
-  const ok = await tryLoadExternal(true, DEFAULT_FUNC, CURRENT_FOLDER);   // 啟動載入 <folder>/hrmCompany.txt
+  // 開機預設功能:若當前模組 menu 含 DEFAULT_FUNC 則用之;否則改用該模組 menu 第一筆(支援直接 ?m=lab 啟動)
+  let bootFc = DEFAULT_FUNC, bootFolder = folderForFunc(DEFAULT_FUNC);
+  const inMenu = !!(MENU && Array.isArray(MENU.Groups) && MENU.Groups.some((g:any)=>(g.Items||[]).some((it:any)=>it.FuncCode===DEFAULT_FUNC)));
+  if(!inMenu){ const first=firstFuncOfMenu(); if(first){ bootFc=first.fc; bootFolder=first.folder; } }
+  CURRENT_FOLDER = bootFolder;
+  const ok = await tryLoadExternal(true, bootFc, bootFolder);   // 啟動載入 <folder>/<func>.txt
   if (!ok) showNoConfigPrompt();
 }
 

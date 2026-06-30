@@ -1,0 +1,3569 @@
+{
+ "EntityID": "lab",
+ "SystemCode": "MUEIP",
+ "ModuleCode": "LIMS",
+ "FuncCode": "labAna_Component",
+ "ConfigHash": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+ "PageMeta": {
+  "PageTitle": "分析組成項目",
+  "Lang": "zh-TW",
+  "FormType": "ListForm",
+  "EditDisplayType": "Drawer",
+  "Breadcrumb": [
+   {
+    "Title": "首頁",
+    "Path": "/"
+   },
+   {
+    "Title": "檢測項目分析方法管理",
+    "Path": null
+   },
+   {
+    "Title": "分析組成項目",
+    "Path": "/lab/labAna_Component"
+   }
+  ],
+  "IsApproval": false,
+  "TenantLocked": false,
+  "Icon": "ri-test-tube-fill",
+  "Remark": "分析組成項目（由 labAna_Component 規格書產生）"
+ },
+ "Resources": {
+  "CodeSets": {
+   "Status": [
+    {
+     "CodeID": "1",
+     "CodeName": "啟用",
+     "IsDefault": true
+    },
+    {
+     "CodeID": "0",
+     "CodeName": "停用"
+    }
+   ],
+   "Priority": [
+    {
+     "CodeID": "A",
+     "CodeName": "急件"
+    },
+    {
+     "CodeID": "B",
+     "CodeName": "高"
+    },
+    {
+     "CodeID": "C",
+     "CodeName": "一般",
+     "IsDefault": true
+    },
+    {
+     "CodeID": "D",
+     "CodeName": "低"
+    }
+   ],
+   "RoundingRuleType": [
+    {
+     "CodeID": "R",
+     "CodeName": "四捨五入",
+     "IsDefault": true
+    },
+    {
+     "CodeID": "U",
+     "CodeName": "無條件進位"
+    },
+    {
+     "CodeID": "F",
+     "CodeName": "無條件捨去"
+    },
+    {
+     "CodeID": "E",
+     "CodeName": "五捨六入"
+    }
+   ]
+  },
+  "FeatureFlags": {
+   "IsReadOnly": false,
+   "EnableDraft": false,
+   "EnableBatchDelete": true,
+   "AutoRefreshInterval": 0,
+   "DefaultViewMode": "Table",
+   "RequireConfirmOnSave": true
+  }
+ },
+ "AllowAction": {
+  "DataActions": [
+   {
+    "ActionID": "Add",
+    "Label": "新增",
+    "Icon": "ri-add-line",
+    "Type": "Primary",
+    "Position": "Toolbar",
+    "Confirm": null
+   },
+   {
+    "ActionID": "Save",
+    "Label": "儲存",
+    "Icon": "ri-save-line",
+    "Type": "Primary",
+    "Position": "Toolbar",
+    "Confirm": null
+   },
+   {
+    "ActionID": "Delete",
+    "Label": "刪除",
+    "Icon": "ri-delete-bin-line",
+    "Type": "Danger",
+    "Position": "Both",
+    "Confirm": "確定要刪除此分析組成項目資料嗎？"
+   },
+   {
+    "ActionID": "Query",
+    "Label": "查詢",
+    "Icon": "ri-search-line",
+    "Type": "Default",
+    "Position": "Toolbar",
+    "Confirm": null
+   }
+  ],
+  "ExtensionActions": [
+   {
+    "ActionID": "Import",
+    "Label": "匯入",
+    "Icon": "ri-upload-2-line",
+    "Type": "Default",
+    "Position": "Toolbar"
+   },
+   {
+    "ActionID": "Export",
+    "Label": "匯出",
+    "Icon": "ri-download-2-line",
+    "Type": "Default",
+    "Position": "Toolbar"
+   }
+  ]
+ },
+ "View": {
+  "RowKey": "RowGuid",
+  "ListView": {
+   "ListSpec": {
+    "RowKey": "RowGuid",
+    "SelectMode": "Single",
+    "FixedColumns": [
+     "Action",
+     "No"
+    ],
+    "RowActionMode": "Menu",
+    "ShowRowNo": true,
+    "Pagination": {
+     "PageSize": 100,
+     "SizeOptions": [
+      50,
+      100,
+      200,
+      500
+     ],
+     "ShowJumper": false,
+     "FullPageScroll": true
+    },
+    "DefaultSort": {
+     "Field": "SortNo",
+     "Order": "asc"
+    },
+    "EmptyText": "目前查無分析組成項目資料",
+    "GridBordered": true
+   },
+   "FieldSpecs": [
+    {
+     "BindField": "TestTypeCode",
+     "Title": "所屬檢驗項目代碼",
+     "Align": "Left",
+     "DefaultVisible": true,
+     "Formatter": "Link",
+     "Fixed": "Left",
+     "Width": 160,
+     "Sorter": true
+    },
+    {
+     "BindField": "ComponentCode",
+     "Title": "成分代碼",
+     "Align": "Left",
+     "DefaultVisible": true,
+     "Width": 140
+    },
+    {
+     "BindField": "ComponentName",
+     "Title": "成分名稱／測試項目名稱",
+     "Align": "Left",
+     "DefaultVisible": true,
+     "Width": 140
+    },
+    {
+     "BindField": "ChemSymbol",
+     "Title": "化學符號",
+     "Align": "Left",
+     "DefaultVisible": true,
+     "Width": 140
+    },
+    {
+     "BindField": "CasNo",
+     "Title": "CAS 登錄號",
+     "Align": "Left",
+     "DefaultVisible": true,
+     "Width": 140
+    },
+    {
+     "BindField": "HazardNote",
+     "Title": "危害分類",
+     "Align": "Left",
+     "DefaultVisible": true,
+     "Width": 140
+    },
+    {
+     "BindField": "Status",
+     "Title": "狀態標記",
+     "Align": "Center",
+     "DefaultVisible": true,
+     "Formatter": "Tag",
+     "Width": 80
+    }
+   ]
+  },
+  "FormView": {
+   "FormSpec": {
+    "RowKey": "RowGuid",
+    "Layout": "Horizontal",
+    "Sections": [
+     {
+      "SectionID": "SecBase",
+      "Type": "Card",
+      "Title": "基本資料",
+      "IsCollapsible": false,
+      "DefaultOpen": true,
+      "Icon": "ri-test-tube-fill"
+     },
+     {
+      "SectionID": "SecRecv",
+      "Type": "Card",
+      "Title": "作業資訊",
+      "IsCollapsible": true,
+      "DefaultOpen": true,
+      "Icon": "ri-file-list-3-line"
+     },
+     {
+      "SectionID": "SecExtra",
+      "Type": "Card",
+      "Title": "系統資訊",
+      "IsCollapsible": true,
+      "DefaultOpen": false,
+      "Icon": "ri-settings-4-line"
+     }
+    ],
+    "FormLogic": []
+   },
+   "FieldSpecs": [
+    {
+     "BindField": "RowKey",
+     "Title": "系統識別碼",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 24,
+     "Mode": "Hidden"
+    },
+    {
+     "BindField": "EntityID",
+     "Title": "系統實體",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "Hidden",
+     "DefaultValue": "lab"
+    },
+    {
+     "BindField": "TestTypeCode",
+     "Title": "所屬檢驗項目代碼",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "Required",
+       "Message": "所屬檢驗項目代碼為必填"
+      },
+      {
+       "Rule": "MaxLength",
+       "Value": 50,
+       "Message": "長度不可超過 50"
+      }
+     ]
+    },
+    {
+     "BindField": "MasterCompGuid",
+     "Title": "成分主檔參照",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "ReadOnly"
+    },
+    {
+     "BindField": "ComponentCode",
+     "Title": "成分代碼",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "Required",
+       "Message": "成分代碼為必填"
+      },
+      {
+       "Rule": "MaxLength",
+       "Value": 50,
+       "Message": "長度不可超過 50"
+      }
+     ]
+    },
+    {
+     "BindField": "ComponentName",
+     "Title": "成分名稱／測試項目名稱",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "Required",
+       "Message": "成分名稱／測試項目名稱為必填"
+      },
+      {
+       "Rule": "MaxLength",
+       "Value": 200,
+       "Message": "長度不可超過 200"
+      }
+     ]
+    },
+    {
+     "BindField": "ChemSymbol",
+     "Title": "化學符號",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 50,
+       "Message": "長度不可超過 50"
+      }
+     ]
+    },
+    {
+     "BindField": "CasNo",
+     "Title": "CAS 登錄號",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 50,
+       "Message": "長度不可超過 50"
+      }
+     ]
+    },
+    {
+     "BindField": "HazardNote",
+     "Title": "危害分類",
+     "Component": "Textarea",
+     "Section": "SecRecv",
+     "Span": 24,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 500,
+       "Message": "長度不可超過 500"
+      }
+     ],
+     "Props": {
+      "Rows": 3
+     }
+    },
+    {
+     "BindField": "RefRangeLower",
+     "Title": "參考範圍下限",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Props": {
+      "Type": "number"
+     }
+    },
+    {
+     "BindField": "RefRangeUpper",
+     "Title": "參考範圍上限",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Props": {
+      "Type": "number"
+     }
+    },
+    {
+     "BindField": "MethodCode",
+     "Title": "分析方法代碼",
+     "Component": "Input",
+     "Section": "SecRecv",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 50,
+       "Message": "長度不可超過 50"
+      }
+     ]
+    },
+    {
+     "BindField": "MethodVersion",
+     "Title": "方法版本",
+     "Component": "Input",
+     "Section": "SecRecv",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 50,
+       "Message": "長度不可超過 50"
+      }
+     ]
+    },
+    {
+     "BindField": "SopFilePath",
+     "Title": "SOP",
+     "Component": "Textarea",
+     "Section": "SecRecv",
+     "Span": 24,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 1000,
+       "Message": "長度不可超過 1000"
+      }
+     ],
+     "Props": {
+      "Rows": 3
+     }
+    },
+    {
+     "BindField": "PrimaryEquipCode",
+     "Title": "主要儀器代碼",
+     "Component": "Input",
+     "Section": "SecRecv",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 50,
+       "Message": "長度不可超過 50"
+      }
+     ]
+    },
+    {
+     "BindField": "ReportUnit",
+     "Title": "報告單位",
+     "Component": "Input",
+     "Section": "SecRecv",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 50,
+       "Message": "長度不可超過 50"
+      }
+     ]
+    },
+    {
+     "BindField": "AltUnit",
+     "Title": "替代單位)",
+     "Component": "Input",
+     "Section": "SecRecv",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 50,
+       "Message": "長度不可超過 50"
+      }
+     ]
+    },
+    {
+     "BindField": "UnitConvFormula",
+     "Title": "主單位與替代單位的轉換公式",
+     "Component": "Textarea",
+     "Section": "SecRecv",
+     "Span": 24,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 500,
+       "Message": "長度不可超過 500"
+      }
+     ],
+     "Props": {
+      "Rows": 3
+     }
+    },
+    {
+     "BindField": "SigFigs",
+     "Title": "最多有效位數",
+     "Component": "Input",
+     "Section": "SecRecv",
+     "Span": 12,
+     "Mode": "Editable",
+     "Props": {
+      "Type": "number"
+     }
+    },
+    {
+     "BindField": "RoundingRule",
+     "Title": "進位規則",
+     "Component": "Input",
+     "Section": "SecRecv",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 20,
+       "Message": "長度不可超過 20"
+      }
+     ]
+    },
+    {
+     "BindField": "MDL",
+     "Title": "方法偵測極限",
+     "Component": "Input",
+     "Section": "SecRecv",
+     "Span": 12,
+     "Mode": "Editable",
+     "Props": {
+      "Type": "number"
+     }
+    },
+    {
+     "BindField": "LOD",
+     "Title": "偵測極限",
+     "Component": "Input",
+     "Section": "SecRecv",
+     "Span": 12,
+     "Mode": "Editable",
+     "Props": {
+      "Type": "number"
+     }
+    },
+    {
+     "BindField": "LOQ",
+     "Title": "定量極限",
+     "Component": "Input",
+     "Section": "SecRecv",
+     "Span": 12,
+     "Mode": "Editable",
+     "Props": {
+      "Type": "number"
+     }
+    },
+    {
+     "BindField": "ReportingLimit",
+     "Title": "報告限",
+     "Component": "Input",
+     "Section": "SecRecv",
+     "Span": 12,
+     "Mode": "Editable",
+     "Props": {
+      "Type": "number"
+     }
+    },
+    {
+     "BindField": "NonDetectExpr",
+     "Title": "未檢出表示法",
+     "Component": "Input",
+     "Section": "SecRecv",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 50,
+       "Message": "長度不可超過 50"
+      }
+     ]
+    },
+    {
+     "BindField": "LinearRangeLower",
+     "Title": "方法線性範圍下限",
+     "Component": "Input",
+     "Section": "SecRecv",
+     "Span": 12,
+     "Mode": "Editable",
+     "Props": {
+      "Type": "number"
+     }
+    },
+    {
+     "BindField": "LinearRangeUpper",
+     "Title": "方法線性範圍上限",
+     "Component": "Input",
+     "Section": "SecRecv",
+     "Span": 12,
+     "Mode": "Editable",
+     "Props": {
+      "Type": "number"
+     }
+    },
+    {
+     "BindField": "CalcFormula",
+     "Title": "計算公式",
+     "Component": "Textarea",
+     "Section": "SecRecv",
+     "Span": 24,
+     "Mode": "Editable",
+     "Props": {
+      "Rows": 3
+     }
+    },
+    {
+     "BindField": "FormulaVarDef",
+     "Title": "公式變數定義",
+     "Component": "Textarea",
+     "Section": "SecRecv",
+     "Span": 24,
+     "Mode": "Editable",
+     "Props": {
+      "Rows": 3
+     }
+    },
+    {
+     "BindField": "DefaultDilution",
+     "Title": "預設稀釋倍數",
+     "Component": "Input",
+     "Section": "SecRecv",
+     "Span": 12,
+     "Mode": "Editable",
+     "Props": {
+      "Type": "number"
+     }
+    },
+    {
+     "BindField": "BlankSubRule",
+     "Title": "空白扣除規則",
+     "Component": "Input",
+     "Section": "SecRecv",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 200,
+       "Message": "長度不可超過 200"
+      }
+     ]
+    },
+    {
+     "BindField": "CurveModel",
+     "Title": "標準曲線模型",
+     "Component": "Input",
+     "Section": "SecRecv",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 50,
+       "Message": "長度不可超過 50"
+      }
+     ]
+    },
+    {
+     "BindField": "CurvePoints",
+     "Title": "標準點位",
+     "Component": "Textarea",
+     "Section": "SecRecv",
+     "Span": 24,
+     "Mode": "Editable",
+     "Props": {
+      "Rows": 3
+     }
+    },
+    {
+     "BindField": "InternalStdName",
+     "Title": "內標名稱",
+     "Component": "Input",
+     "Section": "SecRecv",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 100,
+       "Message": "長度不可超過 100"
+      }
+     ]
+    },
+    {
+     "BindField": "RefMaterialLot",
+     "Title": "標準品批號",
+     "Component": "Input",
+     "Section": "SecRecv",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 100,
+       "Message": "長度不可超過 100"
+      }
+     ]
+    },
+    {
+     "BindField": "PrecisionCV",
+     "Title": "精密度",
+     "Component": "Input",
+     "Section": "SecRecv",
+     "Span": 12,
+     "Mode": "Editable",
+     "Props": {
+      "Type": "number"
+     }
+    },
+    {
+     "BindField": "AccuracyBias",
+     "Title": "準確度",
+     "Component": "Input",
+     "Section": "SecRecv",
+     "Span": 12,
+     "Mode": "Editable",
+     "Props": {
+      "Type": "number"
+     }
+    },
+    {
+     "BindField": "RSquared",
+     "Title": "決定係數 R²",
+     "Component": "Input",
+     "Section": "SecRecv",
+     "Span": 12,
+     "Mode": "Editable",
+     "Props": {
+      "Type": "number"
+     }
+    },
+    {
+     "BindField": "MeasUncertainty",
+     "Title": "測量不確定度",
+     "Component": "Input",
+     "Section": "SecRecv",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 200,
+       "Message": "長度不可超過 200"
+      }
+     ]
+    },
+    {
+     "BindField": "ValidationDate",
+     "Title": "方法驗證日期",
+     "Component": "DatePicker",
+     "Section": "SecRecv",
+     "Span": 12,
+     "Mode": "Editable",
+     "Props": {
+      "Mode": "Editable",
+      "ShowTime": false
+     }
+    },
+    {
+     "BindField": "ValidatedBy",
+     "Title": "驗證人員",
+     "Component": "Input",
+     "Section": "SecRecv",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 100,
+       "Message": "長度不可超過 100"
+      }
+     ]
+    },
+    {
+     "BindField": "ValidationReport",
+     "Title": "驗證報告檔案路徑",
+     "Component": "Textarea",
+     "Section": "SecRecv",
+     "Span": 24,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 1000,
+       "Message": "長度不可超過 1000"
+      }
+     ],
+     "Props": {
+      "Rows": 3
+     }
+    },
+    {
+     "BindField": "RegulationSetCode",
+     "Title": "法規",
+     "Component": "Input",
+     "Section": "SecRecv",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 50,
+       "Message": "長度不可超過 50"
+      }
+     ]
+    },
+    {
+     "BindField": "RegAgency",
+     "Title": "法規機關",
+     "Component": "Input",
+     "Section": "SecRecv",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 100,
+       "Message": "長度不可超過 100"
+      }
+     ]
+    },
+    {
+     "BindField": "RegArticleNo",
+     "Title": "條文",
+     "Component": "Input",
+     "Section": "SecRecv",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 100,
+       "Message": "長度不可超過 100"
+      }
+     ]
+    },
+    {
+     "BindField": "CustomerLimit",
+     "Title": "客戶自訂限值",
+     "Component": "Input",
+     "Section": "SecRecv",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 200,
+       "Message": "長度不可超過 200"
+      }
+     ]
+    },
+    {
+     "BindField": "UseCustomerLimit",
+     "Title": "是否改用客戶限值",
+     "Component": "Input",
+     "Section": "SecRecv",
+     "Span": 12,
+     "Mode": "Editable"
+    },
+    {
+     "BindField": "EffectiveDate",
+     "Title": "生效日期",
+     "Component": "DatePicker",
+     "Section": "SecRecv",
+     "Span": 12,
+     "Mode": "Editable",
+     "Props": {
+      "Mode": "Editable",
+      "ShowTime": false
+     }
+    },
+    {
+     "BindField": "ExpiryDate",
+     "Title": "失效日期",
+     "Component": "DatePicker",
+     "Section": "SecRecv",
+     "Span": 12,
+     "Mode": "Editable",
+     "Props": {
+      "Mode": "Editable",
+      "ShowTime": false
+     }
+    },
+    {
+     "BindField": "IsDefault",
+     "Title": "是否為預設版",
+     "Component": "Input",
+     "Section": "SecRecv",
+     "Span": 12,
+     "Mode": "Editable"
+    },
+    {
+     "BindField": "SiteCode",
+     "Title": "所屬站點",
+     "Component": "Input",
+     "Section": "SecRecv",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 50,
+       "Message": "長度不可超過 50"
+      }
+     ]
+    },
+    {
+     "BindField": "IsAccredited",
+     "Title": "是否在認證範圍內",
+     "Component": "Input",
+     "Section": "SecRecv",
+     "Span": 12,
+     "Mode": "Editable"
+    },
+    {
+     "BindField": "PriorityLevel",
+     "Title": "優先等級",
+     "Component": "Input",
+     "Section": "SecRecv",
+     "Span": 12,
+     "Mode": "Editable",
+     "Props": {
+      "Type": "number"
+     }
+    },
+    {
+     "BindField": "StandardTAT",
+     "Title": "標準 TAT",
+     "Component": "Input",
+     "Section": "SecRecv",
+     "Span": 12,
+     "Mode": "Editable",
+     "Props": {
+      "Type": "number"
+     }
+    },
+    {
+     "BindField": "RushTAT",
+     "Title": "急件 TAT",
+     "Component": "Input",
+     "Section": "SecRecv",
+     "Span": 12,
+     "Mode": "Editable",
+     "Props": {
+      "Type": "number"
+     }
+    },
+    {
+     "BindField": "StandardPrice",
+     "Title": "標準單價",
+     "Component": "Input",
+     "Section": "SecRecv",
+     "Span": 12,
+     "Mode": "Editable",
+     "Props": {
+      "Type": "number"
+     }
+    },
+    {
+     "BindField": "RushPrice",
+     "Title": "急件單價",
+     "Component": "Input",
+     "Section": "SecRecv",
+     "Span": 12,
+     "Mode": "Editable",
+     "Props": {
+      "Type": "number"
+     }
+    },
+    {
+     "BindField": "AnalystNote",
+     "Title": "分析師備註",
+     "Component": "Textarea",
+     "Section": "SecRecv",
+     "Span": 24,
+     "Mode": "Editable",
+     "Props": {
+      "Rows": 3
+     }
+    },
+    {
+     "BindField": "ReportAlias",
+     "Title": "報告顯示別名",
+     "Component": "Input",
+     "Section": "SecRecv",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 200,
+       "Message": "長度不可超過 200"
+      }
+     ]
+    },
+    {
+     "BindField": "SampleTypeScope",
+     "Title": "適用樣品類型",
+     "Component": "Input",
+     "Section": "SecRecv",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 200,
+       "Message": "長度不可超過 200"
+      }
+     ]
+    },
+    {
+     "BindField": "MinDisplayRule",
+     "Title": "最小表示位數規則文字",
+     "Component": "Input",
+     "Section": "SecRecv",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 50,
+       "Message": "長度不可超過 50"
+      }
+     ]
+    },
+    {
+     "BindField": "MinDisplayDecimals",
+     "Title": "最小表示位數",
+     "Component": "Input",
+     "Section": "SecRecv",
+     "Span": 12,
+     "Mode": "Editable",
+     "Props": {
+      "Type": "number"
+     }
+    },
+    {
+     "BindField": "RoundingRuleType",
+     "Title": "捨位類型",
+     "Component": "Select",
+     "Section": "SecRecv",
+     "Span": 12,
+     "Mode": "Editable",
+     "Props": {
+      "OptionKey": "RoundingRuleType"
+     },
+     "DefaultValue": "R"
+    },
+    {
+     "BindField": "RoundingTableCode",
+     "Title": "分段捨位規則代碼",
+     "Component": "Input",
+     "Section": "SecRecv",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 50,
+       "Message": "長度不可超過 50"
+      }
+     ]
+    },
+    {
+     "BindField": "CatalogRefValue",
+     "Title": "原廠型錄參考值 TEC",
+     "Component": "Input",
+     "Section": "SecRecv",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 100,
+       "Message": "長度不可超過 100"
+      }
+     ]
+    },
+    {
+     "BindField": "ResultFormulaDisplay",
+     "Title": "結果計算式",
+     "Component": "Textarea",
+     "Section": "SecRecv",
+     "Span": 24,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 500,
+       "Message": "長度不可超過 500"
+      }
+     ],
+     "Props": {
+      "Rows": 3
+     }
+    },
+    {
+     "BindField": "FormulaVarLegend",
+     "Title": "公式變數圖例說明",
+     "Component": "Textarea",
+     "Section": "SecRecv",
+     "Span": 24,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 500,
+       "Message": "長度不可超過 500"
+      }
+     ],
+     "Props": {
+      "Rows": 3
+     }
+    },
+    {
+     "BindField": "Description",
+     "Title": "備註說明",
+     "Component": "Textarea",
+     "Section": "SecRecv",
+     "Span": 24,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 500,
+       "Message": "長度不可超過 500"
+      }
+     ],
+     "Props": {
+      "Rows": 3
+     }
+    },
+    {
+     "BindField": "Attributes",
+     "Title": "擴展屬性",
+     "Component": "Textarea",
+     "Section": "SecExtra",
+     "Span": 24,
+     "Mode": "Editable",
+     "Props": {
+      "Rows": 3
+     }
+    },
+    {
+     "BindField": "Status",
+     "Title": "啟用狀態",
+     "Component": "Select",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "DefaultValue": "1",
+     "Props": {
+      "OptionKey": "Status"
+     }
+    },
+    {
+     "BindField": "CreatedBy",
+     "Title": "建立者帳號",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "ReadOnly"
+    },
+    {
+     "BindField": "CreatedAt",
+     "Title": "資料建立日期時間",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "ReadOnly"
+    },
+    {
+     "BindField": "UpdatedBy",
+     "Title": "最後更新者帳號",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "ReadOnly"
+    },
+    {
+     "BindField": "UpdatedAt",
+     "Title": "最後更新日期時間",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "ReadOnly"
+    }
+   ]
+  },
+  "DetailViews": [
+   {
+    "DetailID": "Equip",
+    "Title": "適用儀器",
+    "Icon": "ri-settings-5-line",
+    "Entity": "labAna_ComponentEquip",
+    "RelationKey": "ComponentCode",
+    "RowKey": "RowGuid",
+    "AllowAdd": true,
+    "AllowEdit": true,
+    "AllowDelete": true,
+    "EmptyText": "尚無適用儀器資料",
+    "CodeSets": {
+     "Status": [
+      {
+       "CodeID": "1",
+       "CodeName": "啟用",
+       "IsDefault": true
+      },
+      {
+       "CodeID": "0",
+       "CodeName": "停用"
+      }
+     ],
+     "Priority": [
+      {
+       "CodeID": "A",
+       "CodeName": "急件"
+      },
+      {
+       "CodeID": "B",
+       "CodeName": "高"
+      },
+      {
+       "CodeID": "C",
+       "CodeName": "一般",
+       "IsDefault": true
+      },
+      {
+       "CodeID": "D",
+       "CodeName": "低"
+      }
+     ],
+     "AuthStatus": [
+      {
+       "CodeID": "V",
+       "CodeName": "有效",
+       "IsDefault": true
+      },
+      {
+       "CodeID": "E",
+       "CodeName": "已到期"
+      },
+      {
+       "CodeID": "S",
+       "CodeName": "停用"
+      }
+     ]
+    },
+    "Columns": [
+     {
+      "BindField": "ComponentCode",
+      "Title": "檢驗成分代碼",
+      "Width": 120,
+      "Align": "Left"
+     },
+     {
+      "BindField": "ObjectCode",
+      "Title": "設備資產代碼",
+      "Width": 120,
+      "Align": "Left"
+     },
+     {
+      "BindField": "AuthStatus",
+      "Title": "授權狀態",
+      "Width": 120,
+      "Align": "Center",
+      "Formatter": "Tag",
+      "OptionKey": "AuthStatus"
+     }
+    ],
+    "FormFields": [
+     {
+      "BindField": "ObjectCode",
+      "Title": "設備資產代碼",
+      "Component": "Input",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Validations": [
+       {
+        "Rule": "Required",
+        "Message": "設備資產代碼為必填"
+       },
+       {
+        "Rule": "MaxLength",
+        "Value": 50,
+        "Message": "長度不可超過 50"
+       }
+      ]
+     },
+     {
+      "BindField": "AuthStatus",
+      "Title": "授權狀態",
+      "Component": "Select",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Props": {
+       "OptionKey": "AuthStatus"
+      },
+      "DefaultValue": "V"
+     },
+     {
+      "BindField": "Description",
+      "Title": "備註說明",
+      "Component": "Textarea",
+      "Section": "",
+      "Span": 24,
+      "Mode": "Editable",
+      "Validations": [
+       {
+        "Rule": "MaxLength",
+        "Value": 500,
+        "Message": "長度不可超過 500"
+       }
+      ],
+      "Props": {
+       "Rows": 3
+      }
+     },
+     {
+      "BindField": "Attributes",
+      "Title": "擴展屬性",
+      "Component": "Textarea",
+      "Section": "",
+      "Span": 24,
+      "Mode": "Editable",
+      "Props": {
+       "Rows": 3
+      }
+     }
+    ],
+    "SeedData": [
+     {
+      "RowGuid": "00000219-0000-0000-0001-000000000001",
+      "EntityID": "lab",
+      "Status": "1",
+      "ComponentCode": "C-2026-0001",
+      "ObjectCode": "CE-2025-0002",
+      "AuthStatus": "S",
+      "Description": "急件已加收費用",
+      "Attributes": "擴展屬性02"
+     },
+     {
+      "RowGuid": "00000219-0000-0000-0001-000000000002",
+      "EntityID": "lab",
+      "Status": "1",
+      "ComponentCode": "C-2026-0001",
+      "ObjectCode": "CE-2025-0003",
+      "AuthStatus": "V",
+      "Description": "樣品外觀正常",
+      "Attributes": "擴展屬性03"
+     },
+     {
+      "RowGuid": "00000219-0000-0000-0001-000000000003",
+      "EntityID": "lab",
+      "Status": "1",
+      "ComponentCode": "C-2026-0001",
+      "ObjectCode": "CE-2025-0004",
+      "AuthStatus": "V",
+      "Description": "",
+      "Attributes": "擴展屬性04"
+     },
+     {
+      "RowGuid": "00000219-0000-0000-0001-000000000004",
+      "EntityID": "lab",
+      "Status": "1",
+      "ComponentCode": "C-2025-0002",
+      "ObjectCode": "CE-2026-0005",
+      "AuthStatus": "E",
+      "Description": "",
+      "Attributes": "擴展屬性05"
+     },
+     {
+      "RowGuid": "00000219-0000-0000-0001-000000000005",
+      "EntityID": "lab",
+      "Status": "1",
+      "ComponentCode": "C-2025-0002",
+      "ObjectCode": "CE-2025-0006",
+      "AuthStatus": "E",
+      "Description": "",
+      "Attributes": "擴展屬性06"
+     },
+     {
+      "RowGuid": "00000219-0000-0000-0001-000000000006",
+      "EntityID": "lab",
+      "Status": "1",
+      "ComponentCode": "C-2025-0002",
+      "ObjectCode": "CE-2025-0007",
+      "AuthStatus": "V",
+      "Description": "",
+      "Attributes": "擴展屬性07"
+     },
+     {
+      "RowGuid": "00000219-0000-0000-0001-000000000007",
+      "EntityID": "lab",
+      "Status": "1",
+      "ComponentCode": "C-2025-0002",
+      "ObjectCode": "CE-2025-0008",
+      "AuthStatus": "E",
+      "Description": "",
+      "Attributes": "擴展屬性08"
+     },
+     {
+      "RowGuid": "00000219-0000-0000-0001-000000000008",
+      "EntityID": "lab",
+      "Status": "1",
+      "ComponentCode": "C-2025-0003",
+      "ObjectCode": "CE-2026-0009",
+      "AuthStatus": "E",
+      "Description": "",
+      "Attributes": "擴展屬性09"
+     },
+     {
+      "RowGuid": "00000219-0000-0000-0001-000000000009",
+      "EntityID": "lab",
+      "Status": "1",
+      "ComponentCode": "C-2025-0003",
+      "ObjectCode": "CE-2025-0010",
+      "AuthStatus": "V",
+      "Description": "已通知申請單位",
+      "Attributes": "擴展屬性10"
+     },
+     {
+      "RowGuid": "00000219-0000-0000-0001-000000000010",
+      "EntityID": "lab",
+      "Status": "1",
+      "ComponentCode": "C-2025-0004",
+      "ObjectCode": "CE-2026-0011",
+      "AuthStatus": "S",
+      "Description": "",
+      "Attributes": "擴展屬性11"
+     },
+     {
+      "RowGuid": "00000219-0000-0000-0001-000000000011",
+      "EntityID": "lab",
+      "Status": "1",
+      "ComponentCode": "C-2025-0004",
+      "ObjectCode": "CE-2025-0012",
+      "AuthStatus": "V",
+      "Description": "已通知申請單位",
+      "Attributes": "擴展屬性12"
+     },
+     {
+      "RowGuid": "00000219-0000-0000-0001-000000000012",
+      "EntityID": "lab",
+      "Status": "1",
+      "ComponentCode": "C-2026-0005",
+      "ObjectCode": "CE-2026-0013",
+      "AuthStatus": "S",
+      "Description": "",
+      "Attributes": "擴展屬性13"
+     },
+     {
+      "RowGuid": "00000219-0000-0000-0001-000000000013",
+      "EntityID": "lab",
+      "Status": "1",
+      "ComponentCode": "C-2026-0005",
+      "ObjectCode": "CE-2025-0014",
+      "AuthStatus": "S",
+      "Description": "",
+      "Attributes": "擴展屬性14"
+     },
+     {
+      "RowGuid": "00000219-0000-0000-0001-000000000014",
+      "EntityID": "lab",
+      "Status": "1",
+      "ComponentCode": "C-2026-0005",
+      "ObjectCode": "CE-2026-0015",
+      "AuthStatus": "S",
+      "Description": "需注意保存效期",
+      "Attributes": "擴展屬性15"
+     },
+     {
+      "RowGuid": "00000219-0000-0000-0001-000000000015",
+      "EntityID": "lab",
+      "Status": "1",
+      "ComponentCode": "C-2026-0005",
+      "ObjectCode": "CE-2026-0016",
+      "AuthStatus": "E",
+      "Description": "已通知申請單位",
+      "Attributes": "擴展屬性16"
+     },
+     {
+      "RowGuid": "00000219-0000-0000-0001-000000000016",
+      "EntityID": "lab",
+      "Status": "1",
+      "ComponentCode": "C-2025-0006",
+      "ObjectCode": "CE-2026-0017",
+      "AuthStatus": "V",
+      "Description": "",
+      "Attributes": "擴展屬性17"
+     },
+     {
+      "RowGuid": "00000219-0000-0000-0001-000000000017",
+      "EntityID": "lab",
+      "Status": "1",
+      "ComponentCode": "C-2025-0006",
+      "ObjectCode": "CE-2025-0018",
+      "AuthStatus": "V",
+      "Description": "樣品外觀正常",
+      "Attributes": "擴展屬性18"
+     },
+     {
+      "RowGuid": "00000219-0000-0000-0001-000000000018",
+      "EntityID": "lab",
+      "Status": "1",
+      "ComponentCode": "C-2025-0006",
+      "ObjectCode": "CE-2025-0019",
+      "AuthStatus": "V",
+      "Description": "樣品外觀正常",
+      "Attributes": "擴展屬性19"
+     },
+     {
+      "RowGuid": "00000219-0000-0000-0001-000000000019",
+      "EntityID": "lab",
+      "Status": "1",
+      "ComponentCode": "C-2026-0007",
+      "ObjectCode": "CE-2025-0020",
+      "AuthStatus": "V",
+      "Description": "客戶要求附 TAF Logo",
+      "Attributes": "擴展屬性20"
+     },
+     {
+      "RowGuid": "00000219-0000-0000-0001-000000000020",
+      "EntityID": "lab",
+      "Status": "1",
+      "ComponentCode": "C-2026-0007",
+      "ObjectCode": "CE-2026-0021",
+      "AuthStatus": "S",
+      "Description": "複驗確認無誤",
+      "Attributes": "擴展屬性21"
+     },
+     {
+      "RowGuid": "00000219-0000-0000-0001-000000000021",
+      "EntityID": "lab",
+      "Status": "1",
+      "ComponentCode": "C-2026-0007",
+      "ObjectCode": "CE-2025-0022",
+      "AuthStatus": "V",
+      "Description": "需注意保存效期",
+      "Attributes": "擴展屬性22"
+     },
+     {
+      "RowGuid": "00000219-0000-0000-0001-000000000022",
+      "EntityID": "lab",
+      "Status": "1",
+      "ComponentCode": "C-2026-0007",
+      "ObjectCode": "CE-2026-0023",
+      "AuthStatus": "V",
+      "Description": "複驗確認無誤",
+      "Attributes": "擴展屬性23"
+     },
+     {
+      "RowGuid": "00000219-0000-0000-0001-000000000023",
+      "EntityID": "lab",
+      "Status": "1",
+      "ComponentCode": "C-2025-0008",
+      "ObjectCode": "CE-2025-0024",
+      "AuthStatus": "S",
+      "Description": "",
+      "Attributes": "擴展屬性24"
+     },
+     {
+      "RowGuid": "00000219-0000-0000-0001-000000000024",
+      "EntityID": "lab",
+      "Status": "1",
+      "ComponentCode": "C-2025-0008",
+      "ObjectCode": "CE-2026-0025",
+      "AuthStatus": "V",
+      "Description": "",
+      "Attributes": "擴展屬性25"
+     },
+     {
+      "RowGuid": "00000219-0000-0000-0001-000000000025",
+      "EntityID": "lab",
+      "Status": "1",
+      "ComponentCode": "C-2025-0008",
+      "ObjectCode": "CE-2025-0026",
+      "AuthStatus": "E",
+      "Description": "",
+      "Attributes": "擴展屬性26"
+     },
+     {
+      "RowGuid": "00000219-0000-0000-0001-000000000026",
+      "EntityID": "lab",
+      "Status": "1",
+      "ComponentCode": "C-2025-0008",
+      "ObjectCode": "CE-2026-0027",
+      "AuthStatus": "S",
+      "Description": "樣品外觀正常",
+      "Attributes": "擴展屬性27"
+     },
+     {
+      "RowGuid": "00000219-0000-0000-0001-000000000027",
+      "EntityID": "lab",
+      "Status": "1",
+      "ComponentCode": "C-2026-0009",
+      "ObjectCode": "CE-2026-0028",
+      "AuthStatus": "V",
+      "Description": "定期校正合格",
+      "Attributes": "擴展屬性28"
+     },
+     {
+      "RowGuid": "00000219-0000-0000-0001-000000000028",
+      "EntityID": "lab",
+      "Status": "1",
+      "ComponentCode": "C-2026-0009",
+      "ObjectCode": "CE-2026-0029",
+      "AuthStatus": "V",
+      "Description": "急件已加收費用",
+      "Attributes": "擴展屬性29"
+     },
+     {
+      "RowGuid": "00000219-0000-0000-0001-000000000029",
+      "EntityID": "lab",
+      "Status": "1",
+      "ComponentCode": "C-2026-0010",
+      "ObjectCode": "CE-2026-0030",
+      "AuthStatus": "V",
+      "Description": "",
+      "Attributes": "擴展屬性30"
+     },
+     {
+      "RowGuid": "00000219-0000-0000-0001-000000000030",
+      "EntityID": "lab",
+      "Status": "1",
+      "ComponentCode": "C-2026-0010",
+      "ObjectCode": "CE-2025-0031",
+      "AuthStatus": "V",
+      "Description": "急件已加收費用",
+      "Attributes": "擴展屬性31"
+     },
+     {
+      "RowGuid": "00000219-0000-0000-0001-000000000031",
+      "EntityID": "lab",
+      "Status": "1",
+      "ComponentCode": "C-2026-0010",
+      "ObjectCode": "CE-2026-0032",
+      "AuthStatus": "S",
+      "Description": "",
+      "Attributes": "擴展屬性32"
+     },
+     {
+      "RowGuid": "00000219-0000-0000-0001-000000000032",
+      "EntityID": "lab",
+      "Status": "1",
+      "ComponentCode": "C-2026-0010",
+      "ObjectCode": "CE-2026-0033",
+      "AuthStatus": "E",
+      "Description": "",
+      "Attributes": "擴展屬性33"
+     },
+     {
+      "RowGuid": "00000219-0000-0000-0001-000000000033",
+      "EntityID": "lab",
+      "Status": "1",
+      "ComponentCode": "C-2026-0011",
+      "ObjectCode": "CE-2026-0034",
+      "AuthStatus": "V",
+      "Description": "客戶要求附 TAF Logo",
+      "Attributes": "擴展屬性34"
+     },
+     {
+      "RowGuid": "00000219-0000-0000-0001-000000000034",
+      "EntityID": "lab",
+      "Status": "1",
+      "ComponentCode": "C-2026-0011",
+      "ObjectCode": "CE-2026-0035",
+      "AuthStatus": "E",
+      "Description": "待主管覆核",
+      "Attributes": "擴展屬性35"
+     },
+     {
+      "RowGuid": "00000219-0000-0000-0001-000000000035",
+      "EntityID": "lab",
+      "Status": "1",
+      "ComponentCode": "C-2026-0012",
+      "ObjectCode": "CE-2025-0036",
+      "AuthStatus": "E",
+      "Description": "客戶要求附 TAF Logo",
+      "Attributes": "擴展屬性36"
+     },
+     {
+      "RowGuid": "00000219-0000-0000-0001-000000000036",
+      "EntityID": "lab",
+      "Status": "1",
+      "ComponentCode": "C-2026-0012",
+      "ObjectCode": "CE-2026-0037",
+      "AuthStatus": "E",
+      "Description": "定期校正合格",
+      "Attributes": "擴展屬性37"
+     },
+     {
+      "RowGuid": "00000219-0000-0000-0001-000000000037",
+      "EntityID": "lab",
+      "Status": "1",
+      "ComponentCode": "C-2025-0013",
+      "ObjectCode": "CE-2026-0038",
+      "AuthStatus": "V",
+      "Description": "已通知申請單位",
+      "Attributes": "擴展屬性38"
+     },
+     {
+      "RowGuid": "00000219-0000-0000-0001-000000000038",
+      "EntityID": "lab",
+      "Status": "1",
+      "ComponentCode": "C-2025-0013",
+      "ObjectCode": "CE-2025-0039",
+      "AuthStatus": "V",
+      "Description": "",
+      "Attributes": "擴展屬性39"
+     },
+     {
+      "RowGuid": "00000219-0000-0000-0001-000000000039",
+      "EntityID": "lab",
+      "Status": "1",
+      "ComponentCode": "C-2025-0013",
+      "ObjectCode": "CE-2026-0040",
+      "AuthStatus": "V",
+      "Description": "樣品外觀正常",
+      "Attributes": "擴展屬性40"
+     },
+     {
+      "RowGuid": "00000219-0000-0000-0001-000000000040",
+      "EntityID": "lab",
+      "Status": "1",
+      "ComponentCode": "C-2025-0013",
+      "ObjectCode": "CE-2026-0041",
+      "AuthStatus": "V",
+      "Description": "急件已加收費用",
+      "Attributes": "擴展屬性41"
+     },
+     {
+      "RowGuid": "00000219-0000-0000-0001-000000000041",
+      "EntityID": "lab",
+      "Status": "1",
+      "ComponentCode": "C-2026-0014",
+      "ObjectCode": "CE-2026-0042",
+      "AuthStatus": "V",
+      "Description": "待主管覆核",
+      "Attributes": "擴展屬性42"
+     },
+     {
+      "RowGuid": "00000219-0000-0000-0001-000000000042",
+      "EntityID": "lab",
+      "Status": "1",
+      "ComponentCode": "C-2026-0014",
+      "ObjectCode": "CE-2025-0043",
+      "AuthStatus": "V",
+      "Description": "已通知申請單位",
+      "Attributes": "擴展屬性43"
+     }
+    ]
+   },
+   {
+    "DetailID": "Staff",
+    "Title": "授權人員",
+    "Icon": "ri-user-star-line",
+    "Entity": "labAna_ComponentStaff",
+    "RelationKey": "ComponentCode",
+    "RowKey": "RowGuid",
+    "AllowAdd": true,
+    "AllowEdit": true,
+    "AllowDelete": true,
+    "EmptyText": "尚無授權人員資料",
+    "CodeSets": {
+     "Status": [
+      {
+       "CodeID": "1",
+       "CodeName": "啟用",
+       "IsDefault": true
+      },
+      {
+       "CodeID": "0",
+       "CodeName": "停用"
+      }
+     ],
+     "Priority": [
+      {
+       "CodeID": "A",
+       "CodeName": "急件"
+      },
+      {
+       "CodeID": "B",
+       "CodeName": "高"
+      },
+      {
+       "CodeID": "C",
+       "CodeName": "一般",
+       "IsDefault": true
+      },
+      {
+       "CodeID": "D",
+       "CodeName": "低"
+      }
+     ],
+     "AuthStatus": [
+      {
+       "CodeID": "V",
+       "CodeName": "有效",
+       "IsDefault": true
+      },
+      {
+       "CodeID": "E",
+       "CodeName": "已到期"
+      },
+      {
+       "CodeID": "S",
+       "CodeName": "停用"
+      }
+     ]
+    },
+    "Columns": [
+     {
+      "BindField": "ComponentCode",
+      "Title": "檢驗成分代碼",
+      "Width": 120,
+      "Align": "Left"
+     },
+     {
+      "BindField": "EmpId",
+      "Title": "人員工號",
+      "Width": 120,
+      "Align": "Left"
+     },
+     {
+      "BindField": "AuthDate",
+      "Title": "授權日期",
+      "Width": 120,
+      "Align": "Left",
+      "Formatter": "Date"
+     },
+     {
+      "BindField": "AuthExpiryDate",
+      "Title": "授權到期日",
+      "Width": 120,
+      "Align": "Left",
+      "Formatter": "Date"
+     },
+     {
+      "BindField": "AuthStatus",
+      "Title": "授權狀態",
+      "Width": 120,
+      "Align": "Center",
+      "Formatter": "Tag",
+      "OptionKey": "AuthStatus"
+     }
+    ],
+    "FormFields": [
+     {
+      "BindField": "EmpId",
+      "Title": "人員工號",
+      "Component": "Input",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Validations": [
+       {
+        "Rule": "Required",
+        "Message": "人員工號為必填"
+       },
+       {
+        "Rule": "MaxLength",
+        "Value": 50,
+        "Message": "長度不可超過 50"
+       }
+      ]
+     },
+     {
+      "BindField": "AuthDate",
+      "Title": "授權日期",
+      "Component": "DatePicker",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Props": {
+       "Mode": "Editable",
+       "ShowTime": false
+      }
+     },
+     {
+      "BindField": "AuthExpiryDate",
+      "Title": "授權到期日",
+      "Component": "DatePicker",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Props": {
+       "Mode": "Editable",
+       "ShowTime": false
+      }
+     },
+     {
+      "BindField": "AuthStatus",
+      "Title": "授權狀態",
+      "Component": "Select",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Props": {
+       "OptionKey": "AuthStatus"
+      },
+      "DefaultValue": "V"
+     },
+     {
+      "BindField": "Description",
+      "Title": "備註說明",
+      "Component": "Textarea",
+      "Section": "",
+      "Span": 24,
+      "Mode": "Editable",
+      "Validations": [
+       {
+        "Rule": "MaxLength",
+        "Value": 500,
+        "Message": "長度不可超過 500"
+       }
+      ],
+      "Props": {
+       "Rows": 3
+      }
+     },
+     {
+      "BindField": "Attributes",
+      "Title": "擴展屬性",
+      "Component": "Textarea",
+      "Section": "",
+      "Span": 24,
+      "Mode": "Editable",
+      "Props": {
+       "Rows": 3
+      }
+     }
+    ],
+    "SeedData": [
+     {
+      "RowGuid": "00000219-0000-0000-0001-000000000043",
+      "EntityID": "lab",
+      "Status": "1",
+      "ComponentCode": "C-2026-0001",
+      "EmpId": "張分析",
+      "AuthDate": "2026-05-01",
+      "AuthExpiryDate": "2025-03-12",
+      "AuthStatus": "V",
+      "Description": "樣品外觀正常",
+      "Attributes": "擴展屬性44"
+     },
+     {
+      "RowGuid": "00000219-0000-0000-0001-000000000044",
+      "EntityID": "lab",
+      "Status": "1",
+      "ComponentCode": "C-2026-0001",
+      "EmpId": "楊化驗",
+      "AuthDate": "2025-01-17",
+      "AuthExpiryDate": "2025-02-16",
+      "AuthStatus": "V",
+      "Description": "",
+      "Attributes": "擴展屬性45"
+     },
+     {
+      "RowGuid": "00000219-0000-0000-0001-000000000045",
+      "EntityID": "lab",
+      "Status": "1",
+      "ComponentCode": "C-2025-0002",
+      "EmpId": "黃技正",
+      "AuthDate": "2025-03-22",
+      "AuthExpiryDate": "2025-03-07",
+      "AuthStatus": "V",
+      "Description": "",
+      "Attributes": "擴展屬性46"
+     },
+     {
+      "RowGuid": "00000219-0000-0000-0001-000000000046",
+      "EntityID": "lab",
+      "Status": "1",
+      "ComponentCode": "C-2025-0002",
+      "EmpId": "鄭組長",
+      "AuthDate": "2026-09-02",
+      "AuthExpiryDate": "2026-04-05",
+      "AuthStatus": "E",
+      "Description": "",
+      "Attributes": "擴展屬性47"
+     },
+     {
+      "RowGuid": "00000219-0000-0000-0001-000000000047",
+      "EntityID": "lab",
+      "Status": "1",
+      "ComponentCode": "C-2025-0002",
+      "EmpId": "郭品管",
+      "AuthDate": "2026-08-08",
+      "AuthExpiryDate": "2026-10-22",
+      "AuthStatus": "S",
+      "Description": "待主管覆核",
+      "Attributes": "擴展屬性48"
+     },
+     {
+      "RowGuid": "00000219-0000-0000-0001-000000000048",
+      "EntityID": "lab",
+      "Status": "1",
+      "ComponentCode": "C-2025-0003",
+      "EmpId": "楊化驗",
+      "AuthDate": "2026-09-10",
+      "AuthExpiryDate": "2026-07-09",
+      "AuthStatus": "V",
+      "Description": "",
+      "Attributes": "擴展屬性49"
+     },
+     {
+      "RowGuid": "00000219-0000-0000-0001-000000000049",
+      "EntityID": "lab",
+      "Status": "1",
+      "ComponentCode": "C-2025-0003",
+      "EmpId": "謝校正",
+      "AuthDate": "2025-02-15",
+      "AuthExpiryDate": "2026-10-23",
+      "AuthStatus": "V",
+      "Description": "",
+      "Attributes": "擴展屬性50"
+     },
+     {
+      "RowGuid": "00000219-0000-0000-0001-000000000050",
+      "EntityID": "lab",
+      "Status": "1",
+      "ComponentCode": "C-2025-0004",
+      "EmpId": "何環安",
+      "AuthDate": "2025-11-04",
+      "AuthExpiryDate": "2026-07-17",
+      "AuthStatus": "V",
+      "Description": "",
+      "Attributes": "擴展屬性51"
+     },
+     {
+      "RowGuid": "00000219-0000-0000-0001-000000000051",
+      "EntityID": "lab",
+      "Status": "1",
+      "ComponentCode": "C-2025-0004",
+      "EmpId": "謝校正",
+      "AuthDate": "2026-01-21",
+      "AuthExpiryDate": "2025-05-27",
+      "AuthStatus": "V",
+      "Description": "",
+      "Attributes": "擴展屬性52"
+     },
+     {
+      "RowGuid": "00000219-0000-0000-0001-000000000052",
+      "EntityID": "lab",
+      "Status": "1",
+      "ComponentCode": "C-2026-0005",
+      "EmpId": "許工程",
+      "AuthDate": "2025-09-01",
+      "AuthExpiryDate": "2025-01-02",
+      "AuthStatus": "S",
+      "Description": "",
+      "Attributes": "擴展屬性53"
+     },
+     {
+      "RowGuid": "00000219-0000-0000-0001-000000000053",
+      "EntityID": "lab",
+      "Status": "1",
+      "ComponentCode": "C-2026-0005",
+      "EmpId": "周技士",
+      "AuthDate": "2025-06-05",
+      "AuthExpiryDate": "2026-01-18",
+      "AuthStatus": "V",
+      "Description": "",
+      "Attributes": "擴展屬性54"
+     },
+     {
+      "RowGuid": "00000219-0000-0000-0001-000000000054",
+      "EntityID": "lab",
+      "Status": "1",
+      "ComponentCode": "C-2026-0005",
+      "EmpId": "張分析",
+      "AuthDate": "2025-08-05",
+      "AuthExpiryDate": "2026-10-23",
+      "AuthStatus": "V",
+      "Description": "客戶要求附 TAF Logo",
+      "Attributes": "擴展屬性55"
+     },
+     {
+      "RowGuid": "00000219-0000-0000-0001-000000000055",
+      "EntityID": "lab",
+      "Status": "1",
+      "ComponentCode": "C-2026-0005",
+      "EmpId": "李檢測",
+      "AuthDate": "2026-06-20",
+      "AuthExpiryDate": "2025-03-12",
+      "AuthStatus": "V",
+      "Description": "複驗確認無誤",
+      "Attributes": "擴展屬性56"
+     },
+     {
+      "RowGuid": "00000219-0000-0000-0001-000000000056",
+      "EntityID": "lab",
+      "Status": "1",
+      "ComponentCode": "C-2025-0006",
+      "EmpId": "鄭組長",
+      "AuthDate": "2025-10-24",
+      "AuthExpiryDate": "2025-02-08",
+      "AuthStatus": "V",
+      "Description": "",
+      "Attributes": "擴展屬性57"
+     },
+     {
+      "RowGuid": "00000219-0000-0000-0001-000000000057",
+      "EntityID": "lab",
+      "Status": "1",
+      "ComponentCode": "C-2025-0006",
+      "EmpId": "謝校正",
+      "AuthDate": "2026-03-16",
+      "AuthExpiryDate": "2026-08-05",
+      "AuthStatus": "E",
+      "Description": "急件已加收費用",
+      "Attributes": "擴展屬性58"
+     },
+     {
+      "RowGuid": "00000219-0000-0000-0001-000000000058",
+      "EntityID": "lab",
+      "Status": "1",
+      "ComponentCode": "C-2025-0006",
+      "EmpId": "楊化驗",
+      "AuthDate": "2025-06-16",
+      "AuthExpiryDate": "2025-03-22",
+      "AuthStatus": "S",
+      "Description": "已通知申請單位",
+      "Attributes": "擴展屬性59"
+     },
+     {
+      "RowGuid": "00000219-0000-0000-0001-000000000059",
+      "EntityID": "lab",
+      "Status": "1",
+      "ComponentCode": "C-2026-0007",
+      "EmpId": "吳主任",
+      "AuthDate": "2025-02-10",
+      "AuthExpiryDate": "2026-08-24",
+      "AuthStatus": "V",
+      "Description": "",
+      "Attributes": "擴展屬性60"
+     },
+     {
+      "RowGuid": "00000219-0000-0000-0001-000000000060",
+      "EntityID": "lab",
+      "Status": "1",
+      "ComponentCode": "C-2026-0007",
+      "EmpId": "劉助理",
+      "AuthDate": "2025-07-21",
+      "AuthExpiryDate": "2026-01-09",
+      "AuthStatus": "V",
+      "Description": "複驗確認無誤",
+      "Attributes": "擴展屬性61"
+     },
+     {
+      "RowGuid": "00000219-0000-0000-0001-000000000061",
+      "EntityID": "lab",
+      "Status": "1",
+      "ComponentCode": "C-2026-0007",
+      "EmpId": "劉助理",
+      "AuthDate": "2025-03-18",
+      "AuthExpiryDate": "2026-02-05",
+      "AuthStatus": "E",
+      "Description": "",
+      "Attributes": "擴展屬性62"
+     },
+     {
+      "RowGuid": "00000219-0000-0000-0001-000000000062",
+      "EntityID": "lab",
+      "Status": "1",
+      "ComponentCode": "C-2025-0008",
+      "EmpId": "黃技正",
+      "AuthDate": "2026-07-02",
+      "AuthExpiryDate": "2025-05-11",
+      "AuthStatus": "V",
+      "Description": "複驗確認無誤",
+      "Attributes": "擴展屬性63"
+     },
+     {
+      "RowGuid": "00000219-0000-0000-0001-000000000063",
+      "EntityID": "lab",
+      "Status": "1",
+      "ComponentCode": "C-2025-0008",
+      "EmpId": "楊化驗",
+      "AuthDate": "2025-09-10",
+      "AuthExpiryDate": "2026-12-07",
+      "AuthStatus": "V",
+      "Description": "",
+      "Attributes": "擴展屬性64"
+     },
+     {
+      "RowGuid": "00000219-0000-0000-0001-000000000064",
+      "EntityID": "lab",
+      "Status": "1",
+      "ComponentCode": "C-2026-0009",
+      "EmpId": "何環安",
+      "AuthDate": "2025-04-12",
+      "AuthExpiryDate": "2025-09-18",
+      "AuthStatus": "V",
+      "Description": "定期校正合格",
+      "Attributes": "擴展屬性65"
+     },
+     {
+      "RowGuid": "00000219-0000-0000-0001-000000000065",
+      "EntityID": "lab",
+      "Status": "1",
+      "ComponentCode": "C-2026-0009",
+      "EmpId": "周技士",
+      "AuthDate": "2025-10-02",
+      "AuthExpiryDate": "2025-08-21",
+      "AuthStatus": "V",
+      "Description": "",
+      "Attributes": "擴展屬性66"
+     },
+     {
+      "RowGuid": "00000219-0000-0000-0001-000000000066",
+      "EntityID": "lab",
+      "Status": "1",
+      "ComponentCode": "C-2026-0009",
+      "EmpId": "劉助理",
+      "AuthDate": "2026-05-11",
+      "AuthExpiryDate": "2025-01-15",
+      "AuthStatus": "V",
+      "Description": "",
+      "Attributes": "擴展屬性67"
+     },
+     {
+      "RowGuid": "00000219-0000-0000-0001-000000000067",
+      "EntityID": "lab",
+      "Status": "1",
+      "ComponentCode": "C-2026-0010",
+      "EmpId": "鄭組長",
+      "AuthDate": "2025-03-09",
+      "AuthExpiryDate": "2025-04-23",
+      "AuthStatus": "E",
+      "Description": "",
+      "Attributes": "擴展屬性68"
+     },
+     {
+      "RowGuid": "00000219-0000-0000-0001-000000000068",
+      "EntityID": "lab",
+      "Status": "1",
+      "ComponentCode": "C-2026-0010",
+      "EmpId": "楊化驗",
+      "AuthDate": "2025-03-10",
+      "AuthExpiryDate": "2025-01-06",
+      "AuthStatus": "E",
+      "Description": "",
+      "Attributes": "擴展屬性69"
+     },
+     {
+      "RowGuid": "00000219-0000-0000-0001-000000000069",
+      "EntityID": "lab",
+      "Status": "1",
+      "ComponentCode": "C-2026-0010",
+      "EmpId": "蔡研究",
+      "AuthDate": "2026-07-21",
+      "AuthExpiryDate": "2025-03-14",
+      "AuthStatus": "V",
+      "Description": "",
+      "Attributes": "擴展屬性70"
+     },
+     {
+      "RowGuid": "00000219-0000-0000-0001-000000000070",
+      "EntityID": "lab",
+      "Status": "1",
+      "ComponentCode": "C-2026-0010",
+      "EmpId": "吳主任",
+      "AuthDate": "2025-07-19",
+      "AuthExpiryDate": "2026-01-17",
+      "AuthStatus": "V",
+      "Description": "",
+      "Attributes": "擴展屬性71"
+     },
+     {
+      "RowGuid": "00000219-0000-0000-0001-000000000071",
+      "EntityID": "lab",
+      "Status": "1",
+      "ComponentCode": "C-2026-0011",
+      "EmpId": "王采樣",
+      "AuthDate": "2025-03-24",
+      "AuthExpiryDate": "2025-12-20",
+      "AuthStatus": "E",
+      "Description": "",
+      "Attributes": "擴展屬性72"
+     },
+     {
+      "RowGuid": "00000219-0000-0000-0001-000000000072",
+      "EntityID": "lab",
+      "Status": "1",
+      "ComponentCode": "C-2026-0011",
+      "EmpId": "何環安",
+      "AuthDate": "2026-06-18",
+      "AuthExpiryDate": "2025-03-06",
+      "AuthStatus": "V",
+      "Description": "",
+      "Attributes": "擴展屬性73"
+     },
+     {
+      "RowGuid": "00000219-0000-0000-0001-000000000073",
+      "EntityID": "lab",
+      "Status": "1",
+      "ComponentCode": "C-2026-0011",
+      "EmpId": "許工程",
+      "AuthDate": "2025-05-10",
+      "AuthExpiryDate": "2025-03-07",
+      "AuthStatus": "S",
+      "Description": "",
+      "Attributes": "擴展屬性74"
+     },
+     {
+      "RowGuid": "00000219-0000-0000-0001-000000000074",
+      "EntityID": "lab",
+      "Status": "1",
+      "ComponentCode": "C-2026-0011",
+      "EmpId": "楊化驗",
+      "AuthDate": "2026-12-10",
+      "AuthExpiryDate": "2025-10-06",
+      "AuthStatus": "S",
+      "Description": "樣品外觀正常",
+      "Attributes": "擴展屬性75"
+     },
+     {
+      "RowGuid": "00000219-0000-0000-0001-000000000075",
+      "EntityID": "lab",
+      "Status": "1",
+      "ComponentCode": "C-2026-0012",
+      "EmpId": "劉助理",
+      "AuthDate": "2026-03-15",
+      "AuthExpiryDate": "2026-04-25",
+      "AuthStatus": "V",
+      "Description": "定期校正合格",
+      "Attributes": "擴展屬性76"
+     },
+     {
+      "RowGuid": "00000219-0000-0000-0001-000000000076",
+      "EntityID": "lab",
+      "Status": "1",
+      "ComponentCode": "C-2026-0012",
+      "EmpId": "王采樣",
+      "AuthDate": "2026-03-23",
+      "AuthExpiryDate": "2026-11-07",
+      "AuthStatus": "V",
+      "Description": "急件已加收費用",
+      "Attributes": "擴展屬性77"
+     },
+     {
+      "RowGuid": "00000219-0000-0000-0001-000000000077",
+      "EntityID": "lab",
+      "Status": "1",
+      "ComponentCode": "C-2025-0013",
+      "EmpId": "黃技正",
+      "AuthDate": "2026-08-28",
+      "AuthExpiryDate": "2026-04-23",
+      "AuthStatus": "V",
+      "Description": "",
+      "Attributes": "擴展屬性78"
+     },
+     {
+      "RowGuid": "00000219-0000-0000-0001-000000000078",
+      "EntityID": "lab",
+      "Status": "1",
+      "ComponentCode": "C-2025-0013",
+      "EmpId": "吳主任",
+      "AuthDate": "2026-01-13",
+      "AuthExpiryDate": "2026-09-11",
+      "AuthStatus": "V",
+      "Description": "",
+      "Attributes": "擴展屬性79"
+     },
+     {
+      "RowGuid": "00000219-0000-0000-0001-000000000079",
+      "EntityID": "lab",
+      "Status": "1",
+      "ComponentCode": "C-2025-0013",
+      "EmpId": "張分析",
+      "AuthDate": "2026-06-18",
+      "AuthExpiryDate": "2026-01-23",
+      "AuthStatus": "V",
+      "Description": "定期校正合格",
+      "Attributes": "擴展屬性80"
+     },
+     {
+      "RowGuid": "00000219-0000-0000-0001-000000000080",
+      "EntityID": "lab",
+      "Status": "1",
+      "ComponentCode": "C-2025-0013",
+      "EmpId": "許工程",
+      "AuthDate": "2026-06-28",
+      "AuthExpiryDate": "2026-06-09",
+      "AuthStatus": "V",
+      "Description": "需注意保存效期",
+      "Attributes": "擴展屬性81"
+     },
+     {
+      "RowGuid": "00000219-0000-0000-0001-000000000081",
+      "EntityID": "lab",
+      "Status": "1",
+      "ComponentCode": "C-2026-0014",
+      "EmpId": "黃技正",
+      "AuthDate": "2025-06-25",
+      "AuthExpiryDate": "2026-04-27",
+      "AuthStatus": "E",
+      "Description": "",
+      "Attributes": "擴展屬性82"
+     },
+     {
+      "RowGuid": "00000219-0000-0000-0001-000000000082",
+      "EntityID": "lab",
+      "Status": "1",
+      "ComponentCode": "C-2026-0014",
+      "EmpId": "李檢測",
+      "AuthDate": "2025-03-14",
+      "AuthExpiryDate": "2025-11-19",
+      "AuthStatus": "E",
+      "Description": "待主管覆核",
+      "Attributes": "擴展屬性83"
+     },
+     {
+      "RowGuid": "00000219-0000-0000-0001-000000000083",
+      "EntityID": "lab",
+      "Status": "1",
+      "ComponentCode": "C-2026-0014",
+      "EmpId": "陳審核",
+      "AuthDate": "2025-03-11",
+      "AuthExpiryDate": "2026-11-24",
+      "AuthStatus": "S",
+      "Description": "",
+      "Attributes": "擴展屬性84"
+     },
+     {
+      "RowGuid": "00000219-0000-0000-0001-000000000084",
+      "EntityID": "lab",
+      "Status": "1",
+      "ComponentCode": "C-2026-0014",
+      "EmpId": "何環安",
+      "AuthDate": "2025-02-09",
+      "AuthExpiryDate": "2025-10-11",
+      "AuthStatus": "E",
+      "Description": "",
+      "Attributes": "擴展屬性85"
+     }
+    ]
+   }
+  ]
+ },
+ "Features": {},
+ "DataScope": {
+  "DefaultWhere": "EntityID = 'lab' AND Status = '1'",
+  "AuthLevel": 2,
+  "SortExp": "SortNo ASC",
+  "DataConfig": {
+   "RowLimit": 2000,
+   "AllowExport": true
+  }
+ },
+ "CustomMeta": {
+  "CustomSchema": {
+   "WidgetType": "Grid",
+   "KeyField": "TestTypeCode",
+   "TitleField": "ComponentCode",
+   "ParentKeyField": null,
+   "PathField": null,
+   "PathSeparator": "/"
+  }
+ },
+ "SeedData": [
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000000",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-07-02 12:02",
+   "UpdatedBy": "abram.chen",
+   "UpdatedAt": "2026-06-08 18:10",
+   "TestTypeCode": "C-2026-0001",
+   "MasterCompGuid": "成分主檔參照01",
+   "ComponentCode": "C-2026-0001",
+   "ComponentName": "總磷 TP",
+   "ChemSymbol": "化學符號01",
+   "CasNo": "C-2026-0001",
+   "HazardNote": "",
+   "RefRangeLower": 99,
+   "RefRangeUpper": 39,
+   "MethodCode": "C-2025-0001",
+   "MethodVersion": "NIEA W508.05B",
+   "SopFilePath": "SOP01",
+   "PrimaryEquipCode": "C-2025-0001",
+   "ReportUnit": "M041 製造一處",
+   "AltUnit": "M041 製造一處",
+   "UnitConvFormula": "M011 工程處",
+   "SigFigs": 11,
+   "RoundingRule": "進位規則01",
+   "MDL": 58,
+   "LOD": 68,
+   "LOQ": 79,
+   "ReportingLimit": 68,
+   "NonDetectExpr": "未檢出表示法01",
+   "LinearRangeLower": 34,
+   "LinearRangeUpper": 27,
+   "CalcFormula": "計算公式01",
+   "FormulaVarDef": "公式變數定義01",
+   "DefaultDilution": 99,
+   "BlankSubRule": "空白扣除規則01",
+   "CurveModel": "Standard Methods",
+   "CurvePoints": "EPA",
+   "InternalStdName": "吳主任",
+   "RefMaterialLot": "ASTM",
+   "PrecisionCV": 39,
+   "AccuracyBias": 31,
+   "RSquared": 33,
+   "MeasUncertainty": "測量不確定度01",
+   "ValidationDate": "2026-06-09",
+   "ValidatedBy": "周技士",
+   "ValidationReport": "驗證報告檔案路徑01",
+   "RegulationSetCode": "C-2026-0001",
+   "RegAgency": "法規機關01",
+   "RegArticleNo": "C-2025-0001",
+   "CustomerLimit": "統一企業",
+   "UseCustomerLimit": "新北市環保局",
+   "EffectiveDate": "2026-05-09",
+   "ExpiryDate": "2025-11-28",
+   "IsDefault": "是否為預設版01",
+   "SiteCode": "C-2025-0001",
+   "IsAccredited": "是否在認證範圍內01",
+   "PriorityLevel": 79,
+   "StandardTAT": 42,
+   "RushTAT": 2,
+   "StandardPrice": 3500,
+   "RushPrice": 1500,
+   "AnalystNote": "",
+   "ReportAlias": "報告顯示別名01",
+   "SampleTypeScope": "適用樣品類型01",
+   "MinDisplayRule": "最小表示位數規則文字01",
+   "MinDisplayDecimals": 47,
+   "RoundingRuleType": "R",
+   "RoundingTableCode": "C-2025-0001",
+   "CatalogRefValue": "Standard Methods",
+   "ResultFormulaDisplay": "結果計算式01",
+   "FormulaVarLegend": "",
+   "Description": "",
+   "Attributes": "擴展屬性01"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000001",
+   "EntityID": "lab",
+   "Status": "0",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-02-25 11:18",
+   "UpdatedBy": "lee.jc",
+   "UpdatedAt": "2026-08-18 13:20",
+   "TestTypeCode": "C-2025-0002",
+   "MasterCompGuid": "成分主檔參照02",
+   "ComponentCode": "C-2025-0002",
+   "ComponentName": "化學需氧量 COD",
+   "ChemSymbol": "化學符號02",
+   "CasNo": "C-2025-0002",
+   "HazardNote": "",
+   "RefRangeLower": 61,
+   "RefRangeUpper": 59,
+   "MethodCode": "C-2026-0002",
+   "MethodVersion": "JIS K0102",
+   "SopFilePath": "SOP02",
+   "PrimaryEquipCode": "C-2026-0002",
+   "ReportUnit": "M071 工務處",
+   "AltUnit": "M011 工程處",
+   "UnitConvFormula": "M071 工務處",
+   "SigFigs": 1,
+   "RoundingRule": "進位規則02",
+   "MDL": 37,
+   "LOD": 90,
+   "LOQ": 77,
+   "ReportingLimit": 38,
+   "NonDetectExpr": "未檢出表示法02",
+   "LinearRangeLower": 66,
+   "LinearRangeUpper": 64,
+   "CalcFormula": "計算公式02",
+   "FormulaVarDef": "公式變數定義02",
+   "DefaultDilution": 89,
+   "BlankSubRule": "空白扣除規則02",
+   "CurveModel": "Standard Methods",
+   "CurvePoints": "原廠提供",
+   "InternalStdName": "吳主任",
+   "RefMaterialLot": "Standard Methods",
+   "PrecisionCV": 58,
+   "AccuracyBias": 35,
+   "RSquared": 15,
+   "MeasUncertainty": "測量不確定度02",
+   "ValidationDate": "2025-11-02",
+   "ValidatedBy": "郭品管",
+   "ValidationReport": "驗證報告檔案路徑02",
+   "RegulationSetCode": "C-2026-0002",
+   "RegAgency": "法規機關02",
+   "RegArticleNo": "C-2026-0002",
+   "CustomerLimit": "兆聯環境檢測中心",
+   "UseCustomerLimit": "友達光電",
+   "EffectiveDate": "2026-05-08",
+   "ExpiryDate": "2025-07-13",
+   "IsDefault": "是否為預設版02",
+   "SiteCode": "C-2026-0002",
+   "IsAccredited": "是否在認證範圍內02",
+   "PriorityLevel": 35,
+   "StandardTAT": 45,
+   "RushTAT": 26,
+   "StandardPrice": 1200,
+   "RushPrice": 3500,
+   "AnalystNote": "",
+   "ReportAlias": "報告顯示別名02",
+   "SampleTypeScope": "適用樣品類型02",
+   "MinDisplayRule": "最小表示位數規則文字02",
+   "MinDisplayDecimals": 6,
+   "RoundingRuleType": "R",
+   "RoundingTableCode": "C-2026-0002",
+   "CatalogRefValue": "JIS",
+   "ResultFormulaDisplay": "結果計算式02",
+   "FormulaVarLegend": "",
+   "Description": "",
+   "Attributes": "擴展屬性02"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000002",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-08-03 14:11",
+   "UpdatedBy": "wang.cy",
+   "UpdatedAt": "2026-01-27 18:39",
+   "TestTypeCode": "C-2026-0003",
+   "MasterCompGuid": "成分主檔參照03",
+   "ComponentCode": "C-2025-0003",
+   "ComponentName": "生化需氧量 BOD",
+   "ChemSymbol": "化學符號03",
+   "CasNo": "C-2026-0003",
+   "HazardNote": "",
+   "RefRangeLower": 85,
+   "RefRangeUpper": 10,
+   "MethodCode": "C-2026-0003",
+   "MethodVersion": "JIS K0102",
+   "SopFilePath": "SOP03",
+   "PrimaryEquipCode": "C-2026-0003",
+   "ReportUnit": "M031 環安處",
+   "AltUnit": "M021 品保處",
+   "UnitConvFormula": "M051 製造二處",
+   "SigFigs": 63,
+   "RoundingRule": "進位規則03",
+   "MDL": 92,
+   "LOD": 40,
+   "LOQ": 4,
+   "ReportingLimit": 39,
+   "NonDetectExpr": "未檢出表示法03",
+   "LinearRangeLower": 60,
+   "LinearRangeUpper": 75,
+   "CalcFormula": "計算公式03",
+   "FormulaVarDef": "公式變數定義03",
+   "DefaultDilution": 11,
+   "BlankSubRule": "空白扣除規則03",
+   "CurveModel": "Standard Methods",
+   "CurvePoints": "ASTM",
+   "InternalStdName": "王采樣",
+   "RefMaterialLot": "原廠提供",
+   "PrecisionCV": 57,
+   "AccuracyBias": 18,
+   "RSquared": 37,
+   "MeasUncertainty": "測量不確定度03",
+   "ValidationDate": "2025-08-08",
+   "ValidatedBy": "黃技正",
+   "ValidationReport": "驗證報告檔案路徑03",
+   "RegulationSetCode": "C-2026-0003",
+   "RegAgency": "法規機關03",
+   "RegArticleNo": "C-2025-0003",
+   "CustomerLimit": "桃園市環保局",
+   "UseCustomerLimit": "統一企業",
+   "EffectiveDate": "2025-01-10",
+   "ExpiryDate": "2025-05-18",
+   "IsDefault": "是否為預設版03",
+   "SiteCode": "C-2025-0003",
+   "IsAccredited": "是否在認證範圍內03",
+   "PriorityLevel": 6,
+   "StandardTAT": 100,
+   "RushTAT": 71,
+   "StandardPrice": 3500,
+   "RushPrice": 5000,
+   "AnalystNote": "急件已加收費用",
+   "ReportAlias": "報告顯示別名03",
+   "SampleTypeScope": "適用樣品類型03",
+   "MinDisplayRule": "最小表示位數規則文字03",
+   "MinDisplayDecimals": 45,
+   "RoundingRuleType": "F",
+   "RoundingTableCode": "C-2026-0003",
+   "CatalogRefValue": "原廠提供",
+   "ResultFormulaDisplay": "結果計算式03",
+   "FormulaVarLegend": "",
+   "Description": "急件已加收費用",
+   "Attributes": "擴展屬性03"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000003",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-05-02 09:12",
+   "UpdatedBy": "wu.dir",
+   "UpdatedAt": "2026-11-01 18:22",
+   "TestTypeCode": "C-2026-0004",
+   "MasterCompGuid": "成分主檔參照04",
+   "ComponentCode": "C-2025-0004",
+   "ComponentName": "懸浮固體 SS",
+   "ChemSymbol": "化學符號04",
+   "CasNo": "C-2025-0004",
+   "HazardNote": "",
+   "RefRangeLower": 39,
+   "RefRangeUpper": 21,
+   "MethodCode": "C-2026-0004",
+   "MethodVersion": "SM 4500-P",
+   "SopFilePath": "SOP04",
+   "PrimaryEquipCode": "C-2026-0004",
+   "ReportUnit": "M031 環安處",
+   "AltUnit": "M041 製造一處",
+   "UnitConvFormula": "R001 研發中心",
+   "SigFigs": 8,
+   "RoundingRule": "進位規則04",
+   "MDL": 93,
+   "LOD": 98,
+   "LOQ": 97,
+   "ReportingLimit": 33,
+   "NonDetectExpr": "未檢出表示法04",
+   "LinearRangeLower": 13,
+   "LinearRangeUpper": 6,
+   "CalcFormula": "計算公式04",
+   "FormulaVarDef": "公式變數定義04",
+   "DefaultDilution": 94,
+   "BlankSubRule": "空白扣除規則04",
+   "CurveModel": "原廠提供",
+   "CurvePoints": "Standard Methods",
+   "InternalStdName": "陳審核",
+   "RefMaterialLot": "JIS",
+   "PrecisionCV": 13,
+   "AccuracyBias": 46,
+   "RSquared": 3,
+   "MeasUncertainty": "測量不確定度04",
+   "ValidationDate": "2025-03-09",
+   "ValidatedBy": "劉助理",
+   "ValidationReport": "驗證報告檔案路徑04",
+   "RegulationSetCode": "C-2026-0004",
+   "RegAgency": "法規機關04",
+   "RegArticleNo": "C-2025-0004",
+   "CustomerLimit": "新北市環保局",
+   "UseCustomerLimit": "統一企業",
+   "EffectiveDate": "2025-03-12",
+   "ExpiryDate": "2026-05-21",
+   "IsDefault": "是否為預設版04",
+   "SiteCode": "C-2026-0004",
+   "IsAccredited": "是否在認證範圍內04",
+   "PriorityLevel": 11,
+   "StandardTAT": 74,
+   "RushTAT": 27,
+   "StandardPrice": 1500,
+   "RushPrice": 800,
+   "AnalystNote": "",
+   "ReportAlias": "報告顯示別名04",
+   "SampleTypeScope": "適用樣品類型04",
+   "MinDisplayRule": "最小表示位數規則文字04",
+   "MinDisplayDecimals": 58,
+   "RoundingRuleType": "U",
+   "RoundingTableCode": "C-2025-0004",
+   "CatalogRefValue": "EPA",
+   "ResultFormulaDisplay": "結果計算式04",
+   "FormulaVarLegend": "已通知申請單位",
+   "Description": "",
+   "Attributes": "擴展屬性04"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000004",
+   "EntityID": "lab",
+   "Status": "0",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-04-17 12:27",
+   "UpdatedBy": "hsu.eng",
+   "UpdatedAt": "2026-10-26 11:32",
+   "TestTypeCode": "C-2025-0005",
+   "MasterCompGuid": "成分主檔參照05",
+   "ComponentCode": "C-2026-0005",
+   "ComponentName": "氨氮 NH3-N",
+   "ChemSymbol": "化學符號05",
+   "CasNo": "C-2025-0005",
+   "HazardNote": "",
+   "RefRangeLower": 79,
+   "RefRangeUpper": 14,
+   "MethodCode": "C-2026-0005",
+   "MethodVersion": "CNS 11423",
+   "SopFilePath": "SOP05",
+   "PrimaryEquipCode": "C-2025-0005",
+   "ReportUnit": "M071 工務處",
+   "AltUnit": "M011 工程處",
+   "UnitConvFormula": "R001 研發中心",
+   "SigFigs": 26,
+   "RoundingRule": "進位規則05",
+   "MDL": 55,
+   "LOD": 75,
+   "LOQ": 4,
+   "ReportingLimit": 11,
+   "NonDetectExpr": "未檢出表示法05",
+   "LinearRangeLower": 90,
+   "LinearRangeUpper": 66,
+   "CalcFormula": "計算公式05",
+   "FormulaVarDef": "公式變數定義05",
+   "DefaultDilution": 13,
+   "BlankSubRule": "空白扣除規則05",
+   "CurveModel": "JIS",
+   "CurvePoints": "NIEA",
+   "InternalStdName": "周技士",
+   "RefMaterialLot": "EPA",
+   "PrecisionCV": 16,
+   "AccuracyBias": 14,
+   "RSquared": 5,
+   "MeasUncertainty": "測量不確定度05",
+   "ValidationDate": "2025-01-18",
+   "ValidatedBy": "林品保",
+   "ValidationReport": "驗證報告檔案路徑05",
+   "RegulationSetCode": "C-2025-0005",
+   "RegAgency": "法規機關05",
+   "RegArticleNo": "C-2026-0005",
+   "CustomerLimit": "友達光電",
+   "UseCustomerLimit": "桃園市環保局",
+   "EffectiveDate": "2025-03-21",
+   "ExpiryDate": "2026-03-20",
+   "IsDefault": "是否為預設版05",
+   "SiteCode": "C-2025-0005",
+   "IsAccredited": "是否在認證範圍內05",
+   "PriorityLevel": 6,
+   "StandardTAT": 75,
+   "RushTAT": 52,
+   "StandardPrice": 1200,
+   "RushPrice": 1500,
+   "AnalystNote": "",
+   "ReportAlias": "報告顯示別名05",
+   "SampleTypeScope": "適用樣品類型05",
+   "MinDisplayRule": "最小表示位數規則文字05",
+   "MinDisplayDecimals": 31,
+   "RoundingRuleType": "R",
+   "RoundingTableCode": "C-2026-0005",
+   "CatalogRefValue": "JIS",
+   "ResultFormulaDisplay": "結果計算式05",
+   "FormulaVarLegend": "定期校正合格",
+   "Description": "複驗確認無誤",
+   "Attributes": "擴展屬性05"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000005",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-03-26 16:16",
+   "UpdatedBy": "lin.pb",
+   "UpdatedAt": "2026-01-12 17:16",
+   "TestTypeCode": "C-2025-0006",
+   "MasterCompGuid": "成分主檔參照06",
+   "ComponentCode": "C-2025-0006",
+   "ComponentName": "硝酸鹽氮",
+   "ChemSymbol": "化學符號06",
+   "CasNo": "C-2026-0006",
+   "HazardNote": "",
+   "RefRangeLower": 71,
+   "RefRangeUpper": 67,
+   "MethodCode": "C-2025-0006",
+   "MethodVersion": "NIEA W508.05B",
+   "SopFilePath": "SOP06",
+   "PrimaryEquipCode": "C-2026-0006",
+   "ReportUnit": "M071 工務處",
+   "AltUnit": "M051 製造二處",
+   "UnitConvFormula": "M021 品保處",
+   "SigFigs": 80,
+   "RoundingRule": "進位規則06",
+   "MDL": 23,
+   "LOD": 45,
+   "LOQ": 65,
+   "ReportingLimit": 87,
+   "NonDetectExpr": "未檢出表示法06",
+   "LinearRangeLower": 2,
+   "LinearRangeUpper": 45,
+   "CalcFormula": "計算公式06",
+   "FormulaVarDef": "公式變數定義06",
+   "DefaultDilution": 19,
+   "BlankSubRule": "空白扣除規則06",
+   "CurveModel": "EPA",
+   "CurvePoints": "CNS",
+   "InternalStdName": "陳審核",
+   "RefMaterialLot": "ASTM",
+   "PrecisionCV": 85,
+   "AccuracyBias": 76,
+   "RSquared": 85,
+   "MeasUncertainty": "測量不確定度06",
+   "ValidationDate": "2025-06-10",
+   "ValidatedBy": "許工程",
+   "ValidationReport": "驗證報告檔案路徑06",
+   "RegulationSetCode": "C-2025-0006",
+   "RegAgency": "法規機關06",
+   "RegArticleNo": "C-2026-0006",
+   "CustomerLimit": "統一企業",
+   "UseCustomerLimit": "台塑石化",
+   "EffectiveDate": "2025-07-23",
+   "ExpiryDate": "2025-11-03",
+   "IsDefault": "是否為預設版06",
+   "SiteCode": "C-2026-0006",
+   "IsAccredited": "是否在認證範圍內06",
+   "PriorityLevel": 18,
+   "StandardTAT": 26,
+   "RushTAT": 19,
+   "StandardPrice": 1500,
+   "RushPrice": 2000,
+   "AnalystNote": "已通知申請單位",
+   "ReportAlias": "報告顯示別名06",
+   "SampleTypeScope": "適用樣品類型06",
+   "MinDisplayRule": "最小表示位數規則文字06",
+   "MinDisplayDecimals": 76,
+   "RoundingRuleType": "U",
+   "RoundingTableCode": "C-2025-0006",
+   "CatalogRefValue": "ASTM",
+   "ResultFormulaDisplay": "結果計算式06",
+   "FormulaVarLegend": "複驗確認無誤",
+   "Description": "",
+   "Attributes": "擴展屬性06"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000006",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-07-03 16:16",
+   "UpdatedBy": "wang.cy",
+   "UpdatedAt": "2026-12-12 15:19",
+   "TestTypeCode": "C-2025-0007",
+   "MasterCompGuid": "成分主檔參照07",
+   "ComponentCode": "C-2026-0007",
+   "ComponentName": "鎘 Cd",
+   "ChemSymbol": "化學符號07",
+   "CasNo": "C-2025-0007",
+   "HazardNote": "",
+   "RefRangeLower": 1,
+   "RefRangeUpper": 70,
+   "MethodCode": "C-2026-0007",
+   "MethodVersion": "ASTM D1193",
+   "SopFilePath": "SOP07",
+   "PrimaryEquipCode": "C-2026-0007",
+   "ReportUnit": "M041 製造一處",
+   "AltUnit": "M061 採購處",
+   "UnitConvFormula": "M071 工務處",
+   "SigFigs": 72,
+   "RoundingRule": "進位規則07",
+   "MDL": 40,
+   "LOD": 93,
+   "LOQ": 90,
+   "ReportingLimit": 40,
+   "NonDetectExpr": "未檢出表示法07",
+   "LinearRangeLower": 29,
+   "LinearRangeUpper": 22,
+   "CalcFormula": "計算公式07",
+   "FormulaVarDef": "公式變數定義07",
+   "DefaultDilution": 53,
+   "BlankSubRule": "空白扣除規則07",
+   "CurveModel": "原廠提供",
+   "CurvePoints": "EPA",
+   "InternalStdName": "周技士",
+   "RefMaterialLot": "ASTM",
+   "PrecisionCV": 40,
+   "AccuracyBias": 65,
+   "RSquared": 94,
+   "MeasUncertainty": "測量不確定度07",
+   "ValidationDate": "2025-04-24",
+   "ValidatedBy": "許工程",
+   "ValidationReport": "驗證報告檔案路徑07",
+   "RegulationSetCode": "C-2025-0007",
+   "RegAgency": "法規機關07",
+   "RegArticleNo": "C-2025-0007",
+   "CustomerLimit": "中華食品工業",
+   "UseCustomerLimit": "統一企業",
+   "EffectiveDate": "2026-10-07",
+   "ExpiryDate": "2025-09-20",
+   "IsDefault": "是否為預設版07",
+   "SiteCode": "C-2026-0007",
+   "IsAccredited": "是否在認證範圍內07",
+   "PriorityLevel": 71,
+   "StandardTAT": 68,
+   "RushTAT": 97,
+   "StandardPrice": 800,
+   "RushPrice": 5000,
+   "AnalystNote": "複驗確認無誤",
+   "ReportAlias": "報告顯示別名07",
+   "SampleTypeScope": "適用樣品類型07",
+   "MinDisplayRule": "最小表示位數規則文字07",
+   "MinDisplayDecimals": 27,
+   "RoundingRuleType": "F",
+   "RoundingTableCode": "C-2025-0007",
+   "CatalogRefValue": "JIS",
+   "ResultFormulaDisplay": "結果計算式07",
+   "FormulaVarLegend": "客戶要求附 TAF Logo",
+   "Description": "",
+   "Attributes": "擴展屬性07"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000007",
+   "EntityID": "lab",
+   "Status": "0",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-03-13 10:39",
+   "UpdatedBy": "abram.chen",
+   "UpdatedAt": "2026-11-16 15:25",
+   "TestTypeCode": "C-2025-0008",
+   "MasterCompGuid": "成分主檔參照08",
+   "ComponentCode": "C-2025-0008",
+   "ComponentName": "鉛 Pb",
+   "ChemSymbol": "化學符號08",
+   "CasNo": "C-2026-0008",
+   "HazardNote": "",
+   "RefRangeLower": 47,
+   "RefRangeUpper": 9,
+   "MethodCode": "C-2026-0008",
+   "MethodVersion": "NIEA W415.55B",
+   "SopFilePath": "SOP08",
+   "PrimaryEquipCode": "C-2026-0008",
+   "ReportUnit": "M071 工務處",
+   "AltUnit": "M041 製造一處",
+   "UnitConvFormula": "M031 環安處",
+   "SigFigs": 55,
+   "RoundingRule": "進位規則08",
+   "MDL": 66,
+   "LOD": 40,
+   "LOQ": 32,
+   "ReportingLimit": 62,
+   "NonDetectExpr": "未檢出表示法08",
+   "LinearRangeLower": 59,
+   "LinearRangeUpper": 45,
+   "CalcFormula": "計算公式08",
+   "FormulaVarDef": "公式變數定義08",
+   "DefaultDilution": 70,
+   "BlankSubRule": "空白扣除規則08",
+   "CurveModel": "原廠提供",
+   "CurvePoints": "EPA",
+   "InternalStdName": "林品保",
+   "RefMaterialLot": "CNS",
+   "PrecisionCV": 64,
+   "AccuracyBias": 19,
+   "RSquared": 31,
+   "MeasUncertainty": "測量不確定度08",
+   "ValidationDate": "2026-08-27",
+   "ValidatedBy": "謝校正",
+   "ValidationReport": "驗證報告檔案路徑08",
+   "RegulationSetCode": "C-2025-0008",
+   "RegAgency": "法規機關08",
+   "RegArticleNo": "C-2025-0008",
+   "CustomerLimit": "兆聯環境檢測中心",
+   "UseCustomerLimit": "台灣自來水公司",
+   "EffectiveDate": "2026-03-20",
+   "ExpiryDate": "2025-02-08",
+   "IsDefault": "是否為預設版08",
+   "SiteCode": "C-2026-0008",
+   "IsAccredited": "是否在認證範圍內08",
+   "PriorityLevel": 36,
+   "StandardTAT": 83,
+   "RushTAT": 81,
+   "StandardPrice": 800,
+   "RushPrice": 3500,
+   "AnalystNote": "",
+   "ReportAlias": "報告顯示別名08",
+   "SampleTypeScope": "適用樣品類型08",
+   "MinDisplayRule": "最小表示位數規則文字08",
+   "MinDisplayDecimals": 100,
+   "RoundingRuleType": "R",
+   "RoundingTableCode": "C-2026-0008",
+   "CatalogRefValue": "Standard Methods",
+   "ResultFormulaDisplay": "結果計算式08",
+   "FormulaVarLegend": "急件已加收費用",
+   "Description": "",
+   "Attributes": "擴展屬性08"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000008",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-01-22 10:21",
+   "UpdatedBy": "lee.jc",
+   "UpdatedAt": "2026-10-06 15:28",
+   "TestTypeCode": "C-2025-0009",
+   "MasterCompGuid": "成分主檔參照09",
+   "ComponentCode": "C-2026-0009",
+   "ComponentName": "銅 Cu",
+   "ChemSymbol": "化學符號09",
+   "CasNo": "C-2025-0009",
+   "HazardNote": "樣品外觀正常",
+   "RefRangeLower": 93,
+   "RefRangeUpper": 32,
+   "MethodCode": "C-2025-0009",
+   "MethodVersion": "NIEA W415.55B",
+   "SopFilePath": "SOP09",
+   "PrimaryEquipCode": "C-2025-0009",
+   "ReportUnit": "M041 製造一處",
+   "AltUnit": "M061 採購處",
+   "UnitConvFormula": "M061 採購處",
+   "SigFigs": 93,
+   "RoundingRule": "進位規則09",
+   "MDL": 70,
+   "LOD": 14,
+   "LOQ": 10,
+   "ReportingLimit": 25,
+   "NonDetectExpr": "未檢出表示法09",
+   "LinearRangeLower": 87,
+   "LinearRangeUpper": 16,
+   "CalcFormula": "計算公式09",
+   "FormulaVarDef": "公式變數定義09",
+   "DefaultDilution": 73,
+   "BlankSubRule": "空白扣除規則09",
+   "CurveModel": "JIS",
+   "CurvePoints": "CNS",
+   "InternalStdName": "林品保",
+   "RefMaterialLot": "原廠提供",
+   "PrecisionCV": 92,
+   "AccuracyBias": 59,
+   "RSquared": 41,
+   "MeasUncertainty": "測量不確定度09",
+   "ValidationDate": "2026-02-22",
+   "ValidatedBy": "許工程",
+   "ValidationReport": "驗證報告檔案路徑09",
+   "RegulationSetCode": "C-2026-0009",
+   "RegAgency": "法規機關09",
+   "RegArticleNo": "C-2025-0009",
+   "CustomerLimit": "桃園市環保局",
+   "UseCustomerLimit": "台塑石化",
+   "EffectiveDate": "2025-12-09",
+   "ExpiryDate": "2026-04-10",
+   "IsDefault": "是否為預設版09",
+   "SiteCode": "C-2026-0009",
+   "IsAccredited": "是否在認證範圍內09",
+   "PriorityLevel": 40,
+   "StandardTAT": 19,
+   "RushTAT": 80,
+   "StandardPrice": 3500,
+   "RushPrice": 3500,
+   "AnalystNote": "",
+   "ReportAlias": "報告顯示別名09",
+   "SampleTypeScope": "適用樣品類型09",
+   "MinDisplayRule": "最小表示位數規則文字09",
+   "MinDisplayDecimals": 3,
+   "RoundingRuleType": "R",
+   "RoundingTableCode": "C-2025-0009",
+   "CatalogRefValue": "NIEA",
+   "ResultFormulaDisplay": "結果計算式09",
+   "FormulaVarLegend": "需注意保存效期",
+   "Description": "",
+   "Attributes": "擴展屬性09"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000009",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-02-05 18:14",
+   "UpdatedBy": "chen.sh",
+   "UpdatedAt": "2026-09-14 11:03",
+   "TestTypeCode": "C-2025-0010",
+   "MasterCompGuid": "成分主檔參照10",
+   "ComponentCode": "C-2026-0010",
+   "ComponentName": "鋅 Zn",
+   "ChemSymbol": "化學符號10",
+   "CasNo": "C-2025-0010",
+   "HazardNote": "",
+   "RefRangeLower": 59,
+   "RefRangeUpper": 99,
+   "MethodCode": "C-2025-0010",
+   "MethodVersion": "HACH Method 8000",
+   "SopFilePath": "SOP10",
+   "PrimaryEquipCode": "C-2025-0010",
+   "ReportUnit": "M031 環安處",
+   "AltUnit": "M051 製造二處",
+   "UnitConvFormula": "M071 工務處",
+   "SigFigs": 26,
+   "RoundingRule": "進位規則10",
+   "MDL": 5,
+   "LOD": 25,
+   "LOQ": 73,
+   "ReportingLimit": 11,
+   "NonDetectExpr": "未檢出表示法10",
+   "LinearRangeLower": 77,
+   "LinearRangeUpper": 85,
+   "CalcFormula": "計算公式10",
+   "FormulaVarDef": "公式變數定義10",
+   "DefaultDilution": 46,
+   "BlankSubRule": "空白扣除規則10",
+   "CurveModel": "CNS",
+   "CurvePoints": "NIEA",
+   "InternalStdName": "周技士",
+   "RefMaterialLot": "JIS",
+   "PrecisionCV": 54,
+   "AccuracyBias": 84,
+   "RSquared": 43,
+   "MeasUncertainty": "測量不確定度10",
+   "ValidationDate": "2026-04-24",
+   "ValidatedBy": "蔡研究",
+   "ValidationReport": "驗證報告檔案路徑10",
+   "RegulationSetCode": "C-2025-0010",
+   "RegAgency": "法規機關10",
+   "RegArticleNo": "C-2025-0010",
+   "CustomerLimit": "友達光電",
+   "UseCustomerLimit": "友達光電",
+   "EffectiveDate": "2025-08-03",
+   "ExpiryDate": "2026-01-03",
+   "IsDefault": "是否為預設版10",
+   "SiteCode": "C-2026-0010",
+   "IsAccredited": "是否在認證範圍內10",
+   "PriorityLevel": 78,
+   "StandardTAT": 74,
+   "RushTAT": 5,
+   "StandardPrice": 5000,
+   "RushPrice": 1500,
+   "AnalystNote": "需注意保存效期",
+   "ReportAlias": "報告顯示別名10",
+   "SampleTypeScope": "適用樣品類型10",
+   "MinDisplayRule": "最小表示位數規則文字10",
+   "MinDisplayDecimals": 64,
+   "RoundingRuleType": "U",
+   "RoundingTableCode": "C-2026-0010",
+   "CatalogRefValue": "NIEA",
+   "ResultFormulaDisplay": "結果計算式10",
+   "FormulaVarLegend": "複驗確認無誤",
+   "Description": "",
+   "Attributes": "擴展屬性10"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000010",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-09-15 13:00",
+   "UpdatedBy": "cheng.gl",
+   "UpdatedAt": "2026-07-07 12:20",
+   "TestTypeCode": "C-2025-0011",
+   "MasterCompGuid": "成分主檔參照11",
+   "ComponentCode": "C-2026-0011",
+   "ComponentName": "pH值",
+   "ChemSymbol": "化學符號11",
+   "CasNo": "C-2025-0011",
+   "HazardNote": "",
+   "RefRangeLower": 48,
+   "RefRangeUpper": 49,
+   "MethodCode": "C-2025-0011",
+   "MethodVersion": "CNS 11423",
+   "SopFilePath": "SOP11",
+   "PrimaryEquipCode": "C-2025-0011",
+   "ReportUnit": "M051 製造二處",
+   "AltUnit": "M031 環安處",
+   "UnitConvFormula": "R001 研發中心",
+   "SigFigs": 63,
+   "RoundingRule": "進位規則11",
+   "MDL": 86,
+   "LOD": 72,
+   "LOQ": 94,
+   "ReportingLimit": 89,
+   "NonDetectExpr": "未檢出表示法11",
+   "LinearRangeLower": 95,
+   "LinearRangeUpper": 20,
+   "CalcFormula": "計算公式11",
+   "FormulaVarDef": "公式變數定義11",
+   "DefaultDilution": 50,
+   "BlankSubRule": "空白扣除規則11",
+   "CurveModel": "原廠提供",
+   "CurvePoints": "JIS",
+   "InternalStdName": "李檢測",
+   "RefMaterialLot": "Standard Methods",
+   "PrecisionCV": 95,
+   "AccuracyBias": 63,
+   "RSquared": 66,
+   "MeasUncertainty": "測量不確定度11",
+   "ValidationDate": "2025-04-27",
+   "ValidatedBy": "吳主任",
+   "ValidationReport": "驗證報告檔案路徑11",
+   "RegulationSetCode": "C-2025-0011",
+   "RegAgency": "法規機關11",
+   "RegArticleNo": "C-2025-0011",
+   "CustomerLimit": "中華食品工業",
+   "UseCustomerLimit": "台積電股份有限公司",
+   "EffectiveDate": "2025-04-17",
+   "ExpiryDate": "2026-07-19",
+   "IsDefault": "是否為預設版11",
+   "SiteCode": "C-2025-0011",
+   "IsAccredited": "是否在認證範圍內11",
+   "PriorityLevel": 73,
+   "StandardTAT": 63,
+   "RushTAT": 63,
+   "StandardPrice": 2000,
+   "RushPrice": 800,
+   "AnalystNote": "",
+   "ReportAlias": "報告顯示別名11",
+   "SampleTypeScope": "適用樣品類型11",
+   "MinDisplayRule": "最小表示位數規則文字11",
+   "MinDisplayDecimals": 67,
+   "RoundingRuleType": "U",
+   "RoundingTableCode": "C-2026-0011",
+   "CatalogRefValue": "EPA",
+   "ResultFormulaDisplay": "結果計算式11",
+   "FormulaVarLegend": "",
+   "Description": "",
+   "Attributes": "擴展屬性11"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000011",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-09-04 11:07",
+   "UpdatedBy": "wang.cy",
+   "UpdatedAt": "2026-03-01 17:36",
+   "TestTypeCode": "C-2026-0012",
+   "MasterCompGuid": "成分主檔參照12",
+   "ComponentCode": "C-2026-0012",
+   "ComponentName": "導電度",
+   "ChemSymbol": "化學符號12",
+   "CasNo": "C-2025-0012",
+   "HazardNote": "",
+   "RefRangeLower": 49,
+   "RefRangeUpper": 41,
+   "MethodCode": "C-2026-0012",
+   "MethodVersion": "HACH Method 8000",
+   "SopFilePath": "SOP12",
+   "PrimaryEquipCode": "C-2025-0012",
+   "ReportUnit": "M011 工程處",
+   "AltUnit": "M051 製造二處",
+   "UnitConvFormula": "M051 製造二處",
+   "SigFigs": 67,
+   "RoundingRule": "進位規則12",
+   "MDL": 42,
+   "LOD": 65,
+   "LOQ": 95,
+   "ReportingLimit": 85,
+   "NonDetectExpr": "未檢出表示法12",
+   "LinearRangeLower": 87,
+   "LinearRangeUpper": 23,
+   "CalcFormula": "計算公式12",
+   "FormulaVarDef": "公式變數定義12",
+   "DefaultDilution": 70,
+   "BlankSubRule": "空白扣除規則12",
+   "CurveModel": "JIS",
+   "CurvePoints": "NIEA",
+   "InternalStdName": "蔡研究",
+   "RefMaterialLot": "EPA",
+   "PrecisionCV": 80,
+   "AccuracyBias": 3,
+   "RSquared": 35,
+   "MeasUncertainty": "測量不確定度12",
+   "ValidationDate": "2026-02-08",
+   "ValidatedBy": "吳主任",
+   "ValidationReport": "驗證報告檔案路徑12",
+   "RegulationSetCode": "C-2025-0012",
+   "RegAgency": "法規機關12",
+   "RegArticleNo": "C-2025-0012",
+   "CustomerLimit": "兆聯環境檢測中心",
+   "UseCustomerLimit": "友達光電",
+   "EffectiveDate": "2026-04-09",
+   "ExpiryDate": "2026-07-28",
+   "IsDefault": "是否為預設版12",
+   "SiteCode": "C-2026-0012",
+   "IsAccredited": "是否在認證範圍內12",
+   "PriorityLevel": 10,
+   "StandardTAT": 95,
+   "RushTAT": 58,
+   "StandardPrice": 5000,
+   "RushPrice": 5000,
+   "AnalystNote": "",
+   "ReportAlias": "報告顯示別名12",
+   "SampleTypeScope": "適用樣品類型12",
+   "MinDisplayRule": "最小表示位數規則文字12",
+   "MinDisplayDecimals": 53,
+   "RoundingRuleType": "R",
+   "RoundingTableCode": "C-2025-0012",
+   "CatalogRefValue": "NIEA",
+   "ResultFormulaDisplay": "結果計算式12",
+   "FormulaVarLegend": "",
+   "Description": "",
+   "Attributes": "擴展屬性12"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000012",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-03-20 17:19",
+   "UpdatedBy": "chen.sh",
+   "UpdatedAt": "2026-12-07 12:11",
+   "TestTypeCode": "C-2026-0013",
+   "MasterCompGuid": "成分主檔參照13",
+   "ComponentCode": "C-2025-0013",
+   "ComponentName": "濁度",
+   "ChemSymbol": "化學符號13",
+   "CasNo": "C-2026-0013",
+   "HazardNote": "",
+   "RefRangeLower": 51,
+   "RefRangeUpper": 36,
+   "MethodCode": "C-2026-0013",
+   "MethodVersion": "CNS 11423",
+   "SopFilePath": "SOP13",
+   "PrimaryEquipCode": "C-2025-0013",
+   "ReportUnit": "M061 採購處",
+   "AltUnit": "R001 研發中心",
+   "UnitConvFormula": "M061 採購處",
+   "SigFigs": 63,
+   "RoundingRule": "進位規則13",
+   "MDL": 39,
+   "LOD": 38,
+   "LOQ": 86,
+   "ReportingLimit": 50,
+   "NonDetectExpr": "未檢出表示法13",
+   "LinearRangeLower": 41,
+   "LinearRangeUpper": 60,
+   "CalcFormula": "計算公式13",
+   "FormulaVarDef": "公式變數定義13",
+   "DefaultDilution": 87,
+   "BlankSubRule": "空白扣除規則13",
+   "CurveModel": "EPA",
+   "CurvePoints": "原廠提供",
+   "InternalStdName": "李檢測",
+   "RefMaterialLot": "Standard Methods",
+   "PrecisionCV": 77,
+   "AccuracyBias": 95,
+   "RSquared": 100,
+   "MeasUncertainty": "測量不確定度13",
+   "ValidationDate": "2026-09-23",
+   "ValidatedBy": "黃技正",
+   "ValidationReport": "驗證報告檔案路徑13",
+   "RegulationSetCode": "C-2025-0013",
+   "RegAgency": "法規機關13",
+   "RegArticleNo": "C-2026-0013",
+   "CustomerLimit": "台灣自來水公司",
+   "UseCustomerLimit": "中華食品工業",
+   "EffectiveDate": "2026-04-03",
+   "ExpiryDate": "2026-05-06",
+   "IsDefault": "是否為預設版13",
+   "SiteCode": "C-2026-0013",
+   "IsAccredited": "是否在認證範圍內13",
+   "PriorityLevel": 17,
+   "StandardTAT": 20,
+   "RushTAT": 25,
+   "StandardPrice": 2000,
+   "RushPrice": 800,
+   "AnalystNote": "已通知申請單位",
+   "ReportAlias": "報告顯示別名13",
+   "SampleTypeScope": "適用樣品類型13",
+   "MinDisplayRule": "最小表示位數規則文字13",
+   "MinDisplayDecimals": 60,
+   "RoundingRuleType": "U",
+   "RoundingTableCode": "C-2025-0013",
+   "CatalogRefValue": "CNS",
+   "ResultFormulaDisplay": "結果計算式13",
+   "FormulaVarLegend": "定期校正合格",
+   "Description": "",
+   "Attributes": "擴展屬性13"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000013",
+   "EntityID": "lab",
+   "Status": "0",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-03-27 16:15",
+   "UpdatedBy": "hsu.eng",
+   "UpdatedAt": "2026-11-22 17:07",
+   "TestTypeCode": "C-2026-0014",
+   "MasterCompGuid": "成分主檔參照14",
+   "ComponentCode": "C-2026-0014",
+   "ComponentName": "大腸桿菌群",
+   "ChemSymbol": "化學符號14",
+   "CasNo": "C-2025-0014",
+   "HazardNote": "",
+   "RefRangeLower": 84,
+   "RefRangeUpper": 18,
+   "MethodCode": "C-2025-0014",
+   "MethodVersion": "JIS K0102",
+   "SopFilePath": "SOP14",
+   "PrimaryEquipCode": "C-2025-0014",
+   "ReportUnit": "M041 製造一處",
+   "AltUnit": "M021 品保處",
+   "UnitConvFormula": "M011 工程處",
+   "SigFigs": 58,
+   "RoundingRule": "進位規則14",
+   "MDL": 55,
+   "LOD": 70,
+   "LOQ": 77,
+   "ReportingLimit": 81,
+   "NonDetectExpr": "未檢出表示法14",
+   "LinearRangeLower": 18,
+   "LinearRangeUpper": 30,
+   "CalcFormula": "計算公式14",
+   "FormulaVarDef": "公式變數定義14",
+   "DefaultDilution": 40,
+   "BlankSubRule": "空白扣除規則14",
+   "CurveModel": "EPA",
+   "CurvePoints": "JIS",
+   "InternalStdName": "周技士",
+   "RefMaterialLot": "Standard Methods",
+   "PrecisionCV": 91,
+   "AccuracyBias": 55,
+   "RSquared": 26,
+   "MeasUncertainty": "測量不確定度14",
+   "ValidationDate": "2025-12-22",
+   "ValidatedBy": "黃技正",
+   "ValidationReport": "驗證報告檔案路徑14",
+   "RegulationSetCode": "C-2025-0014",
+   "RegAgency": "法規機關14",
+   "RegArticleNo": "C-2026-0014",
+   "CustomerLimit": "台塑石化",
+   "UseCustomerLimit": "新北市環保局",
+   "EffectiveDate": "2025-06-04",
+   "ExpiryDate": "2026-02-25",
+   "IsDefault": "是否為預設版14",
+   "SiteCode": "C-2026-0014",
+   "IsAccredited": "是否在認證範圍內14",
+   "PriorityLevel": 45,
+   "StandardTAT": 71,
+   "RushTAT": 43,
+   "StandardPrice": 800,
+   "RushPrice": 2000,
+   "AnalystNote": "已通知申請單位",
+   "ReportAlias": "報告顯示別名14",
+   "SampleTypeScope": "適用樣品類型14",
+   "MinDisplayRule": "最小表示位數規則文字14",
+   "MinDisplayDecimals": 12,
+   "RoundingRuleType": "R",
+   "RoundingTableCode": "C-2026-0014",
+   "CatalogRefValue": "Standard Methods",
+   "ResultFormulaDisplay": "結果計算式14",
+   "FormulaVarLegend": "樣品外觀正常",
+   "Description": "",
+   "Attributes": "擴展屬性14"
+  }
+ ]
+}

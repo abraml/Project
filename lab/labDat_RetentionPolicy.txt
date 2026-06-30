@@ -1,0 +1,549 @@
+{
+ "EntityID": "lab",
+ "SystemCode": "MUEIP",
+ "ModuleCode": "LIMS",
+ "FuncCode": "labDat_RetentionPolicy",
+ "ConfigHash": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+ "PageMeta": {
+  "PageTitle": "保存年限設定",
+  "Lang": "zh-TW",
+  "FormType": "ListForm",
+  "EditDisplayType": "Drawer",
+  "Breadcrumb": [
+   {
+    "Title": "首頁",
+    "Path": "/"
+   },
+   {
+    "Title": "實驗數據儲存管理",
+    "Path": null
+   },
+   {
+    "Title": "保存年限設定",
+    "Path": "/lab/labDat_RetentionPolicy"
+   }
+  ],
+  "IsApproval": false,
+  "TenantLocked": false,
+  "Icon": "ri-time-line",
+  "Remark": "保存年限設定（由 labDat_RetentionPolicy 規格書產生）"
+ },
+ "Resources": {
+  "CodeSets": {
+   "Status": [
+    {
+     "CodeID": "1",
+     "CodeName": "啟用",
+     "IsDefault": true
+    },
+    {
+     "CodeID": "0",
+     "CodeName": "停用"
+    }
+   ],
+   "Priority": [
+    {
+     "CodeID": "A",
+     "CodeName": "急件"
+    },
+    {
+     "CodeID": "B",
+     "CodeName": "高"
+    },
+    {
+     "CodeID": "C",
+     "CodeName": "一般",
+     "IsDefault": true
+    },
+    {
+     "CodeID": "D",
+     "CodeName": "低"
+    }
+   ]
+  },
+  "FeatureFlags": {
+   "IsReadOnly": false,
+   "EnableDraft": false,
+   "EnableBatchDelete": true,
+   "AutoRefreshInterval": 0,
+   "DefaultViewMode": "Table",
+   "RequireConfirmOnSave": true
+  }
+ },
+ "AllowAction": {
+  "DataActions": [
+   {
+    "ActionID": "Add",
+    "Label": "新增",
+    "Icon": "ri-add-line",
+    "Type": "Primary",
+    "Position": "Toolbar",
+    "Confirm": null
+   },
+   {
+    "ActionID": "Save",
+    "Label": "儲存",
+    "Icon": "ri-save-line",
+    "Type": "Primary",
+    "Position": "Toolbar",
+    "Confirm": null
+   },
+   {
+    "ActionID": "Delete",
+    "Label": "刪除",
+    "Icon": "ri-delete-bin-line",
+    "Type": "Danger",
+    "Position": "Both",
+    "Confirm": "確定要刪除此保存年限設定資料嗎？"
+   },
+   {
+    "ActionID": "Query",
+    "Label": "查詢",
+    "Icon": "ri-search-line",
+    "Type": "Default",
+    "Position": "Toolbar",
+    "Confirm": null
+   }
+  ],
+  "ExtensionActions": [
+   {
+    "ActionID": "Import",
+    "Label": "匯入",
+    "Icon": "ri-upload-2-line",
+    "Type": "Default",
+    "Position": "Toolbar"
+   },
+   {
+    "ActionID": "Export",
+    "Label": "匯出",
+    "Icon": "ri-download-2-line",
+    "Type": "Default",
+    "Position": "Toolbar"
+   }
+  ]
+ },
+ "View": {
+  "RowKey": "RowGuid",
+  "ListView": {
+   "ListSpec": {
+    "RowKey": "RowGuid",
+    "SelectMode": "Single",
+    "FixedColumns": [
+     "Action",
+     "No"
+    ],
+    "RowActionMode": "Menu",
+    "ShowRowNo": true,
+    "Pagination": {
+     "PageSize": 100,
+     "SizeOptions": [
+      50,
+      100,
+      200,
+      500
+     ],
+     "ShowJumper": false,
+     "FullPageScroll": true
+    },
+    "DefaultSort": {
+     "Field": "SortNo",
+     "Order": "asc"
+    },
+    "EmptyText": "目前查無保存年限設定資料",
+    "GridBordered": true
+   },
+   "FieldSpecs": [
+    {
+     "BindField": "DataCategory",
+     "Title": "資料類別",
+     "Align": "Left",
+     "DefaultVisible": true,
+     "Formatter": "Link",
+     "Fixed": "Left",
+     "Width": 160,
+     "Sorter": true
+    },
+    {
+     "BindField": "RetentionYears",
+     "Title": "保存年限",
+     "Align": "Center",
+     "DefaultVisible": true,
+     "Width": 140
+    },
+    {
+     "BindField": "RegulationBasis",
+     "Title": "法規依據",
+     "Align": "Left",
+     "DefaultVisible": true,
+     "Width": 140
+    },
+    {
+     "BindField": "Status",
+     "Title": "政策狀態",
+     "Align": "Center",
+     "DefaultVisible": true,
+     "Formatter": "Tag",
+     "Width": 80
+    }
+   ]
+  },
+  "FormView": {
+   "FormSpec": {
+    "RowKey": "RowGuid",
+    "Layout": "Horizontal",
+    "Sections": [
+     {
+      "SectionID": "SecBase",
+      "Type": "Card",
+      "Title": "基本資料",
+      "IsCollapsible": false,
+      "DefaultOpen": true,
+      "Icon": "ri-time-line"
+     },
+     {
+      "SectionID": "SecExtra",
+      "Type": "Card",
+      "Title": "系統資訊",
+      "IsCollapsible": true,
+      "DefaultOpen": false,
+      "Icon": "ri-settings-4-line"
+     }
+    ],
+    "FormLogic": []
+   },
+   "FieldSpecs": [
+    {
+     "BindField": "RowKey",
+     "Title": "系統識別碼",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 24,
+     "Mode": "Hidden"
+    },
+    {
+     "BindField": "EntityID",
+     "Title": "系統實體",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "Hidden",
+     "DefaultValue": "lab"
+    },
+    {
+     "BindField": "DataCategory",
+     "Title": "資料類別",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "Required",
+       "Message": "資料類別為必填"
+      },
+      {
+       "Rule": "MaxLength",
+       "Value": 15,
+       "Message": "長度不可超過 15"
+      }
+     ]
+    },
+    {
+     "BindField": "RetentionYears",
+     "Title": "保存年限",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "Required",
+       "Message": "保存年限為必填"
+      }
+     ],
+     "Props": {
+      "Type": "number"
+     }
+    },
+    {
+     "BindField": "RegulationBasis",
+     "Title": "法規依據",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 150,
+       "Message": "長度不可超過 150"
+      }
+     ]
+    },
+    {
+     "BindField": "Remark",
+     "Title": "備註",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 255,
+       "Message": "長度不可超過 255"
+      }
+     ]
+    },
+    {
+     "BindField": "Status",
+     "Title": "啟用狀態",
+     "Component": "Select",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "DefaultValue": "1",
+     "Props": {
+      "OptionKey": "Status"
+     }
+    },
+    {
+     "BindField": "CreatedBy",
+     "Title": "建立者帳號",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "ReadOnly"
+    },
+    {
+     "BindField": "CreatedAt",
+     "Title": "資料建立日期時間",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "ReadOnly"
+    },
+    {
+     "BindField": "UpdatedBy",
+     "Title": "最後更新者帳號",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "ReadOnly"
+    },
+    {
+     "BindField": "UpdatedAt",
+     "Title": "最後更新日期時間",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "ReadOnly"
+    }
+   ]
+  }
+ },
+ "Features": {},
+ "DataScope": {
+  "DefaultWhere": "EntityID = 'lab' AND Status = '1'",
+  "AuthLevel": 2,
+  "SortExp": "SortNo ASC",
+  "DataConfig": {
+   "RowLimit": 2000,
+   "AllowExport": true
+  }
+ },
+ "CustomMeta": {
+  "CustomSchema": {
+   "WidgetType": "Grid",
+   "KeyField": "DataCategory",
+   "TitleField": "RetentionYears",
+   "ParentKeyField": null,
+   "PathField": null,
+   "PathSeparator": "/"
+  }
+ },
+ "SeedData": [
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000000",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-03-16 09:03",
+   "UpdatedBy": "huang.tc",
+   "UpdatedAt": "2026-10-19 11:05",
+   "DataCategory": "資料類別01",
+   "RetentionYears": 1,
+   "RegulationBasis": "NIEA",
+   "Remark": ""
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000001",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-11-27 11:19",
+   "UpdatedBy": "chang.fa",
+   "UpdatedAt": "2026-04-26 12:36",
+   "DataCategory": "資料類別02",
+   "RetentionYears": 2,
+   "RegulationBasis": "JIS",
+   "Remark": "定期校正合格"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000002",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-10-06 17:07",
+   "UpdatedBy": "wu.dir",
+   "UpdatedAt": "2026-03-20 08:12",
+   "DataCategory": "資料類別03",
+   "RetentionYears": 5,
+   "RegulationBasis": "NIEA",
+   "Remark": ""
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000003",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-10-01 13:03",
+   "UpdatedBy": "chen.sh",
+   "UpdatedAt": "2026-06-19 18:12",
+   "DataCategory": "資料類別04",
+   "RetentionYears": 4,
+   "RegulationBasis": "EPA",
+   "Remark": "樣品外觀正常"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000004",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-11-19 10:18",
+   "UpdatedBy": "hsu.eng",
+   "UpdatedAt": "2026-02-17 15:04",
+   "DataCategory": "資料類別05",
+   "RetentionYears": 6,
+   "RegulationBasis": "JIS",
+   "Remark": ""
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000005",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-11-23 13:38",
+   "UpdatedBy": "liu.as",
+   "UpdatedAt": "2026-06-27 18:01",
+   "DataCategory": "資料類別06",
+   "RetentionYears": 7,
+   "RegulationBasis": "原廠提供",
+   "Remark": ""
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000006",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-06-10 18:32",
+   "UpdatedBy": "wu.dir",
+   "UpdatedAt": "2026-02-24 18:11",
+   "DataCategory": "資料類別07",
+   "RetentionYears": 3,
+   "RegulationBasis": "EPA",
+   "Remark": ""
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000007",
+   "EntityID": "lab",
+   "Status": "0",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-07-19 14:36",
+   "UpdatedBy": "lee.jc",
+   "UpdatedAt": "2026-08-18 10:21",
+   "DataCategory": "資料類別08",
+   "RetentionYears": 5,
+   "RegulationBasis": "JIS",
+   "Remark": ""
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000008",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-05-01 17:39",
+   "UpdatedBy": "wu.dir",
+   "UpdatedAt": "2026-09-16 13:23",
+   "DataCategory": "資料類別09",
+   "RetentionYears": 4,
+   "RegulationBasis": "原廠提供",
+   "Remark": ""
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000009",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-12-10 13:37",
+   "UpdatedBy": "abram.chen",
+   "UpdatedAt": "2026-03-03 10:23",
+   "DataCategory": "資料類別10",
+   "RetentionYears": 6,
+   "RegulationBasis": "ASTM",
+   "Remark": ""
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000010",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-01-28 08:27",
+   "UpdatedBy": "chang.fa",
+   "UpdatedAt": "2026-02-10 11:01",
+   "DataCategory": "資料類別11",
+   "RetentionYears": 4,
+   "RegulationBasis": "CNS",
+   "Remark": ""
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000011",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-07-16 17:03",
+   "UpdatedBy": "chang.fa",
+   "UpdatedAt": "2026-05-18 10:15",
+   "DataCategory": "資料類別12",
+   "RetentionYears": 7,
+   "RegulationBasis": "CNS",
+   "Remark": "需注意保存效期"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000012",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-01-28 10:32",
+   "UpdatedBy": "cheng.gl",
+   "UpdatedAt": "2026-05-20 11:21",
+   "DataCategory": "資料類別13",
+   "RetentionYears": 6,
+   "RegulationBasis": "CNS",
+   "Remark": "定期校正合格"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000013",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-03-16 09:16",
+   "UpdatedBy": "abram.chen",
+   "UpdatedAt": "2026-05-26 18:35",
+   "DataCategory": "資料類別14",
+   "RetentionYears": 3,
+   "RegulationBasis": "CNS",
+   "Remark": ""
+  }
+ ]
+}

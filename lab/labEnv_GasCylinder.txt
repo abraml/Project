@@ -1,0 +1,1536 @@
+{
+ "EntityID": "lab",
+ "SystemCode": "MUEIP",
+ "ModuleCode": "LIMS",
+ "FuncCode": "labEnv_GasCylinder",
+ "ConfigHash": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+ "PageMeta": {
+  "PageTitle": "氣體鋼瓶",
+  "Lang": "zh-TW",
+  "FormType": "ListForm",
+  "EditDisplayType": "Drawer",
+  "Breadcrumb": [
+   {
+    "Title": "首頁",
+    "Path": "/"
+   },
+   {
+    "Title": "實驗室環境管理",
+    "Path": null
+   },
+   {
+    "Title": "氣體鋼瓶",
+    "Path": "/lab/labEnv_GasCylinder"
+   }
+  ],
+  "IsApproval": false,
+  "TenantLocked": false,
+  "Icon": "ri-gas-station-line",
+  "Remark": "氣體鋼瓶（由 labEnv_GasCylinder 規格書產生）"
+ },
+ "Resources": {
+  "CodeSets": {
+   "Status": [
+    {
+     "CodeID": "1",
+     "CodeName": "啟用",
+     "IsDefault": true
+    },
+    {
+     "CodeID": "0",
+     "CodeName": "停用"
+    }
+   ],
+   "Priority": [
+    {
+     "CodeID": "A",
+     "CodeName": "急件"
+    },
+    {
+     "CodeID": "B",
+     "CodeName": "高"
+    },
+    {
+     "CodeID": "C",
+     "CodeName": "一般",
+     "IsDefault": true
+    },
+    {
+     "CodeID": "D",
+     "CodeName": "低"
+    }
+   ],
+   "GasCategory": [
+    {
+     "CodeID": "STD",
+     "CodeName": "標準氣體",
+     "IsDefault": true
+    },
+    {
+     "CodeID": "CAR",
+     "CodeName": "載流氣體"
+    },
+    {
+     "CodeID": "FUE",
+     "CodeName": "燃燒氣體"
+    },
+    {
+     "CodeID": "PUR",
+     "CodeName": "吹驅氣體"
+    }
+   ]
+  },
+  "FeatureFlags": {
+   "IsReadOnly": false,
+   "EnableDraft": false,
+   "EnableBatchDelete": true,
+   "AutoRefreshInterval": 0,
+   "DefaultViewMode": "Table",
+   "RequireConfirmOnSave": true
+  }
+ },
+ "AllowAction": {
+  "DataActions": [
+   {
+    "ActionID": "Add",
+    "Label": "新增",
+    "Icon": "ri-add-line",
+    "Type": "Primary",
+    "Position": "Toolbar",
+    "Confirm": null
+   },
+   {
+    "ActionID": "Save",
+    "Label": "儲存",
+    "Icon": "ri-save-line",
+    "Type": "Primary",
+    "Position": "Toolbar",
+    "Confirm": null
+   },
+   {
+    "ActionID": "Delete",
+    "Label": "刪除",
+    "Icon": "ri-delete-bin-line",
+    "Type": "Danger",
+    "Position": "Both",
+    "Confirm": "確定要刪除此氣體鋼瓶資料嗎？"
+   },
+   {
+    "ActionID": "Query",
+    "Label": "查詢",
+    "Icon": "ri-search-line",
+    "Type": "Default",
+    "Position": "Toolbar",
+    "Confirm": null
+   }
+  ],
+  "ExtensionActions": [
+   {
+    "ActionID": "Import",
+    "Label": "匯入",
+    "Icon": "ri-upload-2-line",
+    "Type": "Default",
+    "Position": "Toolbar"
+   },
+   {
+    "ActionID": "Export",
+    "Label": "匯出",
+    "Icon": "ri-download-2-line",
+    "Type": "Default",
+    "Position": "Toolbar"
+   }
+  ]
+ },
+ "View": {
+  "RowKey": "RowGuid",
+  "ListView": {
+   "ListSpec": {
+    "RowKey": "RowGuid",
+    "SelectMode": "Single",
+    "FixedColumns": [
+     "Action",
+     "No"
+    ],
+    "RowActionMode": "Menu",
+    "ShowRowNo": true,
+    "Pagination": {
+     "PageSize": 100,
+     "SizeOptions": [
+      50,
+      100,
+      200,
+      500
+     ],
+     "ShowJumper": false,
+     "FullPageScroll": true
+    },
+    "DefaultSort": {
+     "Field": "SortNo",
+     "Order": "asc"
+    },
+    "EmptyText": "目前查無氣體鋼瓶資料",
+    "GridBordered": true
+   },
+   "FieldSpecs": [
+    {
+     "BindField": "CylinderCode",
+     "Title": "鋼瓶編號",
+     "Align": "Left",
+     "DefaultVisible": true,
+     "Formatter": "Link",
+     "Fixed": "Left",
+     "Width": 160,
+     "Sorter": true
+    },
+    {
+     "BindField": "EquipmentName",
+     "Title": "機具名稱",
+     "Align": "Left",
+     "DefaultVisible": true,
+     "Width": 140
+    },
+    {
+     "BindField": "Location",
+     "Title": "放置地點",
+     "Align": "Left",
+     "DefaultVisible": true,
+     "Width": 140
+    },
+    {
+     "BindField": "PropertyNo",
+     "Title": "財產編號",
+     "Align": "Left",
+     "DefaultVisible": true,
+     "Width": 140
+    },
+    {
+     "BindField": "GasCategory",
+     "Title": "高壓氣體鋼瓶類別",
+     "Align": "Center",
+     "DefaultVisible": true,
+     "Formatter": "Tag",
+     "Width": 110
+    },
+    {
+     "BindField": "Supplier",
+     "Title": "供應商",
+     "Align": "Left",
+     "DefaultVisible": true,
+     "Width": 140
+    },
+    {
+     "BindField": "Status",
+     "Title": "啟用狀態",
+     "Align": "Center",
+     "DefaultVisible": true,
+     "Formatter": "Tag",
+     "Width": 80
+    }
+   ]
+  },
+  "FormView": {
+   "FormSpec": {
+    "RowKey": "RowGuid",
+    "Layout": "Horizontal",
+    "Sections": [
+     {
+      "SectionID": "SecBase",
+      "Type": "Card",
+      "Title": "基本資料",
+      "IsCollapsible": false,
+      "DefaultOpen": true,
+      "Icon": "ri-gas-station-line"
+     },
+     {
+      "SectionID": "SecRecv",
+      "Type": "Card",
+      "Title": "作業資訊",
+      "IsCollapsible": true,
+      "DefaultOpen": true,
+      "Icon": "ri-file-list-3-line"
+     },
+     {
+      "SectionID": "SecExtra",
+      "Type": "Card",
+      "Title": "系統資訊",
+      "IsCollapsible": true,
+      "DefaultOpen": false,
+      "Icon": "ri-settings-4-line"
+     }
+    ],
+    "FormLogic": []
+   },
+   "FieldSpecs": [
+    {
+     "BindField": "RowKey",
+     "Title": "系統識別碼",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 24,
+     "Mode": "Hidden"
+    },
+    {
+     "BindField": "EntityID",
+     "Title": "系統實體",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "Hidden",
+     "DefaultValue": "lab"
+    },
+    {
+     "BindField": "CylinderCode",
+     "Title": "鋼瓶編號",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "Required",
+       "Message": "鋼瓶編號為必填"
+      },
+      {
+       "Rule": "MaxLength",
+       "Value": 30,
+       "Message": "長度不可超過 30"
+      }
+     ]
+    },
+    {
+     "BindField": "EquipmentName",
+     "Title": "機具名稱",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "Required",
+       "Message": "機具名稱為必填"
+      },
+      {
+       "Rule": "MaxLength",
+       "Value": 100,
+       "Message": "長度不可超過 100"
+      }
+     ]
+    },
+    {
+     "BindField": "Location",
+     "Title": "放置地點",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "Required",
+       "Message": "放置地點為必填"
+      },
+      {
+       "Rule": "MaxLength",
+       "Value": 100,
+       "Message": "長度不可超過 100"
+      }
+     ]
+    },
+    {
+     "BindField": "PropertyNo",
+     "Title": "財產編號",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 50,
+       "Message": "長度不可超過 50"
+      }
+     ]
+    },
+    {
+     "BindField": "GasCategory",
+     "Title": "高壓氣體鋼瓶類別",
+     "Component": "Select",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "Required",
+       "Message": "高壓氣體鋼瓶類別為必填"
+      }
+     ],
+     "Props": {
+      "OptionKey": "GasCategory"
+     },
+     "DefaultValue": "STD"
+    },
+    {
+     "BindField": "Supplier",
+     "Title": "供應商",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 100,
+       "Message": "長度不可超過 100"
+      }
+     ]
+    },
+    {
+     "BindField": "Capacity",
+     "Title": "鋼瓶容量",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 30,
+       "Message": "長度不可超過 30"
+      }
+     ]
+    },
+    {
+     "BindField": "InspectionCycleMonths",
+     "Title": "安檢週期",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "Required",
+       "Message": "安檢週期為必填"
+      }
+     ],
+     "Props": {
+      "Type": "number"
+     }
+    },
+    {
+     "BindField": "LastInspectionDate",
+     "Title": "最近安檢日期",
+     "Component": "DatePicker",
+     "Section": "SecRecv",
+     "Span": 12,
+     "Mode": "Editable",
+     "Props": {
+      "Mode": "Editable",
+      "ShowTime": false
+     }
+    },
+    {
+     "BindField": "NextInspectionDate",
+     "Title": "下次安檢日期",
+     "Component": "DatePicker",
+     "Section": "SecRecv",
+     "Span": 12,
+     "Mode": "Editable",
+     "Props": {
+      "Mode": "Editable",
+      "ShowTime": false
+     }
+    },
+    {
+     "BindField": "CylinderStatus",
+     "Title": "狀態",
+     "Component": "Input",
+     "Section": "SecRecv",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 20,
+       "Message": "長度不可超過 20"
+      }
+     ]
+    },
+    {
+     "BindField": "Remark",
+     "Title": "備註",
+     "Component": "Input",
+     "Section": "SecRecv",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 255,
+       "Message": "長度不可超過 255"
+      }
+     ]
+    },
+    {
+     "BindField": "Attributes",
+     "Title": "擴展屬性",
+     "Component": "Textarea",
+     "Section": "SecExtra",
+     "Span": 24,
+     "Mode": "Editable",
+     "Props": {
+      "Rows": 3
+     }
+    },
+    {
+     "BindField": "Status",
+     "Title": "啟用狀態",
+     "Component": "Select",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "DefaultValue": "1",
+     "Props": {
+      "OptionKey": "Status"
+     }
+    },
+    {
+     "BindField": "CreatedBy",
+     "Title": "建立者帳號",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "ReadOnly"
+    },
+    {
+     "BindField": "CreatedAt",
+     "Title": "資料建立日期時間",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "ReadOnly"
+    },
+    {
+     "BindField": "UpdatedBy",
+     "Title": "最後更新者帳號",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "ReadOnly"
+    },
+    {
+     "BindField": "UpdatedAt",
+     "Title": "最後更新日期時間",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "ReadOnly"
+    }
+   ]
+  },
+  "DetailViews": [
+   {
+    "DetailID": "Check",
+    "Title": "安全檢查",
+    "Icon": "ri-shield-check-line",
+    "Entity": "labEnv_GasCylinderCheckLog",
+    "RelationKey": "CylinderCode",
+    "RowKey": "RowGuid",
+    "AllowAdd": true,
+    "AllowEdit": true,
+    "AllowDelete": true,
+    "EmptyText": "尚無安全檢查資料",
+    "CodeSets": {
+     "Status": [
+      {
+       "CodeID": "1",
+       "CodeName": "啟用",
+       "IsDefault": true
+      },
+      {
+       "CodeID": "0",
+       "CodeName": "停用"
+      }
+     ],
+     "Priority": [
+      {
+       "CodeID": "A",
+       "CodeName": "急件"
+      },
+      {
+       "CodeID": "B",
+       "CodeName": "高"
+      },
+      {
+       "CodeID": "C",
+       "CodeName": "一般",
+       "IsDefault": true
+      },
+      {
+       "CodeID": "D",
+       "CodeName": "低"
+      }
+     ],
+     "GasCategorySnap": [
+      {
+       "CodeID": "STD",
+       "CodeName": "標準氣體",
+       "IsDefault": true
+      },
+      {
+       "CodeID": "CAR",
+       "CodeName": "載流氣體"
+      },
+      {
+       "CodeID": "FUE",
+       "CodeName": "燃燒氣體"
+      },
+      {
+       "CodeID": "PUR",
+       "CodeName": "吹驅氣體"
+      }
+     ]
+    },
+    "Columns": [
+     {
+      "BindField": "CylinderGuid",
+      "Title": "所屬鋼瓶",
+      "Width": 120,
+      "Align": "Left"
+     },
+     {
+      "BindField": "CheckDate",
+      "Title": "檢查日期",
+      "Width": 120,
+      "Align": "Left",
+      "Formatter": "Date"
+     },
+     {
+      "BindField": "Checker",
+      "Title": "檢查人員",
+      "Width": 120,
+      "Align": "Left"
+     },
+     {
+      "BindField": "GasCategorySnap",
+      "Title": "高壓氣體鋼瓶類別",
+      "Width": 120,
+      "Align": "Center",
+      "Formatter": "Tag",
+      "OptionKey": "GasCategorySnap"
+     },
+     {
+      "BindField": "AbnormalCount",
+      "Title": "本次檢查異常項目數",
+      "Width": 120,
+      "Align": "Left"
+     }
+    ],
+    "FormFields": [
+     {
+      "BindField": "CylinderGuid",
+      "Title": "所屬鋼瓶",
+      "Component": "Input",
+      "Section": "",
+      "Span": 12,
+      "Mode": "ReadOnly",
+      "Validations": [
+       {
+        "Rule": "Required",
+        "Message": "所屬鋼瓶為必填"
+       }
+      ]
+     },
+     {
+      "BindField": "CheckDate",
+      "Title": "檢查日期",
+      "Component": "DatePicker",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Validations": [
+       {
+        "Rule": "Required",
+        "Message": "檢查日期為必填"
+       }
+      ],
+      "Props": {
+       "Mode": "Editable",
+       "ShowTime": false
+      }
+     },
+     {
+      "BindField": "Checker",
+      "Title": "檢查人員",
+      "Component": "Input",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Validations": [
+       {
+        "Rule": "Required",
+        "Message": "檢查人員為必填"
+       },
+       {
+        "Rule": "MaxLength",
+        "Value": 50,
+        "Message": "長度不可超過 50"
+       }
+      ]
+     },
+     {
+      "BindField": "GasCategorySnap",
+      "Title": "高壓氣體鋼瓶類別",
+      "Component": "Select",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Validations": [
+       {
+        "Rule": "Required",
+        "Message": "高壓氣體鋼瓶類別為必填"
+       }
+      ],
+      "Props": {
+       "OptionKey": "GasCategorySnap"
+      },
+      "DefaultValue": "STD"
+     },
+     {
+      "BindField": "AbnormalCount",
+      "Title": "本次檢查異常項目數",
+      "Component": "Input",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable"
+     }
+    ],
+    "SeedData": [
+     {
+      "RowGuid": "000000a7-0000-0000-0001-000000000001",
+      "EntityID": "lab",
+      "Status": "1",
+      "CylinderCode": "GC-2026-0001",
+      "CylinderGuid": "所屬鋼瓶02",
+      "CheckDate": "2025-09-09",
+      "Checker": "鄭組長",
+      "GasCategorySnap": "STD",
+      "AbnormalCount": "本次檢查異常項目數02"
+     },
+     {
+      "RowGuid": "000000a7-0000-0000-0001-000000000002",
+      "EntityID": "lab",
+      "Status": "1",
+      "CylinderCode": "GC-2026-0001",
+      "CylinderGuid": "所屬鋼瓶03",
+      "CheckDate": "2025-05-12",
+      "Checker": "黃技正",
+      "GasCategorySnap": "FUE",
+      "AbnormalCount": "本次檢查異常項目數03"
+     },
+     {
+      "RowGuid": "000000a7-0000-0000-0001-000000000003",
+      "EntityID": "lab",
+      "Status": "1",
+      "CylinderCode": "GC-2026-0001",
+      "CylinderGuid": "所屬鋼瓶04",
+      "CheckDate": "2025-05-16",
+      "Checker": "楊化驗",
+      "GasCategorySnap": "PUR",
+      "AbnormalCount": "本次檢查異常項目數04"
+     },
+     {
+      "RowGuid": "000000a7-0000-0000-0001-000000000004",
+      "EntityID": "lab",
+      "Status": "1",
+      "CylinderCode": "GC-2025-0002",
+      "CylinderGuid": "所屬鋼瓶05",
+      "CheckDate": "2026-11-03",
+      "Checker": "張分析",
+      "GasCategorySnap": "STD",
+      "AbnormalCount": "本次檢查異常項目數05"
+     },
+     {
+      "RowGuid": "000000a7-0000-0000-0001-000000000005",
+      "EntityID": "lab",
+      "Status": "1",
+      "CylinderCode": "GC-2025-0002",
+      "CylinderGuid": "所屬鋼瓶06",
+      "CheckDate": "2025-04-25",
+      "Checker": "林品保",
+      "GasCategorySnap": "STD",
+      "AbnormalCount": "本次檢查異常項目數06"
+     },
+     {
+      "RowGuid": "000000a7-0000-0000-0001-000000000006",
+      "EntityID": "lab",
+      "Status": "1",
+      "CylinderCode": "GC-2025-0002",
+      "CylinderGuid": "所屬鋼瓶07",
+      "CheckDate": "2025-08-07",
+      "Checker": "王采樣",
+      "GasCategorySnap": "PUR",
+      "AbnormalCount": "本次檢查異常項目數07"
+     },
+     {
+      "RowGuid": "000000a7-0000-0000-0001-000000000007",
+      "EntityID": "lab",
+      "Status": "1",
+      "CylinderCode": "GC-2026-0003",
+      "CylinderGuid": "所屬鋼瓶08",
+      "CheckDate": "2025-06-22",
+      "Checker": "許工程",
+      "GasCategorySnap": "CAR",
+      "AbnormalCount": "本次檢查異常項目數08"
+     },
+     {
+      "RowGuid": "000000a7-0000-0000-0001-000000000008",
+      "EntityID": "lab",
+      "Status": "1",
+      "CylinderCode": "GC-2026-0003",
+      "CylinderGuid": "所屬鋼瓶09",
+      "CheckDate": "2026-03-12",
+      "Checker": "楊化驗",
+      "GasCategorySnap": "FUE",
+      "AbnormalCount": "本次檢查異常項目數09"
+     },
+     {
+      "RowGuid": "000000a7-0000-0000-0001-000000000009",
+      "EntityID": "lab",
+      "Status": "1",
+      "CylinderCode": "GC-2026-0003",
+      "CylinderGuid": "所屬鋼瓶10",
+      "CheckDate": "2025-06-27",
+      "Checker": "何環安",
+      "GasCategorySnap": "FUE",
+      "AbnormalCount": "本次檢查異常項目數10"
+     },
+     {
+      "RowGuid": "000000a7-0000-0000-0001-000000000010",
+      "EntityID": "lab",
+      "Status": "1",
+      "CylinderCode": "GC-2026-0003",
+      "CylinderGuid": "所屬鋼瓶11",
+      "CheckDate": "2026-11-14",
+      "Checker": "陳審核",
+      "GasCategorySnap": "FUE",
+      "AbnormalCount": "本次檢查異常項目數11"
+     },
+     {
+      "RowGuid": "000000a7-0000-0000-0001-000000000011",
+      "EntityID": "lab",
+      "Status": "1",
+      "CylinderCode": "GC-2025-0004",
+      "CylinderGuid": "所屬鋼瓶12",
+      "CheckDate": "2025-06-19",
+      "Checker": "蔡研究",
+      "GasCategorySnap": "CAR",
+      "AbnormalCount": "本次檢查異常項目數12"
+     },
+     {
+      "RowGuid": "000000a7-0000-0000-0001-000000000012",
+      "EntityID": "lab",
+      "Status": "1",
+      "CylinderCode": "GC-2025-0004",
+      "CylinderGuid": "所屬鋼瓶13",
+      "CheckDate": "2025-02-01",
+      "Checker": "吳主任",
+      "GasCategorySnap": "STD",
+      "AbnormalCount": "本次檢查異常項目數13"
+     },
+     {
+      "RowGuid": "000000a7-0000-0000-0001-000000000013",
+      "EntityID": "lab",
+      "Status": "1",
+      "CylinderCode": "GC-2025-0004",
+      "CylinderGuid": "所屬鋼瓶14",
+      "CheckDate": "2026-05-21",
+      "Checker": "許工程",
+      "GasCategorySnap": "PUR",
+      "AbnormalCount": "本次檢查異常項目數14"
+     },
+     {
+      "RowGuid": "000000a7-0000-0000-0001-000000000014",
+      "EntityID": "lab",
+      "Status": "1",
+      "CylinderCode": "GC-2025-0004",
+      "CylinderGuid": "所屬鋼瓶15",
+      "CheckDate": "2025-09-05",
+      "Checker": "鄭組長",
+      "GasCategorySnap": "STD",
+      "AbnormalCount": "本次檢查異常項目數15"
+     },
+     {
+      "RowGuid": "000000a7-0000-0000-0001-000000000015",
+      "EntityID": "lab",
+      "Status": "1",
+      "CylinderCode": "GC-2025-0005",
+      "CylinderGuid": "所屬鋼瓶16",
+      "CheckDate": "2026-11-13",
+      "Checker": "楊化驗",
+      "GasCategorySnap": "STD",
+      "AbnormalCount": "本次檢查異常項目數16"
+     },
+     {
+      "RowGuid": "000000a7-0000-0000-0001-000000000016",
+      "EntityID": "lab",
+      "Status": "1",
+      "CylinderCode": "GC-2025-0005",
+      "CylinderGuid": "所屬鋼瓶17",
+      "CheckDate": "2026-10-22",
+      "Checker": "李檢測",
+      "GasCategorySnap": "PUR",
+      "AbnormalCount": "本次檢查異常項目數17"
+     },
+     {
+      "RowGuid": "000000a7-0000-0000-0001-000000000017",
+      "EntityID": "lab",
+      "Status": "1",
+      "CylinderCode": "GC-2025-0006",
+      "CylinderGuid": "所屬鋼瓶18",
+      "CheckDate": "2025-09-02",
+      "Checker": "張分析",
+      "GasCategorySnap": "CAR",
+      "AbnormalCount": "本次檢查異常項目數18"
+     },
+     {
+      "RowGuid": "000000a7-0000-0000-0001-000000000018",
+      "EntityID": "lab",
+      "Status": "1",
+      "CylinderCode": "GC-2025-0006",
+      "CylinderGuid": "所屬鋼瓶19",
+      "CheckDate": "2026-12-28",
+      "Checker": "謝校正",
+      "GasCategorySnap": "STD",
+      "AbnormalCount": "本次檢查異常項目數19"
+     },
+     {
+      "RowGuid": "000000a7-0000-0000-0001-000000000019",
+      "EntityID": "lab",
+      "Status": "1",
+      "CylinderCode": "GC-2025-0006",
+      "CylinderGuid": "所屬鋼瓶20",
+      "CheckDate": "2025-06-24",
+      "Checker": "許工程",
+      "GasCategorySnap": "CAR",
+      "AbnormalCount": "本次檢查異常項目數20"
+     },
+     {
+      "RowGuid": "000000a7-0000-0000-0001-000000000020",
+      "EntityID": "lab",
+      "Status": "1",
+      "CylinderCode": "GC-2025-0007",
+      "CylinderGuid": "所屬鋼瓶21",
+      "CheckDate": "2026-02-18",
+      "Checker": "李檢測",
+      "GasCategorySnap": "PUR",
+      "AbnormalCount": "本次檢查異常項目數21"
+     },
+     {
+      "RowGuid": "000000a7-0000-0000-0001-000000000021",
+      "EntityID": "lab",
+      "Status": "1",
+      "CylinderCode": "GC-2025-0007",
+      "CylinderGuid": "所屬鋼瓶22",
+      "CheckDate": "2026-01-15",
+      "Checker": "陳審核",
+      "GasCategorySnap": "CAR",
+      "AbnormalCount": "本次檢查異常項目數22"
+     },
+     {
+      "RowGuid": "000000a7-0000-0000-0001-000000000022",
+      "EntityID": "lab",
+      "Status": "1",
+      "CylinderCode": "GC-2025-0007",
+      "CylinderGuid": "所屬鋼瓶23",
+      "CheckDate": "2026-12-13",
+      "Checker": "何環安",
+      "GasCategorySnap": "FUE",
+      "AbnormalCount": "本次檢查異常項目數23"
+     },
+     {
+      "RowGuid": "000000a7-0000-0000-0001-000000000023",
+      "EntityID": "lab",
+      "Status": "1",
+      "CylinderCode": "GC-2025-0008",
+      "CylinderGuid": "所屬鋼瓶24",
+      "CheckDate": "2026-06-17",
+      "Checker": "楊化驗",
+      "GasCategorySnap": "STD",
+      "AbnormalCount": "本次檢查異常項目數24"
+     },
+     {
+      "RowGuid": "000000a7-0000-0000-0001-000000000024",
+      "EntityID": "lab",
+      "Status": "1",
+      "CylinderCode": "GC-2025-0008",
+      "CylinderGuid": "所屬鋼瓶25",
+      "CheckDate": "2025-11-12",
+      "Checker": "王采樣",
+      "GasCategorySnap": "STD",
+      "AbnormalCount": "本次檢查異常項目數25"
+     },
+     {
+      "RowGuid": "000000a7-0000-0000-0001-000000000025",
+      "EntityID": "lab",
+      "Status": "1",
+      "CylinderCode": "GC-2025-0008",
+      "CylinderGuid": "所屬鋼瓶26",
+      "CheckDate": "2025-06-16",
+      "Checker": "周技士",
+      "GasCategorySnap": "STD",
+      "AbnormalCount": "本次檢查異常項目數26"
+     },
+     {
+      "RowGuid": "000000a7-0000-0000-0001-000000000026",
+      "EntityID": "lab",
+      "Status": "1",
+      "CylinderCode": "GC-2025-0008",
+      "CylinderGuid": "所屬鋼瓶27",
+      "CheckDate": "2025-03-20",
+      "Checker": "許工程",
+      "GasCategorySnap": "STD",
+      "AbnormalCount": "本次檢查異常項目數27"
+     },
+     {
+      "RowGuid": "000000a7-0000-0000-0001-000000000027",
+      "EntityID": "lab",
+      "Status": "1",
+      "CylinderCode": "GC-2025-0009",
+      "CylinderGuid": "所屬鋼瓶28",
+      "CheckDate": "2025-12-18",
+      "Checker": "鄭組長",
+      "GasCategorySnap": "CAR",
+      "AbnormalCount": "本次檢查異常項目數28"
+     },
+     {
+      "RowGuid": "000000a7-0000-0000-0001-000000000028",
+      "EntityID": "lab",
+      "Status": "1",
+      "CylinderCode": "GC-2025-0009",
+      "CylinderGuid": "所屬鋼瓶29",
+      "CheckDate": "2026-06-07",
+      "Checker": "蔡研究",
+      "GasCategorySnap": "FUE",
+      "AbnormalCount": "本次檢查異常項目數29"
+     },
+     {
+      "RowGuid": "000000a7-0000-0000-0001-000000000029",
+      "EntityID": "lab",
+      "Status": "1",
+      "CylinderCode": "GC-2025-0010",
+      "CylinderGuid": "所屬鋼瓶30",
+      "CheckDate": "2026-03-11",
+      "Checker": "蔡研究",
+      "GasCategorySnap": "STD",
+      "AbnormalCount": "本次檢查異常項目數30"
+     },
+     {
+      "RowGuid": "000000a7-0000-0000-0001-000000000030",
+      "EntityID": "lab",
+      "Status": "1",
+      "CylinderCode": "GC-2025-0010",
+      "CylinderGuid": "所屬鋼瓶31",
+      "CheckDate": "2025-06-27",
+      "Checker": "謝校正",
+      "GasCategorySnap": "STD",
+      "AbnormalCount": "本次檢查異常項目數31"
+     },
+     {
+      "RowGuid": "000000a7-0000-0000-0001-000000000031",
+      "EntityID": "lab",
+      "Status": "1",
+      "CylinderCode": "GC-2025-0010",
+      "CylinderGuid": "所屬鋼瓶32",
+      "CheckDate": "2025-10-17",
+      "Checker": "鄭組長",
+      "GasCategorySnap": "CAR",
+      "AbnormalCount": "本次檢查異常項目數32"
+     },
+     {
+      "RowGuid": "000000a7-0000-0000-0001-000000000032",
+      "EntityID": "lab",
+      "Status": "1",
+      "CylinderCode": "GC-2025-0010",
+      "CylinderGuid": "所屬鋼瓶33",
+      "CheckDate": "2025-04-24",
+      "Checker": "何環安",
+      "GasCategorySnap": "CAR",
+      "AbnormalCount": "本次檢查異常項目數33"
+     },
+     {
+      "RowGuid": "000000a7-0000-0000-0001-000000000033",
+      "EntityID": "lab",
+      "Status": "1",
+      "CylinderCode": "GC-2025-0011",
+      "CylinderGuid": "所屬鋼瓶34",
+      "CheckDate": "2026-11-05",
+      "Checker": "謝校正",
+      "GasCategorySnap": "CAR",
+      "AbnormalCount": "本次檢查異常項目數34"
+     },
+     {
+      "RowGuid": "000000a7-0000-0000-0001-000000000034",
+      "EntityID": "lab",
+      "Status": "1",
+      "CylinderCode": "GC-2025-0011",
+      "CylinderGuid": "所屬鋼瓶35",
+      "CheckDate": "2025-08-10",
+      "Checker": "何環安",
+      "GasCategorySnap": "CAR",
+      "AbnormalCount": "本次檢查異常項目數35"
+     },
+     {
+      "RowGuid": "000000a7-0000-0000-0001-000000000035",
+      "EntityID": "lab",
+      "Status": "1",
+      "CylinderCode": "GC-2026-0012",
+      "CylinderGuid": "所屬鋼瓶36",
+      "CheckDate": "2025-02-10",
+      "Checker": "陳審核",
+      "GasCategorySnap": "STD",
+      "AbnormalCount": "本次檢查異常項目數36"
+     },
+     {
+      "RowGuid": "000000a7-0000-0000-0001-000000000036",
+      "EntityID": "lab",
+      "Status": "1",
+      "CylinderCode": "GC-2026-0012",
+      "CylinderGuid": "所屬鋼瓶37",
+      "CheckDate": "2025-09-26",
+      "Checker": "林品保",
+      "GasCategorySnap": "CAR",
+      "AbnormalCount": "本次檢查異常項目數37"
+     },
+     {
+      "RowGuid": "000000a7-0000-0000-0001-000000000037",
+      "EntityID": "lab",
+      "Status": "1",
+      "CylinderCode": "GC-2026-0012",
+      "CylinderGuid": "所屬鋼瓶38",
+      "CheckDate": "2025-06-21",
+      "Checker": "鄭組長",
+      "GasCategorySnap": "PUR",
+      "AbnormalCount": "本次檢查異常項目數38"
+     },
+     {
+      "RowGuid": "000000a7-0000-0000-0001-000000000038",
+      "EntityID": "lab",
+      "Status": "1",
+      "CylinderCode": "GC-2025-0013",
+      "CylinderGuid": "所屬鋼瓶39",
+      "CheckDate": "2026-05-07",
+      "Checker": "王采樣",
+      "GasCategorySnap": "STD",
+      "AbnormalCount": "本次檢查異常項目數39"
+     },
+     {
+      "RowGuid": "000000a7-0000-0000-0001-000000000039",
+      "EntityID": "lab",
+      "Status": "1",
+      "CylinderCode": "GC-2025-0013",
+      "CylinderGuid": "所屬鋼瓶40",
+      "CheckDate": "2025-02-09",
+      "Checker": "楊化驗",
+      "GasCategorySnap": "PUR",
+      "AbnormalCount": "本次檢查異常項目數40"
+     },
+     {
+      "RowGuid": "000000a7-0000-0000-0001-000000000040",
+      "EntityID": "lab",
+      "Status": "1",
+      "CylinderCode": "GC-2025-0013",
+      "CylinderGuid": "所屬鋼瓶41",
+      "CheckDate": "2026-06-13",
+      "Checker": "許工程",
+      "GasCategorySnap": "PUR",
+      "AbnormalCount": "本次檢查異常項目數41"
+     },
+     {
+      "RowGuid": "000000a7-0000-0000-0001-000000000041",
+      "EntityID": "lab",
+      "Status": "1",
+      "CylinderCode": "GC-2025-0013",
+      "CylinderGuid": "所屬鋼瓶42",
+      "CheckDate": "2026-07-28",
+      "Checker": "周技士",
+      "GasCategorySnap": "FUE",
+      "AbnormalCount": "本次檢查異常項目數42"
+     },
+     {
+      "RowGuid": "000000a7-0000-0000-0001-000000000042",
+      "EntityID": "lab",
+      "Status": "1",
+      "CylinderCode": "GC-2026-0014",
+      "CylinderGuid": "所屬鋼瓶43",
+      "CheckDate": "2025-01-03",
+      "Checker": "周技士",
+      "GasCategorySnap": "STD",
+      "AbnormalCount": "本次檢查異常項目數43"
+     },
+     {
+      "RowGuid": "000000a7-0000-0000-0001-000000000043",
+      "EntityID": "lab",
+      "Status": "1",
+      "CylinderCode": "GC-2026-0014",
+      "CylinderGuid": "所屬鋼瓶44",
+      "CheckDate": "2025-03-05",
+      "Checker": "李檢測",
+      "GasCategorySnap": "STD",
+      "AbnormalCount": "本次檢查異常項目數44"
+     },
+     {
+      "RowGuid": "000000a7-0000-0000-0001-000000000044",
+      "EntityID": "lab",
+      "Status": "1",
+      "CylinderCode": "GC-2026-0014",
+      "CylinderGuid": "所屬鋼瓶45",
+      "CheckDate": "2026-07-10",
+      "Checker": "鄭組長",
+      "GasCategorySnap": "STD",
+      "AbnormalCount": "本次檢查異常項目數45"
+     },
+     {
+      "RowGuid": "000000a7-0000-0000-0001-000000000045",
+      "EntityID": "lab",
+      "Status": "1",
+      "CylinderCode": "GC-2026-0014",
+      "CylinderGuid": "所屬鋼瓶46",
+      "CheckDate": "2025-08-05",
+      "Checker": "吳主任",
+      "GasCategorySnap": "CAR",
+      "AbnormalCount": "本次檢查異常項目數46"
+     }
+    ]
+   }
+  ]
+ },
+ "Features": {},
+ "DataScope": {
+  "DefaultWhere": "EntityID = 'lab' AND Status = '1'",
+  "AuthLevel": 2,
+  "SortExp": "SortNo ASC",
+  "DataConfig": {
+   "RowLimit": 2000,
+   "AllowExport": true
+  }
+ },
+ "CustomMeta": {
+  "CustomSchema": {
+   "WidgetType": "Grid",
+   "KeyField": "CylinderCode",
+   "TitleField": "EquipmentName",
+   "ParentKeyField": null,
+   "PathField": null,
+   "PathSeparator": "/"
+  }
+ },
+ "SeedData": [
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000000",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-09-20 17:37",
+   "UpdatedBy": "cheng.gl",
+   "UpdatedAt": "2026-08-16 17:37",
+   "CylinderCode": "GC-2026-0001",
+   "EquipmentName": "郭品管",
+   "Location": "定容室",
+   "PropertyNo": "GC-2025-0001",
+   "GasCategory": "STD",
+   "Supplier": "Mettler Toledo",
+   "Capacity": "鋼瓶容量01",
+   "InspectionCycleMonths": 42,
+   "LastInspectionDate": "2025-10-24",
+   "NextInspectionDate": "2026-05-03",
+   "CylinderStatus": "狀態01",
+   "Remark": "",
+   "Attributes": "擴展屬性01"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000001",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-09-04 15:14",
+   "UpdatedBy": "huang.tc",
+   "UpdatedAt": "2026-08-04 12:21",
+   "CylinderCode": "GC-2025-0002",
+   "EquipmentName": "張分析",
+   "Location": "樣品庫",
+   "PropertyNo": "GC-2026-0002",
+   "GasCategory": "STD",
+   "Supplier": "Thermo Fisher",
+   "Capacity": "鋼瓶容量02",
+   "InspectionCycleMonths": 99,
+   "LastInspectionDate": "2025-02-25",
+   "NextInspectionDate": "2026-07-22",
+   "CylinderStatus": "狀態02",
+   "Remark": "客戶要求附 TAF Logo",
+   "Attributes": "擴展屬性02"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000002",
+   "EntityID": "lab",
+   "Status": "0",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-08-26 13:03",
+   "UpdatedBy": "lee.jc",
+   "UpdatedAt": "2026-01-15 10:11",
+   "CylinderCode": "GC-2026-0003",
+   "EquipmentName": "王采樣",
+   "Location": "藥品櫃P1",
+   "PropertyNo": "GC-2025-0003",
+   "GasCategory": "FUE",
+   "Supplier": "Mettler Toledo",
+   "Capacity": "鋼瓶容量03",
+   "InspectionCycleMonths": 96,
+   "LastInspectionDate": "2025-12-18",
+   "NextInspectionDate": "2026-06-17",
+   "CylinderStatus": "狀態03",
+   "Remark": "複驗確認無誤",
+   "Attributes": "擴展屬性03"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000003",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-02-07 17:24",
+   "UpdatedBy": "lin.pb",
+   "UpdatedAt": "2026-11-14 16:26",
+   "CylinderCode": "GC-2025-0004",
+   "EquipmentName": "郭品管",
+   "Location": "定容室",
+   "PropertyNo": "GC-2026-0004",
+   "GasCategory": "STD",
+   "Supplier": "Mettler Toledo",
+   "Capacity": "鋼瓶容量04",
+   "InspectionCycleMonths": 25,
+   "LastInspectionDate": "2026-04-13",
+   "NextInspectionDate": "2026-06-10",
+   "CylinderStatus": "狀態04",
+   "Remark": "",
+   "Attributes": "擴展屬性04"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000004",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-02-12 16:34",
+   "UpdatedBy": "wang.cy",
+   "UpdatedAt": "2026-01-19 16:31",
+   "CylinderCode": "GC-2025-0005",
+   "EquipmentName": "張分析",
+   "Location": "儀器室B",
+   "PropertyNo": "GC-2025-0005",
+   "GasCategory": "STD",
+   "Supplier": "Mettler Toledo",
+   "Capacity": "鋼瓶容量05",
+   "InspectionCycleMonths": 7,
+   "LastInspectionDate": "2025-08-02",
+   "NextInspectionDate": "2025-01-17",
+   "CylinderStatus": "狀態05",
+   "Remark": "",
+   "Attributes": "擴展屬性05"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000005",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-12-19 15:01",
+   "UpdatedBy": "huang.tc",
+   "UpdatedAt": "2026-08-27 12:10",
+   "CylinderCode": "GC-2025-0006",
+   "EquipmentName": "鄭組長",
+   "Location": "儀器室B",
+   "PropertyNo": "GC-2025-0006",
+   "GasCategory": "PUR",
+   "Supplier": "Agilent",
+   "Capacity": "鋼瓶容量06",
+   "InspectionCycleMonths": 1,
+   "LastInspectionDate": "2025-11-05",
+   "NextInspectionDate": "2026-10-23",
+   "CylinderStatus": "狀態06",
+   "Remark": "需注意保存效期",
+   "Attributes": "擴展屬性06"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000006",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-02-17 11:31",
+   "UpdatedBy": "chang.fa",
+   "UpdatedAt": "2026-05-01 18:22",
+   "CylinderCode": "GC-2025-0007",
+   "EquipmentName": "楊化驗",
+   "Location": "前處理室",
+   "PropertyNo": "GC-2025-0007",
+   "GasCategory": "STD",
+   "Supplier": "Thermo Fisher",
+   "Capacity": "鋼瓶容量07",
+   "InspectionCycleMonths": 7,
+   "LastInspectionDate": "2026-12-09",
+   "NextInspectionDate": "2025-04-17",
+   "CylinderStatus": "狀態07",
+   "Remark": "樣品外觀正常",
+   "Attributes": "擴展屬性07"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000007",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-03-16 09:33",
+   "UpdatedBy": "chang.fa",
+   "UpdatedAt": "2026-03-24 12:30",
+   "CylinderCode": "GC-2025-0008",
+   "EquipmentName": "王采樣",
+   "Location": "NAS機房",
+   "PropertyNo": "GC-2025-0008",
+   "GasCategory": "STD",
+   "Supplier": "PerkinElmer",
+   "Capacity": "鋼瓶容量08",
+   "InspectionCycleMonths": 21,
+   "LastInspectionDate": "2025-04-03",
+   "NextInspectionDate": "2025-04-24",
+   "CylinderStatus": "狀態08",
+   "Remark": "急件已加收費用",
+   "Attributes": "擴展屬性08"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000008",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-07-14 17:31",
+   "UpdatedBy": "chen.sh",
+   "UpdatedAt": "2026-08-20 12:29",
+   "CylinderCode": "GC-2025-0009",
+   "EquipmentName": "王采樣",
+   "Location": "定容室",
+   "PropertyNo": "GC-2026-0009",
+   "GasCategory": "STD",
+   "Supplier": "PerkinElmer",
+   "Capacity": "鋼瓶容量09",
+   "InspectionCycleMonths": 94,
+   "LastInspectionDate": "2025-05-25",
+   "NextInspectionDate": "2026-01-08",
+   "CylinderStatus": "狀態09",
+   "Remark": "",
+   "Attributes": "擴展屬性09"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000009",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-03-16 10:03",
+   "UpdatedBy": "cheng.gl",
+   "UpdatedAt": "2026-05-21 18:35",
+   "CylinderCode": "GC-2025-0010",
+   "EquipmentName": "吳主任",
+   "Location": "樣品庫",
+   "PropertyNo": "GC-2025-0010",
+   "GasCategory": "STD",
+   "Supplier": "Shimadzu",
+   "Capacity": "鋼瓶容量10",
+   "InspectionCycleMonths": 26,
+   "LastInspectionDate": "2025-07-02",
+   "NextInspectionDate": "2025-10-28",
+   "CylinderStatus": "狀態10",
+   "Remark": "複驗確認無誤",
+   "Attributes": "擴展屬性10"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000010",
+   "EntityID": "lab",
+   "Status": "0",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-03-28 12:09",
+   "UpdatedBy": "lee.jc",
+   "UpdatedAt": "2026-09-28 11:16",
+   "CylinderCode": "GC-2025-0011",
+   "EquipmentName": "許工程",
+   "Location": "樣品庫",
+   "PropertyNo": "GC-2026-0011",
+   "GasCategory": "STD",
+   "Supplier": "Mettler Toledo",
+   "Capacity": "鋼瓶容量11",
+   "InspectionCycleMonths": 95,
+   "LastInspectionDate": "2025-06-24",
+   "NextInspectionDate": "2026-08-01",
+   "CylinderStatus": "狀態11",
+   "Remark": "",
+   "Attributes": "擴展屬性11"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000011",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-05-21 09:38",
+   "UpdatedBy": "hsu.eng",
+   "UpdatedAt": "2026-06-25 15:11",
+   "CylinderCode": "GC-2026-0012",
+   "EquipmentName": "謝校正",
+   "Location": "冷藏庫(4°C)",
+   "PropertyNo": "GC-2026-0012",
+   "GasCategory": "CAR",
+   "Supplier": "HACH",
+   "Capacity": "鋼瓶容量12",
+   "InspectionCycleMonths": 28,
+   "LastInspectionDate": "2025-06-28",
+   "NextInspectionDate": "2026-01-04",
+   "CylinderStatus": "狀態12",
+   "Remark": "",
+   "Attributes": "擴展屬性12"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000012",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-12-18 17:14",
+   "UpdatedBy": "liu.as",
+   "UpdatedAt": "2026-04-26 08:14",
+   "CylinderCode": "GC-2025-0013",
+   "EquipmentName": "吳主任",
+   "Location": "前處理室",
+   "PropertyNo": "GC-2026-0013",
+   "GasCategory": "PUR",
+   "Supplier": "Metrohm",
+   "Capacity": "鋼瓶容量13",
+   "InspectionCycleMonths": 90,
+   "LastInspectionDate": "2025-12-04",
+   "NextInspectionDate": "2025-11-05",
+   "CylinderStatus": "狀態13",
+   "Remark": "",
+   "Attributes": "擴展屬性13"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000013",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-10-07 11:10",
+   "UpdatedBy": "hsu.eng",
+   "UpdatedAt": "2026-05-25 12:37",
+   "CylinderCode": "GC-2026-0014",
+   "EquipmentName": "謝校正",
+   "Location": "微生物室",
+   "PropertyNo": "GC-2025-0014",
+   "GasCategory": "STD",
+   "Supplier": "Agilent",
+   "Capacity": "鋼瓶容量14",
+   "InspectionCycleMonths": 37,
+   "LastInspectionDate": "2026-01-24",
+   "NextInspectionDate": "2026-10-12",
+   "CylinderStatus": "狀態14",
+   "Remark": "",
+   "Attributes": "擴展屬性14"
+  }
+ ]
+}

@@ -1,0 +1,2898 @@
+{
+ "EntityID": "lab",
+ "SystemCode": "MUEIP",
+ "ModuleCode": "LIMS",
+ "FuncCode": "labAst_ChemInfo",
+ "ConfigHash": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+ "PageMeta": {
+  "PageTitle": "藥品清單",
+  "Lang": "zh-TW",
+  "FormType": "ListForm",
+  "EditDisplayType": "Drawer",
+  "Breadcrumb": [
+   {
+    "Title": "首頁",
+    "Path": "/"
+   },
+   {
+    "Title": "實驗室資材管理",
+    "Path": null
+   },
+   {
+    "Title": "藥品清單",
+    "Path": "/lab/labAst_ChemInfo"
+   }
+  ],
+  "IsApproval": false,
+  "TenantLocked": false,
+  "Icon": "ri-flask-fill",
+  "Remark": "藥品清單（由 labAst_ChemInfo 規格書產生）"
+ },
+ "Resources": {
+  "CodeSets": {
+   "Status": [
+    {
+     "CodeID": "1",
+     "CodeName": "啟用",
+     "IsDefault": true
+    },
+    {
+     "CodeID": "0",
+     "CodeName": "停用"
+    }
+   ],
+   "Priority": [
+    {
+     "CodeID": "A",
+     "CodeName": "急件"
+    },
+    {
+     "CodeID": "B",
+     "CodeName": "高"
+    },
+    {
+     "CodeID": "C",
+     "CodeName": "一般",
+     "IsDefault": true
+    },
+    {
+     "CodeID": "D",
+     "CodeName": "低"
+    }
+   ]
+  },
+  "FeatureFlags": {
+   "IsReadOnly": false,
+   "EnableDraft": false,
+   "EnableBatchDelete": true,
+   "AutoRefreshInterval": 0,
+   "DefaultViewMode": "Table",
+   "RequireConfirmOnSave": true
+  }
+ },
+ "AllowAction": {
+  "DataActions": [
+   {
+    "ActionID": "Add",
+    "Label": "新增",
+    "Icon": "ri-add-line",
+    "Type": "Primary",
+    "Position": "Toolbar",
+    "Confirm": null
+   },
+   {
+    "ActionID": "Save",
+    "Label": "儲存",
+    "Icon": "ri-save-line",
+    "Type": "Primary",
+    "Position": "Toolbar",
+    "Confirm": null
+   },
+   {
+    "ActionID": "Delete",
+    "Label": "刪除",
+    "Icon": "ri-delete-bin-line",
+    "Type": "Danger",
+    "Position": "Both",
+    "Confirm": "確定要刪除此藥品清單資料嗎？"
+   },
+   {
+    "ActionID": "Query",
+    "Label": "查詢",
+    "Icon": "ri-search-line",
+    "Type": "Default",
+    "Position": "Toolbar",
+    "Confirm": null
+   }
+  ],
+  "ExtensionActions": [
+   {
+    "ActionID": "Import",
+    "Label": "匯入",
+    "Icon": "ri-upload-2-line",
+    "Type": "Default",
+    "Position": "Toolbar"
+   },
+   {
+    "ActionID": "Export",
+    "Label": "匯出",
+    "Icon": "ri-download-2-line",
+    "Type": "Default",
+    "Position": "Toolbar"
+   }
+  ]
+ },
+ "View": {
+  "RowKey": "RowGuid",
+  "ListView": {
+   "ListSpec": {
+    "RowKey": "RowGuid",
+    "SelectMode": "Single",
+    "FixedColumns": [
+     "Action",
+     "No"
+    ],
+    "RowActionMode": "Menu",
+    "ShowRowNo": true,
+    "Pagination": {
+     "PageSize": 100,
+     "SizeOptions": [
+      50,
+      100,
+      200,
+      500
+     ],
+     "ShowJumper": false,
+     "FullPageScroll": true
+    },
+    "DefaultSort": {
+     "Field": "SortNo",
+     "Order": "asc"
+    },
+    "EmptyText": "目前查無藥品清單資料",
+    "GridBordered": true
+   },
+   "FieldSpecs": [
+    {
+     "BindField": "ChemNo",
+     "Title": "藥品編號",
+     "Align": "Left",
+     "DefaultVisible": true,
+     "Formatter": "Link",
+     "Fixed": "Left",
+     "Width": 160,
+     "Sorter": true
+    },
+    {
+     "BindField": "ChemName",
+     "Title": "藥品名稱",
+     "Align": "Left",
+     "DefaultVisible": true,
+     "Width": 140
+    },
+    {
+     "BindField": "ChemNameEn",
+     "Title": "英文名稱",
+     "Align": "Left",
+     "DefaultVisible": true,
+     "Width": 140
+    },
+    {
+     "BindField": "CasNo",
+     "Title": "CAS 編號",
+     "Align": "Left",
+     "DefaultVisible": true,
+     "Width": 140
+    },
+    {
+     "BindField": "SpecConcentration",
+     "Title": "規格-濃度",
+     "Align": "Left",
+     "DefaultVisible": true,
+     "Width": 140
+    },
+    {
+     "BindField": "SpecPurity",
+     "Title": "規格-純度",
+     "Align": "Left",
+     "DefaultVisible": true,
+     "Width": 140
+    },
+    {
+     "BindField": "Status",
+     "Title": "啟用狀態",
+     "Align": "Center",
+     "DefaultVisible": true,
+     "Formatter": "Tag",
+     "Width": 80
+    }
+   ]
+  },
+  "FormView": {
+   "FormSpec": {
+    "RowKey": "RowGuid",
+    "Layout": "Horizontal",
+    "Sections": [
+     {
+      "SectionID": "SecBase",
+      "Type": "Card",
+      "Title": "基本資料",
+      "IsCollapsible": false,
+      "DefaultOpen": true,
+      "Icon": "ri-flask-fill"
+     },
+     {
+      "SectionID": "SecRecv",
+      "Type": "Card",
+      "Title": "作業資訊",
+      "IsCollapsible": true,
+      "DefaultOpen": true,
+      "Icon": "ri-file-list-3-line"
+     },
+     {
+      "SectionID": "SecExtra",
+      "Type": "Card",
+      "Title": "系統資訊",
+      "IsCollapsible": true,
+      "DefaultOpen": false,
+      "Icon": "ri-settings-4-line"
+     }
+    ],
+    "FormLogic": []
+   },
+   "FieldSpecs": [
+    {
+     "BindField": "RowKey",
+     "Title": "系統識別碼",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 24,
+     "Mode": "Hidden"
+    },
+    {
+     "BindField": "EntityID",
+     "Title": "系統實體",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "Hidden",
+     "DefaultValue": "lab"
+    },
+    {
+     "BindField": "ChemNo",
+     "Title": "藥品編號",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "Required",
+       "Message": "藥品編號為必填"
+      },
+      {
+       "Rule": "MaxLength",
+       "Value": 30,
+       "Message": "長度不可超過 30"
+      }
+     ]
+    },
+    {
+     "BindField": "CategoryGuid",
+     "Title": "所屬分類",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "ReadOnly"
+    },
+    {
+     "BindField": "ChemName",
+     "Title": "藥品名稱",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "Required",
+       "Message": "藥品名稱為必填"
+      },
+      {
+       "Rule": "MaxLength",
+       "Value": 100,
+       "Message": "長度不可超過 100"
+      }
+     ]
+    },
+    {
+     "BindField": "ChemNameEn",
+     "Title": "英文名稱",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 150,
+       "Message": "長度不可超過 150"
+      }
+     ]
+    },
+    {
+     "BindField": "CasNo",
+     "Title": "CAS 編號",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 30,
+       "Message": "長度不可超過 30"
+      }
+     ]
+    },
+    {
+     "BindField": "SpecConcentration",
+     "Title": "規格-濃度",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 50,
+       "Message": "長度不可超過 50"
+      }
+     ]
+    },
+    {
+     "BindField": "SpecPurity",
+     "Title": "規格-純度",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 50,
+       "Message": "長度不可超過 50"
+      }
+     ]
+    },
+    {
+     "BindField": "SpecVolume",
+     "Title": "規格-容量",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 50,
+       "Message": "長度不可超過 50"
+      }
+     ]
+    },
+    {
+     "BindField": "SupplierName",
+     "Title": "供應商",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 100,
+       "Message": "長度不可超過 100"
+      }
+     ]
+    },
+    {
+     "BindField": "Manufacturer",
+     "Title": "製造商",
+     "Component": "Input",
+     "Section": "SecRecv",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 100,
+       "Message": "長度不可超過 100"
+      }
+     ]
+    },
+    {
+     "BindField": "StorageCondition",
+     "Title": "保存條件",
+     "Component": "Input",
+     "Section": "SecRecv",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 50,
+       "Message": "長度不可超過 50"
+      }
+     ]
+    },
+    {
+     "BindField": "SafetyStockQty",
+     "Title": "安全庫存量",
+     "Component": "Input",
+     "Section": "SecRecv",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "Required",
+       "Message": "安全庫存量為必填"
+      }
+     ],
+     "Props": {
+      "Type": "number"
+     }
+    },
+    {
+     "BindField": "Unit",
+     "Title": "計量單位",
+     "Component": "Input",
+     "Section": "SecRecv",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "Required",
+       "Message": "計量單位為必填"
+      },
+      {
+       "Rule": "MaxLength",
+       "Value": 10,
+       "Message": "長度不可超過 10"
+      }
+     ]
+    },
+    {
+     "BindField": "Attributes",
+     "Title": "擴展屬性",
+     "Component": "Textarea",
+     "Section": "SecExtra",
+     "Span": 24,
+     "Mode": "Editable",
+     "Props": {
+      "Rows": 3
+     }
+    },
+    {
+     "BindField": "Status",
+     "Title": "啟用狀態",
+     "Component": "Select",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "DefaultValue": "1",
+     "Props": {
+      "OptionKey": "Status"
+     }
+    },
+    {
+     "BindField": "CreatedBy",
+     "Title": "建立者帳號",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "ReadOnly"
+    },
+    {
+     "BindField": "CreatedAt",
+     "Title": "資料建立日期時間",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "ReadOnly"
+    },
+    {
+     "BindField": "UpdatedBy",
+     "Title": "最後更新者帳號",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "ReadOnly"
+    },
+    {
+     "BindField": "UpdatedAt",
+     "Title": "最後更新日期時間",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "ReadOnly"
+    }
+   ]
+  },
+  "DetailViews": [
+   {
+    "DetailID": "Lot",
+    "Title": "批號",
+    "Icon": "ri-price-tag-3-line",
+    "Entity": "labAst_ChemLot",
+    "RelationKey": "ChemCode",
+    "RowKey": "RowGuid",
+    "AllowAdd": true,
+    "AllowEdit": true,
+    "AllowDelete": true,
+    "EmptyText": "尚無批號資料",
+    "CodeSets": {
+     "Status": [
+      {
+       "CodeID": "1",
+       "CodeName": "啟用",
+       "IsDefault": true
+      },
+      {
+       "CodeID": "0",
+       "CodeName": "停用"
+      }
+     ],
+     "Priority": [
+      {
+       "CodeID": "A",
+       "CodeName": "急件"
+      },
+      {
+       "CodeID": "B",
+       "CodeName": "高"
+      },
+      {
+       "CodeID": "C",
+       "CodeName": "一般",
+       "IsDefault": true
+      },
+      {
+       "CodeID": "D",
+       "CodeName": "低"
+      }
+     ]
+    },
+    "Columns": [
+     {
+      "BindField": "ChemGuid",
+      "Title": "所屬藥品",
+      "Width": 120,
+      "Align": "Left"
+     },
+     {
+      "BindField": "LotNo",
+      "Title": "批號",
+      "Width": 120,
+      "Align": "Left"
+     },
+     {
+      "BindField": "ExpiryDate",
+      "Title": "有效期限",
+      "Width": 120,
+      "Align": "Left",
+      "Formatter": "Date"
+     },
+     {
+      "BindField": "InQty",
+      "Title": "入庫總量",
+      "Width": 120,
+      "Align": "Center"
+     },
+     {
+      "BindField": "RemainingQty",
+      "Title": "剩餘數量",
+      "Width": 120,
+      "Align": "Center"
+     }
+    ],
+    "FormFields": [
+     {
+      "BindField": "ChemGuid",
+      "Title": "所屬藥品",
+      "Component": "Input",
+      "Section": "",
+      "Span": 12,
+      "Mode": "ReadOnly",
+      "Validations": [
+       {
+        "Rule": "Required",
+        "Message": "所屬藥品為必填"
+       }
+      ]
+     },
+     {
+      "BindField": "LotNo",
+      "Title": "批號",
+      "Component": "Input",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Validations": [
+       {
+        "Rule": "Required",
+        "Message": "批號為必填"
+       },
+       {
+        "Rule": "MaxLength",
+        "Value": 40,
+        "Message": "長度不可超過 40"
+       }
+      ]
+     },
+     {
+      "BindField": "ExpiryDate",
+      "Title": "有效期限",
+      "Component": "DatePicker",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Validations": [
+       {
+        "Rule": "Required",
+        "Message": "有效期限為必填"
+       }
+      ],
+      "Props": {
+       "Mode": "Editable",
+       "ShowTime": false
+      }
+     },
+     {
+      "BindField": "InQty",
+      "Title": "入庫總量",
+      "Component": "Input",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Validations": [
+       {
+        "Rule": "Required",
+        "Message": "入庫總量為必填"
+       }
+      ],
+      "Props": {
+       "Type": "number"
+      }
+     },
+     {
+      "BindField": "RemainingQty",
+      "Title": "剩餘數量",
+      "Component": "Input",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Validations": [
+       {
+        "Rule": "Required",
+        "Message": "剩餘數量為必填"
+       }
+      ],
+      "Props": {
+       "Type": "number"
+      }
+     },
+     {
+      "BindField": "ReceivedDate",
+      "Title": "入庫日期",
+      "Component": "DatePicker",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Validations": [
+       {
+        "Rule": "Required",
+        "Message": "入庫日期為必填"
+       }
+      ],
+      "Props": {
+       "Mode": "Editable",
+       "ShowTime": false
+      }
+     },
+     {
+      "BindField": "ReceivedBy",
+      "Title": "入庫人員",
+      "Component": "Input",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Validations": [
+       {
+        "Rule": "Required",
+        "Message": "入庫人員為必填"
+       },
+       {
+        "Rule": "MaxLength",
+        "Value": 50,
+        "Message": "長度不可超過 50"
+       }
+      ]
+     },
+     {
+      "BindField": "IsClosed",
+      "Title": "是否已結批",
+      "Component": "Input",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable"
+     }
+    ],
+    "SeedData": [
+     {
+      "RowGuid": "000002bc-0000-0000-0001-000000000001",
+      "EntityID": "lab",
+      "Status": "1",
+      "ChemCode": "CI-2026-0001",
+      "ChemGuid": "所屬藥品02",
+      "LotNo": "CL-2025-0002",
+      "ExpiryDate": "2026-12-22",
+      "InQty": 161,
+      "RemainingQty": 107,
+      "ReceivedDate": "2026-03-26",
+      "ReceivedBy": "abram.chen",
+      "IsClosed": "是否已結批02"
+     },
+     {
+      "RowGuid": "000002bc-0000-0000-0001-000000000002",
+      "EntityID": "lab",
+      "Status": "1",
+      "ChemCode": "CI-2026-0001",
+      "ChemGuid": "所屬藥品03",
+      "LotNo": "CL-2025-0003",
+      "ExpiryDate": "2025-03-12",
+      "InQty": 131,
+      "RemainingQty": 54,
+      "ReceivedDate": "2025-04-05",
+      "ReceivedBy": "wang.cy",
+      "IsClosed": "是否已結批03"
+     },
+     {
+      "RowGuid": "000002bc-0000-0000-0001-000000000003",
+      "EntityID": "lab",
+      "Status": "1",
+      "ChemCode": "CI-2026-0002",
+      "ChemGuid": "所屬藥品04",
+      "LotNo": "CL-2025-0004",
+      "ExpiryDate": "2025-07-07",
+      "InQty": 131,
+      "RemainingQty": 77,
+      "ReceivedDate": "2026-02-27",
+      "ReceivedBy": "chen.sh",
+      "IsClosed": "是否已結批04"
+     },
+     {
+      "RowGuid": "000002bc-0000-0000-0001-000000000004",
+      "EntityID": "lab",
+      "Status": "1",
+      "ChemCode": "CI-2026-0002",
+      "ChemGuid": "所屬藥品05",
+      "LotNo": "CL-2026-0005",
+      "ExpiryDate": "2026-12-16",
+      "InQty": 117,
+      "RemainingQty": 62,
+      "ReceivedDate": "2026-08-19",
+      "ReceivedBy": "chen.sh",
+      "IsClosed": "是否已結批05"
+     },
+     {
+      "RowGuid": "000002bc-0000-0000-0001-000000000005",
+      "EntityID": "lab",
+      "Status": "1",
+      "ChemCode": "CI-2026-0003",
+      "ChemGuid": "所屬藥品06",
+      "LotNo": "CL-2026-0006",
+      "ExpiryDate": "2026-11-01",
+      "InQty": 13,
+      "RemainingQty": 130,
+      "ReceivedDate": "2025-04-21",
+      "ReceivedBy": "lin.pb",
+      "IsClosed": "是否已結批06"
+     },
+     {
+      "RowGuid": "000002bc-0000-0000-0001-000000000006",
+      "EntityID": "lab",
+      "Status": "1",
+      "ChemCode": "CI-2026-0003",
+      "ChemGuid": "所屬藥品07",
+      "LotNo": "CL-2025-0007",
+      "ExpiryDate": "2025-11-16",
+      "InQty": 2,
+      "RemainingQty": 116,
+      "ReceivedDate": "2025-05-24",
+      "ReceivedBy": "lin.pb",
+      "IsClosed": "是否已結批07"
+     },
+     {
+      "RowGuid": "000002bc-0000-0000-0001-000000000007",
+      "EntityID": "lab",
+      "Status": "1",
+      "ChemCode": "CI-2026-0003",
+      "ChemGuid": "所屬藥品08",
+      "LotNo": "CL-2026-0008",
+      "ExpiryDate": "2025-09-26",
+      "InQty": 121,
+      "RemainingQty": 125,
+      "ReceivedDate": "2025-12-06",
+      "ReceivedBy": "chen.sh",
+      "IsClosed": "是否已結批08"
+     },
+     {
+      "RowGuid": "000002bc-0000-0000-0001-000000000008",
+      "EntityID": "lab",
+      "Status": "1",
+      "ChemCode": "CI-2026-0003",
+      "ChemGuid": "所屬藥品09",
+      "LotNo": "CL-2026-0009",
+      "ExpiryDate": "2025-12-03",
+      "InQty": 122,
+      "RemainingQty": 158,
+      "ReceivedDate": "2025-06-22",
+      "ReceivedBy": "huang.tc",
+      "IsClosed": "是否已結批09"
+     },
+     {
+      "RowGuid": "000002bc-0000-0000-0001-000000000009",
+      "EntityID": "lab",
+      "Status": "1",
+      "ChemCode": "CI-2026-0004",
+      "ChemGuid": "所屬藥品10",
+      "LotNo": "CL-2026-0010",
+      "ExpiryDate": "2025-10-10",
+      "InQty": 62,
+      "RemainingQty": 67,
+      "ReceivedDate": "2026-06-15",
+      "ReceivedBy": "cheng.gl",
+      "IsClosed": "是否已結批10"
+     },
+     {
+      "RowGuid": "000002bc-0000-0000-0001-000000000010",
+      "EntityID": "lab",
+      "Status": "1",
+      "ChemCode": "CI-2026-0004",
+      "ChemGuid": "所屬藥品11",
+      "LotNo": "CL-2026-0011",
+      "ExpiryDate": "2025-06-10",
+      "InQty": 16,
+      "RemainingQty": 61,
+      "ReceivedDate": "2025-02-07",
+      "ReceivedBy": "wu.dir",
+      "IsClosed": "是否已結批11"
+     },
+     {
+      "RowGuid": "000002bc-0000-0000-0001-000000000011",
+      "EntityID": "lab",
+      "Status": "1",
+      "ChemCode": "CI-2026-0005",
+      "ChemGuid": "所屬藥品12",
+      "LotNo": "CL-2026-0012",
+      "ExpiryDate": "2026-03-18",
+      "InQty": 11,
+      "RemainingQty": 190,
+      "ReceivedDate": "2025-05-26",
+      "ReceivedBy": "abram.chen",
+      "IsClosed": "是否已結批12"
+     },
+     {
+      "RowGuid": "000002bc-0000-0000-0001-000000000012",
+      "EntityID": "lab",
+      "Status": "1",
+      "ChemCode": "CI-2026-0005",
+      "ChemGuid": "所屬藥品13",
+      "LotNo": "CL-2025-0013",
+      "ExpiryDate": "2025-01-16",
+      "InQty": 147,
+      "RemainingQty": 119,
+      "ReceivedDate": "2025-01-26",
+      "ReceivedBy": "huang.tc",
+      "IsClosed": "是否已結批13"
+     },
+     {
+      "RowGuid": "000002bc-0000-0000-0001-000000000013",
+      "EntityID": "lab",
+      "Status": "1",
+      "ChemCode": "CI-2026-0006",
+      "ChemGuid": "所屬藥品14",
+      "LotNo": "CL-2025-0014",
+      "ExpiryDate": "2026-04-16",
+      "InQty": 25,
+      "RemainingQty": 142,
+      "ReceivedDate": "2025-07-09",
+      "ReceivedBy": "wang.cy",
+      "IsClosed": "是否已結批14"
+     },
+     {
+      "RowGuid": "000002bc-0000-0000-0001-000000000014",
+      "EntityID": "lab",
+      "Status": "1",
+      "ChemCode": "CI-2026-0006",
+      "ChemGuid": "所屬藥品15",
+      "LotNo": "CL-2026-0015",
+      "ExpiryDate": "2026-01-01",
+      "InQty": 30,
+      "RemainingQty": 135,
+      "ReceivedDate": "2025-09-12",
+      "ReceivedBy": "huang.tc",
+      "IsClosed": "是否已結批15"
+     },
+     {
+      "RowGuid": "000002bc-0000-0000-0001-000000000015",
+      "EntityID": "lab",
+      "Status": "1",
+      "ChemCode": "CI-2026-0007",
+      "ChemGuid": "所屬藥品16",
+      "LotNo": "CL-2025-0016",
+      "ExpiryDate": "2025-09-04",
+      "InQty": 124,
+      "RemainingQty": 179,
+      "ReceivedDate": "2025-04-21",
+      "ReceivedBy": "lee.jc",
+      "IsClosed": "是否已結批16"
+     },
+     {
+      "RowGuid": "000002bc-0000-0000-0001-000000000016",
+      "EntityID": "lab",
+      "Status": "1",
+      "ChemCode": "CI-2026-0007",
+      "ChemGuid": "所屬藥品17",
+      "LotNo": "CL-2025-0017",
+      "ExpiryDate": "2026-07-24",
+      "InQty": 66,
+      "RemainingQty": 43,
+      "ReceivedDate": "2026-09-27",
+      "ReceivedBy": "abram.chen",
+      "IsClosed": "是否已結批17"
+     },
+     {
+      "RowGuid": "000002bc-0000-0000-0001-000000000017",
+      "EntityID": "lab",
+      "Status": "1",
+      "ChemCode": "CI-2026-0007",
+      "ChemGuid": "所屬藥品18",
+      "LotNo": "CL-2026-0018",
+      "ExpiryDate": "2026-02-27",
+      "InQty": 121,
+      "RemainingQty": 108,
+      "ReceivedDate": "2025-03-19",
+      "ReceivedBy": "huang.tc",
+      "IsClosed": "是否已結批18"
+     },
+     {
+      "RowGuid": "000002bc-0000-0000-0001-000000000018",
+      "EntityID": "lab",
+      "Status": "1",
+      "ChemCode": "CI-2026-0008",
+      "ChemGuid": "所屬藥品19",
+      "LotNo": "CL-2025-0019",
+      "ExpiryDate": "2025-05-19",
+      "InQty": 106,
+      "RemainingQty": 94,
+      "ReceivedDate": "2025-07-05",
+      "ReceivedBy": "lin.pb",
+      "IsClosed": "是否已結批19"
+     },
+     {
+      "RowGuid": "000002bc-0000-0000-0001-000000000019",
+      "EntityID": "lab",
+      "Status": "1",
+      "ChemCode": "CI-2026-0008",
+      "ChemGuid": "所屬藥品20",
+      "LotNo": "CL-2025-0020",
+      "ExpiryDate": "2026-03-28",
+      "InQty": 129,
+      "RemainingQty": 20,
+      "ReceivedDate": "2026-11-19",
+      "ReceivedBy": "wang.cy",
+      "IsClosed": "是否已結批20"
+     },
+     {
+      "RowGuid": "000002bc-0000-0000-0001-000000000020",
+      "EntityID": "lab",
+      "Status": "1",
+      "ChemCode": "CI-2026-0008",
+      "ChemGuid": "所屬藥品21",
+      "LotNo": "CL-2025-0021",
+      "ExpiryDate": "2025-07-01",
+      "InQty": 182,
+      "RemainingQty": 133,
+      "ReceivedDate": "2025-10-01",
+      "ReceivedBy": "chang.fa",
+      "IsClosed": "是否已結批21"
+     },
+     {
+      "RowGuid": "000002bc-0000-0000-0001-000000000021",
+      "EntityID": "lab",
+      "Status": "1",
+      "ChemCode": "CI-2026-0008",
+      "ChemGuid": "所屬藥品22",
+      "LotNo": "CL-2026-0022",
+      "ExpiryDate": "2025-07-14",
+      "InQty": 13,
+      "RemainingQty": 139,
+      "ReceivedDate": "2025-05-19",
+      "ReceivedBy": "chang.fa",
+      "IsClosed": "是否已結批22"
+     },
+     {
+      "RowGuid": "000002bc-0000-0000-0001-000000000022",
+      "EntityID": "lab",
+      "Status": "1",
+      "ChemCode": "CI-2026-0009",
+      "ChemGuid": "所屬藥品23",
+      "LotNo": "CL-2025-0023",
+      "ExpiryDate": "2026-02-05",
+      "InQty": 31,
+      "RemainingQty": 141,
+      "ReceivedDate": "2026-11-08",
+      "ReceivedBy": "chang.fa",
+      "IsClosed": "是否已結批23"
+     },
+     {
+      "RowGuid": "000002bc-0000-0000-0001-000000000023",
+      "EntityID": "lab",
+      "Status": "1",
+      "ChemCode": "CI-2026-0009",
+      "ChemGuid": "所屬藥品24",
+      "LotNo": "CL-2025-0024",
+      "ExpiryDate": "2026-04-18",
+      "InQty": 118,
+      "RemainingQty": 138,
+      "ReceivedDate": "2025-07-25",
+      "ReceivedBy": "abram.chen",
+      "IsClosed": "是否已結批24"
+     },
+     {
+      "RowGuid": "000002bc-0000-0000-0001-000000000024",
+      "EntityID": "lab",
+      "Status": "1",
+      "ChemCode": "CI-2026-0009",
+      "ChemGuid": "所屬藥品25",
+      "LotNo": "CL-2025-0025",
+      "ExpiryDate": "2025-07-12",
+      "InQty": 190,
+      "RemainingQty": 183,
+      "ReceivedDate": "2026-07-24",
+      "ReceivedBy": "cheng.gl",
+      "IsClosed": "是否已結批25"
+     },
+     {
+      "RowGuid": "000002bc-0000-0000-0001-000000000025",
+      "EntityID": "lab",
+      "Status": "1",
+      "ChemCode": "CI-2026-0009",
+      "ChemGuid": "所屬藥品26",
+      "LotNo": "CL-2026-0026",
+      "ExpiryDate": "2025-04-11",
+      "InQty": 142,
+      "RemainingQty": 96,
+      "ReceivedDate": "2025-06-20",
+      "ReceivedBy": "liu.as",
+      "IsClosed": "是否已結批26"
+     },
+     {
+      "RowGuid": "000002bc-0000-0000-0001-000000000026",
+      "EntityID": "lab",
+      "Status": "1",
+      "ChemCode": "CI-2026-0010",
+      "ChemGuid": "所屬藥品27",
+      "LotNo": "CL-2025-0027",
+      "ExpiryDate": "2025-06-10",
+      "InQty": 37,
+      "RemainingQty": 41,
+      "ReceivedDate": "2025-01-18",
+      "ReceivedBy": "cheng.gl",
+      "IsClosed": "是否已結批27"
+     },
+     {
+      "RowGuid": "000002bc-0000-0000-0001-000000000027",
+      "EntityID": "lab",
+      "Status": "1",
+      "ChemCode": "CI-2026-0010",
+      "ChemGuid": "所屬藥品28",
+      "LotNo": "CL-2026-0028",
+      "ExpiryDate": "2026-12-25",
+      "InQty": 32,
+      "RemainingQty": 194,
+      "ReceivedDate": "2026-08-27",
+      "ReceivedBy": "chen.sh",
+      "IsClosed": "是否已結批28"
+     },
+     {
+      "RowGuid": "000002bc-0000-0000-0001-000000000028",
+      "EntityID": "lab",
+      "Status": "1",
+      "ChemCode": "CI-2026-0010",
+      "ChemGuid": "所屬藥品29",
+      "LotNo": "CL-2026-0029",
+      "ExpiryDate": "2026-02-27",
+      "InQty": 120,
+      "RemainingQty": 124,
+      "ReceivedDate": "2026-12-22",
+      "ReceivedBy": "wu.dir",
+      "IsClosed": "是否已結批29"
+     },
+     {
+      "RowGuid": "000002bc-0000-0000-0001-000000000029",
+      "EntityID": "lab",
+      "Status": "1",
+      "ChemCode": "CI-2026-0011",
+      "ChemGuid": "所屬藥品30",
+      "LotNo": "CL-2026-0030",
+      "ExpiryDate": "2025-12-26",
+      "InQty": 178,
+      "RemainingQty": 144,
+      "ReceivedDate": "2026-09-04",
+      "ReceivedBy": "cheng.gl",
+      "IsClosed": "是否已結批30"
+     },
+     {
+      "RowGuid": "000002bc-0000-0000-0001-000000000030",
+      "EntityID": "lab",
+      "Status": "1",
+      "ChemCode": "CI-2026-0011",
+      "ChemGuid": "所屬藥品31",
+      "LotNo": "CL-2026-0031",
+      "ExpiryDate": "2026-01-03",
+      "InQty": 186,
+      "RemainingQty": 124,
+      "ReceivedDate": "2025-11-24",
+      "ReceivedBy": "lin.pb",
+      "IsClosed": "是否已結批31"
+     },
+     {
+      "RowGuid": "000002bc-0000-0000-0001-000000000031",
+      "EntityID": "lab",
+      "Status": "1",
+      "ChemCode": "CI-2026-0011",
+      "ChemGuid": "所屬藥品32",
+      "LotNo": "CL-2025-0032",
+      "ExpiryDate": "2025-11-04",
+      "InQty": 79,
+      "RemainingQty": 44,
+      "ReceivedDate": "2026-01-08",
+      "ReceivedBy": "hsu.eng",
+      "IsClosed": "是否已結批32"
+     },
+     {
+      "RowGuid": "000002bc-0000-0000-0001-000000000032",
+      "EntityID": "lab",
+      "Status": "1",
+      "ChemCode": "CI-2026-0011",
+      "ChemGuid": "所屬藥品33",
+      "LotNo": "CL-2025-0033",
+      "ExpiryDate": "2026-05-07",
+      "InQty": 115,
+      "RemainingQty": 42,
+      "ReceivedDate": "2025-09-20",
+      "ReceivedBy": "wang.cy",
+      "IsClosed": "是否已結批33"
+     },
+     {
+      "RowGuid": "000002bc-0000-0000-0001-000000000033",
+      "EntityID": "lab",
+      "Status": "1",
+      "ChemCode": "CI-2026-0012",
+      "ChemGuid": "所屬藥品34",
+      "LotNo": "CL-2026-0034",
+      "ExpiryDate": "2026-09-17",
+      "InQty": 95,
+      "RemainingQty": 15,
+      "ReceivedDate": "2025-11-14",
+      "ReceivedBy": "chang.fa",
+      "IsClosed": "是否已結批34"
+     },
+     {
+      "RowGuid": "000002bc-0000-0000-0001-000000000034",
+      "EntityID": "lab",
+      "Status": "1",
+      "ChemCode": "CI-2026-0012",
+      "ChemGuid": "所屬藥品35",
+      "LotNo": "CL-2026-0035",
+      "ExpiryDate": "2026-05-15",
+      "InQty": 112,
+      "RemainingQty": 142,
+      "ReceivedDate": "2026-11-03",
+      "ReceivedBy": "abram.chen",
+      "IsClosed": "是否已結批35"
+     },
+     {
+      "RowGuid": "000002bc-0000-0000-0001-000000000035",
+      "EntityID": "lab",
+      "Status": "1",
+      "ChemCode": "CI-2026-0012",
+      "ChemGuid": "所屬藥品36",
+      "LotNo": "CL-2026-0036",
+      "ExpiryDate": "2025-11-06",
+      "InQty": 176,
+      "RemainingQty": 102,
+      "ReceivedDate": "2026-11-06",
+      "ReceivedBy": "chang.fa",
+      "IsClosed": "是否已結批36"
+     },
+     {
+      "RowGuid": "000002bc-0000-0000-0001-000000000036",
+      "EntityID": "lab",
+      "Status": "1",
+      "ChemCode": "CI-2026-0012",
+      "ChemGuid": "所屬藥品37",
+      "LotNo": "CL-2026-0037",
+      "ExpiryDate": "2026-01-07",
+      "InQty": 25,
+      "RemainingQty": 46,
+      "ReceivedDate": "2025-08-24",
+      "ReceivedBy": "chen.sh",
+      "IsClosed": "是否已結批37"
+     },
+     {
+      "RowGuid": "000002bc-0000-0000-0001-000000000037",
+      "EntityID": "lab",
+      "Status": "1",
+      "ChemCode": "CI-2026-0013",
+      "ChemGuid": "所屬藥品38",
+      "LotNo": "CL-2025-0038",
+      "ExpiryDate": "2025-09-08",
+      "InQty": 79,
+      "RemainingQty": 168,
+      "ReceivedDate": "2025-07-06",
+      "ReceivedBy": "hsu.eng",
+      "IsClosed": "是否已結批38"
+     },
+     {
+      "RowGuid": "000002bc-0000-0000-0001-000000000038",
+      "EntityID": "lab",
+      "Status": "1",
+      "ChemCode": "CI-2026-0013",
+      "ChemGuid": "所屬藥品39",
+      "LotNo": "CL-2026-0039",
+      "ExpiryDate": "2025-09-21",
+      "InQty": 57,
+      "RemainingQty": 107,
+      "ReceivedDate": "2026-04-16",
+      "ReceivedBy": "hsu.eng",
+      "IsClosed": "是否已結批39"
+     },
+     {
+      "RowGuid": "000002bc-0000-0000-0001-000000000039",
+      "EntityID": "lab",
+      "Status": "1",
+      "ChemCode": "CI-2026-0013",
+      "ChemGuid": "所屬藥品40",
+      "LotNo": "CL-2025-0040",
+      "ExpiryDate": "2025-11-12",
+      "InQty": 173,
+      "RemainingQty": 107,
+      "ReceivedDate": "2025-01-17",
+      "ReceivedBy": "chen.sh",
+      "IsClosed": "是否已結批40"
+     },
+     {
+      "RowGuid": "000002bc-0000-0000-0001-000000000040",
+      "EntityID": "lab",
+      "Status": "1",
+      "ChemCode": "CI-2026-0013",
+      "ChemGuid": "所屬藥品41",
+      "LotNo": "CL-2026-0041",
+      "ExpiryDate": "2026-06-02",
+      "InQty": 97,
+      "RemainingQty": 39,
+      "ReceivedDate": "2025-09-28",
+      "ReceivedBy": "lee.jc",
+      "IsClosed": "是否已結批41"
+     },
+     {
+      "RowGuid": "000002bc-0000-0000-0001-000000000041",
+      "EntityID": "lab",
+      "Status": "1",
+      "ChemCode": "CI-2026-0014",
+      "ChemGuid": "所屬藥品42",
+      "LotNo": "CL-2026-0042",
+      "ExpiryDate": "2026-10-27",
+      "InQty": 113,
+      "RemainingQty": 139,
+      "ReceivedDate": "2026-07-07",
+      "ReceivedBy": "chang.fa",
+      "IsClosed": "是否已結批42"
+     },
+     {
+      "RowGuid": "000002bc-0000-0000-0001-000000000042",
+      "EntityID": "lab",
+      "Status": "1",
+      "ChemCode": "CI-2026-0014",
+      "ChemGuid": "所屬藥品43",
+      "LotNo": "CL-2026-0043",
+      "ExpiryDate": "2026-09-14",
+      "InQty": 188,
+      "RemainingQty": 74,
+      "ReceivedDate": "2026-06-28",
+      "ReceivedBy": "lee.jc",
+      "IsClosed": "是否已結批43"
+     },
+     {
+      "RowGuid": "000002bc-0000-0000-0001-000000000043",
+      "EntityID": "lab",
+      "Status": "1",
+      "ChemCode": "CI-2026-0014",
+      "ChemGuid": "所屬藥品44",
+      "LotNo": "CL-2025-0044",
+      "ExpiryDate": "2025-07-18",
+      "InQty": 106,
+      "RemainingQty": 179,
+      "ReceivedDate": "2025-05-02",
+      "ReceivedBy": "cheng.gl",
+      "IsClosed": "是否已結批44"
+     },
+     {
+      "RowGuid": "000002bc-0000-0000-0001-000000000044",
+      "EntityID": "lab",
+      "Status": "1",
+      "ChemCode": "CI-2026-0014",
+      "ChemGuid": "所屬藥品45",
+      "LotNo": "CL-2025-0045",
+      "ExpiryDate": "2026-06-04",
+      "InQty": 91,
+      "RemainingQty": 21,
+      "ReceivedDate": "2025-01-23",
+      "ReceivedBy": "huang.tc",
+      "IsClosed": "是否已結批45"
+     }
+    ]
+   },
+   {
+    "DetailID": "Txn",
+    "Title": "異動紀錄",
+    "Icon": "ri-swap-line",
+    "Entity": "labAst_ChemTransaction",
+    "RelationKey": "ChemCode",
+    "RowKey": "RowGuid",
+    "AllowAdd": true,
+    "AllowEdit": true,
+    "AllowDelete": true,
+    "EmptyText": "尚無異動紀錄資料",
+    "CodeSets": {
+     "Status": [
+      {
+       "CodeID": "1",
+       "CodeName": "啟用",
+       "IsDefault": true
+      },
+      {
+       "CodeID": "0",
+       "CodeName": "停用"
+      }
+     ],
+     "Priority": [
+      {
+       "CodeID": "A",
+       "CodeName": "急件"
+      },
+      {
+       "CodeID": "B",
+       "CodeName": "高"
+      },
+      {
+       "CodeID": "C",
+       "CodeName": "一般",
+       "IsDefault": true
+      },
+      {
+       "CodeID": "D",
+       "CodeName": "低"
+      }
+     ],
+     "TxnType": [
+      {
+       "CodeID": "I",
+       "CodeName": "入庫",
+       "IsDefault": true
+      },
+      {
+       "CodeID": "O",
+       "CodeName": "領用"
+      },
+      {
+       "CodeID": "A",
+       "CodeName": "調整"
+      },
+      {
+       "CodeID": "S",
+       "CodeName": "報廢"
+      },
+      {
+       "CodeID": "R",
+       "CodeName": "退回"
+      }
+     ],
+     "ScrapReason": [
+      {
+       "CodeID": "EXP",
+       "CodeName": "效期到期",
+       "IsDefault": true
+      },
+      {
+       "CodeID": "DMG",
+       "CodeName": "破損"
+      },
+      {
+       "CodeID": "CON",
+       "CodeName": "汙染"
+      },
+      {
+       "CodeID": "OTH",
+       "CodeName": "其他"
+      }
+     ]
+    },
+    "Columns": [
+     {
+      "BindField": "TxnType",
+      "Title": "異動類型",
+      "Width": 120,
+      "Align": "Center",
+      "Formatter": "Tag",
+      "OptionKey": "TxnType"
+     },
+     {
+      "BindField": "Qty",
+      "Title": "異動數量",
+      "Width": 120,
+      "Align": "Center"
+     },
+     {
+      "BindField": "TxnDate",
+      "Title": "異動日期",
+      "Width": 120,
+      "Align": "Left",
+      "Formatter": "Date"
+     },
+     {
+      "BindField": "LotNoInput",
+      "Title": "【入庫】批號",
+      "Width": 120,
+      "Align": "Left"
+     },
+     {
+      "BindField": "ExpiryDate",
+      "Title": "【入庫】有效日期",
+      "Width": 120,
+      "Align": "Left",
+      "Formatter": "Date"
+     }
+    ],
+    "FormFields": [
+     {
+      "BindField": "TxnType",
+      "Title": "異動類型",
+      "Component": "Select",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Validations": [
+       {
+        "Rule": "Required",
+        "Message": "異動類型為必填"
+       }
+      ],
+      "Props": {
+       "OptionKey": "TxnType"
+      },
+      "DefaultValue": "I"
+     },
+     {
+      "BindField": "ChemGuid",
+      "Title": "所屬藥品",
+      "Component": "Input",
+      "Section": "",
+      "Span": 12,
+      "Mode": "ReadOnly",
+      "Validations": [
+       {
+        "Rule": "Required",
+        "Message": "所屬藥品為必填"
+       }
+      ]
+     },
+     {
+      "BindField": "LotGuid",
+      "Title": "對應批號",
+      "Component": "Input",
+      "Section": "",
+      "Span": 12,
+      "Mode": "ReadOnly"
+     },
+     {
+      "BindField": "Qty",
+      "Title": "異動數量",
+      "Component": "Input",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Validations": [
+       {
+        "Rule": "Required",
+        "Message": "異動數量為必填"
+       }
+      ],
+      "Props": {
+       "Type": "number"
+      }
+     },
+     {
+      "BindField": "TxnDate",
+      "Title": "異動日期",
+      "Component": "DatePicker",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Validations": [
+       {
+        "Rule": "Required",
+        "Message": "異動日期為必填"
+       }
+      ],
+      "Props": {
+       "Mode": "Editable",
+       "ShowTime": false
+      }
+     },
+     {
+      "BindField": "LotNoInput",
+      "Title": "【入庫】批號",
+      "Component": "Input",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Validations": [
+       {
+        "Rule": "MaxLength",
+        "Value": 40,
+        "Message": "長度不可超過 40"
+       }
+      ]
+     },
+     {
+      "BindField": "ExpiryDate",
+      "Title": "【入庫】有效日期",
+      "Component": "DatePicker",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Props": {
+       "Mode": "Editable",
+       "ShowTime": false
+      }
+     },
+     {
+      "BindField": "UserName",
+      "Title": "【領用】領用人員",
+      "Component": "Input",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Validations": [
+       {
+        "Rule": "MaxLength",
+        "Value": 50,
+        "Message": "長度不可超過 50"
+       }
+      ]
+     },
+     {
+      "BindField": "Purpose",
+      "Title": "【領用】用途",
+      "Component": "Input",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Validations": [
+       {
+        "Rule": "MaxLength",
+        "Value": 200,
+        "Message": "長度不可超過 200"
+       }
+      ]
+     },
+     {
+      "BindField": "TestOrderNo",
+      "Title": "【領用】對應檢驗單編號",
+      "Component": "Input",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Validations": [
+       {
+        "Rule": "MaxLength",
+        "Value": 30,
+        "Message": "長度不可超過 30"
+       }
+      ]
+     },
+     {
+      "BindField": "ScrapReason",
+      "Title": "【報廢】報廢原因",
+      "Component": "Select",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Props": {
+       "OptionKey": "ScrapReason"
+      },
+      "DefaultValue": "EXP"
+     },
+     {
+      "BindField": "ReturnReason",
+      "Title": "【退貨】退貨原因",
+      "Component": "Input",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Validations": [
+       {
+        "Rule": "MaxLength",
+        "Value": 200,
+        "Message": "長度不可超過 200"
+       }
+      ]
+     },
+     {
+      "BindField": "ReturnTarget",
+      "Title": "【退貨】退貨對象",
+      "Component": "Input",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Validations": [
+       {
+        "Rule": "MaxLength",
+        "Value": 100,
+        "Message": "長度不可超過 100"
+       }
+      ]
+     },
+     {
+      "BindField": "Remark",
+      "Title": "備註",
+      "Component": "Input",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Validations": [
+       {
+        "Rule": "MaxLength",
+        "Value": 255,
+        "Message": "長度不可超過 255"
+       }
+      ]
+     }
+    ],
+    "SeedData": [
+     {
+      "RowGuid": "000002bc-0000-0000-0001-000000000045",
+      "EntityID": "lab",
+      "Status": "1",
+      "ChemCode": "CI-2026-0001",
+      "TxnType": "A",
+      "ChemGuid": "所屬藥品46",
+      "LotGuid": "對應批號46",
+      "Qty": 199,
+      "TxnDate": "2025-05-05",
+      "LotNoInput": "【入庫】批號46",
+      "ExpiryDate": "2025-08-09",
+      "UserName": "黃技正",
+      "Purpose": "【領用】用途46",
+      "TestOrderNo": "CT-2026-0046",
+      "ScrapReason": "EXP",
+      "ReturnReason": "",
+      "ReturnTarget": "【退貨】退貨對象46",
+      "Remark": "定期校正合格"
+     },
+     {
+      "RowGuid": "000002bc-0000-0000-0001-000000000046",
+      "EntityID": "lab",
+      "Status": "1",
+      "ChemCode": "CI-2026-0001",
+      "TxnType": "A",
+      "ChemGuid": "所屬藥品47",
+      "LotGuid": "對應批號47",
+      "Qty": 74,
+      "TxnDate": "2026-11-04",
+      "LotNoInput": "【入庫】批號47",
+      "ExpiryDate": "2026-01-28",
+      "UserName": "周技士",
+      "Purpose": "【領用】用途47",
+      "TestOrderNo": "CT-2025-0047",
+      "ScrapReason": "CON",
+      "ReturnReason": "待主管覆核",
+      "ReturnTarget": "【退貨】退貨對象47",
+      "Remark": "需注意保存效期"
+     },
+     {
+      "RowGuid": "000002bc-0000-0000-0001-000000000047",
+      "EntityID": "lab",
+      "Status": "1",
+      "ChemCode": "CI-2026-0001",
+      "TxnType": "A",
+      "ChemGuid": "所屬藥品48",
+      "LotGuid": "對應批號48",
+      "Qty": 5,
+      "TxnDate": "2025-01-07",
+      "LotNoInput": "【入庫】批號48",
+      "ExpiryDate": "2025-08-07",
+      "UserName": "楊化驗",
+      "Purpose": "【領用】用途48",
+      "TestOrderNo": "CT-2025-0048",
+      "ScrapReason": "OTH",
+      "ReturnReason": "定期校正合格",
+      "ReturnTarget": "【退貨】退貨對象48",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "000002bc-0000-0000-0001-000000000048",
+      "EntityID": "lab",
+      "Status": "1",
+      "ChemCode": "CI-2026-0001",
+      "TxnType": "R",
+      "ChemGuid": "所屬藥品49",
+      "LotGuid": "對應批號49",
+      "Qty": 170,
+      "TxnDate": "2026-09-04",
+      "LotNoInput": "【入庫】批號49",
+      "ExpiryDate": "2025-05-06",
+      "UserName": "蔡研究",
+      "Purpose": "【領用】用途49",
+      "TestOrderNo": "CT-2025-0049",
+      "ScrapReason": "EXP",
+      "ReturnReason": "樣品外觀正常",
+      "ReturnTarget": "【退貨】退貨對象49",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "000002bc-0000-0000-0001-000000000049",
+      "EntityID": "lab",
+      "Status": "1",
+      "ChemCode": "CI-2026-0002",
+      "TxnType": "O",
+      "ChemGuid": "所屬藥品50",
+      "LotGuid": "對應批號50",
+      "Qty": 178,
+      "TxnDate": "2025-12-11",
+      "LotNoInput": "【入庫】批號50",
+      "ExpiryDate": "2026-10-07",
+      "UserName": "郭品管",
+      "Purpose": "【領用】用途50",
+      "TestOrderNo": "CT-2025-0050",
+      "ScrapReason": "EXP",
+      "ReturnReason": "",
+      "ReturnTarget": "【退貨】退貨對象50",
+      "Remark": "需注意保存效期"
+     },
+     {
+      "RowGuid": "000002bc-0000-0000-0001-000000000050",
+      "EntityID": "lab",
+      "Status": "1",
+      "ChemCode": "CI-2026-0002",
+      "TxnType": "I",
+      "ChemGuid": "所屬藥品51",
+      "LotGuid": "對應批號51",
+      "Qty": 66,
+      "TxnDate": "2026-02-06",
+      "LotNoInput": "【入庫】批號51",
+      "ExpiryDate": "2026-10-12",
+      "UserName": "李檢測",
+      "Purpose": "【領用】用途51",
+      "TestOrderNo": "CT-2026-0051",
+      "ScrapReason": "CON",
+      "ReturnReason": "",
+      "ReturnTarget": "【退貨】退貨對象51",
+      "Remark": "已通知申請單位"
+     },
+     {
+      "RowGuid": "000002bc-0000-0000-0001-000000000051",
+      "EntityID": "lab",
+      "Status": "1",
+      "ChemCode": "CI-2026-0002",
+      "TxnType": "O",
+      "ChemGuid": "所屬藥品52",
+      "LotGuid": "對應批號52",
+      "Qty": 34,
+      "TxnDate": "2026-06-03",
+      "LotNoInput": "【入庫】批號52",
+      "ExpiryDate": "2025-09-27",
+      "UserName": "郭品管",
+      "Purpose": "【領用】用途52",
+      "TestOrderNo": "CT-2025-0052",
+      "ScrapReason": "DMG",
+      "ReturnReason": "",
+      "ReturnTarget": "【退貨】退貨對象52",
+      "Remark": "複驗確認無誤"
+     },
+     {
+      "RowGuid": "000002bc-0000-0000-0001-000000000052",
+      "EntityID": "lab",
+      "Status": "1",
+      "ChemCode": "CI-2026-0002",
+      "TxnType": "O",
+      "ChemGuid": "所屬藥品53",
+      "LotGuid": "對應批號53",
+      "Qty": 1,
+      "TxnDate": "2025-08-24",
+      "LotNoInput": "【入庫】批號53",
+      "ExpiryDate": "2025-06-07",
+      "UserName": "周技士",
+      "Purpose": "【領用】用途53",
+      "TestOrderNo": "CT-2025-0053",
+      "ScrapReason": "EXP",
+      "ReturnReason": "複驗確認無誤",
+      "ReturnTarget": "【退貨】退貨對象53",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "000002bc-0000-0000-0001-000000000053",
+      "EntityID": "lab",
+      "Status": "1",
+      "ChemCode": "CI-2026-0003",
+      "TxnType": "S",
+      "ChemGuid": "所屬藥品54",
+      "LotGuid": "對應批號54",
+      "Qty": 112,
+      "TxnDate": "2025-05-22",
+      "LotNoInput": "【入庫】批號54",
+      "ExpiryDate": "2026-01-24",
+      "UserName": "楊化驗",
+      "Purpose": "【領用】用途54",
+      "TestOrderNo": "CT-2025-0054",
+      "ScrapReason": "EXP",
+      "ReturnReason": "",
+      "ReturnTarget": "【退貨】退貨對象54",
+      "Remark": "已通知申請單位"
+     },
+     {
+      "RowGuid": "000002bc-0000-0000-0001-000000000054",
+      "EntityID": "lab",
+      "Status": "1",
+      "ChemCode": "CI-2026-0003",
+      "TxnType": "I",
+      "ChemGuid": "所屬藥品55",
+      "LotGuid": "對應批號55",
+      "Qty": 6,
+      "TxnDate": "2025-11-14",
+      "LotNoInput": "【入庫】批號55",
+      "ExpiryDate": "2025-01-20",
+      "UserName": "劉助理",
+      "Purpose": "【領用】用途55",
+      "TestOrderNo": "CT-2025-0055",
+      "ScrapReason": "CON",
+      "ReturnReason": "",
+      "ReturnTarget": "【退貨】退貨對象55",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "000002bc-0000-0000-0001-000000000055",
+      "EntityID": "lab",
+      "Status": "1",
+      "ChemCode": "CI-2026-0003",
+      "TxnType": "I",
+      "ChemGuid": "所屬藥品56",
+      "LotGuid": "對應批號56",
+      "Qty": 174,
+      "TxnDate": "2025-05-06",
+      "LotNoInput": "【入庫】批號56",
+      "ExpiryDate": "2026-09-21",
+      "UserName": "吳主任",
+      "Purpose": "【領用】用途56",
+      "TestOrderNo": "CT-2026-0056",
+      "ScrapReason": "CON",
+      "ReturnReason": "定期校正合格",
+      "ReturnTarget": "【退貨】退貨對象56",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "000002bc-0000-0000-0001-000000000056",
+      "EntityID": "lab",
+      "Status": "1",
+      "ChemCode": "CI-2026-0004",
+      "TxnType": "A",
+      "ChemGuid": "所屬藥品57",
+      "LotGuid": "對應批號57",
+      "Qty": 158,
+      "TxnDate": "2025-05-10",
+      "LotNoInput": "【入庫】批號57",
+      "ExpiryDate": "2026-04-11",
+      "UserName": "張分析",
+      "Purpose": "【領用】用途57",
+      "TestOrderNo": "CT-2026-0057",
+      "ScrapReason": "EXP",
+      "ReturnReason": "已通知申請單位",
+      "ReturnTarget": "【退貨】退貨對象57",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "000002bc-0000-0000-0001-000000000057",
+      "EntityID": "lab",
+      "Status": "1",
+      "ChemCode": "CI-2026-0004",
+      "TxnType": "A",
+      "ChemGuid": "所屬藥品58",
+      "LotGuid": "對應批號58",
+      "Qty": 139,
+      "TxnDate": "2025-12-01",
+      "LotNoInput": "【入庫】批號58",
+      "ExpiryDate": "2026-03-19",
+      "UserName": "劉助理",
+      "Purpose": "【領用】用途58",
+      "TestOrderNo": "CT-2025-0058",
+      "ScrapReason": "DMG",
+      "ReturnReason": "需注意保存效期",
+      "ReturnTarget": "【退貨】退貨對象58",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "000002bc-0000-0000-0001-000000000058",
+      "EntityID": "lab",
+      "Status": "1",
+      "ChemCode": "CI-2026-0005",
+      "TxnType": "I",
+      "ChemGuid": "所屬藥品59",
+      "LotGuid": "對應批號59",
+      "Qty": 163,
+      "TxnDate": "2026-02-03",
+      "LotNoInput": "【入庫】批號59",
+      "ExpiryDate": "2025-03-14",
+      "UserName": "謝校正",
+      "Purpose": "【領用】用途59",
+      "TestOrderNo": "CT-2025-0059",
+      "ScrapReason": "EXP",
+      "ReturnReason": "",
+      "ReturnTarget": "【退貨】退貨對象59",
+      "Remark": "定期校正合格"
+     },
+     {
+      "RowGuid": "000002bc-0000-0000-0001-000000000059",
+      "EntityID": "lab",
+      "Status": "1",
+      "ChemCode": "CI-2026-0005",
+      "TxnType": "I",
+      "ChemGuid": "所屬藥品60",
+      "LotGuid": "對應批號60",
+      "Qty": 194,
+      "TxnDate": "2026-11-12",
+      "LotNoInput": "【入庫】批號60",
+      "ExpiryDate": "2026-09-16",
+      "UserName": "陳審核",
+      "Purpose": "【領用】用途60",
+      "TestOrderNo": "CT-2026-0060",
+      "ScrapReason": "OTH",
+      "ReturnReason": "複驗確認無誤",
+      "ReturnTarget": "【退貨】退貨對象60",
+      "Remark": "複驗確認無誤"
+     },
+     {
+      "RowGuid": "000002bc-0000-0000-0001-000000000060",
+      "EntityID": "lab",
+      "Status": "1",
+      "ChemCode": "CI-2026-0006",
+      "TxnType": "S",
+      "ChemGuid": "所屬藥品61",
+      "LotGuid": "對應批號61",
+      "Qty": 59,
+      "TxnDate": "2026-09-11",
+      "LotNoInput": "【入庫】批號61",
+      "ExpiryDate": "2026-10-08",
+      "UserName": "周技士",
+      "Purpose": "【領用】用途61",
+      "TestOrderNo": "CT-2026-0061",
+      "ScrapReason": "CON",
+      "ReturnReason": "已通知申請單位",
+      "ReturnTarget": "【退貨】退貨對象61",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "000002bc-0000-0000-0001-000000000061",
+      "EntityID": "lab",
+      "Status": "1",
+      "ChemCode": "CI-2026-0006",
+      "TxnType": "R",
+      "ChemGuid": "所屬藥品62",
+      "LotGuid": "對應批號62",
+      "Qty": 76,
+      "TxnDate": "2025-09-23",
+      "LotNoInput": "【入庫】批號62",
+      "ExpiryDate": "2026-11-24",
+      "UserName": "蔡研究",
+      "Purpose": "【領用】用途62",
+      "TestOrderNo": "CT-2026-0062",
+      "ScrapReason": "OTH",
+      "ReturnReason": "客戶要求附 TAF Logo",
+      "ReturnTarget": "【退貨】退貨對象62",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "000002bc-0000-0000-0001-000000000062",
+      "EntityID": "lab",
+      "Status": "1",
+      "ChemCode": "CI-2026-0007",
+      "TxnType": "O",
+      "ChemGuid": "所屬藥品63",
+      "LotGuid": "對應批號63",
+      "Qty": 46,
+      "TxnDate": "2026-07-05",
+      "LotNoInput": "【入庫】批號63",
+      "ExpiryDate": "2026-12-19",
+      "UserName": "李檢測",
+      "Purpose": "【領用】用途63",
+      "TestOrderNo": "CT-2026-0063",
+      "ScrapReason": "DMG",
+      "ReturnReason": "",
+      "ReturnTarget": "【退貨】退貨對象63",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "000002bc-0000-0000-0001-000000000063",
+      "EntityID": "lab",
+      "Status": "1",
+      "ChemCode": "CI-2026-0007",
+      "TxnType": "S",
+      "ChemGuid": "所屬藥品64",
+      "LotGuid": "對應批號64",
+      "Qty": 123,
+      "TxnDate": "2026-06-15",
+      "LotNoInput": "【入庫】批號64",
+      "ExpiryDate": "2025-10-10",
+      "UserName": "許工程",
+      "Purpose": "【領用】用途64",
+      "TestOrderNo": "CT-2026-0064",
+      "ScrapReason": "EXP",
+      "ReturnReason": "",
+      "ReturnTarget": "【退貨】退貨對象64",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "000002bc-0000-0000-0001-000000000064",
+      "EntityID": "lab",
+      "Status": "1",
+      "ChemCode": "CI-2026-0007",
+      "TxnType": "I",
+      "ChemGuid": "所屬藥品65",
+      "LotGuid": "對應批號65",
+      "Qty": 46,
+      "TxnDate": "2026-03-27",
+      "LotNoInput": "【入庫】批號65",
+      "ExpiryDate": "2025-08-19",
+      "UserName": "蔡研究",
+      "Purpose": "【領用】用途65",
+      "TestOrderNo": "CT-2026-0065",
+      "ScrapReason": "EXP",
+      "ReturnReason": "",
+      "ReturnTarget": "【退貨】退貨對象65",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "000002bc-0000-0000-0001-000000000065",
+      "EntityID": "lab",
+      "Status": "1",
+      "ChemCode": "CI-2026-0007",
+      "TxnType": "R",
+      "ChemGuid": "所屬藥品66",
+      "LotGuid": "對應批號66",
+      "Qty": 25,
+      "TxnDate": "2025-10-19",
+      "LotNoInput": "【入庫】批號66",
+      "ExpiryDate": "2026-02-12",
+      "UserName": "張分析",
+      "Purpose": "【領用】用途66",
+      "TestOrderNo": "CT-2026-0066",
+      "ScrapReason": "CON",
+      "ReturnReason": "需注意保存效期",
+      "ReturnTarget": "【退貨】退貨對象66",
+      "Remark": "定期校正合格"
+     },
+     {
+      "RowGuid": "000002bc-0000-0000-0001-000000000066",
+      "EntityID": "lab",
+      "Status": "1",
+      "ChemCode": "CI-2026-0008",
+      "TxnType": "I",
+      "ChemGuid": "所屬藥品67",
+      "LotGuid": "對應批號67",
+      "Qty": 19,
+      "TxnDate": "2025-06-12",
+      "LotNoInput": "【入庫】批號67",
+      "ExpiryDate": "2025-11-02",
+      "UserName": "黃技正",
+      "Purpose": "【領用】用途67",
+      "TestOrderNo": "CT-2025-0067",
+      "ScrapReason": "DMG",
+      "ReturnReason": "",
+      "ReturnTarget": "【退貨】退貨對象67",
+      "Remark": "定期校正合格"
+     },
+     {
+      "RowGuid": "000002bc-0000-0000-0001-000000000067",
+      "EntityID": "lab",
+      "Status": "1",
+      "ChemCode": "CI-2026-0008",
+      "TxnType": "S",
+      "ChemGuid": "所屬藥品68",
+      "LotGuid": "對應批號68",
+      "Qty": 108,
+      "TxnDate": "2025-08-10",
+      "LotNoInput": "【入庫】批號68",
+      "ExpiryDate": "2025-04-23",
+      "UserName": "吳主任",
+      "Purpose": "【領用】用途68",
+      "TestOrderNo": "CT-2025-0068",
+      "ScrapReason": "EXP",
+      "ReturnReason": "急件已加收費用",
+      "ReturnTarget": "【退貨】退貨對象68",
+      "Remark": "需注意保存效期"
+     },
+     {
+      "RowGuid": "000002bc-0000-0000-0001-000000000068",
+      "EntityID": "lab",
+      "Status": "1",
+      "ChemCode": "CI-2026-0008",
+      "TxnType": "I",
+      "ChemGuid": "所屬藥品69",
+      "LotGuid": "對應批號69",
+      "Qty": 56,
+      "TxnDate": "2026-01-14",
+      "LotNoInput": "【入庫】批號69",
+      "ExpiryDate": "2025-07-15",
+      "UserName": "楊化驗",
+      "Purpose": "【領用】用途69",
+      "TestOrderNo": "CT-2026-0069",
+      "ScrapReason": "DMG",
+      "ReturnReason": "",
+      "ReturnTarget": "【退貨】退貨對象69",
+      "Remark": "需注意保存效期"
+     },
+     {
+      "RowGuid": "000002bc-0000-0000-0001-000000000069",
+      "EntityID": "lab",
+      "Status": "1",
+      "ChemCode": "CI-2026-0009",
+      "TxnType": "I",
+      "ChemGuid": "所屬藥品70",
+      "LotGuid": "對應批號70",
+      "Qty": 102,
+      "TxnDate": "2025-07-22",
+      "LotNoInput": "【入庫】批號70",
+      "ExpiryDate": "2025-12-01",
+      "UserName": "周技士",
+      "Purpose": "【領用】用途70",
+      "TestOrderNo": "CT-2026-0070",
+      "ScrapReason": "EXP",
+      "ReturnReason": "",
+      "ReturnTarget": "【退貨】退貨對象70",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "000002bc-0000-0000-0001-000000000070",
+      "EntityID": "lab",
+      "Status": "1",
+      "ChemCode": "CI-2026-0009",
+      "TxnType": "I",
+      "ChemGuid": "所屬藥品71",
+      "LotGuid": "對應批號71",
+      "Qty": 181,
+      "TxnDate": "2025-10-06",
+      "LotNoInput": "【入庫】批號71",
+      "ExpiryDate": "2026-05-01",
+      "UserName": "黃技正",
+      "Purpose": "【領用】用途71",
+      "TestOrderNo": "CT-2026-0071",
+      "ScrapReason": "DMG",
+      "ReturnReason": "待主管覆核",
+      "ReturnTarget": "【退貨】退貨對象71",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "000002bc-0000-0000-0001-000000000071",
+      "EntityID": "lab",
+      "Status": "1",
+      "ChemCode": "CI-2026-0010",
+      "TxnType": "I",
+      "ChemGuid": "所屬藥品72",
+      "LotGuid": "對應批號72",
+      "Qty": 78,
+      "TxnDate": "2025-02-13",
+      "LotNoInput": "【入庫】批號72",
+      "ExpiryDate": "2026-05-25",
+      "UserName": "李檢測",
+      "Purpose": "【領用】用途72",
+      "TestOrderNo": "CT-2025-0072",
+      "ScrapReason": "EXP",
+      "ReturnReason": "複驗確認無誤",
+      "ReturnTarget": "【退貨】退貨對象72",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "000002bc-0000-0000-0001-000000000072",
+      "EntityID": "lab",
+      "Status": "1",
+      "ChemCode": "CI-2026-0010",
+      "TxnType": "O",
+      "ChemGuid": "所屬藥品73",
+      "LotGuid": "對應批號73",
+      "Qty": 113,
+      "TxnDate": "2026-04-12",
+      "LotNoInput": "【入庫】批號73",
+      "ExpiryDate": "2026-09-17",
+      "UserName": "劉助理",
+      "Purpose": "【領用】用途73",
+      "TestOrderNo": "CT-2026-0073",
+      "ScrapReason": "EXP",
+      "ReturnReason": "",
+      "ReturnTarget": "【退貨】退貨對象73",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "000002bc-0000-0000-0001-000000000073",
+      "EntityID": "lab",
+      "Status": "1",
+      "ChemCode": "CI-2026-0010",
+      "TxnType": "I",
+      "ChemGuid": "所屬藥品74",
+      "LotGuid": "對應批號74",
+      "Qty": 186,
+      "TxnDate": "2025-03-26",
+      "LotNoInput": "【入庫】批號74",
+      "ExpiryDate": "2025-04-28",
+      "UserName": "陳審核",
+      "Purpose": "【領用】用途74",
+      "TestOrderNo": "CT-2026-0074",
+      "ScrapReason": "CON",
+      "ReturnReason": "",
+      "ReturnTarget": "【退貨】退貨對象74",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "000002bc-0000-0000-0001-000000000074",
+      "EntityID": "lab",
+      "Status": "1",
+      "ChemCode": "CI-2026-0010",
+      "TxnType": "S",
+      "ChemGuid": "所屬藥品75",
+      "LotGuid": "對應批號75",
+      "Qty": 128,
+      "TxnDate": "2026-05-19",
+      "LotNoInput": "【入庫】批號75",
+      "ExpiryDate": "2025-10-01",
+      "UserName": "楊化驗",
+      "Purpose": "【領用】用途75",
+      "TestOrderNo": "CT-2026-0075",
+      "ScrapReason": "OTH",
+      "ReturnReason": "",
+      "ReturnTarget": "【退貨】退貨對象75",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "000002bc-0000-0000-0001-000000000075",
+      "EntityID": "lab",
+      "Status": "1",
+      "ChemCode": "CI-2026-0011",
+      "TxnType": "O",
+      "ChemGuid": "所屬藥品76",
+      "LotGuid": "對應批號76",
+      "Qty": 38,
+      "TxnDate": "2026-02-10",
+      "LotNoInput": "【入庫】批號76",
+      "ExpiryDate": "2025-07-07",
+      "UserName": "謝校正",
+      "Purpose": "【領用】用途76",
+      "TestOrderNo": "CT-2025-0076",
+      "ScrapReason": "OTH",
+      "ReturnReason": "",
+      "ReturnTarget": "【退貨】退貨對象76",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "000002bc-0000-0000-0001-000000000076",
+      "EntityID": "lab",
+      "Status": "1",
+      "ChemCode": "CI-2026-0011",
+      "TxnType": "O",
+      "ChemGuid": "所屬藥品77",
+      "LotGuid": "對應批號77",
+      "Qty": 16,
+      "TxnDate": "2026-11-21",
+      "LotNoInput": "【入庫】批號77",
+      "ExpiryDate": "2025-12-11",
+      "UserName": "謝校正",
+      "Purpose": "【領用】用途77",
+      "TestOrderNo": "CT-2025-0077",
+      "ScrapReason": "DMG",
+      "ReturnReason": "",
+      "ReturnTarget": "【退貨】退貨對象77",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "000002bc-0000-0000-0001-000000000077",
+      "EntityID": "lab",
+      "Status": "1",
+      "ChemCode": "CI-2026-0011",
+      "TxnType": "I",
+      "ChemGuid": "所屬藥品78",
+      "LotGuid": "對應批號78",
+      "Qty": 71,
+      "TxnDate": "2026-12-21",
+      "LotNoInput": "【入庫】批號78",
+      "ExpiryDate": "2025-11-16",
+      "UserName": "許工程",
+      "Purpose": "【領用】用途78",
+      "TestOrderNo": "CT-2025-0078",
+      "ScrapReason": "EXP",
+      "ReturnReason": "",
+      "ReturnTarget": "【退貨】退貨對象78",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "000002bc-0000-0000-0001-000000000078",
+      "EntityID": "lab",
+      "Status": "1",
+      "ChemCode": "CI-2026-0012",
+      "TxnType": "A",
+      "ChemGuid": "所屬藥品79",
+      "LotGuid": "對應批號79",
+      "Qty": 53,
+      "TxnDate": "2026-02-14",
+      "LotNoInput": "【入庫】批號79",
+      "ExpiryDate": "2025-12-26",
+      "UserName": "楊化驗",
+      "Purpose": "【領用】用途79",
+      "TestOrderNo": "CT-2025-0079",
+      "ScrapReason": "OTH",
+      "ReturnReason": "需注意保存效期",
+      "ReturnTarget": "【退貨】退貨對象79",
+      "Remark": "待主管覆核"
+     },
+     {
+      "RowGuid": "000002bc-0000-0000-0001-000000000079",
+      "EntityID": "lab",
+      "Status": "1",
+      "ChemCode": "CI-2026-0012",
+      "TxnType": "I",
+      "ChemGuid": "所屬藥品80",
+      "LotGuid": "對應批號80",
+      "Qty": 199,
+      "TxnDate": "2025-03-06",
+      "LotNoInput": "【入庫】批號80",
+      "ExpiryDate": "2026-09-15",
+      "UserName": "張分析",
+      "Purpose": "【領用】用途80",
+      "TestOrderNo": "CT-2025-0080",
+      "ScrapReason": "CON",
+      "ReturnReason": "",
+      "ReturnTarget": "【退貨】退貨對象80",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "000002bc-0000-0000-0001-000000000080",
+      "EntityID": "lab",
+      "Status": "1",
+      "ChemCode": "CI-2026-0012",
+      "TxnType": "S",
+      "ChemGuid": "所屬藥品81",
+      "LotGuid": "對應批號81",
+      "Qty": 178,
+      "TxnDate": "2025-11-08",
+      "LotNoInput": "【入庫】批號81",
+      "ExpiryDate": "2025-07-15",
+      "UserName": "郭品管",
+      "Purpose": "【領用】用途81",
+      "TestOrderNo": "CT-2026-0081",
+      "ScrapReason": "EXP",
+      "ReturnReason": "需注意保存效期",
+      "ReturnTarget": "【退貨】退貨對象81",
+      "Remark": "客戶要求附 TAF Logo"
+     },
+     {
+      "RowGuid": "000002bc-0000-0000-0001-000000000081",
+      "EntityID": "lab",
+      "Status": "1",
+      "ChemCode": "CI-2026-0012",
+      "TxnType": "S",
+      "ChemGuid": "所屬藥品82",
+      "LotGuid": "對應批號82",
+      "Qty": 97,
+      "TxnDate": "2025-07-15",
+      "LotNoInput": "【入庫】批號82",
+      "ExpiryDate": "2026-01-17",
+      "UserName": "陳審核",
+      "Purpose": "【領用】用途82",
+      "TestOrderNo": "CT-2025-0082",
+      "ScrapReason": "EXP",
+      "ReturnReason": "需注意保存效期",
+      "ReturnTarget": "【退貨】退貨對象82",
+      "Remark": "複驗確認無誤"
+     },
+     {
+      "RowGuid": "000002bc-0000-0000-0001-000000000082",
+      "EntityID": "lab",
+      "Status": "1",
+      "ChemCode": "CI-2026-0013",
+      "TxnType": "I",
+      "ChemGuid": "所屬藥品83",
+      "LotGuid": "對應批號83",
+      "Qty": 133,
+      "TxnDate": "2025-01-27",
+      "LotNoInput": "【入庫】批號83",
+      "ExpiryDate": "2026-10-20",
+      "UserName": "王采樣",
+      "Purpose": "【領用】用途83",
+      "TestOrderNo": "CT-2026-0083",
+      "ScrapReason": "CON",
+      "ReturnReason": "",
+      "ReturnTarget": "【退貨】退貨對象83",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "000002bc-0000-0000-0001-000000000083",
+      "EntityID": "lab",
+      "Status": "1",
+      "ChemCode": "CI-2026-0013",
+      "TxnType": "I",
+      "ChemGuid": "所屬藥品84",
+      "LotGuid": "對應批號84",
+      "Qty": 40,
+      "TxnDate": "2025-01-04",
+      "LotNoInput": "【入庫】批號84",
+      "ExpiryDate": "2026-05-20",
+      "UserName": "陳審核",
+      "Purpose": "【領用】用途84",
+      "TestOrderNo": "CT-2025-0084",
+      "ScrapReason": "EXP",
+      "ReturnReason": "",
+      "ReturnTarget": "【退貨】退貨對象84",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "000002bc-0000-0000-0001-000000000084",
+      "EntityID": "lab",
+      "Status": "1",
+      "ChemCode": "CI-2026-0013",
+      "TxnType": "O",
+      "ChemGuid": "所屬藥品85",
+      "LotGuid": "對應批號85",
+      "Qty": 110,
+      "TxnDate": "2026-01-13",
+      "LotNoInput": "【入庫】批號85",
+      "ExpiryDate": "2025-02-28",
+      "UserName": "周技士",
+      "Purpose": "【領用】用途85",
+      "TestOrderNo": "CT-2025-0085",
+      "ScrapReason": "OTH",
+      "ReturnReason": "",
+      "ReturnTarget": "【退貨】退貨對象85",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "000002bc-0000-0000-0001-000000000085",
+      "EntityID": "lab",
+      "Status": "1",
+      "ChemCode": "CI-2026-0014",
+      "TxnType": "I",
+      "ChemGuid": "所屬藥品86",
+      "LotGuid": "對應批號86",
+      "Qty": 64,
+      "TxnDate": "2025-04-24",
+      "LotNoInput": "【入庫】批號86",
+      "ExpiryDate": "2026-11-27",
+      "UserName": "楊化驗",
+      "Purpose": "【領用】用途86",
+      "TestOrderNo": "CT-2025-0086",
+      "ScrapReason": "CON",
+      "ReturnReason": "急件已加收費用",
+      "ReturnTarget": "【退貨】退貨對象86",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "000002bc-0000-0000-0001-000000000086",
+      "EntityID": "lab",
+      "Status": "1",
+      "ChemCode": "CI-2026-0014",
+      "TxnType": "I",
+      "ChemGuid": "所屬藥品87",
+      "LotGuid": "對應批號87",
+      "Qty": 51,
+      "TxnDate": "2026-06-17",
+      "LotNoInput": "【入庫】批號87",
+      "ExpiryDate": "2025-09-01",
+      "UserName": "陳審核",
+      "Purpose": "【領用】用途87",
+      "TestOrderNo": "CT-2025-0087",
+      "ScrapReason": "EXP",
+      "ReturnReason": "",
+      "ReturnTarget": "【退貨】退貨對象87",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "000002bc-0000-0000-0001-000000000087",
+      "EntityID": "lab",
+      "Status": "1",
+      "ChemCode": "CI-2026-0014",
+      "TxnType": "R",
+      "ChemGuid": "所屬藥品88",
+      "LotGuid": "對應批號88",
+      "Qty": 120,
+      "TxnDate": "2025-12-26",
+      "LotNoInput": "【入庫】批號88",
+      "ExpiryDate": "2026-09-28",
+      "UserName": "李檢測",
+      "Purpose": "【領用】用途88",
+      "TestOrderNo": "CT-2026-0088",
+      "ScrapReason": "EXP",
+      "ReturnReason": "需注意保存效期",
+      "ReturnTarget": "【退貨】退貨對象88",
+      "Remark": "已通知申請單位"
+     }
+    ]
+   }
+  ]
+ },
+ "Features": {},
+ "DataScope": {
+  "DefaultWhere": "EntityID = 'lab' AND Status = '1'",
+  "AuthLevel": 2,
+  "SortExp": "SortNo ASC",
+  "DataConfig": {
+   "RowLimit": 2000,
+   "AllowExport": true
+  }
+ },
+ "CustomMeta": {
+  "CustomSchema": {
+   "WidgetType": "Grid",
+   "KeyField": "ChemNo",
+   "TitleField": "ChemName",
+   "ParentKeyField": null,
+   "PathField": null,
+   "PathSeparator": "/"
+  }
+ },
+ "SeedData": [
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000000",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-03-15 12:26",
+   "UpdatedBy": "cheng.gl",
+   "UpdatedAt": "2026-11-18 09:17",
+   "ChemNo": "CI-2026-0001",
+   "CategoryGuid": "所屬分類01",
+   "ChemName": "硫酸 98%",
+   "ChemNameEn": "劉助理",
+   "CasNo": "CI-2025-0001",
+   "SpecConcentration": "規格-濃度01",
+   "SpecPurity": "規格-純度01",
+   "SpecVolume": "規格-容量01",
+   "SupplierName": "何環安",
+   "Manufacturer": "製造商01",
+   "StorageCondition": "保存條件01",
+   "SafetyStockQty": 162,
+   "Unit": "M031 環安處",
+   "Attributes": "擴展屬性01",
+   "ChemCode": "CI-2026-0001"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000001",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-04-16 10:35",
+   "UpdatedBy": "hsu.eng",
+   "UpdatedAt": "2026-03-20 15:18",
+   "ChemNo": "CI-2026-0002",
+   "CategoryGuid": "所屬分類02",
+   "ChemName": "硝酸 65%",
+   "ChemNameEn": "劉助理",
+   "CasNo": "CI-2026-0002",
+   "SpecConcentration": "規格-濃度02",
+   "SpecPurity": "規格-純度02",
+   "SpecVolume": "規格-容量02",
+   "SupplierName": "張分析",
+   "Manufacturer": "製造商02",
+   "StorageCondition": "保存條件02",
+   "SafetyStockQty": 15,
+   "Unit": "R001 研發中心",
+   "Attributes": "擴展屬性02",
+   "ChemCode": "CI-2026-0002"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000002",
+   "EntityID": "lab",
+   "Status": "0",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-08-25 15:24",
+   "UpdatedBy": "lin.pb",
+   "UpdatedAt": "2026-03-04 14:28",
+   "ChemNo": "CI-2025-0003",
+   "CategoryGuid": "所屬分類03",
+   "ChemName": "鹽酸 37%",
+   "ChemNameEn": "陳審核",
+   "CasNo": "CI-2025-0003",
+   "SpecConcentration": "規格-濃度03",
+   "SpecPurity": "規格-純度03",
+   "SpecVolume": "規格-容量03",
+   "SupplierName": "張分析",
+   "Manufacturer": "製造商03",
+   "StorageCondition": "保存條件03",
+   "SafetyStockQty": 105,
+   "Unit": "M051 製造二處",
+   "Attributes": "擴展屬性03",
+   "ChemCode": "CI-2026-0003"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000003",
+   "EntityID": "lab",
+   "Status": "0",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-01-17 17:16",
+   "UpdatedBy": "liu.as",
+   "UpdatedAt": "2026-02-06 13:16",
+   "ChemNo": "CI-2025-0004",
+   "CategoryGuid": "所屬分類04",
+   "ChemName": "氫氧化鈉",
+   "ChemNameEn": "周技士",
+   "CasNo": "CI-2025-0004",
+   "SpecConcentration": "規格-濃度04",
+   "SpecPurity": "規格-純度04",
+   "SpecVolume": "規格-容量04",
+   "SupplierName": "蔡研究",
+   "Manufacturer": "製造商04",
+   "StorageCondition": "保存條件04",
+   "SafetyStockQty": 108,
+   "Unit": "M051 製造二處",
+   "Attributes": "擴展屬性04",
+   "ChemCode": "CI-2026-0004"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000004",
+   "EntityID": "lab",
+   "Status": "0",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-08-24 16:12",
+   "UpdatedBy": "wang.cy",
+   "UpdatedAt": "2026-04-15 10:24",
+   "ChemNo": "CI-2026-0005",
+   "CategoryGuid": "所屬分類05",
+   "ChemName": "重鉻酸鉀",
+   "ChemNameEn": "王采樣",
+   "CasNo": "CI-2025-0005",
+   "SpecConcentration": "規格-濃度05",
+   "SpecPurity": "規格-純度05",
+   "SpecVolume": "規格-容量05",
+   "SupplierName": "楊化驗",
+   "Manufacturer": "製造商05",
+   "StorageCondition": "保存條件05",
+   "SafetyStockQty": 16,
+   "Unit": "M051 製造二處",
+   "Attributes": "擴展屬性05",
+   "ChemCode": "CI-2026-0005"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000005",
+   "EntityID": "lab",
+   "Status": "0",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-06-13 16:22",
+   "UpdatedBy": "abram.chen",
+   "UpdatedAt": "2026-09-21 14:09",
+   "ChemNo": "CI-2026-0006",
+   "CategoryGuid": "所屬分類06",
+   "ChemName": "硫酸銀",
+   "ChemNameEn": "黃技正",
+   "CasNo": "CI-2025-0006",
+   "SpecConcentration": "規格-濃度06",
+   "SpecPurity": "規格-純度06",
+   "SpecVolume": "規格-容量06",
+   "SupplierName": "周技士",
+   "Manufacturer": "製造商06",
+   "StorageCondition": "保存條件06",
+   "SafetyStockQty": 128,
+   "Unit": "M011 工程處",
+   "Attributes": "擴展屬性06",
+   "ChemCode": "CI-2026-0006"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000006",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-07-13 17:25",
+   "UpdatedBy": "wang.cy",
+   "UpdatedAt": "2026-06-22 18:18",
+   "ChemNo": "CI-2026-0007",
+   "CategoryGuid": "所屬分類07",
+   "ChemName": "EDTA 二鈉鹽",
+   "ChemNameEn": "周技士",
+   "CasNo": "CI-2026-0007",
+   "SpecConcentration": "規格-濃度07",
+   "SpecPurity": "規格-純度07",
+   "SpecVolume": "規格-容量07",
+   "SupplierName": "楊化驗",
+   "Manufacturer": "製造商07",
+   "StorageCondition": "保存條件07",
+   "SafetyStockQty": 14,
+   "Unit": "M021 品保處",
+   "Attributes": "擴展屬性07",
+   "ChemCode": "CI-2026-0007"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000007",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-12-12 09:38",
+   "UpdatedBy": "wang.cy",
+   "UpdatedAt": "2026-12-03 13:17",
+   "ChemNo": "CI-2026-0008",
+   "CategoryGuid": "所屬分類08",
+   "ChemName": "鎘標準液 1000ppm",
+   "ChemNameEn": "楊化驗",
+   "CasNo": "CI-2025-0008",
+   "SpecConcentration": "規格-濃度08",
+   "SpecPurity": "規格-純度08",
+   "SpecVolume": "規格-容量08",
+   "SupplierName": "蔡研究",
+   "Manufacturer": "製造商08",
+   "StorageCondition": "保存條件08",
+   "SafetyStockQty": 30,
+   "Unit": "M031 環安處",
+   "Attributes": "擴展屬性08",
+   "ChemCode": "CI-2026-0008"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000008",
+   "EntityID": "lab",
+   "Status": "0",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-02-01 17:13",
+   "UpdatedBy": "abram.chen",
+   "UpdatedAt": "2026-04-18 10:33",
+   "ChemNo": "CI-2025-0009",
+   "CategoryGuid": "所屬分類09",
+   "ChemName": "鉛標準液 1000ppm",
+   "ChemNameEn": "王采樣",
+   "CasNo": "CI-2025-0009",
+   "SpecConcentration": "規格-濃度09",
+   "SpecPurity": "規格-純度09",
+   "SpecVolume": "規格-容量09",
+   "SupplierName": "楊化驗",
+   "Manufacturer": "製造商09",
+   "StorageCondition": "保存條件09",
+   "SafetyStockQty": 114,
+   "Unit": "M011 工程處",
+   "Attributes": "擴展屬性09",
+   "ChemCode": "CI-2026-0009"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000009",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-07-15 15:16",
+   "UpdatedBy": "huang.tc",
+   "UpdatedAt": "2026-01-01 12:27",
+   "ChemNo": "CI-2026-0010",
+   "CategoryGuid": "所屬分類10",
+   "ChemName": "緩衝溶液 pH7",
+   "ChemNameEn": "謝校正",
+   "CasNo": "CI-2025-0010",
+   "SpecConcentration": "規格-濃度10",
+   "SpecPurity": "規格-純度10",
+   "SpecVolume": "規格-容量10",
+   "SupplierName": "李檢測",
+   "Manufacturer": "製造商10",
+   "StorageCondition": "保存條件10",
+   "SafetyStockQty": 91,
+   "Unit": "M021 品保處",
+   "Attributes": "擴展屬性10",
+   "ChemCode": "CI-2026-0010"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000010",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-09-14 16:25",
+   "UpdatedBy": "wang.cy",
+   "UpdatedAt": "2026-05-14 14:35",
+   "ChemNo": "CI-2025-0011",
+   "CategoryGuid": "所屬分類11",
+   "ChemName": "去離子水",
+   "ChemNameEn": "陳審核",
+   "CasNo": "CI-2025-0011",
+   "SpecConcentration": "規格-濃度11",
+   "SpecPurity": "規格-純度11",
+   "SpecVolume": "規格-容量11",
+   "SupplierName": "李檢測",
+   "Manufacturer": "製造商11",
+   "StorageCondition": "保存條件11",
+   "SafetyStockQty": 171,
+   "Unit": "R001 研發中心",
+   "Attributes": "擴展屬性11",
+   "ChemCode": "CI-2026-0011"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000011",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-08-25 15:12",
+   "UpdatedBy": "chang.fa",
+   "UpdatedAt": "2026-10-09 12:14",
+   "ChemNo": "CI-2025-0012",
+   "CategoryGuid": "所屬分類12",
+   "ChemName": "過硫酸鉀",
+   "ChemNameEn": "王采樣",
+   "CasNo": "CI-2026-0012",
+   "SpecConcentration": "規格-濃度12",
+   "SpecPurity": "規格-純度12",
+   "SpecVolume": "規格-容量12",
+   "SupplierName": "王采樣",
+   "Manufacturer": "製造商12",
+   "StorageCondition": "保存條件12",
+   "SafetyStockQty": 16,
+   "Unit": "M011 工程處",
+   "Attributes": "擴展屬性12",
+   "ChemCode": "CI-2026-0012"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000012",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-08-16 14:12",
+   "UpdatedBy": "wu.dir",
+   "UpdatedAt": "2026-02-23 08:30",
+   "ChemNo": "CI-2026-0013",
+   "CategoryGuid": "所屬分類13",
+   "ChemName": "硫酸 98%",
+   "ChemNameEn": "何環安",
+   "CasNo": "CI-2025-0013",
+   "SpecConcentration": "規格-濃度13",
+   "SpecPurity": "規格-純度13",
+   "SpecVolume": "規格-容量13",
+   "SupplierName": "李檢測",
+   "Manufacturer": "製造商13",
+   "StorageCondition": "保存條件13",
+   "SafetyStockQty": 186,
+   "Unit": "M031 環安處",
+   "Attributes": "擴展屬性13",
+   "ChemCode": "CI-2026-0013"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000013",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-05-09 12:05",
+   "UpdatedBy": "liu.as",
+   "UpdatedAt": "2026-01-28 13:38",
+   "ChemNo": "CI-2026-0014",
+   "CategoryGuid": "所屬分類14",
+   "ChemName": "硝酸 65%",
+   "ChemNameEn": "何環安",
+   "CasNo": "CI-2026-0014",
+   "SpecConcentration": "規格-濃度14",
+   "SpecPurity": "規格-純度14",
+   "SpecVolume": "規格-容量14",
+   "SupplierName": "陳審核",
+   "Manufacturer": "製造商14",
+   "StorageCondition": "保存條件14",
+   "SafetyStockQty": 178,
+   "Unit": "M071 工務處",
+   "Attributes": "擴展屬性14",
+   "ChemCode": "CI-2026-0014"
+  }
+ ]
+}

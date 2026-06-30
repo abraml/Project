@@ -1,0 +1,723 @@
+{
+ "EntityID": "lab",
+ "SystemCode": "MUEIP",
+ "ModuleCode": "LIMS",
+ "FuncCode": "labEmp_ScheduleSwap",
+ "ConfigHash": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+ "PageMeta": {
+  "PageTitle": "代班／換班申請",
+  "Lang": "zh-TW",
+  "FormType": "ListForm",
+  "EditDisplayType": "Drawer",
+  "Breadcrumb": [
+   {
+    "Title": "首頁",
+    "Path": "/"
+   },
+   {
+    "Title": "實驗室人員管理",
+    "Path": null
+   },
+   {
+    "Title": "代班／換班申請",
+    "Path": "/lab/labEmp_ScheduleSwap"
+   }
+  ],
+  "IsApproval": false,
+  "TenantLocked": false,
+  "Icon": "ri-arrow-left-right-line",
+  "Remark": "代班／換班申請（由 labEmp_ScheduleSwap 規格書產生）"
+ },
+ "Resources": {
+  "CodeSets": {
+   "Status": [
+    {
+     "CodeID": "1",
+     "CodeName": "啟用",
+     "IsDefault": true
+    },
+    {
+     "CodeID": "0",
+     "CodeName": "停用"
+    }
+   ],
+   "Priority": [
+    {
+     "CodeID": "A",
+     "CodeName": "急件"
+    },
+    {
+     "CodeID": "B",
+     "CodeName": "高"
+    },
+    {
+     "CodeID": "C",
+     "CodeName": "一般",
+     "IsDefault": true
+    },
+    {
+     "CodeID": "D",
+     "CodeName": "低"
+    }
+   ]
+  },
+  "FeatureFlags": {
+   "IsReadOnly": false,
+   "EnableDraft": false,
+   "EnableBatchDelete": true,
+   "AutoRefreshInterval": 0,
+   "DefaultViewMode": "Table",
+   "RequireConfirmOnSave": true
+  }
+ },
+ "AllowAction": {
+  "DataActions": [
+   {
+    "ActionID": "Add",
+    "Label": "新增",
+    "Icon": "ri-add-line",
+    "Type": "Primary",
+    "Position": "Toolbar",
+    "Confirm": null
+   },
+   {
+    "ActionID": "Save",
+    "Label": "儲存",
+    "Icon": "ri-save-line",
+    "Type": "Primary",
+    "Position": "Toolbar",
+    "Confirm": null
+   },
+   {
+    "ActionID": "Delete",
+    "Label": "刪除",
+    "Icon": "ri-delete-bin-line",
+    "Type": "Danger",
+    "Position": "Both",
+    "Confirm": "確定要刪除此代班／換班申請資料嗎？"
+   },
+   {
+    "ActionID": "Query",
+    "Label": "查詢",
+    "Icon": "ri-search-line",
+    "Type": "Default",
+    "Position": "Toolbar",
+    "Confirm": null
+   }
+  ],
+  "ExtensionActions": [
+   {
+    "ActionID": "Import",
+    "Label": "匯入",
+    "Icon": "ri-upload-2-line",
+    "Type": "Default",
+    "Position": "Toolbar"
+   },
+   {
+    "ActionID": "Export",
+    "Label": "匯出",
+    "Icon": "ri-download-2-line",
+    "Type": "Default",
+    "Position": "Toolbar"
+   }
+  ]
+ },
+ "View": {
+  "RowKey": "RowGuid",
+  "ListView": {
+   "ListSpec": {
+    "RowKey": "RowGuid",
+    "SelectMode": "Single",
+    "FixedColumns": [
+     "Action",
+     "No"
+    ],
+    "RowActionMode": "Menu",
+    "ShowRowNo": true,
+    "Pagination": {
+     "PageSize": 100,
+     "SizeOptions": [
+      50,
+      100,
+      200,
+      500
+     ],
+     "ShowJumper": false,
+     "FullPageScroll": true
+    },
+    "DefaultSort": {
+     "Field": "SortNo",
+     "Order": "asc"
+    },
+    "EmptyText": "目前查無代班／換班申請資料",
+    "GridBordered": true
+   },
+   "FieldSpecs": [
+    {
+     "BindField": "ScheduleGuid",
+     "Title": "原值班紀錄",
+     "Align": "Left",
+     "DefaultVisible": true,
+     "Formatter": "Link",
+     "Fixed": "Left",
+     "Width": 160,
+     "Sorter": true
+    },
+    {
+     "BindField": "OriginalEmpId",
+     "Title": "原值班人員",
+     "Align": "Left",
+     "DefaultVisible": true,
+     "Width": 140
+    },
+    {
+     "BindField": "SubstituteEmpId",
+     "Title": "代班人員",
+     "Align": "Left",
+     "DefaultVisible": true,
+     "Width": 140
+    },
+    {
+     "BindField": "Reason",
+     "Title": "原因",
+     "Align": "Left",
+     "DefaultVisible": true,
+     "Width": 140
+    },
+    {
+     "BindField": "ApprovalStatus",
+     "Title": "核准狀態",
+     "Align": "Left",
+     "DefaultVisible": true,
+     "Width": 140
+    },
+    {
+     "BindField": "ApprovedBy",
+     "Title": "核准人員",
+     "Align": "Left",
+     "DefaultVisible": true,
+     "Width": 140
+    },
+    {
+     "BindField": "Status",
+     "Title": "狀態標記",
+     "Align": "Center",
+     "DefaultVisible": true,
+     "Formatter": "Tag",
+     "Width": 80
+    }
+   ]
+  },
+  "FormView": {
+   "FormSpec": {
+    "RowKey": "RowGuid",
+    "Layout": "Horizontal",
+    "Sections": [
+     {
+      "SectionID": "SecBase",
+      "Type": "Card",
+      "Title": "基本資料",
+      "IsCollapsible": false,
+      "DefaultOpen": true,
+      "Icon": "ri-arrow-left-right-line"
+     },
+     {
+      "SectionID": "SecRecv",
+      "Type": "Card",
+      "Title": "作業資訊",
+      "IsCollapsible": true,
+      "DefaultOpen": true,
+      "Icon": "ri-file-list-3-line"
+     },
+     {
+      "SectionID": "SecExtra",
+      "Type": "Card",
+      "Title": "系統資訊",
+      "IsCollapsible": true,
+      "DefaultOpen": false,
+      "Icon": "ri-settings-4-line"
+     }
+    ],
+    "FormLogic": []
+   },
+   "FieldSpecs": [
+    {
+     "BindField": "RowKey",
+     "Title": "系統識別碼",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 24,
+     "Mode": "Hidden"
+    },
+    {
+     "BindField": "EntityID",
+     "Title": "系統實體",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "Hidden",
+     "DefaultValue": "lab"
+    },
+    {
+     "BindField": "ScheduleGuid",
+     "Title": "原值班紀錄",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "ReadOnly",
+     "Validations": [
+      {
+       "Rule": "Required",
+       "Message": "原值班紀錄為必填"
+      }
+     ]
+    },
+    {
+     "BindField": "OriginalEmpId",
+     "Title": "原值班人員",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "Required",
+       "Message": "原值班人員為必填"
+      },
+      {
+       "Rule": "MaxLength",
+       "Value": 50,
+       "Message": "長度不可超過 50"
+      }
+     ]
+    },
+    {
+     "BindField": "SubstituteEmpId",
+     "Title": "代班人員",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "Required",
+       "Message": "代班人員為必填"
+      },
+      {
+       "Rule": "MaxLength",
+       "Value": 50,
+       "Message": "長度不可超過 50"
+      }
+     ]
+    },
+    {
+     "BindField": "Reason",
+     "Title": "原因",
+     "Component": "Textarea",
+     "Section": "SecRecv",
+     "Span": 24,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 500,
+       "Message": "長度不可超過 500"
+      }
+     ],
+     "Props": {
+      "Rows": 3
+     }
+    },
+    {
+     "BindField": "ApprovalStatus",
+     "Title": "核准狀態",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 20,
+       "Message": "長度不可超過 20"
+      }
+     ]
+    },
+    {
+     "BindField": "ApprovedBy",
+     "Title": "核准人員",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 100,
+       "Message": "長度不可超過 100"
+      }
+     ]
+    },
+    {
+     "BindField": "ApprovedDate",
+     "Title": "核准日期",
+     "Component": "DatePicker",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Props": {
+      "Mode": "Editable",
+      "ShowTime": false
+     }
+    },
+    {
+     "BindField": "Description",
+     "Title": "備註說明",
+     "Component": "Textarea",
+     "Section": "SecRecv",
+     "Span": 24,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 500,
+       "Message": "長度不可超過 500"
+      }
+     ],
+     "Props": {
+      "Rows": 3
+     }
+    },
+    {
+     "BindField": "Attributes",
+     "Title": "擴展屬性",
+     "Component": "Textarea",
+     "Section": "SecExtra",
+     "Span": 24,
+     "Mode": "Editable",
+     "Props": {
+      "Rows": 3
+     }
+    },
+    {
+     "BindField": "Status",
+     "Title": "啟用狀態",
+     "Component": "Select",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "DefaultValue": "1",
+     "Props": {
+      "OptionKey": "Status"
+     }
+    },
+    {
+     "BindField": "CreatedBy",
+     "Title": "建立者帳號",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "ReadOnly"
+    },
+    {
+     "BindField": "CreatedAt",
+     "Title": "資料建立日期時間",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "ReadOnly"
+    },
+    {
+     "BindField": "UpdatedBy",
+     "Title": "最後更新者帳號",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "ReadOnly"
+    },
+    {
+     "BindField": "UpdatedAt",
+     "Title": "最後更新日期時間",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "ReadOnly"
+    }
+   ]
+  }
+ },
+ "Features": {},
+ "DataScope": {
+  "DefaultWhere": "EntityID = 'lab' AND Status = '1'",
+  "AuthLevel": 2,
+  "SortExp": "SortNo ASC",
+  "DataConfig": {
+   "RowLimit": 2000,
+   "AllowExport": true
+  }
+ },
+ "CustomMeta": {
+  "CustomSchema": {
+   "WidgetType": "Grid",
+   "KeyField": "ScheduleGuid",
+   "TitleField": "OriginalEmpId",
+   "ParentKeyField": null,
+   "PathField": null,
+   "PathSeparator": "/"
+  }
+ },
+ "SeedData": [
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000000",
+   "EntityID": "lab",
+   "Status": "0",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-01-19 09:33",
+   "UpdatedBy": "chen.sh",
+   "UpdatedAt": "2026-08-10 10:12",
+   "ScheduleGuid": "原值班紀錄01",
+   "OriginalEmpId": "李檢測",
+   "SubstituteEmpId": "鄭組長",
+   "Reason": "",
+   "ApprovalStatus": "核准狀態01",
+   "ApprovedBy": "劉助理",
+   "ApprovedDate": "2026-02-11",
+   "Description": "需注意保存效期",
+   "Attributes": "擴展屬性01"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000001",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-12-11 18:25",
+   "UpdatedBy": "wu.dir",
+   "UpdatedAt": "2026-09-21 12:14",
+   "ScheduleGuid": "原值班紀錄02",
+   "OriginalEmpId": "謝校正",
+   "SubstituteEmpId": "張分析",
+   "Reason": "",
+   "ApprovalStatus": "核准狀態02",
+   "ApprovedBy": "郭品管",
+   "ApprovedDate": "2025-12-05",
+   "Description": "樣品外觀正常",
+   "Attributes": "擴展屬性02"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000002",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-07-14 12:28",
+   "UpdatedBy": "huang.tc",
+   "UpdatedAt": "2026-10-20 18:13",
+   "ScheduleGuid": "原值班紀錄03",
+   "OriginalEmpId": "陳審核",
+   "SubstituteEmpId": "許工程",
+   "Reason": "",
+   "ApprovalStatus": "核准狀態03",
+   "ApprovedBy": "許工程",
+   "ApprovedDate": "2025-07-12",
+   "Description": "樣品外觀正常",
+   "Attributes": "擴展屬性03"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000003",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-02-26 16:25",
+   "UpdatedBy": "wu.dir",
+   "UpdatedAt": "2026-05-26 14:18",
+   "ScheduleGuid": "原值班紀錄04",
+   "OriginalEmpId": "楊化驗",
+   "SubstituteEmpId": "林品保",
+   "Reason": "",
+   "ApprovalStatus": "核准狀態04",
+   "ApprovedBy": "謝校正",
+   "ApprovedDate": "2026-04-23",
+   "Description": "已通知申請單位",
+   "Attributes": "擴展屬性04"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000004",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-08-25 14:01",
+   "UpdatedBy": "lee.jc",
+   "UpdatedAt": "2026-06-25 08:35",
+   "ScheduleGuid": "原值班紀錄05",
+   "OriginalEmpId": "陳審核",
+   "SubstituteEmpId": "張分析",
+   "Reason": "樣品外觀正常",
+   "ApprovalStatus": "核准狀態05",
+   "ApprovedBy": "鄭組長",
+   "ApprovedDate": "2026-09-26",
+   "Description": "",
+   "Attributes": "擴展屬性05"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000005",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-05-04 12:29",
+   "UpdatedBy": "chang.fa",
+   "UpdatedAt": "2026-11-16 12:07",
+   "ScheduleGuid": "原值班紀錄06",
+   "OriginalEmpId": "王采樣",
+   "SubstituteEmpId": "李檢測",
+   "Reason": "",
+   "ApprovalStatus": "核准狀態06",
+   "ApprovedBy": "鄭組長",
+   "ApprovedDate": "2025-04-16",
+   "Description": "樣品外觀正常",
+   "Attributes": "擴展屬性06"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000006",
+   "EntityID": "lab",
+   "Status": "0",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-04-07 13:17",
+   "UpdatedBy": "chen.sh",
+   "UpdatedAt": "2026-04-25 11:26",
+   "ScheduleGuid": "原值班紀錄07",
+   "OriginalEmpId": "林品保",
+   "SubstituteEmpId": "張分析",
+   "Reason": "",
+   "ApprovalStatus": "核准狀態07",
+   "ApprovedBy": "張分析",
+   "ApprovedDate": "2026-07-03",
+   "Description": "",
+   "Attributes": "擴展屬性07"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000007",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-03-06 15:04",
+   "UpdatedBy": "cheng.gl",
+   "UpdatedAt": "2026-11-18 10:21",
+   "ScheduleGuid": "原值班紀錄08",
+   "OriginalEmpId": "吳主任",
+   "SubstituteEmpId": "謝校正",
+   "Reason": "待主管覆核",
+   "ApprovalStatus": "核准狀態08",
+   "ApprovedBy": "張分析",
+   "ApprovedDate": "2025-10-02",
+   "Description": "",
+   "Attributes": "擴展屬性08"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000008",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-12-26 17:22",
+   "UpdatedBy": "abram.chen",
+   "UpdatedAt": "2026-02-24 14:07",
+   "ScheduleGuid": "原值班紀錄09",
+   "OriginalEmpId": "許工程",
+   "SubstituteEmpId": "李檢測",
+   "Reason": "",
+   "ApprovalStatus": "核准狀態09",
+   "ApprovedBy": "郭品管",
+   "ApprovedDate": "2026-09-18",
+   "Description": "",
+   "Attributes": "擴展屬性09"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000009",
+   "EntityID": "lab",
+   "Status": "0",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-06-03 18:32",
+   "UpdatedBy": "liu.as",
+   "UpdatedAt": "2026-08-19 17:14",
+   "ScheduleGuid": "原值班紀錄10",
+   "OriginalEmpId": "張分析",
+   "SubstituteEmpId": "何環安",
+   "Reason": "待主管覆核",
+   "ApprovalStatus": "核准狀態10",
+   "ApprovedBy": "張分析",
+   "ApprovedDate": "2026-07-21",
+   "Description": "",
+   "Attributes": "擴展屬性10"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000010",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-11-16 09:01",
+   "UpdatedBy": "huang.tc",
+   "UpdatedAt": "2026-01-18 11:27",
+   "ScheduleGuid": "原值班紀錄11",
+   "OriginalEmpId": "黃技正",
+   "SubstituteEmpId": "謝校正",
+   "Reason": "需注意保存效期",
+   "ApprovalStatus": "核准狀態11",
+   "ApprovedBy": "謝校正",
+   "ApprovedDate": "2026-09-23",
+   "Description": "複驗確認無誤",
+   "Attributes": "擴展屬性11"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000011",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-04-22 11:16",
+   "UpdatedBy": "abram.chen",
+   "UpdatedAt": "2026-10-10 17:22",
+   "ScheduleGuid": "原值班紀錄12",
+   "OriginalEmpId": "謝校正",
+   "SubstituteEmpId": "楊化驗",
+   "Reason": "樣品外觀正常",
+   "ApprovalStatus": "核准狀態12",
+   "ApprovedBy": "郭品管",
+   "ApprovedDate": "2025-02-27",
+   "Description": "",
+   "Attributes": "擴展屬性12"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000012",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-03-01 17:08",
+   "UpdatedBy": "wang.cy",
+   "UpdatedAt": "2026-09-07 18:25",
+   "ScheduleGuid": "原值班紀錄13",
+   "OriginalEmpId": "周技士",
+   "SubstituteEmpId": "郭品管",
+   "Reason": "",
+   "ApprovalStatus": "核准狀態13",
+   "ApprovedBy": "張分析",
+   "ApprovedDate": "2026-07-27",
+   "Description": "待主管覆核",
+   "Attributes": "擴展屬性13"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000013",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-09-21 09:34",
+   "UpdatedBy": "liu.as",
+   "UpdatedAt": "2026-09-08 09:02",
+   "ScheduleGuid": "原值班紀錄14",
+   "OriginalEmpId": "謝校正",
+   "SubstituteEmpId": "劉助理",
+   "Reason": "",
+   "ApprovalStatus": "核准狀態14",
+   "ApprovedBy": "楊化驗",
+   "ApprovedDate": "2026-03-13",
+   "Description": "",
+   "Attributes": "擴展屬性14"
+  }
+ ]
+}

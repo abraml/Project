@@ -1,0 +1,733 @@
+{
+ "EntityID": "lab",
+ "SystemCode": "MUEIP",
+ "ModuleCode": "LIMS",
+ "FuncCode": "labDat_ValidationRule",
+ "ConfigHash": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+ "PageMeta": {
+  "PageTitle": "數據驗證規則",
+  "Lang": "zh-TW",
+  "FormType": "ListForm",
+  "EditDisplayType": "Drawer",
+  "Breadcrumb": [
+   {
+    "Title": "首頁",
+    "Path": "/"
+   },
+   {
+    "Title": "實驗數據儲存管理",
+    "Path": null
+   },
+   {
+    "Title": "數據驗證規則",
+    "Path": "/lab/labDat_ValidationRule"
+   }
+  ],
+  "IsApproval": false,
+  "TenantLocked": false,
+  "Icon": "ri-shield-check-line",
+  "Remark": "數據驗證規則（由 labDat_ValidationRule 規格書產生）"
+ },
+ "Resources": {
+  "CodeSets": {
+   "Status": [
+    {
+     "CodeID": "1",
+     "CodeName": "啟用",
+     "IsDefault": true
+    },
+    {
+     "CodeID": "0",
+     "CodeName": "停用"
+    }
+   ],
+   "Priority": [
+    {
+     "CodeID": "A",
+     "CodeName": "急件"
+    },
+    {
+     "CodeID": "B",
+     "CodeName": "高"
+    },
+    {
+     "CodeID": "C",
+     "CodeName": "一般",
+     "IsDefault": true
+    },
+    {
+     "CodeID": "D",
+     "CodeName": "低"
+    }
+   ],
+   "BelowMdlAction": [
+    {
+     "CodeID": "W",
+     "CodeName": "警告",
+     "IsDefault": true
+    },
+    {
+     "CodeID": "B",
+     "CodeName": "封鎖"
+    },
+    {
+     "CodeID": "L",
+     "CodeName": "僅記錄"
+    }
+   ],
+   "BelowLoqAction": [
+    {
+     "CodeID": "W",
+     "CodeName": "警告",
+     "IsDefault": true
+    },
+    {
+     "CodeID": "B",
+     "CodeName": "封鎖"
+    },
+    {
+     "CodeID": "L",
+     "CodeName": "僅記錄"
+    }
+   ]
+  },
+  "FeatureFlags": {
+   "IsReadOnly": false,
+   "EnableDraft": false,
+   "EnableBatchDelete": true,
+   "AutoRefreshInterval": 0,
+   "DefaultViewMode": "Table",
+   "RequireConfirmOnSave": true
+  }
+ },
+ "AllowAction": {
+  "DataActions": [
+   {
+    "ActionID": "Add",
+    "Label": "新增",
+    "Icon": "ri-add-line",
+    "Type": "Primary",
+    "Position": "Toolbar",
+    "Confirm": null
+   },
+   {
+    "ActionID": "Save",
+    "Label": "儲存",
+    "Icon": "ri-save-line",
+    "Type": "Primary",
+    "Position": "Toolbar",
+    "Confirm": null
+   },
+   {
+    "ActionID": "Delete",
+    "Label": "刪除",
+    "Icon": "ri-delete-bin-line",
+    "Type": "Danger",
+    "Position": "Both",
+    "Confirm": "確定要刪除此數據驗證規則資料嗎？"
+   },
+   {
+    "ActionID": "Query",
+    "Label": "查詢",
+    "Icon": "ri-search-line",
+    "Type": "Default",
+    "Position": "Toolbar",
+    "Confirm": null
+   }
+  ],
+  "ExtensionActions": [
+   {
+    "ActionID": "Import",
+    "Label": "匯入",
+    "Icon": "ri-upload-2-line",
+    "Type": "Default",
+    "Position": "Toolbar"
+   },
+   {
+    "ActionID": "Export",
+    "Label": "匯出",
+    "Icon": "ri-download-2-line",
+    "Type": "Default",
+    "Position": "Toolbar"
+   }
+  ]
+ },
+ "View": {
+  "RowKey": "RowGuid",
+  "ListView": {
+   "ListSpec": {
+    "RowKey": "RowGuid",
+    "SelectMode": "Single",
+    "FixedColumns": [
+     "Action",
+     "No"
+    ],
+    "RowActionMode": "Menu",
+    "ShowRowNo": true,
+    "Pagination": {
+     "PageSize": 100,
+     "SizeOptions": [
+      50,
+      100,
+      200,
+      500
+     ],
+     "ShowJumper": false,
+     "FullPageScroll": true
+    },
+    "DefaultSort": {
+     "Field": "SortNo",
+     "Order": "asc"
+    },
+    "EmptyText": "目前查無數據驗證規則資料",
+    "GridBordered": true
+   },
+   "FieldSpecs": [
+    {
+     "BindField": "ComponentCode",
+     "Title": "對應 B06 labAna_Component 成分代碼",
+     "Align": "Left",
+     "DefaultVisible": true,
+     "Formatter": "Link",
+     "Fixed": "Left",
+     "Width": 160,
+     "Sorter": true
+    },
+    {
+     "BindField": "ComponentName",
+     "Title": "成分名稱",
+     "Align": "Left",
+     "DefaultVisible": true,
+     "Width": 140
+    },
+    {
+     "BindField": "Mdl",
+     "Title": "偵測極限 Method Detection Limit",
+     "Align": "Center",
+     "DefaultVisible": true,
+     "Width": 140
+    },
+    {
+     "BindField": "Loq",
+     "Title": "定量極限 Limit of Quantitation",
+     "Align": "Center",
+     "DefaultVisible": true,
+     "Width": 140
+    },
+    {
+     "BindField": "UpperLimit",
+     "Title": "TAF認證範圍上限",
+     "Align": "Center",
+     "DefaultVisible": true,
+     "Width": 140
+    },
+    {
+     "BindField": "NegativeAction",
+     "Title": "負值處理方式",
+     "Align": "Left",
+     "DefaultVisible": true,
+     "Width": 140
+    },
+    {
+     "BindField": "Status",
+     "Title": "規則狀態",
+     "Align": "Center",
+     "DefaultVisible": true,
+     "Formatter": "Tag",
+     "Width": 80
+    }
+   ]
+  },
+  "FormView": {
+   "FormSpec": {
+    "RowKey": "RowGuid",
+    "Layout": "Horizontal",
+    "Sections": [
+     {
+      "SectionID": "SecBase",
+      "Type": "Card",
+      "Title": "基本資料",
+      "IsCollapsible": false,
+      "DefaultOpen": true,
+      "Icon": "ri-shield-check-line"
+     },
+     {
+      "SectionID": "SecRecv",
+      "Type": "Card",
+      "Title": "作業資訊",
+      "IsCollapsible": true,
+      "DefaultOpen": true,
+      "Icon": "ri-file-list-3-line"
+     },
+     {
+      "SectionID": "SecExtra",
+      "Type": "Card",
+      "Title": "系統資訊",
+      "IsCollapsible": true,
+      "DefaultOpen": false,
+      "Icon": "ri-settings-4-line"
+     }
+    ],
+    "FormLogic": []
+   },
+   "FieldSpecs": [
+    {
+     "BindField": "RowKey",
+     "Title": "系統識別碼",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 24,
+     "Mode": "Hidden"
+    },
+    {
+     "BindField": "EntityID",
+     "Title": "系統實體",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "Hidden",
+     "DefaultValue": "lab"
+    },
+    {
+     "BindField": "ComponentCode",
+     "Title": "對應 B06 labAna_Component 成分代碼",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "Required",
+       "Message": "對應 B06 labAna_Component 成分代碼為必填"
+      },
+      {
+       "Rule": "MaxLength",
+       "Value": 30,
+       "Message": "長度不可超過 30"
+      }
+     ]
+    },
+    {
+     "BindField": "ComponentName",
+     "Title": "成分名稱",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 50,
+       "Message": "長度不可超過 50"
+      }
+     ]
+    },
+    {
+     "BindField": "Mdl",
+     "Title": "偵測極限 Method Detection Limit",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Props": {
+      "Type": "number"
+     }
+    },
+    {
+     "BindField": "Loq",
+     "Title": "定量極限 Limit of Quantitation",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Props": {
+      "Type": "number"
+     }
+    },
+    {
+     "BindField": "UpperLimit",
+     "Title": "TAF認證範圍上限",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Props": {
+      "Type": "number"
+     }
+    },
+    {
+     "BindField": "NegativeAction",
+     "Title": "負值處理方式",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 20,
+       "Message": "長度不可超過 20"
+      }
+     ]
+    },
+    {
+     "BindField": "BelowMdlAction",
+     "Title": "低於MDL之處理方式",
+     "Component": "Select",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Props": {
+      "OptionKey": "BelowMdlAction"
+     },
+     "DefaultValue": "W"
+    },
+    {
+     "BindField": "BelowLoqAction",
+     "Title": "低於LOQ之處理方式",
+     "Component": "Select",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Props": {
+      "OptionKey": "BelowLoqAction"
+     },
+     "DefaultValue": "W"
+    },
+    {
+     "BindField": "OverLimitAction",
+     "Title": "超出上限之處理方式",
+     "Component": "Input",
+     "Section": "SecRecv",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 20,
+       "Message": "長度不可超過 20"
+      }
+     ]
+    },
+    {
+     "BindField": "Status",
+     "Title": "啟用狀態",
+     "Component": "Select",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "DefaultValue": "1",
+     "Props": {
+      "OptionKey": "Status"
+     }
+    },
+    {
+     "BindField": "CreatedBy",
+     "Title": "建立者帳號",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "ReadOnly"
+    },
+    {
+     "BindField": "CreatedAt",
+     "Title": "資料建立日期時間",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "ReadOnly"
+    },
+    {
+     "BindField": "UpdatedBy",
+     "Title": "最後更新者帳號",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "ReadOnly"
+    },
+    {
+     "BindField": "UpdatedAt",
+     "Title": "最後更新日期時間",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "ReadOnly"
+    }
+   ]
+  }
+ },
+ "Features": {},
+ "DataScope": {
+  "DefaultWhere": "EntityID = 'lab' AND Status = '1'",
+  "AuthLevel": 2,
+  "SortExp": "SortNo ASC",
+  "DataConfig": {
+   "RowLimit": 2000,
+   "AllowExport": true
+  }
+ },
+ "CustomMeta": {
+  "CustomSchema": {
+   "WidgetType": "Grid",
+   "KeyField": "ComponentCode",
+   "TitleField": "ComponentName",
+   "ParentKeyField": null,
+   "PathField": null,
+   "PathSeparator": "/"
+  }
+ },
+ "SeedData": [
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000000",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-03-18 17:39",
+   "UpdatedBy": "abram.chen",
+   "UpdatedAt": "2026-10-21 13:27",
+   "ComponentCode": "VR-2026-0001",
+   "ComponentName": "總磷 TP",
+   "Mdl": 76,
+   "Loq": 45,
+   "UpperLimit": 28,
+   "NegativeAction": "負值處理方式01",
+   "BelowMdlAction": "W",
+   "BelowLoqAction": "W",
+   "OverLimitAction": "超出上限之處理方式01"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000001",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-02-16 12:19",
+   "UpdatedBy": "abram.chen",
+   "UpdatedAt": "2026-04-12 16:07",
+   "ComponentCode": "VR-2025-0002",
+   "ComponentName": "化學需氧量 COD",
+   "Mdl": 59,
+   "Loq": 51,
+   "UpperLimit": 78,
+   "NegativeAction": "負值處理方式02",
+   "BelowMdlAction": "W",
+   "BelowLoqAction": "W",
+   "OverLimitAction": "超出上限之處理方式02"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000002",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-07-22 13:19",
+   "UpdatedBy": "chang.fa",
+   "UpdatedAt": "2026-01-16 13:09",
+   "ComponentCode": "VR-2026-0003",
+   "ComponentName": "生化需氧量 BOD",
+   "Mdl": 57,
+   "Loq": 29,
+   "UpperLimit": 41,
+   "NegativeAction": "負值處理方式03",
+   "BelowMdlAction": "W",
+   "BelowLoqAction": "W",
+   "OverLimitAction": "超出上限之處理方式03"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000003",
+   "EntityID": "lab",
+   "Status": "0",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-10-03 15:24",
+   "UpdatedBy": "chang.fa",
+   "UpdatedAt": "2026-08-18 12:31",
+   "ComponentCode": "VR-2025-0004",
+   "ComponentName": "懸浮固體 SS",
+   "Mdl": 5,
+   "Loq": 79,
+   "UpperLimit": 23,
+   "NegativeAction": "負值處理方式04",
+   "BelowMdlAction": "W",
+   "BelowLoqAction": "W",
+   "OverLimitAction": "超出上限之處理方式04"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000004",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-07-01 13:16",
+   "UpdatedBy": "lee.jc",
+   "UpdatedAt": "2026-08-10 16:21",
+   "ComponentCode": "VR-2026-0005",
+   "ComponentName": "氨氮 NH3-N",
+   "Mdl": 6,
+   "Loq": 14,
+   "UpperLimit": 20,
+   "NegativeAction": "負值處理方式05",
+   "BelowMdlAction": "B",
+   "BelowLoqAction": "W",
+   "OverLimitAction": "超出上限之處理方式05"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000005",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-06-09 15:30",
+   "UpdatedBy": "abram.chen",
+   "UpdatedAt": "2026-12-15 12:27",
+   "ComponentCode": "VR-2026-0006",
+   "ComponentName": "硝酸鹽氮",
+   "Mdl": 13,
+   "Loq": 25,
+   "UpperLimit": 91,
+   "NegativeAction": "負值處理方式06",
+   "BelowMdlAction": "W",
+   "BelowLoqAction": "W",
+   "OverLimitAction": "超出上限之處理方式06"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000006",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-02-14 15:05",
+   "UpdatedBy": "wu.dir",
+   "UpdatedAt": "2026-09-28 17:26",
+   "ComponentCode": "VR-2025-0007",
+   "ComponentName": "鎘 Cd",
+   "Mdl": 28,
+   "Loq": 6,
+   "UpperLimit": 80,
+   "NegativeAction": "負值處理方式07",
+   "BelowMdlAction": "W",
+   "BelowLoqAction": "B",
+   "OverLimitAction": "超出上限之處理方式07"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000007",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-10-11 08:03",
+   "UpdatedBy": "lin.pb",
+   "UpdatedAt": "2026-09-02 14:31",
+   "ComponentCode": "VR-2025-0008",
+   "ComponentName": "鉛 Pb",
+   "Mdl": 65,
+   "Loq": 89,
+   "UpperLimit": 70,
+   "NegativeAction": "負值處理方式08",
+   "BelowMdlAction": "W",
+   "BelowLoqAction": "W",
+   "OverLimitAction": "超出上限之處理方式08"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000008",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-10-04 13:23",
+   "UpdatedBy": "wang.cy",
+   "UpdatedAt": "2026-07-25 18:08",
+   "ComponentCode": "VR-2025-0009",
+   "ComponentName": "銅 Cu",
+   "Mdl": 75,
+   "Loq": 4,
+   "UpperLimit": 2,
+   "NegativeAction": "負值處理方式09",
+   "BelowMdlAction": "W",
+   "BelowLoqAction": "B",
+   "OverLimitAction": "超出上限之處理方式09"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000009",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-02-15 15:35",
+   "UpdatedBy": "lin.pb",
+   "UpdatedAt": "2026-11-02 09:17",
+   "ComponentCode": "VR-2026-0010",
+   "ComponentName": "鋅 Zn",
+   "Mdl": 100,
+   "Loq": 98,
+   "UpperLimit": 72,
+   "NegativeAction": "負值處理方式10",
+   "BelowMdlAction": "W",
+   "BelowLoqAction": "W",
+   "OverLimitAction": "超出上限之處理方式10"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000010",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-05-11 12:13",
+   "UpdatedBy": "wang.cy",
+   "UpdatedAt": "2026-12-27 08:18",
+   "ComponentCode": "VR-2026-0011",
+   "ComponentName": "pH值",
+   "Mdl": 16,
+   "Loq": 38,
+   "UpperLimit": 55,
+   "NegativeAction": "負值處理方式11",
+   "BelowMdlAction": "B",
+   "BelowLoqAction": "B",
+   "OverLimitAction": "超出上限之處理方式11"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000011",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-03-26 09:18",
+   "UpdatedBy": "chen.sh",
+   "UpdatedAt": "2026-04-14 17:09",
+   "ComponentCode": "VR-2025-0012",
+   "ComponentName": "導電度",
+   "Mdl": 78,
+   "Loq": 92,
+   "UpperLimit": 31,
+   "NegativeAction": "負值處理方式12",
+   "BelowMdlAction": "W",
+   "BelowLoqAction": "W",
+   "OverLimitAction": "超出上限之處理方式12"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000012",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-02-18 15:03",
+   "UpdatedBy": "lin.pb",
+   "UpdatedAt": "2026-04-15 17:02",
+   "ComponentCode": "VR-2026-0013",
+   "ComponentName": "濁度",
+   "Mdl": 64,
+   "Loq": 76,
+   "UpperLimit": 31,
+   "NegativeAction": "負值處理方式13",
+   "BelowMdlAction": "W",
+   "BelowLoqAction": "W",
+   "OverLimitAction": "超出上限之處理方式13"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000013",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-06-10 14:19",
+   "UpdatedBy": "wu.dir",
+   "UpdatedAt": "2026-10-24 16:25",
+   "ComponentCode": "VR-2026-0014",
+   "ComponentName": "大腸桿菌群",
+   "Mdl": 73,
+   "Loq": 80,
+   "UpperLimit": 99,
+   "NegativeAction": "負值處理方式14",
+   "BelowMdlAction": "W",
+   "BelowLoqAction": "W",
+   "OverLimitAction": "超出上限之處理方式14"
+  }
+ ]
+}

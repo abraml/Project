@@ -1,0 +1,1824 @@
+{
+ "EntityID": "lab",
+ "SystemCode": "MUEIP",
+ "ModuleCode": "LIMS",
+ "FuncCode": "labAst_SupplyInfo",
+ "ConfigHash": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+ "PageMeta": {
+  "PageTitle": "檢測用品清單",
+  "Lang": "zh-TW",
+  "FormType": "ListForm",
+  "EditDisplayType": "Drawer",
+  "Breadcrumb": [
+   {
+    "Title": "首頁",
+    "Path": "/"
+   },
+   {
+    "Title": "實驗室資材管理",
+    "Path": null
+   },
+   {
+    "Title": "檢測用品清單",
+    "Path": "/lab/labAst_SupplyInfo"
+   }
+  ],
+  "IsApproval": false,
+  "TenantLocked": false,
+  "Icon": "ri-archive-drawer-line",
+  "Remark": "檢測用品清單（由 labAst_SupplyInfo 規格書產生）"
+ },
+ "Resources": {
+  "CodeSets": {
+   "Status": [
+    {
+     "CodeID": "1",
+     "CodeName": "啟用",
+     "IsDefault": true
+    },
+    {
+     "CodeID": "0",
+     "CodeName": "停用"
+    }
+   ],
+   "Priority": [
+    {
+     "CodeID": "A",
+     "CodeName": "急件"
+    },
+    {
+     "CodeID": "B",
+     "CodeName": "高"
+    },
+    {
+     "CodeID": "C",
+     "CodeName": "一般",
+     "IsDefault": true
+    },
+    {
+     "CodeID": "D",
+     "CodeName": "低"
+    }
+   ]
+  },
+  "FeatureFlags": {
+   "IsReadOnly": false,
+   "EnableDraft": false,
+   "EnableBatchDelete": true,
+   "AutoRefreshInterval": 0,
+   "DefaultViewMode": "Table",
+   "RequireConfirmOnSave": true
+  }
+ },
+ "AllowAction": {
+  "DataActions": [
+   {
+    "ActionID": "Add",
+    "Label": "新增",
+    "Icon": "ri-add-line",
+    "Type": "Primary",
+    "Position": "Toolbar",
+    "Confirm": null
+   },
+   {
+    "ActionID": "Save",
+    "Label": "儲存",
+    "Icon": "ri-save-line",
+    "Type": "Primary",
+    "Position": "Toolbar",
+    "Confirm": null
+   },
+   {
+    "ActionID": "Delete",
+    "Label": "刪除",
+    "Icon": "ri-delete-bin-line",
+    "Type": "Danger",
+    "Position": "Both",
+    "Confirm": "確定要刪除此檢測用品清單資料嗎？"
+   },
+   {
+    "ActionID": "Query",
+    "Label": "查詢",
+    "Icon": "ri-search-line",
+    "Type": "Default",
+    "Position": "Toolbar",
+    "Confirm": null
+   }
+  ],
+  "ExtensionActions": [
+   {
+    "ActionID": "Import",
+    "Label": "匯入",
+    "Icon": "ri-upload-2-line",
+    "Type": "Default",
+    "Position": "Toolbar"
+   },
+   {
+    "ActionID": "Export",
+    "Label": "匯出",
+    "Icon": "ri-download-2-line",
+    "Type": "Default",
+    "Position": "Toolbar"
+   }
+  ]
+ },
+ "View": {
+  "RowKey": "RowGuid",
+  "ListView": {
+   "ListSpec": {
+    "RowKey": "RowGuid",
+    "SelectMode": "Single",
+    "FixedColumns": [
+     "Action",
+     "No"
+    ],
+    "RowActionMode": "Menu",
+    "ShowRowNo": true,
+    "Pagination": {
+     "PageSize": 100,
+     "SizeOptions": [
+      50,
+      100,
+      200,
+      500
+     ],
+     "ShowJumper": false,
+     "FullPageScroll": true
+    },
+    "DefaultSort": {
+     "Field": "SortNo",
+     "Order": "asc"
+    },
+    "EmptyText": "目前查無檢測用品清單資料",
+    "GridBordered": true
+   },
+   "FieldSpecs": [
+    {
+     "BindField": "SupplyNo",
+     "Title": "用品編號",
+     "Align": "Left",
+     "DefaultVisible": true,
+     "Formatter": "Link",
+     "Fixed": "Left",
+     "Width": 160,
+     "Sorter": true
+    },
+    {
+     "BindField": "SupplyName",
+     "Title": "用品名稱",
+     "Align": "Left",
+     "DefaultVisible": true,
+     "Width": 140
+    },
+    {
+     "BindField": "SpecDesc",
+     "Title": "規格",
+     "Align": "Left",
+     "DefaultVisible": true,
+     "Width": 140
+    },
+    {
+     "BindField": "SupplierName",
+     "Title": "供應商",
+     "Align": "Left",
+     "DefaultVisible": true,
+     "Width": 140
+    },
+    {
+     "BindField": "SafetyStockQty",
+     "Title": "安全庫存量",
+     "Align": "Center",
+     "DefaultVisible": true,
+     "Width": 140
+    },
+    {
+     "BindField": "CurrentQty",
+     "Title": "現有庫存量",
+     "Align": "Center",
+     "DefaultVisible": true,
+     "Width": 140
+    },
+    {
+     "BindField": "Status",
+     "Title": "啟用狀態",
+     "Align": "Center",
+     "DefaultVisible": true,
+     "Formatter": "Tag",
+     "Width": 80
+    }
+   ]
+  },
+  "FormView": {
+   "FormSpec": {
+    "RowKey": "RowGuid",
+    "Layout": "Horizontal",
+    "Sections": [
+     {
+      "SectionID": "SecBase",
+      "Type": "Card",
+      "Title": "基本資料",
+      "IsCollapsible": false,
+      "DefaultOpen": true,
+      "Icon": "ri-archive-drawer-line"
+     },
+     {
+      "SectionID": "SecExtra",
+      "Type": "Card",
+      "Title": "系統資訊",
+      "IsCollapsible": true,
+      "DefaultOpen": false,
+      "Icon": "ri-settings-4-line"
+     }
+    ],
+    "FormLogic": []
+   },
+   "FieldSpecs": [
+    {
+     "BindField": "RowKey",
+     "Title": "系統識別碼",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 24,
+     "Mode": "Hidden"
+    },
+    {
+     "BindField": "EntityID",
+     "Title": "系統實體",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "Hidden",
+     "DefaultValue": "lab"
+    },
+    {
+     "BindField": "SupplyNo",
+     "Title": "用品編號",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "Required",
+       "Message": "用品編號為必填"
+      },
+      {
+       "Rule": "MaxLength",
+       "Value": 30,
+       "Message": "長度不可超過 30"
+      }
+     ]
+    },
+    {
+     "BindField": "CategoryGuid",
+     "Title": "所屬分類",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "ReadOnly"
+    },
+    {
+     "BindField": "SupplyName",
+     "Title": "用品名稱",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "Required",
+       "Message": "用品名稱為必填"
+      },
+      {
+       "Rule": "MaxLength",
+       "Value": 100,
+       "Message": "長度不可超過 100"
+      }
+     ]
+    },
+    {
+     "BindField": "SpecDesc",
+     "Title": "規格",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 150,
+       "Message": "長度不可超過 150"
+      }
+     ]
+    },
+    {
+     "BindField": "SupplierName",
+     "Title": "供應商",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 100,
+       "Message": "長度不可超過 100"
+      }
+     ]
+    },
+    {
+     "BindField": "SafetyStockQty",
+     "Title": "安全庫存量",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "Required",
+       "Message": "安全庫存量為必填"
+      }
+     ],
+     "Props": {
+      "Type": "number"
+     }
+    },
+    {
+     "BindField": "CurrentQty",
+     "Title": "現有庫存量",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "Required",
+       "Message": "現有庫存量為必填"
+      }
+     ],
+     "Props": {
+      "Type": "number"
+     }
+    },
+    {
+     "BindField": "Unit",
+     "Title": "計量單位",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "Required",
+       "Message": "計量單位為必填"
+      },
+      {
+       "Rule": "MaxLength",
+       "Value": 10,
+       "Message": "長度不可超過 10"
+      }
+     ]
+    },
+    {
+     "BindField": "Status",
+     "Title": "啟用狀態",
+     "Component": "Select",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "DefaultValue": "1",
+     "Props": {
+      "OptionKey": "Status"
+     }
+    },
+    {
+     "BindField": "CreatedBy",
+     "Title": "建立者帳號",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "ReadOnly"
+    },
+    {
+     "BindField": "CreatedAt",
+     "Title": "資料建立日期時間",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "ReadOnly"
+    },
+    {
+     "BindField": "UpdatedBy",
+     "Title": "最後更新者帳號",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "ReadOnly"
+    },
+    {
+     "BindField": "UpdatedAt",
+     "Title": "最後更新日期時間",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "ReadOnly"
+    }
+   ]
+  },
+  "DetailViews": [
+   {
+    "DetailID": "Txn",
+    "Title": "異動紀錄",
+    "Icon": "ri-swap-line",
+    "Entity": "labAst_SupplyTransaction",
+    "RelationKey": "SupplyCode",
+    "RowKey": "RowGuid",
+    "AllowAdd": true,
+    "AllowEdit": true,
+    "AllowDelete": true,
+    "EmptyText": "尚無異動紀錄資料",
+    "CodeSets": {
+     "Status": [
+      {
+       "CodeID": "1",
+       "CodeName": "啟用",
+       "IsDefault": true
+      },
+      {
+       "CodeID": "0",
+       "CodeName": "停用"
+      }
+     ],
+     "Priority": [
+      {
+       "CodeID": "A",
+       "CodeName": "急件"
+      },
+      {
+       "CodeID": "B",
+       "CodeName": "高"
+      },
+      {
+       "CodeID": "C",
+       "CodeName": "一般",
+       "IsDefault": true
+      },
+      {
+       "CodeID": "D",
+       "CodeName": "低"
+      }
+     ],
+     "TxnType": [
+      {
+       "CodeID": "I",
+       "CodeName": "入庫",
+       "IsDefault": true
+      },
+      {
+       "CodeID": "O",
+       "CodeName": "領用"
+      },
+      {
+       "CodeID": "A",
+       "CodeName": "調整"
+      },
+      {
+       "CodeID": "S",
+       "CodeName": "報廢"
+      },
+      {
+       "CodeID": "R",
+       "CodeName": "退回"
+      }
+     ],
+     "ScrapReason": [
+      {
+       "CodeID": "EXP",
+       "CodeName": "效期到期",
+       "IsDefault": true
+      },
+      {
+       "CodeID": "DMG",
+       "CodeName": "破損"
+      },
+      {
+       "CodeID": "CON",
+       "CodeName": "汙染"
+      },
+      {
+       "CodeID": "OTH",
+       "CodeName": "其他"
+      }
+     ]
+    },
+    "Columns": [
+     {
+      "BindField": "TxnType",
+      "Title": "異動類型",
+      "Width": 120,
+      "Align": "Center",
+      "Formatter": "Tag",
+      "OptionKey": "TxnType"
+     },
+     {
+      "BindField": "Qty",
+      "Title": "異動數量",
+      "Width": 120,
+      "Align": "Center"
+     },
+     {
+      "BindField": "TxnDate",
+      "Title": "異動日期",
+      "Width": 120,
+      "Align": "Left",
+      "Formatter": "Date"
+     },
+     {
+      "BindField": "LotNo",
+      "Title": "批號",
+      "Width": 120,
+      "Align": "Left"
+     },
+     {
+      "BindField": "UserName",
+      "Title": "【領用】領用人員",
+      "Width": 120,
+      "Align": "Left"
+     }
+    ],
+    "FormFields": [
+     {
+      "BindField": "TxnType",
+      "Title": "異動類型",
+      "Component": "Select",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Validations": [
+       {
+        "Rule": "Required",
+        "Message": "異動類型為必填"
+       }
+      ],
+      "Props": {
+       "OptionKey": "TxnType"
+      },
+      "DefaultValue": "I"
+     },
+     {
+      "BindField": "SupplyGuid",
+      "Title": "所屬用品",
+      "Component": "Input",
+      "Section": "",
+      "Span": 12,
+      "Mode": "ReadOnly",
+      "Validations": [
+       {
+        "Rule": "Required",
+        "Message": "所屬用品為必填"
+       }
+      ]
+     },
+     {
+      "BindField": "Qty",
+      "Title": "異動數量",
+      "Component": "Input",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Validations": [
+       {
+        "Rule": "Required",
+        "Message": "異動數量為必填"
+       }
+      ],
+      "Props": {
+       "Type": "number"
+      }
+     },
+     {
+      "BindField": "TxnDate",
+      "Title": "異動日期",
+      "Component": "DatePicker",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Validations": [
+       {
+        "Rule": "Required",
+        "Message": "異動日期為必填"
+       }
+      ],
+      "Props": {
+       "Mode": "Editable",
+       "ShowTime": false
+      }
+     },
+     {
+      "BindField": "LotNo",
+      "Title": "批號",
+      "Component": "Input",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Validations": [
+       {
+        "Rule": "MaxLength",
+        "Value": 40,
+        "Message": "長度不可超過 40"
+       }
+      ]
+     },
+     {
+      "BindField": "UserName",
+      "Title": "【領用】領用人員",
+      "Component": "Input",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Validations": [
+       {
+        "Rule": "MaxLength",
+        "Value": 50,
+        "Message": "長度不可超過 50"
+       }
+      ]
+     },
+     {
+      "BindField": "Purpose",
+      "Title": "【領用】用途",
+      "Component": "Input",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Validations": [
+       {
+        "Rule": "MaxLength",
+        "Value": 200,
+        "Message": "長度不可超過 200"
+       }
+      ]
+     },
+     {
+      "BindField": "TestOrderNo",
+      "Title": "【領用】對應檢驗單編號",
+      "Component": "Input",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Validations": [
+       {
+        "Rule": "MaxLength",
+        "Value": 30,
+        "Message": "長度不可超過 30"
+       }
+      ]
+     },
+     {
+      "BindField": "ScrapReason",
+      "Title": "【報廢】報廢原因",
+      "Component": "Select",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Props": {
+       "OptionKey": "ScrapReason"
+      },
+      "DefaultValue": "EXP"
+     },
+     {
+      "BindField": "ReturnReason",
+      "Title": "【退貨】退貨原因",
+      "Component": "Input",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Validations": [
+       {
+        "Rule": "MaxLength",
+        "Value": 200,
+        "Message": "長度不可超過 200"
+       }
+      ]
+     },
+     {
+      "BindField": "ReturnTarget",
+      "Title": "【退貨】退貨對象",
+      "Component": "Input",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Validations": [
+       {
+        "Rule": "MaxLength",
+        "Value": 100,
+        "Message": "長度不可超過 100"
+       }
+      ]
+     },
+     {
+      "BindField": "Remark",
+      "Title": "備註",
+      "Component": "Input",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Validations": [
+       {
+        "Rule": "MaxLength",
+        "Value": 255,
+        "Message": "長度不可超過 255"
+       }
+      ]
+     }
+    ],
+    "SeedData": [
+     {
+      "RowGuid": "00000151-0000-0000-0001-000000000001",
+      "EntityID": "lab",
+      "Status": "1",
+      "SupplyCode": "SI-2026-0001",
+      "TxnType": "I",
+      "SupplyGuid": "所屬用品02",
+      "Qty": 114,
+      "TxnDate": "2026-04-06",
+      "LotNo": "ST-2026-0002",
+      "UserName": "李檢測",
+      "Purpose": "【領用】用途02",
+      "TestOrderNo": "ST-2026-0002",
+      "ScrapReason": "CON",
+      "ReturnReason": "",
+      "ReturnTarget": "【退貨】退貨對象02",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000151-0000-0000-0001-000000000002",
+      "EntityID": "lab",
+      "Status": "1",
+      "SupplyCode": "SI-2026-0001",
+      "TxnType": "I",
+      "SupplyGuid": "所屬用品03",
+      "Qty": 150,
+      "TxnDate": "2026-08-15",
+      "LotNo": "ST-2026-0003",
+      "UserName": "陳審核",
+      "Purpose": "【領用】用途03",
+      "TestOrderNo": "ST-2026-0003",
+      "ScrapReason": "EXP",
+      "ReturnReason": "",
+      "ReturnTarget": "【退貨】退貨對象03",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000151-0000-0000-0001-000000000003",
+      "EntityID": "lab",
+      "Status": "1",
+      "SupplyCode": "SI-2026-0001",
+      "TxnType": "I",
+      "SupplyGuid": "所屬用品04",
+      "Qty": 89,
+      "TxnDate": "2025-11-19",
+      "LotNo": "ST-2026-0004",
+      "UserName": "謝校正",
+      "Purpose": "【領用】用途04",
+      "TestOrderNo": "ST-2026-0004",
+      "ScrapReason": "OTH",
+      "ReturnReason": "",
+      "ReturnTarget": "【退貨】退貨對象04",
+      "Remark": "急件已加收費用"
+     },
+     {
+      "RowGuid": "00000151-0000-0000-0001-000000000004",
+      "EntityID": "lab",
+      "Status": "1",
+      "SupplyCode": "SI-2026-0001",
+      "TxnType": "S",
+      "SupplyGuid": "所屬用品05",
+      "Qty": 57,
+      "TxnDate": "2025-10-17",
+      "LotNo": "ST-2025-0005",
+      "UserName": "張分析",
+      "Purpose": "【領用】用途05",
+      "TestOrderNo": "ST-2025-0005",
+      "ScrapReason": "OTH",
+      "ReturnReason": "樣品外觀正常",
+      "ReturnTarget": "【退貨】退貨對象05",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000151-0000-0000-0001-000000000005",
+      "EntityID": "lab",
+      "Status": "1",
+      "SupplyCode": "SI-2026-0002",
+      "TxnType": "A",
+      "SupplyGuid": "所屬用品06",
+      "Qty": 183,
+      "TxnDate": "2025-01-15",
+      "LotNo": "ST-2025-0006",
+      "UserName": "蔡研究",
+      "Purpose": "【領用】用途06",
+      "TestOrderNo": "ST-2026-0006",
+      "ScrapReason": "EXP",
+      "ReturnReason": "",
+      "ReturnTarget": "【退貨】退貨對象06",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000151-0000-0000-0001-000000000006",
+      "EntityID": "lab",
+      "Status": "1",
+      "SupplyCode": "SI-2026-0002",
+      "TxnType": "S",
+      "SupplyGuid": "所屬用品07",
+      "Qty": 68,
+      "TxnDate": "2026-04-14",
+      "LotNo": "ST-2026-0007",
+      "UserName": "謝校正",
+      "Purpose": "【領用】用途07",
+      "TestOrderNo": "ST-2026-0007",
+      "ScrapReason": "OTH",
+      "ReturnReason": "需注意保存效期",
+      "ReturnTarget": "【退貨】退貨對象07",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000151-0000-0000-0001-000000000007",
+      "EntityID": "lab",
+      "Status": "1",
+      "SupplyCode": "SI-2026-0002",
+      "TxnType": "R",
+      "SupplyGuid": "所屬用品08",
+      "Qty": 102,
+      "TxnDate": "2026-12-24",
+      "LotNo": "ST-2025-0008",
+      "UserName": "何環安",
+      "Purpose": "【領用】用途08",
+      "TestOrderNo": "ST-2025-0008",
+      "ScrapReason": "EXP",
+      "ReturnReason": "",
+      "ReturnTarget": "【退貨】退貨對象08",
+      "Remark": "複驗確認無誤"
+     },
+     {
+      "RowGuid": "00000151-0000-0000-0001-000000000008",
+      "EntityID": "lab",
+      "Status": "1",
+      "SupplyCode": "SI-2026-0002",
+      "TxnType": "I",
+      "SupplyGuid": "所屬用品09",
+      "Qty": 144,
+      "TxnDate": "2025-07-26",
+      "LotNo": "ST-2025-0009",
+      "UserName": "黃技正",
+      "Purpose": "【領用】用途09",
+      "TestOrderNo": "ST-2025-0009",
+      "ScrapReason": "EXP",
+      "ReturnReason": "需注意保存效期",
+      "ReturnTarget": "【退貨】退貨對象09",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000151-0000-0000-0001-000000000009",
+      "EntityID": "lab",
+      "Status": "1",
+      "SupplyCode": "SI-2026-0003",
+      "TxnType": "S",
+      "SupplyGuid": "所屬用品10",
+      "Qty": 66,
+      "TxnDate": "2025-01-19",
+      "LotNo": "ST-2025-0010",
+      "UserName": "王采樣",
+      "Purpose": "【領用】用途10",
+      "TestOrderNo": "ST-2026-0010",
+      "ScrapReason": "EXP",
+      "ReturnReason": "",
+      "ReturnTarget": "【退貨】退貨對象10",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000151-0000-0000-0001-000000000010",
+      "EntityID": "lab",
+      "Status": "1",
+      "SupplyCode": "SI-2026-0003",
+      "TxnType": "R",
+      "SupplyGuid": "所屬用品11",
+      "Qty": 112,
+      "TxnDate": "2026-08-04",
+      "LotNo": "ST-2026-0011",
+      "UserName": "蔡研究",
+      "Purpose": "【領用】用途11",
+      "TestOrderNo": "ST-2025-0011",
+      "ScrapReason": "EXP",
+      "ReturnReason": "",
+      "ReturnTarget": "【退貨】退貨對象11",
+      "Remark": "待主管覆核"
+     },
+     {
+      "RowGuid": "00000151-0000-0000-0001-000000000011",
+      "EntityID": "lab",
+      "Status": "1",
+      "SupplyCode": "SI-2026-0004",
+      "TxnType": "I",
+      "SupplyGuid": "所屬用品12",
+      "Qty": 133,
+      "TxnDate": "2025-12-09",
+      "LotNo": "ST-2026-0012",
+      "UserName": "郭品管",
+      "Purpose": "【領用】用途12",
+      "TestOrderNo": "ST-2026-0012",
+      "ScrapReason": "EXP",
+      "ReturnReason": "定期校正合格",
+      "ReturnTarget": "【退貨】退貨對象12",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000151-0000-0000-0001-000000000012",
+      "EntityID": "lab",
+      "Status": "1",
+      "SupplyCode": "SI-2026-0004",
+      "TxnType": "O",
+      "SupplyGuid": "所屬用品13",
+      "Qty": 8,
+      "TxnDate": "2026-06-04",
+      "LotNo": "ST-2025-0013",
+      "UserName": "劉助理",
+      "Purpose": "【領用】用途13",
+      "TestOrderNo": "ST-2026-0013",
+      "ScrapReason": "EXP",
+      "ReturnReason": "",
+      "ReturnTarget": "【退貨】退貨對象13",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000151-0000-0000-0001-000000000013",
+      "EntityID": "lab",
+      "Status": "1",
+      "SupplyCode": "SI-2026-0005",
+      "TxnType": "R",
+      "SupplyGuid": "所屬用品14",
+      "Qty": 100,
+      "TxnDate": "2026-05-08",
+      "LotNo": "ST-2025-0014",
+      "UserName": "劉助理",
+      "Purpose": "【領用】用途14",
+      "TestOrderNo": "ST-2026-0014",
+      "ScrapReason": "OTH",
+      "ReturnReason": "",
+      "ReturnTarget": "【退貨】退貨對象14",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000151-0000-0000-0001-000000000014",
+      "EntityID": "lab",
+      "Status": "1",
+      "SupplyCode": "SI-2026-0005",
+      "TxnType": "R",
+      "SupplyGuid": "所屬用品15",
+      "Qty": 31,
+      "TxnDate": "2025-09-12",
+      "LotNo": "ST-2026-0015",
+      "UserName": "郭品管",
+      "Purpose": "【領用】用途15",
+      "TestOrderNo": "ST-2026-0015",
+      "ScrapReason": "EXP",
+      "ReturnReason": "定期校正合格",
+      "ReturnTarget": "【退貨】退貨對象15",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000151-0000-0000-0001-000000000015",
+      "EntityID": "lab",
+      "Status": "1",
+      "SupplyCode": "SI-2026-0005",
+      "TxnType": "I",
+      "SupplyGuid": "所屬用品16",
+      "Qty": 156,
+      "TxnDate": "2025-11-03",
+      "LotNo": "ST-2025-0016",
+      "UserName": "吳主任",
+      "Purpose": "【領用】用途16",
+      "TestOrderNo": "ST-2025-0016",
+      "ScrapReason": "EXP",
+      "ReturnReason": "",
+      "ReturnTarget": "【退貨】退貨對象16",
+      "Remark": "需注意保存效期"
+     },
+     {
+      "RowGuid": "00000151-0000-0000-0001-000000000016",
+      "EntityID": "lab",
+      "Status": "1",
+      "SupplyCode": "SI-2026-0006",
+      "TxnType": "R",
+      "SupplyGuid": "所屬用品17",
+      "Qty": 76,
+      "TxnDate": "2026-03-24",
+      "LotNo": "ST-2026-0017",
+      "UserName": "劉助理",
+      "Purpose": "【領用】用途17",
+      "TestOrderNo": "ST-2025-0017",
+      "ScrapReason": "EXP",
+      "ReturnReason": "",
+      "ReturnTarget": "【退貨】退貨對象17",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000151-0000-0000-0001-000000000017",
+      "EntityID": "lab",
+      "Status": "1",
+      "SupplyCode": "SI-2026-0006",
+      "TxnType": "I",
+      "SupplyGuid": "所屬用品18",
+      "Qty": 89,
+      "TxnDate": "2026-02-18",
+      "LotNo": "ST-2025-0018",
+      "UserName": "陳審核",
+      "Purpose": "【領用】用途18",
+      "TestOrderNo": "ST-2025-0018",
+      "ScrapReason": "OTH",
+      "ReturnReason": "",
+      "ReturnTarget": "【退貨】退貨對象18",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000151-0000-0000-0001-000000000018",
+      "EntityID": "lab",
+      "Status": "1",
+      "SupplyCode": "SI-2026-0006",
+      "TxnType": "I",
+      "SupplyGuid": "所屬用品19",
+      "Qty": 87,
+      "TxnDate": "2025-06-04",
+      "LotNo": "ST-2025-0019",
+      "UserName": "陳審核",
+      "Purpose": "【領用】用途19",
+      "TestOrderNo": "ST-2026-0019",
+      "ScrapReason": "EXP",
+      "ReturnReason": "需注意保存效期",
+      "ReturnTarget": "【退貨】退貨對象19",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000151-0000-0000-0001-000000000019",
+      "EntityID": "lab",
+      "Status": "1",
+      "SupplyCode": "SI-2026-0007",
+      "TxnType": "I",
+      "SupplyGuid": "所屬用品20",
+      "Qty": 143,
+      "TxnDate": "2026-07-12",
+      "LotNo": "ST-2025-0020",
+      "UserName": "黃技正",
+      "Purpose": "【領用】用途20",
+      "TestOrderNo": "ST-2026-0020",
+      "ScrapReason": "EXP",
+      "ReturnReason": "急件已加收費用",
+      "ReturnTarget": "【退貨】退貨對象20",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000151-0000-0000-0001-000000000020",
+      "EntityID": "lab",
+      "Status": "1",
+      "SupplyCode": "SI-2026-0007",
+      "TxnType": "S",
+      "SupplyGuid": "所屬用品21",
+      "Qty": 64,
+      "TxnDate": "2025-01-23",
+      "LotNo": "ST-2026-0021",
+      "UserName": "張分析",
+      "Purpose": "【領用】用途21",
+      "TestOrderNo": "ST-2025-0021",
+      "ScrapReason": "EXP",
+      "ReturnReason": "",
+      "ReturnTarget": "【退貨】退貨對象21",
+      "Remark": "客戶要求附 TAF Logo"
+     },
+     {
+      "RowGuid": "00000151-0000-0000-0001-000000000021",
+      "EntityID": "lab",
+      "Status": "1",
+      "SupplyCode": "SI-2026-0007",
+      "TxnType": "R",
+      "SupplyGuid": "所屬用品22",
+      "Qty": 143,
+      "TxnDate": "2026-02-01",
+      "LotNo": "ST-2025-0022",
+      "UserName": "黃技正",
+      "Purpose": "【領用】用途22",
+      "TestOrderNo": "ST-2026-0022",
+      "ScrapReason": "CON",
+      "ReturnReason": "",
+      "ReturnTarget": "【退貨】退貨對象22",
+      "Remark": "待主管覆核"
+     },
+     {
+      "RowGuid": "00000151-0000-0000-0001-000000000022",
+      "EntityID": "lab",
+      "Status": "1",
+      "SupplyCode": "SI-2026-0007",
+      "TxnType": "O",
+      "SupplyGuid": "所屬用品23",
+      "Qty": 115,
+      "TxnDate": "2026-01-15",
+      "LotNo": "ST-2025-0023",
+      "UserName": "郭品管",
+      "Purpose": "【領用】用途23",
+      "TestOrderNo": "ST-2026-0023",
+      "ScrapReason": "EXP",
+      "ReturnReason": "待主管覆核",
+      "ReturnTarget": "【退貨】退貨對象23",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000151-0000-0000-0001-000000000023",
+      "EntityID": "lab",
+      "Status": "1",
+      "SupplyCode": "SI-2026-0008",
+      "TxnType": "I",
+      "SupplyGuid": "所屬用品24",
+      "Qty": 113,
+      "TxnDate": "2025-07-12",
+      "LotNo": "ST-2026-0024",
+      "UserName": "蔡研究",
+      "Purpose": "【領用】用途24",
+      "TestOrderNo": "ST-2026-0024",
+      "ScrapReason": "EXP",
+      "ReturnReason": "",
+      "ReturnTarget": "【退貨】退貨對象24",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000151-0000-0000-0001-000000000024",
+      "EntityID": "lab",
+      "Status": "1",
+      "SupplyCode": "SI-2026-0008",
+      "TxnType": "I",
+      "SupplyGuid": "所屬用品25",
+      "Qty": 162,
+      "TxnDate": "2026-12-25",
+      "LotNo": "ST-2025-0025",
+      "UserName": "許工程",
+      "Purpose": "【領用】用途25",
+      "TestOrderNo": "ST-2026-0025",
+      "ScrapReason": "EXP",
+      "ReturnReason": "複驗確認無誤",
+      "ReturnTarget": "【退貨】退貨對象25",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000151-0000-0000-0001-000000000025",
+      "EntityID": "lab",
+      "Status": "1",
+      "SupplyCode": "SI-2026-0008",
+      "TxnType": "A",
+      "SupplyGuid": "所屬用品26",
+      "Qty": 162,
+      "TxnDate": "2025-11-03",
+      "LotNo": "ST-2025-0026",
+      "UserName": "鄭組長",
+      "Purpose": "【領用】用途26",
+      "TestOrderNo": "ST-2026-0026",
+      "ScrapReason": "DMG",
+      "ReturnReason": "定期校正合格",
+      "ReturnTarget": "【退貨】退貨對象26",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000151-0000-0000-0001-000000000026",
+      "EntityID": "lab",
+      "Status": "1",
+      "SupplyCode": "SI-2026-0008",
+      "TxnType": "I",
+      "SupplyGuid": "所屬用品27",
+      "Qty": 148,
+      "TxnDate": "2026-02-18",
+      "LotNo": "ST-2026-0027",
+      "UserName": "楊化驗",
+      "Purpose": "【領用】用途27",
+      "TestOrderNo": "ST-2026-0027",
+      "ScrapReason": "EXP",
+      "ReturnReason": "已通知申請單位",
+      "ReturnTarget": "【退貨】退貨對象27",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000151-0000-0000-0001-000000000027",
+      "EntityID": "lab",
+      "Status": "1",
+      "SupplyCode": "SI-2026-0009",
+      "TxnType": "R",
+      "SupplyGuid": "所屬用品28",
+      "Qty": 78,
+      "TxnDate": "2026-11-28",
+      "LotNo": "ST-2026-0028",
+      "UserName": "張分析",
+      "Purpose": "【領用】用途28",
+      "TestOrderNo": "ST-2025-0028",
+      "ScrapReason": "CON",
+      "ReturnReason": "樣品外觀正常",
+      "ReturnTarget": "【退貨】退貨對象28",
+      "Remark": "需注意保存效期"
+     },
+     {
+      "RowGuid": "00000151-0000-0000-0001-000000000028",
+      "EntityID": "lab",
+      "Status": "1",
+      "SupplyCode": "SI-2026-0009",
+      "TxnType": "S",
+      "SupplyGuid": "所屬用品29",
+      "Qty": 158,
+      "TxnDate": "2025-12-16",
+      "LotNo": "ST-2025-0029",
+      "UserName": "許工程",
+      "Purpose": "【領用】用途29",
+      "TestOrderNo": "ST-2026-0029",
+      "ScrapReason": "EXP",
+      "ReturnReason": "",
+      "ReturnTarget": "【退貨】退貨對象29",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000151-0000-0000-0001-000000000029",
+      "EntityID": "lab",
+      "Status": "1",
+      "SupplyCode": "SI-2026-0009",
+      "TxnType": "I",
+      "SupplyGuid": "所屬用品30",
+      "Qty": 33,
+      "TxnDate": "2025-01-25",
+      "LotNo": "ST-2025-0030",
+      "UserName": "何環安",
+      "Purpose": "【領用】用途30",
+      "TestOrderNo": "ST-2025-0030",
+      "ScrapReason": "EXP",
+      "ReturnReason": "急件已加收費用",
+      "ReturnTarget": "【退貨】退貨對象30",
+      "Remark": "急件已加收費用"
+     },
+     {
+      "RowGuid": "00000151-0000-0000-0001-000000000030",
+      "EntityID": "lab",
+      "Status": "1",
+      "SupplyCode": "SI-2026-0009",
+      "TxnType": "I",
+      "SupplyGuid": "所屬用品31",
+      "Qty": 135,
+      "TxnDate": "2026-03-06",
+      "LotNo": "ST-2025-0031",
+      "UserName": "郭品管",
+      "Purpose": "【領用】用途31",
+      "TestOrderNo": "ST-2025-0031",
+      "ScrapReason": "DMG",
+      "ReturnReason": "定期校正合格",
+      "ReturnTarget": "【退貨】退貨對象31",
+      "Remark": "定期校正合格"
+     },
+     {
+      "RowGuid": "00000151-0000-0000-0001-000000000031",
+      "EntityID": "lab",
+      "Status": "1",
+      "SupplyCode": "SI-2026-0010",
+      "TxnType": "A",
+      "SupplyGuid": "所屬用品32",
+      "Qty": 75,
+      "TxnDate": "2026-07-13",
+      "LotNo": "ST-2026-0032",
+      "UserName": "許工程",
+      "Purpose": "【領用】用途32",
+      "TestOrderNo": "ST-2025-0032",
+      "ScrapReason": "OTH",
+      "ReturnReason": "",
+      "ReturnTarget": "【退貨】退貨對象32",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000151-0000-0000-0001-000000000032",
+      "EntityID": "lab",
+      "Status": "1",
+      "SupplyCode": "SI-2026-0010",
+      "TxnType": "R",
+      "SupplyGuid": "所屬用品33",
+      "Qty": 65,
+      "TxnDate": "2025-07-02",
+      "LotNo": "ST-2026-0033",
+      "UserName": "周技士",
+      "Purpose": "【領用】用途33",
+      "TestOrderNo": "ST-2026-0033",
+      "ScrapReason": "EXP",
+      "ReturnReason": "複驗確認無誤",
+      "ReturnTarget": "【退貨】退貨對象33",
+      "Remark": "需注意保存效期"
+     },
+     {
+      "RowGuid": "00000151-0000-0000-0001-000000000033",
+      "EntityID": "lab",
+      "Status": "1",
+      "SupplyCode": "SI-2026-0011",
+      "TxnType": "I",
+      "SupplyGuid": "所屬用品34",
+      "Qty": 108,
+      "TxnDate": "2025-09-12",
+      "LotNo": "ST-2026-0034",
+      "UserName": "吳主任",
+      "Purpose": "【領用】用途34",
+      "TestOrderNo": "ST-2025-0034",
+      "ScrapReason": "EXP",
+      "ReturnReason": "",
+      "ReturnTarget": "【退貨】退貨對象34",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000151-0000-0000-0001-000000000034",
+      "EntityID": "lab",
+      "Status": "1",
+      "SupplyCode": "SI-2026-0011",
+      "TxnType": "I",
+      "SupplyGuid": "所屬用品35",
+      "Qty": 35,
+      "TxnDate": "2026-11-15",
+      "LotNo": "ST-2026-0035",
+      "UserName": "何環安",
+      "Purpose": "【領用】用途35",
+      "TestOrderNo": "ST-2025-0035",
+      "ScrapReason": "OTH",
+      "ReturnReason": "",
+      "ReturnTarget": "【退貨】退貨對象35",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000151-0000-0000-0001-000000000035",
+      "EntityID": "lab",
+      "Status": "1",
+      "SupplyCode": "SI-2026-0011",
+      "TxnType": "I",
+      "SupplyGuid": "所屬用品36",
+      "Qty": 199,
+      "TxnDate": "2025-11-04",
+      "LotNo": "ST-2026-0036",
+      "UserName": "何環安",
+      "Purpose": "【領用】用途36",
+      "TestOrderNo": "ST-2025-0036",
+      "ScrapReason": "OTH",
+      "ReturnReason": "",
+      "ReturnTarget": "【退貨】退貨對象36",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000151-0000-0000-0001-000000000036",
+      "EntityID": "lab",
+      "Status": "1",
+      "SupplyCode": "SI-2026-0012",
+      "TxnType": "I",
+      "SupplyGuid": "所屬用品37",
+      "Qty": 134,
+      "TxnDate": "2025-05-21",
+      "LotNo": "ST-2025-0037",
+      "UserName": "陳審核",
+      "Purpose": "【領用】用途37",
+      "TestOrderNo": "ST-2026-0037",
+      "ScrapReason": "EXP",
+      "ReturnReason": "已通知申請單位",
+      "ReturnTarget": "【退貨】退貨對象37",
+      "Remark": "待主管覆核"
+     },
+     {
+      "RowGuid": "00000151-0000-0000-0001-000000000037",
+      "EntityID": "lab",
+      "Status": "1",
+      "SupplyCode": "SI-2026-0012",
+      "TxnType": "I",
+      "SupplyGuid": "所屬用品38",
+      "Qty": 64,
+      "TxnDate": "2025-03-04",
+      "LotNo": "ST-2025-0038",
+      "UserName": "周技士",
+      "Purpose": "【領用】用途38",
+      "TestOrderNo": "ST-2025-0038",
+      "ScrapReason": "DMG",
+      "ReturnReason": "",
+      "ReturnTarget": "【退貨】退貨對象38",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000151-0000-0000-0001-000000000038",
+      "EntityID": "lab",
+      "Status": "1",
+      "SupplyCode": "SI-2026-0012",
+      "TxnType": "I",
+      "SupplyGuid": "所屬用品39",
+      "Qty": 193,
+      "TxnDate": "2025-06-16",
+      "LotNo": "ST-2025-0039",
+      "UserName": "何環安",
+      "Purpose": "【領用】用途39",
+      "TestOrderNo": "ST-2025-0039",
+      "ScrapReason": "OTH",
+      "ReturnReason": "客戶要求附 TAF Logo",
+      "ReturnTarget": "【退貨】退貨對象39",
+      "Remark": "客戶要求附 TAF Logo"
+     },
+     {
+      "RowGuid": "00000151-0000-0000-0001-000000000039",
+      "EntityID": "lab",
+      "Status": "1",
+      "SupplyCode": "SI-2026-0013",
+      "TxnType": "I",
+      "SupplyGuid": "所屬用品40",
+      "Qty": 51,
+      "TxnDate": "2026-12-25",
+      "LotNo": "ST-2025-0040",
+      "UserName": "黃技正",
+      "Purpose": "【領用】用途40",
+      "TestOrderNo": "ST-2026-0040",
+      "ScrapReason": "OTH",
+      "ReturnReason": "已通知申請單位",
+      "ReturnTarget": "【退貨】退貨對象40",
+      "Remark": "樣品外觀正常"
+     },
+     {
+      "RowGuid": "00000151-0000-0000-0001-000000000040",
+      "EntityID": "lab",
+      "Status": "1",
+      "SupplyCode": "SI-2026-0013",
+      "TxnType": "I",
+      "SupplyGuid": "所屬用品41",
+      "Qty": 193,
+      "TxnDate": "2025-02-06",
+      "LotNo": "ST-2025-0041",
+      "UserName": "周技士",
+      "Purpose": "【領用】用途41",
+      "TestOrderNo": "ST-2026-0041",
+      "ScrapReason": "DMG",
+      "ReturnReason": "待主管覆核",
+      "ReturnTarget": "【退貨】退貨對象41",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000151-0000-0000-0001-000000000041",
+      "EntityID": "lab",
+      "Status": "1",
+      "SupplyCode": "SI-2026-0013",
+      "TxnType": "I",
+      "SupplyGuid": "所屬用品42",
+      "Qty": 106,
+      "TxnDate": "2025-08-12",
+      "LotNo": "ST-2025-0042",
+      "UserName": "鄭組長",
+      "Purpose": "【領用】用途42",
+      "TestOrderNo": "ST-2026-0042",
+      "ScrapReason": "EXP",
+      "ReturnReason": "",
+      "ReturnTarget": "【退貨】退貨對象42",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000151-0000-0000-0001-000000000042",
+      "EntityID": "lab",
+      "Status": "1",
+      "SupplyCode": "SI-2026-0013",
+      "TxnType": "O",
+      "SupplyGuid": "所屬用品43",
+      "Qty": 7,
+      "TxnDate": "2026-01-08",
+      "LotNo": "ST-2025-0043",
+      "UserName": "鄭組長",
+      "Purpose": "【領用】用途43",
+      "TestOrderNo": "ST-2026-0043",
+      "ScrapReason": "EXP",
+      "ReturnReason": "",
+      "ReturnTarget": "【退貨】退貨對象43",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000151-0000-0000-0001-000000000043",
+      "EntityID": "lab",
+      "Status": "1",
+      "SupplyCode": "SI-2026-0014",
+      "TxnType": "I",
+      "SupplyGuid": "所屬用品44",
+      "Qty": 24,
+      "TxnDate": "2025-09-04",
+      "LotNo": "ST-2025-0044",
+      "UserName": "郭品管",
+      "Purpose": "【領用】用途44",
+      "TestOrderNo": "ST-2026-0044",
+      "ScrapReason": "EXP",
+      "ReturnReason": "",
+      "ReturnTarget": "【退貨】退貨對象44",
+      "Remark": "樣品外觀正常"
+     },
+     {
+      "RowGuid": "00000151-0000-0000-0001-000000000044",
+      "EntityID": "lab",
+      "Status": "1",
+      "SupplyCode": "SI-2026-0014",
+      "TxnType": "I",
+      "SupplyGuid": "所屬用品45",
+      "Qty": 148,
+      "TxnDate": "2026-09-09",
+      "LotNo": "ST-2026-0045",
+      "UserName": "楊化驗",
+      "Purpose": "【領用】用途45",
+      "TestOrderNo": "ST-2026-0045",
+      "ScrapReason": "EXP",
+      "ReturnReason": "",
+      "ReturnTarget": "【退貨】退貨對象45",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000151-0000-0000-0001-000000000045",
+      "EntityID": "lab",
+      "Status": "1",
+      "SupplyCode": "SI-2026-0014",
+      "TxnType": "I",
+      "SupplyGuid": "所屬用品46",
+      "Qty": 48,
+      "TxnDate": "2026-05-11",
+      "LotNo": "ST-2026-0046",
+      "UserName": "何環安",
+      "Purpose": "【領用】用途46",
+      "TestOrderNo": "ST-2025-0046",
+      "ScrapReason": "EXP",
+      "ReturnReason": "",
+      "ReturnTarget": "【退貨】退貨對象46",
+      "Remark": ""
+     }
+    ]
+   }
+  ]
+ },
+ "Features": {},
+ "DataScope": {
+  "DefaultWhere": "EntityID = 'lab' AND Status = '1'",
+  "AuthLevel": 2,
+  "SortExp": "SortNo ASC",
+  "DataConfig": {
+   "RowLimit": 2000,
+   "AllowExport": true
+  }
+ },
+ "CustomMeta": {
+  "CustomSchema": {
+   "WidgetType": "Grid",
+   "KeyField": "SupplyNo",
+   "TitleField": "SupplyName",
+   "ParentKeyField": null,
+   "PathField": null,
+   "PathSeparator": "/"
+  }
+ },
+ "SeedData": [
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000000",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-09-03 11:03",
+   "UpdatedBy": "lee.jc",
+   "UpdatedAt": "2026-10-14 15:05",
+   "SupplyNo": "SI-2025-0001",
+   "CategoryGuid": "所屬分類01",
+   "SupplyName": "濾紙 GF/C",
+   "SpecDesc": "",
+   "SupplierName": "劉助理",
+   "SafetyStockQty": 186,
+   "CurrentQty": 197,
+   "Unit": "M061 採購處",
+   "SupplyCode": "SI-2026-0001"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000001",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-05-21 15:23",
+   "UpdatedBy": "abram.chen",
+   "UpdatedAt": "2026-04-11 13:22",
+   "SupplyNo": "SI-2026-0002",
+   "CategoryGuid": "所屬分類02",
+   "SupplyName": "採樣瓶 500mL",
+   "SpecDesc": "客戶要求附 TAF Logo",
+   "SupplierName": "陳審核",
+   "SafetyStockQty": 100,
+   "CurrentQty": 120,
+   "Unit": "M011 工程處",
+   "SupplyCode": "SI-2026-0002"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000002",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-03-23 15:23",
+   "UpdatedBy": "lin.pb",
+   "UpdatedAt": "2026-11-01 14:00",
+   "SupplyNo": "SI-2026-0003",
+   "CategoryGuid": "所屬分類03",
+   "SupplyName": "拋棄式手套(M)",
+   "SpecDesc": "複驗確認無誤",
+   "SupplierName": "楊化驗",
+   "SafetyStockQty": 31,
+   "CurrentQty": 178,
+   "Unit": "M041 製造一處",
+   "SupplyCode": "SI-2026-0003"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000003",
+   "EntityID": "lab",
+   "Status": "0",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-04-14 18:00",
+   "UpdatedBy": "liu.as",
+   "UpdatedAt": "2026-03-07 10:03",
+   "SupplyNo": "SI-2026-0004",
+   "CategoryGuid": "所屬分類04",
+   "SupplyName": "pH試紙",
+   "SpecDesc": "",
+   "SupplierName": "何環安",
+   "SafetyStockQty": 142,
+   "CurrentQty": 189,
+   "Unit": "M051 製造二處",
+   "SupplyCode": "SI-2026-0004"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000004",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-07-19 11:28",
+   "UpdatedBy": "abram.chen",
+   "UpdatedAt": "2026-05-27 14:15",
+   "SupplyNo": "SI-2025-0005",
+   "CategoryGuid": "所屬分類05",
+   "SupplyName": "離心管 15mL",
+   "SpecDesc": "",
+   "SupplierName": "黃技正",
+   "SafetyStockQty": 78,
+   "CurrentQty": 92,
+   "Unit": "M051 製造二處",
+   "SupplyCode": "SI-2026-0005"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000005",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-04-25 10:38",
+   "UpdatedBy": "hsu.eng",
+   "UpdatedAt": "2026-09-01 15:17",
+   "SupplyNo": "SI-2026-0006",
+   "CategoryGuid": "所屬分類06",
+   "SupplyName": "樣品袋",
+   "SpecDesc": "",
+   "SupplierName": "張分析",
+   "SafetyStockQty": 147,
+   "CurrentQty": 136,
+   "Unit": "M061 採購處",
+   "SupplyCode": "SI-2026-0006"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000006",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-03-14 12:24",
+   "UpdatedBy": "chang.fa",
+   "UpdatedAt": "2026-05-28 08:28",
+   "SupplyNo": "SI-2026-0007",
+   "CategoryGuid": "所屬分類07",
+   "SupplyName": "標籤貼紙",
+   "SpecDesc": "",
+   "SupplierName": "黃技正",
+   "SafetyStockQty": 162,
+   "CurrentQty": 199,
+   "Unit": "M051 製造二處",
+   "SupplyCode": "SI-2026-0007"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000007",
+   "EntityID": "lab",
+   "Status": "0",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-01-27 09:18",
+   "UpdatedBy": "lin.pb",
+   "UpdatedAt": "2026-10-21 09:19",
+   "SupplyNo": "SI-2026-0008",
+   "CategoryGuid": "所屬分類08",
+   "SupplyName": "封口膜",
+   "SpecDesc": "待主管覆核",
+   "SupplierName": "謝校正",
+   "SafetyStockQty": 12,
+   "CurrentQty": 163,
+   "Unit": "R001 研發中心",
+   "SupplyCode": "SI-2026-0008"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000008",
+   "EntityID": "lab",
+   "Status": "0",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-02-02 08:03",
+   "UpdatedBy": "abram.chen",
+   "UpdatedAt": "2026-08-04 11:06",
+   "SupplyNo": "SI-2026-0009",
+   "CategoryGuid": "所屬分類09",
+   "SupplyName": "針筒過濾器 0.45µm",
+   "SpecDesc": "",
+   "SupplierName": "蔡研究",
+   "SafetyStockQty": 115,
+   "CurrentQty": 143,
+   "Unit": "M031 環安處",
+   "SupplyCode": "SI-2026-0009"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000009",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-10-27 09:20",
+   "UpdatedBy": "cheng.gl",
+   "UpdatedAt": "2026-05-23 15:14",
+   "SupplyNo": "SI-2026-0010",
+   "CategoryGuid": "所屬分類10",
+   "SupplyName": "採樣棉棒",
+   "SpecDesc": "",
+   "SupplierName": "王采樣",
+   "SafetyStockQty": 73,
+   "CurrentQty": 152,
+   "Unit": "M051 製造二處",
+   "SupplyCode": "SI-2026-0010"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000010",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-11-27 11:25",
+   "UpdatedBy": "liu.as",
+   "UpdatedAt": "2026-07-23 08:19",
+   "SupplyNo": "SI-2025-0011",
+   "CategoryGuid": "所屬分類11",
+   "SupplyName": "濾紙 GF/C",
+   "SpecDesc": "急件已加收費用",
+   "SupplierName": "黃技正",
+   "SafetyStockQty": 22,
+   "CurrentQty": 15,
+   "Unit": "M011 工程處",
+   "SupplyCode": "SI-2026-0011"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000011",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-04-04 08:37",
+   "UpdatedBy": "huang.tc",
+   "UpdatedAt": "2026-12-23 16:03",
+   "SupplyNo": "SI-2026-0012",
+   "CategoryGuid": "所屬分類12",
+   "SupplyName": "採樣瓶 500mL",
+   "SpecDesc": "",
+   "SupplierName": "蔡研究",
+   "SafetyStockQty": 113,
+   "CurrentQty": 167,
+   "Unit": "M011 工程處",
+   "SupplyCode": "SI-2026-0012"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000012",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-04-03 13:31",
+   "UpdatedBy": "lee.jc",
+   "UpdatedAt": "2026-09-05 09:02",
+   "SupplyNo": "SI-2025-0013",
+   "CategoryGuid": "所屬分類13",
+   "SupplyName": "拋棄式手套(M)",
+   "SpecDesc": "",
+   "SupplierName": "張分析",
+   "SafetyStockQty": 198,
+   "CurrentQty": 178,
+   "Unit": "R001 研發中心",
+   "SupplyCode": "SI-2026-0013"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000013",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-09-25 11:34",
+   "UpdatedBy": "huang.tc",
+   "UpdatedAt": "2026-11-03 18:06",
+   "SupplyNo": "SI-2026-0014",
+   "CategoryGuid": "所屬分類14",
+   "SupplyName": "pH試紙",
+   "SpecDesc": "",
+   "SupplierName": "黃技正",
+   "SafetyStockQty": 121,
+   "CurrentQty": 56,
+   "Unit": "M021 品保處",
+   "SupplyCode": "SI-2026-0014"
+  }
+ ]
+}

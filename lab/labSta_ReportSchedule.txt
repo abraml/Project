@@ -1,0 +1,1126 @@
+{
+ "EntityID": "lab",
+ "SystemCode": "MUEIP",
+ "ModuleCode": "LIMS",
+ "FuncCode": "labSta_ReportSchedule",
+ "ConfigHash": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+ "PageMeta": {
+  "PageTitle": "報表排程",
+  "Lang": "zh-TW",
+  "FormType": "ListForm",
+  "EditDisplayType": "Drawer",
+  "Breadcrumb": [
+   {
+    "Title": "首頁",
+    "Path": "/"
+   },
+   {
+    "Title": "分析統計與品管報表",
+    "Path": null
+   },
+   {
+    "Title": "報表排程",
+    "Path": "/lab/labSta_ReportSchedule"
+   }
+  ],
+  "IsApproval": false,
+  "TenantLocked": false,
+  "Icon": "ri-calendar-todo-line",
+  "Remark": "報表排程（由 labSta_ReportSchedule 規格書產生）"
+ },
+ "Resources": {
+  "CodeSets": {
+   "Status": [
+    {
+     "CodeID": "1",
+     "CodeName": "啟用",
+     "IsDefault": true
+    },
+    {
+     "CodeID": "0",
+     "CodeName": "停用"
+    }
+   ],
+   "Priority": [
+    {
+     "CodeID": "A",
+     "CodeName": "急件"
+    },
+    {
+     "CodeID": "B",
+     "CodeName": "高"
+    },
+    {
+     "CodeID": "C",
+     "CodeName": "一般",
+     "IsDefault": true
+    },
+    {
+     "CodeID": "D",
+     "CodeName": "低"
+    }
+   ],
+   "Frequency": [
+    {
+     "CodeID": "D",
+     "CodeName": "每日",
+     "IsDefault": true
+    },
+    {
+     "CodeID": "W",
+     "CodeName": "每週"
+    },
+    {
+     "CodeID": "M",
+     "CodeName": "每月"
+    },
+    {
+     "CodeID": "Q",
+     "CodeName": "每季"
+    }
+   ],
+   "ExportFormat": [
+    {
+     "CodeID": "PDF",
+     "CodeName": "PDF",
+     "IsDefault": true
+    },
+    {
+     "CodeID": "XLSX",
+     "CodeName": "Excel"
+    },
+    {
+     "CodeID": "CSV",
+     "CodeName": "CSV"
+    }
+   ]
+  },
+  "FeatureFlags": {
+   "IsReadOnly": false,
+   "EnableDraft": false,
+   "EnableBatchDelete": true,
+   "AutoRefreshInterval": 0,
+   "DefaultViewMode": "Table",
+   "RequireConfirmOnSave": true
+  }
+ },
+ "AllowAction": {
+  "DataActions": [
+   {
+    "ActionID": "Add",
+    "Label": "新增",
+    "Icon": "ri-add-line",
+    "Type": "Primary",
+    "Position": "Toolbar",
+    "Confirm": null
+   },
+   {
+    "ActionID": "Save",
+    "Label": "儲存",
+    "Icon": "ri-save-line",
+    "Type": "Primary",
+    "Position": "Toolbar",
+    "Confirm": null
+   },
+   {
+    "ActionID": "Delete",
+    "Label": "刪除",
+    "Icon": "ri-delete-bin-line",
+    "Type": "Danger",
+    "Position": "Both",
+    "Confirm": "確定要刪除此報表排程資料嗎？"
+   },
+   {
+    "ActionID": "Query",
+    "Label": "查詢",
+    "Icon": "ri-search-line",
+    "Type": "Default",
+    "Position": "Toolbar",
+    "Confirm": null
+   }
+  ],
+  "ExtensionActions": [
+   {
+    "ActionID": "Import",
+    "Label": "匯入",
+    "Icon": "ri-upload-2-line",
+    "Type": "Default",
+    "Position": "Toolbar"
+   },
+   {
+    "ActionID": "Export",
+    "Label": "匯出",
+    "Icon": "ri-download-2-line",
+    "Type": "Default",
+    "Position": "Toolbar"
+   }
+  ]
+ },
+ "View": {
+  "RowKey": "RowGuid",
+  "ListView": {
+   "ListSpec": {
+    "RowKey": "RowGuid",
+    "SelectMode": "Single",
+    "FixedColumns": [
+     "Action",
+     "No"
+    ],
+    "RowActionMode": "Menu",
+    "ShowRowNo": true,
+    "Pagination": {
+     "PageSize": 100,
+     "SizeOptions": [
+      50,
+      100,
+      200,
+      500
+     ],
+     "ShowJumper": false,
+     "FullPageScroll": true
+    },
+    "DefaultSort": {
+     "Field": "SortNo",
+     "Order": "asc"
+    },
+    "EmptyText": "目前查無報表排程資料",
+    "GridBordered": true
+   },
+   "FieldSpecs": [
+    {
+     "BindField": "ScheduleName",
+     "Title": "排程名稱",
+     "Align": "Left",
+     "DefaultVisible": true,
+     "Formatter": "Link",
+     "Fixed": "Left",
+     "Width": 160,
+     "Sorter": true
+    },
+    {
+     "BindField": "Frequency",
+     "Title": "寄送頻率",
+     "Align": "Center",
+     "DefaultVisible": true,
+     "Formatter": "Tag",
+     "Width": 110
+    },
+    {
+     "BindField": "DayOfWeek",
+     "Title": "頻率為週時",
+     "Align": "Left",
+     "DefaultVisible": true,
+     "Width": 140
+    },
+    {
+     "BindField": "DayOfMonth",
+     "Title": "頻率為月時",
+     "Align": "Left",
+     "DefaultVisible": true,
+     "Width": 140
+    },
+    {
+     "BindField": "SendTime",
+     "Title": "寄送時間",
+     "Align": "Left",
+     "DefaultVisible": true,
+     "Width": 140
+    },
+    {
+     "BindField": "ExportFormat",
+     "Title": "匯出格式",
+     "Align": "Center",
+     "DefaultVisible": true,
+     "Formatter": "Tag",
+     "Width": 110
+    },
+    {
+     "BindField": "Status",
+     "Title": "啟用狀態",
+     "Align": "Center",
+     "DefaultVisible": true,
+     "Formatter": "Tag",
+     "Width": 80
+    }
+   ]
+  },
+  "FormView": {
+   "FormSpec": {
+    "RowKey": "RowGuid",
+    "Layout": "Horizontal",
+    "Sections": [
+     {
+      "SectionID": "SecBase",
+      "Type": "Card",
+      "Title": "基本資料",
+      "IsCollapsible": false,
+      "DefaultOpen": true,
+      "Icon": "ri-calendar-todo-line"
+     },
+     {
+      "SectionID": "SecExtra",
+      "Type": "Card",
+      "Title": "系統資訊",
+      "IsCollapsible": true,
+      "DefaultOpen": false,
+      "Icon": "ri-settings-4-line"
+     }
+    ],
+    "FormLogic": []
+   },
+   "FieldSpecs": [
+    {
+     "BindField": "RowKey",
+     "Title": "系統識別碼",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 24,
+     "Mode": "Hidden"
+    },
+    {
+     "BindField": "EntityID",
+     "Title": "系統實體",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "Hidden",
+     "DefaultValue": "lab"
+    },
+    {
+     "BindField": "ScheduleName",
+     "Title": "排程名稱",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "Required",
+       "Message": "排程名稱為必填"
+      },
+      {
+       "Rule": "MaxLength",
+       "Value": 50,
+       "Message": "長度不可超過 50"
+      }
+     ]
+    },
+    {
+     "BindField": "ReportTypeGuid",
+     "Title": "報表類型",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "ReadOnly",
+     "Validations": [
+      {
+       "Rule": "Required",
+       "Message": "報表類型為必填"
+      }
+     ]
+    },
+    {
+     "BindField": "Frequency",
+     "Title": "寄送頻率",
+     "Component": "Select",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Props": {
+      "OptionKey": "Frequency"
+     },
+     "DefaultValue": "D"
+    },
+    {
+     "BindField": "DayOfWeek",
+     "Title": "頻率為週時",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable"
+    },
+    {
+     "BindField": "DayOfMonth",
+     "Title": "頻率為月時",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable"
+    },
+    {
+     "BindField": "SendTime",
+     "Title": "寄送時間",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable"
+    },
+    {
+     "BindField": "ExportFormat",
+     "Title": "匯出格式",
+     "Component": "Select",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Props": {
+      "OptionKey": "ExportFormat"
+     },
+     "DefaultValue": "PDF"
+    },
+    {
+     "BindField": "Status",
+     "Title": "啟用狀態",
+     "Component": "Select",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "DefaultValue": "1",
+     "Props": {
+      "OptionKey": "Status"
+     }
+    },
+    {
+     "BindField": "CreatedBy",
+     "Title": "建立者帳號",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "ReadOnly"
+    },
+    {
+     "BindField": "CreatedAt",
+     "Title": "資料建立日期時間",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "ReadOnly"
+    },
+    {
+     "BindField": "UpdatedBy",
+     "Title": "最後更新者帳號",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "ReadOnly"
+    },
+    {
+     "BindField": "UpdatedAt",
+     "Title": "最後更新日期時間",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "ReadOnly"
+    }
+   ]
+  },
+  "DetailViews": [
+   {
+    "DetailID": "Recipient",
+    "Title": "收件人",
+    "Icon": "ri-mail-line",
+    "Entity": "labSta_ReportScheduleRecipient",
+    "RelationKey": "ScheduleNo",
+    "RowKey": "RowGuid",
+    "AllowAdd": true,
+    "AllowEdit": true,
+    "AllowDelete": true,
+    "EmptyText": "尚無收件人資料",
+    "CodeSets": {
+     "Status": [
+      {
+       "CodeID": "1",
+       "CodeName": "啟用",
+       "IsDefault": true
+      },
+      {
+       "CodeID": "0",
+       "CodeName": "停用"
+      }
+     ],
+     "Priority": [
+      {
+       "CodeID": "A",
+       "CodeName": "急件"
+      },
+      {
+       "CodeID": "B",
+       "CodeName": "高"
+      },
+      {
+       "CodeID": "C",
+       "CodeName": "一般",
+       "IsDefault": true
+      },
+      {
+       "CodeID": "D",
+       "CodeName": "低"
+      }
+     ]
+    },
+    "Columns": [
+     {
+      "BindField": "ScheduleGuid",
+      "Title": "所屬排程",
+      "Width": 120,
+      "Align": "Left"
+     },
+     {
+      "BindField": "Email",
+      "Title": "收件人 Email",
+      "Width": 120,
+      "Align": "Left"
+     }
+    ],
+    "FormFields": [
+     {
+      "BindField": "ScheduleGuid",
+      "Title": "所屬排程",
+      "Component": "Input",
+      "Section": "",
+      "Span": 12,
+      "Mode": "ReadOnly",
+      "Validations": [
+       {
+        "Rule": "Required",
+        "Message": "所屬排程為必填"
+       }
+      ]
+     },
+     {
+      "BindField": "Email",
+      "Title": "收件人 Email",
+      "Component": "Input",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Validations": [
+       {
+        "Rule": "Required",
+        "Message": "收件人 Email為必填"
+       },
+       {
+        "Rule": "MaxLength",
+        "Value": 100,
+        "Message": "長度不可超過 100"
+       }
+      ]
+     }
+    ],
+    "SeedData": [
+     {
+      "RowGuid": "0000017a-0000-0000-0001-000000000001",
+      "EntityID": "lab",
+      "Status": "1",
+      "ScheduleNo": "RS-2026-0001",
+      "ScheduleGuid": "所屬排程02",
+      "Email": "張分析"
+     },
+     {
+      "RowGuid": "0000017a-0000-0000-0001-000000000002",
+      "EntityID": "lab",
+      "Status": "1",
+      "ScheduleNo": "RS-2026-0001",
+      "ScheduleGuid": "所屬排程03",
+      "Email": "許工程"
+     },
+     {
+      "RowGuid": "0000017a-0000-0000-0001-000000000003",
+      "EntityID": "lab",
+      "Status": "1",
+      "ScheduleNo": "RS-2026-0001",
+      "ScheduleGuid": "所屬排程04",
+      "Email": "蔡研究"
+     },
+     {
+      "RowGuid": "0000017a-0000-0000-0001-000000000004",
+      "EntityID": "lab",
+      "Status": "1",
+      "ScheduleNo": "RS-2026-0002",
+      "ScheduleGuid": "所屬排程05",
+      "Email": "何環安"
+     },
+     {
+      "RowGuid": "0000017a-0000-0000-0001-000000000005",
+      "EntityID": "lab",
+      "Status": "1",
+      "ScheduleNo": "RS-2026-0002",
+      "ScheduleGuid": "所屬排程06",
+      "Email": "吳主任"
+     },
+     {
+      "RowGuid": "0000017a-0000-0000-0001-000000000006",
+      "EntityID": "lab",
+      "Status": "1",
+      "ScheduleNo": "RS-2026-0002",
+      "ScheduleGuid": "所屬排程07",
+      "Email": "郭品管"
+     },
+     {
+      "RowGuid": "0000017a-0000-0000-0001-000000000007",
+      "EntityID": "lab",
+      "Status": "1",
+      "ScheduleNo": "RS-2026-0002",
+      "ScheduleGuid": "所屬排程08",
+      "Email": "黃技正"
+     },
+     {
+      "RowGuid": "0000017a-0000-0000-0001-000000000008",
+      "EntityID": "lab",
+      "Status": "1",
+      "ScheduleNo": "RS-2026-0003",
+      "ScheduleGuid": "所屬排程09",
+      "Email": "林品保"
+     },
+     {
+      "RowGuid": "0000017a-0000-0000-0001-000000000009",
+      "EntityID": "lab",
+      "Status": "1",
+      "ScheduleNo": "RS-2026-0003",
+      "ScheduleGuid": "所屬排程10",
+      "Email": "何環安"
+     },
+     {
+      "RowGuid": "0000017a-0000-0000-0001-000000000010",
+      "EntityID": "lab",
+      "Status": "1",
+      "ScheduleNo": "RS-2026-0003",
+      "ScheduleGuid": "所屬排程11",
+      "Email": "周技士"
+     },
+     {
+      "RowGuid": "0000017a-0000-0000-0001-000000000011",
+      "EntityID": "lab",
+      "Status": "1",
+      "ScheduleNo": "RS-2026-0003",
+      "ScheduleGuid": "所屬排程12",
+      "Email": "林品保"
+     },
+     {
+      "RowGuid": "0000017a-0000-0000-0001-000000000012",
+      "EntityID": "lab",
+      "Status": "1",
+      "ScheduleNo": "RS-2026-0004",
+      "ScheduleGuid": "所屬排程13",
+      "Email": "何環安"
+     },
+     {
+      "RowGuid": "0000017a-0000-0000-0001-000000000013",
+      "EntityID": "lab",
+      "Status": "1",
+      "ScheduleNo": "RS-2026-0004",
+      "ScheduleGuid": "所屬排程14",
+      "Email": "郭品管"
+     },
+     {
+      "RowGuid": "0000017a-0000-0000-0001-000000000014",
+      "EntityID": "lab",
+      "Status": "1",
+      "ScheduleNo": "RS-2026-0005",
+      "ScheduleGuid": "所屬排程15",
+      "Email": "周技士"
+     },
+     {
+      "RowGuid": "0000017a-0000-0000-0001-000000000015",
+      "EntityID": "lab",
+      "Status": "1",
+      "ScheduleNo": "RS-2026-0005",
+      "ScheduleGuid": "所屬排程16",
+      "Email": "李檢測"
+     },
+     {
+      "RowGuid": "0000017a-0000-0000-0001-000000000016",
+      "EntityID": "lab",
+      "Status": "1",
+      "ScheduleNo": "RS-2026-0006",
+      "ScheduleGuid": "所屬排程17",
+      "Email": "何環安"
+     },
+     {
+      "RowGuid": "0000017a-0000-0000-0001-000000000017",
+      "EntityID": "lab",
+      "Status": "1",
+      "ScheduleNo": "RS-2026-0006",
+      "ScheduleGuid": "所屬排程18",
+      "Email": "郭品管"
+     },
+     {
+      "RowGuid": "0000017a-0000-0000-0001-000000000018",
+      "EntityID": "lab",
+      "Status": "1",
+      "ScheduleNo": "RS-2026-0006",
+      "ScheduleGuid": "所屬排程19",
+      "Email": "蔡研究"
+     },
+     {
+      "RowGuid": "0000017a-0000-0000-0001-000000000019",
+      "EntityID": "lab",
+      "Status": "1",
+      "ScheduleNo": "RS-2026-0007",
+      "ScheduleGuid": "所屬排程20",
+      "Email": "周技士"
+     },
+     {
+      "RowGuid": "0000017a-0000-0000-0001-000000000020",
+      "EntityID": "lab",
+      "Status": "1",
+      "ScheduleNo": "RS-2026-0007",
+      "ScheduleGuid": "所屬排程21",
+      "Email": "鄭組長"
+     },
+     {
+      "RowGuid": "0000017a-0000-0000-0001-000000000021",
+      "EntityID": "lab",
+      "Status": "1",
+      "ScheduleNo": "RS-2026-0008",
+      "ScheduleGuid": "所屬排程22",
+      "Email": "郭品管"
+     },
+     {
+      "RowGuid": "0000017a-0000-0000-0001-000000000022",
+      "EntityID": "lab",
+      "Status": "1",
+      "ScheduleNo": "RS-2026-0008",
+      "ScheduleGuid": "所屬排程23",
+      "Email": "張分析"
+     },
+     {
+      "RowGuid": "0000017a-0000-0000-0001-000000000023",
+      "EntityID": "lab",
+      "Status": "1",
+      "ScheduleNo": "RS-2026-0008",
+      "ScheduleGuid": "所屬排程24",
+      "Email": "陳審核"
+     },
+     {
+      "RowGuid": "0000017a-0000-0000-0001-000000000024",
+      "EntityID": "lab",
+      "Status": "1",
+      "ScheduleNo": "RS-2026-0009",
+      "ScheduleGuid": "所屬排程25",
+      "Email": "張分析"
+     },
+     {
+      "RowGuid": "0000017a-0000-0000-0001-000000000025",
+      "EntityID": "lab",
+      "Status": "1",
+      "ScheduleNo": "RS-2026-0009",
+      "ScheduleGuid": "所屬排程26",
+      "Email": "鄭組長"
+     },
+     {
+      "RowGuid": "0000017a-0000-0000-0001-000000000026",
+      "EntityID": "lab",
+      "Status": "1",
+      "ScheduleNo": "RS-2026-0009",
+      "ScheduleGuid": "所屬排程27",
+      "Email": "何環安"
+     },
+     {
+      "RowGuid": "0000017a-0000-0000-0001-000000000027",
+      "EntityID": "lab",
+      "Status": "1",
+      "ScheduleNo": "RS-2026-0009",
+      "ScheduleGuid": "所屬排程28",
+      "Email": "蔡研究"
+     },
+     {
+      "RowGuid": "0000017a-0000-0000-0001-000000000028",
+      "EntityID": "lab",
+      "Status": "1",
+      "ScheduleNo": "RS-2026-0010",
+      "ScheduleGuid": "所屬排程29",
+      "Email": "陳審核"
+     },
+     {
+      "RowGuid": "0000017a-0000-0000-0001-000000000029",
+      "EntityID": "lab",
+      "Status": "1",
+      "ScheduleNo": "RS-2026-0010",
+      "ScheduleGuid": "所屬排程30",
+      "Email": "謝校正"
+     },
+     {
+      "RowGuid": "0000017a-0000-0000-0001-000000000030",
+      "EntityID": "lab",
+      "Status": "1",
+      "ScheduleNo": "RS-2026-0010",
+      "ScheduleGuid": "所屬排程31",
+      "Email": "郭品管"
+     },
+     {
+      "RowGuid": "0000017a-0000-0000-0001-000000000031",
+      "EntityID": "lab",
+      "Status": "1",
+      "ScheduleNo": "RS-2026-0010",
+      "ScheduleGuid": "所屬排程32",
+      "Email": "周技士"
+     },
+     {
+      "RowGuid": "0000017a-0000-0000-0001-000000000032",
+      "EntityID": "lab",
+      "Status": "1",
+      "ScheduleNo": "RS-2026-0011",
+      "ScheduleGuid": "所屬排程33",
+      "Email": "謝校正"
+     },
+     {
+      "RowGuid": "0000017a-0000-0000-0001-000000000033",
+      "EntityID": "lab",
+      "Status": "1",
+      "ScheduleNo": "RS-2026-0011",
+      "ScheduleGuid": "所屬排程34",
+      "Email": "許工程"
+     },
+     {
+      "RowGuid": "0000017a-0000-0000-0001-000000000034",
+      "EntityID": "lab",
+      "Status": "1",
+      "ScheduleNo": "RS-2026-0011",
+      "ScheduleGuid": "所屬排程35",
+      "Email": "鄭組長"
+     },
+     {
+      "RowGuid": "0000017a-0000-0000-0001-000000000035",
+      "EntityID": "lab",
+      "Status": "1",
+      "ScheduleNo": "RS-2026-0012",
+      "ScheduleGuid": "所屬排程36",
+      "Email": "蔡研究"
+     },
+     {
+      "RowGuid": "0000017a-0000-0000-0001-000000000036",
+      "EntityID": "lab",
+      "Status": "1",
+      "ScheduleNo": "RS-2026-0012",
+      "ScheduleGuid": "所屬排程37",
+      "Email": "楊化驗"
+     },
+     {
+      "RowGuid": "0000017a-0000-0000-0001-000000000037",
+      "EntityID": "lab",
+      "Status": "1",
+      "ScheduleNo": "RS-2026-0012",
+      "ScheduleGuid": "所屬排程38",
+      "Email": "林品保"
+     },
+     {
+      "RowGuid": "0000017a-0000-0000-0001-000000000038",
+      "EntityID": "lab",
+      "Status": "1",
+      "ScheduleNo": "RS-2026-0013",
+      "ScheduleGuid": "所屬排程39",
+      "Email": "吳主任"
+     },
+     {
+      "RowGuid": "0000017a-0000-0000-0001-000000000039",
+      "EntityID": "lab",
+      "Status": "1",
+      "ScheduleNo": "RS-2026-0013",
+      "ScheduleGuid": "所屬排程40",
+      "Email": "蔡研究"
+     },
+     {
+      "RowGuid": "0000017a-0000-0000-0001-000000000040",
+      "EntityID": "lab",
+      "Status": "1",
+      "ScheduleNo": "RS-2026-0013",
+      "ScheduleGuid": "所屬排程41",
+      "Email": "林品保"
+     },
+     {
+      "RowGuid": "0000017a-0000-0000-0001-000000000041",
+      "EntityID": "lab",
+      "Status": "1",
+      "ScheduleNo": "RS-2026-0013",
+      "ScheduleGuid": "所屬排程42",
+      "Email": "楊化驗"
+     },
+     {
+      "RowGuid": "0000017a-0000-0000-0001-000000000042",
+      "EntityID": "lab",
+      "Status": "1",
+      "ScheduleNo": "RS-2026-0014",
+      "ScheduleGuid": "所屬排程43",
+      "Email": "周技士"
+     },
+     {
+      "RowGuid": "0000017a-0000-0000-0001-000000000043",
+      "EntityID": "lab",
+      "Status": "1",
+      "ScheduleNo": "RS-2026-0014",
+      "ScheduleGuid": "所屬排程44",
+      "Email": "劉助理"
+     },
+     {
+      "RowGuid": "0000017a-0000-0000-0001-000000000044",
+      "EntityID": "lab",
+      "Status": "1",
+      "ScheduleNo": "RS-2026-0014",
+      "ScheduleGuid": "所屬排程45",
+      "Email": "張分析"
+     }
+    ]
+   }
+  ]
+ },
+ "Features": {},
+ "DataScope": {
+  "DefaultWhere": "EntityID = 'lab' AND Status = '1'",
+  "AuthLevel": 2,
+  "SortExp": "SortNo ASC",
+  "DataConfig": {
+   "RowLimit": 2000,
+   "AllowExport": true
+  }
+ },
+ "CustomMeta": {
+  "CustomSchema": {
+   "WidgetType": "Grid",
+   "KeyField": "ScheduleName",
+   "TitleField": "Frequency",
+   "ParentKeyField": null,
+   "PathField": null,
+   "PathSeparator": "/"
+  }
+ },
+ "SeedData": [
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000000",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-08-18 15:11",
+   "UpdatedBy": "liu.as",
+   "UpdatedAt": "2026-01-22 08:06",
+   "ScheduleName": "林品保",
+   "ReportTypeGuid": "報表類型01",
+   "Frequency": "Q",
+   "DayOfWeek": "頻率為週時01",
+   "DayOfMonth": "頻率為月時01",
+   "SendTime": "寄送時間01",
+   "ExportFormat": "PDF",
+   "ScheduleNo": "RS-2026-0001"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000001",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-10-01 13:07",
+   "UpdatedBy": "hsu.eng",
+   "UpdatedAt": "2026-03-09 15:00",
+   "ScheduleName": "張分析",
+   "ReportTypeGuid": "報表類型02",
+   "Frequency": "Q",
+   "DayOfWeek": "頻率為週時02",
+   "DayOfMonth": "頻率為月時02",
+   "SendTime": "寄送時間02",
+   "ExportFormat": "PDF",
+   "ScheduleNo": "RS-2026-0002"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000002",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-05-21 14:07",
+   "UpdatedBy": "cheng.gl",
+   "UpdatedAt": "2026-08-04 12:09",
+   "ScheduleName": "張分析",
+   "ReportTypeGuid": "報表類型03",
+   "Frequency": "Q",
+   "DayOfWeek": "頻率為週時03",
+   "DayOfMonth": "頻率為月時03",
+   "SendTime": "寄送時間03",
+   "ExportFormat": "XLSX",
+   "ScheduleNo": "RS-2026-0003"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000003",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-12-18 15:13",
+   "UpdatedBy": "liu.as",
+   "UpdatedAt": "2026-02-01 11:26",
+   "ScheduleName": "郭品管",
+   "ReportTypeGuid": "報表類型04",
+   "Frequency": "D",
+   "DayOfWeek": "頻率為週時04",
+   "DayOfMonth": "頻率為月時04",
+   "SendTime": "寄送時間04",
+   "ExportFormat": "PDF",
+   "ScheduleNo": "RS-2026-0004"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000004",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-08-18 15:22",
+   "UpdatedBy": "wu.dir",
+   "UpdatedAt": "2026-12-22 13:26",
+   "ScheduleName": "郭品管",
+   "ReportTypeGuid": "報表類型05",
+   "Frequency": "W",
+   "DayOfWeek": "頻率為週時05",
+   "DayOfMonth": "頻率為月時05",
+   "SendTime": "寄送時間05",
+   "ExportFormat": "PDF",
+   "ScheduleNo": "RS-2026-0005"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000005",
+   "EntityID": "lab",
+   "Status": "0",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-03-21 14:25",
+   "UpdatedBy": "wang.cy",
+   "UpdatedAt": "2026-10-06 18:07",
+   "ScheduleName": "劉助理",
+   "ReportTypeGuid": "報表類型06",
+   "Frequency": "M",
+   "DayOfWeek": "頻率為週時06",
+   "DayOfMonth": "頻率為月時06",
+   "SendTime": "寄送時間06",
+   "ExportFormat": "PDF",
+   "ScheduleNo": "RS-2026-0006"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000006",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-09-04 16:05",
+   "UpdatedBy": "chen.sh",
+   "UpdatedAt": "2026-12-06 09:21",
+   "ScheduleName": "吳主任",
+   "ReportTypeGuid": "報表類型07",
+   "Frequency": "D",
+   "DayOfWeek": "頻率為週時07",
+   "DayOfMonth": "頻率為月時07",
+   "SendTime": "寄送時間07",
+   "ExportFormat": "PDF",
+   "ScheduleNo": "RS-2026-0007"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000007",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-07-18 18:00",
+   "UpdatedBy": "lin.pb",
+   "UpdatedAt": "2026-04-14 18:10",
+   "ScheduleName": "劉助理",
+   "ReportTypeGuid": "報表類型08",
+   "Frequency": "M",
+   "DayOfWeek": "頻率為週時08",
+   "DayOfMonth": "頻率為月時08",
+   "SendTime": "寄送時間08",
+   "ExportFormat": "PDF",
+   "ScheduleNo": "RS-2026-0008"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000008",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-12-11 15:01",
+   "UpdatedBy": "lee.jc",
+   "UpdatedAt": "2026-11-04 18:21",
+   "ScheduleName": "鄭組長",
+   "ReportTypeGuid": "報表類型09",
+   "Frequency": "D",
+   "DayOfWeek": "頻率為週時09",
+   "DayOfMonth": "頻率為月時09",
+   "SendTime": "寄送時間09",
+   "ExportFormat": "PDF",
+   "ScheduleNo": "RS-2026-0009"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000009",
+   "EntityID": "lab",
+   "Status": "0",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-06-02 17:10",
+   "UpdatedBy": "chang.fa",
+   "UpdatedAt": "2026-02-12 17:23",
+   "ScheduleName": "周技士",
+   "ReportTypeGuid": "報表類型10",
+   "Frequency": "M",
+   "DayOfWeek": "頻率為週時10",
+   "DayOfMonth": "頻率為月時10",
+   "SendTime": "寄送時間10",
+   "ExportFormat": "XLSX",
+   "ScheduleNo": "RS-2026-0010"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000010",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-08-06 08:18",
+   "UpdatedBy": "hsu.eng",
+   "UpdatedAt": "2026-01-08 16:02",
+   "ScheduleName": "蔡研究",
+   "ReportTypeGuid": "報表類型11",
+   "Frequency": "D",
+   "DayOfWeek": "頻率為週時11",
+   "DayOfMonth": "頻率為月時11",
+   "SendTime": "寄送時間11",
+   "ExportFormat": "XLSX",
+   "ScheduleNo": "RS-2026-0011"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000011",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-09-18 08:02",
+   "UpdatedBy": "chang.fa",
+   "UpdatedAt": "2026-05-24 10:34",
+   "ScheduleName": "張分析",
+   "ReportTypeGuid": "報表類型12",
+   "Frequency": "D",
+   "DayOfWeek": "頻率為週時12",
+   "DayOfMonth": "頻率為月時12",
+   "SendTime": "寄送時間12",
+   "ExportFormat": "CSV",
+   "ScheduleNo": "RS-2026-0012"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000012",
+   "EntityID": "lab",
+   "Status": "0",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-11-20 11:17",
+   "UpdatedBy": "wu.dir",
+   "UpdatedAt": "2026-12-23 16:12",
+   "ScheduleName": "鄭組長",
+   "ReportTypeGuid": "報表類型13",
+   "Frequency": "M",
+   "DayOfWeek": "頻率為週時13",
+   "DayOfMonth": "頻率為月時13",
+   "SendTime": "寄送時間13",
+   "ExportFormat": "PDF",
+   "ScheduleNo": "RS-2026-0013"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000013",
+   "EntityID": "lab",
+   "Status": "0",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-07-18 13:19",
+   "UpdatedBy": "chang.fa",
+   "UpdatedAt": "2026-12-14 13:06",
+   "ScheduleName": "鄭組長",
+   "ReportTypeGuid": "報表類型14",
+   "Frequency": "W",
+   "DayOfWeek": "頻率為週時14",
+   "DayOfMonth": "頻率為月時14",
+   "SendTime": "寄送時間14",
+   "ExportFormat": "PDF",
+   "ScheduleNo": "RS-2026-0014"
+  }
+ ]
+}

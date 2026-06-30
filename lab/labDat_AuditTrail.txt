@@ -1,0 +1,594 @@
+{
+ "EntityID": "lab",
+ "SystemCode": "MUEIP",
+ "ModuleCode": "LIMS",
+ "FuncCode": "labDat_AuditTrail",
+ "ConfigHash": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+ "PageMeta": {
+  "PageTitle": "稽核軌跡",
+  "Lang": "zh-TW",
+  "FormType": "ListForm",
+  "EditDisplayType": "Drawer",
+  "Breadcrumb": [
+   {
+    "Title": "首頁",
+    "Path": "/"
+   },
+   {
+    "Title": "實驗數據儲存管理",
+    "Path": null
+   },
+   {
+    "Title": "稽核軌跡",
+    "Path": "/lab/labDat_AuditTrail"
+   }
+  ],
+  "IsApproval": false,
+  "TenantLocked": false,
+  "Icon": "ri-shield-keyhole-line",
+  "Remark": "稽核軌跡（由 labDat_AuditTrail 規格書產生）"
+ },
+ "Resources": {
+  "CodeSets": {
+   "Status": [
+    {
+     "CodeID": "1",
+     "CodeName": "啟用",
+     "IsDefault": true
+    },
+    {
+     "CodeID": "0",
+     "CodeName": "停用"
+    }
+   ],
+   "Priority": [
+    {
+     "CodeID": "A",
+     "CodeName": "急件"
+    },
+    {
+     "CodeID": "B",
+     "CodeName": "高"
+    },
+    {
+     "CodeID": "C",
+     "CodeName": "一般",
+     "IsDefault": true
+    },
+    {
+     "CodeID": "D",
+     "CodeName": "低"
+    }
+   ]
+  },
+  "FeatureFlags": {
+   "IsReadOnly": true,
+   "EnableDraft": false,
+   "EnableBatchDelete": false,
+   "AutoRefreshInterval": 0,
+   "DefaultViewMode": "Table",
+   "RequireConfirmOnSave": true
+  }
+ },
+ "AllowAction": {
+  "DataActions": [
+   {
+    "ActionID": "Query",
+    "Label": "查詢",
+    "Icon": "ri-search-line",
+    "Type": "Default",
+    "Position": "Toolbar",
+    "Confirm": null
+   }
+  ],
+  "ExtensionActions": [
+   {
+    "ActionID": "Import",
+    "Label": "匯入",
+    "Icon": "ri-upload-2-line",
+    "Type": "Default",
+    "Position": "Toolbar"
+   },
+   {
+    "ActionID": "Export",
+    "Label": "匯出",
+    "Icon": "ri-download-2-line",
+    "Type": "Default",
+    "Position": "Toolbar"
+   }
+  ]
+ },
+ "View": {
+  "RowKey": "RowGuid",
+  "ListView": {
+   "ListSpec": {
+    "RowKey": "RowGuid",
+    "SelectMode": "Single",
+    "FixedColumns": [
+     "Action",
+     "No"
+    ],
+    "RowActionMode": "Menu",
+    "ShowRowNo": true,
+    "Pagination": {
+     "PageSize": 100,
+     "SizeOptions": [
+      50,
+      100,
+      200,
+      500
+     ],
+     "ShowJumper": false,
+     "FullPageScroll": true
+    },
+    "DefaultSort": {
+     "Field": "SortNo",
+     "Order": "asc"
+    },
+    "EmptyText": "目前查無稽核軌跡資料",
+    "GridBordered": true
+   },
+   "FieldSpecs": [
+    {
+     "BindField": "RefTable",
+     "Title": "來源資料表名稱",
+     "Align": "Left",
+     "DefaultVisible": true,
+     "Formatter": "Link",
+     "Fixed": "Left",
+     "Width": 160,
+     "Sorter": true
+    },
+    {
+     "BindField": "ActionType",
+     "Title": "動作類型",
+     "Align": "Left",
+     "DefaultVisible": true,
+     "Width": 140
+    },
+    {
+     "BindField": "Operator",
+     "Title": "操作人員",
+     "Align": "Left",
+     "DefaultVisible": true,
+     "Width": 140
+    },
+    {
+     "BindField": "OldValue",
+     "Title": "異動前數值",
+     "Align": "Left",
+     "DefaultVisible": true,
+     "Width": 140
+    },
+    {
+     "BindField": "NewValue",
+     "Title": "異動後數值",
+     "Align": "Left",
+     "DefaultVisible": true,
+     "Width": 140
+    },
+    {
+     "BindField": "ActionTime",
+     "Title": "動作時間",
+     "Align": "Left",
+     "DefaultVisible": true,
+     "Formatter": "DateTime",
+     "Width": 150,
+     "Sorter": true
+    },
+    {
+     "BindField": "Status",
+     "Title": "啟用狀態",
+     "Align": "Center",
+     "DefaultVisible": true,
+     "Formatter": "Tag",
+     "Width": 80
+    }
+   ]
+  },
+  "FormView": {
+   "FormSpec": {
+    "RowKey": "RowGuid",
+    "Layout": "Horizontal",
+    "Sections": [
+     {
+      "SectionID": "SecBase",
+      "Type": "Card",
+      "Title": "基本資料",
+      "IsCollapsible": false,
+      "DefaultOpen": true,
+      "Icon": "ri-shield-keyhole-line"
+     },
+     {
+      "SectionID": "SecExtra",
+      "Type": "Card",
+      "Title": "系統資訊",
+      "IsCollapsible": true,
+      "DefaultOpen": false,
+      "Icon": "ri-settings-4-line"
+     }
+    ],
+    "FormLogic": []
+   },
+   "FieldSpecs": [
+    {
+     "BindField": "RowKey",
+     "Title": "系統識別碼",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 24,
+     "Mode": "Hidden"
+    },
+    {
+     "BindField": "EntityID",
+     "Title": "系統實體",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "Hidden",
+     "DefaultValue": "lab"
+    },
+    {
+     "BindField": "RefTable",
+     "Title": "來源資料表名稱",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "Required",
+       "Message": "來源資料表名稱為必填"
+      },
+      {
+       "Rule": "MaxLength",
+       "Value": 50,
+       "Message": "長度不可超過 50"
+      }
+     ]
+    },
+    {
+     "BindField": "RefGuid",
+     "Title": "來源資料表 RowGuid 值",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "ReadOnly",
+     "Validations": [
+      {
+       "Rule": "Required",
+       "Message": "來源資料表 RowGuid 值為必填"
+      }
+     ]
+    },
+    {
+     "BindField": "ActionType",
+     "Title": "動作類型",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "Required",
+       "Message": "動作類型為必填"
+      },
+      {
+       "Rule": "MaxLength",
+       "Value": 20,
+       "Message": "長度不可超過 20"
+      }
+     ]
+    },
+    {
+     "BindField": "Operator",
+     "Title": "操作人員",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 50,
+       "Message": "長度不可超過 50"
+      }
+     ]
+    },
+    {
+     "BindField": "OldValue",
+     "Title": "異動前數值",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 100,
+       "Message": "長度不可超過 100"
+      }
+     ]
+    },
+    {
+     "BindField": "NewValue",
+     "Title": "異動後數值",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 100,
+       "Message": "長度不可超過 100"
+      }
+     ]
+    },
+    {
+     "BindField": "ActionTime",
+     "Title": "動作時間",
+     "Component": "DatePicker",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Props": {
+      "Mode": "Editable",
+      "ShowTime": false
+     }
+    },
+    {
+     "BindField": "Remark",
+     "Title": "備註",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 255,
+       "Message": "長度不可超過 255"
+      }
+     ]
+    },
+    {
+     "BindField": "Status",
+     "Title": "啟用狀態",
+     "Component": "Select",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "DefaultValue": "1",
+     "Props": {
+      "OptionKey": "Status"
+     }
+    },
+    {
+     "BindField": "CreatedBy",
+     "Title": "建立者帳號",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "ReadOnly"
+    },
+    {
+     "BindField": "CreatedAt",
+     "Title": "資料建立日期時間",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "ReadOnly"
+    },
+    {
+     "BindField": "UpdatedBy",
+     "Title": "最後更新者帳號",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "ReadOnly"
+    },
+    {
+     "BindField": "UpdatedAt",
+     "Title": "最後更新日期時間",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "ReadOnly"
+    }
+   ]
+  }
+ },
+ "Features": {},
+ "DataScope": {
+  "DefaultWhere": "EntityID = 'lab' AND Status = '1'",
+  "AuthLevel": 2,
+  "SortExp": "SortNo ASC",
+  "DataConfig": {
+   "RowLimit": 2000,
+   "AllowExport": true
+  }
+ },
+ "CustomMeta": {
+  "CustomSchema": {
+   "WidgetType": "Grid",
+   "KeyField": "RefTable",
+   "TitleField": "ActionType",
+   "ParentKeyField": null,
+   "PathField": null,
+   "PathSeparator": "/"
+  }
+ },
+ "SeedData": [
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000000",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-06-10 08:15",
+   "UpdatedBy": "abram.chen",
+   "UpdatedAt": "2026-07-06 12:31",
+   "RefTable": "ASTM",
+   "RefGuid": "原廠提供",
+   "ActionType": "動作類型01",
+   "Operator": "謝校正",
+   "OldValue": "異動前數值01",
+   "NewValue": "異動後數值01",
+   "ActionTime": "2026-05-28",
+   "Remark": ""
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000001",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-02-15 12:30",
+   "UpdatedBy": "chen.sh",
+   "UpdatedAt": "2026-07-12 11:32",
+   "RefTable": "JIS",
+   "RefGuid": "CNS",
+   "ActionType": "動作類型02",
+   "Operator": "許工程",
+   "OldValue": "異動前數值02",
+   "NewValue": "異動後數值02",
+   "ActionTime": "2025-05-11",
+   "Remark": "需注意保存效期"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000002",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-11-10 16:15",
+   "UpdatedBy": "hsu.eng",
+   "UpdatedAt": "2026-03-26 13:01",
+   "RefTable": "CNS",
+   "RefGuid": "EPA",
+   "ActionType": "動作類型03",
+   "Operator": "王采樣",
+   "OldValue": "異動前數值03",
+   "NewValue": "異動後數值03",
+   "ActionTime": "2026-08-11",
+   "Remark": ""
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000003",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-08-02 11:12",
+   "UpdatedBy": "lin.pb",
+   "UpdatedAt": "2026-06-28 12:27",
+   "RefTable": "Standard Methods",
+   "RefGuid": "EPA",
+   "ActionType": "動作類型04",
+   "Operator": "周技士",
+   "OldValue": "異動前數值04",
+   "NewValue": "異動後數值04",
+   "ActionTime": "2026-05-26",
+   "Remark": ""
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000004",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-07-02 18:26",
+   "UpdatedBy": "wu.dir",
+   "UpdatedAt": "2026-02-23 13:29",
+   "RefTable": "ASTM",
+   "RefGuid": "JIS",
+   "ActionType": "動作類型05",
+   "Operator": "鄭組長",
+   "OldValue": "異動前數值05",
+   "NewValue": "異動後數值05",
+   "ActionTime": "2026-02-22",
+   "Remark": "需注意保存效期"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000005",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-07-04 15:33",
+   "UpdatedBy": "wu.dir",
+   "UpdatedAt": "2026-05-22 10:05",
+   "RefTable": "ASTM",
+   "RefGuid": "原廠提供",
+   "ActionType": "動作類型06",
+   "Operator": "黃技正",
+   "OldValue": "異動前數值06",
+   "NewValue": "異動後數值06",
+   "ActionTime": "2026-06-20",
+   "Remark": "定期校正合格"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000006",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-10-08 08:22",
+   "UpdatedBy": "chen.sh",
+   "UpdatedAt": "2026-07-23 16:27",
+   "RefTable": "NIEA",
+   "RefGuid": "CNS",
+   "ActionType": "動作類型07",
+   "Operator": "劉助理",
+   "OldValue": "異動前數值07",
+   "NewValue": "異動後數值07",
+   "ActionTime": "2025-02-27",
+   "Remark": ""
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000007",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-01-05 10:25",
+   "UpdatedBy": "wu.dir",
+   "UpdatedAt": "2026-05-02 11:31",
+   "RefTable": "原廠提供",
+   "RefGuid": "ASTM",
+   "ActionType": "動作類型08",
+   "Operator": "李檢測",
+   "OldValue": "異動前數值08",
+   "NewValue": "異動後數值08",
+   "ActionTime": "2026-02-12",
+   "Remark": ""
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000008",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-11-26 08:18",
+   "UpdatedBy": "lee.jc",
+   "UpdatedAt": "2026-06-03 15:08",
+   "RefTable": "CNS",
+   "RefGuid": "原廠提供",
+   "ActionType": "動作類型09",
+   "Operator": "郭品管",
+   "OldValue": "異動前數值09",
+   "NewValue": "異動後數值09",
+   "ActionTime": "2026-11-27",
+   "Remark": "急件已加收費用"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000009",
+   "EntityID": "lab",
+   "Status": "0",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-09-22 11:05",
+   "UpdatedBy": "lin.pb",
+   "UpdatedAt": "2026-05-25 13:35",
+   "RefTable": "NIEA",
+   "RefGuid": "EPA",
+   "ActionType": "動作類型10",
+   "Operator": "鄭組長",
+   "OldValue": "異動前數值10",
+   "NewValue": "異動後數值10",
+   "ActionTime": "2025-02-10",
+   "Remark": "樣品外觀正常"
+  }
+ ]
+}

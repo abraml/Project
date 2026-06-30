@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>模組切換器 · 視覺預覽</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="CDE.css">
+<style>
+  body{background:#f3f5fb;font-family:'Noto Sans TC',sans-serif;margin:0;padding:40px 24px}
+  .pv-wrap{max-width:980px;margin:0 auto}
+  .pv-h{font-size:20px;font-weight:700;color:#1c2434;margin:0 0 6px}
+  .pv-sub{color:#6b7488;font-size:13px;margin:0 0 28px}
+  .pv-card{background:#fff;border:1px solid #e6e9f2;border-radius:14px;box-shadow:0 1px 3px rgba(16,24,40,.06);margin-bottom:34px;overflow:visible}
+  .pv-cap{font-size:12px;font-weight:700;color:#6b7488;letter-spacing:.5px;padding:14px 18px;border-bottom:1px solid #e6e9f2;text-transform:uppercase}
+  /* 把 topbar 包進卡片內呈現,並讓下拉強制展開 */
+  .pv-bar{position:relative;height:64px;background:#fff;border-radius:0 0 14px 14px;display:flex;align-items:center;gap:16px;padding:0 22px}
+  .pv-bar .modsw .modsw-menu{opacity:1;visibility:visible;transform:none}
+  .pv-bar .modsw .modsw-caret{transform:rotate(180deg)}
+</style>
+</head>
+<body>
+<div class="pv-wrap">
+  <h1 class="pv-h">模組切換器 — 視覺預覽</h1>
+  <p class="pv-sub">右上下拉由 <code>modules.txt</code> 動態產生；點選即載入該資料夾的 <code>menu.txt</code>。以下為下拉展開狀態(HRM / LIMS)。</p>
+
+  <div class="pv-card">
+    <div class="pv-cap">狀態 A · 目前模組 = 人力資源管理 (HRM)</div>
+    <div class="pv-bar">
+      <div class="top-title"><span class="top-pill"></span><b>EipDB</b> · 企業資訊平台</div>
+      <div class="top-spacer"></div>
+      <div class="top-tools">
+        <div class="modsw open">
+          <button class="modsw-btn"><i class="modsw-ic ri-team-line"></i><span class="modsw-label">人力資源管理</span><i class="ri-arrow-down-s-line modsw-caret"></i></button>
+          <div class="modsw-menu">
+            <div class="modsw-cap">應用模組</div>
+            <div class="modsw-list">
+              <button class="modsw-item active"><span class="modsw-item-ic"><i class="ri-team-line"></i></span><span class="modsw-item-tx"><b>人力資源管理</b><em>HRM · 人事 / 差勤 / 薪資 / 考評</em></span><i class="ri-check-line modsw-item-ck"></i></button>
+              <button class="modsw-item"><span class="modsw-item-ic"><i class="ri-flask-line"></i></span><span class="modsw-item-tx"><b>實驗室管理系統</b><em>LIMS · 樣品 / 檢驗 / 儀器 / 報告</em></span><i class="ri-arrow-right-s-line modsw-item-go"></i></button>
+            </div>
+          </div>
+        </div>
+        <div class="top-ic"><i class="ri-notification-3-line"></i><span class="dot">8</span></div>
+        <div class="top-online"><span class="od"></span>線上<i class="ri-arrow-down-s-line"></i></div>
+        <div class="top-user"><div class="top-avatar">AB</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="pv-card">
+    <div class="pv-cap">狀態 B · 切換後 模組 = 實驗室管理系統 (LIMS)</div>
+    <div class="pv-bar">
+      <div class="top-title"><span class="top-pill"></span><b>EipDB</b> · 企業資訊平台</div>
+      <div class="top-spacer"></div>
+      <div class="top-tools">
+        <div class="modsw open">
+          <button class="modsw-btn"><i class="modsw-ic ri-flask-line"></i><span class="modsw-label">實驗室管理系統</span><i class="ri-arrow-down-s-line modsw-caret"></i></button>
+          <div class="modsw-menu">
+            <div class="modsw-cap">應用模組</div>
+            <div class="modsw-list">
+              <button class="modsw-item"><span class="modsw-item-ic"><i class="ri-team-line"></i></span><span class="modsw-item-tx"><b>人力資源管理</b><em>HRM · 人事 / 差勤 / 薪資 / 考評</em></span><i class="ri-arrow-right-s-line modsw-item-go"></i></button>
+              <button class="modsw-item active"><span class="modsw-item-ic"><i class="ri-flask-line"></i></span><span class="modsw-item-tx"><b>實驗室管理系統</b><em>LIMS · 樣品 / 檢驗 / 儀器 / 報告</em></span><i class="ri-check-line modsw-item-ck"></i></button>
+            </div>
+          </div>
+        </div>
+        <div class="top-ic"><i class="ri-notification-3-line"></i><span class="dot">8</span></div>
+        <div class="top-online"><span class="od"></span>線上<i class="ri-arrow-down-s-line"></i></div>
+        <div class="top-user"><div class="top-avatar">AB</div></div>
+      </div>
+    </div>
+  </div>
+
+  <p class="pv-sub">※ 此為靜態視覺預覽；實際互動(開合、切換、載入)請在 HTTP 伺服器下開啟 <code>cde.html</code> 操作。</p>
+</div>
+</body>
+</html>

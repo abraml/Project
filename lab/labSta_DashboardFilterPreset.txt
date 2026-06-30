@@ -1,0 +1,548 @@
+{
+ "EntityID": "lab",
+ "SystemCode": "MUEIP",
+ "ModuleCode": "LIMS",
+ "FuncCode": "labSta_DashboardFilterPreset",
+ "ConfigHash": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+ "PageMeta": {
+  "PageTitle": "儀表板篩選預設",
+  "Lang": "zh-TW",
+  "FormType": "ListForm",
+  "EditDisplayType": "Drawer",
+  "Breadcrumb": [
+   {
+    "Title": "首頁",
+    "Path": "/"
+   },
+   {
+    "Title": "分析統計與品管報表",
+    "Path": null
+   },
+   {
+    "Title": "儀表板篩選預設",
+    "Path": "/lab/labSta_DashboardFilterPreset"
+   }
+  ],
+  "IsApproval": false,
+  "TenantLocked": false,
+  "Icon": "ri-filter-3-line",
+  "Remark": "儀表板篩選預設（由 labSta_DashboardFilterPreset 規格書產生）"
+ },
+ "Resources": {
+  "CodeSets": {
+   "Status": [
+    {
+     "CodeID": "1",
+     "CodeName": "啟用",
+     "IsDefault": true
+    },
+    {
+     "CodeID": "0",
+     "CodeName": "停用"
+    }
+   ],
+   "Priority": [
+    {
+     "CodeID": "A",
+     "CodeName": "急件"
+    },
+    {
+     "CodeID": "B",
+     "CodeName": "高"
+    },
+    {
+     "CodeID": "C",
+     "CodeName": "一般",
+     "IsDefault": true
+    },
+    {
+     "CodeID": "D",
+     "CodeName": "低"
+    }
+   ]
+  },
+  "FeatureFlags": {
+   "IsReadOnly": false,
+   "EnableDraft": false,
+   "EnableBatchDelete": true,
+   "AutoRefreshInterval": 0,
+   "DefaultViewMode": "Table",
+   "RequireConfirmOnSave": true
+  }
+ },
+ "AllowAction": {
+  "DataActions": [
+   {
+    "ActionID": "Add",
+    "Label": "新增",
+    "Icon": "ri-add-line",
+    "Type": "Primary",
+    "Position": "Toolbar",
+    "Confirm": null
+   },
+   {
+    "ActionID": "Save",
+    "Label": "儲存",
+    "Icon": "ri-save-line",
+    "Type": "Primary",
+    "Position": "Toolbar",
+    "Confirm": null
+   },
+   {
+    "ActionID": "Delete",
+    "Label": "刪除",
+    "Icon": "ri-delete-bin-line",
+    "Type": "Danger",
+    "Position": "Both",
+    "Confirm": "確定要刪除此儀表板篩選預設資料嗎？"
+   },
+   {
+    "ActionID": "Query",
+    "Label": "查詢",
+    "Icon": "ri-search-line",
+    "Type": "Default",
+    "Position": "Toolbar",
+    "Confirm": null
+   }
+  ],
+  "ExtensionActions": [
+   {
+    "ActionID": "Import",
+    "Label": "匯入",
+    "Icon": "ri-upload-2-line",
+    "Type": "Default",
+    "Position": "Toolbar"
+   },
+   {
+    "ActionID": "Export",
+    "Label": "匯出",
+    "Icon": "ri-download-2-line",
+    "Type": "Default",
+    "Position": "Toolbar"
+   }
+  ]
+ },
+ "View": {
+  "RowKey": "RowGuid",
+  "ListView": {
+   "ListSpec": {
+    "RowKey": "RowGuid",
+    "SelectMode": "Single",
+    "FixedColumns": [
+     "Action",
+     "No"
+    ],
+    "RowActionMode": "Menu",
+    "ShowRowNo": true,
+    "Pagination": {
+     "PageSize": 100,
+     "SizeOptions": [
+      50,
+      100,
+      200,
+      500
+     ],
+     "ShowJumper": false,
+     "FullPageScroll": true
+    },
+    "DefaultSort": {
+     "Field": "SortNo",
+     "Order": "asc"
+    },
+    "EmptyText": "目前查無儀表板篩選預設資料",
+    "GridBordered": true
+   },
+   "FieldSpecs": [
+    {
+     "BindField": "PresetName",
+     "Title": "篩選組合名稱",
+     "Align": "Left",
+     "DefaultVisible": true,
+     "Formatter": "Link",
+     "Fixed": "Left",
+     "Width": 160,
+     "Sorter": true
+    },
+    {
+     "BindField": "PeriodType",
+     "Title": "統計粒度",
+     "Align": "Left",
+     "DefaultVisible": true,
+     "Width": 140
+    },
+    {
+     "BindField": "Status",
+     "Title": "啟用狀態",
+     "Align": "Center",
+     "DefaultVisible": true,
+     "Formatter": "Tag",
+     "Width": 80
+    }
+   ]
+  },
+  "FormView": {
+   "FormSpec": {
+    "RowKey": "RowGuid",
+    "Layout": "Horizontal",
+    "Sections": [
+     {
+      "SectionID": "SecBase",
+      "Type": "Card",
+      "Title": "基本資料",
+      "IsCollapsible": false,
+      "DefaultOpen": true,
+      "Icon": "ri-filter-3-line"
+     },
+     {
+      "SectionID": "SecExtra",
+      "Type": "Card",
+      "Title": "系統資訊",
+      "IsCollapsible": true,
+      "DefaultOpen": false,
+      "Icon": "ri-settings-4-line"
+     }
+    ],
+    "FormLogic": []
+   },
+   "FieldSpecs": [
+    {
+     "BindField": "RowKey",
+     "Title": "系統識別碼",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 24,
+     "Mode": "Hidden"
+    },
+    {
+     "BindField": "EntityID",
+     "Title": "系統實體",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "Hidden",
+     "DefaultValue": "lab"
+    },
+    {
+     "BindField": "PresetName",
+     "Title": "篩選組合名稱",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "Required",
+       "Message": "篩選組合名稱為必填"
+      },
+      {
+       "Rule": "MaxLength",
+       "Value": 50,
+       "Message": "長度不可超過 50"
+      }
+     ]
+    },
+    {
+     "BindField": "PeriodType",
+     "Title": "統計粒度",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 10,
+       "Message": "長度不可超過 10"
+      }
+     ]
+    },
+    {
+     "BindField": "LabGuid",
+     "Title": "篩選組別",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "ReadOnly"
+    },
+    {
+     "BindField": "CategoryGuid",
+     "Title": "篩選檢驗類別",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "ReadOnly"
+    },
+    {
+     "BindField": "OwnerStaffGuid",
+     "Title": "擁有者",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "ReadOnly"
+    },
+    {
+     "BindField": "Status",
+     "Title": "啟用狀態",
+     "Component": "Select",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "DefaultValue": "1",
+     "Props": {
+      "OptionKey": "Status"
+     }
+    },
+    {
+     "BindField": "CreatedBy",
+     "Title": "建立者帳號",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "ReadOnly"
+    },
+    {
+     "BindField": "CreatedAt",
+     "Title": "資料建立日期時間",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "ReadOnly"
+    },
+    {
+     "BindField": "UpdatedBy",
+     "Title": "最後更新者帳號",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "ReadOnly"
+    },
+    {
+     "BindField": "UpdatedAt",
+     "Title": "最後更新日期時間",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "ReadOnly"
+    }
+   ]
+  }
+ },
+ "Features": {},
+ "DataScope": {
+  "DefaultWhere": "EntityID = 'lab' AND Status = '1'",
+  "AuthLevel": 2,
+  "SortExp": "SortNo ASC",
+  "DataConfig": {
+   "RowLimit": 2000,
+   "AllowExport": true
+  }
+ },
+ "CustomMeta": {
+  "CustomSchema": {
+   "WidgetType": "Grid",
+   "KeyField": "PresetName",
+   "TitleField": "PeriodType",
+   "ParentKeyField": null,
+   "PathField": null,
+   "PathSeparator": "/"
+  }
+ },
+ "SeedData": [
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000000",
+   "EntityID": "lab",
+   "Status": "0",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-09-23 18:09",
+   "UpdatedBy": "cheng.gl",
+   "UpdatedAt": "2026-07-19 13:23",
+   "PresetName": "劉助理",
+   "PeriodType": "統計粒度01",
+   "LabGuid": "篩選組別01",
+   "CategoryGuid": "篩選檢驗類別01",
+   "OwnerStaffGuid": "擁有者01"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000001",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-08-05 18:07",
+   "UpdatedBy": "lee.jc",
+   "UpdatedAt": "2026-07-24 17:24",
+   "PresetName": "吳主任",
+   "PeriodType": "統計粒度02",
+   "LabGuid": "篩選組別02",
+   "CategoryGuid": "篩選檢驗類別02",
+   "OwnerStaffGuid": "擁有者02"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000002",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-03-18 09:22",
+   "UpdatedBy": "chen.sh",
+   "UpdatedAt": "2026-08-13 15:39",
+   "PresetName": "王采樣",
+   "PeriodType": "統計粒度03",
+   "LabGuid": "篩選組別03",
+   "CategoryGuid": "篩選檢驗類別03",
+   "OwnerStaffGuid": "擁有者03"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000003",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-03-19 12:16",
+   "UpdatedBy": "chang.fa",
+   "UpdatedAt": "2026-12-13 14:04",
+   "PresetName": "蔡研究",
+   "PeriodType": "統計粒度04",
+   "LabGuid": "篩選組別04",
+   "CategoryGuid": "篩選檢驗類別04",
+   "OwnerStaffGuid": "擁有者04"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000004",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-07-15 17:18",
+   "UpdatedBy": "lee.jc",
+   "UpdatedAt": "2026-01-22 14:27",
+   "PresetName": "許工程",
+   "PeriodType": "統計粒度05",
+   "LabGuid": "篩選組別05",
+   "CategoryGuid": "篩選檢驗類別05",
+   "OwnerStaffGuid": "擁有者05"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000005",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-03-04 13:19",
+   "UpdatedBy": "cheng.gl",
+   "UpdatedAt": "2026-01-17 08:28",
+   "PresetName": "鄭組長",
+   "PeriodType": "統計粒度06",
+   "LabGuid": "篩選組別06",
+   "CategoryGuid": "篩選檢驗類別06",
+   "OwnerStaffGuid": "擁有者06"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000006",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-07-23 09:25",
+   "UpdatedBy": "chen.sh",
+   "UpdatedAt": "2026-04-09 14:12",
+   "PresetName": "何環安",
+   "PeriodType": "統計粒度07",
+   "LabGuid": "篩選組別07",
+   "CategoryGuid": "篩選檢驗類別07",
+   "OwnerStaffGuid": "擁有者07"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000007",
+   "EntityID": "lab",
+   "Status": "0",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-07-16 16:26",
+   "UpdatedBy": "lee.jc",
+   "UpdatedAt": "2026-02-03 15:17",
+   "PresetName": "何環安",
+   "PeriodType": "統計粒度08",
+   "LabGuid": "篩選組別08",
+   "CategoryGuid": "篩選檢驗類別08",
+   "OwnerStaffGuid": "擁有者08"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000008",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-12-28 12:33",
+   "UpdatedBy": "lin.pb",
+   "UpdatedAt": "2026-06-12 10:29",
+   "PresetName": "謝校正",
+   "PeriodType": "統計粒度09",
+   "LabGuid": "篩選組別09",
+   "CategoryGuid": "篩選檢驗類別09",
+   "OwnerStaffGuid": "擁有者09"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000009",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-01-07 16:12",
+   "UpdatedBy": "hsu.eng",
+   "UpdatedAt": "2026-12-23 18:08",
+   "PresetName": "蔡研究",
+   "PeriodType": "統計粒度10",
+   "LabGuid": "篩選組別10",
+   "CategoryGuid": "篩選檢驗類別10",
+   "OwnerStaffGuid": "擁有者10"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000010",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-07-23 13:34",
+   "UpdatedBy": "wang.cy",
+   "UpdatedAt": "2026-09-20 11:09",
+   "PresetName": "張分析",
+   "PeriodType": "統計粒度11",
+   "LabGuid": "篩選組別11",
+   "CategoryGuid": "篩選檢驗類別11",
+   "OwnerStaffGuid": "擁有者11"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000011",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-09-01 09:01",
+   "UpdatedBy": "huang.tc",
+   "UpdatedAt": "2026-08-18 18:09",
+   "PresetName": "吳主任",
+   "PeriodType": "統計粒度12",
+   "LabGuid": "篩選組別12",
+   "CategoryGuid": "篩選檢驗類別12",
+   "OwnerStaffGuid": "擁有者12"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000012",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-03-10 10:03",
+   "UpdatedBy": "abram.chen",
+   "UpdatedAt": "2026-08-13 16:31",
+   "PresetName": "周技士",
+   "PeriodType": "統計粒度13",
+   "LabGuid": "篩選組別13",
+   "CategoryGuid": "篩選檢驗類別13",
+   "OwnerStaffGuid": "擁有者13"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000013",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-02-10 10:10",
+   "UpdatedBy": "lee.jc",
+   "UpdatedAt": "2026-02-10 13:10",
+   "PresetName": "鄭組長",
+   "PeriodType": "統計粒度14",
+   "LabGuid": "篩選組別14",
+   "CategoryGuid": "篩選檢驗類別14",
+   "OwnerStaffGuid": "擁有者14"
+  }
+ ]
+}

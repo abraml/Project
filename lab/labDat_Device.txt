@@ -1,0 +1,955 @@
+{
+ "EntityID": "lab",
+ "SystemCode": "MUEIP",
+ "ModuleCode": "LIMS",
+ "FuncCode": "labDat_Device",
+ "ConfigHash": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+ "PageMeta": {
+  "PageTitle": "設備介接設定",
+  "Lang": "zh-TW",
+  "FormType": "ListForm",
+  "EditDisplayType": "Drawer",
+  "Breadcrumb": [
+   {
+    "Title": "首頁",
+    "Path": "/"
+   },
+   {
+    "Title": "實驗數據儲存管理",
+    "Path": null
+   },
+   {
+    "Title": "設備介接設定",
+    "Path": "/lab/labDat_Device"
+   }
+  ],
+  "IsApproval": false,
+  "TenantLocked": false,
+  "Icon": "ri-plug-line",
+  "Remark": "設備介接設定（由 labDat_Device 規格書產生）"
+ },
+ "Resources": {
+  "CodeSets": {
+   "Status": [
+    {
+     "CodeID": "1",
+     "CodeName": "啟用",
+     "IsDefault": true
+    },
+    {
+     "CodeID": "0",
+     "CodeName": "停用"
+    }
+   ],
+   "Priority": [
+    {
+     "CodeID": "A",
+     "CodeName": "急件"
+    },
+    {
+     "CodeID": "B",
+     "CodeName": "高"
+    },
+    {
+     "CodeID": "C",
+     "CodeName": "一般",
+     "IsDefault": true
+    },
+    {
+     "CodeID": "D",
+     "CodeName": "低"
+    }
+   ],
+   "ConnectionType": [
+    {
+     "CodeID": "NAS",
+     "CodeName": "NAS 共享",
+     "IsDefault": true
+    },
+    {
+     "CodeID": "SER",
+     "CodeName": "序列埠"
+    },
+    {
+     "CodeID": "API",
+     "CodeName": "API"
+    },
+    {
+     "CodeID": "MAN",
+     "CodeName": "手動上傳"
+    }
+   ]
+  },
+  "FeatureFlags": {
+   "IsReadOnly": false,
+   "EnableDraft": false,
+   "EnableBatchDelete": true,
+   "AutoRefreshInterval": 0,
+   "DefaultViewMode": "Table",
+   "RequireConfirmOnSave": true
+  }
+ },
+ "AllowAction": {
+  "DataActions": [
+   {
+    "ActionID": "Add",
+    "Label": "新增",
+    "Icon": "ri-add-line",
+    "Type": "Primary",
+    "Position": "Toolbar",
+    "Confirm": null
+   },
+   {
+    "ActionID": "Save",
+    "Label": "儲存",
+    "Icon": "ri-save-line",
+    "Type": "Primary",
+    "Position": "Toolbar",
+    "Confirm": null
+   },
+   {
+    "ActionID": "Delete",
+    "Label": "刪除",
+    "Icon": "ri-delete-bin-line",
+    "Type": "Danger",
+    "Position": "Both",
+    "Confirm": "確定要刪除此設備介接設定資料嗎？"
+   },
+   {
+    "ActionID": "Query",
+    "Label": "查詢",
+    "Icon": "ri-search-line",
+    "Type": "Default",
+    "Position": "Toolbar",
+    "Confirm": null
+   }
+  ],
+  "ExtensionActions": [
+   {
+    "ActionID": "Import",
+    "Label": "匯入",
+    "Icon": "ri-upload-2-line",
+    "Type": "Default",
+    "Position": "Toolbar"
+   },
+   {
+    "ActionID": "Export",
+    "Label": "匯出",
+    "Icon": "ri-download-2-line",
+    "Type": "Default",
+    "Position": "Toolbar"
+   }
+  ]
+ },
+ "View": {
+  "RowKey": "RowGuid",
+  "ListView": {
+   "ListSpec": {
+    "RowKey": "RowGuid",
+    "SelectMode": "Single",
+    "FixedColumns": [
+     "Action",
+     "No"
+    ],
+    "RowActionMode": "Menu",
+    "ShowRowNo": true,
+    "Pagination": {
+     "PageSize": 100,
+     "SizeOptions": [
+      50,
+      100,
+      200,
+      500
+     ],
+     "ShowJumper": false,
+     "FullPageScroll": true
+    },
+    "DefaultSort": {
+     "Field": "SortNo",
+     "Order": "asc"
+    },
+    "EmptyText": "目前查無設備介接設定資料",
+    "GridBordered": true
+   },
+   "FieldSpecs": [
+    {
+     "BindField": "DeviceCode",
+     "Title": "設備代碼",
+     "Align": "Left",
+     "DefaultVisible": true,
+     "Formatter": "Link",
+     "Fixed": "Left",
+     "Width": 160,
+     "Sorter": true
+    },
+    {
+     "BindField": "DeviceName",
+     "Title": "設備名稱",
+     "Align": "Left",
+     "DefaultVisible": true,
+     "Width": 140
+    },
+    {
+     "BindField": "LabAssetCode",
+     "Title": "對應 B04 labAst_EquipInfo.NewEquipNo",
+     "Align": "Left",
+     "DefaultVisible": true,
+     "Width": 140
+    },
+    {
+     "BindField": "ConnectionType",
+     "Title": "資料傳輸方式",
+     "Align": "Center",
+     "DefaultVisible": true,
+     "Formatter": "Tag",
+     "Width": 110
+    },
+    {
+     "BindField": "IpAddress",
+     "Title": "設備IP位址",
+     "Align": "Left",
+     "DefaultVisible": true,
+     "Width": 140
+    },
+    {
+     "BindField": "IpProtocol",
+     "Title": "連線協議",
+     "Align": "Left",
+     "DefaultVisible": true,
+     "Width": 140
+    },
+    {
+     "BindField": "Status",
+     "Title": "設備介接狀態",
+     "Align": "Center",
+     "DefaultVisible": true,
+     "Formatter": "Tag",
+     "Width": 80
+    }
+   ]
+  },
+  "FormView": {
+   "FormSpec": {
+    "RowKey": "RowGuid",
+    "Layout": "Horizontal",
+    "Sections": [
+     {
+      "SectionID": "SecBase",
+      "Type": "Card",
+      "Title": "基本資料",
+      "IsCollapsible": false,
+      "DefaultOpen": true,
+      "Icon": "ri-plug-line"
+     },
+     {
+      "SectionID": "SecRecv",
+      "Type": "Card",
+      "Title": "作業資訊",
+      "IsCollapsible": true,
+      "DefaultOpen": true,
+      "Icon": "ri-file-list-3-line"
+     },
+     {
+      "SectionID": "SecExtra",
+      "Type": "Card",
+      "Title": "系統資訊",
+      "IsCollapsible": true,
+      "DefaultOpen": false,
+      "Icon": "ri-settings-4-line"
+     }
+    ],
+    "FormLogic": []
+   },
+   "FieldSpecs": [
+    {
+     "BindField": "RowKey",
+     "Title": "系統識別碼",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 24,
+     "Mode": "Hidden"
+    },
+    {
+     "BindField": "EntityID",
+     "Title": "系統實體",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "Hidden",
+     "DefaultValue": "lab"
+    },
+    {
+     "BindField": "DeviceCode",
+     "Title": "設備代碼",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "Required",
+       "Message": "設備代碼為必填"
+      },
+      {
+       "Rule": "MaxLength",
+       "Value": 30,
+       "Message": "長度不可超過 30"
+      }
+     ]
+    },
+    {
+     "BindField": "DeviceName",
+     "Title": "設備名稱",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "Required",
+       "Message": "設備名稱為必填"
+      },
+      {
+       "Rule": "MaxLength",
+       "Value": 100,
+       "Message": "長度不可超過 100"
+      }
+     ]
+    },
+    {
+     "BindField": "LabAssetCode",
+     "Title": "對應 B04 labAst_EquipInfo.NewEquipNo",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 30,
+       "Message": "長度不可超過 30"
+      }
+     ]
+    },
+    {
+     "BindField": "ConnectionType",
+     "Title": "資料傳輸方式",
+     "Component": "Select",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "Required",
+       "Message": "資料傳輸方式為必填"
+      }
+     ],
+     "Props": {
+      "OptionKey": "ConnectionType"
+     },
+     "DefaultValue": "NAS"
+    },
+    {
+     "BindField": "IpAddress",
+     "Title": "設備IP位址",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 45,
+       "Message": "長度不可超過 45"
+      }
+     ]
+    },
+    {
+     "BindField": "IpProtocol",
+     "Title": "連線協議",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 20,
+       "Message": "長度不可超過 20"
+      }
+     ]
+    },
+    {
+     "BindField": "ComPort",
+     "Title": "COM PORT",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 10,
+       "Message": "長度不可超過 10"
+      }
+     ]
+    },
+    {
+     "BindField": "BaudRate",
+     "Title": "鮑率",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Props": {
+      "Type": "number"
+     }
+    },
+    {
+     "BindField": "DataBits",
+     "Title": "資料位元",
+     "Component": "Input",
+     "Section": "SecRecv",
+     "Span": 12,
+     "Mode": "Editable"
+    },
+    {
+     "BindField": "StopBits",
+     "Title": "停止位元",
+     "Component": "Input",
+     "Section": "SecRecv",
+     "Span": 12,
+     "Mode": "Editable"
+    },
+    {
+     "BindField": "Parity",
+     "Title": "奇偶校驗",
+     "Component": "Input",
+     "Section": "SecRecv",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 1,
+       "Message": "長度不可超過 1"
+      }
+     ]
+    },
+    {
+     "BindField": "ReceiveFormat",
+     "Title": "RS232接收格式",
+     "Component": "Input",
+     "Section": "SecRecv",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 20,
+       "Message": "長度不可超過 20"
+      }
+     ]
+    },
+    {
+     "BindField": "TriggerMode",
+     "Title": "觸發時機",
+     "Component": "Input",
+     "Section": "SecRecv",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 10,
+       "Message": "長度不可超過 10"
+      }
+     ]
+    },
+    {
+     "BindField": "ScheduleTriggerTime",
+     "Title": "排程模式之每日觸發時間",
+     "Component": "Input",
+     "Section": "SecRecv",
+     "Span": 12,
+     "Mode": "Editable"
+    },
+    {
+     "BindField": "WorkstationCode",
+     "Title": "所屬轉檔工作站代碼",
+     "Component": "Input",
+     "Section": "SecRecv",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 30,
+       "Message": "長度不可超過 30"
+      }
+     ]
+    },
+    {
+     "BindField": "UsbLabel",
+     "Title": "USB下載對應之隨身碟標籤",
+     "Component": "Input",
+     "Section": "SecRecv",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 50,
+       "Message": "長度不可超過 50"
+      }
+     ]
+    },
+    {
+     "BindField": "Remark",
+     "Title": "備註",
+     "Component": "Input",
+     "Section": "SecRecv",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 255,
+       "Message": "長度不可超過 255"
+      }
+     ]
+    },
+    {
+     "BindField": "Status",
+     "Title": "啟用狀態",
+     "Component": "Select",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "DefaultValue": "1",
+     "Props": {
+      "OptionKey": "Status"
+     }
+    },
+    {
+     "BindField": "CreatedBy",
+     "Title": "建立者帳號",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "ReadOnly"
+    },
+    {
+     "BindField": "CreatedAt",
+     "Title": "資料建立日期時間",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "ReadOnly"
+    },
+    {
+     "BindField": "UpdatedBy",
+     "Title": "最後更新者帳號",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "ReadOnly"
+    },
+    {
+     "BindField": "UpdatedAt",
+     "Title": "最後更新日期時間",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "ReadOnly"
+    }
+   ]
+  }
+ },
+ "Features": {},
+ "DataScope": {
+  "DefaultWhere": "EntityID = 'lab' AND Status = '1'",
+  "AuthLevel": 2,
+  "SortExp": "SortNo ASC",
+  "DataConfig": {
+   "RowLimit": 2000,
+   "AllowExport": true
+  }
+ },
+ "CustomMeta": {
+  "CustomSchema": {
+   "WidgetType": "Grid",
+   "KeyField": "DeviceCode",
+   "TitleField": "DeviceName",
+   "ParentKeyField": null,
+   "PathField": null,
+   "PathSeparator": "/"
+  }
+ },
+ "SeedData": [
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000000",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-12-07 16:32",
+   "UpdatedBy": "lee.jc",
+   "UpdatedAt": "2026-02-20 08:09",
+   "DeviceCode": "D-2026-0001",
+   "DeviceName": "ICP-OES 電漿發射光譜儀",
+   "LabAssetCode": "D-2026-0001",
+   "ConnectionType": "NAS",
+   "IpAddress": "新北市土城區成功路283號",
+   "IpProtocol": "連線協議01",
+   "ComPort": "COM PORT01",
+   "BaudRate": 13,
+   "DataBits": "資料位元01",
+   "StopBits": "停止位元01",
+   "Parity": "奇偶校驗01",
+   "ReceiveFormat": "RS232接收格式01",
+   "TriggerMode": "觸發時機01",
+   "ScheduleTriggerTime": "排程模式之每日觸發時間01",
+   "WorkstationCode": "D-2025-0001",
+   "UsbLabel": "USB下載對應之隨身碟標籤01",
+   "Remark": ""
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000001",
+   "EntityID": "lab",
+   "Status": "0",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-01-11 14:33",
+   "UpdatedBy": "wu.dir",
+   "UpdatedAt": "2026-01-28 12:11",
+   "DeviceCode": "D-2026-0002",
+   "DeviceName": "ICP-MS 感應耦合電漿質譜儀",
+   "LabAssetCode": "D-2025-0002",
+   "ConnectionType": "MAN",
+   "IpAddress": "新北市中和區民生路172號",
+   "IpProtocol": "連線協議02",
+   "ComPort": "COM PORT02",
+   "BaudRate": 15,
+   "DataBits": "資料位元02",
+   "StopBits": "停止位元02",
+   "Parity": "奇偶校驗02",
+   "ReceiveFormat": "RS232接收格式02",
+   "TriggerMode": "觸發時機02",
+   "ScheduleTriggerTime": "排程模式之每日觸發時間02",
+   "WorkstationCode": "D-2025-0002",
+   "UsbLabel": "USB下載對應之隨身碟標籤02",
+   "Remark": ""
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000002",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-05-18 16:36",
+   "UpdatedBy": "liu.as",
+   "UpdatedAt": "2026-08-12 09:08",
+   "DeviceCode": "D-2026-0003",
+   "DeviceName": "GC-MS 氣相層析質譜儀",
+   "LabAssetCode": "D-2026-0003",
+   "ConnectionType": "SER",
+   "IpAddress": "新北市三峽區民生路263號",
+   "IpProtocol": "連線協議03",
+   "ComPort": "COM PORT03",
+   "BaudRate": 28,
+   "DataBits": "資料位元03",
+   "StopBits": "停止位元03",
+   "Parity": "奇偶校驗03",
+   "ReceiveFormat": "RS232接收格式03",
+   "TriggerMode": "觸發時機03",
+   "ScheduleTriggerTime": "排程模式之每日觸發時間03",
+   "WorkstationCode": "D-2025-0003",
+   "UsbLabel": "USB下載對應之隨身碟標籤03",
+   "Remark": "定期校正合格"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000003",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-11-17 09:25",
+   "UpdatedBy": "huang.tc",
+   "UpdatedAt": "2026-03-19 10:13",
+   "DeviceCode": "D-2025-0004",
+   "DeviceName": "HPLC 高效液相層析儀",
+   "LabAssetCode": "D-2025-0004",
+   "ConnectionType": "NAS",
+   "IpAddress": "新北市土城區成功路47號",
+   "IpProtocol": "連線協議04",
+   "ComPort": "COM PORT04",
+   "BaudRate": 54,
+   "DataBits": "資料位元04",
+   "StopBits": "停止位元04",
+   "Parity": "奇偶校驗04",
+   "ReceiveFormat": "RS232接收格式04",
+   "TriggerMode": "觸發時機04",
+   "ScheduleTriggerTime": "排程模式之每日觸發時間04",
+   "WorkstationCode": "D-2026-0004",
+   "UsbLabel": "USB下載對應之隨身碟標籤04",
+   "Remark": ""
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000004",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-02-04 15:13",
+   "UpdatedBy": "chen.sh",
+   "UpdatedAt": "2026-10-02 14:35",
+   "DeviceCode": "D-2025-0005",
+   "DeviceName": "AAS 原子吸收光譜儀",
+   "LabAssetCode": "D-2025-0005",
+   "ConnectionType": "NAS",
+   "IpAddress": "新北市林口區中山路98號",
+   "IpProtocol": "連線協議05",
+   "ComPort": "COM PORT05",
+   "BaudRate": 24,
+   "DataBits": "資料位元05",
+   "StopBits": "停止位元05",
+   "Parity": "奇偶校驗05",
+   "ReceiveFormat": "RS232接收格式05",
+   "TriggerMode": "觸發時機05",
+   "ScheduleTriggerTime": "排程模式之每日觸發時間05",
+   "WorkstationCode": "D-2025-0005",
+   "UsbLabel": "USB下載對應之隨身碟標籤05",
+   "Remark": "複驗確認無誤"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000005",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-04-16 11:26",
+   "UpdatedBy": "abram.chen",
+   "UpdatedAt": "2026-10-01 10:05",
+   "DeviceCode": "D-2025-0006",
+   "DeviceName": "UV-Vis 分光光度計",
+   "LabAssetCode": "D-2025-0006",
+   "ConnectionType": "NAS",
+   "IpAddress": "新北市板橋區民生路188號",
+   "IpProtocol": "連線協議06",
+   "ComPort": "COM PORT06",
+   "BaudRate": 35,
+   "DataBits": "資料位元06",
+   "StopBits": "停止位元06",
+   "Parity": "奇偶校驗06",
+   "ReceiveFormat": "RS232接收格式06",
+   "TriggerMode": "觸發時機06",
+   "ScheduleTriggerTime": "排程模式之每日觸發時間06",
+   "WorkstationCode": "D-2026-0006",
+   "UsbLabel": "USB下載對應之隨身碟標籤06",
+   "Remark": "樣品外觀正常"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000006",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-02-06 13:17",
+   "UpdatedBy": "liu.as",
+   "UpdatedAt": "2026-08-06 15:17",
+   "DeviceCode": "D-2025-0007",
+   "DeviceName": "IC 離子層析儀",
+   "LabAssetCode": "D-2025-0007",
+   "ConnectionType": "MAN",
+   "IpAddress": "新北市中和區成功路122號",
+   "IpProtocol": "連線協議07",
+   "ComPort": "COM PORT07",
+   "BaudRate": 84,
+   "DataBits": "資料位元07",
+   "StopBits": "停止位元07",
+   "Parity": "奇偶校驗07",
+   "ReceiveFormat": "RS232接收格式07",
+   "TriggerMode": "觸發時機07",
+   "ScheduleTriggerTime": "排程模式之每日觸發時間07",
+   "WorkstationCode": "D-2025-0007",
+   "UsbLabel": "USB下載對應之隨身碟標籤07",
+   "Remark": "急件已加收費用"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000007",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-01-13 08:36",
+   "UpdatedBy": "lin.pb",
+   "UpdatedAt": "2026-04-13 16:10",
+   "DeviceCode": "D-2025-0008",
+   "DeviceName": "精密天平 0.0001g",
+   "LabAssetCode": "D-2025-0008",
+   "ConnectionType": "NAS",
+   "IpAddress": "新北市林口區文化路136號",
+   "IpProtocol": "連線協議08",
+   "ComPort": "COM PORT08",
+   "BaudRate": 33,
+   "DataBits": "資料位元08",
+   "StopBits": "停止位元08",
+   "Parity": "奇偶校驗08",
+   "ReceiveFormat": "RS232接收格式08",
+   "TriggerMode": "觸發時機08",
+   "ScheduleTriggerTime": "排程模式之每日觸發時間08",
+   "WorkstationCode": "D-2026-0008",
+   "UsbLabel": "USB下載對應之隨身碟標籤08",
+   "Remark": "急件已加收費用"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000008",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-11-04 14:23",
+   "UpdatedBy": "wang.cy",
+   "UpdatedAt": "2026-12-24 15:05",
+   "DeviceCode": "D-2025-0009",
+   "DeviceName": "pH計",
+   "LabAssetCode": "D-2025-0009",
+   "ConnectionType": "MAN",
+   "IpAddress": "新北市三峽區民生路165號",
+   "IpProtocol": "連線協議09",
+   "ComPort": "COM PORT09",
+   "BaudRate": 45,
+   "DataBits": "資料位元09",
+   "StopBits": "停止位元09",
+   "Parity": "奇偶校驗09",
+   "ReceiveFormat": "RS232接收格式09",
+   "TriggerMode": "觸發時機09",
+   "ScheduleTriggerTime": "排程模式之每日觸發時間09",
+   "WorkstationCode": "D-2026-0009",
+   "UsbLabel": "USB下載對應之隨身碟標籤09",
+   "Remark": ""
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000009",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-08-22 09:34",
+   "UpdatedBy": "chang.fa",
+   "UpdatedAt": "2026-04-08 11:14",
+   "DeviceCode": "D-2026-0010",
+   "DeviceName": "濁度計",
+   "LabAssetCode": "D-2025-0010",
+   "ConnectionType": "NAS",
+   "IpAddress": "新北市三峽區文化路162號",
+   "IpProtocol": "連線協議10",
+   "ComPort": "COM PORT10",
+   "BaudRate": 61,
+   "DataBits": "資料位元10",
+   "StopBits": "停止位元10",
+   "Parity": "奇偶校驗10",
+   "ReceiveFormat": "RS232接收格式10",
+   "TriggerMode": "觸發時機10",
+   "ScheduleTriggerTime": "排程模式之每日觸發時間10",
+   "WorkstationCode": "D-2025-0010",
+   "UsbLabel": "USB下載對應之隨身碟標籤10",
+   "Remark": ""
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000010",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-12-28 16:05",
+   "UpdatedBy": "wu.dir",
+   "UpdatedAt": "2026-05-26 17:35",
+   "DeviceCode": "D-2025-0011",
+   "DeviceName": "TOC 分析儀",
+   "LabAssetCode": "D-2026-0011",
+   "ConnectionType": "NAS",
+   "IpAddress": "新北市中和區文化路250號",
+   "IpProtocol": "連線協議11",
+   "ComPort": "COM PORT11",
+   "BaudRate": 1,
+   "DataBits": "資料位元11",
+   "StopBits": "停止位元11",
+   "Parity": "奇偶校驗11",
+   "ReceiveFormat": "RS232接收格式11",
+   "TriggerMode": "觸發時機11",
+   "ScheduleTriggerTime": "排程模式之每日觸發時間11",
+   "WorkstationCode": "D-2026-0011",
+   "UsbLabel": "USB下載對應之隨身碟標籤11",
+   "Remark": "定期校正合格"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000011",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-01-15 10:09",
+   "UpdatedBy": "cheng.gl",
+   "UpdatedAt": "2026-07-24 14:16",
+   "DeviceCode": "D-2025-0012",
+   "DeviceName": "紫外光消化器",
+   "LabAssetCode": "D-2026-0012",
+   "ConnectionType": "API",
+   "IpAddress": "新北市林口區成功路88號",
+   "IpProtocol": "連線協議12",
+   "ComPort": "COM PORT12",
+   "BaudRate": 91,
+   "DataBits": "資料位元12",
+   "StopBits": "停止位元12",
+   "Parity": "奇偶校驗12",
+   "ReceiveFormat": "RS232接收格式12",
+   "TriggerMode": "觸發時機12",
+   "ScheduleTriggerTime": "排程模式之每日觸發時間12",
+   "WorkstationCode": "D-2025-0012",
+   "UsbLabel": "USB下載對應之隨身碟標籤12",
+   "Remark": ""
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000012",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-02-01 16:18",
+   "UpdatedBy": "cheng.gl",
+   "UpdatedAt": "2026-12-02 15:23",
+   "DeviceCode": "D-2025-0013",
+   "DeviceName": "ICP-OES 電漿發射光譜儀",
+   "LabAssetCode": "D-2025-0013",
+   "ConnectionType": "MAN",
+   "IpAddress": "新北市三峽區民生路149號",
+   "IpProtocol": "連線協議13",
+   "ComPort": "COM PORT13",
+   "BaudRate": 58,
+   "DataBits": "資料位元13",
+   "StopBits": "停止位元13",
+   "Parity": "奇偶校驗13",
+   "ReceiveFormat": "RS232接收格式13",
+   "TriggerMode": "觸發時機13",
+   "ScheduleTriggerTime": "排程模式之每日觸發時間13",
+   "WorkstationCode": "D-2025-0013",
+   "UsbLabel": "USB下載對應之隨身碟標籤13",
+   "Remark": ""
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000013",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-03-15 16:36",
+   "UpdatedBy": "cheng.gl",
+   "UpdatedAt": "2026-04-14 15:15",
+   "DeviceCode": "D-2025-0014",
+   "DeviceName": "ICP-MS 感應耦合電漿質譜儀",
+   "LabAssetCode": "D-2025-0014",
+   "ConnectionType": "API",
+   "IpAddress": "新北市中和區民生路48號",
+   "IpProtocol": "連線協議14",
+   "ComPort": "COM PORT14",
+   "BaudRate": 99,
+   "DataBits": "資料位元14",
+   "StopBits": "停止位元14",
+   "Parity": "奇偶校驗14",
+   "ReceiveFormat": "RS232接收格式14",
+   "TriggerMode": "觸發時機14",
+   "ScheduleTriggerTime": "排程模式之每日觸發時間14",
+   "WorkstationCode": "D-2026-0014",
+   "UsbLabel": "USB下載對應之隨身碟標籤14",
+   "Remark": ""
+  }
+ ]
+}

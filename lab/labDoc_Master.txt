@@ -1,0 +1,5107 @@
+{
+ "EntityID": "lab",
+ "SystemCode": "MUEIP",
+ "ModuleCode": "LIMS",
+ "FuncCode": "labDoc_Master",
+ "ConfigHash": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+ "PageMeta": {
+  "PageTitle": "文件主檔",
+  "Lang": "zh-TW",
+  "FormType": "ListForm",
+  "EditDisplayType": "Drawer",
+  "Breadcrumb": [
+   {
+    "Title": "首頁",
+    "Path": "/"
+   },
+   {
+    "Title": "實驗室文件管理",
+    "Path": null
+   },
+   {
+    "Title": "文件主檔",
+    "Path": "/lab/labDoc_Master"
+   }
+  ],
+  "IsApproval": false,
+  "TenantLocked": false,
+  "Icon": "ri-file-text-line",
+  "Remark": "文件主檔（由 labDoc_Master 規格書產生）"
+ },
+ "Resources": {
+  "CodeSets": {
+   "Status": [
+    {
+     "CodeID": "1",
+     "CodeName": "啟用",
+     "IsDefault": true
+    },
+    {
+     "CodeID": "0",
+     "CodeName": "停用"
+    }
+   ],
+   "Priority": [
+    {
+     "CodeID": "A",
+     "CodeName": "急件"
+    },
+    {
+     "CodeID": "B",
+     "CodeName": "高"
+    },
+    {
+     "CodeID": "C",
+     "CodeName": "一般",
+     "IsDefault": true
+    },
+    {
+     "CodeID": "D",
+     "CodeName": "低"
+    }
+   ]
+  },
+  "FeatureFlags": {
+   "IsReadOnly": false,
+   "EnableDraft": false,
+   "EnableBatchDelete": true,
+   "AutoRefreshInterval": 0,
+   "DefaultViewMode": "Table",
+   "RequireConfirmOnSave": true
+  }
+ },
+ "AllowAction": {
+  "DataActions": [
+   {
+    "ActionID": "Add",
+    "Label": "新增",
+    "Icon": "ri-add-line",
+    "Type": "Primary",
+    "Position": "Toolbar",
+    "Confirm": null
+   },
+   {
+    "ActionID": "Save",
+    "Label": "儲存",
+    "Icon": "ri-save-line",
+    "Type": "Primary",
+    "Position": "Toolbar",
+    "Confirm": null
+   },
+   {
+    "ActionID": "Delete",
+    "Label": "刪除",
+    "Icon": "ri-delete-bin-line",
+    "Type": "Danger",
+    "Position": "Both",
+    "Confirm": "確定要刪除此文件主檔資料嗎？"
+   },
+   {
+    "ActionID": "Query",
+    "Label": "查詢",
+    "Icon": "ri-search-line",
+    "Type": "Default",
+    "Position": "Toolbar",
+    "Confirm": null
+   }
+  ],
+  "ExtensionActions": [
+   {
+    "ActionID": "Import",
+    "Label": "匯入",
+    "Icon": "ri-upload-2-line",
+    "Type": "Default",
+    "Position": "Toolbar"
+   },
+   {
+    "ActionID": "Export",
+    "Label": "匯出",
+    "Icon": "ri-download-2-line",
+    "Type": "Default",
+    "Position": "Toolbar"
+   }
+  ]
+ },
+ "View": {
+  "RowKey": "RowGuid",
+  "ListView": {
+   "ListSpec": {
+    "RowKey": "RowGuid",
+    "SelectMode": "Single",
+    "FixedColumns": [
+     "Action",
+     "No"
+    ],
+    "RowActionMode": "Menu",
+    "ShowRowNo": true,
+    "Pagination": {
+     "PageSize": 100,
+     "SizeOptions": [
+      50,
+      100,
+      200,
+      500
+     ],
+     "ShowJumper": false,
+     "FullPageScroll": true
+    },
+    "DefaultSort": {
+     "Field": "SortNo",
+     "Order": "asc"
+    },
+    "EmptyText": "目前查無文件主檔資料",
+    "GridBordered": true
+   },
+   "FieldSpecs": [
+    {
+     "BindField": "DocCode",
+     "Title": "A02 文件編號",
+     "Align": "Left",
+     "DefaultVisible": true,
+     "Formatter": "Link",
+     "Fixed": "Left",
+     "Width": 160,
+     "Sorter": true
+    },
+    {
+     "BindField": "SerialNo",
+     "Title": "文件編號流水號部分",
+     "Align": "Center",
+     "DefaultVisible": true,
+     "Width": 140
+    },
+    {
+     "BindField": "DocName",
+     "Title": "A03 文件名稱",
+     "Align": "Left",
+     "DefaultVisible": true,
+     "Width": 140
+    },
+    {
+     "BindField": "ApplicableScope",
+     "Title": "適用情境說明",
+     "Align": "Left",
+     "DefaultVisible": true,
+     "Width": 140
+    },
+    {
+     "BindField": "IsControlled",
+     "Title": "是否為受控文件",
+     "Align": "Left",
+     "DefaultVisible": true,
+     "Width": 140
+    },
+    {
+     "BindField": "Status",
+     "Title": "文件主檔是否啟用",
+     "Align": "Center",
+     "DefaultVisible": true,
+     "Formatter": "Tag",
+     "Width": 80
+    }
+   ]
+  },
+  "FormView": {
+   "FormSpec": {
+    "RowKey": "RowGuid",
+    "Layout": "Horizontal",
+    "Sections": [
+     {
+      "SectionID": "SecBase",
+      "Type": "Card",
+      "Title": "基本資料",
+      "IsCollapsible": false,
+      "DefaultOpen": true,
+      "Icon": "ri-file-text-line"
+     },
+     {
+      "SectionID": "SecExtra",
+      "Type": "Card",
+      "Title": "系統資訊",
+      "IsCollapsible": true,
+      "DefaultOpen": false,
+      "Icon": "ri-settings-4-line"
+     }
+    ],
+    "FormLogic": []
+   },
+   "FieldSpecs": [
+    {
+     "BindField": "RowKey",
+     "Title": "系統識別碼",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 24,
+     "Mode": "Hidden"
+    },
+    {
+     "BindField": "EntityID",
+     "Title": "系統實體",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "Hidden",
+     "DefaultValue": "lab"
+    },
+    {
+     "BindField": "DocCode",
+     "Title": "A02 文件編號",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "Required",
+       "Message": "A02 文件編號為必填"
+      },
+      {
+       "Rule": "MaxLength",
+       "Value": 20,
+       "Message": "長度不可超過 20"
+      }
+     ]
+    },
+    {
+     "BindField": "CategoryGuid",
+     "Title": "A01 文件類別",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "ReadOnly",
+     "Validations": [
+      {
+       "Rule": "Required",
+       "Message": "A01 文件類別為必填"
+      }
+     ]
+    },
+    {
+     "BindField": "TestTypeGuid",
+     "Title": "檢驗類別",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "ReadOnly"
+    },
+    {
+     "BindField": "SerialNo",
+     "Title": "文件編號流水號部分",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "Required",
+       "Message": "文件編號流水號部分為必填"
+      }
+     ],
+     "Props": {
+      "Type": "number"
+     }
+    },
+    {
+     "BindField": "DocName",
+     "Title": "A03 文件名稱",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "Required",
+       "Message": "A03 文件名稱為必填"
+      },
+      {
+       "Rule": "MaxLength",
+       "Value": 200,
+       "Message": "長度不可超過 200"
+      }
+     ]
+    },
+    {
+     "BindField": "ApplicableScope",
+     "Title": "適用情境說明",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 200,
+       "Message": "長度不可超過 200"
+      }
+     ]
+    },
+    {
+     "BindField": "IsControlled",
+     "Title": "是否為受控文件",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable"
+    },
+    {
+     "BindField": "CurrentVersionGuid",
+     "Title": "目前生效版本",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "ReadOnly"
+    },
+    {
+     "BindField": "Status",
+     "Title": "啟用狀態",
+     "Component": "Select",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "DefaultValue": "1",
+     "Props": {
+      "OptionKey": "Status"
+     }
+    },
+    {
+     "BindField": "CreatedBy",
+     "Title": "建立者帳號",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "ReadOnly"
+    },
+    {
+     "BindField": "CreatedAt",
+     "Title": "資料建立日期時間",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "ReadOnly"
+    },
+    {
+     "BindField": "UpdatedBy",
+     "Title": "最後更新者帳號",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "ReadOnly"
+    },
+    {
+     "BindField": "UpdatedAt",
+     "Title": "最後更新日期時間",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "ReadOnly"
+    }
+   ]
+  },
+  "DetailViews": [
+   {
+    "DetailID": "Version",
+    "Title": "版本歷程",
+    "Icon": "ri-history-line",
+    "Entity": "labDoc_Version",
+    "RelationKey": "DocNo",
+    "RowKey": "RowGuid",
+    "AllowAdd": true,
+    "AllowEdit": true,
+    "AllowDelete": true,
+    "EmptyText": "尚無版本歷程資料",
+    "CodeSets": {
+     "Status": [
+      {
+       "CodeID": "1",
+       "CodeName": "啟用",
+       "IsDefault": true
+      },
+      {
+       "CodeID": "0",
+       "CodeName": "停用"
+      }
+     ],
+     "Priority": [
+      {
+       "CodeID": "A",
+       "CodeName": "急件"
+      },
+      {
+       "CodeID": "B",
+       "CodeName": "高"
+      },
+      {
+       "CodeID": "C",
+       "CodeName": "一般",
+       "IsDefault": true
+      },
+      {
+       "CodeID": "D",
+       "CodeName": "低"
+      }
+     ]
+    },
+    "Columns": [
+     {
+      "BindField": "DocGuid",
+      "Title": "所屬文件主檔",
+      "Width": 120,
+      "Align": "Left"
+     },
+     {
+      "BindField": "MajorVersion",
+      "Title": "主版號",
+      "Width": 120,
+      "Align": "Center"
+     },
+     {
+      "BindField": "MinorVersion",
+      "Title": "次版號",
+      "Width": 120,
+      "Align": "Center"
+     },
+     {
+      "BindField": "VersionLabel",
+      "Title": "[計算欄位] A04 版本顯示字串",
+      "Width": 120,
+      "Align": "Left"
+     },
+     {
+      "BindField": "VersionDate",
+      "Title": "A05 版本日期",
+      "Width": 120,
+      "Align": "Left",
+      "Formatter": "Date"
+     }
+    ],
+    "FormFields": [
+     {
+      "BindField": "DocGuid",
+      "Title": "所屬文件主檔",
+      "Component": "Input",
+      "Section": "",
+      "Span": 12,
+      "Mode": "ReadOnly",
+      "Validations": [
+       {
+        "Rule": "Required",
+        "Message": "所屬文件主檔為必填"
+       }
+      ]
+     },
+     {
+      "BindField": "MajorVersion",
+      "Title": "主版號",
+      "Component": "Input",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Props": {
+       "Type": "number"
+      }
+     },
+     {
+      "BindField": "MinorVersion",
+      "Title": "次版號",
+      "Component": "Input",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Props": {
+       "Type": "number"
+      }
+     },
+     {
+      "BindField": "VersionLabel",
+      "Title": "[計算欄位] A04 版本顯示字串",
+      "Component": "Input",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable"
+     },
+     {
+      "BindField": "VersionDate",
+      "Title": "A05 版本日期",
+      "Component": "DatePicker",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Validations": [
+       {
+        "Rule": "Required",
+        "Message": "A05 版本日期為必填"
+       }
+      ],
+      "Props": {
+       "Mode": "Editable",
+       "ShowTime": false
+      }
+     },
+     {
+      "BindField": "Drafter",
+      "Title": "A06 制定人員",
+      "Component": "Input",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Validations": [
+       {
+        "Rule": "Required",
+        "Message": "A06 制定人員為必填"
+       },
+       {
+        "Rule": "MaxLength",
+        "Value": 50,
+        "Message": "長度不可超過 50"
+       }
+      ]
+     },
+     {
+      "BindField": "Reviewer",
+      "Title": "A07 審核人員",
+      "Component": "Input",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Validations": [
+       {
+        "Rule": "MaxLength",
+        "Value": 50,
+        "Message": "長度不可超過 50"
+       }
+      ]
+     },
+     {
+      "BindField": "Approver",
+      "Title": "A08 核准人員",
+      "Component": "Input",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Validations": [
+       {
+        "Rule": "MaxLength",
+        "Value": 50,
+        "Message": "長度不可超過 50"
+       }
+      ]
+     },
+     {
+      "BindField": "EffectiveDate",
+      "Title": "A09 生效日期",
+      "Component": "DatePicker",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Props": {
+       "Mode": "Editable",
+       "ShowTime": false
+      }
+     },
+     {
+      "BindField": "ObsoleteDate",
+      "Title": "廢止日期",
+      "Component": "DatePicker",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Props": {
+       "Mode": "Editable",
+       "ShowTime": false
+      }
+     },
+     {
+      "BindField": "ObsoleteReason",
+      "Title": "廢止原因",
+      "Component": "Input",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Validations": [
+       {
+        "Rule": "MaxLength",
+        "Value": 200,
+        "Message": "長度不可超過 200"
+       }
+      ]
+     },
+     {
+      "BindField": "FilePath",
+      "Title": "A10 文件檔案路徑",
+      "Component": "Textarea",
+      "Section": "",
+      "Span": 24,
+      "Mode": "Editable",
+      "Validations": [
+       {
+        "Rule": "MaxLength",
+        "Value": 500,
+        "Message": "長度不可超過 500"
+       }
+      ],
+      "Props": {
+       "Rows": 3
+      }
+     },
+     {
+      "BindField": "VersionStatus",
+      "Title": "A11 狀態",
+      "Component": "Input",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Validations": [
+       {
+        "Rule": "MaxLength",
+        "Value": 10,
+        "Message": "長度不可超過 10"
+       }
+      ]
+     },
+     {
+      "BindField": "Remark",
+      "Title": "M01 備註",
+      "Component": "Textarea",
+      "Section": "",
+      "Span": 24,
+      "Mode": "Editable",
+      "Validations": [
+       {
+        "Rule": "MaxLength",
+        "Value": 500,
+        "Message": "長度不可超過 500"
+       }
+      ],
+      "Props": {
+       "Rows": 3
+      }
+     }
+    ],
+    "SeedData": [
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000001",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0001",
+      "DocGuid": "所屬文件主檔02",
+      "MajorVersion": 72,
+      "MinorVersion": 4,
+      "VersionLabel": "v2.8",
+      "VersionDate": "2026-04-26",
+      "Drafter": "劉助理",
+      "Reviewer": "劉助理",
+      "Approver": "蔡研究",
+      "EffectiveDate": "2025-09-19",
+      "ObsoleteDate": "2026-08-06",
+      "ObsoleteReason": "",
+      "FilePath": "A10 文件檔案路徑02",
+      "VersionStatus": "v5.7",
+      "Remark": "待主管覆核"
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000002",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0001",
+      "DocGuid": "所屬文件主檔03",
+      "MajorVersion": 38,
+      "MinorVersion": 3,
+      "VersionLabel": "v3.1",
+      "VersionDate": "2025-03-22",
+      "Drafter": "張分析",
+      "Reviewer": "楊化驗",
+      "Approver": "林品保",
+      "EffectiveDate": "2025-11-13",
+      "ObsoleteDate": "2025-04-18",
+      "ObsoleteReason": "",
+      "FilePath": "A10 文件檔案路徑03",
+      "VersionStatus": "v1.1",
+      "Remark": "定期校正合格"
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000003",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0001",
+      "DocGuid": "所屬文件主檔04",
+      "MajorVersion": 12,
+      "MinorVersion": 12,
+      "VersionLabel": "v2.1",
+      "VersionDate": "2026-04-17",
+      "Drafter": "吳主任",
+      "Reviewer": "何環安",
+      "Approver": "蔡研究",
+      "EffectiveDate": "2025-09-11",
+      "ObsoleteDate": "2026-04-07",
+      "ObsoleteReason": "",
+      "FilePath": "A10 文件檔案路徑04",
+      "VersionStatus": "v3.5",
+      "Remark": "需注意保存效期"
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000004",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0001",
+      "DocGuid": "所屬文件主檔05",
+      "MajorVersion": 98,
+      "MinorVersion": 11,
+      "VersionLabel": "v5.0",
+      "VersionDate": "2026-03-24",
+      "Drafter": "蔡研究",
+      "Reviewer": "何環安",
+      "Approver": "蔡研究",
+      "EffectiveDate": "2026-08-09",
+      "ObsoleteDate": "2026-05-01",
+      "ObsoleteReason": "需注意保存效期",
+      "FilePath": "A10 文件檔案路徑05",
+      "VersionStatus": "v4.4",
+      "Remark": "已通知申請單位"
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000005",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0002",
+      "DocGuid": "所屬文件主檔06",
+      "MajorVersion": 54,
+      "MinorVersion": 9,
+      "VersionLabel": "v4.2",
+      "VersionDate": "2025-09-09",
+      "Drafter": "張分析",
+      "Reviewer": "謝校正",
+      "Approver": "王采樣",
+      "EffectiveDate": "2026-02-14",
+      "ObsoleteDate": "2026-11-16",
+      "ObsoleteReason": "已通知申請單位",
+      "FilePath": "A10 文件檔案路徑06",
+      "VersionStatus": "v1.7",
+      "Remark": "客戶要求附 TAF Logo"
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000006",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0002",
+      "DocGuid": "所屬文件主檔07",
+      "MajorVersion": 26,
+      "MinorVersion": 9,
+      "VersionLabel": "v1.8",
+      "VersionDate": "2026-01-13",
+      "Drafter": "鄭組長",
+      "Reviewer": "李檢測",
+      "Approver": "許工程",
+      "EffectiveDate": "2026-05-02",
+      "ObsoleteDate": "2025-06-07",
+      "ObsoleteReason": "樣品外觀正常",
+      "FilePath": "A10 文件檔案路徑07",
+      "VersionStatus": "v3.8",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000007",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0003",
+      "DocGuid": "所屬文件主檔08",
+      "MajorVersion": 13,
+      "MinorVersion": 1,
+      "VersionLabel": "v1.5",
+      "VersionDate": "2025-09-17",
+      "Drafter": "周技士",
+      "Reviewer": "黃技正",
+      "Approver": "黃技正",
+      "EffectiveDate": "2025-07-27",
+      "ObsoleteDate": "2025-09-08",
+      "ObsoleteReason": "",
+      "FilePath": "A10 文件檔案路徑08",
+      "VersionStatus": "v3.8",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000008",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0003",
+      "DocGuid": "所屬文件主檔09",
+      "MajorVersion": 22,
+      "MinorVersion": 10,
+      "VersionLabel": "v4.6",
+      "VersionDate": "2025-05-23",
+      "Drafter": "楊化驗",
+      "Reviewer": "謝校正",
+      "Approver": "楊化驗",
+      "EffectiveDate": "2026-09-18",
+      "ObsoleteDate": "2025-08-25",
+      "ObsoleteReason": "已通知申請單位",
+      "FilePath": "A10 文件檔案路徑09",
+      "VersionStatus": "v1.1",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000009",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0003",
+      "DocGuid": "所屬文件主檔10",
+      "MajorVersion": 88,
+      "MinorVersion": 7,
+      "VersionLabel": "v2.8",
+      "VersionDate": "2026-01-02",
+      "Drafter": "黃技正",
+      "Reviewer": "郭品管",
+      "Approver": "陳審核",
+      "EffectiveDate": "2026-06-12",
+      "ObsoleteDate": "2026-09-14",
+      "ObsoleteReason": "待主管覆核",
+      "FilePath": "A10 文件檔案路徑10",
+      "VersionStatus": "v3.7",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000010",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0004",
+      "DocGuid": "所屬文件主檔11",
+      "MajorVersion": 11,
+      "MinorVersion": 12,
+      "VersionLabel": "v2.8",
+      "VersionDate": "2025-02-19",
+      "Drafter": "許工程",
+      "Reviewer": "王采樣",
+      "Approver": "李檢測",
+      "EffectiveDate": "2026-11-15",
+      "ObsoleteDate": "2026-10-05",
+      "ObsoleteReason": "",
+      "FilePath": "A10 文件檔案路徑11",
+      "VersionStatus": "v4.8",
+      "Remark": "需注意保存效期"
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000011",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0004",
+      "DocGuid": "所屬文件主檔12",
+      "MajorVersion": 94,
+      "MinorVersion": 4,
+      "VersionLabel": "v3.5",
+      "VersionDate": "2026-03-24",
+      "Drafter": "郭品管",
+      "Reviewer": "王采樣",
+      "Approver": "楊化驗",
+      "EffectiveDate": "2025-04-04",
+      "ObsoleteDate": "2026-05-07",
+      "ObsoleteReason": "客戶要求附 TAF Logo",
+      "FilePath": "A10 文件檔案路徑12",
+      "VersionStatus": "v5.2",
+      "Remark": "已通知申請單位"
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000012",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0005",
+      "DocGuid": "所屬文件主檔13",
+      "MajorVersion": 66,
+      "MinorVersion": 2,
+      "VersionLabel": "v4.2",
+      "VersionDate": "2026-11-02",
+      "Drafter": "李檢測",
+      "Reviewer": "何環安",
+      "Approver": "何環安",
+      "EffectiveDate": "2025-10-27",
+      "ObsoleteDate": "2026-12-23",
+      "ObsoleteReason": "",
+      "FilePath": "A10 文件檔案路徑13",
+      "VersionStatus": "v2.1",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000013",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0005",
+      "DocGuid": "所屬文件主檔14",
+      "MajorVersion": 60,
+      "MinorVersion": 6,
+      "VersionLabel": "v5.7",
+      "VersionDate": "2025-05-13",
+      "Drafter": "張分析",
+      "Reviewer": "李檢測",
+      "Approver": "李檢測",
+      "EffectiveDate": "2026-10-05",
+      "ObsoleteDate": "2025-10-09",
+      "ObsoleteReason": "",
+      "FilePath": "A10 文件檔案路徑14",
+      "VersionStatus": "v3.8",
+      "Remark": "定期校正合格"
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000014",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0005",
+      "DocGuid": "所屬文件主檔15",
+      "MajorVersion": 69,
+      "MinorVersion": 12,
+      "VersionLabel": "v2.0",
+      "VersionDate": "2026-01-25",
+      "Drafter": "吳主任",
+      "Reviewer": "周技士",
+      "Approver": "鄭組長",
+      "EffectiveDate": "2025-08-28",
+      "ObsoleteDate": "2026-07-22",
+      "ObsoleteReason": "",
+      "FilePath": "A10 文件檔案路徑15",
+      "VersionStatus": "v3.4",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000015",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0005",
+      "DocGuid": "所屬文件主檔16",
+      "MajorVersion": 63,
+      "MinorVersion": 10,
+      "VersionLabel": "v1.8",
+      "VersionDate": "2026-05-15",
+      "Drafter": "吳主任",
+      "Reviewer": "吳主任",
+      "Approver": "吳主任",
+      "EffectiveDate": "2025-12-21",
+      "ObsoleteDate": "2025-03-09",
+      "ObsoleteReason": "",
+      "FilePath": "A10 文件檔案路徑16",
+      "VersionStatus": "v3.4",
+      "Remark": "樣品外觀正常"
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000016",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0006",
+      "DocGuid": "所屬文件主檔17",
+      "MajorVersion": 11,
+      "MinorVersion": 3,
+      "VersionLabel": "v3.4",
+      "VersionDate": "2026-03-25",
+      "Drafter": "林品保",
+      "Reviewer": "許工程",
+      "Approver": "蔡研究",
+      "EffectiveDate": "2025-01-01",
+      "ObsoleteDate": "2025-04-21",
+      "ObsoleteReason": "",
+      "FilePath": "A10 文件檔案路徑17",
+      "VersionStatus": "v2.9",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000017",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0006",
+      "DocGuid": "所屬文件主檔18",
+      "MajorVersion": 34,
+      "MinorVersion": 2,
+      "VersionLabel": "v3.8",
+      "VersionDate": "2026-04-28",
+      "Drafter": "周技士",
+      "Reviewer": "何環安",
+      "Approver": "陳審核",
+      "EffectiveDate": "2026-01-22",
+      "ObsoleteDate": "2025-05-02",
+      "ObsoleteReason": "",
+      "FilePath": "A10 文件檔案路徑18",
+      "VersionStatus": "v2.5",
+      "Remark": "已通知申請單位"
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000018",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0006",
+      "DocGuid": "所屬文件主檔19",
+      "MajorVersion": 20,
+      "MinorVersion": 4,
+      "VersionLabel": "v4.2",
+      "VersionDate": "2026-12-18",
+      "Drafter": "張分析",
+      "Reviewer": "楊化驗",
+      "Approver": "蔡研究",
+      "EffectiveDate": "2025-07-25",
+      "ObsoleteDate": "2026-04-11",
+      "ObsoleteReason": "",
+      "FilePath": "A10 文件檔案路徑19",
+      "VersionStatus": "v3.3",
+      "Remark": "待主管覆核"
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000019",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0007",
+      "DocGuid": "所屬文件主檔20",
+      "MajorVersion": 13,
+      "MinorVersion": 3,
+      "VersionLabel": "v2.6",
+      "VersionDate": "2026-09-21",
+      "Drafter": "謝校正",
+      "Reviewer": "林品保",
+      "Approver": "郭品管",
+      "EffectiveDate": "2025-11-09",
+      "ObsoleteDate": "2025-05-12",
+      "ObsoleteReason": "需注意保存效期",
+      "FilePath": "A10 文件檔案路徑20",
+      "VersionStatus": "v2.3",
+      "Remark": "已通知申請單位"
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000020",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0007",
+      "DocGuid": "所屬文件主檔21",
+      "MajorVersion": 28,
+      "MinorVersion": 8,
+      "VersionLabel": "v4.6",
+      "VersionDate": "2025-12-02",
+      "Drafter": "何環安",
+      "Reviewer": "郭品管",
+      "Approver": "黃技正",
+      "EffectiveDate": "2025-02-17",
+      "ObsoleteDate": "2025-01-11",
+      "ObsoleteReason": "",
+      "FilePath": "A10 文件檔案路徑21",
+      "VersionStatus": "v4.8",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000021",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0008",
+      "DocGuid": "所屬文件主檔22",
+      "MajorVersion": 28,
+      "MinorVersion": 0,
+      "VersionLabel": "v4.2",
+      "VersionDate": "2025-12-16",
+      "Drafter": "陳審核",
+      "Reviewer": "蔡研究",
+      "Approver": "張分析",
+      "EffectiveDate": "2025-09-10",
+      "ObsoleteDate": "2026-08-28",
+      "ObsoleteReason": "待主管覆核",
+      "FilePath": "A10 文件檔案路徑22",
+      "VersionStatus": "v3.5",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000022",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0008",
+      "DocGuid": "所屬文件主檔23",
+      "MajorVersion": 48,
+      "MinorVersion": 4,
+      "VersionLabel": "v4.5",
+      "VersionDate": "2025-09-21",
+      "Drafter": "吳主任",
+      "Reviewer": "劉助理",
+      "Approver": "李檢測",
+      "EffectiveDate": "2025-10-07",
+      "ObsoleteDate": "2025-07-08",
+      "ObsoleteReason": "",
+      "FilePath": "A10 文件檔案路徑23",
+      "VersionStatus": "v4.8",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000023",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0009",
+      "DocGuid": "所屬文件主檔24",
+      "MajorVersion": 55,
+      "MinorVersion": 11,
+      "VersionLabel": "v3.8",
+      "VersionDate": "2026-07-13",
+      "Drafter": "蔡研究",
+      "Reviewer": "周技士",
+      "Approver": "鄭組長",
+      "EffectiveDate": "2026-11-26",
+      "ObsoleteDate": "2025-09-06",
+      "ObsoleteReason": "",
+      "FilePath": "A10 文件檔案路徑24",
+      "VersionStatus": "v2.7",
+      "Remark": "定期校正合格"
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000024",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0009",
+      "DocGuid": "所屬文件主檔25",
+      "MajorVersion": 17,
+      "MinorVersion": 8,
+      "VersionLabel": "v1.3",
+      "VersionDate": "2025-02-13",
+      "Drafter": "蔡研究",
+      "Reviewer": "劉助理",
+      "Approver": "李檢測",
+      "EffectiveDate": "2025-10-20",
+      "ObsoleteDate": "2026-03-03",
+      "ObsoleteReason": "急件已加收費用",
+      "FilePath": "A10 文件檔案路徑25",
+      "VersionStatus": "v4.4",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000025",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0009",
+      "DocGuid": "所屬文件主檔26",
+      "MajorVersion": 31,
+      "MinorVersion": 5,
+      "VersionLabel": "v2.2",
+      "VersionDate": "2026-11-26",
+      "Drafter": "周技士",
+      "Reviewer": "鄭組長",
+      "Approver": "郭品管",
+      "EffectiveDate": "2026-01-19",
+      "ObsoleteDate": "2026-10-08",
+      "ObsoleteReason": "",
+      "FilePath": "A10 文件檔案路徑26",
+      "VersionStatus": "v4.2",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000026",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0009",
+      "DocGuid": "所屬文件主檔27",
+      "MajorVersion": 10,
+      "MinorVersion": 9,
+      "VersionLabel": "v4.0",
+      "VersionDate": "2026-03-10",
+      "Drafter": "謝校正",
+      "Reviewer": "許工程",
+      "Approver": "吳主任",
+      "EffectiveDate": "2025-01-23",
+      "ObsoleteDate": "2026-02-08",
+      "ObsoleteReason": "",
+      "FilePath": "A10 文件檔案路徑27",
+      "VersionStatus": "v5.1",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000027",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0010",
+      "DocGuid": "所屬文件主檔28",
+      "MajorVersion": 50,
+      "MinorVersion": 6,
+      "VersionLabel": "v4.2",
+      "VersionDate": "2025-01-28",
+      "Drafter": "李檢測",
+      "Reviewer": "陳審核",
+      "Approver": "李檢測",
+      "EffectiveDate": "2025-08-26",
+      "ObsoleteDate": "2025-11-18",
+      "ObsoleteReason": "",
+      "FilePath": "A10 文件檔案路徑28",
+      "VersionStatus": "v2.8",
+      "Remark": "客戶要求附 TAF Logo"
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000028",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0010",
+      "DocGuid": "所屬文件主檔29",
+      "MajorVersion": 25,
+      "MinorVersion": 6,
+      "VersionLabel": "v3.8",
+      "VersionDate": "2026-01-08",
+      "Drafter": "郭品管",
+      "Reviewer": "劉助理",
+      "Approver": "陳審核",
+      "EffectiveDate": "2026-11-16",
+      "ObsoleteDate": "2025-06-28",
+      "ObsoleteReason": "需注意保存效期",
+      "FilePath": "A10 文件檔案路徑29",
+      "VersionStatus": "v1.1",
+      "Remark": "樣品外觀正常"
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000029",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0010",
+      "DocGuid": "所屬文件主檔30",
+      "MajorVersion": 4,
+      "MinorVersion": 3,
+      "VersionLabel": "v1.4",
+      "VersionDate": "2025-12-28",
+      "Drafter": "楊化驗",
+      "Reviewer": "林品保",
+      "Approver": "黃技正",
+      "EffectiveDate": "2025-05-11",
+      "ObsoleteDate": "2025-08-07",
+      "ObsoleteReason": "",
+      "FilePath": "A10 文件檔案路徑30",
+      "VersionStatus": "v5.7",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000030",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0010",
+      "DocGuid": "所屬文件主檔31",
+      "MajorVersion": 36,
+      "MinorVersion": 11,
+      "VersionLabel": "v3.8",
+      "VersionDate": "2026-03-24",
+      "Drafter": "黃技正",
+      "Reviewer": "黃技正",
+      "Approver": "黃技正",
+      "EffectiveDate": "2026-02-18",
+      "ObsoleteDate": "2025-06-07",
+      "ObsoleteReason": "樣品外觀正常",
+      "FilePath": "A10 文件檔案路徑31",
+      "VersionStatus": "v4.5",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000031",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0011",
+      "DocGuid": "所屬文件主檔32",
+      "MajorVersion": 2,
+      "MinorVersion": 12,
+      "VersionLabel": "v3.1",
+      "VersionDate": "2026-07-19",
+      "Drafter": "許工程",
+      "Reviewer": "鄭組長",
+      "Approver": "陳審核",
+      "EffectiveDate": "2026-07-24",
+      "ObsoleteDate": "2025-05-26",
+      "ObsoleteReason": "",
+      "FilePath": "A10 文件檔案路徑32",
+      "VersionStatus": "v1.4",
+      "Remark": "客戶要求附 TAF Logo"
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000032",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0011",
+      "DocGuid": "所屬文件主檔33",
+      "MajorVersion": 93,
+      "MinorVersion": 8,
+      "VersionLabel": "v2.0",
+      "VersionDate": "2026-06-22",
+      "Drafter": "李檢測",
+      "Reviewer": "王采樣",
+      "Approver": "何環安",
+      "EffectiveDate": "2026-04-12",
+      "ObsoleteDate": "2026-05-19",
+      "ObsoleteReason": "",
+      "FilePath": "A10 文件檔案路徑33",
+      "VersionStatus": "v2.6",
+      "Remark": "已通知申請單位"
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000033",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0012",
+      "DocGuid": "所屬文件主檔34",
+      "MajorVersion": 84,
+      "MinorVersion": 8,
+      "VersionLabel": "v3.4",
+      "VersionDate": "2025-02-21",
+      "Drafter": "黃技正",
+      "Reviewer": "楊化驗",
+      "Approver": "李檢測",
+      "EffectiveDate": "2026-03-26",
+      "ObsoleteDate": "2025-04-22",
+      "ObsoleteReason": "急件已加收費用",
+      "FilePath": "A10 文件檔案路徑34",
+      "VersionStatus": "v3.0",
+      "Remark": "定期校正合格"
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000034",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0012",
+      "DocGuid": "所屬文件主檔35",
+      "MajorVersion": 19,
+      "MinorVersion": 0,
+      "VersionLabel": "v1.3",
+      "VersionDate": "2026-12-12",
+      "Drafter": "許工程",
+      "Reviewer": "周技士",
+      "Approver": "何環安",
+      "EffectiveDate": "2025-03-10",
+      "ObsoleteDate": "2025-12-14",
+      "ObsoleteReason": "",
+      "FilePath": "A10 文件檔案路徑35",
+      "VersionStatus": "v4.8",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000035",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0013",
+      "DocGuid": "所屬文件主檔36",
+      "MajorVersion": 78,
+      "MinorVersion": 6,
+      "VersionLabel": "v2.4",
+      "VersionDate": "2025-07-03",
+      "Drafter": "謝校正",
+      "Reviewer": "何環安",
+      "Approver": "周技士",
+      "EffectiveDate": "2026-03-03",
+      "ObsoleteDate": "2025-12-11",
+      "ObsoleteReason": "",
+      "FilePath": "A10 文件檔案路徑36",
+      "VersionStatus": "v3.5",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000036",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0013",
+      "DocGuid": "所屬文件主檔37",
+      "MajorVersion": 13,
+      "MinorVersion": 2,
+      "VersionLabel": "v4.8",
+      "VersionDate": "2026-08-01",
+      "Drafter": "鄭組長",
+      "Reviewer": "黃技正",
+      "Approver": "何環安",
+      "EffectiveDate": "2025-09-28",
+      "ObsoleteDate": "2025-10-07",
+      "ObsoleteReason": "",
+      "FilePath": "A10 文件檔案路徑37",
+      "VersionStatus": "v1.5",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000037",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0013",
+      "DocGuid": "所屬文件主檔38",
+      "MajorVersion": 19,
+      "MinorVersion": 8,
+      "VersionLabel": "v5.5",
+      "VersionDate": "2025-04-26",
+      "Drafter": "周技士",
+      "Reviewer": "郭品管",
+      "Approver": "陳審核",
+      "EffectiveDate": "2025-04-16",
+      "ObsoleteDate": "2025-07-08",
+      "ObsoleteReason": "樣品外觀正常",
+      "FilePath": "A10 文件檔案路徑38",
+      "VersionStatus": "v2.5",
+      "Remark": "已通知申請單位"
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000038",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0013",
+      "DocGuid": "所屬文件主檔39",
+      "MajorVersion": 87,
+      "MinorVersion": 5,
+      "VersionLabel": "v2.5",
+      "VersionDate": "2025-09-19",
+      "Drafter": "楊化驗",
+      "Reviewer": "吳主任",
+      "Approver": "黃技正",
+      "EffectiveDate": "2025-07-27",
+      "ObsoleteDate": "2026-05-22",
+      "ObsoleteReason": "",
+      "FilePath": "A10 文件檔案路徑39",
+      "VersionStatus": "v1.3",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000039",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0014",
+      "DocGuid": "所屬文件主檔40",
+      "MajorVersion": 8,
+      "MinorVersion": 7,
+      "VersionLabel": "v3.0",
+      "VersionDate": "2026-10-15",
+      "Drafter": "楊化驗",
+      "Reviewer": "王采樣",
+      "Approver": "吳主任",
+      "EffectiveDate": "2025-11-10",
+      "ObsoleteDate": "2026-03-20",
+      "ObsoleteReason": "",
+      "FilePath": "A10 文件檔案路徑40",
+      "VersionStatus": "v5.5",
+      "Remark": "樣品外觀正常"
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000040",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0014",
+      "DocGuid": "所屬文件主檔41",
+      "MajorVersion": 14,
+      "MinorVersion": 1,
+      "VersionLabel": "v5.2",
+      "VersionDate": "2025-04-25",
+      "Drafter": "謝校正",
+      "Reviewer": "李檢測",
+      "Approver": "劉助理",
+      "EffectiveDate": "2025-06-07",
+      "ObsoleteDate": "2025-03-26",
+      "ObsoleteReason": "",
+      "FilePath": "A10 文件檔案路徑41",
+      "VersionStatus": "v4.9",
+      "Remark": "定期校正合格"
+     }
+    ]
+   },
+   {
+    "DetailID": "Revision",
+    "Title": "修訂說明",
+    "Icon": "ri-edit-line",
+    "Entity": "labDoc_RevisionNote",
+    "RelationKey": "DocNo",
+    "RowKey": "RowGuid",
+    "AllowAdd": true,
+    "AllowEdit": true,
+    "AllowDelete": true,
+    "EmptyText": "尚無修訂說明資料",
+    "CodeSets": {
+     "Status": [
+      {
+       "CodeID": "1",
+       "CodeName": "啟用",
+       "IsDefault": true
+      },
+      {
+       "CodeID": "0",
+       "CodeName": "停用"
+      }
+     ],
+     "Priority": [
+      {
+       "CodeID": "A",
+       "CodeName": "急件"
+      },
+      {
+       "CodeID": "B",
+       "CodeName": "高"
+      },
+      {
+       "CodeID": "C",
+       "CodeName": "一般",
+       "IsDefault": true
+      },
+      {
+       "CodeID": "D",
+       "CodeName": "低"
+      }
+     ]
+    },
+    "Columns": [
+     {
+      "BindField": "VersionGuid",
+      "Title": "所屬版本",
+      "Width": 120,
+      "Align": "Left"
+     },
+     {
+      "BindField": "SeqNo",
+      "Title": "項次",
+      "Width": 120,
+      "Align": "Center"
+     },
+     {
+      "BindField": "Content",
+      "Title": "M02 修訂說明內容",
+      "Width": 120,
+      "Align": "Left"
+     }
+    ],
+    "FormFields": [
+     {
+      "BindField": "VersionGuid",
+      "Title": "所屬版本",
+      "Component": "Input",
+      "Section": "",
+      "Span": 12,
+      "Mode": "ReadOnly",
+      "Validations": [
+       {
+        "Rule": "Required",
+        "Message": "所屬版本為必填"
+       }
+      ]
+     },
+     {
+      "BindField": "SeqNo",
+      "Title": "項次",
+      "Component": "Input",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Props": {
+       "Type": "number"
+      }
+     },
+     {
+      "BindField": "Content",
+      "Title": "M02 修訂說明內容",
+      "Component": "Textarea",
+      "Section": "",
+      "Span": 24,
+      "Mode": "Editable",
+      "Validations": [
+       {
+        "Rule": "Required",
+        "Message": "M02 修訂說明內容為必填"
+       },
+       {
+        "Rule": "MaxLength",
+        "Value": 300,
+        "Message": "長度不可超過 300"
+       }
+      ],
+      "Props": {
+       "Rows": 3
+      }
+     }
+    ],
+    "SeedData": [
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000041",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0001",
+      "VersionGuid": "v4.9",
+      "SeqNo": 8,
+      "Content": "需注意保存效期"
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000042",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0001",
+      "VersionGuid": "v5.7",
+      "SeqNo": 12,
+      "Content": "急件已加收費用"
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000043",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0001",
+      "VersionGuid": "v4.6",
+      "SeqNo": 4,
+      "Content": ""
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000044",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0002",
+      "VersionGuid": "v1.4",
+      "SeqNo": 7,
+      "Content": "待主管覆核"
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000045",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0002",
+      "VersionGuid": "v4.0",
+      "SeqNo": 8,
+      "Content": "定期校正合格"
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000046",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0002",
+      "VersionGuid": "v5.9",
+      "SeqNo": 3,
+      "Content": "已通知申請單位"
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000047",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0002",
+      "VersionGuid": "v1.3",
+      "SeqNo": 12,
+      "Content": ""
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000048",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0003",
+      "VersionGuid": "v5.2",
+      "SeqNo": 3,
+      "Content": ""
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000049",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0003",
+      "VersionGuid": "v1.2",
+      "SeqNo": 9,
+      "Content": ""
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000050",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0004",
+      "VersionGuid": "v2.8",
+      "SeqNo": 12,
+      "Content": "複驗確認無誤"
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000051",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0004",
+      "VersionGuid": "v4.0",
+      "SeqNo": 9,
+      "Content": ""
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000052",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0004",
+      "VersionGuid": "v2.4",
+      "SeqNo": 9,
+      "Content": "定期校正合格"
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000053",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0005",
+      "VersionGuid": "v1.6",
+      "SeqNo": 7,
+      "Content": "定期校正合格"
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000054",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0005",
+      "VersionGuid": "v5.4",
+      "SeqNo": 4,
+      "Content": "定期校正合格"
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000055",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0006",
+      "VersionGuid": "v5.8",
+      "SeqNo": 12,
+      "Content": ""
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000056",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0006",
+      "VersionGuid": "v5.3",
+      "SeqNo": 4,
+      "Content": ""
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000057",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0006",
+      "VersionGuid": "v2.4",
+      "SeqNo": 10,
+      "Content": "需注意保存效期"
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000058",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0007",
+      "VersionGuid": "v5.4",
+      "SeqNo": 9,
+      "Content": "複驗確認無誤"
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000059",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0007",
+      "VersionGuid": "v1.3",
+      "SeqNo": 6,
+      "Content": "需注意保存效期"
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000060",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0008",
+      "VersionGuid": "v4.3",
+      "SeqNo": 2,
+      "Content": "待主管覆核"
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000061",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0008",
+      "VersionGuid": "v4.4",
+      "SeqNo": 5,
+      "Content": ""
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000062",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0008",
+      "VersionGuid": "v2.5",
+      "SeqNo": 0,
+      "Content": ""
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000063",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0009",
+      "VersionGuid": "v2.4",
+      "SeqNo": 6,
+      "Content": ""
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000064",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0009",
+      "VersionGuid": "v2.5",
+      "SeqNo": 4,
+      "Content": "急件已加收費用"
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000065",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0009",
+      "VersionGuid": "v5.0",
+      "SeqNo": 0,
+      "Content": "待主管覆核"
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000066",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0009",
+      "VersionGuid": "v4.3",
+      "SeqNo": 5,
+      "Content": "客戶要求附 TAF Logo"
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000067",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0010",
+      "VersionGuid": "v2.4",
+      "SeqNo": 7,
+      "Content": ""
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000068",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0010",
+      "VersionGuid": "v3.2",
+      "SeqNo": 6,
+      "Content": ""
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000069",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0011",
+      "VersionGuid": "v3.9",
+      "SeqNo": 1,
+      "Content": ""
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000070",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0011",
+      "VersionGuid": "v1.1",
+      "SeqNo": 1,
+      "Content": ""
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000071",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0011",
+      "VersionGuid": "v1.4",
+      "SeqNo": 2,
+      "Content": "已通知申請單位"
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000072",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0012",
+      "VersionGuid": "v2.1",
+      "SeqNo": 6,
+      "Content": ""
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000073",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0012",
+      "VersionGuid": "v5.4",
+      "SeqNo": 2,
+      "Content": ""
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000074",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0012",
+      "VersionGuid": "v2.2",
+      "SeqNo": 9,
+      "Content": "複驗確認無誤"
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000075",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0012",
+      "VersionGuid": "v3.0",
+      "SeqNo": 2,
+      "Content": "客戶要求附 TAF Logo"
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000076",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0013",
+      "VersionGuid": "v1.8",
+      "SeqNo": 4,
+      "Content": ""
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000077",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0013",
+      "VersionGuid": "v3.8",
+      "SeqNo": 8,
+      "Content": "已通知申請單位"
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000078",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0013",
+      "VersionGuid": "v3.3",
+      "SeqNo": 2,
+      "Content": ""
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000079",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0013",
+      "VersionGuid": "v1.8",
+      "SeqNo": 3,
+      "Content": ""
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000080",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0014",
+      "VersionGuid": "v4.2",
+      "SeqNo": 8,
+      "Content": "定期校正合格"
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000081",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0014",
+      "VersionGuid": "v3.4",
+      "SeqNo": 11,
+      "Content": ""
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000082",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0014",
+      "VersionGuid": "v4.7",
+      "SeqNo": 4,
+      "Content": ""
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000083",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0014",
+      "VersionGuid": "v2.5",
+      "SeqNo": 0,
+      "Content": ""
+     }
+    ]
+   },
+   {
+    "DetailID": "Approval",
+    "Title": "簽核流程",
+    "Icon": "ri-check-double-line",
+    "Entity": "labDoc_ApprovalLog",
+    "RelationKey": "DocNo",
+    "RowKey": "RowGuid",
+    "AllowAdd": true,
+    "AllowEdit": true,
+    "AllowDelete": true,
+    "EmptyText": "尚無簽核流程資料",
+    "CodeSets": {
+     "Status": [
+      {
+       "CodeID": "1",
+       "CodeName": "啟用",
+       "IsDefault": true
+      },
+      {
+       "CodeID": "0",
+       "CodeName": "停用"
+      }
+     ],
+     "Priority": [
+      {
+       "CodeID": "A",
+       "CodeName": "急件"
+      },
+      {
+       "CodeID": "B",
+       "CodeName": "高"
+      },
+      {
+       "CodeID": "C",
+       "CodeName": "一般",
+       "IsDefault": true
+      },
+      {
+       "CodeID": "D",
+       "CodeName": "低"
+      }
+     ]
+    },
+    "Columns": [
+     {
+      "BindField": "VersionGuid",
+      "Title": "所屬版本",
+      "Width": 120,
+      "Align": "Left"
+     },
+     {
+      "BindField": "Step",
+      "Title": "流程階段",
+      "Width": 120,
+      "Align": "Left"
+     },
+     {
+      "BindField": "Action",
+      "Title": "動作",
+      "Width": 120,
+      "Align": "Left"
+     },
+     {
+      "BindField": "Actor",
+      "Title": "執行人員",
+      "Width": 120,
+      "Align": "Left"
+     },
+     {
+      "BindField": "ActionTime",
+      "Title": "執行時間",
+      "Width": 120,
+      "Align": "Left",
+      "Formatter": "Date"
+     }
+    ],
+    "FormFields": [
+     {
+      "BindField": "VersionGuid",
+      "Title": "所屬版本",
+      "Component": "Input",
+      "Section": "",
+      "Span": 12,
+      "Mode": "ReadOnly",
+      "Validations": [
+       {
+        "Rule": "Required",
+        "Message": "所屬版本為必填"
+       }
+      ]
+     },
+     {
+      "BindField": "Step",
+      "Title": "流程階段",
+      "Component": "Input",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Validations": [
+       {
+        "Rule": "Required",
+        "Message": "流程階段為必填"
+       },
+       {
+        "Rule": "MaxLength",
+        "Value": 10,
+        "Message": "長度不可超過 10"
+       }
+      ]
+     },
+     {
+      "BindField": "Action",
+      "Title": "動作",
+      "Component": "Input",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Validations": [
+       {
+        "Rule": "Required",
+        "Message": "動作為必填"
+       },
+       {
+        "Rule": "MaxLength",
+        "Value": 10,
+        "Message": "長度不可超過 10"
+       }
+      ]
+     },
+     {
+      "BindField": "Actor",
+      "Title": "執行人員",
+      "Component": "Input",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Validations": [
+       {
+        "Rule": "Required",
+        "Message": "執行人員為必填"
+       },
+       {
+        "Rule": "MaxLength",
+        "Value": 50,
+        "Message": "長度不可超過 50"
+       }
+      ]
+     },
+     {
+      "BindField": "ActionTime",
+      "Title": "執行時間",
+      "Component": "DatePicker",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Props": {
+       "Mode": "Editable",
+       "ShowTime": false
+      }
+     },
+     {
+      "BindField": "CommentText",
+      "Title": "簽核意見／退回原因",
+      "Component": "Textarea",
+      "Section": "",
+      "Span": 24,
+      "Mode": "Editable",
+      "Validations": [
+       {
+        "Rule": "MaxLength",
+        "Value": 500,
+        "Message": "長度不可超過 500"
+       }
+      ],
+      "Props": {
+       "Rows": 3
+      }
+     }
+    ],
+    "SeedData": [
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000084",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0001",
+      "VersionGuid": "v1.9",
+      "Step": "流程階段85",
+      "Action": "動作85",
+      "Actor": "吳主任",
+      "ActionTime": "2026-07-28",
+      "CommentText": "樣品外觀正常"
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000085",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0001",
+      "VersionGuid": "v5.6",
+      "Step": "流程階段86",
+      "Action": "動作86",
+      "Actor": "鄭組長",
+      "ActionTime": "2026-12-23",
+      "CommentText": ""
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000086",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0002",
+      "VersionGuid": "v2.3",
+      "Step": "流程階段87",
+      "Action": "動作87",
+      "Actor": "王采樣",
+      "ActionTime": "2026-03-08",
+      "CommentText": ""
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000087",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0002",
+      "VersionGuid": "v4.1",
+      "Step": "流程階段88",
+      "Action": "動作88",
+      "Actor": "陳審核",
+      "ActionTime": "2026-09-18",
+      "CommentText": "客戶要求附 TAF Logo"
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000088",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0002",
+      "VersionGuid": "v1.8",
+      "Step": "流程階段89",
+      "Action": "動作89",
+      "Actor": "王采樣",
+      "ActionTime": "2026-08-24",
+      "CommentText": "樣品外觀正常"
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000089",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0003",
+      "VersionGuid": "v3.5",
+      "Step": "流程階段90",
+      "Action": "動作90",
+      "Actor": "李檢測",
+      "ActionTime": "2026-01-08",
+      "CommentText": "需注意保存效期"
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000090",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0003",
+      "VersionGuid": "v3.7",
+      "Step": "流程階段91",
+      "Action": "動作91",
+      "Actor": "劉助理",
+      "ActionTime": "2026-03-26",
+      "CommentText": "客戶要求附 TAF Logo"
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000091",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0003",
+      "VersionGuid": "v2.4",
+      "Step": "流程階段92",
+      "Action": "動作92",
+      "Actor": "林品保",
+      "ActionTime": "2025-12-24",
+      "CommentText": ""
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000092",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0003",
+      "VersionGuid": "v5.6",
+      "Step": "流程階段93",
+      "Action": "動作93",
+      "Actor": "劉助理",
+      "ActionTime": "2026-10-16",
+      "CommentText": "樣品外觀正常"
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000093",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0004",
+      "VersionGuid": "v5.3",
+      "Step": "流程階段94",
+      "Action": "動作94",
+      "Actor": "楊化驗",
+      "ActionTime": "2025-12-22",
+      "CommentText": ""
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000094",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0004",
+      "VersionGuid": "v2.8",
+      "Step": "流程階段95",
+      "Action": "動作95",
+      "Actor": "李檢測",
+      "ActionTime": "2026-02-05",
+      "CommentText": ""
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000095",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0004",
+      "VersionGuid": "v3.0",
+      "Step": "流程階段96",
+      "Action": "動作96",
+      "Actor": "黃技正",
+      "ActionTime": "2026-10-25",
+      "CommentText": ""
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000096",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0004",
+      "VersionGuid": "v3.5",
+      "Step": "流程階段97",
+      "Action": "動作97",
+      "Actor": "林品保",
+      "ActionTime": "2026-08-05",
+      "CommentText": ""
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000097",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0005",
+      "VersionGuid": "v5.3",
+      "Step": "流程階段98",
+      "Action": "動作98",
+      "Actor": "劉助理",
+      "ActionTime": "2025-11-22",
+      "CommentText": "客戶要求附 TAF Logo"
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000098",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0005",
+      "VersionGuid": "v2.1",
+      "Step": "流程階段99",
+      "Action": "動作99",
+      "Actor": "李檢測",
+      "ActionTime": "2025-09-16",
+      "CommentText": ""
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000099",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0006",
+      "VersionGuid": "v4.3",
+      "Step": "流程階段100",
+      "Action": "動作100",
+      "Actor": "蔡研究",
+      "ActionTime": "2025-05-10",
+      "CommentText": "已通知申請單位"
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000100",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0006",
+      "VersionGuid": "v2.1",
+      "Step": "流程階段101",
+      "Action": "動作101",
+      "Actor": "陳審核",
+      "ActionTime": "2025-04-20",
+      "CommentText": "複驗確認無誤"
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000101",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0007",
+      "VersionGuid": "v5.8",
+      "Step": "流程階段102",
+      "Action": "動作102",
+      "Actor": "許工程",
+      "ActionTime": "2025-07-13",
+      "CommentText": "急件已加收費用"
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000102",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0007",
+      "VersionGuid": "v5.4",
+      "Step": "流程階段103",
+      "Action": "動作103",
+      "Actor": "周技士",
+      "ActionTime": "2025-07-06",
+      "CommentText": ""
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000103",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0008",
+      "VersionGuid": "v3.7",
+      "Step": "流程階段104",
+      "Action": "動作104",
+      "Actor": "楊化驗",
+      "ActionTime": "2025-09-19",
+      "CommentText": "樣品外觀正常"
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000104",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0008",
+      "VersionGuid": "v1.4",
+      "Step": "流程階段105",
+      "Action": "動作105",
+      "Actor": "李檢測",
+      "ActionTime": "2026-11-22",
+      "CommentText": "已通知申請單位"
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000105",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0009",
+      "VersionGuid": "v5.7",
+      "Step": "流程階段106",
+      "Action": "動作106",
+      "Actor": "劉助理",
+      "ActionTime": "2025-08-20",
+      "CommentText": ""
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000106",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0009",
+      "VersionGuid": "v3.5",
+      "Step": "流程階段107",
+      "Action": "動作107",
+      "Actor": "蔡研究",
+      "ActionTime": "2025-02-14",
+      "CommentText": "已通知申請單位"
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000107",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0010",
+      "VersionGuid": "v1.2",
+      "Step": "流程階段108",
+      "Action": "動作108",
+      "Actor": "劉助理",
+      "ActionTime": "2025-05-16",
+      "CommentText": ""
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000108",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0010",
+      "VersionGuid": "v2.6",
+      "Step": "流程階段109",
+      "Action": "動作109",
+      "Actor": "陳審核",
+      "ActionTime": "2025-03-23",
+      "CommentText": "需注意保存效期"
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000109",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0010",
+      "VersionGuid": "v4.4",
+      "Step": "流程階段110",
+      "Action": "動作110",
+      "Actor": "陳審核",
+      "ActionTime": "2025-02-14",
+      "CommentText": ""
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000110",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0010",
+      "VersionGuid": "v4.2",
+      "Step": "流程階段111",
+      "Action": "動作111",
+      "Actor": "郭品管",
+      "ActionTime": "2026-06-09",
+      "CommentText": ""
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000111",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0011",
+      "VersionGuid": "v1.9",
+      "Step": "流程階段112",
+      "Action": "動作112",
+      "Actor": "蔡研究",
+      "ActionTime": "2026-02-19",
+      "CommentText": "待主管覆核"
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000112",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0011",
+      "VersionGuid": "v4.3",
+      "Step": "流程階段113",
+      "Action": "動作113",
+      "Actor": "王采樣",
+      "ActionTime": "2026-04-11",
+      "CommentText": "已通知申請單位"
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000113",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0012",
+      "VersionGuid": "v1.7",
+      "Step": "流程階段114",
+      "Action": "動作114",
+      "Actor": "蔡研究",
+      "ActionTime": "2025-12-25",
+      "CommentText": ""
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000114",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0012",
+      "VersionGuid": "v2.5",
+      "Step": "流程階段115",
+      "Action": "動作115",
+      "Actor": "楊化驗",
+      "ActionTime": "2025-03-09",
+      "CommentText": "定期校正合格"
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000115",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0012",
+      "VersionGuid": "v1.4",
+      "Step": "流程階段116",
+      "Action": "動作116",
+      "Actor": "李檢測",
+      "ActionTime": "2026-08-25",
+      "CommentText": ""
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000116",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0013",
+      "VersionGuid": "v5.3",
+      "Step": "流程階段117",
+      "Action": "動作117",
+      "Actor": "王采樣",
+      "ActionTime": "2025-10-08",
+      "CommentText": ""
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000117",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0013",
+      "VersionGuid": "v5.7",
+      "Step": "流程階段118",
+      "Action": "動作118",
+      "Actor": "林品保",
+      "ActionTime": "2026-12-09",
+      "CommentText": "急件已加收費用"
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000118",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0014",
+      "VersionGuid": "v5.7",
+      "Step": "流程階段119",
+      "Action": "動作119",
+      "Actor": "楊化驗",
+      "ActionTime": "2025-05-10",
+      "CommentText": ""
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000119",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0014",
+      "VersionGuid": "v2.0",
+      "Step": "流程階段120",
+      "Action": "動作120",
+      "Actor": "周技士",
+      "ActionTime": "2026-08-25",
+      "CommentText": "樣品外觀正常"
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000120",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0014",
+      "VersionGuid": "v1.9",
+      "Step": "流程階段121",
+      "Action": "動作121",
+      "Actor": "楊化驗",
+      "ActionTime": "2025-12-08",
+      "CommentText": ""
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000121",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0014",
+      "VersionGuid": "v4.4",
+      "Step": "流程階段122",
+      "Action": "動作122",
+      "Actor": "林品保",
+      "ActionTime": "2026-11-24",
+      "CommentText": ""
+     }
+    ]
+   },
+   {
+    "DetailID": "Dist",
+    "Title": "分發紀錄",
+    "Icon": "ri-share-line",
+    "Entity": "labDoc_Distribution",
+    "RelationKey": "DocNo",
+    "RowKey": "RowGuid",
+    "AllowAdd": true,
+    "AllowEdit": true,
+    "AllowDelete": true,
+    "EmptyText": "尚無分發紀錄資料",
+    "CodeSets": {
+     "Status": [
+      {
+       "CodeID": "1",
+       "CodeName": "啟用",
+       "IsDefault": true
+      },
+      {
+       "CodeID": "0",
+       "CodeName": "停用"
+      }
+     ],
+     "Priority": [
+      {
+       "CodeID": "A",
+       "CodeName": "急件"
+      },
+      {
+       "CodeID": "B",
+       "CodeName": "高"
+      },
+      {
+       "CodeID": "C",
+       "CodeName": "一般",
+       "IsDefault": true
+      },
+      {
+       "CodeID": "D",
+       "CodeName": "低"
+      }
+     ]
+    },
+    "Columns": [
+     {
+      "BindField": "VersionGuid",
+      "Title": "對應發行之版本",
+      "Width": 120,
+      "Align": "Left"
+     },
+     {
+      "BindField": "Recipient",
+      "Title": "發行對象",
+      "Width": 120,
+      "Align": "Left"
+     },
+     {
+      "BindField": "CopyType",
+      "Title": "副本類型",
+      "Width": 120,
+      "Align": "Left"
+     },
+     {
+      "BindField": "IssueDate",
+      "Title": "發行日期",
+      "Width": 120,
+      "Align": "Left",
+      "Formatter": "Date"
+     },
+     {
+      "BindField": "RecallDate",
+      "Title": "回收日期",
+      "Width": 120,
+      "Align": "Left",
+      "Formatter": "Date"
+     }
+    ],
+    "FormFields": [
+     {
+      "BindField": "VersionGuid",
+      "Title": "對應發行之版本",
+      "Component": "Input",
+      "Section": "",
+      "Span": 12,
+      "Mode": "ReadOnly",
+      "Validations": [
+       {
+        "Rule": "Required",
+        "Message": "對應發行之版本為必填"
+       }
+      ]
+     },
+     {
+      "BindField": "Recipient",
+      "Title": "發行對象",
+      "Component": "Input",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Validations": [
+       {
+        "Rule": "Required",
+        "Message": "發行對象為必填"
+       },
+       {
+        "Rule": "MaxLength",
+        "Value": 100,
+        "Message": "長度不可超過 100"
+       }
+      ]
+     },
+     {
+      "BindField": "CopyType",
+      "Title": "副本類型",
+      "Component": "Input",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Validations": [
+       {
+        "Rule": "MaxLength",
+        "Value": 1,
+        "Message": "長度不可超過 1"
+       }
+      ]
+     },
+     {
+      "BindField": "IssueDate",
+      "Title": "發行日期",
+      "Component": "DatePicker",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Validations": [
+       {
+        "Rule": "Required",
+        "Message": "發行日期為必填"
+       }
+      ],
+      "Props": {
+       "Mode": "Editable",
+       "ShowTime": false
+      }
+     },
+     {
+      "BindField": "RecallDate",
+      "Title": "回收日期",
+      "Component": "DatePicker",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Props": {
+       "Mode": "Editable",
+       "ShowTime": false
+      }
+     },
+     {
+      "BindField": "Remark",
+      "Title": "備註",
+      "Component": "Input",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Validations": [
+       {
+        "Rule": "MaxLength",
+        "Value": 200,
+        "Message": "長度不可超過 200"
+       }
+      ]
+     }
+    ],
+    "SeedData": [
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000122",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0001",
+      "VersionGuid": "v1.7",
+      "Recipient": "發行對象123",
+      "CopyType": "副本類型123",
+      "IssueDate": "2025-08-14",
+      "RecallDate": "2026-08-17",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000123",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0001",
+      "VersionGuid": "v3.1",
+      "Recipient": "發行對象124",
+      "CopyType": "副本類型124",
+      "IssueDate": "2025-01-03",
+      "RecallDate": "2026-12-23",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000124",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0001",
+      "VersionGuid": "v4.4",
+      "Recipient": "發行對象125",
+      "CopyType": "副本類型125",
+      "IssueDate": "2025-12-11",
+      "RecallDate": "2026-10-21",
+      "Remark": "已通知申請單位"
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000125",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0001",
+      "VersionGuid": "v5.7",
+      "Recipient": "發行對象126",
+      "CopyType": "副本類型126",
+      "IssueDate": "2026-03-04",
+      "RecallDate": "2025-12-17",
+      "Remark": "已通知申請單位"
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000126",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0002",
+      "VersionGuid": "v4.6",
+      "Recipient": "發行對象127",
+      "CopyType": "副本類型127",
+      "IssueDate": "2026-09-11",
+      "RecallDate": "2026-02-13",
+      "Remark": "客戶要求附 TAF Logo"
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000127",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0002",
+      "VersionGuid": "v2.6",
+      "Recipient": "發行對象128",
+      "CopyType": "副本類型128",
+      "IssueDate": "2025-01-18",
+      "RecallDate": "2026-08-21",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000128",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0003",
+      "VersionGuid": "v2.6",
+      "Recipient": "發行對象129",
+      "CopyType": "副本類型129",
+      "IssueDate": "2026-08-02",
+      "RecallDate": "2025-06-14",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000129",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0003",
+      "VersionGuid": "v5.4",
+      "Recipient": "發行對象130",
+      "CopyType": "副本類型130",
+      "IssueDate": "2025-03-08",
+      "RecallDate": "2026-06-12",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000130",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0003",
+      "VersionGuid": "v4.5",
+      "Recipient": "發行對象131",
+      "CopyType": "副本類型131",
+      "IssueDate": "2026-11-27",
+      "RecallDate": "2025-10-05",
+      "Remark": "定期校正合格"
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000131",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0004",
+      "VersionGuid": "v2.8",
+      "Recipient": "發行對象132",
+      "CopyType": "副本類型132",
+      "IssueDate": "2025-01-26",
+      "RecallDate": "2025-05-14",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000132",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0004",
+      "VersionGuid": "v1.7",
+      "Recipient": "發行對象133",
+      "CopyType": "副本類型133",
+      "IssueDate": "2025-09-19",
+      "RecallDate": "2025-12-04",
+      "Remark": "定期校正合格"
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000133",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0005",
+      "VersionGuid": "v2.1",
+      "Recipient": "發行對象134",
+      "CopyType": "副本類型134",
+      "IssueDate": "2026-10-28",
+      "RecallDate": "2025-04-04",
+      "Remark": "已通知申請單位"
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000134",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0005",
+      "VersionGuid": "v3.8",
+      "Recipient": "發行對象135",
+      "CopyType": "副本類型135",
+      "IssueDate": "2026-01-19",
+      "RecallDate": "2026-04-04",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000135",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0005",
+      "VersionGuid": "v3.8",
+      "Recipient": "發行對象136",
+      "CopyType": "副本類型136",
+      "IssueDate": "2026-11-10",
+      "RecallDate": "2026-07-13",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000136",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0006",
+      "VersionGuid": "v2.5",
+      "Recipient": "發行對象137",
+      "CopyType": "副本類型137",
+      "IssueDate": "2026-03-15",
+      "RecallDate": "2025-09-06",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000137",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0006",
+      "VersionGuid": "v2.4",
+      "Recipient": "發行對象138",
+      "CopyType": "副本類型138",
+      "IssueDate": "2026-08-07",
+      "RecallDate": "2026-06-28",
+      "Remark": "定期校正合格"
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000138",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0006",
+      "VersionGuid": "v3.9",
+      "Recipient": "發行對象139",
+      "CopyType": "副本類型139",
+      "IssueDate": "2025-03-25",
+      "RecallDate": "2025-10-28",
+      "Remark": "客戶要求附 TAF Logo"
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000139",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0006",
+      "VersionGuid": "v4.3",
+      "Recipient": "發行對象140",
+      "CopyType": "副本類型140",
+      "IssueDate": "2025-07-07",
+      "RecallDate": "2025-03-25",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000140",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0007",
+      "VersionGuid": "v3.9",
+      "Recipient": "發行對象141",
+      "CopyType": "副本類型141",
+      "IssueDate": "2026-03-23",
+      "RecallDate": "2026-10-24",
+      "Remark": "待主管覆核"
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000141",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0007",
+      "VersionGuid": "v2.4",
+      "Recipient": "發行對象142",
+      "CopyType": "副本類型142",
+      "IssueDate": "2026-05-05",
+      "RecallDate": "2026-09-22",
+      "Remark": "樣品外觀正常"
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000142",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0007",
+      "VersionGuid": "v4.9",
+      "Recipient": "發行對象143",
+      "CopyType": "副本類型143",
+      "IssueDate": "2026-08-02",
+      "RecallDate": "2025-11-11",
+      "Remark": "複驗確認無誤"
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000143",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0007",
+      "VersionGuid": "v4.9",
+      "Recipient": "發行對象144",
+      "CopyType": "副本類型144",
+      "IssueDate": "2025-09-04",
+      "RecallDate": "2025-09-08",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000144",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0008",
+      "VersionGuid": "v4.7",
+      "Recipient": "發行對象145",
+      "CopyType": "副本類型145",
+      "IssueDate": "2026-02-27",
+      "RecallDate": "2025-04-18",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000145",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0008",
+      "VersionGuid": "v1.4",
+      "Recipient": "發行對象146",
+      "CopyType": "副本類型146",
+      "IssueDate": "2025-07-19",
+      "RecallDate": "2025-08-28",
+      "Remark": "定期校正合格"
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000146",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0008",
+      "VersionGuid": "v4.6",
+      "Recipient": "發行對象147",
+      "CopyType": "副本類型147",
+      "IssueDate": "2026-02-19",
+      "RecallDate": "2026-08-20",
+      "Remark": "待主管覆核"
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000147",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0008",
+      "VersionGuid": "v3.5",
+      "Recipient": "發行對象148",
+      "CopyType": "副本類型148",
+      "IssueDate": "2025-05-04",
+      "RecallDate": "2026-07-18",
+      "Remark": "複驗確認無誤"
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000148",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0009",
+      "VersionGuid": "v5.0",
+      "Recipient": "發行對象149",
+      "CopyType": "副本類型149",
+      "IssueDate": "2026-04-28",
+      "RecallDate": "2026-12-19",
+      "Remark": "定期校正合格"
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000149",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0009",
+      "VersionGuid": "v3.2",
+      "Recipient": "發行對象150",
+      "CopyType": "副本類型150",
+      "IssueDate": "2025-01-25",
+      "RecallDate": "2025-01-17",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000150",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0010",
+      "VersionGuid": "v1.8",
+      "Recipient": "發行對象151",
+      "CopyType": "副本類型151",
+      "IssueDate": "2025-01-25",
+      "RecallDate": "2025-12-18",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000151",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0010",
+      "VersionGuid": "v2.9",
+      "Recipient": "發行對象152",
+      "CopyType": "副本類型152",
+      "IssueDate": "2026-09-21",
+      "RecallDate": "2025-05-06",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000152",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0010",
+      "VersionGuid": "v5.2",
+      "Recipient": "發行對象153",
+      "CopyType": "副本類型153",
+      "IssueDate": "2025-07-05",
+      "RecallDate": "2026-01-28",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000153",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0011",
+      "VersionGuid": "v2.5",
+      "Recipient": "發行對象154",
+      "CopyType": "副本類型154",
+      "IssueDate": "2025-09-09",
+      "RecallDate": "2026-05-12",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000154",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0011",
+      "VersionGuid": "v4.1",
+      "Recipient": "發行對象155",
+      "CopyType": "副本類型155",
+      "IssueDate": "2026-10-21",
+      "RecallDate": "2025-07-24",
+      "Remark": "定期校正合格"
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000155",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0011",
+      "VersionGuid": "v1.2",
+      "Recipient": "發行對象156",
+      "CopyType": "副本類型156",
+      "IssueDate": "2026-07-06",
+      "RecallDate": "2026-01-14",
+      "Remark": "客戶要求附 TAF Logo"
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000156",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0011",
+      "VersionGuid": "v5.1",
+      "Recipient": "發行對象157",
+      "CopyType": "副本類型157",
+      "IssueDate": "2025-09-10",
+      "RecallDate": "2026-11-11",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000157",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0012",
+      "VersionGuid": "v2.3",
+      "Recipient": "發行對象158",
+      "CopyType": "副本類型158",
+      "IssueDate": "2026-07-05",
+      "RecallDate": "2025-09-20",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000158",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0012",
+      "VersionGuid": "v5.4",
+      "Recipient": "發行對象159",
+      "CopyType": "副本類型159",
+      "IssueDate": "2026-05-27",
+      "RecallDate": "2025-01-17",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000159",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0012",
+      "VersionGuid": "v3.1",
+      "Recipient": "發行對象160",
+      "CopyType": "副本類型160",
+      "IssueDate": "2026-07-11",
+      "RecallDate": "2025-02-16",
+      "Remark": "待主管覆核"
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000160",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0012",
+      "VersionGuid": "v4.1",
+      "Recipient": "發行對象161",
+      "CopyType": "副本類型161",
+      "IssueDate": "2026-09-06",
+      "RecallDate": "2025-01-23",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000161",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0013",
+      "VersionGuid": "v2.2",
+      "Recipient": "發行對象162",
+      "CopyType": "副本類型162",
+      "IssueDate": "2026-04-18",
+      "RecallDate": "2025-09-03",
+      "Remark": "複驗確認無誤"
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000162",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0013",
+      "VersionGuid": "v4.8",
+      "Recipient": "發行對象163",
+      "CopyType": "副本類型163",
+      "IssueDate": "2025-09-12",
+      "RecallDate": "2026-01-08",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000163",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0013",
+      "VersionGuid": "v5.8",
+      "Recipient": "發行對象164",
+      "CopyType": "副本類型164",
+      "IssueDate": "2025-10-09",
+      "RecallDate": "2025-05-15",
+      "Remark": "急件已加收費用"
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000164",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0013",
+      "VersionGuid": "v4.6",
+      "Recipient": "發行對象165",
+      "CopyType": "副本類型165",
+      "IssueDate": "2025-02-01",
+      "RecallDate": "2026-04-23",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000165",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0014",
+      "VersionGuid": "v2.8",
+      "Recipient": "發行對象166",
+      "CopyType": "副本類型166",
+      "IssueDate": "2026-02-09",
+      "RecallDate": "2025-01-09",
+      "Remark": "複驗確認無誤"
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000166",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0014",
+      "VersionGuid": "v5.5",
+      "Recipient": "發行對象167",
+      "CopyType": "副本類型167",
+      "IssueDate": "2026-03-12",
+      "RecallDate": "2025-02-05",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000167",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0014",
+      "VersionGuid": "v3.7",
+      "Recipient": "發行對象168",
+      "CopyType": "副本類型168",
+      "IssueDate": "2025-08-06",
+      "RecallDate": "2025-08-18",
+      "Remark": ""
+     }
+    ]
+   },
+   {
+    "DetailID": "Sign",
+    "Title": "簽收紀錄",
+    "Icon": "ri-quill-pen-line",
+    "Entity": "labDoc_SignatureLog",
+    "RelationKey": "DocNo",
+    "RowKey": "RowGuid",
+    "AllowAdd": true,
+    "AllowEdit": true,
+    "AllowDelete": true,
+    "EmptyText": "尚無簽收紀錄資料",
+    "CodeSets": {
+     "Status": [
+      {
+       "CodeID": "1",
+       "CodeName": "啟用",
+       "IsDefault": true
+      },
+      {
+       "CodeID": "0",
+       "CodeName": "停用"
+      }
+     ],
+     "Priority": [
+      {
+       "CodeID": "A",
+       "CodeName": "急件"
+      },
+      {
+       "CodeID": "B",
+       "CodeName": "高"
+      },
+      {
+       "CodeID": "C",
+       "CodeName": "一般",
+       "IsDefault": true
+      },
+      {
+       "CodeID": "D",
+       "CodeName": "低"
+      }
+     ]
+    },
+    "Columns": [
+     {
+      "BindField": "VersionGuid",
+      "Title": "套用之報告範本版本",
+      "Width": 120,
+      "Align": "Left"
+     },
+     {
+      "BindField": "ReportNo",
+      "Title": "對應 B01 labTes_Report.ReportNo 產出之檢測報告編號",
+      "Width": 120,
+      "Align": "Left"
+     },
+     {
+      "BindField": "WatermarkText",
+      "Title": "浮水印文字",
+      "Width": 120,
+      "Align": "Left"
+     },
+     {
+      "BindField": "SignedBy",
+      "Title": "簽章執行人員或系統憑證名稱",
+      "Width": 120,
+      "Align": "Left"
+     },
+     {
+      "BindField": "SignedAt",
+      "Title": "簽章套用時間",
+      "Width": 120,
+      "Align": "Left",
+      "Formatter": "Date"
+     }
+    ],
+    "FormFields": [
+     {
+      "BindField": "VersionGuid",
+      "Title": "套用之報告範本版本",
+      "Component": "Input",
+      "Section": "",
+      "Span": 12,
+      "Mode": "ReadOnly",
+      "Validations": [
+       {
+        "Rule": "Required",
+        "Message": "套用之報告範本版本為必填"
+       }
+      ]
+     },
+     {
+      "BindField": "ReportNo",
+      "Title": "對應 B01 labTes_Report.ReportNo 產出之檢測報告編號",
+      "Component": "Input",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Validations": [
+       {
+        "Rule": "MaxLength",
+        "Value": 50,
+        "Message": "長度不可超過 50"
+       }
+      ]
+     },
+     {
+      "BindField": "WatermarkText",
+      "Title": "浮水印文字",
+      "Component": "Input",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Validations": [
+       {
+        "Rule": "MaxLength",
+        "Value": 50,
+        "Message": "長度不可超過 50"
+       }
+      ]
+     },
+     {
+      "BindField": "SignedBy",
+      "Title": "簽章執行人員或系統憑證名稱",
+      "Component": "Input",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Validations": [
+       {
+        "Rule": "MaxLength",
+        "Value": 50,
+        "Message": "長度不可超過 50"
+       }
+      ]
+     },
+     {
+      "BindField": "SignedAt",
+      "Title": "簽章套用時間",
+      "Component": "DatePicker",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Props": {
+       "Mode": "Editable",
+       "ShowTime": false
+      }
+     },
+     {
+      "BindField": "VerifyMethod",
+      "Title": "驗證方式說明",
+      "Component": "Input",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Validations": [
+       {
+        "Rule": "MaxLength",
+        "Value": 100,
+        "Message": "長度不可超過 100"
+       }
+      ]
+     },
+     {
+      "BindField": "IsLocked",
+      "Title": "是否已鎖定不可修改",
+      "Component": "Input",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable"
+     }
+    ],
+    "SeedData": [
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000168",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0001",
+      "VersionGuid": "v3.5",
+      "ReportNo": "SL-2026-0169",
+      "WatermarkText": "浮水印文字169",
+      "SignedBy": "李檢測",
+      "SignedAt": "2026-11-27",
+      "VerifyMethod": "CNS 13289",
+      "IsLocked": "是否已鎖定不可修改169"
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000169",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0001",
+      "VersionGuid": "v5.5",
+      "ReportNo": "SL-2026-0170",
+      "WatermarkText": "浮水印文字170",
+      "SignedBy": "王采樣",
+      "SignedAt": "2026-07-15",
+      "VerifyMethod": "HACH Method 8000",
+      "IsLocked": "是否已鎖定不可修改170"
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000170",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0001",
+      "VersionGuid": "v1.6",
+      "ReportNo": "SL-2025-0171",
+      "WatermarkText": "浮水印文字171",
+      "SignedBy": "王采樣",
+      "SignedAt": "2025-08-16",
+      "VerifyMethod": "ASTM D1193",
+      "IsLocked": "是否已鎖定不可修改171"
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000171",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0001",
+      "VersionGuid": "v2.1",
+      "ReportNo": "SL-2025-0172",
+      "WatermarkText": "浮水印文字172",
+      "SignedBy": "鄭組長",
+      "SignedAt": "2026-06-01",
+      "VerifyMethod": "HACH Method 8000",
+      "IsLocked": "是否已鎖定不可修改172"
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000172",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0002",
+      "VersionGuid": "v5.0",
+      "ReportNo": "SL-2025-0173",
+      "WatermarkText": "浮水印文字173",
+      "SignedBy": "楊化驗",
+      "SignedAt": "2025-09-05",
+      "VerifyMethod": "NIEA W415.55B",
+      "IsLocked": "是否已鎖定不可修改173"
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000173",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0002",
+      "VersionGuid": "v3.3",
+      "ReportNo": "SL-2025-0174",
+      "WatermarkText": "浮水印文字174",
+      "SignedBy": "許工程",
+      "SignedAt": "2026-03-15",
+      "VerifyMethod": "CNS 11423",
+      "IsLocked": "是否已鎖定不可修改174"
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000174",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0002",
+      "VersionGuid": "v4.3",
+      "ReportNo": "SL-2026-0175",
+      "WatermarkText": "浮水印文字175",
+      "SignedBy": "周技士",
+      "SignedAt": "2025-11-21",
+      "VerifyMethod": "NIEA W415.55B",
+      "IsLocked": "是否已鎖定不可修改175"
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000175",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0003",
+      "VersionGuid": "v3.8",
+      "ReportNo": "SL-2025-0176",
+      "WatermarkText": "浮水印文字176",
+      "SignedBy": "周技士",
+      "SignedAt": "2026-09-15",
+      "VerifyMethod": "SM 4500-P",
+      "IsLocked": "是否已鎖定不可修改176"
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000176",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0003",
+      "VersionGuid": "v4.7",
+      "ReportNo": "SL-2025-0177",
+      "WatermarkText": "浮水印文字177",
+      "SignedBy": "許工程",
+      "SignedAt": "2026-07-27",
+      "VerifyMethod": "EPA 200.8",
+      "IsLocked": "是否已鎖定不可修改177"
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000177",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0003",
+      "VersionGuid": "v3.5",
+      "ReportNo": "SL-2026-0178",
+      "WatermarkText": "浮水印文字178",
+      "SignedBy": "林品保",
+      "SignedAt": "2025-01-28",
+      "VerifyMethod": "CNS 13289",
+      "IsLocked": "是否已鎖定不可修改178"
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000178",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0004",
+      "VersionGuid": "v4.8",
+      "ReportNo": "SL-2026-0179",
+      "WatermarkText": "浮水印文字179",
+      "SignedBy": "楊化驗",
+      "SignedAt": "2026-07-17",
+      "VerifyMethod": "NIEA W415.55B",
+      "IsLocked": "是否已鎖定不可修改179"
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000179",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0004",
+      "VersionGuid": "v4.2",
+      "ReportNo": "SL-2026-0180",
+      "WatermarkText": "浮水印文字180",
+      "SignedBy": "謝校正",
+      "SignedAt": "2025-07-13",
+      "VerifyMethod": "JIS K0102",
+      "IsLocked": "是否已鎖定不可修改180"
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000180",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0004",
+      "VersionGuid": "v5.0",
+      "ReportNo": "SL-2025-0181",
+      "WatermarkText": "浮水印文字181",
+      "SignedBy": "張分析",
+      "SignedAt": "2026-09-09",
+      "VerifyMethod": "EPA 200.8",
+      "IsLocked": "是否已鎖定不可修改181"
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000181",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0004",
+      "VersionGuid": "v1.3",
+      "ReportNo": "SL-2025-0182",
+      "WatermarkText": "浮水印文字182",
+      "SignedBy": "郭品管",
+      "SignedAt": "2025-11-19",
+      "VerifyMethod": "EPA 200.8",
+      "IsLocked": "是否已鎖定不可修改182"
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000182",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0005",
+      "VersionGuid": "v4.2",
+      "ReportNo": "SL-2026-0183",
+      "WatermarkText": "浮水印文字183",
+      "SignedBy": "楊化驗",
+      "SignedAt": "2026-12-25",
+      "VerifyMethod": "HACH Method 8000",
+      "IsLocked": "是否已鎖定不可修改183"
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000183",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0005",
+      "VersionGuid": "v1.9",
+      "ReportNo": "SL-2026-0184",
+      "WatermarkText": "浮水印文字184",
+      "SignedBy": "李檢測",
+      "SignedAt": "2026-12-14",
+      "VerifyMethod": "CNS 13289",
+      "IsLocked": "是否已鎖定不可修改184"
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000184",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0005",
+      "VersionGuid": "v3.0",
+      "ReportNo": "SL-2026-0185",
+      "WatermarkText": "浮水印文字185",
+      "SignedBy": "許工程",
+      "SignedAt": "2026-12-07",
+      "VerifyMethod": "SM 4500-P",
+      "IsLocked": "是否已鎖定不可修改185"
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000185",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0006",
+      "VersionGuid": "v5.5",
+      "ReportNo": "SL-2026-0186",
+      "WatermarkText": "浮水印文字186",
+      "SignedBy": "謝校正",
+      "SignedAt": "2025-02-24",
+      "VerifyMethod": "JIS K0102",
+      "IsLocked": "是否已鎖定不可修改186"
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000186",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0006",
+      "VersionGuid": "v3.7",
+      "ReportNo": "SL-2025-0187",
+      "WatermarkText": "浮水印文字187",
+      "SignedBy": "黃技正",
+      "SignedAt": "2025-12-20",
+      "VerifyMethod": "NIEA W508.05B",
+      "IsLocked": "是否已鎖定不可修改187"
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000187",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0006",
+      "VersionGuid": "v1.5",
+      "ReportNo": "SL-2025-0188",
+      "WatermarkText": "浮水印文字188",
+      "SignedBy": "鄭組長",
+      "SignedAt": "2026-06-15",
+      "VerifyMethod": "HACH Method 8000",
+      "IsLocked": "是否已鎖定不可修改188"
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000188",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0007",
+      "VersionGuid": "v5.7",
+      "ReportNo": "SL-2026-0189",
+      "WatermarkText": "浮水印文字189",
+      "SignedBy": "李檢測",
+      "SignedAt": "2025-03-12",
+      "VerifyMethod": "CNS 13289",
+      "IsLocked": "是否已鎖定不可修改189"
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000189",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0007",
+      "VersionGuid": "v5.2",
+      "ReportNo": "SL-2026-0190",
+      "WatermarkText": "浮水印文字190",
+      "SignedBy": "郭品管",
+      "SignedAt": "2025-08-20",
+      "VerifyMethod": "JIS K0102",
+      "IsLocked": "是否已鎖定不可修改190"
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000190",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0008",
+      "VersionGuid": "v1.1",
+      "ReportNo": "SL-2025-0191",
+      "WatermarkText": "浮水印文字191",
+      "SignedBy": "郭品管",
+      "SignedAt": "2025-02-26",
+      "VerifyMethod": "HACH Method 8000",
+      "IsLocked": "是否已鎖定不可修改191"
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000191",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0008",
+      "VersionGuid": "v1.3",
+      "ReportNo": "SL-2026-0192",
+      "WatermarkText": "浮水印文字192",
+      "SignedBy": "周技士",
+      "SignedAt": "2025-04-06",
+      "VerifyMethod": "EPA 200.8",
+      "IsLocked": "是否已鎖定不可修改192"
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000192",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0008",
+      "VersionGuid": "v3.9",
+      "ReportNo": "SL-2025-0193",
+      "WatermarkText": "浮水印文字193",
+      "SignedBy": "謝校正",
+      "SignedAt": "2025-10-11",
+      "VerifyMethod": "NIEA W508.05B",
+      "IsLocked": "是否已鎖定不可修改193"
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000193",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0008",
+      "VersionGuid": "v4.3",
+      "ReportNo": "SL-2025-0194",
+      "WatermarkText": "浮水印文字194",
+      "SignedBy": "謝校正",
+      "SignedAt": "2026-12-08",
+      "VerifyMethod": "NIEA W424.53A",
+      "IsLocked": "是否已鎖定不可修改194"
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000194",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0009",
+      "VersionGuid": "v2.2",
+      "ReportNo": "SL-2025-0195",
+      "WatermarkText": "浮水印文字195",
+      "SignedBy": "何環安",
+      "SignedAt": "2025-06-19",
+      "VerifyMethod": "CNS 11423",
+      "IsLocked": "是否已鎖定不可修改195"
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000195",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0009",
+      "VersionGuid": "v1.6",
+      "ReportNo": "SL-2025-0196",
+      "WatermarkText": "浮水印文字196",
+      "SignedBy": "黃技正",
+      "SignedAt": "2025-07-28",
+      "VerifyMethod": "CNS 11423",
+      "IsLocked": "是否已鎖定不可修改196"
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000196",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0010",
+      "VersionGuid": "v3.5",
+      "ReportNo": "SL-2026-0197",
+      "WatermarkText": "浮水印文字197",
+      "SignedBy": "黃技正",
+      "SignedAt": "2026-11-20",
+      "VerifyMethod": "NIEA W415.55B",
+      "IsLocked": "是否已鎖定不可修改197"
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000197",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0010",
+      "VersionGuid": "v1.2",
+      "ReportNo": "SL-2026-0198",
+      "WatermarkText": "浮水印文字198",
+      "SignedBy": "劉助理",
+      "SignedAt": "2025-05-25",
+      "VerifyMethod": "SM 4500-P",
+      "IsLocked": "是否已鎖定不可修改198"
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000198",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0010",
+      "VersionGuid": "v3.7",
+      "ReportNo": "SL-2026-0199",
+      "WatermarkText": "浮水印文字199",
+      "SignedBy": "王采樣",
+      "SignedAt": "2025-07-22",
+      "VerifyMethod": "SM 4500-P",
+      "IsLocked": "是否已鎖定不可修改199"
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000199",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0010",
+      "VersionGuid": "v5.3",
+      "ReportNo": "SL-2025-0200",
+      "WatermarkText": "浮水印文字200",
+      "SignedBy": "李檢測",
+      "SignedAt": "2026-09-23",
+      "VerifyMethod": "CNS 13289",
+      "IsLocked": "是否已鎖定不可修改200"
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000200",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0011",
+      "VersionGuid": "v5.7",
+      "ReportNo": "SL-2026-0201",
+      "WatermarkText": "浮水印文字201",
+      "SignedBy": "劉助理",
+      "SignedAt": "2026-09-17",
+      "VerifyMethod": "NIEA W424.53A",
+      "IsLocked": "是否已鎖定不可修改201"
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000201",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0011",
+      "VersionGuid": "v2.8",
+      "ReportNo": "SL-2026-0202",
+      "WatermarkText": "浮水印文字202",
+      "SignedBy": "許工程",
+      "SignedAt": "2026-06-24",
+      "VerifyMethod": "EPA 200.8",
+      "IsLocked": "是否已鎖定不可修改202"
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000202",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0011",
+      "VersionGuid": "v1.0",
+      "ReportNo": "SL-2025-0203",
+      "WatermarkText": "浮水印文字203",
+      "SignedBy": "郭品管",
+      "SignedAt": "2025-10-08",
+      "VerifyMethod": "NIEA W424.53A",
+      "IsLocked": "是否已鎖定不可修改203"
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000203",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0011",
+      "VersionGuid": "v5.9",
+      "ReportNo": "SL-2026-0204",
+      "WatermarkText": "浮水印文字204",
+      "SignedBy": "黃技正",
+      "SignedAt": "2025-05-10",
+      "VerifyMethod": "ASTM D1193",
+      "IsLocked": "是否已鎖定不可修改204"
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000204",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0012",
+      "VersionGuid": "v5.4",
+      "ReportNo": "SL-2026-0205",
+      "WatermarkText": "浮水印文字205",
+      "SignedBy": "謝校正",
+      "SignedAt": "2026-03-06",
+      "VerifyMethod": "ASTM D1193",
+      "IsLocked": "是否已鎖定不可修改205"
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000205",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0012",
+      "VersionGuid": "v3.7",
+      "ReportNo": "SL-2026-0206",
+      "WatermarkText": "浮水印文字206",
+      "SignedBy": "李檢測",
+      "SignedAt": "2026-12-04",
+      "VerifyMethod": "SM 4500-P",
+      "IsLocked": "是否已鎖定不可修改206"
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000206",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0012",
+      "VersionGuid": "v1.7",
+      "ReportNo": "SL-2025-0207",
+      "WatermarkText": "浮水印文字207",
+      "SignedBy": "許工程",
+      "SignedAt": "2026-08-19",
+      "VerifyMethod": "EPA 200.8",
+      "IsLocked": "是否已鎖定不可修改207"
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000207",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0012",
+      "VersionGuid": "v2.1",
+      "ReportNo": "SL-2025-0208",
+      "WatermarkText": "浮水印文字208",
+      "SignedBy": "陳審核",
+      "SignedAt": "2026-03-22",
+      "VerifyMethod": "CNS 13289",
+      "IsLocked": "是否已鎖定不可修改208"
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000208",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0013",
+      "VersionGuid": "v2.7",
+      "ReportNo": "SL-2026-0209",
+      "WatermarkText": "浮水印文字209",
+      "SignedBy": "謝校正",
+      "SignedAt": "2025-11-17",
+      "VerifyMethod": "EPA 200.8",
+      "IsLocked": "是否已鎖定不可修改209"
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000209",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0013",
+      "VersionGuid": "v3.6",
+      "ReportNo": "SL-2026-0210",
+      "WatermarkText": "浮水印文字210",
+      "SignedBy": "許工程",
+      "SignedAt": "2025-06-16",
+      "VerifyMethod": "JIS K0102",
+      "IsLocked": "是否已鎖定不可修改210"
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000210",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0013",
+      "VersionGuid": "v3.1",
+      "ReportNo": "SL-2026-0211",
+      "WatermarkText": "浮水印文字211",
+      "SignedBy": "蔡研究",
+      "SignedAt": "2025-11-21",
+      "VerifyMethod": "ASTM D1193",
+      "IsLocked": "是否已鎖定不可修改211"
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000211",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0014",
+      "VersionGuid": "v4.6",
+      "ReportNo": "SL-2025-0212",
+      "WatermarkText": "浮水印文字212",
+      "SignedBy": "謝校正",
+      "SignedAt": "2026-03-18",
+      "VerifyMethod": "CNS 13289",
+      "IsLocked": "是否已鎖定不可修改212"
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000212",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0014",
+      "VersionGuid": "v3.9",
+      "ReportNo": "SL-2025-0213",
+      "WatermarkText": "浮水印文字213",
+      "SignedBy": "劉助理",
+      "SignedAt": "2025-11-26",
+      "VerifyMethod": "ASTM D1193",
+      "IsLocked": "是否已鎖定不可修改213"
+     }
+    ]
+   },
+   {
+    "DetailID": "Attach",
+    "Title": "附件",
+    "Icon": "ri-attachment-2",
+    "Entity": "labDoc_Attachment",
+    "RelationKey": "DocNo",
+    "RowKey": "RowGuid",
+    "AllowAdd": true,
+    "AllowEdit": true,
+    "AllowDelete": true,
+    "EmptyText": "尚無附件資料",
+    "CodeSets": {
+     "Status": [
+      {
+       "CodeID": "1",
+       "CodeName": "啟用",
+       "IsDefault": true
+      },
+      {
+       "CodeID": "0",
+       "CodeName": "停用"
+      }
+     ],
+     "Priority": [
+      {
+       "CodeID": "A",
+       "CodeName": "急件"
+      },
+      {
+       "CodeID": "B",
+       "CodeName": "高"
+      },
+      {
+       "CodeID": "C",
+       "CodeName": "一般",
+       "IsDefault": true
+      },
+      {
+       "CodeID": "D",
+       "CodeName": "低"
+      }
+     ]
+    },
+    "Columns": [
+     {
+      "BindField": "VersionGuid",
+      "Title": "所屬版本",
+      "Width": 120,
+      "Align": "Left"
+     },
+     {
+      "BindField": "FileName",
+      "Title": "檔案名稱",
+      "Width": 120,
+      "Align": "Left"
+     },
+     {
+      "BindField": "FilePath",
+      "Title": "儲存路徑",
+      "Width": 120,
+      "Align": "Left"
+     },
+     {
+      "BindField": "FileType",
+      "Title": "檔案格式",
+      "Width": 120,
+      "Align": "Left"
+     },
+     {
+      "BindField": "FileSizeKb",
+      "Title": "檔案大小",
+      "Width": 120,
+      "Align": "Center"
+     }
+    ],
+    "FormFields": [
+     {
+      "BindField": "VersionGuid",
+      "Title": "所屬版本",
+      "Component": "Input",
+      "Section": "",
+      "Span": 12,
+      "Mode": "ReadOnly",
+      "Validations": [
+       {
+        "Rule": "Required",
+        "Message": "所屬版本為必填"
+       }
+      ]
+     },
+     {
+      "BindField": "FileName",
+      "Title": "檔案名稱",
+      "Component": "Input",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Validations": [
+       {
+        "Rule": "Required",
+        "Message": "檔案名稱為必填"
+       },
+       {
+        "Rule": "MaxLength",
+        "Value": 200,
+        "Message": "長度不可超過 200"
+       }
+      ]
+     },
+     {
+      "BindField": "FilePath",
+      "Title": "儲存路徑",
+      "Component": "Textarea",
+      "Section": "",
+      "Span": 24,
+      "Mode": "Editable",
+      "Validations": [
+       {
+        "Rule": "Required",
+        "Message": "儲存路徑為必填"
+       },
+       {
+        "Rule": "MaxLength",
+        "Value": 500,
+        "Message": "長度不可超過 500"
+       }
+      ],
+      "Props": {
+       "Rows": 3
+      }
+     },
+     {
+      "BindField": "FileType",
+      "Title": "檔案格式",
+      "Component": "Input",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Validations": [
+       {
+        "Rule": "MaxLength",
+        "Value": 20,
+        "Message": "長度不可超過 20"
+       }
+      ]
+     },
+     {
+      "BindField": "FileSizeKb",
+      "Title": "檔案大小",
+      "Component": "Input",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Props": {
+       "Type": "number"
+      }
+     },
+     {
+      "BindField": "UploadedBy",
+      "Title": "上傳人員",
+      "Component": "Input",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Validations": [
+       {
+        "Rule": "MaxLength",
+        "Value": 50,
+        "Message": "長度不可超過 50"
+       }
+      ]
+     },
+     {
+      "BindField": "UploadedAt",
+      "Title": "上傳時間",
+      "Component": "DatePicker",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Props": {
+       "Mode": "Editable",
+       "ShowTime": false
+      }
+     }
+    ],
+    "SeedData": [
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000213",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0001",
+      "VersionGuid": "v5.9",
+      "FileName": "懸浮固體 SS",
+      "FilePath": "儲存路徑214",
+      "FileType": "檔案格式214",
+      "FileSizeKb": 100,
+      "UploadedBy": "陳審核",
+      "UploadedAt": "2026-04-04"
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000214",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0001",
+      "VersionGuid": "v1.4",
+      "FileName": "氨氮 NH3-N",
+      "FilePath": "儲存路徑215",
+      "FileType": "檔案格式215",
+      "FileSizeKb": 33,
+      "UploadedBy": "蔡研究",
+      "UploadedAt": "2026-12-10"
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000215",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0002",
+      "VersionGuid": "v3.1",
+      "FileName": "硝酸鹽氮",
+      "FilePath": "儲存路徑216",
+      "FileType": "檔案格式216",
+      "FileSizeKb": 65,
+      "UploadedBy": "許工程",
+      "UploadedAt": "2026-12-16"
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000216",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0002",
+      "VersionGuid": "v5.3",
+      "FileName": "鎘 Cd",
+      "FilePath": "儲存路徑217",
+      "FileType": "檔案格式217",
+      "FileSizeKb": 72,
+      "UploadedBy": "張分析",
+      "UploadedAt": "2026-12-14"
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000217",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0002",
+      "VersionGuid": "v1.7",
+      "FileName": "鉛 Pb",
+      "FilePath": "儲存路徑218",
+      "FileType": "檔案格式218",
+      "FileSizeKb": 88,
+      "UploadedBy": "謝校正",
+      "UploadedAt": "2025-03-14"
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000218",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0002",
+      "VersionGuid": "v4.0",
+      "FileName": "銅 Cu",
+      "FilePath": "儲存路徑219",
+      "FileType": "檔案格式219",
+      "FileSizeKb": 74,
+      "UploadedBy": "郭品管",
+      "UploadedAt": "2025-09-16"
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000219",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0003",
+      "VersionGuid": "v2.8",
+      "FileName": "鋅 Zn",
+      "FilePath": "儲存路徑220",
+      "FileType": "檔案格式220",
+      "FileSizeKb": 20,
+      "UploadedBy": "周技士",
+      "UploadedAt": "2025-09-16"
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000220",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0003",
+      "VersionGuid": "v4.1",
+      "FileName": "pH值",
+      "FilePath": "儲存路徑221",
+      "FileType": "檔案格式221",
+      "FileSizeKb": 95,
+      "UploadedBy": "李檢測",
+      "UploadedAt": "2025-02-07"
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000221",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0003",
+      "VersionGuid": "v1.6",
+      "FileName": "導電度",
+      "FilePath": "儲存路徑222",
+      "FileType": "檔案格式222",
+      "FileSizeKb": 11,
+      "UploadedBy": "謝校正",
+      "UploadedAt": "2025-08-23"
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000222",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0004",
+      "VersionGuid": "v5.8",
+      "FileName": "濁度",
+      "FilePath": "儲存路徑223",
+      "FileType": "檔案格式223",
+      "FileSizeKb": 61,
+      "UploadedBy": "蔡研究",
+      "UploadedAt": "2026-01-08"
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000223",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0004",
+      "VersionGuid": "v2.8",
+      "FileName": "大腸桿菌群",
+      "FilePath": "儲存路徑224",
+      "FileType": "檔案格式224",
+      "FileSizeKb": 87,
+      "UploadedBy": "許工程",
+      "UploadedAt": "2026-03-27"
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000224",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0004",
+      "VersionGuid": "v5.9",
+      "FileName": "總有機碳 TOC",
+      "FilePath": "儲存路徑225",
+      "FileType": "檔案格式225",
+      "FileSizeKb": 36,
+      "UploadedBy": "鄭組長",
+      "UploadedAt": "2026-03-18"
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000225",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0005",
+      "VersionGuid": "v4.2",
+      "FileName": "總磷 TP",
+      "FilePath": "儲存路徑226",
+      "FileType": "檔案格式226",
+      "FileSizeKb": 60,
+      "UploadedBy": "吳主任",
+      "UploadedAt": "2026-11-09"
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000226",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0005",
+      "VersionGuid": "v5.1",
+      "FileName": "化學需氧量 COD",
+      "FilePath": "儲存路徑227",
+      "FileType": "檔案格式227",
+      "FileSizeKb": 30,
+      "UploadedBy": "李檢測",
+      "UploadedAt": "2026-06-01"
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000227",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0006",
+      "VersionGuid": "v3.2",
+      "FileName": "生化需氧量 BOD",
+      "FilePath": "儲存路徑228",
+      "FileType": "檔案格式228",
+      "FileSizeKb": 65,
+      "UploadedBy": "李檢測",
+      "UploadedAt": "2025-02-26"
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000228",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0006",
+      "VersionGuid": "v1.9",
+      "FileName": "懸浮固體 SS",
+      "FilePath": "儲存路徑229",
+      "FileType": "檔案格式229",
+      "FileSizeKb": 94,
+      "UploadedBy": "謝校正",
+      "UploadedAt": "2025-12-12"
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000229",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0006",
+      "VersionGuid": "v1.6",
+      "FileName": "氨氮 NH3-N",
+      "FilePath": "儲存路徑230",
+      "FileType": "檔案格式230",
+      "FileSizeKb": 97,
+      "UploadedBy": "黃技正",
+      "UploadedAt": "2025-12-02"
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000230",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0006",
+      "VersionGuid": "v1.9",
+      "FileName": "硝酸鹽氮",
+      "FilePath": "儲存路徑231",
+      "FileType": "檔案格式231",
+      "FileSizeKb": 30,
+      "UploadedBy": "王采樣",
+      "UploadedAt": "2026-11-03"
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000231",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0007",
+      "VersionGuid": "v3.3",
+      "FileName": "鎘 Cd",
+      "FilePath": "儲存路徑232",
+      "FileType": "檔案格式232",
+      "FileSizeKb": 6,
+      "UploadedBy": "林品保",
+      "UploadedAt": "2026-07-18"
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000232",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0007",
+      "VersionGuid": "v1.2",
+      "FileName": "鉛 Pb",
+      "FilePath": "儲存路徑233",
+      "FileType": "檔案格式233",
+      "FileSizeKb": 9,
+      "UploadedBy": "蔡研究",
+      "UploadedAt": "2026-04-02"
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000233",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0007",
+      "VersionGuid": "v5.4",
+      "FileName": "銅 Cu",
+      "FilePath": "儲存路徑234",
+      "FileType": "檔案格式234",
+      "FileSizeKb": 23,
+      "UploadedBy": "鄭組長",
+      "UploadedAt": "2025-07-13"
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000234",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0007",
+      "VersionGuid": "v1.6",
+      "FileName": "鋅 Zn",
+      "FilePath": "儲存路徑235",
+      "FileType": "檔案格式235",
+      "FileSizeKb": 76,
+      "UploadedBy": "許工程",
+      "UploadedAt": "2025-06-03"
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000235",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0008",
+      "VersionGuid": "v1.1",
+      "FileName": "pH值",
+      "FilePath": "儲存路徑236",
+      "FileType": "檔案格式236",
+      "FileSizeKb": 94,
+      "UploadedBy": "劉助理",
+      "UploadedAt": "2025-07-08"
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000236",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0008",
+      "VersionGuid": "v5.5",
+      "FileName": "導電度",
+      "FilePath": "儲存路徑237",
+      "FileType": "檔案格式237",
+      "FileSizeKb": 95,
+      "UploadedBy": "郭品管",
+      "UploadedAt": "2025-05-03"
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000237",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0009",
+      "VersionGuid": "v2.3",
+      "FileName": "濁度",
+      "FilePath": "儲存路徑238",
+      "FileType": "檔案格式238",
+      "FileSizeKb": 19,
+      "UploadedBy": "楊化驗",
+      "UploadedAt": "2026-11-16"
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000238",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0009",
+      "VersionGuid": "v5.9",
+      "FileName": "大腸桿菌群",
+      "FilePath": "儲存路徑239",
+      "FileType": "檔案格式239",
+      "FileSizeKb": 26,
+      "UploadedBy": "劉助理",
+      "UploadedAt": "2026-01-28"
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000239",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0009",
+      "VersionGuid": "v1.2",
+      "FileName": "總有機碳 TOC",
+      "FilePath": "儲存路徑240",
+      "FileType": "檔案格式240",
+      "FileSizeKb": 25,
+      "UploadedBy": "陳審核",
+      "UploadedAt": "2025-05-23"
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000240",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0010",
+      "VersionGuid": "v5.9",
+      "FileName": "總磷 TP",
+      "FilePath": "儲存路徑241",
+      "FileType": "檔案格式241",
+      "FileSizeKb": 94,
+      "UploadedBy": "林品保",
+      "UploadedAt": "2026-12-03"
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000241",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0010",
+      "VersionGuid": "v2.0",
+      "FileName": "化學需氧量 COD",
+      "FilePath": "儲存路徑242",
+      "FileType": "檔案格式242",
+      "FileSizeKb": 30,
+      "UploadedBy": "李檢測",
+      "UploadedAt": "2026-01-19"
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000242",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0010",
+      "VersionGuid": "v3.8",
+      "FileName": "生化需氧量 BOD",
+      "FilePath": "儲存路徑243",
+      "FileType": "檔案格式243",
+      "FileSizeKb": 88,
+      "UploadedBy": "吳主任",
+      "UploadedAt": "2025-02-11"
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000243",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0011",
+      "VersionGuid": "v1.3",
+      "FileName": "懸浮固體 SS",
+      "FilePath": "儲存路徑244",
+      "FileType": "檔案格式244",
+      "FileSizeKb": 95,
+      "UploadedBy": "鄭組長",
+      "UploadedAt": "2025-06-19"
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000244",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0011",
+      "VersionGuid": "v5.7",
+      "FileName": "氨氮 NH3-N",
+      "FilePath": "儲存路徑245",
+      "FileType": "檔案格式245",
+      "FileSizeKb": 20,
+      "UploadedBy": "陳審核",
+      "UploadedAt": "2025-06-21"
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000245",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0011",
+      "VersionGuid": "v5.1",
+      "FileName": "硝酸鹽氮",
+      "FilePath": "儲存路徑246",
+      "FileType": "檔案格式246",
+      "FileSizeKb": 92,
+      "UploadedBy": "劉助理",
+      "UploadedAt": "2025-02-16"
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000246",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0012",
+      "VersionGuid": "v5.3",
+      "FileName": "鎘 Cd",
+      "FilePath": "儲存路徑247",
+      "FileType": "檔案格式247",
+      "FileSizeKb": 73,
+      "UploadedBy": "張分析",
+      "UploadedAt": "2025-07-27"
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000247",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0012",
+      "VersionGuid": "v1.9",
+      "FileName": "鉛 Pb",
+      "FilePath": "儲存路徑248",
+      "FileType": "檔案格式248",
+      "FileSizeKb": 90,
+      "UploadedBy": "劉助理",
+      "UploadedAt": "2026-12-26"
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000248",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0012",
+      "VersionGuid": "v3.9",
+      "FileName": "銅 Cu",
+      "FilePath": "儲存路徑249",
+      "FileType": "檔案格式249",
+      "FileSizeKb": 1,
+      "UploadedBy": "蔡研究",
+      "UploadedAt": "2026-04-20"
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000249",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0012",
+      "VersionGuid": "v5.0",
+      "FileName": "鋅 Zn",
+      "FilePath": "儲存路徑250",
+      "FileType": "檔案格式250",
+      "FileSizeKb": 65,
+      "UploadedBy": "劉助理",
+      "UploadedAt": "2025-02-16"
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000250",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0013",
+      "VersionGuid": "v5.2",
+      "FileName": "pH值",
+      "FilePath": "儲存路徑251",
+      "FileType": "檔案格式251",
+      "FileSizeKb": 50,
+      "UploadedBy": "鄭組長",
+      "UploadedAt": "2025-07-05"
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000251",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0013",
+      "VersionGuid": "v2.1",
+      "FileName": "導電度",
+      "FilePath": "儲存路徑252",
+      "FileType": "檔案格式252",
+      "FileSizeKb": 95,
+      "UploadedBy": "劉助理",
+      "UploadedAt": "2025-09-13"
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000252",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0014",
+      "VersionGuid": "v5.0",
+      "FileName": "濁度",
+      "FilePath": "儲存路徑253",
+      "FileType": "檔案格式253",
+      "FileSizeKb": 52,
+      "UploadedBy": "何環安",
+      "UploadedAt": "2025-03-16"
+     },
+     {
+      "RowGuid": "000000d7-0000-0000-0001-000000000253",
+      "EntityID": "lab",
+      "Status": "1",
+      "DocNo": "M-2026-0014",
+      "VersionGuid": "v1.6",
+      "FileName": "大腸桿菌群",
+      "FilePath": "儲存路徑254",
+      "FileType": "檔案格式254",
+      "FileSizeKb": 46,
+      "UploadedBy": "楊化驗",
+      "UploadedAt": "2025-07-08"
+     }
+    ]
+   }
+  ]
+ },
+ "Features": {},
+ "DataScope": {
+  "DefaultWhere": "EntityID = 'lab' AND Status = '1'",
+  "AuthLevel": 2,
+  "SortExp": "SortNo ASC",
+  "DataConfig": {
+   "RowLimit": 2000,
+   "AllowExport": true
+  }
+ },
+ "CustomMeta": {
+  "CustomSchema": {
+   "WidgetType": "Grid",
+   "KeyField": "DocCode",
+   "TitleField": "SerialNo",
+   "ParentKeyField": null,
+   "PathField": null,
+   "PathSeparator": "/"
+  }
+ },
+ "SeedData": [
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000000",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-05-10 18:10",
+   "UpdatedBy": "lee.jc",
+   "UpdatedAt": "2026-07-24 13:27",
+   "DocCode": "M-2025-0001",
+   "CategoryGuid": "A01 文件類別01",
+   "TestTypeGuid": "檢驗類別01",
+   "SerialNo": 57,
+   "DocName": "水質檢測標準作業程序",
+   "ApplicableScope": "複驗確認無誤",
+   "IsControlled": "是否為受控文件01",
+   "CurrentVersionGuid": "v1.5",
+   "DocNo": "M-2026-0001"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000001",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-10-25 18:07",
+   "UpdatedBy": "chang.fa",
+   "UpdatedAt": "2026-09-10 13:23",
+   "DocCode": "M-2026-0002",
+   "CategoryGuid": "A01 文件類別02",
+   "TestTypeGuid": "檢驗類別02",
+   "SerialNo": 73,
+   "DocName": "實驗室品質手冊",
+   "ApplicableScope": "",
+   "IsControlled": "是否為受控文件02",
+   "CurrentVersionGuid": "v2.1",
+   "DocNo": "M-2026-0002"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000002",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-09-06 13:11",
+   "UpdatedBy": "lin.pb",
+   "UpdatedAt": "2026-07-22 17:39",
+   "DocCode": "M-2025-0003",
+   "CategoryGuid": "A01 文件類別03",
+   "TestTypeGuid": "檢驗類別03",
+   "SerialNo": 52,
+   "DocName": "儀器校正作業程序",
+   "ApplicableScope": "",
+   "IsControlled": "是否為受控文件03",
+   "CurrentVersionGuid": "v2.0",
+   "DocNo": "M-2026-0003"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000003",
+   "EntityID": "lab",
+   "Status": "0",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-07-28 13:32",
+   "UpdatedBy": "chen.sh",
+   "UpdatedAt": "2026-05-14 10:16",
+   "DocCode": "M-2026-0004",
+   "CategoryGuid": "A01 文件類別04",
+   "TestTypeGuid": "檢驗類別04",
+   "SerialNo": 8,
+   "DocName": "樣品管理辦法",
+   "ApplicableScope": "",
+   "IsControlled": "是否為受控文件04",
+   "CurrentVersionGuid": "v5.8",
+   "DocNo": "M-2026-0004"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000004",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-10-28 12:38",
+   "UpdatedBy": "lee.jc",
+   "UpdatedAt": "2026-08-24 15:28",
+   "DocCode": "M-2025-0005",
+   "CategoryGuid": "A01 文件類別05",
+   "TestTypeGuid": "檢驗類別05",
+   "SerialNo": 45,
+   "DocName": "文件管制程序",
+   "ApplicableScope": "",
+   "IsControlled": "是否為受控文件05",
+   "CurrentVersionGuid": "v1.8",
+   "DocNo": "M-2026-0005"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000005",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-04-13 16:26",
+   "UpdatedBy": "chen.sh",
+   "UpdatedAt": "2026-04-25 08:24",
+   "DocCode": "M-2026-0006",
+   "CategoryGuid": "A01 文件類別06",
+   "TestTypeGuid": "檢驗類別06",
+   "SerialNo": 22,
+   "DocName": "內部稽核程序",
+   "ApplicableScope": "",
+   "IsControlled": "是否為受控文件06",
+   "CurrentVersionGuid": "v1.3",
+   "DocNo": "M-2026-0006"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000006",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-08-17 14:23",
+   "UpdatedBy": "liu.as",
+   "UpdatedAt": "2026-03-11 13:18",
+   "DocCode": "M-2026-0007",
+   "CategoryGuid": "A01 文件類別07",
+   "TestTypeGuid": "檢驗類別07",
+   "SerialNo": 22,
+   "DocName": "不符合事項處理程序",
+   "ApplicableScope": "需注意保存效期",
+   "IsControlled": "是否為受控文件07",
+   "CurrentVersionGuid": "v1.4",
+   "DocNo": "M-2026-0007"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000007",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-11-20 17:29",
+   "UpdatedBy": "liu.as",
+   "UpdatedAt": "2026-01-17 10:19",
+   "DocCode": "M-2025-0008",
+   "CategoryGuid": "A01 文件類別08",
+   "TestTypeGuid": "檢驗類別08",
+   "SerialNo": 5,
+   "DocName": "採購與委外管理程序",
+   "ApplicableScope": "",
+   "IsControlled": "是否為受控文件08",
+   "CurrentVersionGuid": "v5.2",
+   "DocNo": "M-2026-0008"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000008",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-12-05 10:19",
+   "UpdatedBy": "lin.pb",
+   "UpdatedAt": "2026-06-08 16:34",
+   "DocCode": "M-2026-0009",
+   "CategoryGuid": "A01 文件類別09",
+   "TestTypeGuid": "檢驗類別09",
+   "SerialNo": 76,
+   "DocName": "人員訓練與授權程序",
+   "ApplicableScope": "",
+   "IsControlled": "是否為受控文件09",
+   "CurrentVersionGuid": "v4.2",
+   "DocNo": "M-2026-0009"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000009",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-05-20 10:03",
+   "UpdatedBy": "cheng.gl",
+   "UpdatedAt": "2026-11-19 09:18",
+   "DocCode": "M-2025-0010",
+   "CategoryGuid": "A01 文件類別10",
+   "TestTypeGuid": "檢驗類別10",
+   "SerialNo": 50,
+   "DocName": "數據完整性管理程序",
+   "ApplicableScope": "",
+   "IsControlled": "是否為受控文件10",
+   "CurrentVersionGuid": "v1.6",
+   "DocNo": "M-2026-0010"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000010",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-02-26 17:01",
+   "UpdatedBy": "wu.dir",
+   "UpdatedAt": "2026-01-08 17:23",
+   "DocCode": "M-2025-0011",
+   "CategoryGuid": "A01 文件類別11",
+   "TestTypeGuid": "檢驗類別11",
+   "SerialNo": 37,
+   "DocName": "水質檢測標準作業程序",
+   "ApplicableScope": "需注意保存效期",
+   "IsControlled": "是否為受控文件11",
+   "CurrentVersionGuid": "v1.5",
+   "DocNo": "M-2026-0011"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000011",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-10-01 10:31",
+   "UpdatedBy": "lin.pb",
+   "UpdatedAt": "2026-12-25 12:31",
+   "DocCode": "M-2025-0012",
+   "CategoryGuid": "A01 文件類別12",
+   "TestTypeGuid": "檢驗類別12",
+   "SerialNo": 74,
+   "DocName": "實驗室品質手冊",
+   "ApplicableScope": "",
+   "IsControlled": "是否為受控文件12",
+   "CurrentVersionGuid": "v4.9",
+   "DocNo": "M-2026-0012"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000012",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-06-08 17:05",
+   "UpdatedBy": "hsu.eng",
+   "UpdatedAt": "2026-04-26 17:34",
+   "DocCode": "M-2026-0013",
+   "CategoryGuid": "A01 文件類別13",
+   "TestTypeGuid": "檢驗類別13",
+   "SerialNo": 67,
+   "DocName": "儀器校正作業程序",
+   "ApplicableScope": "客戶要求附 TAF Logo",
+   "IsControlled": "是否為受控文件13",
+   "CurrentVersionGuid": "v2.2",
+   "DocNo": "M-2026-0013"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000013",
+   "EntityID": "lab",
+   "Status": "0",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-09-14 15:13",
+   "UpdatedBy": "hsu.eng",
+   "UpdatedAt": "2026-06-05 17:26",
+   "DocCode": "M-2025-0014",
+   "CategoryGuid": "A01 文件類別14",
+   "TestTypeGuid": "檢驗類別14",
+   "SerialNo": 32,
+   "DocName": "樣品管理辦法",
+   "ApplicableScope": "",
+   "IsControlled": "是否為受控文件14",
+   "CurrentVersionGuid": "v3.4",
+   "DocNo": "M-2026-0014"
+  }
+ ]
+}

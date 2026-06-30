@@ -1,0 +1,1824 @@
+{
+ "EntityID": "lab",
+ "SystemCode": "MUEIP",
+ "ModuleCode": "LIMS",
+ "FuncCode": "labEnv_Device",
+ "ConfigHash": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+ "PageMeta": {
+  "PageTitle": "溫濕度監控設備",
+  "Lang": "zh-TW",
+  "FormType": "ListForm",
+  "EditDisplayType": "Drawer",
+  "Breadcrumb": [
+   {
+    "Title": "首頁",
+    "Path": "/"
+   },
+   {
+    "Title": "實驗室環境管理",
+    "Path": null
+   },
+   {
+    "Title": "溫濕度監控設備",
+    "Path": "/lab/labEnv_Device"
+   }
+  ],
+  "IsApproval": false,
+  "TenantLocked": false,
+  "Icon": "ri-temp-cold-line",
+  "Remark": "溫濕度監控設備（由 labEnv_Device 規格書產生）"
+ },
+ "Resources": {
+  "CodeSets": {
+   "Status": [
+    {
+     "CodeID": "1",
+     "CodeName": "啟用",
+     "IsDefault": true
+    },
+    {
+     "CodeID": "0",
+     "CodeName": "停用"
+    }
+   ],
+   "Priority": [
+    {
+     "CodeID": "A",
+     "CodeName": "急件"
+    },
+    {
+     "CodeID": "B",
+     "CodeName": "高"
+    },
+    {
+     "CodeID": "C",
+     "CodeName": "一般",
+     "IsDefault": true
+    },
+    {
+     "CodeID": "D",
+     "CodeName": "低"
+    }
+   ]
+  },
+  "FeatureFlags": {
+   "IsReadOnly": false,
+   "EnableDraft": false,
+   "EnableBatchDelete": true,
+   "AutoRefreshInterval": 0,
+   "DefaultViewMode": "Table",
+   "RequireConfirmOnSave": true
+  }
+ },
+ "AllowAction": {
+  "DataActions": [
+   {
+    "ActionID": "Add",
+    "Label": "新增",
+    "Icon": "ri-add-line",
+    "Type": "Primary",
+    "Position": "Toolbar",
+    "Confirm": null
+   },
+   {
+    "ActionID": "Save",
+    "Label": "儲存",
+    "Icon": "ri-save-line",
+    "Type": "Primary",
+    "Position": "Toolbar",
+    "Confirm": null
+   },
+   {
+    "ActionID": "Delete",
+    "Label": "刪除",
+    "Icon": "ri-delete-bin-line",
+    "Type": "Danger",
+    "Position": "Both",
+    "Confirm": "確定要刪除此溫濕度監控設備資料嗎？"
+   },
+   {
+    "ActionID": "Query",
+    "Label": "查詢",
+    "Icon": "ri-search-line",
+    "Type": "Default",
+    "Position": "Toolbar",
+    "Confirm": null
+   }
+  ],
+  "ExtensionActions": [
+   {
+    "ActionID": "Import",
+    "Label": "匯入",
+    "Icon": "ri-upload-2-line",
+    "Type": "Default",
+    "Position": "Toolbar"
+   },
+   {
+    "ActionID": "Export",
+    "Label": "匯出",
+    "Icon": "ri-download-2-line",
+    "Type": "Default",
+    "Position": "Toolbar"
+   }
+  ]
+ },
+ "View": {
+  "RowKey": "RowGuid",
+  "ListView": {
+   "ListSpec": {
+    "RowKey": "RowGuid",
+    "SelectMode": "Single",
+    "FixedColumns": [
+     "Action",
+     "No"
+    ],
+    "RowActionMode": "Menu",
+    "ShowRowNo": true,
+    "Pagination": {
+     "PageSize": 100,
+     "SizeOptions": [
+      50,
+      100,
+      200,
+      500
+     ],
+     "ShowJumper": false,
+     "FullPageScroll": true
+    },
+    "DefaultSort": {
+     "Field": "SortNo",
+     "Order": "asc"
+    },
+    "EmptyText": "目前查無溫濕度監控設備資料",
+    "GridBordered": true
+   },
+   "FieldSpecs": [
+    {
+     "BindField": "DeviceCode",
+     "Title": "設備編號",
+     "Align": "Left",
+     "DefaultVisible": true,
+     "Formatter": "Link",
+     "Fixed": "Left",
+     "Width": 160,
+     "Sorter": true
+    },
+    {
+     "BindField": "DeviceName",
+     "Title": "設備名稱",
+     "Align": "Left",
+     "DefaultVisible": true,
+     "Width": 140
+    },
+    {
+     "BindField": "Location",
+     "Title": "放置地點",
+     "Align": "Left",
+     "DefaultVisible": true,
+     "Width": 140
+    },
+    {
+     "BindField": "PropertyNo",
+     "Title": "財產編號",
+     "Align": "Left",
+     "DefaultVisible": true,
+     "Width": 140
+    },
+    {
+     "BindField": "LegacyPropertyNo",
+     "Title": "舊財產編號",
+     "Align": "Left",
+     "DefaultVisible": true,
+     "Width": 140
+    },
+    {
+     "BindField": "ModelNo",
+     "Title": "設備型號",
+     "Align": "Left",
+     "DefaultVisible": true,
+     "Width": 140
+    },
+    {
+     "BindField": "Status",
+     "Title": "啟用狀態",
+     "Align": "Center",
+     "DefaultVisible": true,
+     "Formatter": "Tag",
+     "Width": 80
+    }
+   ]
+  },
+  "FormView": {
+   "FormSpec": {
+    "RowKey": "RowGuid",
+    "Layout": "Horizontal",
+    "Sections": [
+     {
+      "SectionID": "SecBase",
+      "Type": "Card",
+      "Title": "基本資料",
+      "IsCollapsible": false,
+      "DefaultOpen": true,
+      "Icon": "ri-temp-cold-line"
+     },
+     {
+      "SectionID": "SecRecv",
+      "Type": "Card",
+      "Title": "作業資訊",
+      "IsCollapsible": true,
+      "DefaultOpen": true,
+      "Icon": "ri-file-list-3-line"
+     },
+     {
+      "SectionID": "SecExtra",
+      "Type": "Card",
+      "Title": "系統資訊",
+      "IsCollapsible": true,
+      "DefaultOpen": false,
+      "Icon": "ri-settings-4-line"
+     }
+    ],
+    "FormLogic": []
+   },
+   "FieldSpecs": [
+    {
+     "BindField": "RowKey",
+     "Title": "系統識別碼",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 24,
+     "Mode": "Hidden"
+    },
+    {
+     "BindField": "EntityID",
+     "Title": "系統實體",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "Hidden",
+     "DefaultValue": "lab"
+    },
+    {
+     "BindField": "DeviceCode",
+     "Title": "設備編號",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "Required",
+       "Message": "設備編號為必填"
+      },
+      {
+       "Rule": "MaxLength",
+       "Value": 30,
+       "Message": "長度不可超過 30"
+      }
+     ]
+    },
+    {
+     "BindField": "DeviceName",
+     "Title": "設備名稱",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "Required",
+       "Message": "設備名稱為必填"
+      },
+      {
+       "Rule": "MaxLength",
+       "Value": 100,
+       "Message": "長度不可超過 100"
+      }
+     ]
+    },
+    {
+     "BindField": "Location",
+     "Title": "放置地點",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "Required",
+       "Message": "放置地點為必填"
+      },
+      {
+       "Rule": "MaxLength",
+       "Value": 100,
+       "Message": "長度不可超過 100"
+      }
+     ]
+    },
+    {
+     "BindField": "PropertyNo",
+     "Title": "財產編號",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 50,
+       "Message": "長度不可超過 50"
+      }
+     ]
+    },
+    {
+     "BindField": "LegacyPropertyNo",
+     "Title": "舊財產編號",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 50,
+       "Message": "長度不可超過 50"
+      }
+     ]
+    },
+    {
+     "BindField": "ModelNo",
+     "Title": "設備型號",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 100,
+       "Message": "長度不可超過 100"
+      }
+     ]
+    },
+    {
+     "BindField": "Manufacturer",
+     "Title": "製造廠商",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 100,
+       "Message": "長度不可超過 100"
+      }
+     ]
+    },
+    {
+     "BindField": "CalibCycleMonths",
+     "Title": "校正週期",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "Required",
+       "Message": "校正週期為必填"
+      }
+     ],
+     "Props": {
+      "Type": "number"
+     }
+    },
+    {
+     "BindField": "LastCalibDate",
+     "Title": "最近校正日期",
+     "Component": "DatePicker",
+     "Section": "SecRecv",
+     "Span": 12,
+     "Mode": "Editable",
+     "Props": {
+      "Mode": "Editable",
+      "ShowTime": false
+     }
+    },
+    {
+     "BindField": "NextCalibDate",
+     "Title": "下次校正日期",
+     "Component": "DatePicker",
+     "Section": "SecRecv",
+     "Span": 12,
+     "Mode": "Editable",
+     "Props": {
+      "Mode": "Editable",
+      "ShowTime": false
+     }
+    },
+    {
+     "BindField": "TempUpperLimit",
+     "Title": "管控上限值-溫度",
+     "Component": "Input",
+     "Section": "SecRecv",
+     "Span": 12,
+     "Mode": "Editable",
+     "Props": {
+      "Type": "number"
+     }
+    },
+    {
+     "BindField": "TempLowerLimit",
+     "Title": "管控下限值-溫度",
+     "Component": "Input",
+     "Section": "SecRecv",
+     "Span": 12,
+     "Mode": "Editable",
+     "Props": {
+      "Type": "number"
+     }
+    },
+    {
+     "BindField": "HumidUpperLimit",
+     "Title": "管控上限值-濕度",
+     "Component": "Input",
+     "Section": "SecRecv",
+     "Span": 12,
+     "Mode": "Editable",
+     "Props": {
+      "Type": "number"
+     }
+    },
+    {
+     "BindField": "HumidLowerLimit",
+     "Title": "管控下限值-濕度",
+     "Component": "Input",
+     "Section": "SecRecv",
+     "Span": 12,
+     "Mode": "Editable",
+     "Props": {
+      "Type": "number"
+     }
+    },
+    {
+     "BindField": "IsIotEnabled",
+     "Title": "是否啟用 IoT 自動採集",
+     "Component": "Input",
+     "Section": "SecRecv",
+     "Span": 12,
+     "Mode": "Editable"
+    },
+    {
+     "BindField": "Remark",
+     "Title": "備註",
+     "Component": "Textarea",
+     "Section": "SecRecv",
+     "Span": 24,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 500,
+       "Message": "長度不可超過 500"
+      }
+     ],
+     "Props": {
+      "Rows": 3
+     }
+    },
+    {
+     "BindField": "Attributes",
+     "Title": "擴展屬性",
+     "Component": "Textarea",
+     "Section": "SecExtra",
+     "Span": 24,
+     "Mode": "Editable",
+     "Props": {
+      "Rows": 3
+     }
+    },
+    {
+     "BindField": "Status",
+     "Title": "啟用狀態",
+     "Component": "Select",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "DefaultValue": "1",
+     "Props": {
+      "OptionKey": "Status"
+     }
+    },
+    {
+     "BindField": "CreatedBy",
+     "Title": "建立者帳號",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "ReadOnly"
+    },
+    {
+     "BindField": "CreatedAt",
+     "Title": "資料建立日期時間",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "ReadOnly"
+    },
+    {
+     "BindField": "UpdatedBy",
+     "Title": "最後更新者帳號",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "ReadOnly"
+    },
+    {
+     "BindField": "UpdatedAt",
+     "Title": "最後更新日期時間",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "ReadOnly"
+    }
+   ]
+  },
+  "DetailViews": [
+   {
+    "DetailID": "Check",
+    "Title": "監控記錄",
+    "Icon": "ri-line-chart-line",
+    "Entity": "labEnv_DeviceCheckLog",
+    "RelationKey": "DeviceCode",
+    "RowKey": "RowGuid",
+    "AllowAdd": true,
+    "AllowEdit": true,
+    "AllowDelete": true,
+    "EmptyText": "尚無監控記錄資料",
+    "CodeSets": {
+     "Status": [
+      {
+       "CodeID": "1",
+       "CodeName": "啟用",
+       "IsDefault": true
+      },
+      {
+       "CodeID": "0",
+       "CodeName": "停用"
+      }
+     ],
+     "Priority": [
+      {
+       "CodeID": "A",
+       "CodeName": "急件"
+      },
+      {
+       "CodeID": "B",
+       "CodeName": "高"
+      },
+      {
+       "CodeID": "C",
+       "CodeName": "一般",
+       "IsDefault": true
+      },
+      {
+       "CodeID": "D",
+       "CodeName": "低"
+      }
+     ]
+    },
+    "Columns": [
+     {
+      "BindField": "DeviceGuid",
+      "Title": "所屬設備",
+      "Width": 120,
+      "Align": "Left"
+     },
+     {
+      "BindField": "CheckDate",
+      "Title": "檢查日期",
+      "Width": 120,
+      "Align": "Left",
+      "Formatter": "Date"
+     },
+     {
+      "BindField": "CheckTime",
+      "Title": "檢查時間",
+      "Width": 120,
+      "Align": "Left"
+     },
+     {
+      "BindField": "Checker",
+      "Title": "檢查人員",
+      "Width": 120,
+      "Align": "Left"
+     },
+     {
+      "BindField": "ItemCode",
+      "Title": "檢查項目代碼",
+      "Width": 120,
+      "Align": "Left"
+     }
+    ],
+    "FormFields": [
+     {
+      "BindField": "DeviceGuid",
+      "Title": "所屬設備",
+      "Component": "Input",
+      "Section": "",
+      "Span": 12,
+      "Mode": "ReadOnly",
+      "Validations": [
+       {
+        "Rule": "Required",
+        "Message": "所屬設備為必填"
+       }
+      ]
+     },
+     {
+      "BindField": "CheckDate",
+      "Title": "檢查日期",
+      "Component": "DatePicker",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Validations": [
+       {
+        "Rule": "Required",
+        "Message": "檢查日期為必填"
+       }
+      ],
+      "Props": {
+       "Mode": "Editable",
+       "ShowTime": false
+      }
+     },
+     {
+      "BindField": "CheckTime",
+      "Title": "檢查時間",
+      "Component": "Input",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Validations": [
+       {
+        "Rule": "Required",
+        "Message": "檢查時間為必填"
+       }
+      ]
+     },
+     {
+      "BindField": "Checker",
+      "Title": "檢查人員",
+      "Component": "Input",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Validations": [
+       {
+        "Rule": "Required",
+        "Message": "檢查人員為必填"
+       },
+       {
+        "Rule": "MaxLength",
+        "Value": 50,
+        "Message": "長度不可超過 50"
+       }
+      ]
+     },
+     {
+      "BindField": "ItemCode",
+      "Title": "檢查項目代碼",
+      "Component": "Input",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Validations": [
+       {
+        "Rule": "Required",
+        "Message": "檢查項目代碼為必填"
+       },
+       {
+        "Rule": "MaxLength",
+        "Value": 10,
+        "Message": "長度不可超過 10"
+       }
+      ]
+     },
+     {
+      "BindField": "CheckValue",
+      "Title": "檢查值",
+      "Component": "Input",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Validations": [
+       {
+        "Rule": "Required",
+        "Message": "檢查值為必填"
+       }
+      ],
+      "Props": {
+       "Type": "number"
+      }
+     },
+     {
+      "BindField": "JudgeResult",
+      "Title": "判定結果",
+      "Component": "Input",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Validations": [
+       {
+        "Rule": "Required",
+        "Message": "判定結果為必填"
+       },
+       {
+        "Rule": "MaxLength",
+        "Value": 10,
+        "Message": "長度不可超過 10"
+       }
+      ]
+     },
+     {
+      "BindField": "AbnormalAction",
+      "Title": "異常處理措施",
+      "Component": "Textarea",
+      "Section": "",
+      "Span": 24,
+      "Mode": "Editable",
+      "Validations": [
+       {
+        "Rule": "MaxLength",
+        "Value": 500,
+        "Message": "長度不可超過 500"
+       }
+      ],
+      "Props": {
+       "Rows": 3
+      }
+     },
+     {
+      "BindField": "DataSource",
+      "Title": "資料來源",
+      "Component": "Input",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Validations": [
+       {
+        "Rule": "MaxLength",
+        "Value": 20,
+        "Message": "長度不可超過 20"
+       }
+      ]
+     },
+     {
+      "BindField": "Remark",
+      "Title": "備註",
+      "Component": "Input",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Validations": [
+       {
+        "Rule": "MaxLength",
+        "Value": 255,
+        "Message": "長度不可超過 255"
+       }
+      ]
+     }
+    ],
+    "SeedData": [
+     {
+      "RowGuid": "00000309-0000-0000-0001-000000000001",
+      "EntityID": "lab",
+      "Status": "1",
+      "DeviceCode": "D-2025-0001",
+      "DeviceGuid": "所屬設備02",
+      "CheckDate": "2025-03-20",
+      "CheckTime": "檢查時間02",
+      "Checker": "王采樣",
+      "ItemCode": "DCL-2025-0002",
+      "CheckValue": 37,
+      "JudgeResult": "判定結果02",
+      "AbnormalAction": "異常處理措施02",
+      "DataSource": "資料來源02",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000309-0000-0000-0001-000000000002",
+      "EntityID": "lab",
+      "Status": "1",
+      "DeviceCode": "D-2025-0001",
+      "DeviceGuid": "所屬設備03",
+      "CheckDate": "2025-05-11",
+      "CheckTime": "檢查時間03",
+      "Checker": "楊化驗",
+      "ItemCode": "DCL-2026-0003",
+      "CheckValue": 48,
+      "JudgeResult": "判定結果03",
+      "AbnormalAction": "異常處理措施03",
+      "DataSource": "資料來源03",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000309-0000-0000-0001-000000000003",
+      "EntityID": "lab",
+      "Status": "1",
+      "DeviceCode": "D-2025-0002",
+      "DeviceGuid": "所屬設備04",
+      "CheckDate": "2025-04-09",
+      "CheckTime": "檢查時間04",
+      "Checker": "何環安",
+      "ItemCode": "DCL-2025-0004",
+      "CheckValue": 40,
+      "JudgeResult": "判定結果04",
+      "AbnormalAction": "異常處理措施04",
+      "DataSource": "資料來源04",
+      "Remark": "急件已加收費用"
+     },
+     {
+      "RowGuid": "00000309-0000-0000-0001-000000000004",
+      "EntityID": "lab",
+      "Status": "1",
+      "DeviceCode": "D-2025-0002",
+      "DeviceGuid": "所屬設備05",
+      "CheckDate": "2026-11-01",
+      "CheckTime": "檢查時間05",
+      "Checker": "許工程",
+      "ItemCode": "DCL-2025-0005",
+      "CheckValue": 60,
+      "JudgeResult": "判定結果05",
+      "AbnormalAction": "異常處理措施05",
+      "DataSource": "資料來源05",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000309-0000-0000-0001-000000000005",
+      "EntityID": "lab",
+      "Status": "1",
+      "DeviceCode": "D-2025-0002",
+      "DeviceGuid": "所屬設備06",
+      "CheckDate": "2026-01-06",
+      "CheckTime": "檢查時間06",
+      "Checker": "張分析",
+      "ItemCode": "DCL-2025-0006",
+      "CheckValue": 6,
+      "JudgeResult": "判定結果06",
+      "AbnormalAction": "異常處理措施06",
+      "DataSource": "資料來源06",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000309-0000-0000-0001-000000000006",
+      "EntityID": "lab",
+      "Status": "1",
+      "DeviceCode": "D-2025-0002",
+      "DeviceGuid": "所屬設備07",
+      "CheckDate": "2025-04-23",
+      "CheckTime": "檢查時間07",
+      "Checker": "林品保",
+      "ItemCode": "DCL-2026-0007",
+      "CheckValue": 54,
+      "JudgeResult": "判定結果07",
+      "AbnormalAction": "異常處理措施07",
+      "DataSource": "資料來源07",
+      "Remark": "待主管覆核"
+     },
+     {
+      "RowGuid": "00000309-0000-0000-0001-000000000007",
+      "EntityID": "lab",
+      "Status": "1",
+      "DeviceCode": "D-2026-0003",
+      "DeviceGuid": "所屬設備08",
+      "CheckDate": "2026-05-22",
+      "CheckTime": "檢查時間08",
+      "Checker": "何環安",
+      "ItemCode": "DCL-2026-0008",
+      "CheckValue": 88,
+      "JudgeResult": "判定結果08",
+      "AbnormalAction": "異常處理措施08",
+      "DataSource": "資料來源08",
+      "Remark": "待主管覆核"
+     },
+     {
+      "RowGuid": "00000309-0000-0000-0001-000000000008",
+      "EntityID": "lab",
+      "Status": "1",
+      "DeviceCode": "D-2026-0003",
+      "DeviceGuid": "所屬設備09",
+      "CheckDate": "2026-11-05",
+      "CheckTime": "檢查時間09",
+      "Checker": "蔡研究",
+      "ItemCode": "DCL-2025-0009",
+      "CheckValue": 50,
+      "JudgeResult": "判定結果09",
+      "AbnormalAction": "異常處理措施09",
+      "DataSource": "資料來源09",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000309-0000-0000-0001-000000000009",
+      "EntityID": "lab",
+      "Status": "1",
+      "DeviceCode": "D-2026-0003",
+      "DeviceGuid": "所屬設備10",
+      "CheckDate": "2025-04-23",
+      "CheckTime": "檢查時間10",
+      "Checker": "蔡研究",
+      "ItemCode": "DCL-2026-0010",
+      "CheckValue": 80,
+      "JudgeResult": "判定結果10",
+      "AbnormalAction": "異常處理措施10",
+      "DataSource": "資料來源10",
+      "Remark": "需注意保存效期"
+     },
+     {
+      "RowGuid": "00000309-0000-0000-0001-000000000010",
+      "EntityID": "lab",
+      "Status": "1",
+      "DeviceCode": "D-2026-0003",
+      "DeviceGuid": "所屬設備11",
+      "CheckDate": "2025-08-06",
+      "CheckTime": "檢查時間11",
+      "Checker": "蔡研究",
+      "ItemCode": "DCL-2026-0011",
+      "CheckValue": 98,
+      "JudgeResult": "判定結果11",
+      "AbnormalAction": "異常處理措施11",
+      "DataSource": "資料來源11",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000309-0000-0000-0001-000000000011",
+      "EntityID": "lab",
+      "Status": "1",
+      "DeviceCode": "D-2026-0004",
+      "DeviceGuid": "所屬設備12",
+      "CheckDate": "2025-06-17",
+      "CheckTime": "檢查時間12",
+      "Checker": "何環安",
+      "ItemCode": "DCL-2025-0012",
+      "CheckValue": 51,
+      "JudgeResult": "判定結果12",
+      "AbnormalAction": "異常處理措施12",
+      "DataSource": "資料來源12",
+      "Remark": "複驗確認無誤"
+     },
+     {
+      "RowGuid": "00000309-0000-0000-0001-000000000012",
+      "EntityID": "lab",
+      "Status": "1",
+      "DeviceCode": "D-2026-0004",
+      "DeviceGuid": "所屬設備13",
+      "CheckDate": "2025-02-28",
+      "CheckTime": "檢查時間13",
+      "Checker": "陳審核",
+      "ItemCode": "DCL-2026-0013",
+      "CheckValue": 15,
+      "JudgeResult": "判定結果13",
+      "AbnormalAction": "異常處理措施13",
+      "DataSource": "資料來源13",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000309-0000-0000-0001-000000000013",
+      "EntityID": "lab",
+      "Status": "1",
+      "DeviceCode": "D-2026-0005",
+      "DeviceGuid": "所屬設備14",
+      "CheckDate": "2026-12-25",
+      "CheckTime": "檢查時間14",
+      "Checker": "李檢測",
+      "ItemCode": "DCL-2025-0014",
+      "CheckValue": 29,
+      "JudgeResult": "判定結果14",
+      "AbnormalAction": "異常處理措施14",
+      "DataSource": "資料來源14",
+      "Remark": "待主管覆核"
+     },
+     {
+      "RowGuid": "00000309-0000-0000-0001-000000000014",
+      "EntityID": "lab",
+      "Status": "1",
+      "DeviceCode": "D-2026-0005",
+      "DeviceGuid": "所屬設備15",
+      "CheckDate": "2026-06-18",
+      "CheckTime": "檢查時間15",
+      "Checker": "許工程",
+      "ItemCode": "DCL-2025-0015",
+      "CheckValue": 63,
+      "JudgeResult": "判定結果15",
+      "AbnormalAction": "異常處理措施15",
+      "DataSource": "資料來源15",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000309-0000-0000-0001-000000000015",
+      "EntityID": "lab",
+      "Status": "1",
+      "DeviceCode": "D-2026-0005",
+      "DeviceGuid": "所屬設備16",
+      "CheckDate": "2025-04-24",
+      "CheckTime": "檢查時間16",
+      "Checker": "蔡研究",
+      "ItemCode": "DCL-2025-0016",
+      "CheckValue": 9,
+      "JudgeResult": "判定結果16",
+      "AbnormalAction": "異常處理措施16",
+      "DataSource": "資料來源16",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000309-0000-0000-0001-000000000016",
+      "EntityID": "lab",
+      "Status": "1",
+      "DeviceCode": "D-2026-0005",
+      "DeviceGuid": "所屬設備17",
+      "CheckDate": "2026-01-11",
+      "CheckTime": "檢查時間17",
+      "Checker": "劉助理",
+      "ItemCode": "DCL-2025-0017",
+      "CheckValue": 38,
+      "JudgeResult": "判定結果17",
+      "AbnormalAction": "異常處理措施17",
+      "DataSource": "資料來源17",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000309-0000-0000-0001-000000000017",
+      "EntityID": "lab",
+      "Status": "1",
+      "DeviceCode": "D-2025-0006",
+      "DeviceGuid": "所屬設備18",
+      "CheckDate": "2026-02-15",
+      "CheckTime": "檢查時間18",
+      "Checker": "王采樣",
+      "ItemCode": "DCL-2026-0018",
+      "CheckValue": 35,
+      "JudgeResult": "判定結果18",
+      "AbnormalAction": "異常處理措施18",
+      "DataSource": "資料來源18",
+      "Remark": "定期校正合格"
+     },
+     {
+      "RowGuid": "00000309-0000-0000-0001-000000000018",
+      "EntityID": "lab",
+      "Status": "1",
+      "DeviceCode": "D-2025-0006",
+      "DeviceGuid": "所屬設備19",
+      "CheckDate": "2025-12-11",
+      "CheckTime": "檢查時間19",
+      "Checker": "劉助理",
+      "ItemCode": "DCL-2026-0019",
+      "CheckValue": 60,
+      "JudgeResult": "判定結果19",
+      "AbnormalAction": "異常處理措施19",
+      "DataSource": "資料來源19",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000309-0000-0000-0001-000000000019",
+      "EntityID": "lab",
+      "Status": "1",
+      "DeviceCode": "D-2026-0007",
+      "DeviceGuid": "所屬設備20",
+      "CheckDate": "2025-12-09",
+      "CheckTime": "檢查時間20",
+      "Checker": "郭品管",
+      "ItemCode": "DCL-2026-0020",
+      "CheckValue": 32,
+      "JudgeResult": "判定結果20",
+      "AbnormalAction": "異常處理措施20",
+      "DataSource": "資料來源20",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000309-0000-0000-0001-000000000020",
+      "EntityID": "lab",
+      "Status": "1",
+      "DeviceCode": "D-2026-0007",
+      "DeviceGuid": "所屬設備21",
+      "CheckDate": "2025-01-26",
+      "CheckTime": "檢查時間21",
+      "Checker": "吳主任",
+      "ItemCode": "DCL-2025-0021",
+      "CheckValue": 90,
+      "JudgeResult": "判定結果21",
+      "AbnormalAction": "異常處理措施21",
+      "DataSource": "資料來源21",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000309-0000-0000-0001-000000000021",
+      "EntityID": "lab",
+      "Status": "1",
+      "DeviceCode": "D-2026-0007",
+      "DeviceGuid": "所屬設備22",
+      "CheckDate": "2026-12-10",
+      "CheckTime": "檢查時間22",
+      "Checker": "張分析",
+      "ItemCode": "DCL-2025-0022",
+      "CheckValue": 22,
+      "JudgeResult": "判定結果22",
+      "AbnormalAction": "異常處理措施22",
+      "DataSource": "資料來源22",
+      "Remark": "需注意保存效期"
+     },
+     {
+      "RowGuid": "00000309-0000-0000-0001-000000000022",
+      "EntityID": "lab",
+      "Status": "1",
+      "DeviceCode": "D-2026-0007",
+      "DeviceGuid": "所屬設備23",
+      "CheckDate": "2025-01-09",
+      "CheckTime": "檢查時間23",
+      "Checker": "王采樣",
+      "ItemCode": "DCL-2026-0023",
+      "CheckValue": 14,
+      "JudgeResult": "判定結果23",
+      "AbnormalAction": "異常處理措施23",
+      "DataSource": "資料來源23",
+      "Remark": "急件已加收費用"
+     },
+     {
+      "RowGuid": "00000309-0000-0000-0001-000000000023",
+      "EntityID": "lab",
+      "Status": "1",
+      "DeviceCode": "D-2026-0008",
+      "DeviceGuid": "所屬設備24",
+      "CheckDate": "2026-11-12",
+      "CheckTime": "檢查時間24",
+      "Checker": "楊化驗",
+      "ItemCode": "DCL-2026-0024",
+      "CheckValue": 81,
+      "JudgeResult": "判定結果24",
+      "AbnormalAction": "異常處理措施24",
+      "DataSource": "資料來源24",
+      "Remark": "樣品外觀正常"
+     },
+     {
+      "RowGuid": "00000309-0000-0000-0001-000000000024",
+      "EntityID": "lab",
+      "Status": "1",
+      "DeviceCode": "D-2026-0008",
+      "DeviceGuid": "所屬設備25",
+      "CheckDate": "2026-02-20",
+      "CheckTime": "檢查時間25",
+      "Checker": "蔡研究",
+      "ItemCode": "DCL-2026-0025",
+      "CheckValue": 32,
+      "JudgeResult": "判定結果25",
+      "AbnormalAction": "異常處理措施25",
+      "DataSource": "資料來源25",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000309-0000-0000-0001-000000000025",
+      "EntityID": "lab",
+      "Status": "1",
+      "DeviceCode": "D-2026-0008",
+      "DeviceGuid": "所屬設備26",
+      "CheckDate": "2026-07-07",
+      "CheckTime": "檢查時間26",
+      "Checker": "周技士",
+      "ItemCode": "DCL-2026-0026",
+      "CheckValue": 52,
+      "JudgeResult": "判定結果26",
+      "AbnormalAction": "異常處理措施26",
+      "DataSource": "資料來源26",
+      "Remark": "急件已加收費用"
+     },
+     {
+      "RowGuid": "00000309-0000-0000-0001-000000000026",
+      "EntityID": "lab",
+      "Status": "1",
+      "DeviceCode": "D-2026-0009",
+      "DeviceGuid": "所屬設備27",
+      "CheckDate": "2026-05-17",
+      "CheckTime": "檢查時間27",
+      "Checker": "蔡研究",
+      "ItemCode": "DCL-2026-0027",
+      "CheckValue": 60,
+      "JudgeResult": "判定結果27",
+      "AbnormalAction": "異常處理措施27",
+      "DataSource": "資料來源27",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000309-0000-0000-0001-000000000027",
+      "EntityID": "lab",
+      "Status": "1",
+      "DeviceCode": "D-2026-0009",
+      "DeviceGuid": "所屬設備28",
+      "CheckDate": "2026-08-22",
+      "CheckTime": "檢查時間28",
+      "Checker": "張分析",
+      "ItemCode": "DCL-2025-0028",
+      "CheckValue": 66,
+      "JudgeResult": "判定結果28",
+      "AbnormalAction": "異常處理措施28",
+      "DataSource": "資料來源28",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000309-0000-0000-0001-000000000028",
+      "EntityID": "lab",
+      "Status": "1",
+      "DeviceCode": "D-2026-0010",
+      "DeviceGuid": "所屬設備29",
+      "CheckDate": "2026-06-24",
+      "CheckTime": "檢查時間29",
+      "Checker": "蔡研究",
+      "ItemCode": "DCL-2026-0029",
+      "CheckValue": 17,
+      "JudgeResult": "判定結果29",
+      "AbnormalAction": "異常處理措施29",
+      "DataSource": "資料來源29",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000309-0000-0000-0001-000000000029",
+      "EntityID": "lab",
+      "Status": "1",
+      "DeviceCode": "D-2026-0010",
+      "DeviceGuid": "所屬設備30",
+      "CheckDate": "2025-07-06",
+      "CheckTime": "檢查時間30",
+      "Checker": "劉助理",
+      "ItemCode": "DCL-2025-0030",
+      "CheckValue": 100,
+      "JudgeResult": "判定結果30",
+      "AbnormalAction": "異常處理措施30",
+      "DataSource": "資料來源30",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000309-0000-0000-0001-000000000030",
+      "EntityID": "lab",
+      "Status": "1",
+      "DeviceCode": "D-2026-0011",
+      "DeviceGuid": "所屬設備31",
+      "CheckDate": "2026-06-07",
+      "CheckTime": "檢查時間31",
+      "Checker": "張分析",
+      "ItemCode": "DCL-2026-0031",
+      "CheckValue": 65,
+      "JudgeResult": "判定結果31",
+      "AbnormalAction": "異常處理措施31",
+      "DataSource": "資料來源31",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000309-0000-0000-0001-000000000031",
+      "EntityID": "lab",
+      "Status": "1",
+      "DeviceCode": "D-2026-0011",
+      "DeviceGuid": "所屬設備32",
+      "CheckDate": "2025-04-02",
+      "CheckTime": "檢查時間32",
+      "Checker": "許工程",
+      "ItemCode": "DCL-2025-0032",
+      "CheckValue": 13,
+      "JudgeResult": "判定結果32",
+      "AbnormalAction": "異常處理措施32",
+      "DataSource": "資料來源32",
+      "Remark": "樣品外觀正常"
+     },
+     {
+      "RowGuid": "00000309-0000-0000-0001-000000000032",
+      "EntityID": "lab",
+      "Status": "1",
+      "DeviceCode": "D-2026-0011",
+      "DeviceGuid": "所屬設備33",
+      "CheckDate": "2025-10-12",
+      "CheckTime": "檢查時間33",
+      "Checker": "郭品管",
+      "ItemCode": "DCL-2025-0033",
+      "CheckValue": 79,
+      "JudgeResult": "判定結果33",
+      "AbnormalAction": "異常處理措施33",
+      "DataSource": "資料來源33",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000309-0000-0000-0001-000000000033",
+      "EntityID": "lab",
+      "Status": "1",
+      "DeviceCode": "D-2026-0012",
+      "DeviceGuid": "所屬設備34",
+      "CheckDate": "2026-09-13",
+      "CheckTime": "檢查時間34",
+      "Checker": "劉助理",
+      "ItemCode": "DCL-2025-0034",
+      "CheckValue": 23,
+      "JudgeResult": "判定結果34",
+      "AbnormalAction": "異常處理措施34",
+      "DataSource": "資料來源34",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000309-0000-0000-0001-000000000034",
+      "EntityID": "lab",
+      "Status": "1",
+      "DeviceCode": "D-2026-0012",
+      "DeviceGuid": "所屬設備35",
+      "CheckDate": "2026-04-28",
+      "CheckTime": "檢查時間35",
+      "Checker": "何環安",
+      "ItemCode": "DCL-2026-0035",
+      "CheckValue": 3,
+      "JudgeResult": "判定結果35",
+      "AbnormalAction": "異常處理措施35",
+      "DataSource": "資料來源35",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000309-0000-0000-0001-000000000035",
+      "EntityID": "lab",
+      "Status": "1",
+      "DeviceCode": "D-2026-0012",
+      "DeviceGuid": "所屬設備36",
+      "CheckDate": "2025-09-10",
+      "CheckTime": "檢查時間36",
+      "Checker": "謝校正",
+      "ItemCode": "DCL-2026-0036",
+      "CheckValue": 46,
+      "JudgeResult": "判定結果36",
+      "AbnormalAction": "異常處理措施36",
+      "DataSource": "資料來源36",
+      "Remark": "定期校正合格"
+     },
+     {
+      "RowGuid": "00000309-0000-0000-0001-000000000036",
+      "EntityID": "lab",
+      "Status": "1",
+      "DeviceCode": "D-2026-0012",
+      "DeviceGuid": "所屬設備37",
+      "CheckDate": "2025-11-02",
+      "CheckTime": "檢查時間37",
+      "Checker": "周技士",
+      "ItemCode": "DCL-2026-0037",
+      "CheckValue": 79,
+      "JudgeResult": "判定結果37",
+      "AbnormalAction": "異常處理措施37",
+      "DataSource": "資料來源37",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000309-0000-0000-0001-000000000037",
+      "EntityID": "lab",
+      "Status": "1",
+      "DeviceCode": "D-2025-0013",
+      "DeviceGuid": "所屬設備38",
+      "CheckDate": "2026-03-26",
+      "CheckTime": "檢查時間38",
+      "Checker": "蔡研究",
+      "ItemCode": "DCL-2025-0038",
+      "CheckValue": 36,
+      "JudgeResult": "判定結果38",
+      "AbnormalAction": "異常處理措施38",
+      "DataSource": "資料來源38",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000309-0000-0000-0001-000000000038",
+      "EntityID": "lab",
+      "Status": "1",
+      "DeviceCode": "D-2025-0013",
+      "DeviceGuid": "所屬設備39",
+      "CheckDate": "2025-07-01",
+      "CheckTime": "檢查時間39",
+      "Checker": "李檢測",
+      "ItemCode": "DCL-2026-0039",
+      "CheckValue": 47,
+      "JudgeResult": "判定結果39",
+      "AbnormalAction": "異常處理措施39",
+      "DataSource": "資料來源39",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000309-0000-0000-0001-000000000039",
+      "EntityID": "lab",
+      "Status": "1",
+      "DeviceCode": "D-2026-0014",
+      "DeviceGuid": "所屬設備40",
+      "CheckDate": "2026-04-22",
+      "CheckTime": "檢查時間40",
+      "Checker": "謝校正",
+      "ItemCode": "DCL-2026-0040",
+      "CheckValue": 4,
+      "JudgeResult": "判定結果40",
+      "AbnormalAction": "異常處理措施40",
+      "DataSource": "資料來源40",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000309-0000-0000-0001-000000000040",
+      "EntityID": "lab",
+      "Status": "1",
+      "DeviceCode": "D-2026-0014",
+      "DeviceGuid": "所屬設備41",
+      "CheckDate": "2026-12-14",
+      "CheckTime": "檢查時間41",
+      "Checker": "鄭組長",
+      "ItemCode": "DCL-2025-0041",
+      "CheckValue": 32,
+      "JudgeResult": "判定結果41",
+      "AbnormalAction": "異常處理措施41",
+      "DataSource": "資料來源41",
+      "Remark": ""
+     }
+    ]
+   }
+  ]
+ },
+ "Features": {},
+ "DataScope": {
+  "DefaultWhere": "EntityID = 'lab' AND Status = '1'",
+  "AuthLevel": 2,
+  "SortExp": "SortNo ASC",
+  "DataConfig": {
+   "RowLimit": 2000,
+   "AllowExport": true
+  }
+ },
+ "CustomMeta": {
+  "CustomSchema": {
+   "WidgetType": "Grid",
+   "KeyField": "DeviceCode",
+   "TitleField": "DeviceName",
+   "ParentKeyField": null,
+   "PathField": null,
+   "PathSeparator": "/"
+  }
+ },
+ "SeedData": [
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000000",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-06-13 11:17",
+   "UpdatedBy": "huang.tc",
+   "UpdatedAt": "2026-01-14 12:09",
+   "DeviceCode": "D-2025-0001",
+   "DeviceName": "溫濕度記錄器 RC-4",
+   "Location": "天平室",
+   "PropertyNo": "D-2026-0001",
+   "LegacyPropertyNo": "D-2025-0001",
+   "ModelNo": "D-2026-0001",
+   "Manufacturer": "HACH",
+   "CalibCycleMonths": 87,
+   "LastCalibDate": "2025-10-17",
+   "NextCalibDate": "2026-09-17",
+   "TempUpperLimit": 31.6,
+   "TempLowerLimit": 35.7,
+   "HumidUpperLimit": 61,
+   "HumidLowerLimit": 39,
+   "IsIotEnabled": "是否啟用 IoT 自動採集01",
+   "Remark": "",
+   "Attributes": "擴展屬性01"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000001",
+   "EntityID": "lab",
+   "Status": "0",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-02-24 13:33",
+   "UpdatedBy": "hsu.eng",
+   "UpdatedAt": "2026-05-07 18:22",
+   "DeviceCode": "D-2025-0002",
+   "DeviceName": "冷藏庫監控器",
+   "Location": "定容室",
+   "PropertyNo": "D-2025-0002",
+   "LegacyPropertyNo": "D-2026-0002",
+   "ModelNo": "D-2025-0002",
+   "Manufacturer": "Thermo Fisher",
+   "CalibCycleMonths": 13,
+   "LastCalibDate": "2025-06-21",
+   "NextCalibDate": "2025-01-06",
+   "TempUpperLimit": 22.9,
+   "TempLowerLimit": 11.2,
+   "HumidUpperLimit": 44,
+   "HumidLowerLimit": 68,
+   "IsIotEnabled": "是否啟用 IoT 自動採集02",
+   "Remark": "",
+   "Attributes": "擴展屬性02"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000002",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-07-12 09:23",
+   "UpdatedBy": "chang.fa",
+   "UpdatedAt": "2026-12-02 08:24",
+   "DeviceCode": "D-2026-0003",
+   "DeviceName": "恆溫恆濕箱",
+   "Location": "儀器室A",
+   "PropertyNo": "D-2025-0003",
+   "LegacyPropertyNo": "D-2026-0003",
+   "ModelNo": "D-2025-0003",
+   "Manufacturer": "Thermo Fisher",
+   "CalibCycleMonths": 3,
+   "LastCalibDate": "2025-05-26",
+   "NextCalibDate": "2026-11-01",
+   "TempUpperLimit": 19.3,
+   "TempLowerLimit": 2.3,
+   "HumidUpperLimit": 54,
+   "HumidLowerLimit": 51,
+   "IsIotEnabled": "是否啟用 IoT 自動採集03",
+   "Remark": "",
+   "Attributes": "擴展屬性03"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000003",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-07-27 08:30",
+   "UpdatedBy": "hsu.eng",
+   "UpdatedAt": "2026-06-26 16:12",
+   "DeviceCode": "D-2026-0004",
+   "DeviceName": "實驗室環境監測站",
+   "Location": "儀器室A",
+   "PropertyNo": "D-2025-0004",
+   "LegacyPropertyNo": "D-2025-0004",
+   "ModelNo": "D-2026-0004",
+   "Manufacturer": "HACH",
+   "CalibCycleMonths": 46,
+   "LastCalibDate": "2026-10-28",
+   "NextCalibDate": "2026-05-16",
+   "TempUpperLimit": 15.6,
+   "TempLowerLimit": 32.8,
+   "HumidUpperLimit": 50,
+   "HumidLowerLimit": 66,
+   "IsIotEnabled": "是否啟用 IoT 自動採集04",
+   "Remark": "",
+   "Attributes": "擴展屬性04"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000004",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-01-06 12:14",
+   "UpdatedBy": "wu.dir",
+   "UpdatedAt": "2026-05-28 16:39",
+   "DeviceCode": "D-2026-0005",
+   "DeviceName": "溫濕度記錄器 RC-4",
+   "Location": "儀器室A",
+   "PropertyNo": "D-2026-0005",
+   "LegacyPropertyNo": "D-2025-0005",
+   "ModelNo": "D-2025-0005",
+   "Manufacturer": "Mettler Toledo",
+   "CalibCycleMonths": 6,
+   "LastCalibDate": "2026-06-18",
+   "NextCalibDate": "2026-02-26",
+   "TempUpperLimit": 26.0,
+   "TempLowerLimit": 25.1,
+   "HumidUpperLimit": 56,
+   "HumidLowerLimit": 58,
+   "IsIotEnabled": "是否啟用 IoT 自動採集05",
+   "Remark": "",
+   "Attributes": "擴展屬性05"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000005",
+   "EntityID": "lab",
+   "Status": "0",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-05-15 17:05",
+   "UpdatedBy": "liu.as",
+   "UpdatedAt": "2026-08-01 14:30",
+   "DeviceCode": "D-2025-0006",
+   "DeviceName": "冷藏庫監控器",
+   "Location": "樣品庫",
+   "PropertyNo": "D-2025-0006",
+   "LegacyPropertyNo": "D-2026-0006",
+   "ModelNo": "D-2025-0006",
+   "Manufacturer": "HACH",
+   "CalibCycleMonths": 69,
+   "LastCalibDate": "2025-08-13",
+   "NextCalibDate": "2025-01-10",
+   "TempUpperLimit": 17.3,
+   "TempLowerLimit": 37.2,
+   "HumidUpperLimit": 48,
+   "HumidLowerLimit": 67,
+   "IsIotEnabled": "是否啟用 IoT 自動採集06",
+   "Remark": "",
+   "Attributes": "擴展屬性06"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000006",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-04-14 15:02",
+   "UpdatedBy": "liu.as",
+   "UpdatedAt": "2026-09-17 14:23",
+   "DeviceCode": "D-2026-0007",
+   "DeviceName": "恆溫恆濕箱",
+   "Location": "藥品櫃P1",
+   "PropertyNo": "D-2026-0007",
+   "LegacyPropertyNo": "D-2025-0007",
+   "ModelNo": "D-2026-0007",
+   "Manufacturer": "Thermo Fisher",
+   "CalibCycleMonths": 59,
+   "LastCalibDate": "2025-03-02",
+   "NextCalibDate": "2025-07-17",
+   "TempUpperLimit": 32.5,
+   "TempLowerLimit": 30.7,
+   "HumidUpperLimit": 71,
+   "HumidLowerLimit": 61,
+   "IsIotEnabled": "是否啟用 IoT 自動採集07",
+   "Remark": "",
+   "Attributes": "擴展屬性07"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000007",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-03-18 17:17",
+   "UpdatedBy": "huang.tc",
+   "UpdatedAt": "2026-10-27 14:11",
+   "DeviceCode": "D-2026-0008",
+   "DeviceName": "實驗室環境監測站",
+   "Location": "藥品櫃P2",
+   "PropertyNo": "D-2025-0008",
+   "LegacyPropertyNo": "D-2026-0008",
+   "ModelNo": "D-2025-0008",
+   "Manufacturer": "PerkinElmer",
+   "CalibCycleMonths": 37,
+   "LastCalibDate": "2026-04-18",
+   "NextCalibDate": "2025-02-17",
+   "TempUpperLimit": 24.8,
+   "TempLowerLimit": 34.7,
+   "HumidUpperLimit": 50,
+   "HumidLowerLimit": 54,
+   "IsIotEnabled": "是否啟用 IoT 自動採集08",
+   "Remark": "",
+   "Attributes": "擴展屬性08"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000008",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-05-01 16:14",
+   "UpdatedBy": "lin.pb",
+   "UpdatedAt": "2026-06-17 11:09",
+   "DeviceCode": "D-2026-0009",
+   "DeviceName": "溫濕度記錄器 RC-4",
+   "Location": "藥品櫃P2",
+   "PropertyNo": "D-2026-0009",
+   "LegacyPropertyNo": "D-2025-0009",
+   "ModelNo": "D-2025-0009",
+   "Manufacturer": "Mettler Toledo",
+   "CalibCycleMonths": 84,
+   "LastCalibDate": "2026-08-08",
+   "NextCalibDate": "2025-12-12",
+   "TempUpperLimit": 29.6,
+   "TempLowerLimit": 3.6,
+   "HumidUpperLimit": 43,
+   "HumidLowerLimit": 68,
+   "IsIotEnabled": "是否啟用 IoT 自動採集09",
+   "Remark": "",
+   "Attributes": "擴展屬性09"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000009",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-08-06 17:10",
+   "UpdatedBy": "huang.tc",
+   "UpdatedAt": "2026-06-08 08:07",
+   "DeviceCode": "D-2026-0010",
+   "DeviceName": "冷藏庫監控器",
+   "Location": "冷凍庫(-20°C)",
+   "PropertyNo": "D-2025-0010",
+   "LegacyPropertyNo": "D-2026-0010",
+   "ModelNo": "D-2026-0010",
+   "Manufacturer": "PerkinElmer",
+   "CalibCycleMonths": 57,
+   "LastCalibDate": "2026-07-09",
+   "NextCalibDate": "2026-07-24",
+   "TempUpperLimit": 10.1,
+   "TempLowerLimit": 32.0,
+   "HumidUpperLimit": 57,
+   "HumidLowerLimit": 52,
+   "IsIotEnabled": "是否啟用 IoT 自動採集10",
+   "Remark": "定期校正合格",
+   "Attributes": "擴展屬性10"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000010",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-11-26 14:39",
+   "UpdatedBy": "chang.fa",
+   "UpdatedAt": "2026-10-12 16:32",
+   "DeviceCode": "D-2026-0011",
+   "DeviceName": "恆溫恆濕箱",
+   "Location": "藥品櫃P2",
+   "PropertyNo": "D-2025-0011",
+   "LegacyPropertyNo": "D-2026-0011",
+   "ModelNo": "D-2025-0011",
+   "Manufacturer": "PerkinElmer",
+   "CalibCycleMonths": 38,
+   "LastCalibDate": "2026-10-06",
+   "NextCalibDate": "2025-12-07",
+   "TempUpperLimit": 27.1,
+   "TempLowerLimit": 18.6,
+   "HumidUpperLimit": 68,
+   "HumidLowerLimit": 36,
+   "IsIotEnabled": "是否啟用 IoT 自動採集11",
+   "Remark": "急件已加收費用",
+   "Attributes": "擴展屬性11"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000011",
+   "EntityID": "lab",
+   "Status": "0",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-08-14 08:04",
+   "UpdatedBy": "abram.chen",
+   "UpdatedAt": "2026-03-05 08:39",
+   "DeviceCode": "D-2026-0012",
+   "DeviceName": "實驗室環境監測站",
+   "Location": "微生物室",
+   "PropertyNo": "D-2025-0012",
+   "LegacyPropertyNo": "D-2025-0012",
+   "ModelNo": "D-2025-0012",
+   "Manufacturer": "PerkinElmer",
+   "CalibCycleMonths": 40,
+   "LastCalibDate": "2025-06-03",
+   "NextCalibDate": "2025-04-11",
+   "TempUpperLimit": 5.5,
+   "TempLowerLimit": 13.9,
+   "HumidUpperLimit": 54,
+   "HumidLowerLimit": 39,
+   "IsIotEnabled": "是否啟用 IoT 自動採集12",
+   "Remark": "已通知申請單位",
+   "Attributes": "擴展屬性12"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000012",
+   "EntityID": "lab",
+   "Status": "0",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-07-03 17:07",
+   "UpdatedBy": "lin.pb",
+   "UpdatedAt": "2026-09-20 09:22",
+   "DeviceCode": "D-2025-0013",
+   "DeviceName": "溫濕度記錄器 RC-4",
+   "Location": "儀器室A",
+   "PropertyNo": "D-2026-0013",
+   "LegacyPropertyNo": "D-2026-0013",
+   "ModelNo": "D-2026-0013",
+   "Manufacturer": "HACH",
+   "CalibCycleMonths": 43,
+   "LastCalibDate": "2026-11-25",
+   "NextCalibDate": "2025-08-07",
+   "TempUpperLimit": 25.3,
+   "TempLowerLimit": 38.4,
+   "HumidUpperLimit": 37,
+   "HumidLowerLimit": 45,
+   "IsIotEnabled": "是否啟用 IoT 自動採集13",
+   "Remark": "",
+   "Attributes": "擴展屬性13"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000013",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-04-07 10:24",
+   "UpdatedBy": "cheng.gl",
+   "UpdatedAt": "2026-06-07 08:38",
+   "DeviceCode": "D-2026-0014",
+   "DeviceName": "冷藏庫監控器",
+   "Location": "樣品庫",
+   "PropertyNo": "D-2026-0014",
+   "LegacyPropertyNo": "D-2025-0014",
+   "ModelNo": "D-2026-0014",
+   "Manufacturer": "Agilent",
+   "CalibCycleMonths": 25,
+   "LastCalibDate": "2025-12-02",
+   "NextCalibDate": "2026-02-07",
+   "TempUpperLimit": 32.7,
+   "TempLowerLimit": 2.5,
+   "HumidUpperLimit": 74,
+   "HumidLowerLimit": 65,
+   "IsIotEnabled": "是否啟用 IoT 自動採集14",
+   "Remark": "",
+   "Attributes": "擴展屬性14"
+  }
+ ]
+}

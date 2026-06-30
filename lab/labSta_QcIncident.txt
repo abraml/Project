@@ -1,0 +1,641 @@
+{
+ "EntityID": "lab",
+ "SystemCode": "MUEIP",
+ "ModuleCode": "LIMS",
+ "FuncCode": "labSta_QcIncident",
+ "ConfigHash": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+ "PageMeta": {
+  "PageTitle": "品管異常事件",
+  "Lang": "zh-TW",
+  "FormType": "ListForm",
+  "EditDisplayType": "Drawer",
+  "Breadcrumb": [
+   {
+    "Title": "首頁",
+    "Path": "/"
+   },
+   {
+    "Title": "分析統計與品管報表",
+    "Path": null
+   },
+   {
+    "Title": "品管異常事件",
+    "Path": "/lab/labSta_QcIncident"
+   }
+  ],
+  "IsApproval": false,
+  "TenantLocked": false,
+  "Icon": "ri-error-warning-line",
+  "Remark": "品管異常事件（由 labSta_QcIncident 規格書產生）"
+ },
+ "Resources": {
+  "CodeSets": {
+   "Status": [
+    {
+     "CodeID": "1",
+     "CodeName": "啟用",
+     "IsDefault": true
+    },
+    {
+     "CodeID": "0",
+     "CodeName": "停用"
+    }
+   ],
+   "Priority": [
+    {
+     "CodeID": "A",
+     "CodeName": "急件"
+    },
+    {
+     "CodeID": "B",
+     "CodeName": "高"
+    },
+    {
+     "CodeID": "C",
+     "CodeName": "一般",
+     "IsDefault": true
+    },
+    {
+     "CodeID": "D",
+     "CodeName": "低"
+    }
+   ]
+  },
+  "FeatureFlags": {
+   "IsReadOnly": false,
+   "EnableDraft": false,
+   "EnableBatchDelete": true,
+   "AutoRefreshInterval": 0,
+   "DefaultViewMode": "Table",
+   "RequireConfirmOnSave": true
+  }
+ },
+ "AllowAction": {
+  "DataActions": [
+   {
+    "ActionID": "Add",
+    "Label": "新增",
+    "Icon": "ri-add-line",
+    "Type": "Primary",
+    "Position": "Toolbar",
+    "Confirm": null
+   },
+   {
+    "ActionID": "Save",
+    "Label": "儲存",
+    "Icon": "ri-save-line",
+    "Type": "Primary",
+    "Position": "Toolbar",
+    "Confirm": null
+   },
+   {
+    "ActionID": "Delete",
+    "Label": "刪除",
+    "Icon": "ri-delete-bin-line",
+    "Type": "Danger",
+    "Position": "Both",
+    "Confirm": "確定要刪除此品管異常事件資料嗎？"
+   },
+   {
+    "ActionID": "Query",
+    "Label": "查詢",
+    "Icon": "ri-search-line",
+    "Type": "Default",
+    "Position": "Toolbar",
+    "Confirm": null
+   }
+  ],
+  "ExtensionActions": [
+   {
+    "ActionID": "Import",
+    "Label": "匯入",
+    "Icon": "ri-upload-2-line",
+    "Type": "Default",
+    "Position": "Toolbar"
+   },
+   {
+    "ActionID": "Export",
+    "Label": "匯出",
+    "Icon": "ri-download-2-line",
+    "Type": "Default",
+    "Position": "Toolbar"
+   }
+  ]
+ },
+ "View": {
+  "RowKey": "RowGuid",
+  "ListView": {
+   "ListSpec": {
+    "RowKey": "RowGuid",
+    "SelectMode": "Single",
+    "FixedColumns": [
+     "Action",
+     "No"
+    ],
+    "RowActionMode": "Menu",
+    "ShowRowNo": true,
+    "Pagination": {
+     "PageSize": 100,
+     "SizeOptions": [
+      50,
+      100,
+      200,
+      500
+     ],
+     "ShowJumper": false,
+     "FullPageScroll": true
+    },
+    "DefaultSort": {
+     "Field": "SortNo",
+     "Order": "asc"
+    },
+    "EmptyText": "目前查無品管異常事件資料",
+    "GridBordered": true
+   },
+   "FieldSpecs": [
+    {
+     "BindField": "IncidentDate",
+     "Title": "事件發生日期",
+     "Align": "Left",
+     "DefaultVisible": true,
+     "Formatter": "Link",
+     "Fixed": "Left",
+     "Width": 160,
+     "Sorter": true
+    },
+    {
+     "BindField": "ComponentName",
+     "Title": "檢測成分",
+     "Align": "Left",
+     "DefaultVisible": true,
+     "Width": 140
+    },
+    {
+     "BindField": "CauseDesc",
+     "Title": "原因描述",
+     "Align": "Left",
+     "DefaultVisible": true,
+     "Width": 140
+    },
+    {
+     "BindField": "IncidentStatus",
+     "Title": "處理狀態",
+     "Align": "Left",
+     "DefaultVisible": true,
+     "Width": 140
+    },
+    {
+     "BindField": "HandledBy",
+     "Title": "處理人員",
+     "Align": "Left",
+     "DefaultVisible": true,
+     "Width": 140
+    },
+    {
+     "BindField": "Status",
+     "Title": "啟用狀態",
+     "Align": "Center",
+     "DefaultVisible": true,
+     "Formatter": "Tag",
+     "Width": 80
+    }
+   ]
+  },
+  "FormView": {
+   "FormSpec": {
+    "RowKey": "RowGuid",
+    "Layout": "Horizontal",
+    "Sections": [
+     {
+      "SectionID": "SecBase",
+      "Type": "Card",
+      "Title": "基本資料",
+      "IsCollapsible": false,
+      "DefaultOpen": true,
+      "Icon": "ri-error-warning-line"
+     },
+     {
+      "SectionID": "SecExtra",
+      "Type": "Card",
+      "Title": "系統資訊",
+      "IsCollapsible": true,
+      "DefaultOpen": false,
+      "Icon": "ri-settings-4-line"
+     }
+    ],
+    "FormLogic": []
+   },
+   "FieldSpecs": [
+    {
+     "BindField": "RowKey",
+     "Title": "系統識別碼",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 24,
+     "Mode": "Hidden"
+    },
+    {
+     "BindField": "EntityID",
+     "Title": "系統實體",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "Hidden",
+     "DefaultValue": "lab"
+    },
+    {
+     "BindField": "IncidentDate",
+     "Title": "事件發生日期",
+     "Component": "DatePicker",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "Required",
+       "Message": "事件發生日期為必填"
+      }
+     ],
+     "Props": {
+      "Mode": "Editable",
+      "ShowTime": false
+     }
+    },
+    {
+     "BindField": "ComponentName",
+     "Title": "檢測成分",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "Required",
+       "Message": "檢測成分為必填"
+      },
+      {
+       "Rule": "MaxLength",
+       "Value": 50,
+       "Message": "長度不可超過 50"
+      }
+     ]
+    },
+    {
+     "BindField": "EquipGuid",
+     "Title": "相關設備",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "ReadOnly"
+    },
+    {
+     "BindField": "CauseDesc",
+     "Title": "原因描述",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "Required",
+       "Message": "原因描述為必填"
+      },
+      {
+       "Rule": "MaxLength",
+       "Value": 255,
+       "Message": "長度不可超過 255"
+      }
+     ]
+    },
+    {
+     "BindField": "IncidentStatus",
+     "Title": "處理狀態",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 10,
+       "Message": "長度不可超過 10"
+      }
+     ]
+    },
+    {
+     "BindField": "HandledBy",
+     "Title": "處理人員",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 30,
+       "Message": "長度不可超過 30"
+      }
+     ]
+    },
+    {
+     "BindField": "SourcePointGuid",
+     "Title": "來源管制圖異常點",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "ReadOnly"
+    },
+    {
+     "BindField": "Status",
+     "Title": "啟用狀態",
+     "Component": "Select",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "DefaultValue": "1",
+     "Props": {
+      "OptionKey": "Status"
+     }
+    },
+    {
+     "BindField": "CreatedBy",
+     "Title": "建立者帳號",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "ReadOnly"
+    },
+    {
+     "BindField": "CreatedAt",
+     "Title": "資料建立日期時間",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "ReadOnly"
+    },
+    {
+     "BindField": "UpdatedBy",
+     "Title": "最後更新者帳號",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "ReadOnly"
+    },
+    {
+     "BindField": "UpdatedAt",
+     "Title": "最後更新日期時間",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "ReadOnly"
+    }
+   ]
+  }
+ },
+ "Features": {},
+ "DataScope": {
+  "DefaultWhere": "EntityID = 'lab' AND Status = '1'",
+  "AuthLevel": 2,
+  "SortExp": "SortNo ASC",
+  "DataConfig": {
+   "RowLimit": 2000,
+   "AllowExport": true
+  }
+ },
+ "CustomMeta": {
+  "CustomSchema": {
+   "WidgetType": "Grid",
+   "KeyField": "IncidentDate",
+   "TitleField": "ComponentName",
+   "ParentKeyField": null,
+   "PathField": null,
+   "PathSeparator": "/"
+  }
+ },
+ "SeedData": [
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000000",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-08-16 11:03",
+   "UpdatedBy": "hsu.eng",
+   "UpdatedAt": "2026-08-17 16:38",
+   "IncidentDate": "2026-10-14",
+   "ComponentName": "總磷 TP",
+   "EquipGuid": "相關設備01",
+   "CauseDesc": "",
+   "IncidentStatus": "處理狀態01",
+   "HandledBy": "許工程",
+   "SourcePointGuid": "來源管制圖異常點01"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000001",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-09-22 17:35",
+   "UpdatedBy": "chang.fa",
+   "UpdatedAt": "2026-11-27 14:24",
+   "IncidentDate": "2025-03-18",
+   "ComponentName": "化學需氧量 COD",
+   "EquipGuid": "相關設備02",
+   "CauseDesc": "客戶要求附 TAF Logo",
+   "IncidentStatus": "處理狀態02",
+   "HandledBy": "李檢測",
+   "SourcePointGuid": "來源管制圖異常點02"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000002",
+   "EntityID": "lab",
+   "Status": "0",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-01-10 11:11",
+   "UpdatedBy": "abram.chen",
+   "UpdatedAt": "2026-04-02 13:17",
+   "IncidentDate": "2025-02-25",
+   "ComponentName": "生化需氧量 BOD",
+   "EquipGuid": "相關設備03",
+   "CauseDesc": "定期校正合格",
+   "IncidentStatus": "處理狀態03",
+   "HandledBy": "周技士",
+   "SourcePointGuid": "來源管制圖異常點03"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000003",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-04-02 09:04",
+   "UpdatedBy": "liu.as",
+   "UpdatedAt": "2026-07-23 12:23",
+   "IncidentDate": "2026-11-04",
+   "ComponentName": "懸浮固體 SS",
+   "EquipGuid": "相關設備04",
+   "CauseDesc": "",
+   "IncidentStatus": "處理狀態04",
+   "HandledBy": "劉助理",
+   "SourcePointGuid": "來源管制圖異常點04"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000004",
+   "EntityID": "lab",
+   "Status": "0",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-01-22 18:39",
+   "UpdatedBy": "cheng.gl",
+   "UpdatedAt": "2026-02-16 13:37",
+   "IncidentDate": "2025-03-02",
+   "ComponentName": "氨氮 NH3-N",
+   "EquipGuid": "相關設備05",
+   "CauseDesc": "",
+   "IncidentStatus": "處理狀態05",
+   "HandledBy": "何環安",
+   "SourcePointGuid": "來源管制圖異常點05"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000005",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-05-19 14:31",
+   "UpdatedBy": "wang.cy",
+   "UpdatedAt": "2026-03-23 10:28",
+   "IncidentDate": "2025-05-27",
+   "ComponentName": "硝酸鹽氮",
+   "EquipGuid": "相關設備06",
+   "CauseDesc": "已通知申請單位",
+   "IncidentStatus": "處理狀態06",
+   "HandledBy": "陳審核",
+   "SourcePointGuid": "來源管制圖異常點06"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000006",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-07-20 16:21",
+   "UpdatedBy": "huang.tc",
+   "UpdatedAt": "2026-11-26 18:06",
+   "IncidentDate": "2026-07-18",
+   "ComponentName": "鎘 Cd",
+   "EquipGuid": "相關設備07",
+   "CauseDesc": "急件已加收費用",
+   "IncidentStatus": "處理狀態07",
+   "HandledBy": "鄭組長",
+   "SourcePointGuid": "來源管制圖異常點07"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000007",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-09-22 12:33",
+   "UpdatedBy": "abram.chen",
+   "UpdatedAt": "2026-08-05 16:06",
+   "IncidentDate": "2025-08-25",
+   "ComponentName": "鉛 Pb",
+   "EquipGuid": "相關設備08",
+   "CauseDesc": "",
+   "IncidentStatus": "處理狀態08",
+   "HandledBy": "周技士",
+   "SourcePointGuid": "來源管制圖異常點08"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000008",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-05-16 13:17",
+   "UpdatedBy": "abram.chen",
+   "UpdatedAt": "2026-11-25 10:38",
+   "IncidentDate": "2026-04-05",
+   "ComponentName": "銅 Cu",
+   "EquipGuid": "相關設備09",
+   "CauseDesc": "",
+   "IncidentStatus": "處理狀態09",
+   "HandledBy": "陳審核",
+   "SourcePointGuid": "來源管制圖異常點09"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000009",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-12-17 16:14",
+   "UpdatedBy": "abram.chen",
+   "UpdatedAt": "2026-09-16 09:35",
+   "IncidentDate": "2026-04-25",
+   "ComponentName": "鋅 Zn",
+   "EquipGuid": "相關設備10",
+   "CauseDesc": "需注意保存效期",
+   "IncidentStatus": "處理狀態10",
+   "HandledBy": "林品保",
+   "SourcePointGuid": "來源管制圖異常點10"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000010",
+   "EntityID": "lab",
+   "Status": "0",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-05-11 08:23",
+   "UpdatedBy": "cheng.gl",
+   "UpdatedAt": "2026-01-15 15:34",
+   "IncidentDate": "2026-02-03",
+   "ComponentName": "pH值",
+   "EquipGuid": "相關設備11",
+   "CauseDesc": "待主管覆核",
+   "IncidentStatus": "處理狀態11",
+   "HandledBy": "楊化驗",
+   "SourcePointGuid": "來源管制圖異常點11"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000011",
+   "EntityID": "lab",
+   "Status": "0",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-07-26 09:00",
+   "UpdatedBy": "wu.dir",
+   "UpdatedAt": "2026-05-04 09:13",
+   "IncidentDate": "2025-08-12",
+   "ComponentName": "導電度",
+   "EquipGuid": "相關設備12",
+   "CauseDesc": "已通知申請單位",
+   "IncidentStatus": "處理狀態12",
+   "HandledBy": "劉助理",
+   "SourcePointGuid": "來源管制圖異常點12"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000012",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-10-04 15:09",
+   "UpdatedBy": "lin.pb",
+   "UpdatedAt": "2026-03-21 18:05",
+   "IncidentDate": "2026-05-25",
+   "ComponentName": "濁度",
+   "EquipGuid": "相關設備13",
+   "CauseDesc": "急件已加收費用",
+   "IncidentStatus": "處理狀態13",
+   "HandledBy": "吳主任",
+   "SourcePointGuid": "來源管制圖異常點13"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000013",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-11-12 08:10",
+   "UpdatedBy": "lee.jc",
+   "UpdatedAt": "2026-04-27 12:18",
+   "IncidentDate": "2026-07-02",
+   "ComponentName": "大腸桿菌群",
+   "EquipGuid": "相關設備14",
+   "CauseDesc": "",
+   "IncidentStatus": "處理狀態14",
+   "HandledBy": "李檢測",
+   "SourcePointGuid": "來源管制圖異常點14"
+  }
+ ]
+}

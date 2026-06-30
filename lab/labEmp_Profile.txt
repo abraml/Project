@@ -1,0 +1,1880 @@
+{
+ "EntityID": "lab",
+ "SystemCode": "MUEIP",
+ "ModuleCode": "LIMS",
+ "FuncCode": "labEmp_Profile",
+ "ConfigHash": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+ "PageMeta": {
+  "PageTitle": "人員角色與簽署身份",
+  "Lang": "zh-TW",
+  "FormType": "ListForm",
+  "EditDisplayType": "Drawer",
+  "Breadcrumb": [
+   {
+    "Title": "首頁",
+    "Path": "/"
+   },
+   {
+    "Title": "實驗室人員管理",
+    "Path": null
+   },
+   {
+    "Title": "人員角色與簽署身份",
+    "Path": "/lab/labEmp_Profile"
+   }
+  ],
+  "IsApproval": false,
+  "TenantLocked": false,
+  "Icon": "ri-user-settings-line",
+  "Remark": "人員角色與簽署身份（由 labEmp_Profile 規格書產生）"
+ },
+ "Resources": {
+  "CodeSets": {
+   "Status": [
+    {
+     "CodeID": "1",
+     "CodeName": "啟用",
+     "IsDefault": true
+    },
+    {
+     "CodeID": "0",
+     "CodeName": "停用"
+    }
+   ],
+   "Priority": [
+    {
+     "CodeID": "A",
+     "CodeName": "急件"
+    },
+    {
+     "CodeID": "B",
+     "CodeName": "高"
+    },
+    {
+     "CodeID": "C",
+     "CodeName": "一般",
+     "IsDefault": true
+    },
+    {
+     "CodeID": "D",
+     "CodeName": "低"
+    }
+   ]
+  },
+  "FeatureFlags": {
+   "IsReadOnly": false,
+   "EnableDraft": false,
+   "EnableBatchDelete": true,
+   "AutoRefreshInterval": 0,
+   "DefaultViewMode": "Table",
+   "RequireConfirmOnSave": true
+  }
+ },
+ "AllowAction": {
+  "DataActions": [
+   {
+    "ActionID": "Add",
+    "Label": "新增",
+    "Icon": "ri-add-line",
+    "Type": "Primary",
+    "Position": "Toolbar",
+    "Confirm": null
+   },
+   {
+    "ActionID": "Save",
+    "Label": "儲存",
+    "Icon": "ri-save-line",
+    "Type": "Primary",
+    "Position": "Toolbar",
+    "Confirm": null
+   },
+   {
+    "ActionID": "Delete",
+    "Label": "刪除",
+    "Icon": "ri-delete-bin-line",
+    "Type": "Danger",
+    "Position": "Both",
+    "Confirm": "確定要刪除此人員角色與簽署身份資料嗎？"
+   },
+   {
+    "ActionID": "Query",
+    "Label": "查詢",
+    "Icon": "ri-search-line",
+    "Type": "Default",
+    "Position": "Toolbar",
+    "Confirm": null
+   }
+  ],
+  "ExtensionActions": [
+   {
+    "ActionID": "Import",
+    "Label": "匯入",
+    "Icon": "ri-upload-2-line",
+    "Type": "Default",
+    "Position": "Toolbar"
+   },
+   {
+    "ActionID": "Export",
+    "Label": "匯出",
+    "Icon": "ri-download-2-line",
+    "Type": "Default",
+    "Position": "Toolbar"
+   }
+  ]
+ },
+ "View": {
+  "RowKey": "RowGuid",
+  "ListView": {
+   "ListSpec": {
+    "RowKey": "RowGuid",
+    "SelectMode": "Single",
+    "FixedColumns": [
+     "Action",
+     "No"
+    ],
+    "RowActionMode": "Menu",
+    "ShowRowNo": true,
+    "Pagination": {
+     "PageSize": 100,
+     "SizeOptions": [
+      50,
+      100,
+      200,
+      500
+     ],
+     "ShowJumper": false,
+     "FullPageScroll": true
+    },
+    "DefaultSort": {
+     "Field": "SortNo",
+     "Order": "asc"
+    },
+    "EmptyText": "目前查無人員角色與簽署身份資料",
+    "GridBordered": true
+   },
+   "FieldSpecs": [
+    {
+     "BindField": "EmpId",
+     "Title": "員工編號",
+     "Align": "Left",
+     "DefaultVisible": true,
+     "Formatter": "Link",
+     "Fixed": "Left",
+     "Width": 160,
+     "Sorter": true
+    },
+    {
+     "BindField": "LabRole",
+     "Title": "實驗室角色",
+     "Align": "Left",
+     "DefaultVisible": true,
+     "Width": 140
+    },
+    {
+     "BindField": "LabGroup",
+     "Title": "所屬組別",
+     "Align": "Left",
+     "DefaultVisible": true,
+     "Width": 140
+    },
+    {
+     "BindField": "IsActive",
+     "Title": "實驗室在職狀態",
+     "Align": "Left",
+     "DefaultVisible": true,
+     "Width": 140
+    },
+    {
+     "BindField": "SignTitle",
+     "Title": "簽署職稱",
+     "Align": "Left",
+     "DefaultVisible": true,
+     "Width": 140
+    },
+    {
+     "BindField": "SignName",
+     "Title": "簽署姓名",
+     "Align": "Left",
+     "DefaultVisible": true,
+     "Width": 140
+    },
+    {
+     "BindField": "Status",
+     "Title": "狀態標記",
+     "Align": "Center",
+     "DefaultVisible": true,
+     "Formatter": "Tag",
+     "Width": 80
+    }
+   ]
+  },
+  "FormView": {
+   "FormSpec": {
+    "RowKey": "RowGuid",
+    "Layout": "Horizontal",
+    "Sections": [
+     {
+      "SectionID": "SecBase",
+      "Type": "Card",
+      "Title": "基本資料",
+      "IsCollapsible": false,
+      "DefaultOpen": true,
+      "Icon": "ri-user-settings-line"
+     },
+     {
+      "SectionID": "SecRecv",
+      "Type": "Card",
+      "Title": "作業資訊",
+      "IsCollapsible": true,
+      "DefaultOpen": true,
+      "Icon": "ri-file-list-3-line"
+     },
+     {
+      "SectionID": "SecExtra",
+      "Type": "Card",
+      "Title": "系統資訊",
+      "IsCollapsible": true,
+      "DefaultOpen": false,
+      "Icon": "ri-settings-4-line"
+     }
+    ],
+    "FormLogic": []
+   },
+   "FieldSpecs": [
+    {
+     "BindField": "RowKey",
+     "Title": "系統識別碼",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 24,
+     "Mode": "Hidden"
+    },
+    {
+     "BindField": "EntityID",
+     "Title": "系統實體",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "Hidden",
+     "DefaultValue": "lab"
+    },
+    {
+     "BindField": "EmpId",
+     "Title": "員工編號",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "Required",
+       "Message": "員工編號為必填"
+      },
+      {
+       "Rule": "MaxLength",
+       "Value": 50,
+       "Message": "長度不可超過 50"
+      }
+     ]
+    },
+    {
+     "BindField": "LabRole",
+     "Title": "實驗室角色",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 50,
+       "Message": "長度不可超過 50"
+      }
+     ]
+    },
+    {
+     "BindField": "LabGroup",
+     "Title": "所屬組別",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 100,
+       "Message": "長度不可超過 100"
+      }
+     ]
+    },
+    {
+     "BindField": "IsActive",
+     "Title": "實驗室在職狀態",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable"
+    },
+    {
+     "BindField": "SignTitle",
+     "Title": "簽署職稱",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 100,
+       "Message": "長度不可超過 100"
+      }
+     ]
+    },
+    {
+     "BindField": "SignName",
+     "Title": "簽署姓名",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 100,
+       "Message": "長度不可超過 100"
+      }
+     ]
+    },
+    {
+     "BindField": "SignImagePath",
+     "Title": "簽名圖檔路徑",
+     "Component": "Textarea",
+     "Section": "SecRecv",
+     "Span": 24,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 1000,
+       "Message": "長度不可超過 1000"
+      }
+     ],
+     "Props": {
+      "Rows": 3
+     }
+    },
+    {
+     "BindField": "CanSignReport",
+     "Title": "是否具備報告簽署權限",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable"
+    },
+    {
+     "BindField": "CanApproveReport",
+     "Title": "是否具備報告核准權限",
+     "Component": "Input",
+     "Section": "SecRecv",
+     "Span": 12,
+     "Mode": "Editable"
+    },
+    {
+     "BindField": "Specialties",
+     "Title": "專長領域",
+     "Component": "Textarea",
+     "Section": "SecRecv",
+     "Span": 24,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 500,
+       "Message": "長度不可超過 500"
+      }
+     ],
+     "Props": {
+      "Rows": 3
+     }
+    },
+    {
+     "BindField": "Description",
+     "Title": "備註說明",
+     "Component": "Textarea",
+     "Section": "SecRecv",
+     "Span": 24,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 500,
+       "Message": "長度不可超過 500"
+      }
+     ],
+     "Props": {
+      "Rows": 3
+     }
+    },
+    {
+     "BindField": "Attributes",
+     "Title": "擴展屬性",
+     "Component": "Textarea",
+     "Section": "SecExtra",
+     "Span": 24,
+     "Mode": "Editable",
+     "Props": {
+      "Rows": 3
+     }
+    },
+    {
+     "BindField": "Status",
+     "Title": "啟用狀態",
+     "Component": "Select",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "DefaultValue": "1",
+     "Props": {
+      "OptionKey": "Status"
+     }
+    },
+    {
+     "BindField": "CreatedBy",
+     "Title": "建立者帳號",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "ReadOnly"
+    },
+    {
+     "BindField": "CreatedAt",
+     "Title": "資料建立日期時間",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "ReadOnly"
+    },
+    {
+     "BindField": "UpdatedBy",
+     "Title": "最後更新者帳號",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "ReadOnly"
+    },
+    {
+     "BindField": "UpdatedAt",
+     "Title": "最後更新日期時間",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "ReadOnly"
+    }
+   ]
+  },
+  "DetailViews": [
+   {
+    "DetailID": "Qual",
+    "Title": "資格授權",
+    "Icon": "ri-shield-star-line",
+    "Entity": "labEmp_Qualification",
+    "RelationKey": "EmpNo",
+    "RowKey": "RowGuid",
+    "AllowAdd": true,
+    "AllowEdit": true,
+    "AllowDelete": true,
+    "EmptyText": "尚無資格授權資料",
+    "CodeSets": {
+     "Status": [
+      {
+       "CodeID": "1",
+       "CodeName": "啟用",
+       "IsDefault": true
+      },
+      {
+       "CodeID": "0",
+       "CodeName": "停用"
+      }
+     ],
+     "Priority": [
+      {
+       "CodeID": "A",
+       "CodeName": "急件"
+      },
+      {
+       "CodeID": "B",
+       "CodeName": "高"
+      },
+      {
+       "CodeID": "C",
+       "CodeName": "一般",
+       "IsDefault": true
+      },
+      {
+       "CodeID": "D",
+       "CodeName": "低"
+      }
+     ]
+    },
+    "Columns": [
+     {
+      "BindField": "EmpId",
+      "Title": "員工編號",
+      "Width": 120,
+      "Align": "Left"
+     },
+     {
+      "BindField": "ComponentCode",
+      "Title": "檢驗成分代碼",
+      "Width": 120,
+      "Align": "Left"
+     },
+     {
+      "BindField": "CompetencyResult",
+      "Title": "能力測試結果",
+      "Width": 120,
+      "Align": "Left"
+     },
+     {
+      "BindField": "CompetencyDate",
+      "Title": "能力測試日期",
+      "Width": 120,
+      "Align": "Left",
+      "Formatter": "Date"
+     },
+     {
+      "BindField": "BlindTestResult",
+      "Title": "盲樣測試結果",
+      "Width": 120,
+      "Align": "Left"
+     }
+    ],
+    "FormFields": [
+     {
+      "BindField": "EmpId",
+      "Title": "員工編號",
+      "Component": "Input",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Validations": [
+       {
+        "Rule": "Required",
+        "Message": "員工編號為必填"
+       },
+       {
+        "Rule": "MaxLength",
+        "Value": 50,
+        "Message": "長度不可超過 50"
+       }
+      ]
+     },
+     {
+      "BindField": "ComponentCode",
+      "Title": "檢驗成分代碼",
+      "Component": "Input",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Validations": [
+       {
+        "Rule": "Required",
+        "Message": "檢驗成分代碼為必填"
+       },
+       {
+        "Rule": "MaxLength",
+        "Value": 50,
+        "Message": "長度不可超過 50"
+       }
+      ]
+     },
+     {
+      "BindField": "CompetencyResult",
+      "Title": "能力測試結果",
+      "Component": "Input",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Validations": [
+       {
+        "Rule": "MaxLength",
+        "Value": 200,
+        "Message": "長度不可超過 200"
+       }
+      ]
+     },
+     {
+      "BindField": "CompetencyDate",
+      "Title": "能力測試日期",
+      "Component": "DatePicker",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Props": {
+       "Mode": "Editable",
+       "ShowTime": false
+      }
+     },
+     {
+      "BindField": "BlindTestResult",
+      "Title": "盲樣測試結果",
+      "Component": "Input",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Validations": [
+       {
+        "Rule": "MaxLength",
+        "Value": 200,
+        "Message": "長度不可超過 200"
+       }
+      ]
+     },
+     {
+      "BindField": "BlindTestDate",
+      "Title": "盲樣測試日期",
+      "Component": "DatePicker",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Props": {
+       "Mode": "Editable",
+       "ShowTime": false
+      }
+     },
+     {
+      "BindField": "ReviewerId",
+      "Title": "審核人員",
+      "Component": "Input",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Validations": [
+       {
+        "Rule": "MaxLength",
+        "Value": 100,
+        "Message": "長度不可超過 100"
+       }
+      ]
+     },
+     {
+      "BindField": "ReviewComment",
+      "Title": "審核意見",
+      "Component": "Textarea",
+      "Section": "",
+      "Span": 24,
+      "Mode": "Editable",
+      "Validations": [
+       {
+        "Rule": "MaxLength",
+        "Value": 500,
+        "Message": "長度不可超過 500"
+       }
+      ],
+      "Props": {
+       "Rows": 3
+      }
+     },
+     {
+      "BindField": "AuthResult",
+      "Title": "授權結果",
+      "Component": "Input",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Validations": [
+       {
+        "Rule": "MaxLength",
+        "Value": 20,
+        "Message": "長度不可超過 20"
+       }
+      ]
+     },
+     {
+      "BindField": "AuthDate",
+      "Title": "授權日期",
+      "Component": "DatePicker",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Props": {
+       "Mode": "Editable",
+       "ShowTime": false
+      }
+     },
+     {
+      "BindField": "AuthExpiryDate",
+      "Title": "授權到期日",
+      "Component": "DatePicker",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Props": {
+       "Mode": "Editable",
+       "ShowTime": false
+      }
+     },
+     {
+      "BindField": "Description",
+      "Title": "備註說明",
+      "Component": "Textarea",
+      "Section": "",
+      "Span": 24,
+      "Mode": "Editable",
+      "Validations": [
+       {
+        "Rule": "MaxLength",
+        "Value": 500,
+        "Message": "長度不可超過 500"
+       }
+      ],
+      "Props": {
+       "Rows": 3
+      }
+     },
+     {
+      "BindField": "Attributes",
+      "Title": "擴展屬性",
+      "Component": "Textarea",
+      "Section": "",
+      "Span": 24,
+      "Mode": "Editable",
+      "Props": {
+       "Rows": 3
+      }
+     }
+    ],
+    "SeedData": [
+     {
+      "RowGuid": "000000c8-0000-0000-0001-000000000001",
+      "EntityID": "lab",
+      "Status": "1",
+      "EmpNo": "P-2026-0001",
+      "EmpId": "Q-2026-0002",
+      "ComponentCode": "Q-2025-0002",
+      "CompetencyResult": "能力測試結果02",
+      "CompetencyDate": "2026-11-16",
+      "BlindTestResult": "盲樣測試結果02",
+      "BlindTestDate": "2026-09-28",
+      "ReviewerId": "劉助理",
+      "ReviewComment": "",
+      "AuthResult": "授權結果02",
+      "AuthDate": "2026-07-11",
+      "AuthExpiryDate": "2025-02-14",
+      "Description": "",
+      "Attributes": "擴展屬性02"
+     },
+     {
+      "RowGuid": "000000c8-0000-0000-0001-000000000002",
+      "EntityID": "lab",
+      "Status": "1",
+      "EmpNo": "P-2026-0001",
+      "EmpId": "Q-2025-0003",
+      "ComponentCode": "Q-2026-0003",
+      "CompetencyResult": "能力測試結果03",
+      "CompetencyDate": "2025-10-07",
+      "BlindTestResult": "盲樣測試結果03",
+      "BlindTestDate": "2025-11-20",
+      "ReviewerId": "蔡研究",
+      "ReviewComment": "待主管覆核",
+      "AuthResult": "授權結果03",
+      "AuthDate": "2026-01-07",
+      "AuthExpiryDate": "2025-09-20",
+      "Description": "",
+      "Attributes": "擴展屬性03"
+     },
+     {
+      "RowGuid": "000000c8-0000-0000-0001-000000000003",
+      "EntityID": "lab",
+      "Status": "1",
+      "EmpNo": "P-2026-0001",
+      "EmpId": "Q-2026-0004",
+      "ComponentCode": "Q-2026-0004",
+      "CompetencyResult": "能力測試結果04",
+      "CompetencyDate": "2026-04-03",
+      "BlindTestResult": "盲樣測試結果04",
+      "BlindTestDate": "2026-06-26",
+      "ReviewerId": "陳審核",
+      "ReviewComment": "複驗確認無誤",
+      "AuthResult": "授權結果04",
+      "AuthDate": "2025-05-07",
+      "AuthExpiryDate": "2025-09-27",
+      "Description": "",
+      "Attributes": "擴展屬性04"
+     },
+     {
+      "RowGuid": "000000c8-0000-0000-0001-000000000004",
+      "EntityID": "lab",
+      "Status": "1",
+      "EmpNo": "P-2026-0001",
+      "EmpId": "Q-2026-0005",
+      "ComponentCode": "Q-2026-0005",
+      "CompetencyResult": "能力測試結果05",
+      "CompetencyDate": "2025-01-02",
+      "BlindTestResult": "盲樣測試結果05",
+      "BlindTestDate": "2025-12-11",
+      "ReviewerId": "郭品管",
+      "ReviewComment": "急件已加收費用",
+      "AuthResult": "授權結果05",
+      "AuthDate": "2026-10-27",
+      "AuthExpiryDate": "2025-10-20",
+      "Description": "",
+      "Attributes": "擴展屬性05"
+     },
+     {
+      "RowGuid": "000000c8-0000-0000-0001-000000000005",
+      "EntityID": "lab",
+      "Status": "1",
+      "EmpNo": "P-2026-0002",
+      "EmpId": "Q-2025-0006",
+      "ComponentCode": "Q-2026-0006",
+      "CompetencyResult": "能力測試結果06",
+      "CompetencyDate": "2025-02-03",
+      "BlindTestResult": "盲樣測試結果06",
+      "BlindTestDate": "2026-08-05",
+      "ReviewerId": "陳審核",
+      "ReviewComment": "",
+      "AuthResult": "授權結果06",
+      "AuthDate": "2026-07-10",
+      "AuthExpiryDate": "2026-09-09",
+      "Description": "",
+      "Attributes": "擴展屬性06"
+     },
+     {
+      "RowGuid": "000000c8-0000-0000-0001-000000000006",
+      "EntityID": "lab",
+      "Status": "1",
+      "EmpNo": "P-2026-0002",
+      "EmpId": "Q-2026-0007",
+      "ComponentCode": "Q-2026-0007",
+      "CompetencyResult": "能力測試結果07",
+      "CompetencyDate": "2026-01-20",
+      "BlindTestResult": "盲樣測試結果07",
+      "BlindTestDate": "2026-11-12",
+      "ReviewerId": "鄭組長",
+      "ReviewComment": "已通知申請單位",
+      "AuthResult": "授權結果07",
+      "AuthDate": "2026-06-06",
+      "AuthExpiryDate": "2025-04-14",
+      "Description": "",
+      "Attributes": "擴展屬性07"
+     },
+     {
+      "RowGuid": "000000c8-0000-0000-0001-000000000007",
+      "EntityID": "lab",
+      "Status": "1",
+      "EmpNo": "P-2026-0002",
+      "EmpId": "Q-2026-0008",
+      "ComponentCode": "Q-2025-0008",
+      "CompetencyResult": "能力測試結果08",
+      "CompetencyDate": "2026-05-09",
+      "BlindTestResult": "盲樣測試結果08",
+      "BlindTestDate": "2026-02-22",
+      "ReviewerId": "李檢測",
+      "ReviewComment": "",
+      "AuthResult": "授權結果08",
+      "AuthDate": "2026-09-02",
+      "AuthExpiryDate": "2025-06-25",
+      "Description": "",
+      "Attributes": "擴展屬性08"
+     },
+     {
+      "RowGuid": "000000c8-0000-0000-0001-000000000008",
+      "EntityID": "lab",
+      "Status": "1",
+      "EmpNo": "P-2026-0003",
+      "EmpId": "Q-2026-0009",
+      "ComponentCode": "Q-2026-0009",
+      "CompetencyResult": "能力測試結果09",
+      "CompetencyDate": "2026-03-15",
+      "BlindTestResult": "盲樣測試結果09",
+      "BlindTestDate": "2025-08-25",
+      "ReviewerId": "楊化驗",
+      "ReviewComment": "",
+      "AuthResult": "授權結果09",
+      "AuthDate": "2026-10-24",
+      "AuthExpiryDate": "2025-10-04",
+      "Description": "需注意保存效期",
+      "Attributes": "擴展屬性09"
+     },
+     {
+      "RowGuid": "000000c8-0000-0000-0001-000000000009",
+      "EntityID": "lab",
+      "Status": "1",
+      "EmpNo": "P-2026-0003",
+      "EmpId": "Q-2026-0010",
+      "ComponentCode": "Q-2026-0010",
+      "CompetencyResult": "能力測試結果10",
+      "CompetencyDate": "2025-05-19",
+      "BlindTestResult": "盲樣測試結果10",
+      "BlindTestDate": "2025-04-05",
+      "ReviewerId": "許工程",
+      "ReviewComment": "急件已加收費用",
+      "AuthResult": "授權結果10",
+      "AuthDate": "2026-10-01",
+      "AuthExpiryDate": "2026-02-19",
+      "Description": "",
+      "Attributes": "擴展屬性10"
+     },
+     {
+      "RowGuid": "000000c8-0000-0000-0001-000000000010",
+      "EntityID": "lab",
+      "Status": "1",
+      "EmpNo": "P-2026-0004",
+      "EmpId": "Q-2026-0011",
+      "ComponentCode": "Q-2026-0011",
+      "CompetencyResult": "能力測試結果11",
+      "CompetencyDate": "2025-12-14",
+      "BlindTestResult": "盲樣測試結果11",
+      "BlindTestDate": "2025-10-18",
+      "ReviewerId": "張分析",
+      "ReviewComment": "複驗確認無誤",
+      "AuthResult": "授權結果11",
+      "AuthDate": "2026-01-04",
+      "AuthExpiryDate": "2026-11-13",
+      "Description": "複驗確認無誤",
+      "Attributes": "擴展屬性11"
+     },
+     {
+      "RowGuid": "000000c8-0000-0000-0001-000000000011",
+      "EntityID": "lab",
+      "Status": "1",
+      "EmpNo": "P-2026-0004",
+      "EmpId": "Q-2025-0012",
+      "ComponentCode": "Q-2025-0012",
+      "CompetencyResult": "能力測試結果12",
+      "CompetencyDate": "2025-07-13",
+      "BlindTestResult": "盲樣測試結果12",
+      "BlindTestDate": "2025-11-23",
+      "ReviewerId": "李檢測",
+      "ReviewComment": "",
+      "AuthResult": "授權結果12",
+      "AuthDate": "2026-05-07",
+      "AuthExpiryDate": "2025-06-19",
+      "Description": "複驗確認無誤",
+      "Attributes": "擴展屬性12"
+     },
+     {
+      "RowGuid": "000000c8-0000-0000-0001-000000000012",
+      "EntityID": "lab",
+      "Status": "1",
+      "EmpNo": "P-2026-0004",
+      "EmpId": "Q-2026-0013",
+      "ComponentCode": "Q-2025-0013",
+      "CompetencyResult": "能力測試結果13",
+      "CompetencyDate": "2025-07-22",
+      "BlindTestResult": "盲樣測試結果13",
+      "BlindTestDate": "2026-04-09",
+      "ReviewerId": "陳審核",
+      "ReviewComment": "",
+      "AuthResult": "授權結果13",
+      "AuthDate": "2026-11-16",
+      "AuthExpiryDate": "2025-10-09",
+      "Description": "",
+      "Attributes": "擴展屬性13"
+     },
+     {
+      "RowGuid": "000000c8-0000-0000-0001-000000000013",
+      "EntityID": "lab",
+      "Status": "1",
+      "EmpNo": "P-2026-0004",
+      "EmpId": "Q-2026-0014",
+      "ComponentCode": "Q-2026-0014",
+      "CompetencyResult": "能力測試結果14",
+      "CompetencyDate": "2026-09-22",
+      "BlindTestResult": "盲樣測試結果14",
+      "BlindTestDate": "2025-02-22",
+      "ReviewerId": "張分析",
+      "ReviewComment": "定期校正合格",
+      "AuthResult": "授權結果14",
+      "AuthDate": "2026-01-26",
+      "AuthExpiryDate": "2025-04-06",
+      "Description": "",
+      "Attributes": "擴展屬性14"
+     },
+     {
+      "RowGuid": "000000c8-0000-0000-0001-000000000014",
+      "EntityID": "lab",
+      "Status": "1",
+      "EmpNo": "P-2026-0005",
+      "EmpId": "Q-2025-0015",
+      "ComponentCode": "Q-2026-0015",
+      "CompetencyResult": "能力測試結果15",
+      "CompetencyDate": "2026-05-14",
+      "BlindTestResult": "盲樣測試結果15",
+      "BlindTestDate": "2025-07-25",
+      "ReviewerId": "王采樣",
+      "ReviewComment": "待主管覆核",
+      "AuthResult": "授權結果15",
+      "AuthDate": "2026-04-25",
+      "AuthExpiryDate": "2026-06-06",
+      "Description": "",
+      "Attributes": "擴展屬性15"
+     },
+     {
+      "RowGuid": "000000c8-0000-0000-0001-000000000015",
+      "EntityID": "lab",
+      "Status": "1",
+      "EmpNo": "P-2026-0005",
+      "EmpId": "Q-2025-0016",
+      "ComponentCode": "Q-2025-0016",
+      "CompetencyResult": "能力測試結果16",
+      "CompetencyDate": "2026-10-18",
+      "BlindTestResult": "盲樣測試結果16",
+      "BlindTestDate": "2026-11-17",
+      "ReviewerId": "陳審核",
+      "ReviewComment": "",
+      "AuthResult": "授權結果16",
+      "AuthDate": "2025-08-11",
+      "AuthExpiryDate": "2026-07-05",
+      "Description": "複驗確認無誤",
+      "Attributes": "擴展屬性16"
+     },
+     {
+      "RowGuid": "000000c8-0000-0000-0001-000000000016",
+      "EntityID": "lab",
+      "Status": "1",
+      "EmpNo": "P-2026-0005",
+      "EmpId": "Q-2026-0017",
+      "ComponentCode": "Q-2025-0017",
+      "CompetencyResult": "能力測試結果17",
+      "CompetencyDate": "2026-05-05",
+      "BlindTestResult": "盲樣測試結果17",
+      "BlindTestDate": "2026-05-24",
+      "ReviewerId": "張分析",
+      "ReviewComment": "",
+      "AuthResult": "授權結果17",
+      "AuthDate": "2025-01-06",
+      "AuthExpiryDate": "2026-07-27",
+      "Description": "",
+      "Attributes": "擴展屬性17"
+     },
+     {
+      "RowGuid": "000000c8-0000-0000-0001-000000000017",
+      "EntityID": "lab",
+      "Status": "1",
+      "EmpNo": "P-2026-0006",
+      "EmpId": "Q-2026-0018",
+      "ComponentCode": "Q-2025-0018",
+      "CompetencyResult": "能力測試結果18",
+      "CompetencyDate": "2025-01-09",
+      "BlindTestResult": "盲樣測試結果18",
+      "BlindTestDate": "2025-02-23",
+      "ReviewerId": "黃技正",
+      "ReviewComment": "",
+      "AuthResult": "授權結果18",
+      "AuthDate": "2025-08-27",
+      "AuthExpiryDate": "2026-03-27",
+      "Description": "",
+      "Attributes": "擴展屬性18"
+     },
+     {
+      "RowGuid": "000000c8-0000-0000-0001-000000000018",
+      "EntityID": "lab",
+      "Status": "1",
+      "EmpNo": "P-2026-0006",
+      "EmpId": "Q-2026-0019",
+      "ComponentCode": "Q-2026-0019",
+      "CompetencyResult": "能力測試結果19",
+      "CompetencyDate": "2026-05-17",
+      "BlindTestResult": "盲樣測試結果19",
+      "BlindTestDate": "2025-02-28",
+      "ReviewerId": "蔡研究",
+      "ReviewComment": "",
+      "AuthResult": "授權結果19",
+      "AuthDate": "2026-09-03",
+      "AuthExpiryDate": "2025-09-12",
+      "Description": "定期校正合格",
+      "Attributes": "擴展屬性19"
+     },
+     {
+      "RowGuid": "000000c8-0000-0000-0001-000000000019",
+      "EntityID": "lab",
+      "Status": "1",
+      "EmpNo": "P-2026-0006",
+      "EmpId": "Q-2025-0020",
+      "ComponentCode": "Q-2025-0020",
+      "CompetencyResult": "能力測試結果20",
+      "CompetencyDate": "2025-11-03",
+      "BlindTestResult": "盲樣測試結果20",
+      "BlindTestDate": "2025-06-03",
+      "ReviewerId": "許工程",
+      "ReviewComment": "客戶要求附 TAF Logo",
+      "AuthResult": "授權結果20",
+      "AuthDate": "2026-12-09",
+      "AuthExpiryDate": "2026-10-07",
+      "Description": "",
+      "Attributes": "擴展屬性20"
+     },
+     {
+      "RowGuid": "000000c8-0000-0000-0001-000000000020",
+      "EntityID": "lab",
+      "Status": "1",
+      "EmpNo": "P-2026-0006",
+      "EmpId": "Q-2026-0021",
+      "ComponentCode": "Q-2026-0021",
+      "CompetencyResult": "能力測試結果21",
+      "CompetencyDate": "2025-12-16",
+      "BlindTestResult": "盲樣測試結果21",
+      "BlindTestDate": "2026-08-06",
+      "ReviewerId": "何環安",
+      "ReviewComment": "定期校正合格",
+      "AuthResult": "授權結果21",
+      "AuthDate": "2026-11-12",
+      "AuthExpiryDate": "2025-04-08",
+      "Description": "複驗確認無誤",
+      "Attributes": "擴展屬性21"
+     },
+     {
+      "RowGuid": "000000c8-0000-0000-0001-000000000021",
+      "EntityID": "lab",
+      "Status": "1",
+      "EmpNo": "P-2026-0007",
+      "EmpId": "Q-2026-0022",
+      "ComponentCode": "Q-2026-0022",
+      "CompetencyResult": "能力測試結果22",
+      "CompetencyDate": "2025-09-05",
+      "BlindTestResult": "盲樣測試結果22",
+      "BlindTestDate": "2026-07-02",
+      "ReviewerId": "何環安",
+      "ReviewComment": "複驗確認無誤",
+      "AuthResult": "授權結果22",
+      "AuthDate": "2025-01-22",
+      "AuthExpiryDate": "2025-10-14",
+      "Description": "",
+      "Attributes": "擴展屬性22"
+     },
+     {
+      "RowGuid": "000000c8-0000-0000-0001-000000000022",
+      "EntityID": "lab",
+      "Status": "1",
+      "EmpNo": "P-2026-0007",
+      "EmpId": "Q-2026-0023",
+      "ComponentCode": "Q-2025-0023",
+      "CompetencyResult": "能力測試結果23",
+      "CompetencyDate": "2025-07-26",
+      "BlindTestResult": "盲樣測試結果23",
+      "BlindTestDate": "2026-04-09",
+      "ReviewerId": "楊化驗",
+      "ReviewComment": "",
+      "AuthResult": "授權結果23",
+      "AuthDate": "2025-07-13",
+      "AuthExpiryDate": "2026-04-16",
+      "Description": "",
+      "Attributes": "擴展屬性23"
+     },
+     {
+      "RowGuid": "000000c8-0000-0000-0001-000000000023",
+      "EntityID": "lab",
+      "Status": "1",
+      "EmpNo": "P-2026-0007",
+      "EmpId": "Q-2026-0024",
+      "ComponentCode": "Q-2025-0024",
+      "CompetencyResult": "能力測試結果24",
+      "CompetencyDate": "2026-05-21",
+      "BlindTestResult": "盲樣測試結果24",
+      "BlindTestDate": "2026-07-12",
+      "ReviewerId": "陳審核",
+      "ReviewComment": "",
+      "AuthResult": "授權結果24",
+      "AuthDate": "2026-05-24",
+      "AuthExpiryDate": "2026-03-02",
+      "Description": "需注意保存效期",
+      "Attributes": "擴展屬性24"
+     },
+     {
+      "RowGuid": "000000c8-0000-0000-0001-000000000024",
+      "EntityID": "lab",
+      "Status": "1",
+      "EmpNo": "P-2026-0008",
+      "EmpId": "Q-2025-0025",
+      "ComponentCode": "Q-2026-0025",
+      "CompetencyResult": "能力測試結果25",
+      "CompetencyDate": "2025-07-28",
+      "BlindTestResult": "盲樣測試結果25",
+      "BlindTestDate": "2025-10-21",
+      "ReviewerId": "黃技正",
+      "ReviewComment": "客戶要求附 TAF Logo",
+      "AuthResult": "授權結果25",
+      "AuthDate": "2026-10-04",
+      "AuthExpiryDate": "2026-04-01",
+      "Description": "",
+      "Attributes": "擴展屬性25"
+     },
+     {
+      "RowGuid": "000000c8-0000-0000-0001-000000000025",
+      "EntityID": "lab",
+      "Status": "1",
+      "EmpNo": "P-2026-0008",
+      "EmpId": "Q-2025-0026",
+      "ComponentCode": "Q-2026-0026",
+      "CompetencyResult": "能力測試結果26",
+      "CompetencyDate": "2025-02-20",
+      "BlindTestResult": "盲樣測試結果26",
+      "BlindTestDate": "2025-02-23",
+      "ReviewerId": "周技士",
+      "ReviewComment": "客戶要求附 TAF Logo",
+      "AuthResult": "授權結果26",
+      "AuthDate": "2026-10-21",
+      "AuthExpiryDate": "2025-02-28",
+      "Description": "樣品外觀正常",
+      "Attributes": "擴展屬性26"
+     },
+     {
+      "RowGuid": "000000c8-0000-0000-0001-000000000026",
+      "EntityID": "lab",
+      "Status": "1",
+      "EmpNo": "P-2026-0009",
+      "EmpId": "Q-2025-0027",
+      "ComponentCode": "Q-2026-0027",
+      "CompetencyResult": "能力測試結果27",
+      "CompetencyDate": "2025-09-03",
+      "BlindTestResult": "盲樣測試結果27",
+      "BlindTestDate": "2025-12-03",
+      "ReviewerId": "周技士",
+      "ReviewComment": "急件已加收費用",
+      "AuthResult": "授權結果27",
+      "AuthDate": "2025-02-09",
+      "AuthExpiryDate": "2026-04-05",
+      "Description": "定期校正合格",
+      "Attributes": "擴展屬性27"
+     },
+     {
+      "RowGuid": "000000c8-0000-0000-0001-000000000027",
+      "EntityID": "lab",
+      "Status": "1",
+      "EmpNo": "P-2026-0009",
+      "EmpId": "Q-2026-0028",
+      "ComponentCode": "Q-2026-0028",
+      "CompetencyResult": "能力測試結果28",
+      "CompetencyDate": "2025-12-23",
+      "BlindTestResult": "盲樣測試結果28",
+      "BlindTestDate": "2026-04-12",
+      "ReviewerId": "郭品管",
+      "ReviewComment": "",
+      "AuthResult": "授權結果28",
+      "AuthDate": "2025-07-10",
+      "AuthExpiryDate": "2025-06-25",
+      "Description": "急件已加收費用",
+      "Attributes": "擴展屬性28"
+     },
+     {
+      "RowGuid": "000000c8-0000-0000-0001-000000000028",
+      "EntityID": "lab",
+      "Status": "1",
+      "EmpNo": "P-2026-0010",
+      "EmpId": "Q-2025-0029",
+      "ComponentCode": "Q-2026-0029",
+      "CompetencyResult": "能力測試結果29",
+      "CompetencyDate": "2025-12-17",
+      "BlindTestResult": "盲樣測試結果29",
+      "BlindTestDate": "2025-03-17",
+      "ReviewerId": "楊化驗",
+      "ReviewComment": "待主管覆核",
+      "AuthResult": "授權結果29",
+      "AuthDate": "2025-02-05",
+      "AuthExpiryDate": "2025-11-02",
+      "Description": "",
+      "Attributes": "擴展屬性29"
+     },
+     {
+      "RowGuid": "000000c8-0000-0000-0001-000000000029",
+      "EntityID": "lab",
+      "Status": "1",
+      "EmpNo": "P-2026-0010",
+      "EmpId": "Q-2026-0030",
+      "ComponentCode": "Q-2025-0030",
+      "CompetencyResult": "能力測試結果30",
+      "CompetencyDate": "2026-10-24",
+      "BlindTestResult": "盲樣測試結果30",
+      "BlindTestDate": "2025-10-21",
+      "ReviewerId": "劉助理",
+      "ReviewComment": "",
+      "AuthResult": "授權結果30",
+      "AuthDate": "2026-09-11",
+      "AuthExpiryDate": "2025-03-06",
+      "Description": "",
+      "Attributes": "擴展屬性30"
+     },
+     {
+      "RowGuid": "000000c8-0000-0000-0001-000000000030",
+      "EntityID": "lab",
+      "Status": "1",
+      "EmpNo": "P-2026-0010",
+      "EmpId": "Q-2026-0031",
+      "ComponentCode": "Q-2025-0031",
+      "CompetencyResult": "能力測試結果31",
+      "CompetencyDate": "2026-12-11",
+      "BlindTestResult": "盲樣測試結果31",
+      "BlindTestDate": "2025-03-03",
+      "ReviewerId": "何環安",
+      "ReviewComment": "",
+      "AuthResult": "授權結果31",
+      "AuthDate": "2026-10-11",
+      "AuthExpiryDate": "2026-01-02",
+      "Description": "",
+      "Attributes": "擴展屬性31"
+     },
+     {
+      "RowGuid": "000000c8-0000-0000-0001-000000000031",
+      "EntityID": "lab",
+      "Status": "1",
+      "EmpNo": "P-2026-0010",
+      "EmpId": "Q-2026-0032",
+      "ComponentCode": "Q-2025-0032",
+      "CompetencyResult": "能力測試結果32",
+      "CompetencyDate": "2025-03-20",
+      "BlindTestResult": "盲樣測試結果32",
+      "BlindTestDate": "2026-05-24",
+      "ReviewerId": "蔡研究",
+      "ReviewComment": "已通知申請單位",
+      "AuthResult": "授權結果32",
+      "AuthDate": "2026-09-25",
+      "AuthExpiryDate": "2026-01-08",
+      "Description": "",
+      "Attributes": "擴展屬性32"
+     },
+     {
+      "RowGuid": "000000c8-0000-0000-0001-000000000032",
+      "EntityID": "lab",
+      "Status": "1",
+      "EmpNo": "P-2026-0011",
+      "EmpId": "Q-2025-0033",
+      "ComponentCode": "Q-2026-0033",
+      "CompetencyResult": "能力測試結果33",
+      "CompetencyDate": "2025-03-05",
+      "BlindTestResult": "盲樣測試結果33",
+      "BlindTestDate": "2025-11-17",
+      "ReviewerId": "謝校正",
+      "ReviewComment": "已通知申請單位",
+      "AuthResult": "授權結果33",
+      "AuthDate": "2025-12-02",
+      "AuthExpiryDate": "2026-08-04",
+      "Description": "",
+      "Attributes": "擴展屬性33"
+     },
+     {
+      "RowGuid": "000000c8-0000-0000-0001-000000000033",
+      "EntityID": "lab",
+      "Status": "1",
+      "EmpNo": "P-2026-0011",
+      "EmpId": "Q-2026-0034",
+      "ComponentCode": "Q-2026-0034",
+      "CompetencyResult": "能力測試結果34",
+      "CompetencyDate": "2026-01-27",
+      "BlindTestResult": "盲樣測試結果34",
+      "BlindTestDate": "2026-02-13",
+      "ReviewerId": "王采樣",
+      "ReviewComment": "",
+      "AuthResult": "授權結果34",
+      "AuthDate": "2025-08-12",
+      "AuthExpiryDate": "2025-04-04",
+      "Description": "",
+      "Attributes": "擴展屬性34"
+     },
+     {
+      "RowGuid": "000000c8-0000-0000-0001-000000000034",
+      "EntityID": "lab",
+      "Status": "1",
+      "EmpNo": "P-2026-0012",
+      "EmpId": "Q-2025-0035",
+      "ComponentCode": "Q-2025-0035",
+      "CompetencyResult": "能力測試結果35",
+      "CompetencyDate": "2026-03-07",
+      "BlindTestResult": "盲樣測試結果35",
+      "BlindTestDate": "2026-11-01",
+      "ReviewerId": "陳審核",
+      "ReviewComment": "",
+      "AuthResult": "授權結果35",
+      "AuthDate": "2025-02-19",
+      "AuthExpiryDate": "2025-10-08",
+      "Description": "",
+      "Attributes": "擴展屬性35"
+     },
+     {
+      "RowGuid": "000000c8-0000-0000-0001-000000000035",
+      "EntityID": "lab",
+      "Status": "1",
+      "EmpNo": "P-2026-0012",
+      "EmpId": "Q-2025-0036",
+      "ComponentCode": "Q-2025-0036",
+      "CompetencyResult": "能力測試結果36",
+      "CompetencyDate": "2026-06-10",
+      "BlindTestResult": "盲樣測試結果36",
+      "BlindTestDate": "2025-11-19",
+      "ReviewerId": "李檢測",
+      "ReviewComment": "",
+      "AuthResult": "授權結果36",
+      "AuthDate": "2025-04-16",
+      "AuthExpiryDate": "2025-10-25",
+      "Description": "已通知申請單位",
+      "Attributes": "擴展屬性36"
+     },
+     {
+      "RowGuid": "000000c8-0000-0000-0001-000000000036",
+      "EntityID": "lab",
+      "Status": "1",
+      "EmpNo": "P-2026-0013",
+      "EmpId": "Q-2025-0037",
+      "ComponentCode": "Q-2025-0037",
+      "CompetencyResult": "能力測試結果37",
+      "CompetencyDate": "2026-01-08",
+      "BlindTestResult": "盲樣測試結果37",
+      "BlindTestDate": "2026-11-27",
+      "ReviewerId": "周技士",
+      "ReviewComment": "樣品外觀正常",
+      "AuthResult": "授權結果37",
+      "AuthDate": "2026-12-14",
+      "AuthExpiryDate": "2025-12-19",
+      "Description": "",
+      "Attributes": "擴展屬性37"
+     },
+     {
+      "RowGuid": "000000c8-0000-0000-0001-000000000037",
+      "EntityID": "lab",
+      "Status": "1",
+      "EmpNo": "P-2026-0013",
+      "EmpId": "Q-2026-0038",
+      "ComponentCode": "Q-2026-0038",
+      "CompetencyResult": "能力測試結果38",
+      "CompetencyDate": "2026-06-05",
+      "BlindTestResult": "盲樣測試結果38",
+      "BlindTestDate": "2025-01-19",
+      "ReviewerId": "張分析",
+      "ReviewComment": "客戶要求附 TAF Logo",
+      "AuthResult": "授權結果38",
+      "AuthDate": "2026-01-09",
+      "AuthExpiryDate": "2025-04-21",
+      "Description": "",
+      "Attributes": "擴展屬性38"
+     },
+     {
+      "RowGuid": "000000c8-0000-0000-0001-000000000038",
+      "EntityID": "lab",
+      "Status": "1",
+      "EmpNo": "P-2026-0013",
+      "EmpId": "Q-2025-0039",
+      "ComponentCode": "Q-2025-0039",
+      "CompetencyResult": "能力測試結果39",
+      "CompetencyDate": "2025-07-24",
+      "BlindTestResult": "盲樣測試結果39",
+      "BlindTestDate": "2026-11-11",
+      "ReviewerId": "蔡研究",
+      "ReviewComment": "",
+      "AuthResult": "授權結果39",
+      "AuthDate": "2026-10-19",
+      "AuthExpiryDate": "2025-07-21",
+      "Description": "",
+      "Attributes": "擴展屬性39"
+     },
+     {
+      "RowGuid": "000000c8-0000-0000-0001-000000000039",
+      "EntityID": "lab",
+      "Status": "1",
+      "EmpNo": "P-2026-0014",
+      "EmpId": "Q-2025-0040",
+      "ComponentCode": "Q-2025-0040",
+      "CompetencyResult": "能力測試結果40",
+      "CompetencyDate": "2026-02-05",
+      "BlindTestResult": "盲樣測試結果40",
+      "BlindTestDate": "2025-03-12",
+      "ReviewerId": "郭品管",
+      "ReviewComment": "待主管覆核",
+      "AuthResult": "授權結果40",
+      "AuthDate": "2026-07-24",
+      "AuthExpiryDate": "2025-11-12",
+      "Description": "",
+      "Attributes": "擴展屬性40"
+     },
+     {
+      "RowGuid": "000000c8-0000-0000-0001-000000000040",
+      "EntityID": "lab",
+      "Status": "1",
+      "EmpNo": "P-2026-0014",
+      "EmpId": "Q-2026-0041",
+      "ComponentCode": "Q-2025-0041",
+      "CompetencyResult": "能力測試結果41",
+      "CompetencyDate": "2025-04-22",
+      "BlindTestResult": "盲樣測試結果41",
+      "BlindTestDate": "2025-06-12",
+      "ReviewerId": "郭品管",
+      "ReviewComment": "急件已加收費用",
+      "AuthResult": "授權結果41",
+      "AuthDate": "2025-12-21",
+      "AuthExpiryDate": "2026-08-02",
+      "Description": "",
+      "Attributes": "擴展屬性41"
+     },
+     {
+      "RowGuid": "000000c8-0000-0000-0001-000000000041",
+      "EntityID": "lab",
+      "Status": "1",
+      "EmpNo": "P-2026-0014",
+      "EmpId": "Q-2025-0042",
+      "ComponentCode": "Q-2026-0042",
+      "CompetencyResult": "能力測試結果42",
+      "CompetencyDate": "2026-08-21",
+      "BlindTestResult": "盲樣測試結果42",
+      "BlindTestDate": "2026-04-24",
+      "ReviewerId": "謝校正",
+      "ReviewComment": "",
+      "AuthResult": "授權結果42",
+      "AuthDate": "2026-10-21",
+      "AuthExpiryDate": "2026-05-16",
+      "Description": "",
+      "Attributes": "擴展屬性42"
+     },
+     {
+      "RowGuid": "000000c8-0000-0000-0001-000000000042",
+      "EntityID": "lab",
+      "Status": "1",
+      "EmpNo": "P-2026-0014",
+      "EmpId": "Q-2026-0043",
+      "ComponentCode": "Q-2025-0043",
+      "CompetencyResult": "能力測試結果43",
+      "CompetencyDate": "2026-06-21",
+      "BlindTestResult": "盲樣測試結果43",
+      "BlindTestDate": "2025-07-19",
+      "ReviewerId": "郭品管",
+      "ReviewComment": "待主管覆核",
+      "AuthResult": "授權結果43",
+      "AuthDate": "2025-01-04",
+      "AuthExpiryDate": "2025-09-04",
+      "Description": "待主管覆核",
+      "Attributes": "擴展屬性43"
+     }
+    ]
+   }
+  ]
+ },
+ "Features": {},
+ "DataScope": {
+  "DefaultWhere": "EntityID = 'lab' AND Status = '1'",
+  "AuthLevel": 2,
+  "SortExp": "SortNo ASC",
+  "DataConfig": {
+   "RowLimit": 2000,
+   "AllowExport": true
+  }
+ },
+ "CustomMeta": {
+  "CustomSchema": {
+   "WidgetType": "Grid",
+   "KeyField": "EmpId",
+   "TitleField": "LabRole",
+   "ParentKeyField": null,
+   "PathField": null,
+   "PathSeparator": "/"
+  }
+ },
+ "SeedData": [
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000000",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-08-07 09:13",
+   "UpdatedBy": "abram.chen",
+   "UpdatedAt": "2026-07-20 08:17",
+   "EmpId": "P-2025-0001",
+   "LabRole": "實驗室角色01",
+   "LabGroup": "所屬組別01",
+   "IsActive": "實驗室在職狀態01",
+   "SignTitle": "總磷 TP",
+   "SignName": "王采樣",
+   "SignImagePath": "簽名圖檔路徑01",
+   "CanSignReport": "是否具備報告簽署權限01",
+   "CanApproveReport": "是否具備報告核准權限01",
+   "Specialties": "專長領域01",
+   "Description": "待主管覆核",
+   "Attributes": "擴展屬性01",
+   "EmpNo": "P-2026-0001"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000001",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-07-18 13:08",
+   "UpdatedBy": "hsu.eng",
+   "UpdatedAt": "2026-01-08 15:15",
+   "EmpId": "P-2025-0002",
+   "LabRole": "實驗室角色02",
+   "LabGroup": "所屬組別02",
+   "IsActive": "實驗室在職狀態02",
+   "SignTitle": "化學需氧量 COD",
+   "SignName": "吳主任",
+   "SignImagePath": "簽名圖檔路徑02",
+   "CanSignReport": "是否具備報告簽署權限02",
+   "CanApproveReport": "是否具備報告核准權限02",
+   "Specialties": "專長領域02",
+   "Description": "",
+   "Attributes": "擴展屬性02",
+   "EmpNo": "P-2026-0002"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000002",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-01-11 10:38",
+   "UpdatedBy": "huang.tc",
+   "UpdatedAt": "2026-01-05 12:18",
+   "EmpId": "P-2026-0003",
+   "LabRole": "實驗室角色03",
+   "LabGroup": "所屬組別03",
+   "IsActive": "實驗室在職狀態03",
+   "SignTitle": "生化需氧量 BOD",
+   "SignName": "李檢測",
+   "SignImagePath": "簽名圖檔路徑03",
+   "CanSignReport": "是否具備報告簽署權限03",
+   "CanApproveReport": "是否具備報告核准權限03",
+   "Specialties": "專長領域03",
+   "Description": "複驗確認無誤",
+   "Attributes": "擴展屬性03",
+   "EmpNo": "P-2026-0003"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000003",
+   "EntityID": "lab",
+   "Status": "0",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-03-26 15:22",
+   "UpdatedBy": "cheng.gl",
+   "UpdatedAt": "2026-04-12 10:37",
+   "EmpId": "P-2026-0004",
+   "LabRole": "實驗室角色04",
+   "LabGroup": "所屬組別04",
+   "IsActive": "實驗室在職狀態04",
+   "SignTitle": "懸浮固體 SS",
+   "SignName": "吳主任",
+   "SignImagePath": "簽名圖檔路徑04",
+   "CanSignReport": "是否具備報告簽署權限04",
+   "CanApproveReport": "是否具備報告核准權限04",
+   "Specialties": "專長領域04",
+   "Description": "",
+   "Attributes": "擴展屬性04",
+   "EmpNo": "P-2026-0004"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000004",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-02-21 16:05",
+   "UpdatedBy": "wang.cy",
+   "UpdatedAt": "2026-09-01 11:22",
+   "EmpId": "P-2026-0005",
+   "LabRole": "實驗室角色05",
+   "LabGroup": "所屬組別05",
+   "IsActive": "實驗室在職狀態05",
+   "SignTitle": "氨氮 NH3-N",
+   "SignName": "許工程",
+   "SignImagePath": "簽名圖檔路徑05",
+   "CanSignReport": "是否具備報告簽署權限05",
+   "CanApproveReport": "是否具備報告核准權限05",
+   "Specialties": "專長領域05",
+   "Description": "客戶要求附 TAF Logo",
+   "Attributes": "擴展屬性05",
+   "EmpNo": "P-2026-0005"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000005",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-05-17 12:25",
+   "UpdatedBy": "lee.jc",
+   "UpdatedAt": "2026-12-10 18:39",
+   "EmpId": "P-2026-0006",
+   "LabRole": "實驗室角色06",
+   "LabGroup": "所屬組別06",
+   "IsActive": "實驗室在職狀態06",
+   "SignTitle": "硝酸鹽氮",
+   "SignName": "楊化驗",
+   "SignImagePath": "簽名圖檔路徑06",
+   "CanSignReport": "是否具備報告簽署權限06",
+   "CanApproveReport": "是否具備報告核准權限06",
+   "Specialties": "專長領域06",
+   "Description": "複驗確認無誤",
+   "Attributes": "擴展屬性06",
+   "EmpNo": "P-2026-0006"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000006",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-08-21 16:00",
+   "UpdatedBy": "abram.chen",
+   "UpdatedAt": "2026-01-12 10:08",
+   "EmpId": "P-2026-0007",
+   "LabRole": "實驗室角色07",
+   "LabGroup": "所屬組別07",
+   "IsActive": "實驗室在職狀態07",
+   "SignTitle": "鎘 Cd",
+   "SignName": "林品保",
+   "SignImagePath": "簽名圖檔路徑07",
+   "CanSignReport": "是否具備報告簽署權限07",
+   "CanApproveReport": "是否具備報告核准權限07",
+   "Specialties": "專長領域07",
+   "Description": "複驗確認無誤",
+   "Attributes": "擴展屬性07",
+   "EmpNo": "P-2026-0007"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000007",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-11-05 13:37",
+   "UpdatedBy": "wu.dir",
+   "UpdatedAt": "2026-09-13 09:20",
+   "EmpId": "P-2026-0008",
+   "LabRole": "實驗室角色08",
+   "LabGroup": "所屬組別08",
+   "IsActive": "實驗室在職狀態08",
+   "SignTitle": "鉛 Pb",
+   "SignName": "謝校正",
+   "SignImagePath": "簽名圖檔路徑08",
+   "CanSignReport": "是否具備報告簽署權限08",
+   "CanApproveReport": "是否具備報告核准權限08",
+   "Specialties": "專長領域08",
+   "Description": "複驗確認無誤",
+   "Attributes": "擴展屬性08",
+   "EmpNo": "P-2026-0008"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000008",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-07-27 18:02",
+   "UpdatedBy": "huang.tc",
+   "UpdatedAt": "2026-05-10 10:26",
+   "EmpId": "P-2026-0009",
+   "LabRole": "實驗室角色09",
+   "LabGroup": "所屬組別09",
+   "IsActive": "實驗室在職狀態09",
+   "SignTitle": "銅 Cu",
+   "SignName": "蔡研究",
+   "SignImagePath": "簽名圖檔路徑09",
+   "CanSignReport": "是否具備報告簽署權限09",
+   "CanApproveReport": "是否具備報告核准權限09",
+   "Specialties": "專長領域09",
+   "Description": "待主管覆核",
+   "Attributes": "擴展屬性09",
+   "EmpNo": "P-2026-0009"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000009",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-09-24 17:14",
+   "UpdatedBy": "hsu.eng",
+   "UpdatedAt": "2026-02-14 11:19",
+   "EmpId": "P-2025-0010",
+   "LabRole": "實驗室角色10",
+   "LabGroup": "所屬組別10",
+   "IsActive": "實驗室在職狀態10",
+   "SignTitle": "鋅 Zn",
+   "SignName": "何環安",
+   "SignImagePath": "簽名圖檔路徑10",
+   "CanSignReport": "是否具備報告簽署權限10",
+   "CanApproveReport": "是否具備報告核准權限10",
+   "Specialties": "專長領域10",
+   "Description": "複驗確認無誤",
+   "Attributes": "擴展屬性10",
+   "EmpNo": "P-2026-0010"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000010",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-06-28 15:06",
+   "UpdatedBy": "hsu.eng",
+   "UpdatedAt": "2026-08-21 17:16",
+   "EmpId": "P-2026-0011",
+   "LabRole": "實驗室角色11",
+   "LabGroup": "所屬組別11",
+   "IsActive": "實驗室在職狀態11",
+   "SignTitle": "pH值",
+   "SignName": "王采樣",
+   "SignImagePath": "簽名圖檔路徑11",
+   "CanSignReport": "是否具備報告簽署權限11",
+   "CanApproveReport": "是否具備報告核准權限11",
+   "Specialties": "專長領域11",
+   "Description": "急件已加收費用",
+   "Attributes": "擴展屬性11",
+   "EmpNo": "P-2026-0011"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000011",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-03-12 08:15",
+   "UpdatedBy": "chang.fa",
+   "UpdatedAt": "2026-04-15 08:27",
+   "EmpId": "P-2026-0012",
+   "LabRole": "實驗室角色12",
+   "LabGroup": "所屬組別12",
+   "IsActive": "實驗室在職狀態12",
+   "SignTitle": "導電度",
+   "SignName": "王采樣",
+   "SignImagePath": "簽名圖檔路徑12",
+   "CanSignReport": "是否具備報告簽署權限12",
+   "CanApproveReport": "是否具備報告核准權限12",
+   "Specialties": "專長領域12",
+   "Description": "待主管覆核",
+   "Attributes": "擴展屬性12",
+   "EmpNo": "P-2026-0012"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000012",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-08-25 12:08",
+   "UpdatedBy": "wu.dir",
+   "UpdatedAt": "2026-05-02 13:01",
+   "EmpId": "P-2026-0013",
+   "LabRole": "實驗室角色13",
+   "LabGroup": "所屬組別13",
+   "IsActive": "實驗室在職狀態13",
+   "SignTitle": "濁度",
+   "SignName": "鄭組長",
+   "SignImagePath": "簽名圖檔路徑13",
+   "CanSignReport": "是否具備報告簽署權限13",
+   "CanApproveReport": "是否具備報告核准權限13",
+   "Specialties": "專長領域13",
+   "Description": "",
+   "Attributes": "擴展屬性13",
+   "EmpNo": "P-2026-0013"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000013",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-10-24 12:04",
+   "UpdatedBy": "chen.sh",
+   "UpdatedAt": "2026-08-23 16:03",
+   "EmpId": "P-2026-0014",
+   "LabRole": "實驗室角色14",
+   "LabGroup": "所屬組別14",
+   "IsActive": "實驗室在職狀態14",
+   "SignTitle": "大腸桿菌群",
+   "SignName": "蔡研究",
+   "SignImagePath": "簽名圖檔路徑14",
+   "CanSignReport": "是否具備報告簽署權限14",
+   "CanApproveReport": "是否具備報告核准權限14",
+   "Specialties": "專長領域14",
+   "Description": "",
+   "Attributes": "擴展屬性14",
+   "EmpNo": "P-2026-0014"
+  }
+ ]
+}

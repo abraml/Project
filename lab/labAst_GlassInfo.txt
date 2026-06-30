@@ -1,0 +1,3835 @@
+{
+ "EntityID": "lab",
+ "SystemCode": "MUEIP",
+ "ModuleCode": "LIMS",
+ "FuncCode": "labAst_GlassInfo",
+ "ConfigHash": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+ "PageMeta": {
+  "PageTitle": "定容器皿清單",
+  "Lang": "zh-TW",
+  "FormType": "ListForm",
+  "EditDisplayType": "Drawer",
+  "Breadcrumb": [
+   {
+    "Title": "首頁",
+    "Path": "/"
+   },
+   {
+    "Title": "實驗室資材管理",
+    "Path": null
+   },
+   {
+    "Title": "定容器皿清單",
+    "Path": "/lab/labAst_GlassInfo"
+   }
+  ],
+  "IsApproval": false,
+  "TenantLocked": false,
+  "Icon": "ri-flask-line",
+  "Remark": "定容器皿清單（由 labAst_GlassInfo 規格書產生）"
+ },
+ "Resources": {
+  "CodeSets": {
+   "Status": [
+    {
+     "CodeID": "1",
+     "CodeName": "啟用",
+     "IsDefault": true
+    },
+    {
+     "CodeID": "0",
+     "CodeName": "停用"
+    }
+   ],
+   "Priority": [
+    {
+     "CodeID": "A",
+     "CodeName": "急件"
+    },
+    {
+     "CodeID": "B",
+     "CodeName": "高"
+    },
+    {
+     "CodeID": "C",
+     "CodeName": "一般",
+     "IsDefault": true
+    },
+    {
+     "CodeID": "D",
+     "CodeName": "低"
+    }
+   ],
+   "GlassStatus": [
+    {
+     "CodeID": "N",
+     "CodeName": "正常",
+     "IsDefault": true
+    },
+    {
+     "CodeID": "C",
+     "CodeName": "校正中"
+    },
+    {
+     "CodeID": "B",
+     "CodeName": "破損"
+    },
+    {
+     "CodeID": "X",
+     "CodeName": "報廢"
+    }
+   ]
+  },
+  "FeatureFlags": {
+   "IsReadOnly": false,
+   "EnableDraft": false,
+   "EnableBatchDelete": true,
+   "AutoRefreshInterval": 0,
+   "DefaultViewMode": "Table",
+   "RequireConfirmOnSave": true
+  }
+ },
+ "AllowAction": {
+  "DataActions": [
+   {
+    "ActionID": "Add",
+    "Label": "新增",
+    "Icon": "ri-add-line",
+    "Type": "Primary",
+    "Position": "Toolbar",
+    "Confirm": null
+   },
+   {
+    "ActionID": "Save",
+    "Label": "儲存",
+    "Icon": "ri-save-line",
+    "Type": "Primary",
+    "Position": "Toolbar",
+    "Confirm": null
+   },
+   {
+    "ActionID": "Delete",
+    "Label": "刪除",
+    "Icon": "ri-delete-bin-line",
+    "Type": "Danger",
+    "Position": "Both",
+    "Confirm": "確定要刪除此定容器皿清單資料嗎？"
+   },
+   {
+    "ActionID": "Query",
+    "Label": "查詢",
+    "Icon": "ri-search-line",
+    "Type": "Default",
+    "Position": "Toolbar",
+    "Confirm": null
+   }
+  ],
+  "ExtensionActions": [
+   {
+    "ActionID": "Import",
+    "Label": "匯入",
+    "Icon": "ri-upload-2-line",
+    "Type": "Default",
+    "Position": "Toolbar"
+   },
+   {
+    "ActionID": "Export",
+    "Label": "匯出",
+    "Icon": "ri-download-2-line",
+    "Type": "Default",
+    "Position": "Toolbar"
+   }
+  ]
+ },
+ "View": {
+  "RowKey": "RowGuid",
+  "ListView": {
+   "ListSpec": {
+    "RowKey": "RowGuid",
+    "SelectMode": "Single",
+    "FixedColumns": [
+     "Action",
+     "No"
+    ],
+    "RowActionMode": "Menu",
+    "ShowRowNo": true,
+    "Pagination": {
+     "PageSize": 100,
+     "SizeOptions": [
+      50,
+      100,
+      200,
+      500
+     ],
+     "ShowJumper": false,
+     "FullPageScroll": true
+    },
+    "DefaultSort": {
+     "Field": "SortNo",
+     "Order": "asc"
+    },
+    "EmptyText": "目前查無定容器皿清單資料",
+    "GridBordered": true
+   },
+   "FieldSpecs": [
+    {
+     "BindField": "GlassNo",
+     "Title": "器皿編號",
+     "Align": "Left",
+     "DefaultVisible": true,
+     "Formatter": "Link",
+     "Fixed": "Left",
+     "Width": 160,
+     "Sorter": true
+    },
+    {
+     "BindField": "GlassName",
+     "Title": "名稱",
+     "Align": "Left",
+     "DefaultVisible": true,
+     "Width": 140
+    },
+    {
+     "BindField": "CapacityDesc",
+     "Title": "規格-容量",
+     "Align": "Left",
+     "DefaultVisible": true,
+     "Width": 140
+    },
+    {
+     "BindField": "MaterialDesc",
+     "Title": "規格-材質",
+     "Align": "Left",
+     "DefaultVisible": true,
+     "Width": 140
+    },
+    {
+     "BindField": "Grade",
+     "Title": "等級",
+     "Align": "Left",
+     "DefaultVisible": true,
+     "Width": 140
+    },
+    {
+     "BindField": "AssetNo",
+     "Title": "財產編號",
+     "Align": "Left",
+     "DefaultVisible": true,
+     "Width": 140
+    },
+    {
+     "BindField": "Status",
+     "Title": "啟用狀態",
+     "Align": "Center",
+     "DefaultVisible": true,
+     "Formatter": "Tag",
+     "Width": 80
+    }
+   ]
+  },
+  "FormView": {
+   "FormSpec": {
+    "RowKey": "RowGuid",
+    "Layout": "Horizontal",
+    "Sections": [
+     {
+      "SectionID": "SecBase",
+      "Type": "Card",
+      "Title": "基本資料",
+      "IsCollapsible": false,
+      "DefaultOpen": true,
+      "Icon": "ri-flask-line"
+     },
+     {
+      "SectionID": "SecExtra",
+      "Type": "Card",
+      "Title": "系統資訊",
+      "IsCollapsible": true,
+      "DefaultOpen": false,
+      "Icon": "ri-settings-4-line"
+     }
+    ],
+    "FormLogic": []
+   },
+   "FieldSpecs": [
+    {
+     "BindField": "RowKey",
+     "Title": "系統識別碼",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 24,
+     "Mode": "Hidden"
+    },
+    {
+     "BindField": "EntityID",
+     "Title": "系統實體",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "Hidden",
+     "DefaultValue": "lab"
+    },
+    {
+     "BindField": "GlassNo",
+     "Title": "器皿編號",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "Required",
+       "Message": "器皿編號為必填"
+      },
+      {
+       "Rule": "MaxLength",
+       "Value": 30,
+       "Message": "長度不可超過 30"
+      }
+     ]
+    },
+    {
+     "BindField": "CategoryGuid",
+     "Title": "所屬分類",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "ReadOnly"
+    },
+    {
+     "BindField": "GlassName",
+     "Title": "名稱",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "Required",
+       "Message": "名稱為必填"
+      },
+      {
+       "Rule": "MaxLength",
+       "Value": 100,
+       "Message": "長度不可超過 100"
+      }
+     ]
+    },
+    {
+     "BindField": "CapacityDesc",
+     "Title": "規格-容量",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 50,
+       "Message": "長度不可超過 50"
+      }
+     ]
+    },
+    {
+     "BindField": "MaterialDesc",
+     "Title": "規格-材質",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 50,
+       "Message": "長度不可超過 50"
+      }
+     ]
+    },
+    {
+     "BindField": "Grade",
+     "Title": "等級",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 10,
+       "Message": "長度不可超過 10"
+      }
+     ]
+    },
+    {
+     "BindField": "LocationGuid",
+     "Title": "放置地點",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "ReadOnly"
+    },
+    {
+     "BindField": "AssetNo",
+     "Title": "財產編號",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 30,
+       "Message": "長度不可超過 30"
+      }
+     ]
+    },
+    {
+     "BindField": "GlassStatus",
+     "Title": "狀態",
+     "Component": "Select",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Props": {
+      "OptionKey": "GlassStatus"
+     },
+     "DefaultValue": "N"
+    },
+    {
+     "BindField": "Remark",
+     "Title": "備註",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 255,
+       "Message": "長度不可超過 255"
+      }
+     ]
+    },
+    {
+     "BindField": "Attributes",
+     "Title": "擴展屬性",
+     "Component": "Textarea",
+     "Section": "SecExtra",
+     "Span": 24,
+     "Mode": "Editable",
+     "Props": {
+      "Rows": 3
+     }
+    },
+    {
+     "BindField": "Status",
+     "Title": "啟用狀態",
+     "Component": "Select",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "DefaultValue": "1",
+     "Props": {
+      "OptionKey": "Status"
+     }
+    },
+    {
+     "BindField": "CreatedBy",
+     "Title": "建立者帳號",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "ReadOnly"
+    },
+    {
+     "BindField": "CreatedAt",
+     "Title": "資料建立日期時間",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "ReadOnly"
+    },
+    {
+     "BindField": "UpdatedBy",
+     "Title": "最後更新者帳號",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "ReadOnly"
+    },
+    {
+     "BindField": "UpdatedAt",
+     "Title": "最後更新日期時間",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "ReadOnly"
+    }
+   ]
+  },
+  "DetailViews": [
+   {
+    "DetailID": "CalCycle",
+    "Title": "校正週期",
+    "Icon": "ri-loop-right-line",
+    "Entity": "labAst_GlassCalCycle",
+    "RelationKey": "GlassCode",
+    "RowKey": "RowGuid",
+    "AllowAdd": true,
+    "AllowEdit": true,
+    "AllowDelete": true,
+    "EmptyText": "尚無校正週期資料",
+    "CodeSets": {
+     "Status": [
+      {
+       "CodeID": "1",
+       "CodeName": "啟用",
+       "IsDefault": true
+      },
+      {
+       "CodeID": "0",
+       "CodeName": "停用"
+      }
+     ],
+     "Priority": [
+      {
+       "CodeID": "A",
+       "CodeName": "急件"
+      },
+      {
+       "CodeID": "B",
+       "CodeName": "高"
+      },
+      {
+       "CodeID": "C",
+       "CodeName": "一般",
+       "IsDefault": true
+      },
+      {
+       "CodeID": "D",
+       "CodeName": "低"
+      }
+     ],
+     "CalMethod": [
+      {
+       "CodeID": "IN",
+       "CodeName": "內部校正",
+       "IsDefault": true
+      },
+      {
+       "CodeID": "EX",
+       "CodeName": "外部校正"
+      },
+      {
+       "CodeID": "SC",
+       "CodeName": "送校"
+      }
+     ]
+    },
+    "Columns": [
+     {
+      "BindField": "GlassGuid",
+      "Title": "所屬器皿",
+      "Width": 120,
+      "Align": "Left"
+     },
+     {
+      "BindField": "CycleMonths",
+      "Title": "校正週期",
+      "Width": 120,
+      "Align": "Center"
+     },
+     {
+      "BindField": "CalMethod",
+      "Title": "校正方式",
+      "Width": 120,
+      "Align": "Center",
+      "Formatter": "Tag",
+      "OptionKey": "CalMethod"
+     },
+     {
+      "BindField": "CalAgency",
+      "Title": "校正單位",
+      "Width": 120,
+      "Align": "Left"
+     },
+     {
+      "BindField": "AcceptanceCriteria",
+      "Title": "允收標準",
+      "Width": 120,
+      "Align": "Left"
+     }
+    ],
+    "FormFields": [
+     {
+      "BindField": "GlassGuid",
+      "Title": "所屬器皿",
+      "Component": "Input",
+      "Section": "",
+      "Span": 12,
+      "Mode": "ReadOnly",
+      "Validations": [
+       {
+        "Rule": "Required",
+        "Message": "所屬器皿為必填"
+       }
+      ]
+     },
+     {
+      "BindField": "CycleMonths",
+      "Title": "校正週期",
+      "Component": "Input",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Validations": [
+       {
+        "Rule": "Required",
+        "Message": "校正週期為必填"
+       }
+      ],
+      "Props": {
+       "Type": "number"
+      }
+     },
+     {
+      "BindField": "CalMethod",
+      "Title": "校正方式",
+      "Component": "Select",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Validations": [
+       {
+        "Rule": "Required",
+        "Message": "校正方式為必填"
+       }
+      ],
+      "Props": {
+       "OptionKey": "CalMethod"
+      },
+      "DefaultValue": "IN"
+     },
+     {
+      "BindField": "CalAgency",
+      "Title": "校正單位",
+      "Component": "Input",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Validations": [
+       {
+        "Rule": "MaxLength",
+        "Value": 100,
+        "Message": "長度不可超過 100"
+       }
+      ]
+     },
+     {
+      "BindField": "AcceptanceCriteria",
+      "Title": "允收標準",
+      "Component": "Input",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Validations": [
+       {
+        "Rule": "MaxLength",
+        "Value": 255,
+        "Message": "長度不可超過 255"
+       }
+      ]
+     },
+     {
+      "BindField": "EffectiveDate",
+      "Title": "生效日期",
+      "Component": "DatePicker",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Validations": [
+       {
+        "Rule": "Required",
+        "Message": "生效日期為必填"
+       }
+      ],
+      "Props": {
+       "Mode": "Editable",
+       "ShowTime": false
+      }
+     }
+    ],
+    "SeedData": [
+     {
+      "RowGuid": "00000373-0000-0000-0001-000000000001",
+      "EntityID": "lab",
+      "Status": "1",
+      "GlassCode": "GI-2026-0001",
+      "GlassGuid": "所屬器皿02",
+      "CycleMonths": 61,
+      "CalMethod": "IN",
+      "CalAgency": "M041 製造一處",
+      "AcceptanceCriteria": "JIS",
+      "EffectiveDate": "2026-09-10"
+     },
+     {
+      "RowGuid": "00000373-0000-0000-0001-000000000002",
+      "EntityID": "lab",
+      "Status": "1",
+      "GlassCode": "GI-2026-0001",
+      "GlassGuid": "所屬器皿03",
+      "CycleMonths": 57,
+      "CalMethod": "IN",
+      "CalAgency": "R001 研發中心",
+      "AcceptanceCriteria": "Standard Methods",
+      "EffectiveDate": "2025-06-21"
+     },
+     {
+      "RowGuid": "00000373-0000-0000-0001-000000000003",
+      "EntityID": "lab",
+      "Status": "1",
+      "GlassCode": "GI-2026-0002",
+      "GlassGuid": "所屬器皿04",
+      "CycleMonths": 68,
+      "CalMethod": "IN",
+      "CalAgency": "R001 研發中心",
+      "AcceptanceCriteria": "ASTM",
+      "EffectiveDate": "2025-09-10"
+     },
+     {
+      "RowGuid": "00000373-0000-0000-0001-000000000004",
+      "EntityID": "lab",
+      "Status": "1",
+      "GlassCode": "GI-2026-0002",
+      "GlassGuid": "所屬器皿05",
+      "CycleMonths": 17,
+      "CalMethod": "EX",
+      "CalAgency": "M011 工程處",
+      "AcceptanceCriteria": "NIEA",
+      "EffectiveDate": "2026-09-25"
+     },
+     {
+      "RowGuid": "00000373-0000-0000-0001-000000000005",
+      "EntityID": "lab",
+      "Status": "1",
+      "GlassCode": "GI-2026-0002",
+      "GlassGuid": "所屬器皿06",
+      "CycleMonths": 48,
+      "CalMethod": "IN",
+      "CalAgency": "M071 工務處",
+      "AcceptanceCriteria": "原廠提供",
+      "EffectiveDate": "2026-01-12"
+     },
+     {
+      "RowGuid": "00000373-0000-0000-0001-000000000006",
+      "EntityID": "lab",
+      "Status": "1",
+      "GlassCode": "GI-2026-0002",
+      "GlassGuid": "所屬器皿07",
+      "CycleMonths": 48,
+      "CalMethod": "IN",
+      "CalAgency": "M021 品保處",
+      "AcceptanceCriteria": "NIEA",
+      "EffectiveDate": "2026-10-03"
+     },
+     {
+      "RowGuid": "00000373-0000-0000-0001-000000000007",
+      "EntityID": "lab",
+      "Status": "1",
+      "GlassCode": "GI-2026-0003",
+      "GlassGuid": "所屬器皿08",
+      "CycleMonths": 1,
+      "CalMethod": "IN",
+      "CalAgency": "M041 製造一處",
+      "AcceptanceCriteria": "Standard Methods",
+      "EffectiveDate": "2026-06-18"
+     },
+     {
+      "RowGuid": "00000373-0000-0000-0001-000000000008",
+      "EntityID": "lab",
+      "Status": "1",
+      "GlassCode": "GI-2026-0003",
+      "GlassGuid": "所屬器皿09",
+      "CycleMonths": 16,
+      "CalMethod": "IN",
+      "CalAgency": "M011 工程處",
+      "AcceptanceCriteria": "原廠提供",
+      "EffectiveDate": "2025-03-19"
+     },
+     {
+      "RowGuid": "00000373-0000-0000-0001-000000000009",
+      "EntityID": "lab",
+      "Status": "1",
+      "GlassCode": "GI-2026-0003",
+      "GlassGuid": "所屬器皿10",
+      "CycleMonths": 36,
+      "CalMethod": "SC",
+      "CalAgency": "M041 製造一處",
+      "AcceptanceCriteria": "NIEA",
+      "EffectiveDate": "2025-09-21"
+     },
+     {
+      "RowGuid": "00000373-0000-0000-0001-000000000010",
+      "EntityID": "lab",
+      "Status": "1",
+      "GlassCode": "GI-2026-0004",
+      "GlassGuid": "所屬器皿11",
+      "CycleMonths": 25,
+      "CalMethod": "IN",
+      "CalAgency": "M031 環安處",
+      "AcceptanceCriteria": "NIEA",
+      "EffectiveDate": "2025-10-07"
+     },
+     {
+      "RowGuid": "00000373-0000-0000-0001-000000000011",
+      "EntityID": "lab",
+      "Status": "1",
+      "GlassCode": "GI-2026-0004",
+      "GlassGuid": "所屬器皿12",
+      "CycleMonths": 51,
+      "CalMethod": "IN",
+      "CalAgency": "M071 工務處",
+      "AcceptanceCriteria": "NIEA",
+      "EffectiveDate": "2025-09-13"
+     },
+     {
+      "RowGuid": "00000373-0000-0000-0001-000000000012",
+      "EntityID": "lab",
+      "Status": "1",
+      "GlassCode": "GI-2026-0005",
+      "GlassGuid": "所屬器皿13",
+      "CycleMonths": 95,
+      "CalMethod": "IN",
+      "CalAgency": "M011 工程處",
+      "AcceptanceCriteria": "CNS",
+      "EffectiveDate": "2025-05-14"
+     },
+     {
+      "RowGuid": "00000373-0000-0000-0001-000000000013",
+      "EntityID": "lab",
+      "Status": "1",
+      "GlassCode": "GI-2026-0005",
+      "GlassGuid": "所屬器皿14",
+      "CycleMonths": 24,
+      "CalMethod": "IN",
+      "CalAgency": "M021 品保處",
+      "AcceptanceCriteria": "EPA",
+      "EffectiveDate": "2026-02-08"
+     },
+     {
+      "RowGuid": "00000373-0000-0000-0001-000000000014",
+      "EntityID": "lab",
+      "Status": "1",
+      "GlassCode": "GI-2026-0005",
+      "GlassGuid": "所屬器皿15",
+      "CycleMonths": 35,
+      "CalMethod": "SC",
+      "CalAgency": "M041 製造一處",
+      "AcceptanceCriteria": "EPA",
+      "EffectiveDate": "2025-11-19"
+     },
+     {
+      "RowGuid": "00000373-0000-0000-0001-000000000015",
+      "EntityID": "lab",
+      "Status": "1",
+      "GlassCode": "GI-2026-0006",
+      "GlassGuid": "所屬器皿16",
+      "CycleMonths": 76,
+      "CalMethod": "IN",
+      "CalAgency": "R001 研發中心",
+      "AcceptanceCriteria": "ASTM",
+      "EffectiveDate": "2026-08-12"
+     },
+     {
+      "RowGuid": "00000373-0000-0000-0001-000000000016",
+      "EntityID": "lab",
+      "Status": "1",
+      "GlassCode": "GI-2026-0006",
+      "GlassGuid": "所屬器皿17",
+      "CycleMonths": 6,
+      "CalMethod": "IN",
+      "CalAgency": "M061 採購處",
+      "AcceptanceCriteria": "Standard Methods",
+      "EffectiveDate": "2026-04-05"
+     },
+     {
+      "RowGuid": "00000373-0000-0000-0001-000000000017",
+      "EntityID": "lab",
+      "Status": "1",
+      "GlassCode": "GI-2026-0007",
+      "GlassGuid": "所屬器皿18",
+      "CycleMonths": 43,
+      "CalMethod": "IN",
+      "CalAgency": "M021 品保處",
+      "AcceptanceCriteria": "JIS",
+      "EffectiveDate": "2025-10-03"
+     },
+     {
+      "RowGuid": "00000373-0000-0000-0001-000000000018",
+      "EntityID": "lab",
+      "Status": "1",
+      "GlassCode": "GI-2026-0007",
+      "GlassGuid": "所屬器皿19",
+      "CycleMonths": 67,
+      "CalMethod": "IN",
+      "CalAgency": "M011 工程處",
+      "AcceptanceCriteria": "JIS",
+      "EffectiveDate": "2025-06-09"
+     },
+     {
+      "RowGuid": "00000373-0000-0000-0001-000000000019",
+      "EntityID": "lab",
+      "Status": "1",
+      "GlassCode": "GI-2026-0007",
+      "GlassGuid": "所屬器皿20",
+      "CycleMonths": 5,
+      "CalMethod": "SC",
+      "CalAgency": "M031 環安處",
+      "AcceptanceCriteria": "Standard Methods",
+      "EffectiveDate": "2025-06-26"
+     },
+     {
+      "RowGuid": "00000373-0000-0000-0001-000000000020",
+      "EntityID": "lab",
+      "Status": "1",
+      "GlassCode": "GI-2026-0008",
+      "GlassGuid": "所屬器皿21",
+      "CycleMonths": 61,
+      "CalMethod": "IN",
+      "CalAgency": "M051 製造二處",
+      "AcceptanceCriteria": "JIS",
+      "EffectiveDate": "2025-03-13"
+     },
+     {
+      "RowGuid": "00000373-0000-0000-0001-000000000021",
+      "EntityID": "lab",
+      "Status": "1",
+      "GlassCode": "GI-2026-0008",
+      "GlassGuid": "所屬器皿22",
+      "CycleMonths": 57,
+      "CalMethod": "IN",
+      "CalAgency": "M011 工程處",
+      "AcceptanceCriteria": "原廠提供",
+      "EffectiveDate": "2026-03-01"
+     },
+     {
+      "RowGuid": "00000373-0000-0000-0001-000000000022",
+      "EntityID": "lab",
+      "Status": "1",
+      "GlassCode": "GI-2026-0008",
+      "GlassGuid": "所屬器皿23",
+      "CycleMonths": 94,
+      "CalMethod": "IN",
+      "CalAgency": "M041 製造一處",
+      "AcceptanceCriteria": "NIEA",
+      "EffectiveDate": "2026-04-27"
+     },
+     {
+      "RowGuid": "00000373-0000-0000-0001-000000000023",
+      "EntityID": "lab",
+      "Status": "1",
+      "GlassCode": "GI-2026-0009",
+      "GlassGuid": "所屬器皿24",
+      "CycleMonths": 22,
+      "CalMethod": "SC",
+      "CalAgency": "M051 製造二處",
+      "AcceptanceCriteria": "ASTM",
+      "EffectiveDate": "2026-11-08"
+     },
+     {
+      "RowGuid": "00000373-0000-0000-0001-000000000024",
+      "EntityID": "lab",
+      "Status": "1",
+      "GlassCode": "GI-2026-0009",
+      "GlassGuid": "所屬器皿25",
+      "CycleMonths": 78,
+      "CalMethod": "EX",
+      "CalAgency": "R001 研發中心",
+      "AcceptanceCriteria": "JIS",
+      "EffectiveDate": "2026-12-17"
+     },
+     {
+      "RowGuid": "00000373-0000-0000-0001-000000000025",
+      "EntityID": "lab",
+      "Status": "1",
+      "GlassCode": "GI-2026-0010",
+      "GlassGuid": "所屬器皿26",
+      "CycleMonths": 5,
+      "CalMethod": "IN",
+      "CalAgency": "M061 採購處",
+      "AcceptanceCriteria": "JIS",
+      "EffectiveDate": "2026-09-18"
+     },
+     {
+      "RowGuid": "00000373-0000-0000-0001-000000000026",
+      "EntityID": "lab",
+      "Status": "1",
+      "GlassCode": "GI-2026-0010",
+      "GlassGuid": "所屬器皿27",
+      "CycleMonths": 58,
+      "CalMethod": "IN",
+      "CalAgency": "M061 採購處",
+      "AcceptanceCriteria": "ASTM",
+      "EffectiveDate": "2025-07-05"
+     },
+     {
+      "RowGuid": "00000373-0000-0000-0001-000000000027",
+      "EntityID": "lab",
+      "Status": "1",
+      "GlassCode": "GI-2026-0010",
+      "GlassGuid": "所屬器皿28",
+      "CycleMonths": 45,
+      "CalMethod": "EX",
+      "CalAgency": "M021 品保處",
+      "AcceptanceCriteria": "EPA",
+      "EffectiveDate": "2026-03-09"
+     },
+     {
+      "RowGuid": "00000373-0000-0000-0001-000000000028",
+      "EntityID": "lab",
+      "Status": "1",
+      "GlassCode": "GI-2026-0011",
+      "GlassGuid": "所屬器皿29",
+      "CycleMonths": 48,
+      "CalMethod": "IN",
+      "CalAgency": "R001 研發中心",
+      "AcceptanceCriteria": "CNS",
+      "EffectiveDate": "2025-10-11"
+     },
+     {
+      "RowGuid": "00000373-0000-0000-0001-000000000029",
+      "EntityID": "lab",
+      "Status": "1",
+      "GlassCode": "GI-2026-0011",
+      "GlassGuid": "所屬器皿30",
+      "CycleMonths": 87,
+      "CalMethod": "IN",
+      "CalAgency": "M031 環安處",
+      "AcceptanceCriteria": "EPA",
+      "EffectiveDate": "2025-05-10"
+     },
+     {
+      "RowGuid": "00000373-0000-0000-0001-000000000030",
+      "EntityID": "lab",
+      "Status": "1",
+      "GlassCode": "GI-2026-0011",
+      "GlassGuid": "所屬器皿31",
+      "CycleMonths": 95,
+      "CalMethod": "IN",
+      "CalAgency": "M061 採購處",
+      "AcceptanceCriteria": "JIS",
+      "EffectiveDate": "2026-01-25"
+     },
+     {
+      "RowGuid": "00000373-0000-0000-0001-000000000031",
+      "EntityID": "lab",
+      "Status": "1",
+      "GlassCode": "GI-2026-0011",
+      "GlassGuid": "所屬器皿32",
+      "CycleMonths": 42,
+      "CalMethod": "IN",
+      "CalAgency": "M011 工程處",
+      "AcceptanceCriteria": "JIS",
+      "EffectiveDate": "2025-05-25"
+     },
+     {
+      "RowGuid": "00000373-0000-0000-0001-000000000032",
+      "EntityID": "lab",
+      "Status": "1",
+      "GlassCode": "GI-2026-0012",
+      "GlassGuid": "所屬器皿33",
+      "CycleMonths": 47,
+      "CalMethod": "IN",
+      "CalAgency": "R001 研發中心",
+      "AcceptanceCriteria": "CNS",
+      "EffectiveDate": "2025-04-19"
+     },
+     {
+      "RowGuid": "00000373-0000-0000-0001-000000000033",
+      "EntityID": "lab",
+      "Status": "1",
+      "GlassCode": "GI-2026-0012",
+      "GlassGuid": "所屬器皿34",
+      "CycleMonths": 33,
+      "CalMethod": "SC",
+      "CalAgency": "M031 環安處",
+      "AcceptanceCriteria": "ASTM",
+      "EffectiveDate": "2025-02-07"
+     },
+     {
+      "RowGuid": "00000373-0000-0000-0001-000000000034",
+      "EntityID": "lab",
+      "Status": "1",
+      "GlassCode": "GI-2026-0013",
+      "GlassGuid": "所屬器皿35",
+      "CycleMonths": 60,
+      "CalMethod": "SC",
+      "CalAgency": "M031 環安處",
+      "AcceptanceCriteria": "Standard Methods",
+      "EffectiveDate": "2025-01-10"
+     },
+     {
+      "RowGuid": "00000373-0000-0000-0001-000000000035",
+      "EntityID": "lab",
+      "Status": "1",
+      "GlassCode": "GI-2026-0013",
+      "GlassGuid": "所屬器皿36",
+      "CycleMonths": 9,
+      "CalMethod": "IN",
+      "CalAgency": "M041 製造一處",
+      "AcceptanceCriteria": "EPA",
+      "EffectiveDate": "2026-03-12"
+     },
+     {
+      "RowGuid": "00000373-0000-0000-0001-000000000036",
+      "EntityID": "lab",
+      "Status": "1",
+      "GlassCode": "GI-2026-0013",
+      "GlassGuid": "所屬器皿37",
+      "CycleMonths": 87,
+      "CalMethod": "EX",
+      "CalAgency": "R001 研發中心",
+      "AcceptanceCriteria": "CNS",
+      "EffectiveDate": "2026-02-15"
+     },
+     {
+      "RowGuid": "00000373-0000-0000-0001-000000000037",
+      "EntityID": "lab",
+      "Status": "1",
+      "GlassCode": "GI-2026-0014",
+      "GlassGuid": "所屬器皿38",
+      "CycleMonths": 84,
+      "CalMethod": "IN",
+      "CalAgency": "M041 製造一處",
+      "AcceptanceCriteria": "NIEA",
+      "EffectiveDate": "2026-08-19"
+     },
+     {
+      "RowGuid": "00000373-0000-0000-0001-000000000038",
+      "EntityID": "lab",
+      "Status": "1",
+      "GlassCode": "GI-2026-0014",
+      "GlassGuid": "所屬器皿39",
+      "CycleMonths": 32,
+      "CalMethod": "IN",
+      "CalAgency": "M021 品保處",
+      "AcceptanceCriteria": "EPA",
+      "EffectiveDate": "2026-07-17"
+     }
+    ]
+   },
+   {
+    "DetailID": "CalRecord",
+    "Title": "校正紀錄",
+    "Icon": "ri-ruler-line",
+    "Entity": "labAst_GlassCalRecord",
+    "RelationKey": "GlassCode",
+    "RowKey": "RowGuid",
+    "AllowAdd": true,
+    "AllowEdit": true,
+    "AllowDelete": true,
+    "EmptyText": "尚無校正紀錄資料",
+    "CodeSets": {
+     "Status": [
+      {
+       "CodeID": "1",
+       "CodeName": "啟用",
+       "IsDefault": true
+      },
+      {
+       "CodeID": "0",
+       "CodeName": "停用"
+      }
+     ],
+     "Priority": [
+      {
+       "CodeID": "A",
+       "CodeName": "急件"
+      },
+      {
+       "CodeID": "B",
+       "CodeName": "高"
+      },
+      {
+       "CodeID": "C",
+       "CodeName": "一般",
+       "IsDefault": true
+      },
+      {
+       "CodeID": "D",
+       "CodeName": "低"
+      }
+     ],
+     "CalResult": [
+      {
+       "CodeID": "P",
+       "CodeName": "合格",
+       "IsDefault": true
+      },
+      {
+       "CodeID": "F",
+       "CodeName": "不合格"
+      },
+      {
+       "CodeID": "L",
+       "CodeName": "臨界"
+      }
+     ]
+    },
+    "Columns": [
+     {
+      "BindField": "GlassGuid",
+      "Title": "所屬器皿",
+      "Width": 120,
+      "Align": "Left"
+     },
+     {
+      "BindField": "CalDate",
+      "Title": "校正日期",
+      "Width": 120,
+      "Align": "Left",
+      "Formatter": "Date"
+     },
+     {
+      "BindField": "CalResult",
+      "Title": "校正結果",
+      "Width": 120,
+      "Align": "Center",
+      "Formatter": "Tag",
+      "OptionKey": "CalResult"
+     },
+     {
+      "BindField": "NextCalDate",
+      "Title": "下次校正日",
+      "Width": 120,
+      "Align": "Left",
+      "Formatter": "Date"
+     },
+     {
+      "BindField": "CalAgency",
+      "Title": "實際執行校正單位",
+      "Width": 120,
+      "Align": "Left"
+     }
+    ],
+    "FormFields": [
+     {
+      "BindField": "GlassGuid",
+      "Title": "所屬器皿",
+      "Component": "Input",
+      "Section": "",
+      "Span": 12,
+      "Mode": "ReadOnly",
+      "Validations": [
+       {
+        "Rule": "Required",
+        "Message": "所屬器皿為必填"
+       }
+      ]
+     },
+     {
+      "BindField": "CycleGuid",
+      "Title": "套用之週期設定版本",
+      "Component": "Input",
+      "Section": "",
+      "Span": 12,
+      "Mode": "ReadOnly"
+     },
+     {
+      "BindField": "CalDate",
+      "Title": "校正日期",
+      "Component": "DatePicker",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Validations": [
+       {
+        "Rule": "Required",
+        "Message": "校正日期為必填"
+       }
+      ],
+      "Props": {
+       "Mode": "Editable",
+       "ShowTime": false
+      }
+     },
+     {
+      "BindField": "CalResult",
+      "Title": "校正結果",
+      "Component": "Select",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Validations": [
+       {
+        "Rule": "Required",
+        "Message": "校正結果為必填"
+       }
+      ],
+      "Props": {
+       "OptionKey": "CalResult"
+      },
+      "DefaultValue": "P"
+     },
+     {
+      "BindField": "NextCalDate",
+      "Title": "下次校正日",
+      "Component": "DatePicker",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Validations": [
+       {
+        "Rule": "Required",
+        "Message": "下次校正日為必填"
+       }
+      ],
+      "Props": {
+       "Mode": "Editable",
+       "ShowTime": false
+      }
+     },
+     {
+      "BindField": "CalAgency",
+      "Title": "實際執行校正單位",
+      "Component": "Input",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Validations": [
+       {
+        "Rule": "MaxLength",
+        "Value": 100,
+        "Message": "長度不可超過 100"
+       }
+      ]
+     },
+     {
+      "BindField": "Executor",
+      "Title": "校正執行人員",
+      "Component": "Input",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Validations": [
+       {
+        "Rule": "MaxLength",
+        "Value": 50,
+        "Message": "長度不可超過 50"
+       }
+      ]
+     },
+     {
+      "BindField": "ReportNo",
+      "Title": "校正報告編號",
+      "Component": "Input",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Validations": [
+       {
+        "Rule": "MaxLength",
+        "Value": 50,
+        "Message": "長度不可超過 50"
+       }
+      ]
+     },
+     {
+      "BindField": "Remark",
+      "Title": "備註",
+      "Component": "Input",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Validations": [
+       {
+        "Rule": "MaxLength",
+        "Value": 255,
+        "Message": "長度不可超過 255"
+       }
+      ]
+     }
+    ],
+    "SeedData": [
+     {
+      "RowGuid": "00000373-0000-0000-0001-000000000039",
+      "EntityID": "lab",
+      "Status": "1",
+      "GlassCode": "GI-2026-0001",
+      "GlassGuid": "所屬器皿40",
+      "CycleGuid": "v5.0",
+      "CalDate": "2025-01-21",
+      "CalResult": "P",
+      "NextCalDate": "2026-04-24",
+      "CalAgency": "M021 品保處",
+      "Executor": "王采樣",
+      "ReportNo": "GCR-2025-0040",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000373-0000-0000-0001-000000000040",
+      "EntityID": "lab",
+      "Status": "1",
+      "GlassCode": "GI-2026-0001",
+      "GlassGuid": "所屬器皿41",
+      "CycleGuid": "v2.3",
+      "CalDate": "2025-11-07",
+      "CalResult": "P",
+      "NextCalDate": "2026-10-15",
+      "CalAgency": "R001 研發中心",
+      "Executor": "何環安",
+      "ReportNo": "GCR-2026-0041",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000373-0000-0000-0001-000000000041",
+      "EntityID": "lab",
+      "Status": "1",
+      "GlassCode": "GI-2026-0002",
+      "GlassGuid": "所屬器皿42",
+      "CycleGuid": "v4.0",
+      "CalDate": "2026-01-23",
+      "CalResult": "P",
+      "NextCalDate": "2026-05-03",
+      "CalAgency": "M061 採購處",
+      "Executor": "謝校正",
+      "ReportNo": "GCR-2025-0042",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000373-0000-0000-0001-000000000042",
+      "EntityID": "lab",
+      "Status": "1",
+      "GlassCode": "GI-2026-0002",
+      "GlassGuid": "所屬器皿43",
+      "CycleGuid": "v5.7",
+      "CalDate": "2025-10-05",
+      "CalResult": "P",
+      "NextCalDate": "2025-05-08",
+      "CalAgency": "M051 製造二處",
+      "Executor": "楊化驗",
+      "ReportNo": "GCR-2026-0043",
+      "Remark": "需注意保存效期"
+     },
+     {
+      "RowGuid": "00000373-0000-0000-0001-000000000043",
+      "EntityID": "lab",
+      "Status": "1",
+      "GlassCode": "GI-2026-0002",
+      "GlassGuid": "所屬器皿44",
+      "CycleGuid": "v3.8",
+      "CalDate": "2026-06-09",
+      "CalResult": "P",
+      "NextCalDate": "2026-09-12",
+      "CalAgency": "M051 製造二處",
+      "Executor": "吳主任",
+      "ReportNo": "GCR-2026-0044",
+      "Remark": "定期校正合格"
+     },
+     {
+      "RowGuid": "00000373-0000-0000-0001-000000000044",
+      "EntityID": "lab",
+      "Status": "1",
+      "GlassCode": "GI-2026-0002",
+      "GlassGuid": "所屬器皿45",
+      "CycleGuid": "v3.5",
+      "CalDate": "2025-02-07",
+      "CalResult": "L",
+      "NextCalDate": "2026-10-02",
+      "CalAgency": "M031 環安處",
+      "Executor": "陳審核",
+      "ReportNo": "GCR-2026-0045",
+      "Remark": "複驗確認無誤"
+     },
+     {
+      "RowGuid": "00000373-0000-0000-0001-000000000045",
+      "EntityID": "lab",
+      "Status": "1",
+      "GlassCode": "GI-2026-0003",
+      "GlassGuid": "所屬器皿46",
+      "CycleGuid": "v3.3",
+      "CalDate": "2026-10-21",
+      "CalResult": "P",
+      "NextCalDate": "2025-09-07",
+      "CalAgency": "R001 研發中心",
+      "Executor": "許工程",
+      "ReportNo": "GCR-2026-0046",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000373-0000-0000-0001-000000000046",
+      "EntityID": "lab",
+      "Status": "1",
+      "GlassCode": "GI-2026-0003",
+      "GlassGuid": "所屬器皿47",
+      "CycleGuid": "v1.7",
+      "CalDate": "2026-01-02",
+      "CalResult": "P",
+      "NextCalDate": "2025-11-23",
+      "CalAgency": "M041 製造一處",
+      "Executor": "何環安",
+      "ReportNo": "GCR-2025-0047",
+      "Remark": "複驗確認無誤"
+     },
+     {
+      "RowGuid": "00000373-0000-0000-0001-000000000047",
+      "EntityID": "lab",
+      "Status": "1",
+      "GlassCode": "GI-2026-0003",
+      "GlassGuid": "所屬器皿48",
+      "CycleGuid": "v2.6",
+      "CalDate": "2026-07-05",
+      "CalResult": "L",
+      "NextCalDate": "2025-02-24",
+      "CalAgency": "M021 品保處",
+      "Executor": "林品保",
+      "ReportNo": "GCR-2025-0048",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000373-0000-0000-0001-000000000048",
+      "EntityID": "lab",
+      "Status": "1",
+      "GlassCode": "GI-2026-0004",
+      "GlassGuid": "所屬器皿49",
+      "CycleGuid": "v5.0",
+      "CalDate": "2026-12-09",
+      "CalResult": "L",
+      "NextCalDate": "2026-11-16",
+      "CalAgency": "M071 工務處",
+      "Executor": "許工程",
+      "ReportNo": "GCR-2026-0049",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000373-0000-0000-0001-000000000049",
+      "EntityID": "lab",
+      "Status": "1",
+      "GlassCode": "GI-2026-0004",
+      "GlassGuid": "所屬器皿50",
+      "CycleGuid": "v3.6",
+      "CalDate": "2025-06-02",
+      "CalResult": "L",
+      "NextCalDate": "2026-08-19",
+      "CalAgency": "M071 工務處",
+      "Executor": "楊化驗",
+      "ReportNo": "GCR-2025-0050",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000373-0000-0000-0001-000000000050",
+      "EntityID": "lab",
+      "Status": "1",
+      "GlassCode": "GI-2026-0004",
+      "GlassGuid": "所屬器皿51",
+      "CycleGuid": "v1.5",
+      "CalDate": "2025-09-04",
+      "CalResult": "L",
+      "NextCalDate": "2025-07-26",
+      "CalAgency": "M061 採購處",
+      "Executor": "黃技正",
+      "ReportNo": "GCR-2026-0051",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000373-0000-0000-0001-000000000051",
+      "EntityID": "lab",
+      "Status": "1",
+      "GlassCode": "GI-2026-0005",
+      "GlassGuid": "所屬器皿52",
+      "CycleGuid": "v3.1",
+      "CalDate": "2026-01-06",
+      "CalResult": "P",
+      "NextCalDate": "2025-05-06",
+      "CalAgency": "M041 製造一處",
+      "Executor": "李檢測",
+      "ReportNo": "GCR-2026-0052",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000373-0000-0000-0001-000000000052",
+      "EntityID": "lab",
+      "Status": "1",
+      "GlassCode": "GI-2026-0005",
+      "GlassGuid": "所屬器皿53",
+      "CycleGuid": "v5.6",
+      "CalDate": "2025-02-06",
+      "CalResult": "P",
+      "NextCalDate": "2025-05-13",
+      "CalAgency": "M051 製造二處",
+      "Executor": "鄭組長",
+      "ReportNo": "GCR-2025-0053",
+      "Remark": "定期校正合格"
+     },
+     {
+      "RowGuid": "00000373-0000-0000-0001-000000000053",
+      "EntityID": "lab",
+      "Status": "1",
+      "GlassCode": "GI-2026-0005",
+      "GlassGuid": "所屬器皿54",
+      "CycleGuid": "v4.5",
+      "CalDate": "2025-04-05",
+      "CalResult": "P",
+      "NextCalDate": "2025-01-20",
+      "CalAgency": "M051 製造二處",
+      "Executor": "何環安",
+      "ReportNo": "GCR-2025-0054",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000373-0000-0000-0001-000000000054",
+      "EntityID": "lab",
+      "Status": "1",
+      "GlassCode": "GI-2026-0006",
+      "GlassGuid": "所屬器皿55",
+      "CycleGuid": "v4.7",
+      "CalDate": "2026-04-12",
+      "CalResult": "L",
+      "NextCalDate": "2025-08-08",
+      "CalAgency": "M021 品保處",
+      "Executor": "鄭組長",
+      "ReportNo": "GCR-2025-0055",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000373-0000-0000-0001-000000000055",
+      "EntityID": "lab",
+      "Status": "1",
+      "GlassCode": "GI-2026-0006",
+      "GlassGuid": "所屬器皿56",
+      "CycleGuid": "v3.9",
+      "CalDate": "2025-04-09",
+      "CalResult": "P",
+      "NextCalDate": "2025-04-15",
+      "CalAgency": "M041 製造一處",
+      "Executor": "吳主任",
+      "ReportNo": "GCR-2025-0056",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000373-0000-0000-0001-000000000056",
+      "EntityID": "lab",
+      "Status": "1",
+      "GlassCode": "GI-2026-0006",
+      "GlassGuid": "所屬器皿57",
+      "CycleGuid": "v2.3",
+      "CalDate": "2026-12-19",
+      "CalResult": "P",
+      "NextCalDate": "2026-12-01",
+      "CalAgency": "M011 工程處",
+      "Executor": "王采樣",
+      "ReportNo": "GCR-2026-0057",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000373-0000-0000-0001-000000000057",
+      "EntityID": "lab",
+      "Status": "1",
+      "GlassCode": "GI-2026-0007",
+      "GlassGuid": "所屬器皿58",
+      "CycleGuid": "v1.2",
+      "CalDate": "2026-05-21",
+      "CalResult": "P",
+      "NextCalDate": "2026-06-17",
+      "CalAgency": "M071 工務處",
+      "Executor": "李檢測",
+      "ReportNo": "GCR-2026-0058",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000373-0000-0000-0001-000000000058",
+      "EntityID": "lab",
+      "Status": "1",
+      "GlassCode": "GI-2026-0007",
+      "GlassGuid": "所屬器皿59",
+      "CycleGuid": "v4.4",
+      "CalDate": "2026-03-04",
+      "CalResult": "P",
+      "NextCalDate": "2026-07-27",
+      "CalAgency": "M031 環安處",
+      "Executor": "謝校正",
+      "ReportNo": "GCR-2025-0059",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000373-0000-0000-0001-000000000059",
+      "EntityID": "lab",
+      "Status": "1",
+      "GlassCode": "GI-2026-0007",
+      "GlassGuid": "所屬器皿60",
+      "CycleGuid": "v4.4",
+      "CalDate": "2026-05-28",
+      "CalResult": "L",
+      "NextCalDate": "2025-11-05",
+      "CalAgency": "M021 品保處",
+      "Executor": "楊化驗",
+      "ReportNo": "GCR-2026-0060",
+      "Remark": "樣品外觀正常"
+     },
+     {
+      "RowGuid": "00000373-0000-0000-0001-000000000060",
+      "EntityID": "lab",
+      "Status": "1",
+      "GlassCode": "GI-2026-0008",
+      "GlassGuid": "所屬器皿61",
+      "CycleGuid": "v3.1",
+      "CalDate": "2025-05-14",
+      "CalResult": "L",
+      "NextCalDate": "2025-10-13",
+      "CalAgency": "R001 研發中心",
+      "Executor": "劉助理",
+      "ReportNo": "GCR-2026-0061",
+      "Remark": "需注意保存效期"
+     },
+     {
+      "RowGuid": "00000373-0000-0000-0001-000000000061",
+      "EntityID": "lab",
+      "Status": "1",
+      "GlassCode": "GI-2026-0008",
+      "GlassGuid": "所屬器皿62",
+      "CycleGuid": "v2.1",
+      "CalDate": "2025-12-13",
+      "CalResult": "P",
+      "NextCalDate": "2025-09-25",
+      "CalAgency": "M011 工程處",
+      "Executor": "張分析",
+      "ReportNo": "GCR-2025-0062",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000373-0000-0000-0001-000000000062",
+      "EntityID": "lab",
+      "Status": "1",
+      "GlassCode": "GI-2026-0009",
+      "GlassGuid": "所屬器皿63",
+      "CycleGuid": "v4.2",
+      "CalDate": "2026-11-09",
+      "CalResult": "P",
+      "NextCalDate": "2026-07-12",
+      "CalAgency": "M061 採購處",
+      "Executor": "蔡研究",
+      "ReportNo": "GCR-2026-0063",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000373-0000-0000-0001-000000000063",
+      "EntityID": "lab",
+      "Status": "1",
+      "GlassCode": "GI-2026-0009",
+      "GlassGuid": "所屬器皿64",
+      "CycleGuid": "v2.2",
+      "CalDate": "2025-02-22",
+      "CalResult": "P",
+      "NextCalDate": "2026-02-17",
+      "CalAgency": "M011 工程處",
+      "Executor": "張分析",
+      "ReportNo": "GCR-2026-0064",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000373-0000-0000-0001-000000000064",
+      "EntityID": "lab",
+      "Status": "1",
+      "GlassCode": "GI-2026-0010",
+      "GlassGuid": "所屬器皿65",
+      "CycleGuid": "v1.7",
+      "CalDate": "2025-09-09",
+      "CalResult": "L",
+      "NextCalDate": "2026-09-17",
+      "CalAgency": "M021 品保處",
+      "Executor": "張分析",
+      "ReportNo": "GCR-2025-0065",
+      "Remark": "需注意保存效期"
+     },
+     {
+      "RowGuid": "00000373-0000-0000-0001-000000000065",
+      "EntityID": "lab",
+      "Status": "1",
+      "GlassCode": "GI-2026-0010",
+      "GlassGuid": "所屬器皿66",
+      "CycleGuid": "v4.2",
+      "CalDate": "2025-06-16",
+      "CalResult": "P",
+      "NextCalDate": "2025-01-28",
+      "CalAgency": "M011 工程處",
+      "Executor": "林品保",
+      "ReportNo": "GCR-2026-0066",
+      "Remark": "複驗確認無誤"
+     },
+     {
+      "RowGuid": "00000373-0000-0000-0001-000000000066",
+      "EntityID": "lab",
+      "Status": "1",
+      "GlassCode": "GI-2026-0011",
+      "GlassGuid": "所屬器皿67",
+      "CycleGuid": "v5.1",
+      "CalDate": "2026-02-12",
+      "CalResult": "P",
+      "NextCalDate": "2025-12-25",
+      "CalAgency": "M061 採購處",
+      "Executor": "吳主任",
+      "ReportNo": "GCR-2025-0067",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000373-0000-0000-0001-000000000067",
+      "EntityID": "lab",
+      "Status": "1",
+      "GlassCode": "GI-2026-0011",
+      "GlassGuid": "所屬器皿68",
+      "CycleGuid": "v3.8",
+      "CalDate": "2025-09-11",
+      "CalResult": "P",
+      "NextCalDate": "2025-11-28",
+      "CalAgency": "M051 製造二處",
+      "Executor": "劉助理",
+      "ReportNo": "GCR-2025-0068",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000373-0000-0000-0001-000000000068",
+      "EntityID": "lab",
+      "Status": "1",
+      "GlassCode": "GI-2026-0012",
+      "GlassGuid": "所屬器皿69",
+      "CycleGuid": "v3.3",
+      "CalDate": "2026-01-16",
+      "CalResult": "P",
+      "NextCalDate": "2025-11-24",
+      "CalAgency": "M061 採購處",
+      "Executor": "周技士",
+      "ReportNo": "GCR-2025-0069",
+      "Remark": "樣品外觀正常"
+     },
+     {
+      "RowGuid": "00000373-0000-0000-0001-000000000069",
+      "EntityID": "lab",
+      "Status": "1",
+      "GlassCode": "GI-2026-0012",
+      "GlassGuid": "所屬器皿70",
+      "CycleGuid": "v3.2",
+      "CalDate": "2026-02-02",
+      "CalResult": "P",
+      "NextCalDate": "2026-05-07",
+      "CalAgency": "R001 研發中心",
+      "Executor": "劉助理",
+      "ReportNo": "GCR-2026-0070",
+      "Remark": "複驗確認無誤"
+     },
+     {
+      "RowGuid": "00000373-0000-0000-0001-000000000070",
+      "EntityID": "lab",
+      "Status": "1",
+      "GlassCode": "GI-2026-0012",
+      "GlassGuid": "所屬器皿71",
+      "CycleGuid": "v1.8",
+      "CalDate": "2025-09-16",
+      "CalResult": "P",
+      "NextCalDate": "2025-08-07",
+      "CalAgency": "M051 製造二處",
+      "Executor": "李檢測",
+      "ReportNo": "GCR-2025-0071",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000373-0000-0000-0001-000000000071",
+      "EntityID": "lab",
+      "Status": "1",
+      "GlassCode": "GI-2026-0012",
+      "GlassGuid": "所屬器皿72",
+      "CycleGuid": "v2.2",
+      "CalDate": "2025-01-08",
+      "CalResult": "F",
+      "NextCalDate": "2025-08-24",
+      "CalAgency": "R001 研發中心",
+      "Executor": "郭品管",
+      "ReportNo": "GCR-2025-0072",
+      "Remark": "定期校正合格"
+     },
+     {
+      "RowGuid": "00000373-0000-0000-0001-000000000072",
+      "EntityID": "lab",
+      "Status": "1",
+      "GlassCode": "GI-2026-0013",
+      "GlassGuid": "所屬器皿73",
+      "CycleGuid": "v2.3",
+      "CalDate": "2026-04-02",
+      "CalResult": "L",
+      "NextCalDate": "2026-03-04",
+      "CalAgency": "M041 製造一處",
+      "Executor": "李檢測",
+      "ReportNo": "GCR-2025-0073",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000373-0000-0000-0001-000000000073",
+      "EntityID": "lab",
+      "Status": "1",
+      "GlassCode": "GI-2026-0013",
+      "GlassGuid": "所屬器皿74",
+      "CycleGuid": "v5.2",
+      "CalDate": "2025-11-13",
+      "CalResult": "L",
+      "NextCalDate": "2025-05-04",
+      "CalAgency": "M031 環安處",
+      "Executor": "鄭組長",
+      "ReportNo": "GCR-2026-0074",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000373-0000-0000-0001-000000000074",
+      "EntityID": "lab",
+      "Status": "1",
+      "GlassCode": "GI-2026-0014",
+      "GlassGuid": "所屬器皿75",
+      "CycleGuid": "v5.7",
+      "CalDate": "2026-05-06",
+      "CalResult": "P",
+      "NextCalDate": "2025-05-20",
+      "CalAgency": "M011 工程處",
+      "Executor": "謝校正",
+      "ReportNo": "GCR-2026-0075",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000373-0000-0000-0001-000000000075",
+      "EntityID": "lab",
+      "Status": "1",
+      "GlassCode": "GI-2026-0014",
+      "GlassGuid": "所屬器皿76",
+      "CycleGuid": "v5.8",
+      "CalDate": "2026-07-04",
+      "CalResult": "P",
+      "NextCalDate": "2026-07-27",
+      "CalAgency": "M051 製造二處",
+      "Executor": "鄭組長",
+      "ReportNo": "GCR-2026-0076",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000373-0000-0000-0001-000000000076",
+      "EntityID": "lab",
+      "Status": "1",
+      "GlassCode": "GI-2026-0014",
+      "GlassGuid": "所屬器皿77",
+      "CycleGuid": "v5.3",
+      "CalDate": "2025-03-14",
+      "CalResult": "P",
+      "NextCalDate": "2026-08-06",
+      "CalAgency": "M061 採購處",
+      "Executor": "劉助理",
+      "ReportNo": "GCR-2026-0077",
+      "Remark": ""
+     }
+    ]
+   },
+   {
+    "DetailID": "Repair",
+    "Title": "維修紀錄",
+    "Icon": "ri-tools-line",
+    "Entity": "labAst_GlassRepairRecord",
+    "RelationKey": "GlassCode",
+    "RowKey": "RowGuid",
+    "AllowAdd": true,
+    "AllowEdit": true,
+    "AllowDelete": true,
+    "EmptyText": "尚無維修紀錄資料",
+    "CodeSets": {
+     "Status": [
+      {
+       "CodeID": "1",
+       "CodeName": "啟用",
+       "IsDefault": true
+      },
+      {
+       "CodeID": "0",
+       "CodeName": "停用"
+      }
+     ],
+     "Priority": [
+      {
+       "CodeID": "A",
+       "CodeName": "急件"
+      },
+      {
+       "CodeID": "B",
+       "CodeName": "高"
+      },
+      {
+       "CodeID": "C",
+       "CodeName": "一般",
+       "IsDefault": true
+      },
+      {
+       "CodeID": "D",
+       "CodeName": "低"
+      }
+     ],
+     "StatusBefore": [
+      {
+       "CodeID": "N",
+       "CodeName": "正常",
+       "IsDefault": true
+      },
+      {
+       "CodeID": "C",
+       "CodeName": "校正中"
+      },
+      {
+       "CodeID": "B",
+       "CodeName": "破損"
+      },
+      {
+       "CodeID": "X",
+       "CodeName": "報廢"
+      }
+     ],
+     "StatusAfter": [
+      {
+       "CodeID": "N",
+       "CodeName": "正常",
+       "IsDefault": true
+      },
+      {
+       "CodeID": "C",
+       "CodeName": "校正中"
+      },
+      {
+       "CodeID": "B",
+       "CodeName": "破損"
+      },
+      {
+       "CodeID": "X",
+       "CodeName": "報廢"
+      }
+     ]
+    },
+    "Columns": [
+     {
+      "BindField": "GlassGuid",
+      "Title": "所屬器皿",
+      "Width": 120,
+      "Align": "Left"
+     },
+     {
+      "BindField": "ReportDate",
+      "Title": "報修日期",
+      "Width": 120,
+      "Align": "Left",
+      "Formatter": "Date"
+     },
+     {
+      "BindField": "FaultDesc",
+      "Title": "故障描述",
+      "Width": 120,
+      "Align": "Left"
+     },
+     {
+      "BindField": "RepairVendor",
+      "Title": "維修廠商",
+      "Width": 120,
+      "Align": "Left"
+     },
+     {
+      "BindField": "StatusBefore",
+      "Title": "維修前狀態",
+      "Width": 120,
+      "Align": "Center",
+      "Formatter": "Tag",
+      "OptionKey": "StatusBefore"
+     }
+    ],
+    "FormFields": [
+     {
+      "BindField": "GlassGuid",
+      "Title": "所屬器皿",
+      "Component": "Input",
+      "Section": "",
+      "Span": 12,
+      "Mode": "ReadOnly",
+      "Validations": [
+       {
+        "Rule": "Required",
+        "Message": "所屬器皿為必填"
+       }
+      ]
+     },
+     {
+      "BindField": "ReportDate",
+      "Title": "報修日期",
+      "Component": "DatePicker",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Validations": [
+       {
+        "Rule": "Required",
+        "Message": "報修日期為必填"
+       }
+      ],
+      "Props": {
+       "Mode": "Editable",
+       "ShowTime": false
+      }
+     },
+     {
+      "BindField": "FaultDesc",
+      "Title": "故障描述",
+      "Component": "Textarea",
+      "Section": "",
+      "Span": 24,
+      "Mode": "Editable",
+      "Validations": [
+       {
+        "Rule": "Required",
+        "Message": "故障描述為必填"
+       },
+       {
+        "Rule": "MaxLength",
+        "Value": 500,
+        "Message": "長度不可超過 500"
+       }
+      ],
+      "Props": {
+       "Rows": 3
+      }
+     },
+     {
+      "BindField": "RepairVendor",
+      "Title": "維修廠商",
+      "Component": "Input",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Validations": [
+       {
+        "Rule": "MaxLength",
+        "Value": 100,
+        "Message": "長度不可超過 100"
+       }
+      ]
+     },
+     {
+      "BindField": "StatusBefore",
+      "Title": "維修前狀態",
+      "Component": "Select",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Validations": [
+       {
+        "Rule": "Required",
+        "Message": "維修前狀態為必填"
+       }
+      ],
+      "Props": {
+       "OptionKey": "StatusBefore"
+      },
+      "DefaultValue": "N"
+     },
+     {
+      "BindField": "StatusAfter",
+      "Title": "維修後狀態",
+      "Component": "Select",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Props": {
+       "OptionKey": "StatusAfter"
+      },
+      "DefaultValue": "N"
+     },
+     {
+      "BindField": "CompletedDate",
+      "Title": "維修完成日",
+      "Component": "DatePicker",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Props": {
+       "Mode": "Editable",
+       "ShowTime": false
+      }
+     },
+     {
+      "BindField": "Cost",
+      "Title": "維修費用",
+      "Component": "Input",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Props": {
+       "Type": "number"
+      }
+     },
+     {
+      "BindField": "Remark",
+      "Title": "備註",
+      "Component": "Input",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Validations": [
+       {
+        "Rule": "MaxLength",
+        "Value": 255,
+        "Message": "長度不可超過 255"
+       }
+      ]
+     }
+    ],
+    "SeedData": [
+     {
+      "RowGuid": "00000373-0000-0000-0001-000000000077",
+      "EntityID": "lab",
+      "Status": "1",
+      "GlassCode": "GI-2026-0001",
+      "GlassGuid": "所屬器皿78",
+      "ReportDate": "2026-12-10",
+      "FaultDesc": "複驗確認無誤",
+      "RepairVendor": "HACH",
+      "StatusBefore": "N",
+      "StatusAfter": "N",
+      "CompletedDate": "2026-11-02",
+      "Cost": 2000,
+      "Remark": "已通知申請單位"
+     },
+     {
+      "RowGuid": "00000373-0000-0000-0001-000000000078",
+      "EntityID": "lab",
+      "Status": "1",
+      "GlassCode": "GI-2026-0001",
+      "GlassGuid": "所屬器皿79",
+      "ReportDate": "2026-02-03",
+      "FaultDesc": "定期校正合格",
+      "RepairVendor": "Thermo Fisher",
+      "StatusBefore": "C",
+      "StatusAfter": "C",
+      "CompletedDate": "2025-12-19",
+      "Cost": 1500,
+      "Remark": "樣品外觀正常"
+     },
+     {
+      "RowGuid": "00000373-0000-0000-0001-000000000079",
+      "EntityID": "lab",
+      "Status": "1",
+      "GlassCode": "GI-2026-0001",
+      "GlassGuid": "所屬器皿80",
+      "ReportDate": "2026-06-01",
+      "FaultDesc": "",
+      "RepairVendor": "Mettler Toledo",
+      "StatusBefore": "B",
+      "StatusAfter": "N",
+      "CompletedDate": "2025-10-09",
+      "Cost": 5000,
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000373-0000-0000-0001-000000000080",
+      "EntityID": "lab",
+      "Status": "1",
+      "GlassCode": "GI-2026-0001",
+      "GlassGuid": "所屬器皿81",
+      "ReportDate": "2026-06-05",
+      "FaultDesc": "",
+      "RepairVendor": "Mettler Toledo",
+      "StatusBefore": "C",
+      "StatusAfter": "B",
+      "CompletedDate": "2026-02-16",
+      "Cost": 3500,
+      "Remark": "已通知申請單位"
+     },
+     {
+      "RowGuid": "00000373-0000-0000-0001-000000000081",
+      "EntityID": "lab",
+      "Status": "1",
+      "GlassCode": "GI-2026-0002",
+      "GlassGuid": "所屬器皿82",
+      "ReportDate": "2026-11-08",
+      "FaultDesc": "樣品外觀正常",
+      "RepairVendor": "Metrohm",
+      "StatusBefore": "X",
+      "StatusAfter": "B",
+      "CompletedDate": "2026-07-15",
+      "Cost": 3500,
+      "Remark": "需注意保存效期"
+     },
+     {
+      "RowGuid": "00000373-0000-0000-0001-000000000082",
+      "EntityID": "lab",
+      "Status": "1",
+      "GlassCode": "GI-2026-0002",
+      "GlassGuid": "所屬器皿83",
+      "ReportDate": "2026-07-07",
+      "FaultDesc": "定期校正合格",
+      "RepairVendor": "Thermo Fisher",
+      "StatusBefore": "N",
+      "StatusAfter": "B",
+      "CompletedDate": "2025-03-27",
+      "Cost": 3500,
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000373-0000-0000-0001-000000000083",
+      "EntityID": "lab",
+      "Status": "1",
+      "GlassCode": "GI-2026-0002",
+      "GlassGuid": "所屬器皿84",
+      "ReportDate": "2025-10-17",
+      "FaultDesc": "需注意保存效期",
+      "RepairVendor": "PerkinElmer",
+      "StatusBefore": "C",
+      "StatusAfter": "N",
+      "CompletedDate": "2025-07-14",
+      "Cost": 3500,
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000373-0000-0000-0001-000000000084",
+      "EntityID": "lab",
+      "Status": "1",
+      "GlassCode": "GI-2026-0003",
+      "GlassGuid": "所屬器皿85",
+      "ReportDate": "2025-11-04",
+      "FaultDesc": "",
+      "RepairVendor": "HACH",
+      "StatusBefore": "N",
+      "StatusAfter": "B",
+      "CompletedDate": "2025-03-14",
+      "Cost": 5000,
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000373-0000-0000-0001-000000000085",
+      "EntityID": "lab",
+      "Status": "1",
+      "GlassCode": "GI-2026-0003",
+      "GlassGuid": "所屬器皿86",
+      "ReportDate": "2025-06-03",
+      "FaultDesc": "",
+      "RepairVendor": "Mettler Toledo",
+      "StatusBefore": "N",
+      "StatusAfter": "X",
+      "CompletedDate": "2025-11-23",
+      "Cost": 2000,
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000373-0000-0000-0001-000000000086",
+      "EntityID": "lab",
+      "Status": "1",
+      "GlassCode": "GI-2026-0003",
+      "GlassGuid": "所屬器皿87",
+      "ReportDate": "2025-08-09",
+      "FaultDesc": "需注意保存效期",
+      "RepairVendor": "Agilent",
+      "StatusBefore": "N",
+      "StatusAfter": "N",
+      "CompletedDate": "2025-11-06",
+      "Cost": 5000,
+      "Remark": "急件已加收費用"
+     },
+     {
+      "RowGuid": "00000373-0000-0000-0001-000000000087",
+      "EntityID": "lab",
+      "Status": "1",
+      "GlassCode": "GI-2026-0004",
+      "GlassGuid": "所屬器皿88",
+      "ReportDate": "2025-05-11",
+      "FaultDesc": "",
+      "RepairVendor": "Shimadzu",
+      "StatusBefore": "N",
+      "StatusAfter": "N",
+      "CompletedDate": "2026-05-13",
+      "Cost": 1200,
+      "Remark": "樣品外觀正常"
+     },
+     {
+      "RowGuid": "00000373-0000-0000-0001-000000000088",
+      "EntityID": "lab",
+      "Status": "1",
+      "GlassCode": "GI-2026-0004",
+      "GlassGuid": "所屬器皿89",
+      "ReportDate": "2026-10-11",
+      "FaultDesc": "",
+      "RepairVendor": "Shimadzu",
+      "StatusBefore": "B",
+      "StatusAfter": "N",
+      "CompletedDate": "2026-02-15",
+      "Cost": 3500,
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000373-0000-0000-0001-000000000089",
+      "EntityID": "lab",
+      "Status": "1",
+      "GlassCode": "GI-2026-0004",
+      "GlassGuid": "所屬器皿90",
+      "ReportDate": "2025-05-04",
+      "FaultDesc": "",
+      "RepairVendor": "Metrohm",
+      "StatusBefore": "B",
+      "StatusAfter": "N",
+      "CompletedDate": "2025-08-20",
+      "Cost": 2000,
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000373-0000-0000-0001-000000000090",
+      "EntityID": "lab",
+      "Status": "1",
+      "GlassCode": "GI-2026-0004",
+      "GlassGuid": "所屬器皿91",
+      "ReportDate": "2026-03-14",
+      "FaultDesc": "",
+      "RepairVendor": "Agilent",
+      "StatusBefore": "B",
+      "StatusAfter": "N",
+      "CompletedDate": "2025-05-14",
+      "Cost": 1200,
+      "Remark": "待主管覆核"
+     },
+     {
+      "RowGuid": "00000373-0000-0000-0001-000000000091",
+      "EntityID": "lab",
+      "Status": "1",
+      "GlassCode": "GI-2026-0005",
+      "GlassGuid": "所屬器皿92",
+      "ReportDate": "2026-10-02",
+      "FaultDesc": "",
+      "RepairVendor": "Metrohm",
+      "StatusBefore": "N",
+      "StatusAfter": "N",
+      "CompletedDate": "2026-07-26",
+      "Cost": 1200,
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000373-0000-0000-0001-000000000092",
+      "EntityID": "lab",
+      "Status": "1",
+      "GlassCode": "GI-2026-0005",
+      "GlassGuid": "所屬器皿93",
+      "ReportDate": "2026-12-26",
+      "FaultDesc": "",
+      "RepairVendor": "Thermo Fisher",
+      "StatusBefore": "N",
+      "StatusAfter": "C",
+      "CompletedDate": "2026-06-02",
+      "Cost": 1200,
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000373-0000-0000-0001-000000000093",
+      "EntityID": "lab",
+      "Status": "1",
+      "GlassCode": "GI-2026-0005",
+      "GlassGuid": "所屬器皿94",
+      "ReportDate": "2026-03-06",
+      "FaultDesc": "待主管覆核",
+      "RepairVendor": "Thermo Fisher",
+      "StatusBefore": "X",
+      "StatusAfter": "N",
+      "CompletedDate": "2026-06-15",
+      "Cost": 1500,
+      "Remark": "需注意保存效期"
+     },
+     {
+      "RowGuid": "00000373-0000-0000-0001-000000000094",
+      "EntityID": "lab",
+      "Status": "1",
+      "GlassCode": "GI-2026-0005",
+      "GlassGuid": "所屬器皿95",
+      "ReportDate": "2026-03-05",
+      "FaultDesc": "已通知申請單位",
+      "RepairVendor": "Thermo Fisher",
+      "StatusBefore": "X",
+      "StatusAfter": "N",
+      "CompletedDate": "2026-10-05",
+      "Cost": 3500,
+      "Remark": "需注意保存效期"
+     },
+     {
+      "RowGuid": "00000373-0000-0000-0001-000000000095",
+      "EntityID": "lab",
+      "Status": "1",
+      "GlassCode": "GI-2026-0006",
+      "GlassGuid": "所屬器皿96",
+      "ReportDate": "2025-06-22",
+      "FaultDesc": "客戶要求附 TAF Logo",
+      "RepairVendor": "Metrohm",
+      "StatusBefore": "N",
+      "StatusAfter": "N",
+      "CompletedDate": "2026-08-24",
+      "Cost": 3500,
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000373-0000-0000-0001-000000000096",
+      "EntityID": "lab",
+      "Status": "1",
+      "GlassCode": "GI-2026-0006",
+      "GlassGuid": "所屬器皿97",
+      "ReportDate": "2025-10-12",
+      "FaultDesc": "",
+      "RepairVendor": "Shimadzu",
+      "StatusBefore": "X",
+      "StatusAfter": "N",
+      "CompletedDate": "2025-10-21",
+      "Cost": 5000,
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000373-0000-0000-0001-000000000097",
+      "EntityID": "lab",
+      "Status": "1",
+      "GlassCode": "GI-2026-0007",
+      "GlassGuid": "所屬器皿98",
+      "ReportDate": "2025-09-19",
+      "FaultDesc": "",
+      "RepairVendor": "Agilent",
+      "StatusBefore": "N",
+      "StatusAfter": "N",
+      "CompletedDate": "2025-08-08",
+      "Cost": 1200,
+      "Remark": "定期校正合格"
+     },
+     {
+      "RowGuid": "00000373-0000-0000-0001-000000000098",
+      "EntityID": "lab",
+      "Status": "1",
+      "GlassCode": "GI-2026-0007",
+      "GlassGuid": "所屬器皿99",
+      "ReportDate": "2025-07-25",
+      "FaultDesc": "",
+      "RepairVendor": "HACH",
+      "StatusBefore": "C",
+      "StatusAfter": "X",
+      "CompletedDate": "2026-09-18",
+      "Cost": 3500,
+      "Remark": "客戶要求附 TAF Logo"
+     },
+     {
+      "RowGuid": "00000373-0000-0000-0001-000000000099",
+      "EntityID": "lab",
+      "Status": "1",
+      "GlassCode": "GI-2026-0008",
+      "GlassGuid": "所屬器皿100",
+      "ReportDate": "2026-08-18",
+      "FaultDesc": "",
+      "RepairVendor": "Shimadzu",
+      "StatusBefore": "N",
+      "StatusAfter": "N",
+      "CompletedDate": "2025-02-19",
+      "Cost": 1200,
+      "Remark": "需注意保存效期"
+     },
+     {
+      "RowGuid": "00000373-0000-0000-0001-000000000100",
+      "EntityID": "lab",
+      "Status": "1",
+      "GlassCode": "GI-2026-0008",
+      "GlassGuid": "所屬器皿101",
+      "ReportDate": "2025-04-15",
+      "FaultDesc": "",
+      "RepairVendor": "Mettler Toledo",
+      "StatusBefore": "X",
+      "StatusAfter": "C",
+      "CompletedDate": "2026-05-09",
+      "Cost": 2000,
+      "Remark": "已通知申請單位"
+     },
+     {
+      "RowGuid": "00000373-0000-0000-0001-000000000101",
+      "EntityID": "lab",
+      "Status": "1",
+      "GlassCode": "GI-2026-0008",
+      "GlassGuid": "所屬器皿102",
+      "ReportDate": "2025-04-23",
+      "FaultDesc": "急件已加收費用",
+      "RepairVendor": "PerkinElmer",
+      "StatusBefore": "B",
+      "StatusAfter": "N",
+      "CompletedDate": "2025-03-24",
+      "Cost": 2000,
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000373-0000-0000-0001-000000000102",
+      "EntityID": "lab",
+      "Status": "1",
+      "GlassCode": "GI-2026-0009",
+      "GlassGuid": "所屬器皿103",
+      "ReportDate": "2025-08-02",
+      "FaultDesc": "待主管覆核",
+      "RepairVendor": "Thermo Fisher",
+      "StatusBefore": "N",
+      "StatusAfter": "C",
+      "CompletedDate": "2026-09-24",
+      "Cost": 5000,
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000373-0000-0000-0001-000000000103",
+      "EntityID": "lab",
+      "Status": "1",
+      "GlassCode": "GI-2026-0009",
+      "GlassGuid": "所屬器皿104",
+      "ReportDate": "2026-09-15",
+      "FaultDesc": "樣品外觀正常",
+      "RepairVendor": "HACH",
+      "StatusBefore": "B",
+      "StatusAfter": "N",
+      "CompletedDate": "2026-12-04",
+      "Cost": 2000,
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000373-0000-0000-0001-000000000104",
+      "EntityID": "lab",
+      "Status": "1",
+      "GlassCode": "GI-2026-0009",
+      "GlassGuid": "所屬器皿105",
+      "ReportDate": "2025-09-15",
+      "FaultDesc": "",
+      "RepairVendor": "Agilent",
+      "StatusBefore": "N",
+      "StatusAfter": "B",
+      "CompletedDate": "2026-05-11",
+      "Cost": 5000,
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000373-0000-0000-0001-000000000105",
+      "EntityID": "lab",
+      "Status": "1",
+      "GlassCode": "GI-2026-0009",
+      "GlassGuid": "所屬器皿106",
+      "ReportDate": "2026-03-16",
+      "FaultDesc": "",
+      "RepairVendor": "Metrohm",
+      "StatusBefore": "N",
+      "StatusAfter": "X",
+      "CompletedDate": "2025-07-10",
+      "Cost": 1200,
+      "Remark": "待主管覆核"
+     },
+     {
+      "RowGuid": "00000373-0000-0000-0001-000000000106",
+      "EntityID": "lab",
+      "Status": "1",
+      "GlassCode": "GI-2026-0010",
+      "GlassGuid": "所屬器皿107",
+      "ReportDate": "2026-09-03",
+      "FaultDesc": "複驗確認無誤",
+      "RepairVendor": "HACH",
+      "StatusBefore": "C",
+      "StatusAfter": "N",
+      "CompletedDate": "2025-06-06",
+      "Cost": 2000,
+      "Remark": "定期校正合格"
+     },
+     {
+      "RowGuid": "00000373-0000-0000-0001-000000000107",
+      "EntityID": "lab",
+      "Status": "1",
+      "GlassCode": "GI-2026-0010",
+      "GlassGuid": "所屬器皿108",
+      "ReportDate": "2025-10-07",
+      "FaultDesc": "定期校正合格",
+      "RepairVendor": "Mettler Toledo",
+      "StatusBefore": "N",
+      "StatusAfter": "N",
+      "CompletedDate": "2026-03-03",
+      "Cost": 1200,
+      "Remark": "已通知申請單位"
+     },
+     {
+      "RowGuid": "00000373-0000-0000-0001-000000000108",
+      "EntityID": "lab",
+      "Status": "1",
+      "GlassCode": "GI-2026-0011",
+      "GlassGuid": "所屬器皿109",
+      "ReportDate": "2025-02-28",
+      "FaultDesc": "",
+      "RepairVendor": "Shimadzu",
+      "StatusBefore": "N",
+      "StatusAfter": "N",
+      "CompletedDate": "2026-11-02",
+      "Cost": 2000,
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000373-0000-0000-0001-000000000109",
+      "EntityID": "lab",
+      "Status": "1",
+      "GlassCode": "GI-2026-0011",
+      "GlassGuid": "所屬器皿110",
+      "ReportDate": "2025-04-05",
+      "FaultDesc": "定期校正合格",
+      "RepairVendor": "Metrohm",
+      "StatusBefore": "C",
+      "StatusAfter": "N",
+      "CompletedDate": "2026-10-22",
+      "Cost": 5000,
+      "Remark": "客戶要求附 TAF Logo"
+     },
+     {
+      "RowGuid": "00000373-0000-0000-0001-000000000110",
+      "EntityID": "lab",
+      "Status": "1",
+      "GlassCode": "GI-2026-0012",
+      "GlassGuid": "所屬器皿111",
+      "ReportDate": "2026-04-02",
+      "FaultDesc": "",
+      "RepairVendor": "Agilent",
+      "StatusBefore": "C",
+      "StatusAfter": "X",
+      "CompletedDate": "2026-03-03",
+      "Cost": 1500,
+      "Remark": "待主管覆核"
+     },
+     {
+      "RowGuid": "00000373-0000-0000-0001-000000000111",
+      "EntityID": "lab",
+      "Status": "1",
+      "GlassCode": "GI-2026-0012",
+      "GlassGuid": "所屬器皿112",
+      "ReportDate": "2026-05-24",
+      "FaultDesc": "複驗確認無誤",
+      "RepairVendor": "Metrohm",
+      "StatusBefore": "N",
+      "StatusAfter": "B",
+      "CompletedDate": "2026-08-03",
+      "Cost": 3500,
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000373-0000-0000-0001-000000000112",
+      "EntityID": "lab",
+      "Status": "1",
+      "GlassCode": "GI-2026-0013",
+      "GlassGuid": "所屬器皿113",
+      "ReportDate": "2025-02-05",
+      "FaultDesc": "",
+      "RepairVendor": "Metrohm",
+      "StatusBefore": "C",
+      "StatusAfter": "C",
+      "CompletedDate": "2026-12-01",
+      "Cost": 5000,
+      "Remark": "待主管覆核"
+     },
+     {
+      "RowGuid": "00000373-0000-0000-0001-000000000113",
+      "EntityID": "lab",
+      "Status": "1",
+      "GlassCode": "GI-2026-0013",
+      "GlassGuid": "所屬器皿114",
+      "ReportDate": "2026-06-10",
+      "FaultDesc": "",
+      "RepairVendor": "Metrohm",
+      "StatusBefore": "N",
+      "StatusAfter": "B",
+      "CompletedDate": "2026-09-04",
+      "Cost": 5000,
+      "Remark": "樣品外觀正常"
+     },
+     {
+      "RowGuid": "00000373-0000-0000-0001-000000000114",
+      "EntityID": "lab",
+      "Status": "1",
+      "GlassCode": "GI-2026-0013",
+      "GlassGuid": "所屬器皿115",
+      "ReportDate": "2026-12-21",
+      "FaultDesc": "樣品外觀正常",
+      "RepairVendor": "HACH",
+      "StatusBefore": "N",
+      "StatusAfter": "N",
+      "CompletedDate": "2025-06-06",
+      "Cost": 1500,
+      "Remark": "已通知申請單位"
+     },
+     {
+      "RowGuid": "00000373-0000-0000-0001-000000000115",
+      "EntityID": "lab",
+      "Status": "1",
+      "GlassCode": "GI-2026-0013",
+      "GlassGuid": "所屬器皿116",
+      "ReportDate": "2025-09-18",
+      "FaultDesc": "",
+      "RepairVendor": "Shimadzu",
+      "StatusBefore": "N",
+      "StatusAfter": "N",
+      "CompletedDate": "2026-05-15",
+      "Cost": 1500,
+      "Remark": "急件已加收費用"
+     },
+     {
+      "RowGuid": "00000373-0000-0000-0001-000000000116",
+      "EntityID": "lab",
+      "Status": "1",
+      "GlassCode": "GI-2026-0014",
+      "GlassGuid": "所屬器皿117",
+      "ReportDate": "2025-06-15",
+      "FaultDesc": "",
+      "RepairVendor": "Thermo Fisher",
+      "StatusBefore": "C",
+      "StatusAfter": "N",
+      "CompletedDate": "2026-05-12",
+      "Cost": 2000,
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000373-0000-0000-0001-000000000117",
+      "EntityID": "lab",
+      "Status": "1",
+      "GlassCode": "GI-2026-0014",
+      "GlassGuid": "所屬器皿118",
+      "ReportDate": "2025-05-10",
+      "FaultDesc": "已通知申請單位",
+      "RepairVendor": "Mettler Toledo",
+      "StatusBefore": "N",
+      "StatusAfter": "N",
+      "CompletedDate": "2025-04-22",
+      "Cost": 1500,
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000373-0000-0000-0001-000000000118",
+      "EntityID": "lab",
+      "Status": "1",
+      "GlassCode": "GI-2026-0014",
+      "GlassGuid": "所屬器皿119",
+      "ReportDate": "2026-05-08",
+      "FaultDesc": "",
+      "RepairVendor": "HACH",
+      "StatusBefore": "C",
+      "StatusAfter": "C",
+      "CompletedDate": "2026-08-26",
+      "Cost": 2000,
+      "Remark": ""
+     }
+    ]
+   },
+   {
+    "DetailID": "Usage",
+    "Title": "使用紀錄",
+    "Icon": "ri-history-line",
+    "Entity": "labAst_GlassUsageRecord",
+    "RelationKey": "GlassCode",
+    "RowKey": "RowGuid",
+    "AllowAdd": true,
+    "AllowEdit": true,
+    "AllowDelete": true,
+    "EmptyText": "尚無使用紀錄資料",
+    "CodeSets": {
+     "Status": [
+      {
+       "CodeID": "1",
+       "CodeName": "啟用",
+       "IsDefault": true
+      },
+      {
+       "CodeID": "0",
+       "CodeName": "停用"
+      }
+     ],
+     "Priority": [
+      {
+       "CodeID": "A",
+       "CodeName": "急件"
+      },
+      {
+       "CodeID": "B",
+       "CodeName": "高"
+      },
+      {
+       "CodeID": "C",
+       "CodeName": "一般",
+       "IsDefault": true
+      },
+      {
+       "CodeID": "D",
+       "CodeName": "低"
+      }
+     ]
+    },
+    "Columns": [
+     {
+      "BindField": "GlassGuid",
+      "Title": "所屬器皿",
+      "Width": 120,
+      "Align": "Left"
+     },
+     {
+      "BindField": "UserName",
+      "Title": "使用人員",
+      "Width": 120,
+      "Align": "Left"
+     },
+     {
+      "BindField": "StartTime",
+      "Title": "使用起始時間",
+      "Width": 120,
+      "Align": "Left",
+      "Formatter": "Date"
+     },
+     {
+      "BindField": "EndTime",
+      "Title": "使用結束時間",
+      "Width": 120,
+      "Align": "Left",
+      "Formatter": "Date"
+     },
+     {
+      "BindField": "TestOrderNo",
+      "Title": "對應檢驗單編號",
+      "Width": 120,
+      "Align": "Left"
+     }
+    ],
+    "FormFields": [
+     {
+      "BindField": "GlassGuid",
+      "Title": "所屬器皿",
+      "Component": "Input",
+      "Section": "",
+      "Span": 12,
+      "Mode": "ReadOnly",
+      "Validations": [
+       {
+        "Rule": "Required",
+        "Message": "所屬器皿為必填"
+       }
+      ]
+     },
+     {
+      "BindField": "UserName",
+      "Title": "使用人員",
+      "Component": "Input",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Validations": [
+       {
+        "Rule": "Required",
+        "Message": "使用人員為必填"
+       },
+       {
+        "Rule": "MaxLength",
+        "Value": 50,
+        "Message": "長度不可超過 50"
+       }
+      ]
+     },
+     {
+      "BindField": "StartTime",
+      "Title": "使用起始時間",
+      "Component": "DatePicker",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Validations": [
+       {
+        "Rule": "Required",
+        "Message": "使用起始時間為必填"
+       }
+      ],
+      "Props": {
+       "Mode": "Editable",
+       "ShowTime": false
+      }
+     },
+     {
+      "BindField": "EndTime",
+      "Title": "使用結束時間",
+      "Component": "DatePicker",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Props": {
+       "Mode": "Editable",
+       "ShowTime": false
+      }
+     },
+     {
+      "BindField": "TestOrderNo",
+      "Title": "對應檢驗單編號",
+      "Component": "Input",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Validations": [
+       {
+        "Rule": "MaxLength",
+        "Value": 30,
+        "Message": "長度不可超過 30"
+       }
+      ]
+     },
+     {
+      "BindField": "Remark",
+      "Title": "備註",
+      "Component": "Input",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Validations": [
+       {
+        "Rule": "MaxLength",
+        "Value": 255,
+        "Message": "長度不可超過 255"
+       }
+      ]
+     }
+    ],
+    "SeedData": [
+     {
+      "RowGuid": "00000373-0000-0000-0001-000000000119",
+      "EntityID": "lab",
+      "Status": "1",
+      "GlassCode": "GI-2026-0001",
+      "GlassGuid": "所屬器皿120",
+      "UserName": "吳主任",
+      "StartTime": "2026-05-06",
+      "EndTime": "2025-03-14",
+      "TestOrderNo": "GUR-2025-0120",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000373-0000-0000-0001-000000000120",
+      "EntityID": "lab",
+      "Status": "1",
+      "GlassCode": "GI-2026-0001",
+      "GlassGuid": "所屬器皿121",
+      "UserName": "張分析",
+      "StartTime": "2025-06-11",
+      "EndTime": "2026-01-18",
+      "TestOrderNo": "GUR-2025-0121",
+      "Remark": "樣品外觀正常"
+     },
+     {
+      "RowGuid": "00000373-0000-0000-0001-000000000121",
+      "EntityID": "lab",
+      "Status": "1",
+      "GlassCode": "GI-2026-0001",
+      "GlassGuid": "所屬器皿122",
+      "UserName": "周技士",
+      "StartTime": "2025-07-15",
+      "EndTime": "2026-11-11",
+      "TestOrderNo": "GUR-2025-0122",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000373-0000-0000-0001-000000000122",
+      "EntityID": "lab",
+      "Status": "1",
+      "GlassCode": "GI-2026-0002",
+      "GlassGuid": "所屬器皿123",
+      "UserName": "郭品管",
+      "StartTime": "2025-01-25",
+      "EndTime": "2025-03-25",
+      "TestOrderNo": "GUR-2025-0123",
+      "Remark": "客戶要求附 TAF Logo"
+     },
+     {
+      "RowGuid": "00000373-0000-0000-0001-000000000123",
+      "EntityID": "lab",
+      "Status": "1",
+      "GlassCode": "GI-2026-0002",
+      "GlassGuid": "所屬器皿124",
+      "UserName": "楊化驗",
+      "StartTime": "2026-07-18",
+      "EndTime": "2026-02-21",
+      "TestOrderNo": "GUR-2026-0124",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000373-0000-0000-0001-000000000124",
+      "EntityID": "lab",
+      "Status": "1",
+      "GlassCode": "GI-2026-0003",
+      "GlassGuid": "所屬器皿125",
+      "UserName": "劉助理",
+      "StartTime": "2025-12-18",
+      "EndTime": "2025-05-27",
+      "TestOrderNo": "GUR-2025-0125",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000373-0000-0000-0001-000000000125",
+      "EntityID": "lab",
+      "Status": "1",
+      "GlassCode": "GI-2026-0003",
+      "GlassGuid": "所屬器皿126",
+      "UserName": "李檢測",
+      "StartTime": "2026-08-26",
+      "EndTime": "2025-03-11",
+      "TestOrderNo": "GUR-2026-0126",
+      "Remark": "已通知申請單位"
+     },
+     {
+      "RowGuid": "00000373-0000-0000-0001-000000000126",
+      "EntityID": "lab",
+      "Status": "1",
+      "GlassCode": "GI-2026-0003",
+      "GlassGuid": "所屬器皿127",
+      "UserName": "李檢測",
+      "StartTime": "2025-08-04",
+      "EndTime": "2025-04-27",
+      "TestOrderNo": "GUR-2025-0127",
+      "Remark": "客戶要求附 TAF Logo"
+     },
+     {
+      "RowGuid": "00000373-0000-0000-0001-000000000127",
+      "EntityID": "lab",
+      "Status": "1",
+      "GlassCode": "GI-2026-0003",
+      "GlassGuid": "所屬器皿128",
+      "UserName": "謝校正",
+      "StartTime": "2026-05-18",
+      "EndTime": "2025-05-03",
+      "TestOrderNo": "GUR-2025-0128",
+      "Remark": "定期校正合格"
+     },
+     {
+      "RowGuid": "00000373-0000-0000-0001-000000000128",
+      "EntityID": "lab",
+      "Status": "1",
+      "GlassCode": "GI-2026-0004",
+      "GlassGuid": "所屬器皿129",
+      "UserName": "張分析",
+      "StartTime": "2025-06-15",
+      "EndTime": "2025-02-03",
+      "TestOrderNo": "GUR-2026-0129",
+      "Remark": "急件已加收費用"
+     },
+     {
+      "RowGuid": "00000373-0000-0000-0001-000000000129",
+      "EntityID": "lab",
+      "Status": "1",
+      "GlassCode": "GI-2026-0004",
+      "GlassGuid": "所屬器皿130",
+      "UserName": "蔡研究",
+      "StartTime": "2025-01-11",
+      "EndTime": "2025-03-27",
+      "TestOrderNo": "GUR-2025-0130",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000373-0000-0000-0001-000000000130",
+      "EntityID": "lab",
+      "Status": "1",
+      "GlassCode": "GI-2026-0004",
+      "GlassGuid": "所屬器皿131",
+      "UserName": "劉助理",
+      "StartTime": "2025-11-08",
+      "EndTime": "2026-03-24",
+      "TestOrderNo": "GUR-2026-0131",
+      "Remark": "急件已加收費用"
+     },
+     {
+      "RowGuid": "00000373-0000-0000-0001-000000000131",
+      "EntityID": "lab",
+      "Status": "1",
+      "GlassCode": "GI-2026-0004",
+      "GlassGuid": "所屬器皿132",
+      "UserName": "王采樣",
+      "StartTime": "2025-03-14",
+      "EndTime": "2025-11-06",
+      "TestOrderNo": "GUR-2025-0132",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000373-0000-0000-0001-000000000132",
+      "EntityID": "lab",
+      "Status": "1",
+      "GlassCode": "GI-2026-0005",
+      "GlassGuid": "所屬器皿133",
+      "UserName": "郭品管",
+      "StartTime": "2026-02-20",
+      "EndTime": "2026-01-18",
+      "TestOrderNo": "GUR-2026-0133",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000373-0000-0000-0001-000000000133",
+      "EntityID": "lab",
+      "Status": "1",
+      "GlassCode": "GI-2026-0005",
+      "GlassGuid": "所屬器皿134",
+      "UserName": "黃技正",
+      "StartTime": "2026-02-12",
+      "EndTime": "2026-08-09",
+      "TestOrderNo": "GUR-2026-0134",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000373-0000-0000-0001-000000000134",
+      "EntityID": "lab",
+      "Status": "1",
+      "GlassCode": "GI-2026-0005",
+      "GlassGuid": "所屬器皿135",
+      "UserName": "陳審核",
+      "StartTime": "2026-09-27",
+      "EndTime": "2026-03-02",
+      "TestOrderNo": "GUR-2026-0135",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000373-0000-0000-0001-000000000135",
+      "EntityID": "lab",
+      "Status": "1",
+      "GlassCode": "GI-2026-0005",
+      "GlassGuid": "所屬器皿136",
+      "UserName": "黃技正",
+      "StartTime": "2025-08-04",
+      "EndTime": "2026-12-06",
+      "TestOrderNo": "GUR-2025-0136",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000373-0000-0000-0001-000000000136",
+      "EntityID": "lab",
+      "Status": "1",
+      "GlassCode": "GI-2026-0006",
+      "GlassGuid": "所屬器皿137",
+      "UserName": "吳主任",
+      "StartTime": "2026-11-02",
+      "EndTime": "2026-12-21",
+      "TestOrderNo": "GUR-2026-0137",
+      "Remark": "定期校正合格"
+     },
+     {
+      "RowGuid": "00000373-0000-0000-0001-000000000137",
+      "EntityID": "lab",
+      "Status": "1",
+      "GlassCode": "GI-2026-0006",
+      "GlassGuid": "所屬器皿138",
+      "UserName": "謝校正",
+      "StartTime": "2026-07-02",
+      "EndTime": "2026-02-05",
+      "TestOrderNo": "GUR-2026-0138",
+      "Remark": "樣品外觀正常"
+     },
+     {
+      "RowGuid": "00000373-0000-0000-0001-000000000138",
+      "EntityID": "lab",
+      "Status": "1",
+      "GlassCode": "GI-2026-0007",
+      "GlassGuid": "所屬器皿139",
+      "UserName": "林品保",
+      "StartTime": "2026-02-23",
+      "EndTime": "2026-04-04",
+      "TestOrderNo": "GUR-2025-0139",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000373-0000-0000-0001-000000000139",
+      "EntityID": "lab",
+      "Status": "1",
+      "GlassCode": "GI-2026-0007",
+      "GlassGuid": "所屬器皿140",
+      "UserName": "周技士",
+      "StartTime": "2025-05-07",
+      "EndTime": "2025-09-25",
+      "TestOrderNo": "GUR-2025-0140",
+      "Remark": "待主管覆核"
+     },
+     {
+      "RowGuid": "00000373-0000-0000-0001-000000000140",
+      "EntityID": "lab",
+      "Status": "1",
+      "GlassCode": "GI-2026-0008",
+      "GlassGuid": "所屬器皿141",
+      "UserName": "吳主任",
+      "StartTime": "2025-01-24",
+      "EndTime": "2026-02-13",
+      "TestOrderNo": "GUR-2025-0141",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000373-0000-0000-0001-000000000141",
+      "EntityID": "lab",
+      "Status": "1",
+      "GlassCode": "GI-2026-0008",
+      "GlassGuid": "所屬器皿142",
+      "UserName": "黃技正",
+      "StartTime": "2025-01-01",
+      "EndTime": "2025-03-19",
+      "TestOrderNo": "GUR-2025-0142",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000373-0000-0000-0001-000000000142",
+      "EntityID": "lab",
+      "Status": "1",
+      "GlassCode": "GI-2026-0008",
+      "GlassGuid": "所屬器皿143",
+      "UserName": "劉助理",
+      "StartTime": "2026-07-08",
+      "EndTime": "2026-01-05",
+      "TestOrderNo": "GUR-2025-0143",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000373-0000-0000-0001-000000000143",
+      "EntityID": "lab",
+      "Status": "1",
+      "GlassCode": "GI-2026-0008",
+      "GlassGuid": "所屬器皿144",
+      "UserName": "吳主任",
+      "StartTime": "2025-02-12",
+      "EndTime": "2025-04-11",
+      "TestOrderNo": "GUR-2026-0144",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000373-0000-0000-0001-000000000144",
+      "EntityID": "lab",
+      "Status": "1",
+      "GlassCode": "GI-2026-0009",
+      "GlassGuid": "所屬器皿145",
+      "UserName": "周技士",
+      "StartTime": "2026-09-10",
+      "EndTime": "2026-06-16",
+      "TestOrderNo": "GUR-2025-0145",
+      "Remark": "急件已加收費用"
+     },
+     {
+      "RowGuid": "00000373-0000-0000-0001-000000000145",
+      "EntityID": "lab",
+      "Status": "1",
+      "GlassCode": "GI-2026-0009",
+      "GlassGuid": "所屬器皿146",
+      "UserName": "鄭組長",
+      "StartTime": "2026-03-28",
+      "EndTime": "2026-10-06",
+      "TestOrderNo": "GUR-2026-0146",
+      "Remark": "需注意保存效期"
+     },
+     {
+      "RowGuid": "00000373-0000-0000-0001-000000000146",
+      "EntityID": "lab",
+      "Status": "1",
+      "GlassCode": "GI-2026-0010",
+      "GlassGuid": "所屬器皿147",
+      "UserName": "楊化驗",
+      "StartTime": "2026-03-17",
+      "EndTime": "2025-06-08",
+      "TestOrderNo": "GUR-2025-0147",
+      "Remark": "待主管覆核"
+     },
+     {
+      "RowGuid": "00000373-0000-0000-0001-000000000147",
+      "EntityID": "lab",
+      "Status": "1",
+      "GlassCode": "GI-2026-0010",
+      "GlassGuid": "所屬器皿148",
+      "UserName": "王采樣",
+      "StartTime": "2025-09-02",
+      "EndTime": "2025-05-06",
+      "TestOrderNo": "GUR-2025-0148",
+      "Remark": "定期校正合格"
+     },
+     {
+      "RowGuid": "00000373-0000-0000-0001-000000000148",
+      "EntityID": "lab",
+      "Status": "1",
+      "GlassCode": "GI-2026-0010",
+      "GlassGuid": "所屬器皿149",
+      "UserName": "張分析",
+      "StartTime": "2026-01-19",
+      "EndTime": "2025-10-08",
+      "TestOrderNo": "GUR-2026-0149",
+      "Remark": "客戶要求附 TAF Logo"
+     },
+     {
+      "RowGuid": "00000373-0000-0000-0001-000000000149",
+      "EntityID": "lab",
+      "Status": "1",
+      "GlassCode": "GI-2026-0010",
+      "GlassGuid": "所屬器皿150",
+      "UserName": "劉助理",
+      "StartTime": "2025-03-24",
+      "EndTime": "2026-02-05",
+      "TestOrderNo": "GUR-2026-0150",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000373-0000-0000-0001-000000000150",
+      "EntityID": "lab",
+      "Status": "1",
+      "GlassCode": "GI-2026-0011",
+      "GlassGuid": "所屬器皿151",
+      "UserName": "張分析",
+      "StartTime": "2025-12-21",
+      "EndTime": "2026-07-08",
+      "TestOrderNo": "GUR-2025-0151",
+      "Remark": "需注意保存效期"
+     },
+     {
+      "RowGuid": "00000373-0000-0000-0001-000000000151",
+      "EntityID": "lab",
+      "Status": "1",
+      "GlassCode": "GI-2026-0011",
+      "GlassGuid": "所屬器皿152",
+      "UserName": "何環安",
+      "StartTime": "2026-11-06",
+      "EndTime": "2026-03-11",
+      "TestOrderNo": "GUR-2026-0152",
+      "Remark": "需注意保存效期"
+     },
+     {
+      "RowGuid": "00000373-0000-0000-0001-000000000152",
+      "EntityID": "lab",
+      "Status": "1",
+      "GlassCode": "GI-2026-0011",
+      "GlassGuid": "所屬器皿153",
+      "UserName": "何環安",
+      "StartTime": "2025-10-10",
+      "EndTime": "2025-09-25",
+      "TestOrderNo": "GUR-2025-0153",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000373-0000-0000-0001-000000000153",
+      "EntityID": "lab",
+      "Status": "1",
+      "GlassCode": "GI-2026-0011",
+      "GlassGuid": "所屬器皿154",
+      "UserName": "許工程",
+      "StartTime": "2026-02-16",
+      "EndTime": "2025-07-21",
+      "TestOrderNo": "GUR-2025-0154",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000373-0000-0000-0001-000000000154",
+      "EntityID": "lab",
+      "Status": "1",
+      "GlassCode": "GI-2026-0012",
+      "GlassGuid": "所屬器皿155",
+      "UserName": "劉助理",
+      "StartTime": "2026-07-06",
+      "EndTime": "2026-11-23",
+      "TestOrderNo": "GUR-2025-0155",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000373-0000-0000-0001-000000000155",
+      "EntityID": "lab",
+      "Status": "1",
+      "GlassCode": "GI-2026-0012",
+      "GlassGuid": "所屬器皿156",
+      "UserName": "王采樣",
+      "StartTime": "2025-10-18",
+      "EndTime": "2025-03-05",
+      "TestOrderNo": "GUR-2026-0156",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000373-0000-0000-0001-000000000156",
+      "EntityID": "lab",
+      "Status": "1",
+      "GlassCode": "GI-2026-0012",
+      "GlassGuid": "所屬器皿157",
+      "UserName": "蔡研究",
+      "StartTime": "2026-04-02",
+      "EndTime": "2026-07-16",
+      "TestOrderNo": "GUR-2025-0157",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000373-0000-0000-0001-000000000157",
+      "EntityID": "lab",
+      "Status": "1",
+      "GlassCode": "GI-2026-0013",
+      "GlassGuid": "所屬器皿158",
+      "UserName": "黃技正",
+      "StartTime": "2025-08-11",
+      "EndTime": "2025-02-12",
+      "TestOrderNo": "GUR-2026-0158",
+      "Remark": "複驗確認無誤"
+     },
+     {
+      "RowGuid": "00000373-0000-0000-0001-000000000158",
+      "EntityID": "lab",
+      "Status": "1",
+      "GlassCode": "GI-2026-0013",
+      "GlassGuid": "所屬器皿159",
+      "UserName": "郭品管",
+      "StartTime": "2025-02-21",
+      "EndTime": "2025-07-17",
+      "TestOrderNo": "GUR-2025-0159",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000373-0000-0000-0001-000000000159",
+      "EntityID": "lab",
+      "Status": "1",
+      "GlassCode": "GI-2026-0013",
+      "GlassGuid": "所屬器皿160",
+      "UserName": "何環安",
+      "StartTime": "2026-06-15",
+      "EndTime": "2025-01-03",
+      "TestOrderNo": "GUR-2025-0160",
+      "Remark": "已通知申請單位"
+     },
+     {
+      "RowGuid": "00000373-0000-0000-0001-000000000160",
+      "EntityID": "lab",
+      "Status": "1",
+      "GlassCode": "GI-2026-0014",
+      "GlassGuid": "所屬器皿161",
+      "UserName": "吳主任",
+      "StartTime": "2025-12-11",
+      "EndTime": "2026-01-19",
+      "TestOrderNo": "GUR-2025-0161",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000373-0000-0000-0001-000000000161",
+      "EntityID": "lab",
+      "Status": "1",
+      "GlassCode": "GI-2026-0014",
+      "GlassGuid": "所屬器皿162",
+      "UserName": "郭品管",
+      "StartTime": "2026-02-15",
+      "EndTime": "2026-09-18",
+      "TestOrderNo": "GUR-2025-0162",
+      "Remark": "已通知申請單位"
+     },
+     {
+      "RowGuid": "00000373-0000-0000-0001-000000000162",
+      "EntityID": "lab",
+      "Status": "1",
+      "GlassCode": "GI-2026-0014",
+      "GlassGuid": "所屬器皿163",
+      "UserName": "周技士",
+      "StartTime": "2026-02-15",
+      "EndTime": "2026-09-27",
+      "TestOrderNo": "GUR-2026-0163",
+      "Remark": "定期校正合格"
+     }
+    ]
+   }
+  ]
+ },
+ "Features": {},
+ "DataScope": {
+  "DefaultWhere": "EntityID = 'lab' AND Status = '1'",
+  "AuthLevel": 2,
+  "SortExp": "SortNo ASC",
+  "DataConfig": {
+   "RowLimit": 2000,
+   "AllowExport": true
+  }
+ },
+ "CustomMeta": {
+  "CustomSchema": {
+   "WidgetType": "Grid",
+   "KeyField": "GlassNo",
+   "TitleField": "GlassName",
+   "ParentKeyField": null,
+   "PathField": null,
+   "PathSeparator": "/"
+  }
+ },
+ "SeedData": [
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000000",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-08-19 15:29",
+   "UpdatedBy": "lin.pb",
+   "UpdatedAt": "2026-11-25 12:27",
+   "GlassNo": "GI-2025-0001",
+   "CategoryGuid": "所屬分類01",
+   "GlassName": "郭品管",
+   "CapacityDesc": "",
+   "MaterialDesc": "需注意保存效期",
+   "Grade": "等級01",
+   "LocationGuid": "微生物室",
+   "AssetNo": "GI-2025-0001",
+   "GlassStatus": "X",
+   "Remark": "",
+   "Attributes": "擴展屬性01",
+   "GlassCode": "GI-2026-0001"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000001",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-12-23 11:26",
+   "UpdatedBy": "chang.fa",
+   "UpdatedAt": "2026-05-28 08:10",
+   "GlassNo": "GI-2026-0002",
+   "CategoryGuid": "所屬分類02",
+   "GlassName": "王采樣",
+   "CapacityDesc": "",
+   "MaterialDesc": "",
+   "Grade": "等級02",
+   "LocationGuid": "天平室",
+   "AssetNo": "GI-2026-0002",
+   "GlassStatus": "N",
+   "Remark": "",
+   "Attributes": "擴展屬性02",
+   "GlassCode": "GI-2026-0002"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000002",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-11-10 11:38",
+   "UpdatedBy": "lin.pb",
+   "UpdatedAt": "2026-10-19 17:28",
+   "GlassNo": "GI-2025-0003",
+   "CategoryGuid": "所屬分類03",
+   "GlassName": "何環安",
+   "CapacityDesc": "",
+   "MaterialDesc": "樣品外觀正常",
+   "Grade": "等級03",
+   "LocationGuid": "藥品櫃P1",
+   "AssetNo": "GI-2025-0003",
+   "GlassStatus": "N",
+   "Remark": "",
+   "Attributes": "擴展屬性03",
+   "GlassCode": "GI-2026-0003"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000003",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-10-07 14:22",
+   "UpdatedBy": "lee.jc",
+   "UpdatedAt": "2026-04-28 18:13",
+   "GlassNo": "GI-2026-0004",
+   "CategoryGuid": "所屬分類04",
+   "GlassName": "蔡研究",
+   "CapacityDesc": "定期校正合格",
+   "MaterialDesc": "",
+   "Grade": "等級04",
+   "LocationGuid": "NAS機房",
+   "AssetNo": "GI-2026-0004",
+   "GlassStatus": "B",
+   "Remark": "樣品外觀正常",
+   "Attributes": "擴展屬性04",
+   "GlassCode": "GI-2026-0004"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000004",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-07-22 12:13",
+   "UpdatedBy": "chang.fa",
+   "UpdatedAt": "2026-09-08 18:19",
+   "GlassNo": "GI-2026-0005",
+   "CategoryGuid": "所屬分類05",
+   "GlassName": "蔡研究",
+   "CapacityDesc": "",
+   "MaterialDesc": "待主管覆核",
+   "Grade": "等級05",
+   "LocationGuid": "天平室",
+   "AssetNo": "GI-2026-0005",
+   "GlassStatus": "N",
+   "Remark": "客戶要求附 TAF Logo",
+   "Attributes": "擴展屬性05",
+   "GlassCode": "GI-2026-0005"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000005",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-10-14 18:39",
+   "UpdatedBy": "wu.dir",
+   "UpdatedAt": "2026-11-26 15:22",
+   "GlassNo": "GI-2025-0006",
+   "CategoryGuid": "所屬分類06",
+   "GlassName": "陳審核",
+   "CapacityDesc": "",
+   "MaterialDesc": "樣品外觀正常",
+   "Grade": "等級06",
+   "LocationGuid": "冷凍庫(-20°C)",
+   "AssetNo": "GI-2026-0006",
+   "GlassStatus": "N",
+   "Remark": "",
+   "Attributes": "擴展屬性06",
+   "GlassCode": "GI-2026-0006"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000006",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-06-08 10:32",
+   "UpdatedBy": "wang.cy",
+   "UpdatedAt": "2026-08-20 09:38",
+   "GlassNo": "GI-2025-0007",
+   "CategoryGuid": "所屬分類07",
+   "GlassName": "許工程",
+   "CapacityDesc": "",
+   "MaterialDesc": "急件已加收費用",
+   "Grade": "等級07",
+   "LocationGuid": "微生物室",
+   "AssetNo": "GI-2025-0007",
+   "GlassStatus": "N",
+   "Remark": "已通知申請單位",
+   "Attributes": "擴展屬性07",
+   "GlassCode": "GI-2026-0007"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000007",
+   "EntityID": "lab",
+   "Status": "0",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-09-21 10:10",
+   "UpdatedBy": "cheng.gl",
+   "UpdatedAt": "2026-08-17 13:38",
+   "GlassNo": "GI-2025-0008",
+   "CategoryGuid": "所屬分類08",
+   "GlassName": "鄭組長",
+   "CapacityDesc": "",
+   "MaterialDesc": "",
+   "Grade": "等級08",
+   "LocationGuid": "藥品櫃P2",
+   "AssetNo": "GI-2026-0008",
+   "GlassStatus": "N",
+   "Remark": "",
+   "Attributes": "擴展屬性08",
+   "GlassCode": "GI-2026-0008"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000008",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-08-13 15:32",
+   "UpdatedBy": "abram.chen",
+   "UpdatedAt": "2026-01-15 18:03",
+   "GlassNo": "GI-2026-0009",
+   "CategoryGuid": "所屬分類09",
+   "GlassName": "劉助理",
+   "CapacityDesc": "急件已加收費用",
+   "MaterialDesc": "複驗確認無誤",
+   "Grade": "等級09",
+   "LocationGuid": "NAS機房",
+   "AssetNo": "GI-2025-0009",
+   "GlassStatus": "C",
+   "Remark": "",
+   "Attributes": "擴展屬性09",
+   "GlassCode": "GI-2026-0009"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000009",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-04-10 16:25",
+   "UpdatedBy": "hsu.eng",
+   "UpdatedAt": "2026-10-07 11:33",
+   "GlassNo": "GI-2026-0010",
+   "CategoryGuid": "所屬分類10",
+   "GlassName": "吳主任",
+   "CapacityDesc": "",
+   "MaterialDesc": "",
+   "Grade": "等級10",
+   "LocationGuid": "定容室",
+   "AssetNo": "GI-2026-0010",
+   "GlassStatus": "N",
+   "Remark": "",
+   "Attributes": "擴展屬性10",
+   "GlassCode": "GI-2026-0010"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000010",
+   "EntityID": "lab",
+   "Status": "0",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-02-23 08:06",
+   "UpdatedBy": "wu.dir",
+   "UpdatedAt": "2026-08-18 11:39",
+   "GlassNo": "GI-2025-0011",
+   "CategoryGuid": "所屬分類11",
+   "GlassName": "黃技正",
+   "CapacityDesc": "複驗確認無誤",
+   "MaterialDesc": "樣品外觀正常",
+   "Grade": "等級11",
+   "LocationGuid": "NAS機房",
+   "AssetNo": "GI-2025-0011",
+   "GlassStatus": "B",
+   "Remark": "樣品外觀正常",
+   "Attributes": "擴展屬性11",
+   "GlassCode": "GI-2026-0011"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000011",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-11-20 15:31",
+   "UpdatedBy": "cheng.gl",
+   "UpdatedAt": "2026-05-06 11:01",
+   "GlassNo": "GI-2025-0012",
+   "CategoryGuid": "所屬分類12",
+   "GlassName": "李檢測",
+   "CapacityDesc": "急件已加收費用",
+   "MaterialDesc": "已通知申請單位",
+   "Grade": "等級12",
+   "LocationGuid": "樣品庫",
+   "AssetNo": "GI-2025-0012",
+   "GlassStatus": "N",
+   "Remark": "",
+   "Attributes": "擴展屬性12",
+   "GlassCode": "GI-2026-0012"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000012",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-09-20 08:21",
+   "UpdatedBy": "liu.as",
+   "UpdatedAt": "2026-08-19 11:19",
+   "GlassNo": "GI-2026-0013",
+   "CategoryGuid": "所屬分類13",
+   "GlassName": "張分析",
+   "CapacityDesc": "急件已加收費用",
+   "MaterialDesc": "",
+   "Grade": "等級13",
+   "LocationGuid": "天平室",
+   "AssetNo": "GI-2025-0013",
+   "GlassStatus": "N",
+   "Remark": "",
+   "Attributes": "擴展屬性13",
+   "GlassCode": "GI-2026-0013"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000013",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-11-20 14:19",
+   "UpdatedBy": "lee.jc",
+   "UpdatedAt": "2026-07-16 16:34",
+   "GlassNo": "GI-2025-0014",
+   "CategoryGuid": "所屬分類14",
+   "GlassName": "林品保",
+   "CapacityDesc": "急件已加收費用",
+   "MaterialDesc": "",
+   "Grade": "等級14",
+   "LocationGuid": "樣品庫",
+   "AssetNo": "GI-2026-0014",
+   "GlassStatus": "N",
+   "Remark": "客戶要求附 TAF Logo",
+   "Attributes": "擴展屬性14",
+   "GlassCode": "GI-2026-0014"
+  }
+ ]
+}

@@ -35,6 +35,18 @@
                 </div>
                 <div class="top-spacer"></div>
                 <div class="top-tools">
+                    <!-- 模組切換器:來源 modules.txt,切換載入不同資料夾的 menu.txt -->
+                    <div class="modsw" id="modSwitch">
+                        <button class="modsw-btn" data-act="toggleModSwitch" title="切換模組">
+                            <i class="modsw-ic ri-apps-2-line" id="modSwIcon"></i>
+                            <span class="modsw-label" id="modSwLabel">模組</span>
+                            <i class="ri-arrow-down-s-line modsw-caret"></i>
+                        </button>
+                        <div class="modsw-menu" id="modSwMenu">
+                            <div class="modsw-cap">應用模組</div>
+                            <div class="modsw-list" id="modSwList"><!-- 由 modules.txt 動態產生 --></div>
+                        </div>
+                    </div>
                     <div class="top-ic"><i class="ri-notification-3-line"></i><span class="dot">8</span></div>
                     <div class="top-online"><span class="od"></span>線上<i class="ri-arrow-down-s-line"></i></div>
                     <div class="top-user">

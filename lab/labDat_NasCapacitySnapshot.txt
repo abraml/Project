@@ -1,0 +1,592 @@
+{
+ "EntityID": "lab",
+ "SystemCode": "MUEIP",
+ "ModuleCode": "LIMS",
+ "FuncCode": "labDat_NasCapacitySnapshot",
+ "ConfigHash": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+ "PageMeta": {
+  "PageTitle": "NAS 容量快照",
+  "Lang": "zh-TW",
+  "FormType": "ListForm",
+  "EditDisplayType": "Drawer",
+  "Breadcrumb": [
+   {
+    "Title": "首頁",
+    "Path": "/"
+   },
+   {
+    "Title": "實驗數據儲存管理",
+    "Path": null
+   },
+   {
+    "Title": "NAS 容量快照",
+    "Path": "/lab/labDat_NasCapacitySnapshot"
+   }
+  ],
+  "IsApproval": false,
+  "TenantLocked": false,
+  "Icon": "ri-database-2-line",
+  "Remark": "NAS 容量快照（由 labDat_NasCapacitySnapshot 規格書產生）"
+ },
+ "Resources": {
+  "CodeSets": {
+   "Status": [
+    {
+     "CodeID": "1",
+     "CodeName": "啟用",
+     "IsDefault": true
+    },
+    {
+     "CodeID": "0",
+     "CodeName": "停用"
+    }
+   ],
+   "Priority": [
+    {
+     "CodeID": "A",
+     "CodeName": "急件"
+    },
+    {
+     "CodeID": "B",
+     "CodeName": "高"
+    },
+    {
+     "CodeID": "C",
+     "CodeName": "一般",
+     "IsDefault": true
+    },
+    {
+     "CodeID": "D",
+     "CodeName": "低"
+    }
+   ],
+   "BackupStatus": [
+    {
+     "CodeID": "P",
+     "CodeName": "待歸檔",
+     "IsDefault": true
+    },
+    {
+     "CodeID": "D",
+     "CodeName": "已歸檔"
+    },
+    {
+     "CodeID": "F",
+     "CodeName": "失敗"
+    }
+   ],
+   "OffsiteBackupStatus": [
+    {
+     "CodeID": "P",
+     "CodeName": "待歸檔",
+     "IsDefault": true
+    },
+    {
+     "CodeID": "D",
+     "CodeName": "已歸檔"
+    },
+    {
+     "CodeID": "F",
+     "CodeName": "失敗"
+    }
+   ]
+  },
+  "FeatureFlags": {
+   "IsReadOnly": true,
+   "EnableDraft": false,
+   "EnableBatchDelete": false,
+   "AutoRefreshInterval": 0,
+   "DefaultViewMode": "Table",
+   "RequireConfirmOnSave": true
+  }
+ },
+ "AllowAction": {
+  "DataActions": [
+   {
+    "ActionID": "Query",
+    "Label": "查詢",
+    "Icon": "ri-search-line",
+    "Type": "Default",
+    "Position": "Toolbar",
+    "Confirm": null
+   }
+  ],
+  "ExtensionActions": [
+   {
+    "ActionID": "Import",
+    "Label": "匯入",
+    "Icon": "ri-upload-2-line",
+    "Type": "Default",
+    "Position": "Toolbar"
+   },
+   {
+    "ActionID": "Export",
+    "Label": "匯出",
+    "Icon": "ri-download-2-line",
+    "Type": "Default",
+    "Position": "Toolbar"
+   }
+  ]
+ },
+ "View": {
+  "RowKey": "RowGuid",
+  "ListView": {
+   "ListSpec": {
+    "RowKey": "RowGuid",
+    "SelectMode": "Single",
+    "FixedColumns": [
+     "Action",
+     "No"
+    ],
+    "RowActionMode": "Menu",
+    "ShowRowNo": true,
+    "Pagination": {
+     "PageSize": 100,
+     "SizeOptions": [
+      50,
+      100,
+      200,
+      500
+     ],
+     "ShowJumper": false,
+     "FullPageScroll": true
+    },
+    "DefaultSort": {
+     "Field": "SortNo",
+     "Order": "asc"
+    },
+    "EmptyText": "目前查無NAS 容量快照資料",
+    "GridBordered": true
+   },
+   "FieldSpecs": [
+    {
+     "BindField": "SnapshotDate",
+     "Title": "快照日期",
+     "Align": "Left",
+     "DefaultVisible": true,
+     "Formatter": "Link",
+     "Fixed": "Left",
+     "Width": 160,
+     "Sorter": true
+    },
+    {
+     "BindField": "TotalCapacityTb",
+     "Title": "NAS總容量",
+     "Align": "Center",
+     "DefaultVisible": true,
+     "Width": 140
+    },
+    {
+     "BindField": "UsedCapacityTb",
+     "Title": "已用容量",
+     "Align": "Center",
+     "DefaultVisible": true,
+     "Width": 140
+    },
+    {
+     "BindField": "DailyIncrementGb",
+     "Title": "當日歸檔增量",
+     "Align": "Center",
+     "DefaultVisible": true,
+     "Width": 140
+    },
+    {
+     "BindField": "BackupStatus",
+     "Title": "本地",
+     "Align": "Center",
+     "DefaultVisible": true,
+     "Formatter": "Tag",
+     "Width": 110
+    },
+    {
+     "BindField": "OffsiteBackupStatus",
+     "Title": "異地",
+     "Align": "Center",
+     "DefaultVisible": true,
+     "Formatter": "Tag",
+     "Width": 110
+    },
+    {
+     "BindField": "Status",
+     "Title": "啟用狀態",
+     "Align": "Center",
+     "DefaultVisible": true,
+     "Formatter": "Tag",
+     "Width": 80
+    }
+   ]
+  },
+  "FormView": {
+   "FormSpec": {
+    "RowKey": "RowGuid",
+    "Layout": "Horizontal",
+    "Sections": [
+     {
+      "SectionID": "SecBase",
+      "Type": "Card",
+      "Title": "基本資料",
+      "IsCollapsible": false,
+      "DefaultOpen": true,
+      "Icon": "ri-database-2-line"
+     },
+     {
+      "SectionID": "SecExtra",
+      "Type": "Card",
+      "Title": "系統資訊",
+      "IsCollapsible": true,
+      "DefaultOpen": false,
+      "Icon": "ri-settings-4-line"
+     }
+    ],
+    "FormLogic": []
+   },
+   "FieldSpecs": [
+    {
+     "BindField": "RowKey",
+     "Title": "系統識別碼",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 24,
+     "Mode": "Hidden"
+    },
+    {
+     "BindField": "EntityID",
+     "Title": "系統實體",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "Hidden",
+     "DefaultValue": "lab"
+    },
+    {
+     "BindField": "SnapshotDate",
+     "Title": "快照日期",
+     "Component": "DatePicker",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "Required",
+       "Message": "快照日期為必填"
+      }
+     ],
+     "Props": {
+      "Mode": "Editable",
+      "ShowTime": false
+     }
+    },
+    {
+     "BindField": "TotalCapacityTb",
+     "Title": "NAS總容量",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "Required",
+       "Message": "NAS總容量為必填"
+      }
+     ],
+     "Props": {
+      "Type": "number"
+     }
+    },
+    {
+     "BindField": "UsedCapacityTb",
+     "Title": "已用容量",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "Required",
+       "Message": "已用容量為必填"
+      }
+     ],
+     "Props": {
+      "Type": "number"
+     }
+    },
+    {
+     "BindField": "DailyIncrementGb",
+     "Title": "當日歸檔增量",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Props": {
+      "Type": "number"
+     }
+    },
+    {
+     "BindField": "BackupStatus",
+     "Title": "本地",
+     "Component": "Select",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Props": {
+      "OptionKey": "BackupStatus"
+     },
+     "DefaultValue": "P"
+    },
+    {
+     "BindField": "OffsiteBackupStatus",
+     "Title": "異地",
+     "Component": "Select",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Props": {
+      "OptionKey": "OffsiteBackupStatus"
+     },
+     "DefaultValue": "P"
+    },
+    {
+     "BindField": "Remark",
+     "Title": "備註",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 255,
+       "Message": "長度不可超過 255"
+      }
+     ]
+    },
+    {
+     "BindField": "Status",
+     "Title": "啟用狀態",
+     "Component": "Select",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "DefaultValue": "1",
+     "Props": {
+      "OptionKey": "Status"
+     }
+    },
+    {
+     "BindField": "CreatedBy",
+     "Title": "建立者帳號",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "ReadOnly"
+    },
+    {
+     "BindField": "CreatedAt",
+     "Title": "資料建立日期時間",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "ReadOnly"
+    },
+    {
+     "BindField": "UpdatedBy",
+     "Title": "最後更新者帳號",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "ReadOnly"
+    },
+    {
+     "BindField": "UpdatedAt",
+     "Title": "最後更新日期時間",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "ReadOnly"
+    }
+   ]
+  }
+ },
+ "Features": {},
+ "DataScope": {
+  "DefaultWhere": "EntityID = 'lab' AND Status = '1'",
+  "AuthLevel": 2,
+  "SortExp": "SortNo ASC",
+  "DataConfig": {
+   "RowLimit": 2000,
+   "AllowExport": true
+  }
+ },
+ "CustomMeta": {
+  "CustomSchema": {
+   "WidgetType": "Grid",
+   "KeyField": "SnapshotDate",
+   "TitleField": "TotalCapacityTb",
+   "ParentKeyField": null,
+   "PathField": null,
+   "PathSeparator": "/"
+  }
+ },
+ "SeedData": [
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000000",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-10-22 16:01",
+   "UpdatedBy": "lin.pb",
+   "UpdatedAt": "2026-01-14 15:14",
+   "SnapshotDate": "2025-08-19",
+   "TotalCapacityTb": 500,
+   "UsedCapacityTb": 1000,
+   "DailyIncrementGb": 67,
+   "BackupStatus": "F",
+   "OffsiteBackupStatus": "P",
+   "Remark": ""
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000001",
+   "EntityID": "lab",
+   "Status": "0",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-05-14 13:29",
+   "UpdatedBy": "liu.as",
+   "UpdatedAt": "2026-11-27 10:12",
+   "SnapshotDate": "2025-02-16",
+   "TotalCapacityTb": 250,
+   "UsedCapacityTb": 1000,
+   "DailyIncrementGb": 20,
+   "BackupStatus": "F",
+   "OffsiteBackupStatus": "F",
+   "Remark": "需注意保存效期"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000002",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-10-10 15:13",
+   "UpdatedBy": "cheng.gl",
+   "UpdatedAt": "2026-01-28 08:27",
+   "SnapshotDate": "2025-12-15",
+   "TotalCapacityTb": 100,
+   "UsedCapacityTb": 500,
+   "DailyIncrementGb": 38,
+   "BackupStatus": "D",
+   "OffsiteBackupStatus": "P",
+   "Remark": ""
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000003",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-08-27 14:39",
+   "UpdatedBy": "lee.jc",
+   "UpdatedAt": "2026-03-11 16:23",
+   "SnapshotDate": "2025-11-13",
+   "TotalCapacityTb": 500,
+   "UsedCapacityTb": 500,
+   "DailyIncrementGb": 1,
+   "BackupStatus": "P",
+   "OffsiteBackupStatus": "D",
+   "Remark": "待主管覆核"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000004",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-03-08 14:08",
+   "UpdatedBy": "abram.chen",
+   "UpdatedAt": "2026-02-08 11:26",
+   "SnapshotDate": "2025-01-15",
+   "TotalCapacityTb": 250,
+   "UsedCapacityTb": 500,
+   "DailyIncrementGb": 98,
+   "BackupStatus": "P",
+   "OffsiteBackupStatus": "P",
+   "Remark": ""
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000005",
+   "EntityID": "lab",
+   "Status": "0",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-04-16 10:00",
+   "UpdatedBy": "liu.as",
+   "UpdatedAt": "2026-05-08 12:18",
+   "SnapshotDate": "2025-09-01",
+   "TotalCapacityTb": 1000,
+   "UsedCapacityTb": 250,
+   "DailyIncrementGb": 8,
+   "BackupStatus": "P",
+   "OffsiteBackupStatus": "D",
+   "Remark": ""
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000006",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-06-05 08:24",
+   "UpdatedBy": "abram.chen",
+   "UpdatedAt": "2026-07-01 08:35",
+   "SnapshotDate": "2025-01-06",
+   "TotalCapacityTb": 1000,
+   "UsedCapacityTb": 250,
+   "DailyIncrementGb": 90,
+   "BackupStatus": "P",
+   "OffsiteBackupStatus": "D",
+   "Remark": ""
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000007",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-05-06 13:21",
+   "UpdatedBy": "chen.sh",
+   "UpdatedAt": "2026-09-19 11:31",
+   "SnapshotDate": "2025-06-11",
+   "TotalCapacityTb": 100,
+   "UsedCapacityTb": 1000,
+   "DailyIncrementGb": 65,
+   "BackupStatus": "D",
+   "OffsiteBackupStatus": "D",
+   "Remark": "急件已加收費用"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000008",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-05-20 18:17",
+   "UpdatedBy": "abram.chen",
+   "UpdatedAt": "2026-01-03 11:23",
+   "SnapshotDate": "2025-07-03",
+   "TotalCapacityTb": 500,
+   "UsedCapacityTb": 250,
+   "DailyIncrementGb": 16,
+   "BackupStatus": "P",
+   "OffsiteBackupStatus": "F",
+   "Remark": ""
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000009",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-10-17 11:30",
+   "UpdatedBy": "wang.cy",
+   "UpdatedAt": "2026-06-05 16:06",
+   "SnapshotDate": "2025-05-05",
+   "TotalCapacityTb": 100,
+   "UsedCapacityTb": 250,
+   "DailyIncrementGb": 100,
+   "BackupStatus": "P",
+   "OffsiteBackupStatus": "F",
+   "Remark": "已通知申請單位"
+  }
+ ]
+}

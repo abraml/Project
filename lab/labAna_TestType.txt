@@ -1,0 +1,781 @@
+{
+ "EntityID": "lab",
+ "SystemCode": "MUEIP",
+ "ModuleCode": "LIMS",
+ "FuncCode": "labAna_TestType",
+ "ConfigHash": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+ "PageMeta": {
+  "PageTitle": "檢驗類型",
+  "Lang": "zh-TW",
+  "FormType": "ListForm",
+  "EditDisplayType": "Drawer",
+  "Breadcrumb": [
+   {
+    "Title": "首頁",
+    "Path": "/"
+   },
+   {
+    "Title": "檢測項目分析方法管理",
+    "Path": null
+   },
+   {
+    "Title": "檢驗類型",
+    "Path": "/lab/labAna_TestType"
+   }
+  ],
+  "IsApproval": false,
+  "TenantLocked": false,
+  "Icon": "ri-test-tube-line",
+  "Remark": "檢驗類型（由 labAna_TestType 規格書產生）"
+ },
+ "Resources": {
+  "CodeSets": {
+   "Status": [
+    {
+     "CodeID": "1",
+     "CodeName": "啟用",
+     "IsDefault": true
+    },
+    {
+     "CodeID": "0",
+     "CodeName": "停用"
+    }
+   ],
+   "Priority": [
+    {
+     "CodeID": "A",
+     "CodeName": "急件"
+    },
+    {
+     "CodeID": "B",
+     "CodeName": "高"
+    },
+    {
+     "CodeID": "C",
+     "CodeName": "一般",
+     "IsDefault": true
+    },
+    {
+     "CodeID": "D",
+     "CodeName": "低"
+    }
+   ]
+  },
+  "FeatureFlags": {
+   "IsReadOnly": false,
+   "EnableDraft": false,
+   "EnableBatchDelete": true,
+   "AutoRefreshInterval": 0,
+   "DefaultViewMode": "Table",
+   "RequireConfirmOnSave": true
+  }
+ },
+ "AllowAction": {
+  "DataActions": [
+   {
+    "ActionID": "Add",
+    "Label": "新增",
+    "Icon": "ri-add-line",
+    "Type": "Primary",
+    "Position": "Toolbar",
+    "Confirm": null
+   },
+   {
+    "ActionID": "Save",
+    "Label": "儲存",
+    "Icon": "ri-save-line",
+    "Type": "Primary",
+    "Position": "Toolbar",
+    "Confirm": null
+   },
+   {
+    "ActionID": "Delete",
+    "Label": "刪除",
+    "Icon": "ri-delete-bin-line",
+    "Type": "Danger",
+    "Position": "Both",
+    "Confirm": "確定要刪除此檢驗類型資料嗎？"
+   },
+   {
+    "ActionID": "Query",
+    "Label": "查詢",
+    "Icon": "ri-search-line",
+    "Type": "Default",
+    "Position": "Toolbar",
+    "Confirm": null
+   }
+  ],
+  "ExtensionActions": [
+   {
+    "ActionID": "Import",
+    "Label": "匯入",
+    "Icon": "ri-upload-2-line",
+    "Type": "Default",
+    "Position": "Toolbar"
+   },
+   {
+    "ActionID": "Export",
+    "Label": "匯出",
+    "Icon": "ri-download-2-line",
+    "Type": "Default",
+    "Position": "Toolbar"
+   }
+  ]
+ },
+ "View": {
+  "RowKey": "RowGuid",
+  "ListView": {
+   "ListSpec": {
+    "RowKey": "RowGuid",
+    "SelectMode": "Single",
+    "FixedColumns": [
+     "Action",
+     "No"
+    ],
+    "RowActionMode": "Menu",
+    "ShowRowNo": true,
+    "Pagination": {
+     "PageSize": 100,
+     "SizeOptions": [
+      50,
+      100,
+      200,
+      500
+     ],
+     "ShowJumper": false,
+     "FullPageScroll": true
+    },
+    "DefaultSort": {
+     "Field": "SortNo",
+     "Order": "asc"
+    },
+    "EmptyText": "目前查無檢驗類型資料",
+    "GridBordered": true
+   },
+   "FieldSpecs": [
+    {
+     "BindField": "TestTypeCode",
+     "Title": "項目代碼",
+     "Align": "Left",
+     "DefaultVisible": true,
+     "Formatter": "Link",
+     "Fixed": "Left",
+     "Width": 160,
+     "Sorter": true
+    },
+    {
+     "BindField": "TestTypeName",
+     "Title": "項目名稱",
+     "Align": "Left",
+     "DefaultVisible": true,
+     "Width": 140
+    },
+    {
+     "BindField": "CategoryCode",
+     "Title": "所屬檢驗類別代碼",
+     "Align": "Left",
+     "DefaultVisible": true,
+     "Width": 140
+    },
+    {
+     "BindField": "TestTypeDesc",
+     "Title": "項目描述",
+     "Align": "Left",
+     "DefaultVisible": true,
+     "Width": 140
+    },
+    {
+     "BindField": "ReportUnit",
+     "Title": "報告單位",
+     "Align": "Left",
+     "DefaultVisible": true,
+     "Width": 140
+    },
+    {
+     "BindField": "RegulationRef",
+     "Title": "依據法規",
+     "Align": "Left",
+     "DefaultVisible": true,
+     "Width": 140
+    },
+    {
+     "BindField": "Status",
+     "Title": "啟用狀態",
+     "Align": "Center",
+     "DefaultVisible": true,
+     "Formatter": "Tag",
+     "Width": 80
+    }
+   ]
+  },
+  "FormView": {
+   "FormSpec": {
+    "RowKey": "RowGuid",
+    "Layout": "Horizontal",
+    "Sections": [
+     {
+      "SectionID": "SecBase",
+      "Type": "Card",
+      "Title": "基本資料",
+      "IsCollapsible": false,
+      "DefaultOpen": true,
+      "Icon": "ri-test-tube-line"
+     },
+     {
+      "SectionID": "SecRecv",
+      "Type": "Card",
+      "Title": "作業資訊",
+      "IsCollapsible": true,
+      "DefaultOpen": true,
+      "Icon": "ri-file-list-3-line"
+     },
+     {
+      "SectionID": "SecExtra",
+      "Type": "Card",
+      "Title": "系統資訊",
+      "IsCollapsible": true,
+      "DefaultOpen": false,
+      "Icon": "ri-settings-4-line"
+     }
+    ],
+    "FormLogic": []
+   },
+   "FieldSpecs": [
+    {
+     "BindField": "RowKey",
+     "Title": "系統識別碼",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 24,
+     "Mode": "Hidden"
+    },
+    {
+     "BindField": "EntityID",
+     "Title": "系統實體",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "Hidden",
+     "DefaultValue": "lab"
+    },
+    {
+     "BindField": "TestTypeCode",
+     "Title": "項目代碼",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "Required",
+       "Message": "項目代碼為必填"
+      },
+      {
+       "Rule": "MaxLength",
+       "Value": 50,
+       "Message": "長度不可超過 50"
+      }
+     ]
+    },
+    {
+     "BindField": "TestTypeName",
+     "Title": "項目名稱",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "Required",
+       "Message": "項目名稱為必填"
+      },
+      {
+       "Rule": "MaxLength",
+       "Value": 200,
+       "Message": "長度不可超過 200"
+      }
+     ]
+    },
+    {
+     "BindField": "CategoryCode",
+     "Title": "所屬檢驗類別代碼",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "Required",
+       "Message": "所屬檢驗類別代碼為必填"
+      },
+      {
+       "Rule": "MaxLength",
+       "Value": 50,
+       "Message": "長度不可超過 50"
+      }
+     ]
+    },
+    {
+     "BindField": "TestTypeDesc",
+     "Title": "項目描述",
+     "Component": "Textarea",
+     "Section": "SecRecv",
+     "Span": 24,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 500,
+       "Message": "長度不可超過 500"
+      }
+     ],
+     "Props": {
+      "Rows": 3
+     }
+    },
+    {
+     "BindField": "ReportUnit",
+     "Title": "報告單位",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 50,
+       "Message": "長度不可超過 50"
+      }
+     ]
+    },
+    {
+     "BindField": "RegulationRef",
+     "Title": "依據法規",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 200,
+       "Message": "長度不可超過 200"
+      }
+     ]
+    },
+    {
+     "BindField": "EstimatedTatDays",
+     "Title": "預估檢測天數",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Props": {
+      "Type": "number"
+     }
+    },
+    {
+     "BindField": "StandardFee",
+     "Title": "收費標準",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Props": {
+      "Type": "number"
+     }
+    },
+    {
+     "BindField": "TestTypeStatus",
+     "Title": "狀態",
+     "Component": "Input",
+     "Section": "SecRecv",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 20,
+       "Message": "長度不可超過 20"
+      }
+     ]
+    },
+    {
+     "BindField": "Description",
+     "Title": "備註說明",
+     "Component": "Textarea",
+     "Section": "SecRecv",
+     "Span": 24,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 500,
+       "Message": "長度不可超過 500"
+      }
+     ],
+     "Props": {
+      "Rows": 3
+     }
+    },
+    {
+     "BindField": "Attributes",
+     "Title": "擴展屬性",
+     "Component": "Textarea",
+     "Section": "SecExtra",
+     "Span": 24,
+     "Mode": "Editable",
+     "Props": {
+      "Rows": 3
+     }
+    },
+    {
+     "BindField": "Status",
+     "Title": "啟用狀態",
+     "Component": "Select",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "DefaultValue": "1",
+     "Props": {
+      "OptionKey": "Status"
+     }
+    },
+    {
+     "BindField": "CreatedBy",
+     "Title": "建立者帳號",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "ReadOnly"
+    },
+    {
+     "BindField": "CreatedAt",
+     "Title": "資料建立日期時間",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "ReadOnly"
+    },
+    {
+     "BindField": "UpdatedBy",
+     "Title": "最後更新者帳號",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "ReadOnly"
+    },
+    {
+     "BindField": "UpdatedAt",
+     "Title": "最後更新日期時間",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "ReadOnly"
+    }
+   ]
+  }
+ },
+ "Features": {},
+ "DataScope": {
+  "DefaultWhere": "EntityID = 'lab' AND Status = '1'",
+  "AuthLevel": 2,
+  "SortExp": "SortNo ASC",
+  "DataConfig": {
+   "RowLimit": 2000,
+   "AllowExport": true
+  }
+ },
+ "CustomMeta": {
+  "CustomSchema": {
+   "WidgetType": "Grid",
+   "KeyField": "TestTypeCode",
+   "TitleField": "TestTypeName",
+   "ParentKeyField": null,
+   "PathField": null,
+   "PathSeparator": "/"
+  }
+ },
+ "SeedData": [
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000000",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-07-28 17:37",
+   "UpdatedBy": "chen.sh",
+   "UpdatedAt": "2026-03-19 18:05",
+   "TestTypeCode": "TT-2025-0001",
+   "TestTypeName": "總磷 TP",
+   "CategoryCode": "TT-2026-0001",
+   "TestTypeDesc": "樣品外觀正常",
+   "ReportUnit": "M031 環安處",
+   "RegulationRef": "Standard Methods",
+   "EstimatedTatDays": 84,
+   "StandardFee": 3500,
+   "TestTypeStatus": "狀態01",
+   "Description": "客戶要求附 TAF Logo",
+   "Attributes": "擴展屬性01"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000001",
+   "EntityID": "lab",
+   "Status": "0",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-03-12 08:17",
+   "UpdatedBy": "wu.dir",
+   "UpdatedAt": "2026-04-13 17:33",
+   "TestTypeCode": "TT-2026-0002",
+   "TestTypeName": "化學需氧量 COD",
+   "CategoryCode": "TT-2025-0002",
+   "TestTypeDesc": "",
+   "ReportUnit": "M071 工務處",
+   "RegulationRef": "CNS",
+   "EstimatedTatDays": 267,
+   "StandardFee": 3500,
+   "TestTypeStatus": "狀態02",
+   "Description": "待主管覆核",
+   "Attributes": "擴展屬性02"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000002",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-11-25 10:31",
+   "UpdatedBy": "chang.fa",
+   "UpdatedAt": "2026-02-17 12:29",
+   "TestTypeCode": "TT-2026-0003",
+   "TestTypeName": "生化需氧量 BOD",
+   "CategoryCode": "TT-2026-0003",
+   "TestTypeDesc": "急件已加收費用",
+   "ReportUnit": "M061 採購處",
+   "RegulationRef": "原廠提供",
+   "EstimatedTatDays": 83,
+   "StandardFee": 5000,
+   "TestTypeStatus": "狀態03",
+   "Description": "",
+   "Attributes": "擴展屬性03"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000003",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-05-11 14:27",
+   "UpdatedBy": "wu.dir",
+   "UpdatedAt": "2026-02-27 12:22",
+   "TestTypeCode": "TT-2025-0004",
+   "TestTypeName": "懸浮固體 SS",
+   "CategoryCode": "TT-2025-0004",
+   "TestTypeDesc": "急件已加收費用",
+   "ReportUnit": "M031 環安處",
+   "RegulationRef": "CNS",
+   "EstimatedTatDays": 207,
+   "StandardFee": 1500,
+   "TestTypeStatus": "狀態04",
+   "Description": "需注意保存效期",
+   "Attributes": "擴展屬性04"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000004",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-08-02 10:16",
+   "UpdatedBy": "hsu.eng",
+   "UpdatedAt": "2026-07-16 08:11",
+   "TestTypeCode": "TT-2026-0005",
+   "TestTypeName": "氨氮 NH3-N",
+   "CategoryCode": "TT-2025-0005",
+   "TestTypeDesc": "複驗確認無誤",
+   "ReportUnit": "M051 製造二處",
+   "RegulationRef": "Standard Methods",
+   "EstimatedTatDays": 215,
+   "StandardFee": 2000,
+   "TestTypeStatus": "狀態05",
+   "Description": "已通知申請單位",
+   "Attributes": "擴展屬性05"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000005",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-07-22 17:17",
+   "UpdatedBy": "chen.sh",
+   "UpdatedAt": "2026-01-17 13:17",
+   "TestTypeCode": "TT-2025-0006",
+   "TestTypeName": "硝酸鹽氮",
+   "CategoryCode": "TT-2025-0006",
+   "TestTypeDesc": "",
+   "ReportUnit": "M061 採購處",
+   "RegulationRef": "原廠提供",
+   "EstimatedTatDays": 278,
+   "StandardFee": 800,
+   "TestTypeStatus": "狀態06",
+   "Description": "",
+   "Attributes": "擴展屬性06"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000006",
+   "EntityID": "lab",
+   "Status": "0",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-03-14 15:00",
+   "UpdatedBy": "huang.tc",
+   "UpdatedAt": "2026-02-12 13:12",
+   "TestTypeCode": "TT-2025-0007",
+   "TestTypeName": "鎘 Cd",
+   "CategoryCode": "TT-2026-0007",
+   "TestTypeDesc": "",
+   "ReportUnit": "M021 品保處",
+   "RegulationRef": "JIS",
+   "EstimatedTatDays": 139,
+   "StandardFee": 1200,
+   "TestTypeStatus": "狀態07",
+   "Description": "需注意保存效期",
+   "Attributes": "擴展屬性07"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000007",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-05-08 12:03",
+   "UpdatedBy": "hsu.eng",
+   "UpdatedAt": "2026-10-17 16:05",
+   "TestTypeCode": "TT-2026-0008",
+   "TestTypeName": "鉛 Pb",
+   "CategoryCode": "TT-2025-0008",
+   "TestTypeDesc": "",
+   "ReportUnit": "R001 研發中心",
+   "RegulationRef": "原廠提供",
+   "EstimatedTatDays": 77,
+   "StandardFee": 1500,
+   "TestTypeStatus": "狀態08",
+   "Description": "",
+   "Attributes": "擴展屬性08"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000008",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-03-16 08:28",
+   "UpdatedBy": "chang.fa",
+   "UpdatedAt": "2026-07-14 10:38",
+   "TestTypeCode": "TT-2026-0009",
+   "TestTypeName": "銅 Cu",
+   "CategoryCode": "TT-2025-0009",
+   "TestTypeDesc": "",
+   "ReportUnit": "M021 品保處",
+   "RegulationRef": "Standard Methods",
+   "EstimatedTatDays": 337,
+   "StandardFee": 2000,
+   "TestTypeStatus": "狀態09",
+   "Description": "",
+   "Attributes": "擴展屬性09"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000009",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-11-11 16:30",
+   "UpdatedBy": "liu.as",
+   "UpdatedAt": "2026-02-13 18:19",
+   "TestTypeCode": "TT-2026-0010",
+   "TestTypeName": "鋅 Zn",
+   "CategoryCode": "TT-2026-0010",
+   "TestTypeDesc": "急件已加收費用",
+   "ReportUnit": "M041 製造一處",
+   "RegulationRef": "Standard Methods",
+   "EstimatedTatDays": 91,
+   "StandardFee": 800,
+   "TestTypeStatus": "狀態10",
+   "Description": "",
+   "Attributes": "擴展屬性10"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000010",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-11-08 15:35",
+   "UpdatedBy": "lin.pb",
+   "UpdatedAt": "2026-01-12 18:30",
+   "TestTypeCode": "TT-2026-0011",
+   "TestTypeName": "pH值",
+   "CategoryCode": "TT-2026-0011",
+   "TestTypeDesc": "",
+   "ReportUnit": "R001 研發中心",
+   "RegulationRef": "JIS",
+   "EstimatedTatDays": 240,
+   "StandardFee": 800,
+   "TestTypeStatus": "狀態11",
+   "Description": "",
+   "Attributes": "擴展屬性11"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000011",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-06-01 14:26",
+   "UpdatedBy": "cheng.gl",
+   "UpdatedAt": "2026-02-06 15:33",
+   "TestTypeCode": "TT-2025-0012",
+   "TestTypeName": "導電度",
+   "CategoryCode": "TT-2025-0012",
+   "TestTypeDesc": "",
+   "ReportUnit": "R001 研發中心",
+   "RegulationRef": "Standard Methods",
+   "EstimatedTatDays": 280,
+   "StandardFee": 5000,
+   "TestTypeStatus": "狀態12",
+   "Description": "",
+   "Attributes": "擴展屬性12"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000012",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-12-04 17:20",
+   "UpdatedBy": "cheng.gl",
+   "UpdatedAt": "2026-02-11 15:37",
+   "TestTypeCode": "TT-2026-0013",
+   "TestTypeName": "濁度",
+   "CategoryCode": "TT-2025-0013",
+   "TestTypeDesc": "",
+   "ReportUnit": "R001 研發中心",
+   "RegulationRef": "原廠提供",
+   "EstimatedTatDays": 187,
+   "StandardFee": 3500,
+   "TestTypeStatus": "狀態13",
+   "Description": "",
+   "Attributes": "擴展屬性13"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000013",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-11-03 11:03",
+   "UpdatedBy": "hsu.eng",
+   "UpdatedAt": "2026-05-04 10:26",
+   "TestTypeCode": "TT-2026-0014",
+   "TestTypeName": "大腸桿菌群",
+   "CategoryCode": "TT-2026-0014",
+   "TestTypeDesc": "樣品外觀正常",
+   "ReportUnit": "M051 製造二處",
+   "RegulationRef": "NIEA",
+   "EstimatedTatDays": 313,
+   "StandardFee": 2000,
+   "TestTypeStatus": "狀態14",
+   "Description": "",
+   "Attributes": "擴展屬性14"
+  }
+ ]
+}
