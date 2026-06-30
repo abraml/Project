@@ -194,6 +194,63 @@
       ]
     },
     {
+      "Header": "員工招募",
+      "Icon": "ri-user-search-line",
+      "Items": [
+        {
+          "Icon": "ri-group-2-line",
+          "Label": "員額編制",
+          "FuncCode": "hrmHireHeadcount"
+        },
+        {
+          "Icon": "ri-user-add-line",
+          "Label": "用人申請表",
+          "FuncCode": "hrmHireRequest"
+        },
+        {
+          "Icon": "ri-id-card-line",
+          "Label": "應徵人員",
+          "FuncCode": "hrmHireCandidate"
+        },
+        {
+          "Icon": "ri-user-voice-line",
+          "Label": "面試記錄",
+          "FuncCode": "hrmHireInterview"
+        },
+        {
+          "Icon": "ri-mail-send-line",
+          "Label": "錄取通知單",
+          "FuncCode": "hrmHireOffer"
+        },
+        {
+          "Icon": "ri-user-follow-line",
+          "Label": "新人報到",
+          "FuncCode": "hrmHireOnboard"
+        }
+      ]
+    },
+    {
+      "Header": "國外派遣",
+      "Icon": "ri-flight-takeoff-line",
+      "Items": [
+        {
+          "Icon": "ri-flight-takeoff-line",
+          "Label": "派遣工作單",
+          "FuncCode": "hrmDispatch"
+        },
+        {
+          "Icon": "ri-calendar-line",
+          "Label": "出差日程表",
+          "FuncCode": "hrmDispatchSchedule"
+        },
+        {
+          "Icon": "ri-file-text-line",
+          "Label": "出差報告",
+          "FuncCode": "hrmDispatchReport"
+        }
+      ]
+    },
+    {
       "Header": "問卷題庫",
       "Icon": "ri-survey-line",
       "Items": [

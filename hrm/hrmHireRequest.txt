@@ -1,0 +1,913 @@
+{
+  "EntityID": "hrm",
+  "SystemCode": "MUEIP",
+  "ModuleCode": "HRM",
+  "FuncCode": "hrmHireRequest",
+  "ConfigHash": "sha256:0000000000000000000000000000000000000000000000005e2193951ab8fa91",
+  "PageMeta": {
+    "PageTitle": "用人申請表",
+    "Lang": "zh-TW",
+    "FormType": "ListForm",
+    "EditDisplayType": "Drawer",
+    "Breadcrumb": [
+      {
+        "Title": "首頁",
+        "Path": "/"
+      },
+      {
+        "Title": "員工招募",
+        "Path": null
+      },
+      {
+        "Title": "用人申請表",
+        "Path": "/hrm/hrmHireRequest"
+      }
+    ],
+    "IsApproval": false,
+    "TenantLocked": false,
+    "Icon": "ri-user-add-line",
+    "Remark": "部門提出職缺需求→主管核准→HR 開缺→補滿結案；薪資區間為 L2 機敏。"
+  },
+  "Resources": {
+    "CodeSets": {
+      "Status": [
+        {
+          "CodeID": "1",
+          "CodeName": "啟用",
+          "IsDefault": true
+        },
+        {
+          "CodeID": "0",
+          "CodeName": "停用"
+        }
+      ],
+      "Priority": [
+        {
+          "CodeID": "A",
+          "CodeName": "高"
+        },
+        {
+          "CodeID": "B",
+          "CodeName": "中"
+        },
+        {
+          "CodeID": "C",
+          "CodeName": "低",
+          "IsDefault": true
+        }
+      ],
+      "DocStatus": [
+        {
+          "CodeID": "0",
+          "CodeName": "草稿",
+          "IsDefault": true
+        },
+        {
+          "CodeID": "1",
+          "CodeName": "送審"
+        },
+        {
+          "CodeID": "2",
+          "CodeName": "核准"
+        },
+        {
+          "CodeID": "3",
+          "CodeName": "結案"
+        },
+        {
+          "CodeID": "8",
+          "CodeName": "駁回"
+        },
+        {
+          "CodeID": "9",
+          "CodeName": "作廢"
+        }
+      ],
+      "ApplyDeptCode": [
+        {
+          "CodeID": "D130",
+          "CodeName": "資訊部"
+        },
+        {
+          "CodeID": "D300",
+          "CodeName": "研發處"
+        },
+        {
+          "CodeID": "D110",
+          "CodeName": "人力資源部"
+        },
+        {
+          "CodeID": "D120",
+          "CodeName": "財務部"
+        },
+        {
+          "CodeID": "D210",
+          "CodeName": "生產一課"
+        }
+      ],
+      "ApplyEmpNo": [
+        {
+          "CodeID": "E001",
+          "CodeName": "王小明(研發)"
+        },
+        {
+          "CodeID": "E002",
+          "CodeName": "李美玲(業務)"
+        },
+        {
+          "CodeID": "E045",
+          "CodeName": "陳怡君(人資)"
+        },
+        {
+          "CodeID": "E005",
+          "CodeName": "李俊賢(系統工程師)"
+        },
+        {
+          "CodeID": "E008",
+          "CodeName": "蔡宜君(研發工程師)"
+        },
+        {
+          "CodeID": "E004",
+          "CodeName": "張美玲(資訊經理)"
+        }
+      ],
+      "GradeCode": [
+        {
+          "CodeID": "P1",
+          "CodeName": "P1 初級專員"
+        },
+        {
+          "CodeID": "P2",
+          "CodeName": "P2 專員"
+        },
+        {
+          "CodeID": "P3",
+          "CodeName": "P3 資深專員"
+        },
+        {
+          "CodeID": "M1",
+          "CodeName": "M1 課長"
+        },
+        {
+          "CodeID": "M2",
+          "CodeName": "M2 經理"
+        }
+      ],
+      "HireType": [
+        {
+          "CodeID": "N",
+          "CodeName": "新增",
+          "IsDefault": true
+        },
+        {
+          "CodeID": "R",
+          "CodeName": "遞補"
+        },
+        {
+          "CodeID": "E",
+          "CodeName": "擴編"
+        }
+      ]
+    },
+    "FeatureFlags": {
+      "IsReadOnly": false,
+      "EnableDraft": false,
+      "EnableBatchDelete": true,
+      "AutoRefreshInterval": 0,
+      "DefaultViewMode": "Table",
+      "RequireConfirmOnSave": true
+    }
+  },
+  "AllowAction": {
+    "DataActions": [
+      {
+        "ActionID": "Add",
+        "Label": "新增",
+        "Icon": "ri-add-line",
+        "Type": "Primary",
+        "Position": "Toolbar",
+        "Confirm": null
+      },
+      {
+        "ActionID": "Save",
+        "Label": "儲存",
+        "Icon": "ri-save-line",
+        "Type": "Primary",
+        "Position": "Toolbar",
+        "Confirm": null
+      },
+      {
+        "ActionID": "Delete",
+        "Label": "刪除",
+        "Icon": "ri-delete-bin-line",
+        "Type": "Danger",
+        "Position": "Both",
+        "Confirm": "確定要刪除此筆資料嗎？"
+      },
+      {
+        "ActionID": "Query",
+        "Label": "查詢",
+        "Icon": "ri-search-line",
+        "Type": "Default",
+        "Position": "Toolbar",
+        "Confirm": null
+      }
+    ],
+    "ExtensionActions": [
+      {
+        "ActionID": "Import",
+        "Label": "匯入",
+        "Icon": "ri-upload-2-line",
+        "Type": "Default",
+        "Position": "Toolbar",
+        "Confirm": null
+      },
+      {
+        "ActionID": "Export",
+        "Label": "匯出",
+        "Icon": "ri-file-excel-line",
+        "Type": "Default",
+        "Position": "Toolbar",
+        "Confirm": null
+      }
+    ]
+  },
+  "View": {
+    "RowKey": "RowGuid",
+    "ListView": {
+      "ListSpec": {
+        "RowKey": "RowGuid",
+        "SelectMode": "Single",
+        "FixedColumns": [
+          "Action",
+          "No"
+        ],
+        "RowActionMode": "Menu",
+        "ShowRowNo": true,
+        "Pagination": {
+          "PageSize": 100,
+          "SizeOptions": [
+            50,
+            100,
+            200,
+            500
+          ],
+          "ShowJumper": false,
+          "FullPageScroll": true
+        },
+        "DefaultSort": {
+          "Field": "ApplyDate",
+          "Order": "asc"
+        },
+        "EmptyText": "目前查無用人申請",
+        "GridBordered": true
+      },
+      "FieldSpecs": [
+        {
+          "BindField": "ReqHireNo",
+          "Title": "申請單號",
+          "Width": 160,
+          "Align": "Left",
+          "Fixed": "Left",
+          "Formatter": "Link",
+          "Sorter": true,
+          "DefaultVisible": true
+        },
+        {
+          "BindField": "ApplyDeptCode",
+          "Title": "申請部門",
+          "Width": 120,
+          "Align": "Left",
+          "Formatter": "Tag",
+          "DefaultVisible": true
+        },
+        {
+          "BindField": "JobTitle",
+          "Title": "職位名稱",
+          "Width": 160,
+          "Align": "Left",
+          "DefaultVisible": true
+        },
+        {
+          "BindField": "HireType",
+          "Title": "申請類型",
+          "Width": 90,
+          "Align": "Center",
+          "Formatter": "Tag",
+          "DefaultVisible": true
+        },
+        {
+          "BindField": "PlannedCount",
+          "Title": "需求",
+          "Width": 70,
+          "Align": "Center",
+          "DefaultVisible": true
+        },
+        {
+          "BindField": "FilledCount",
+          "Title": "已補",
+          "Width": 70,
+          "Align": "Center",
+          "DefaultVisible": true
+        },
+        {
+          "BindField": "ExpectedDate",
+          "Title": "期望報到",
+          "Width": 110,
+          "Align": "Center",
+          "DefaultVisible": true
+        },
+        {
+          "BindField": "DocStatus",
+          "Title": "狀態",
+          "Width": 100,
+          "Align": "Center",
+          "Formatter": "Tag",
+          "Sorter": true,
+          "DefaultVisible": true
+        },
+        {
+          "BindField": "UpdatedAt",
+          "Title": "更新時間",
+          "Width": 160,
+          "Align": "Center",
+          "Formatter": "DateTime",
+          "DefaultVisible": false
+        }
+      ]
+    },
+    "FormView": {
+      "FormSpec": {
+        "RowKey": "RowGuid",
+        "Layout": "Horizontal",
+        "Sections": [
+          {
+            "SectionID": "SecBase",
+            "Type": "Card",
+            "Title": "申請資訊",
+            "IsCollapsible": false,
+            "DefaultOpen": true,
+            "Icon": "ri-user-add-line"
+          },
+          {
+            "SectionID": "SecPosition",
+            "Type": "Card",
+            "Title": "職缺需求",
+            "IsCollapsible": false,
+            "DefaultOpen": true,
+            "Icon": "ri-briefcase-line"
+          },
+          {
+            "SectionID": "SecQty",
+            "Type": "Card",
+            "Title": "需求人數",
+            "IsCollapsible": false,
+            "DefaultOpen": true,
+            "Icon": "ri-team-line"
+          },
+          {
+            "SectionID": "SecReq",
+            "Type": "Card",
+            "Title": "資格條件",
+            "IsCollapsible": false,
+            "DefaultOpen": true,
+            "Icon": "ri-list-check"
+          },
+          {
+            "SectionID": "SecSalary",
+            "Type": "Card",
+            "Title": "薪資區間(機敏)",
+            "IsCollapsible": true,
+            "DefaultOpen": false,
+            "Icon": "ri-lock-2-line"
+          },
+          {
+            "SectionID": "SecFlow",
+            "Type": "Card",
+            "Title": "簽核流程",
+            "IsCollapsible": false,
+            "DefaultOpen": true,
+            "Icon": "ri-flow-chart"
+          },
+          {
+            "SectionID": "SecExtra",
+            "Type": "Card",
+            "Title": "其他與系統",
+            "IsCollapsible": true,
+            "DefaultOpen": false,
+            "Icon": "ri-settings-4-line"
+          }
+        ],
+        "FormLogic": []
+      },
+      "FieldSpecs": [
+        {
+          "BindField": "RowKey",
+          "Title": "系統識別碼",
+          "Component": "Input",
+          "Section": "SecExtra",
+          "Span": 24,
+          "Mode": "Hidden"
+        },
+        {
+          "BindField": "EntityID",
+          "Title": "系統實體",
+          "Component": "Input",
+          "Section": "SecExtra",
+          "Span": 12,
+          "Mode": "Hidden",
+          "DefaultValue": "hrm"
+        },
+        {
+          "BindField": "ReqHireNo",
+          "Title": "申請單號",
+          "Component": "Input",
+          "Section": "SecBase",
+          "Span": 12,
+          "Mode": "Editable",
+          "Validations": [
+            {
+              "Rule": "Required",
+              "Message": "申請單號為必填"
+            },
+            {
+              "Rule": "MaxLength",
+              "Value": 50,
+              "Message": "不可超過 50"
+            },
+            {
+              "Rule": "Unique",
+              "Message": "申請單號不可重複"
+            }
+          ],
+          "Props": {
+            "Placeholder": "如 REQ-2025-0001"
+          }
+        },
+        {
+          "BindField": "ApplyDate",
+          "Title": "申請日期",
+          "Component": "DatePicker",
+          "Section": "SecBase",
+          "Span": 12,
+          "Mode": "Editable",
+          "Validations": [
+            {
+              "Rule": "Required",
+              "Message": "申請日期為必填"
+            }
+          ]
+        },
+        {
+          "BindField": "ApplyDeptCode",
+          "Title": "申請部門",
+          "Component": "Select",
+          "Section": "SecBase",
+          "Span": 12,
+          "Mode": "Editable",
+          "Validations": [
+            {
+              "Rule": "Required",
+              "Message": "申請部門為必填"
+            }
+          ],
+          "Props": {
+            "OptionKey": "ApplyDeptCode"
+          }
+        },
+        {
+          "BindField": "ApplyEmpNo",
+          "Title": "申請人",
+          "Component": "Select",
+          "Section": "SecBase",
+          "Span": 12,
+          "Mode": "Editable",
+          "Props": {
+            "OptionKey": "ApplyEmpNo",
+            "Placeholder": "通常為部門主管"
+          }
+        },
+        {
+          "BindField": "Status",
+          "Title": "資料狀態",
+          "Component": "Select",
+          "Section": "SecBase",
+          "Span": 12,
+          "Mode": "Editable",
+          "DefaultValue": "1",
+          "Validations": [
+            {
+              "Rule": "Required",
+              "Message": "狀態為必填"
+            }
+          ],
+          "Props": {
+            "OptionKey": "Status"
+          }
+        },
+        {
+          "BindField": "JobTitle",
+          "Title": "職位名稱",
+          "Component": "Input",
+          "Section": "SecPosition",
+          "Span": 12,
+          "Mode": "Editable",
+          "Validations": [
+            {
+              "Rule": "Required",
+              "Message": "職位名稱為必填"
+            },
+            {
+              "Rule": "MaxLength",
+              "Value": 200,
+              "Message": "不可超過 200"
+            }
+          ]
+        },
+        {
+          "BindField": "GradeCode",
+          "Title": "職等需求",
+          "Component": "Select",
+          "Section": "SecPosition",
+          "Span": 12,
+          "Mode": "Editable",
+          "Props": {
+            "OptionKey": "GradeCode"
+          }
+        },
+        {
+          "BindField": "HireType",
+          "Title": "申請類型",
+          "Component": "Select",
+          "Section": "SecPosition",
+          "Span": 12,
+          "Mode": "Editable",
+          "DefaultValue": "N",
+          "Validations": [
+            {
+              "Rule": "Required",
+              "Message": "申請類型為必填"
+            }
+          ],
+          "Props": {
+            "OptionKey": "HireType"
+          }
+        },
+        {
+          "BindField": "HireReason",
+          "Title": "需求原因",
+          "Component": "TextArea",
+          "Section": "SecPosition",
+          "Span": 24,
+          "Mode": "Editable",
+          "Props": {
+            "Placeholder": "遞補需註明被遞補員工",
+            "Rows": 2
+          }
+        },
+        {
+          "BindField": "PlannedCount",
+          "Title": "需求人數",
+          "Component": "InputNumber",
+          "Section": "SecQty",
+          "Span": 12,
+          "Mode": "Editable",
+          "DefaultValue": 1,
+          "Validations": [
+            {
+              "Rule": "Required",
+              "Message": "需求人數為必填"
+            }
+          ],
+          "Props": {
+            "Min": 1
+          }
+        },
+        {
+          "BindField": "FilledCount",
+          "Title": "已補實人數",
+          "Component": "InputNumber",
+          "Section": "SecQty",
+          "Span": 12,
+          "Mode": "Readonly",
+          "DefaultValue": 0,
+          "Props": {
+            "Min": 0
+          }
+        },
+        {
+          "BindField": "ExpectedDate",
+          "Title": "期望報到日",
+          "Component": "DatePicker",
+          "Section": "SecQty",
+          "Span": 12,
+          "Mode": "Editable"
+        },
+        {
+          "BindField": "EduRequirement",
+          "Title": "學歷要求",
+          "Component": "TextArea",
+          "Section": "SecReq",
+          "Span": 12,
+          "Mode": "Editable",
+          "Props": {
+            "Rows": 2
+          }
+        },
+        {
+          "BindField": "ExpRequirement",
+          "Title": "經歷要求",
+          "Component": "TextArea",
+          "Section": "SecReq",
+          "Span": 12,
+          "Mode": "Editable",
+          "Props": {
+            "Rows": 2
+          }
+        },
+        {
+          "BindField": "LicRequirement",
+          "Title": "證照要求",
+          "Component": "TextArea",
+          "Section": "SecReq",
+          "Span": 12,
+          "Mode": "Editable",
+          "Props": {
+            "Rows": 2
+          }
+        },
+        {
+          "BindField": "SkillRequirement",
+          "Title": "技能要求",
+          "Component": "TextArea",
+          "Section": "SecReq",
+          "Span": 12,
+          "Mode": "Editable",
+          "Props": {
+            "Rows": 2
+          }
+        },
+        {
+          "BindField": "SalaryRangeMin",
+          "Title": "薪資下限(機敏)",
+          "Component": "InputNumber",
+          "Section": "SecSalary",
+          "Span": 12,
+          "Mode": "Editable",
+          "Props": {
+            "Min": 0
+          }
+        },
+        {
+          "BindField": "SalaryRangeMax",
+          "Title": "薪資上限(機敏)",
+          "Component": "InputNumber",
+          "Section": "SecSalary",
+          "Span": 12,
+          "Mode": "Editable",
+          "Props": {
+            "Min": 0
+          }
+        },
+        {
+          "BindField": "DocStatus",
+          "Title": "簽核狀態",
+          "Component": "Select",
+          "Section": "SecFlow",
+          "Span": 12,
+          "Mode": "Editable",
+          "DefaultValue": "0",
+          "Validations": [
+            {
+              "Rule": "Required",
+              "Message": "狀態為必填"
+            }
+          ],
+          "Props": {
+            "OptionKey": "DocStatus"
+          }
+        },
+        {
+          "BindField": "ApprovedAt",
+          "Title": "核准時間",
+          "Component": "DatePicker",
+          "Section": "SecFlow",
+          "Span": 12,
+          "Mode": "Editable"
+        },
+        {
+          "BindField": "ApprovedBy",
+          "Title": "核准人",
+          "Component": "Input",
+          "Section": "SecFlow",
+          "Span": 12,
+          "Mode": "Readonly"
+        },
+        {
+          "BindField": "OpenedAt",
+          "Title": "開缺時間",
+          "Component": "DatePicker",
+          "Section": "SecFlow",
+          "Span": 12,
+          "Mode": "Editable"
+        },
+        {
+          "BindField": "OpenedBy",
+          "Title": "開缺人",
+          "Component": "Input",
+          "Section": "SecFlow",
+          "Span": 12,
+          "Mode": "Readonly"
+        },
+        {
+          "BindField": "ClosedAt",
+          "Title": "結案時間",
+          "Component": "DatePicker",
+          "Section": "SecFlow",
+          "Span": 12,
+          "Mode": "Editable"
+        },
+        {
+          "BindField": "ClosedBy",
+          "Title": "結案人",
+          "Component": "Input",
+          "Section": "SecFlow",
+          "Span": 12,
+          "Mode": "Readonly"
+        },
+        {
+          "BindField": "Priority",
+          "Title": "優先權",
+          "Component": "Select",
+          "Section": "SecExtra",
+          "Span": 12,
+          "Mode": "Editable",
+          "DefaultValue": "C",
+          "Props": {
+            "OptionKey": "Priority"
+          }
+        },
+        {
+          "BindField": "SortNo",
+          "Title": "顯示排序",
+          "Component": "Input",
+          "Section": "SecExtra",
+          "Span": 12,
+          "Mode": "Editable",
+          "DefaultValue": "C0000",
+          "Validations": [
+            {
+              "Rule": "MaxLength",
+              "Value": 5,
+              "Message": "排序編號長度不可超過 5"
+            }
+          ]
+        },
+        {
+          "BindField": "Description",
+          "Title": "備註說明",
+          "Component": "TextArea",
+          "Section": "SecExtra",
+          "Span": 24,
+          "Mode": "Editable",
+          "Props": {
+            "Rows": 3
+          }
+        },
+        {
+          "BindField": "CreatedBy",
+          "Title": "建立者",
+          "Component": "Input",
+          "Section": "SecExtra",
+          "Span": 12,
+          "Mode": "Readonly"
+        },
+        {
+          "BindField": "CreatedAt",
+          "Title": "建立時間",
+          "Component": "DatePicker",
+          "Section": "SecExtra",
+          "Span": 12,
+          "Mode": "Readonly"
+        },
+        {
+          "BindField": "UpdatedBy",
+          "Title": "更新者",
+          "Component": "Input",
+          "Section": "SecExtra",
+          "Span": 12,
+          "Mode": "Readonly"
+        },
+        {
+          "BindField": "UpdatedAt",
+          "Title": "更新時間",
+          "Component": "DatePicker",
+          "Section": "SecExtra",
+          "Span": 12,
+          "Mode": "Readonly"
+        }
+      ]
+    }
+  },
+  "Features": {},
+  "DataScope": {
+    "DefaultWhere": "EntityID = 'hrm' AND Status = '1'",
+    "AuthLevel": 4,
+    "SortExp": "ApplyDate DESC, ReqHireNo ASC",
+    "DataConfig": {
+      "RowLimit": 5000,
+      "AllowExport": true
+    }
+  },
+  "CustomMeta": {
+    "CustomSchema": {
+      "WidgetType": "Grid",
+      "KeyField": "ReqHireNo",
+      "TitleField": "ReqHireNo",
+      "ParentKeyField": null,
+      "PathField": null,
+      "PathSeparator": "/"
+    },
+    "BusinessRules": {
+      "BusinessValidation": [
+        {
+          "Field": "ReqHireNo",
+          "Rule": "Unique",
+          "Message": "ReqHireNo 不可重複"
+        }
+      ],
+      "SensitiveFields": [
+        "SalaryRangeMin",
+        "SalaryRangeMax"
+      ]
+    }
+  },
+  "SeedData": [
+    {
+      "RowGuid": "rq-01",
+      "EntityID": "hrm",
+      "Status": "1",
+      "ReqHireNo": "REQ-2025-0001",
+      "ApplyDate": "2025-03-01",
+      "ApplyDeptCode": "D300",
+      "ApplyEmpNo": "E004",
+      "JobTitle": "資深後端工程師",
+      "GradeCode": "P3",
+      "HireType": "E",
+      "HireReason": "新產品線擴編",
+      "PlannedCount": 2,
+      "FilledCount": 1,
+      "ExpectedDate": "2025-05-01",
+      "EduRequirement": "資工相關碩士以上",
+      "ExpRequirement": "5 年以上後端開發",
+      "LicRequirement": "",
+      "SkillRequirement": "C#/SQL Server/Azure",
+      "SalaryRangeMin": 70000,
+      "SalaryRangeMax": 95000,
+      "DocStatus": "3",
+      "ApprovedAt": "2025-03-05 10:00",
+      "ApprovedBy": "linda.hr",
+      "OpenedAt": "2025-03-06 09:00",
+      "OpenedBy": "linda.hr",
+      "Priority": "A",
+      "SortNo": "C0001",
+      "CreatedBy": "system",
+      "CreatedAt": "2025-03-01 09:00",
+      "UpdatedBy": "linda.hr",
+      "UpdatedAt": "2025-05-02 11:00"
+    },
+    {
+      "RowGuid": "rq-02",
+      "EntityID": "hrm",
+      "Status": "1",
+      "ReqHireNo": "REQ-2025-0002",
+      "ApplyDate": "2025-04-10",
+      "ApplyDeptCode": "D210",
+      "ApplyEmpNo": "E002",
+      "JobTitle": "生產一課課長",
+      "GradeCode": "M1",
+      "HireType": "R",
+      "HireReason": "前任課長退休遞補",
+      "PlannedCount": 1,
+      "FilledCount": 0,
+      "ExpectedDate": "2025-07-01",
+      "EduRequirement": "大學以上",
+      "ExpRequirement": "8 年以上產線管理",
+      "LicRequirement": "",
+      "SkillRequirement": "精實生產",
+      "SalaryRangeMin": 65000,
+      "SalaryRangeMax": 80000,
+      "DocStatus": "2",
+      "ApprovedAt": "2025-04-15 14:00",
+      "ApprovedBy": "linda.hr",
+      "OpenedAt": "2025-04-16 09:00",
+      "OpenedBy": "linda.hr",
+      "Priority": "A",
+      "SortNo": "C0002",
+      "CreatedBy": "system",
+      "CreatedAt": "2025-04-10 09:00",
+      "UpdatedBy": "linda.hr",
+      "UpdatedAt": "2025-04-16 09:00"
+    }
+  ]
+}

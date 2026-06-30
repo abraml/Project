@@ -1,0 +1,935 @@
+{
+  "EntityID": "hrm",
+  "SystemCode": "MUEIP",
+  "ModuleCode": "HRM",
+  "FuncCode": "hrmDispatchReport",
+  "ConfigHash": "sha256:000000000000000000000000000000000000000000000000607fa76a72b85d1c",
+  "PageMeta": {
+    "PageTitle": "出差報告",
+    "Lang": "zh-TW",
+    "FormType": "ListForm",
+    "EditDisplayType": "Drawer",
+    "Breadcrumb": [
+      {
+        "Title": "首頁",
+        "Path": "/"
+      },
+      {
+        "Title": "國外派遣",
+        "Path": null
+      },
+      {
+        "Title": "出差報告",
+        "Path": "/hrm/hrmDispatchReport"
+      }
+    ],
+    "IsApproval": false,
+    "TenantLocked": false,
+    "Icon": "ri-file-text-line",
+    "Remark": "每位派員一份報告；費用明細(hrmDispatchReport_Expense)含幣別/匯率/台幣折算，合計回填供拋轉。"
+  },
+  "Resources": {
+    "CodeSets": {
+      "Status": [
+        {
+          "CodeID": "1",
+          "CodeName": "啟用",
+          "IsDefault": true
+        },
+        {
+          "CodeID": "0",
+          "CodeName": "停用"
+        }
+      ],
+      "Priority": [
+        {
+          "CodeID": "A",
+          "CodeName": "高"
+        },
+        {
+          "CodeID": "B",
+          "CodeName": "中"
+        },
+        {
+          "CodeID": "C",
+          "CodeName": "低",
+          "IsDefault": true
+        }
+      ],
+      "DocStatus": [
+        {
+          "CodeID": "0",
+          "CodeName": "草稿",
+          "IsDefault": true
+        },
+        {
+          "CodeID": "1",
+          "CodeName": "送審"
+        },
+        {
+          "CodeID": "2",
+          "CodeName": "核准"
+        },
+        {
+          "CodeID": "3",
+          "CodeName": "結案"
+        },
+        {
+          "CodeID": "8",
+          "CodeName": "駁回"
+        },
+        {
+          "CodeID": "9",
+          "CodeName": "作廢"
+        }
+      ],
+      "DispatchNo": [
+        {
+          "CodeID": "DSP-2025-0001",
+          "CodeName": "美國-洛杉磯客戶導入"
+        },
+        {
+          "CodeID": "DSP-2025-0002",
+          "CodeName": "日本-東京設備驗收"
+        }
+      ],
+      "EmpNo": [
+        {
+          "CodeID": "E001",
+          "CodeName": "王小明(研發)"
+        },
+        {
+          "CodeID": "E005",
+          "CodeName": "李俊賢(系統工程師)"
+        },
+        {
+          "CodeID": "E008",
+          "CodeName": "蔡宜君(研發工程師)"
+        },
+        {
+          "CodeID": "E004",
+          "CodeName": "張美玲(資訊經理)"
+        }
+      ]
+    },
+    "FeatureFlags": {
+      "IsReadOnly": false,
+      "EnableDraft": false,
+      "EnableBatchDelete": true,
+      "AutoRefreshInterval": 0,
+      "DefaultViewMode": "Table",
+      "RequireConfirmOnSave": true
+    }
+  },
+  "AllowAction": {
+    "DataActions": [
+      {
+        "ActionID": "Add",
+        "Label": "新增",
+        "Icon": "ri-add-line",
+        "Type": "Primary",
+        "Position": "Toolbar",
+        "Confirm": null
+      },
+      {
+        "ActionID": "Save",
+        "Label": "儲存",
+        "Icon": "ri-save-line",
+        "Type": "Primary",
+        "Position": "Toolbar",
+        "Confirm": null
+      },
+      {
+        "ActionID": "Delete",
+        "Label": "刪除",
+        "Icon": "ri-delete-bin-line",
+        "Type": "Danger",
+        "Position": "Both",
+        "Confirm": "確定要刪除此筆資料嗎？"
+      },
+      {
+        "ActionID": "Query",
+        "Label": "查詢",
+        "Icon": "ri-search-line",
+        "Type": "Default",
+        "Position": "Toolbar",
+        "Confirm": null
+      }
+    ],
+    "ExtensionActions": [
+      {
+        "ActionID": "Import",
+        "Label": "匯入",
+        "Icon": "ri-upload-2-line",
+        "Type": "Default",
+        "Position": "Toolbar",
+        "Confirm": null
+      },
+      {
+        "ActionID": "Export",
+        "Label": "匯出",
+        "Icon": "ri-file-excel-line",
+        "Type": "Default",
+        "Position": "Toolbar",
+        "Confirm": null
+      }
+    ]
+  },
+  "View": {
+    "RowKey": "RowGuid",
+    "ListView": {
+      "ListSpec": {
+        "RowKey": "RowGuid",
+        "SelectMode": "Single",
+        "FixedColumns": [
+          "Action",
+          "No"
+        ],
+        "RowActionMode": "Menu",
+        "ShowRowNo": true,
+        "Pagination": {
+          "PageSize": 100,
+          "SizeOptions": [
+            50,
+            100,
+            200,
+            500
+          ],
+          "ShowJumper": false,
+          "FullPageScroll": true
+        },
+        "DefaultSort": {
+          "Field": "ReportDate",
+          "Order": "asc"
+        },
+        "EmptyText": "目前查無出差報告",
+        "GridBordered": true
+      },
+      "FieldSpecs": [
+        {
+          "BindField": "ReportNo",
+          "Title": "報告單號",
+          "Width": 150,
+          "Align": "Left",
+          "Fixed": "Left",
+          "Formatter": "Link",
+          "Sorter": true,
+          "DefaultVisible": true
+        },
+        {
+          "BindField": "DispatchNo",
+          "Title": "派遣單號",
+          "Width": 150,
+          "Align": "Left",
+          "Formatter": "Tag",
+          "DefaultVisible": true
+        },
+        {
+          "BindField": "EmpNo",
+          "Title": "報告人",
+          "Width": 130,
+          "Align": "Left",
+          "Formatter": "Tag",
+          "DefaultVisible": true
+        },
+        {
+          "BindField": "ReportDate",
+          "Title": "報告日期",
+          "Width": 110,
+          "Align": "Center",
+          "Sorter": true,
+          "DefaultVisible": true
+        },
+        {
+          "BindField": "TotalExpenseTWD",
+          "Title": "費用合計",
+          "Width": 120,
+          "Align": "Center",
+          "DefaultVisible": true
+        },
+        {
+          "BindField": "DocStatus",
+          "Title": "狀態",
+          "Width": 100,
+          "Align": "Center",
+          "Formatter": "Tag",
+          "Sorter": true,
+          "DefaultVisible": true
+        },
+        {
+          "BindField": "UpdatedAt",
+          "Title": "更新時間",
+          "Width": 160,
+          "Align": "Center",
+          "Formatter": "DateTime",
+          "DefaultVisible": false
+        }
+      ]
+    },
+    "FormView": {
+      "FormSpec": {
+        "RowKey": "RowGuid",
+        "Layout": "Horizontal",
+        "Sections": [
+          {
+            "SectionID": "SecBase",
+            "Type": "Card",
+            "Title": "報告基本",
+            "IsCollapsible": false,
+            "DefaultOpen": true,
+            "Icon": "ri-file-text-line"
+          },
+          {
+            "SectionID": "SecContent",
+            "Type": "Card",
+            "Title": "報告內容",
+            "IsCollapsible": false,
+            "DefaultOpen": true,
+            "Icon": "ri-article-line"
+          },
+          {
+            "SectionID": "SecExpense",
+            "Type": "Card",
+            "Title": "費用合計",
+            "IsCollapsible": false,
+            "DefaultOpen": true,
+            "Icon": "ri-money-dollar-box-line"
+          },
+          {
+            "SectionID": "SecFlow",
+            "Type": "Card",
+            "Title": "簽核流程",
+            "IsCollapsible": false,
+            "DefaultOpen": true,
+            "Icon": "ri-flow-chart"
+          },
+          {
+            "SectionID": "SecExtra",
+            "Type": "Card",
+            "Title": "其他與系統",
+            "IsCollapsible": true,
+            "DefaultOpen": false,
+            "Icon": "ri-settings-4-line"
+          }
+        ],
+        "FormLogic": []
+      },
+      "FieldSpecs": [
+        {
+          "BindField": "RowKey",
+          "Title": "系統識別碼",
+          "Component": "Input",
+          "Section": "SecExtra",
+          "Span": 24,
+          "Mode": "Hidden"
+        },
+        {
+          "BindField": "EntityID",
+          "Title": "系統實體",
+          "Component": "Input",
+          "Section": "SecExtra",
+          "Span": 12,
+          "Mode": "Hidden",
+          "DefaultValue": "hrm"
+        },
+        {
+          "BindField": "ReportNo",
+          "Title": "報告單號",
+          "Component": "Input",
+          "Section": "SecBase",
+          "Span": 12,
+          "Mode": "Editable",
+          "Validations": [
+            {
+              "Rule": "Required",
+              "Message": "報告單號為必填"
+            },
+            {
+              "Rule": "MaxLength",
+              "Value": 50,
+              "Message": "不可超過 50"
+            },
+            {
+              "Rule": "Unique",
+              "Message": "報告單號不可重複"
+            }
+          ],
+          "Props": {
+            "Placeholder": "如 RPT-2025-0001"
+          }
+        },
+        {
+          "BindField": "DispatchNo",
+          "Title": "派遣單號",
+          "Component": "Select",
+          "Section": "SecBase",
+          "Span": 12,
+          "Mode": "Editable",
+          "Validations": [
+            {
+              "Rule": "Required",
+              "Message": "派遣單號為必填"
+            }
+          ],
+          "Props": {
+            "OptionKey": "DispatchNo"
+          }
+        },
+        {
+          "BindField": "EmpNo",
+          "Title": "報告人",
+          "Component": "Select",
+          "Section": "SecBase",
+          "Span": 12,
+          "Mode": "Editable",
+          "Validations": [
+            {
+              "Rule": "Required",
+              "Message": "報告人為必填"
+            }
+          ],
+          "Props": {
+            "OptionKey": "EmpNo"
+          }
+        },
+        {
+          "BindField": "ReportDate",
+          "Title": "報告日期",
+          "Component": "DatePicker",
+          "Section": "SecBase",
+          "Span": 12,
+          "Mode": "Editable",
+          "Validations": [
+            {
+              "Rule": "Required",
+              "Message": "報告日期為必填"
+            }
+          ]
+        },
+        {
+          "BindField": "Status",
+          "Title": "資料狀態",
+          "Component": "Select",
+          "Section": "SecBase",
+          "Span": 12,
+          "Mode": "Editable",
+          "DefaultValue": "1",
+          "Validations": [
+            {
+              "Rule": "Required",
+              "Message": "狀態為必填"
+            }
+          ],
+          "Props": {
+            "OptionKey": "Status"
+          }
+        },
+        {
+          "BindField": "OutcomeSummary",
+          "Title": "出差成果摘要",
+          "Component": "TextArea",
+          "Section": "SecContent",
+          "Span": 24,
+          "Mode": "Editable",
+          "Props": {
+            "Rows": 4
+          }
+        },
+        {
+          "BindField": "FollowUpItems",
+          "Title": "後續追蹤事項",
+          "Component": "TextArea",
+          "Section": "SecContent",
+          "Span": 24,
+          "Mode": "Editable",
+          "Props": {
+            "Rows": 3
+          }
+        },
+        {
+          "BindField": "TotalExpenseTWD",
+          "Title": "費用合計(台幣)",
+          "Component": "InputNumber",
+          "Section": "SecExpense",
+          "Span": 12,
+          "Mode": "Readonly",
+          "DefaultValue": 0,
+          "Props": {
+            "Placeholder": "由費用明細加總回填",
+            "Min": 0
+          }
+        },
+        {
+          "BindField": "DocStatus",
+          "Title": "簽核狀態",
+          "Component": "Select",
+          "Section": "SecFlow",
+          "Span": 12,
+          "Mode": "Editable",
+          "DefaultValue": "0",
+          "Validations": [
+            {
+              "Rule": "Required",
+              "Message": "狀態為必填"
+            }
+          ],
+          "Props": {
+            "OptionKey": "DocStatus"
+          }
+        },
+        {
+          "BindField": "ApprovedAt",
+          "Title": "核准時間",
+          "Component": "DatePicker",
+          "Section": "SecFlow",
+          "Span": 12,
+          "Mode": "Editable"
+        },
+        {
+          "BindField": "ApprovedBy",
+          "Title": "核准人",
+          "Component": "Input",
+          "Section": "SecFlow",
+          "Span": 12,
+          "Mode": "Readonly"
+        },
+        {
+          "BindField": "Priority",
+          "Title": "優先權",
+          "Component": "Select",
+          "Section": "SecExtra",
+          "Span": 12,
+          "Mode": "Editable",
+          "DefaultValue": "C",
+          "Props": {
+            "OptionKey": "Priority"
+          }
+        },
+        {
+          "BindField": "SortNo",
+          "Title": "顯示排序",
+          "Component": "Input",
+          "Section": "SecExtra",
+          "Span": 12,
+          "Mode": "Editable",
+          "DefaultValue": "C0000",
+          "Validations": [
+            {
+              "Rule": "MaxLength",
+              "Value": 5,
+              "Message": "排序編號長度不可超過 5"
+            }
+          ]
+        },
+        {
+          "BindField": "Description",
+          "Title": "備註說明",
+          "Component": "TextArea",
+          "Section": "SecExtra",
+          "Span": 24,
+          "Mode": "Editable",
+          "Props": {
+            "Rows": 3
+          }
+        },
+        {
+          "BindField": "CreatedBy",
+          "Title": "建立者",
+          "Component": "Input",
+          "Section": "SecExtra",
+          "Span": 12,
+          "Mode": "Readonly"
+        },
+        {
+          "BindField": "CreatedAt",
+          "Title": "建立時間",
+          "Component": "DatePicker",
+          "Section": "SecExtra",
+          "Span": 12,
+          "Mode": "Readonly"
+        },
+        {
+          "BindField": "UpdatedBy",
+          "Title": "更新者",
+          "Component": "Input",
+          "Section": "SecExtra",
+          "Span": 12,
+          "Mode": "Readonly"
+        },
+        {
+          "BindField": "UpdatedAt",
+          "Title": "更新時間",
+          "Component": "DatePicker",
+          "Section": "SecExtra",
+          "Span": 12,
+          "Mode": "Readonly"
+        }
+      ]
+    },
+    "DetailViews": [
+      {
+        "DetailID": "Expense",
+        "Title": "費用明細",
+        "Icon": "ri-receipt-line",
+        "Entity": "hrmDispatchReport_Expense",
+        "RelationKey": "ReportNo",
+        "RowKey": "RowGuid",
+        "AllowAdd": true,
+        "AllowEdit": true,
+        "AllowDelete": true,
+        "EmptyText": "尚無費用明細(外幣須填幣別+匯率，台幣折算供拋轉)",
+        "CodeSets": {
+          "ExpenseCategory": [
+            {
+              "CodeID": "FLIGHT",
+              "CodeName": "機票"
+            },
+            {
+              "CodeID": "HOTEL",
+              "CodeName": "住宿"
+            },
+            {
+              "CodeID": "MEAL",
+              "CodeName": "餐費"
+            },
+            {
+              "CodeID": "TRANS",
+              "CodeName": "交通"
+            },
+            {
+              "CodeID": "COMM",
+              "CodeName": "通訊"
+            },
+            {
+              "CodeID": "MISC",
+              "CodeName": "雜支",
+              "IsDefault": true
+            }
+          ],
+          "Currency": [
+            {
+              "CodeID": "TWD",
+              "CodeName": "新台幣 TWD",
+              "IsDefault": true
+            },
+            {
+              "CodeID": "USD",
+              "CodeName": "美元 USD"
+            },
+            {
+              "CodeID": "JPY",
+              "CodeName": "日圓 JPY"
+            },
+            {
+              "CodeID": "CNY",
+              "CodeName": "人民幣 CNY"
+            },
+            {
+              "CodeID": "EUR",
+              "CodeName": "歐元 EUR"
+            }
+          ]
+        },
+        "Columns": [
+          {
+            "BindField": "ExpenseSeq",
+            "Title": "序號",
+            "Width": 70,
+            "Align": "Center",
+            "DefaultVisible": true
+          },
+          {
+            "BindField": "ExpenseDate",
+            "Title": "日期",
+            "Width": 110,
+            "Align": "Center",
+            "DefaultVisible": true
+          },
+          {
+            "BindField": "ExpenseCategory",
+            "Title": "類別",
+            "Width": 90,
+            "Align": "Center",
+            "Formatter": "Tag",
+            "DefaultVisible": true
+          },
+          {
+            "BindField": "ExpenseDesc",
+            "Title": "費用描述",
+            "Width": 180,
+            "Align": "Left",
+            "DefaultVisible": true
+          },
+          {
+            "BindField": "Currency",
+            "Title": "幣別",
+            "Width": 90,
+            "Align": "Center",
+            "Formatter": "Tag",
+            "DefaultVisible": true
+          },
+          {
+            "BindField": "Amount",
+            "Title": "原幣金額",
+            "Width": 100,
+            "Align": "Center",
+            "DefaultVisible": true
+          },
+          {
+            "BindField": "ExchangeRate",
+            "Title": "匯率",
+            "Width": 90,
+            "Align": "Center",
+            "DefaultVisible": true
+          },
+          {
+            "BindField": "AmountTWD",
+            "Title": "台幣折算",
+            "Width": 110,
+            "Align": "Center",
+            "DefaultVisible": true
+          }
+        ],
+        "FormFields": [
+          {
+            "BindField": "ExpenseSeq",
+            "Title": "費用序號",
+            "Component": "Input",
+            "Section": "",
+            "Span": 12,
+            "Mode": "Editable",
+            "Validations": [
+              {
+                "Rule": "Required",
+                "Message": "序號為必填"
+              },
+              {
+                "Rule": "MaxLength",
+                "Value": 5,
+                "Message": "不可超過 5"
+              }
+            ]
+          },
+          {
+            "BindField": "ExpenseDate",
+            "Title": "費用日期",
+            "Component": "DatePicker",
+            "Section": "",
+            "Span": 12,
+            "Mode": "Editable"
+          },
+          {
+            "BindField": "ExpenseCategory",
+            "Title": "費用類別",
+            "Component": "Select",
+            "Section": "",
+            "Span": 12,
+            "Mode": "Editable",
+            "Validations": [
+              {
+                "Rule": "Required",
+                "Message": "類別為必填"
+              }
+            ],
+            "Props": {
+              "OptionKey": "ExpenseCategory"
+            }
+          },
+          {
+            "BindField": "ExpenseDesc",
+            "Title": "費用描述",
+            "Component": "Input",
+            "Section": "",
+            "Span": 12,
+            "Mode": "Editable",
+            "Validations": [
+              {
+                "Rule": "MaxLength",
+                "Value": 500,
+                "Message": "不可超過 500"
+              }
+            ]
+          },
+          {
+            "BindField": "Currency",
+            "Title": "幣別",
+            "Component": "Select",
+            "Section": "",
+            "Span": 12,
+            "Mode": "Editable",
+            "DefaultValue": "TWD",
+            "Props": {
+              "OptionKey": "Currency"
+            }
+          },
+          {
+            "BindField": "Amount",
+            "Title": "原幣金額",
+            "Component": "InputNumber",
+            "Section": "",
+            "Span": 12,
+            "Mode": "Editable",
+            "Validations": [
+              {
+                "Rule": "Required",
+                "Message": "金額為必填"
+              }
+            ],
+            "Props": {
+              "Min": 0
+            }
+          },
+          {
+            "BindField": "ExchangeRate",
+            "Title": "匯率",
+            "Component": "InputNumber",
+            "Section": "",
+            "Span": 12,
+            "Mode": "Editable",
+            "DefaultValue": 1,
+            "Props": {
+              "Min": 0
+            }
+          },
+          {
+            "BindField": "AmountTWD",
+            "Title": "台幣折算金額",
+            "Component": "InputNumber",
+            "Section": "",
+            "Span": 12,
+            "Mode": "Editable",
+            "Props": {
+              "Min": 0
+            }
+          },
+          {
+            "BindField": "VoucherPath",
+            "Title": "憑證附件路徑",
+            "Component": "Input",
+            "Section": "",
+            "Span": 24,
+            "Mode": "Editable",
+            "Validations": [
+              {
+                "Rule": "MaxLength",
+                "Value": 500,
+                "Message": "不可超過 500"
+              }
+            ]
+          },
+          {
+            "BindField": "Description",
+            "Title": "備註",
+            "Component": "TextArea",
+            "Section": "",
+            "Span": 24,
+            "Mode": "Editable",
+            "Props": {
+              "Rows": 2
+            }
+          }
+        ],
+        "SeedData": [
+          {
+            "RowGuid": "ex-01",
+            "EntityID": "hrm",
+            "Status": "1",
+            "ReportNo": "RPT-2025-0001",
+            "ExpenseSeq": "00001",
+            "ExpenseDate": "2025-04-20",
+            "ExpenseCategory": "FLIGHT",
+            "ExpenseDesc": "TPE-NRT 來回機票",
+            "Currency": "TWD",
+            "Amount": 18500,
+            "ExchangeRate": 1,
+            "AmountTWD": 18500,
+            "VoucherPath": "/voucher/rpt0001-1.pdf"
+          },
+          {
+            "RowGuid": "ex-02",
+            "EntityID": "hrm",
+            "Status": "1",
+            "ReportNo": "RPT-2025-0001",
+            "ExpenseSeq": "00002",
+            "ExpenseDate": "2025-04-21",
+            "ExpenseCategory": "HOTEL",
+            "ExpenseDesc": "東京飯店 4 晚",
+            "Currency": "JPY",
+            "Amount": 96000,
+            "ExchangeRate": 0.21,
+            "AmountTWD": 20160,
+            "VoucherPath": "/voucher/rpt0001-2.pdf"
+          },
+          {
+            "RowGuid": "ex-03",
+            "EntityID": "hrm",
+            "Status": "1",
+            "ReportNo": "RPT-2025-0001",
+            "ExpenseSeq": "00003",
+            "ExpenseDate": "2025-04-22",
+            "ExpenseCategory": "MEAL",
+            "ExpenseDesc": "餐費(5 日)",
+            "Currency": "JPY",
+            "Amount": 25000,
+            "ExchangeRate": 0.21,
+            "AmountTWD": 5250,
+            "VoucherPath": null
+          }
+        ]
+      }
+    ]
+  },
+  "Features": {},
+  "DataScope": {
+    "DefaultWhere": "EntityID = 'hrm' AND Status = '1'",
+    "AuthLevel": 4,
+    "SortExp": "ReportDate DESC, ReportNo ASC",
+    "DataConfig": {
+      "RowLimit": 5000,
+      "AllowExport": true
+    }
+  },
+  "CustomMeta": {
+    "CustomSchema": {
+      "WidgetType": "Grid",
+      "KeyField": "ReportNo",
+      "TitleField": "ReportNo",
+      "ParentKeyField": null,
+      "PathField": null,
+      "PathSeparator": "/"
+    },
+    "BusinessRules": {
+      "BusinessValidation": [
+        {
+          "Field": "ReportNo",
+          "Rule": "Unique",
+          "Message": "ReportNo 不可重複"
+        }
+      ],
+      "SensitiveFields": []
+    }
+  },
+  "SeedData": [
+    {
+      "RowGuid": "rp-01",
+      "EntityID": "hrm",
+      "Status": "1",
+      "ReportNo": "RPT-2025-0001",
+      "DispatchNo": "DSP-2025-0002",
+      "EmpNo": "E001",
+      "ReportDate": "2025-04-28",
+      "OutcomeSummary": "完成設備驗收，已簽署驗收文件，設備如期出貨。",
+      "FollowUpItems": "追蹤後續維保合約簽署",
+      "TotalExpenseTWD": 43910,
+      "DocStatus": "2",
+      "ApprovedAt": "2025-05-01 10:00",
+      "ApprovedBy": "linda.hr",
+      "Priority": "B",
+      "SortNo": "C0001",
+      "CreatedBy": "system",
+      "CreatedAt": "2025-04-28 18:00",
+      "UpdatedBy": "linda.hr",
+      "UpdatedAt": "2025-05-01 10:00"
+    }
+  ]
+}

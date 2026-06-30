@@ -1,0 +1,794 @@
+{
+  "EntityID": "hrm",
+  "SystemCode": "MUEIP",
+  "ModuleCode": "HRM",
+  "FuncCode": "hrmHireInterview",
+  "ConfigHash": "sha256:000000000000000000000000000000000000000000000000679a1f480cf06432",
+  "PageMeta": {
+    "PageTitle": "面試記錄",
+    "Lang": "zh-TW",
+    "FormType": "ListForm",
+    "EditDisplayType": "Drawer",
+    "Breadcrumb": [
+      {
+        "Title": "首頁",
+        "Path": "/"
+      },
+      {
+        "Title": "員工招募",
+        "Path": null
+      },
+      {
+        "Title": "面試記錄",
+        "Path": "/hrm/hrmHireInterview"
+      }
+    ],
+    "IsApproval": false,
+    "TenantLocked": false,
+    "Icon": "ri-user-voice-line",
+    "Remark": "同應徵人對同職缺可多輪面試；每輪一筆獨立記錄與評分。"
+  },
+  "Resources": {
+    "CodeSets": {
+      "Status": [
+        {
+          "CodeID": "1",
+          "CodeName": "啟用",
+          "IsDefault": true
+        },
+        {
+          "CodeID": "0",
+          "CodeName": "停用"
+        }
+      ],
+      "Priority": [
+        {
+          "CodeID": "A",
+          "CodeName": "高"
+        },
+        {
+          "CodeID": "B",
+          "CodeName": "中"
+        },
+        {
+          "CodeID": "C",
+          "CodeName": "低",
+          "IsDefault": true
+        }
+      ],
+      "DocStatus": [
+        {
+          "CodeID": "0",
+          "CodeName": "草稿",
+          "IsDefault": true
+        },
+        {
+          "CodeID": "1",
+          "CodeName": "送審"
+        },
+        {
+          "CodeID": "2",
+          "CodeName": "核准"
+        },
+        {
+          "CodeID": "3",
+          "CodeName": "結案"
+        },
+        {
+          "CodeID": "8",
+          "CodeName": "駁回"
+        },
+        {
+          "CodeID": "9",
+          "CodeName": "作廢"
+        }
+      ],
+      "CandidateNo": [
+        {
+          "CodeID": "CAND-2025-0001",
+          "CodeName": "周建宏"
+        },
+        {
+          "CodeID": "CAND-2025-0002",
+          "CodeName": "黃詩涵"
+        },
+        {
+          "CodeID": "CAND-2025-0003",
+          "CodeName": "林志豪"
+        }
+      ],
+      "InterviewMode": [
+        {
+          "CodeID": "O",
+          "CodeName": "現場",
+          "IsDefault": true
+        },
+        {
+          "CodeID": "V",
+          "CodeName": "視訊"
+        },
+        {
+          "CodeID": "P",
+          "CodeName": "電話"
+        }
+      ],
+      "HireDecision": [
+        {
+          "CodeID": "Y",
+          "CodeName": "推薦"
+        },
+        {
+          "CodeID": "N",
+          "CodeName": "不推薦"
+        },
+        {
+          "CodeID": "P",
+          "CodeName": "待定"
+        },
+        {
+          "CodeID": "H",
+          "CodeName": "留待下一輪"
+        }
+      ]
+    },
+    "FeatureFlags": {
+      "IsReadOnly": false,
+      "EnableDraft": false,
+      "EnableBatchDelete": true,
+      "AutoRefreshInterval": 0,
+      "DefaultViewMode": "Table",
+      "RequireConfirmOnSave": true
+    }
+  },
+  "AllowAction": {
+    "DataActions": [
+      {
+        "ActionID": "Add",
+        "Label": "新增",
+        "Icon": "ri-add-line",
+        "Type": "Primary",
+        "Position": "Toolbar",
+        "Confirm": null
+      },
+      {
+        "ActionID": "Save",
+        "Label": "儲存",
+        "Icon": "ri-save-line",
+        "Type": "Primary",
+        "Position": "Toolbar",
+        "Confirm": null
+      },
+      {
+        "ActionID": "Delete",
+        "Label": "刪除",
+        "Icon": "ri-delete-bin-line",
+        "Type": "Danger",
+        "Position": "Both",
+        "Confirm": "確定要刪除此筆資料嗎？"
+      },
+      {
+        "ActionID": "Query",
+        "Label": "查詢",
+        "Icon": "ri-search-line",
+        "Type": "Default",
+        "Position": "Toolbar",
+        "Confirm": null
+      }
+    ],
+    "ExtensionActions": [
+      {
+        "ActionID": "Import",
+        "Label": "匯入",
+        "Icon": "ri-upload-2-line",
+        "Type": "Default",
+        "Position": "Toolbar",
+        "Confirm": null
+      },
+      {
+        "ActionID": "Export",
+        "Label": "匯出",
+        "Icon": "ri-file-excel-line",
+        "Type": "Default",
+        "Position": "Toolbar",
+        "Confirm": null
+      }
+    ]
+  },
+  "View": {
+    "RowKey": "RowGuid",
+    "ListView": {
+      "ListSpec": {
+        "RowKey": "RowGuid",
+        "SelectMode": "Single",
+        "FixedColumns": [
+          "Action",
+          "No"
+        ],
+        "RowActionMode": "Menu",
+        "ShowRowNo": true,
+        "Pagination": {
+          "PageSize": 100,
+          "SizeOptions": [
+            50,
+            100,
+            200,
+            500
+          ],
+          "ShowJumper": false,
+          "FullPageScroll": true
+        },
+        "DefaultSort": {
+          "Field": "InterviewAt",
+          "Order": "asc"
+        },
+        "EmptyText": "目前查無面試記錄",
+        "GridBordered": true
+      },
+      "FieldSpecs": [
+        {
+          "BindField": "InterviewNo",
+          "Title": "面試單號",
+          "Width": 150,
+          "Align": "Left",
+          "Fixed": "Left",
+          "Formatter": "Link",
+          "Sorter": true,
+          "DefaultVisible": true
+        },
+        {
+          "BindField": "CandidateNo",
+          "Title": "應徵人",
+          "Width": 130,
+          "Align": "Left",
+          "Formatter": "Tag",
+          "DefaultVisible": true
+        },
+        {
+          "BindField": "InterviewRound",
+          "Title": "輪次",
+          "Width": 70,
+          "Align": "Center",
+          "DefaultVisible": true
+        },
+        {
+          "BindField": "InterviewMode",
+          "Title": "方式",
+          "Width": 80,
+          "Align": "Center",
+          "Formatter": "Tag",
+          "DefaultVisible": true
+        },
+        {
+          "BindField": "InterviewAt",
+          "Title": "面試時間",
+          "Width": 160,
+          "Align": "Center",
+          "Formatter": "DateTime",
+          "DefaultVisible": true
+        },
+        {
+          "BindField": "ScoreOverall",
+          "Title": "綜合分",
+          "Width": 80,
+          "Align": "Center",
+          "DefaultVisible": true
+        },
+        {
+          "BindField": "HireDecision",
+          "Title": "錄取建議",
+          "Width": 100,
+          "Align": "Center",
+          "Formatter": "Tag",
+          "DefaultVisible": true
+        },
+        {
+          "BindField": "DocStatus",
+          "Title": "狀態",
+          "Width": 100,
+          "Align": "Center",
+          "Formatter": "Tag",
+          "Sorter": true,
+          "DefaultVisible": true
+        }
+      ]
+    },
+    "FormView": {
+      "FormSpec": {
+        "RowKey": "RowGuid",
+        "Layout": "Horizontal",
+        "Sections": [
+          {
+            "SectionID": "SecBase",
+            "Type": "Card",
+            "Title": "面試基本",
+            "IsCollapsible": false,
+            "DefaultOpen": true,
+            "Icon": "ri-user-voice-line"
+          },
+          {
+            "SectionID": "SecSchedule",
+            "Type": "Card",
+            "Title": "時間地點",
+            "IsCollapsible": false,
+            "DefaultOpen": true,
+            "Icon": "ri-map-pin-time-line"
+          },
+          {
+            "SectionID": "SecEval",
+            "Type": "Card",
+            "Title": "評分與建議",
+            "IsCollapsible": false,
+            "DefaultOpen": true,
+            "Icon": "ri-star-line"
+          },
+          {
+            "SectionID": "SecFlow",
+            "Type": "Card",
+            "Title": "簽核流程",
+            "IsCollapsible": false,
+            "DefaultOpen": true,
+            "Icon": "ri-flow-chart"
+          },
+          {
+            "SectionID": "SecExtra",
+            "Type": "Card",
+            "Title": "其他與系統",
+            "IsCollapsible": true,
+            "DefaultOpen": false,
+            "Icon": "ri-settings-4-line"
+          }
+        ],
+        "FormLogic": []
+      },
+      "FieldSpecs": [
+        {
+          "BindField": "RowKey",
+          "Title": "系統識別碼",
+          "Component": "Input",
+          "Section": "SecExtra",
+          "Span": 24,
+          "Mode": "Hidden"
+        },
+        {
+          "BindField": "EntityID",
+          "Title": "系統實體",
+          "Component": "Input",
+          "Section": "SecExtra",
+          "Span": 12,
+          "Mode": "Hidden",
+          "DefaultValue": "hrm"
+        },
+        {
+          "BindField": "InterviewNo",
+          "Title": "面試單號",
+          "Component": "Input",
+          "Section": "SecBase",
+          "Span": 12,
+          "Mode": "Editable",
+          "Validations": [
+            {
+              "Rule": "Required",
+              "Message": "面試單號為必填"
+            },
+            {
+              "Rule": "MaxLength",
+              "Value": 50,
+              "Message": "不可超過 50"
+            },
+            {
+              "Rule": "Unique",
+              "Message": "面試單號不可重複"
+            }
+          ],
+          "Props": {
+            "Placeholder": "如 ITV-2025-0001"
+          }
+        },
+        {
+          "BindField": "CandidateNo",
+          "Title": "應徵人",
+          "Component": "Select",
+          "Section": "SecBase",
+          "Span": 12,
+          "Mode": "Editable",
+          "Validations": [
+            {
+              "Rule": "Required",
+              "Message": "應徵人為必填"
+            }
+          ],
+          "Props": {
+            "OptionKey": "CandidateNo"
+          }
+        },
+        {
+          "BindField": "RefReqHireNo",
+          "Title": "對應職缺",
+          "Component": "Input",
+          "Section": "SecBase",
+          "Span": 12,
+          "Mode": "Editable",
+          "Validations": [
+            {
+              "Rule": "MaxLength",
+              "Value": 50,
+              "Message": "不可超過 50"
+            }
+          ],
+          "Props": {
+            "Placeholder": "職缺單號"
+          }
+        },
+        {
+          "BindField": "InterviewRound",
+          "Title": "面試輪次",
+          "Component": "InputNumber",
+          "Section": "SecBase",
+          "Span": 12,
+          "Mode": "Editable",
+          "DefaultValue": 1,
+          "Validations": [
+            {
+              "Rule": "Required",
+              "Message": "輪次為必填"
+            }
+          ],
+          "Props": {
+            "Min": 1
+          }
+        },
+        {
+          "BindField": "Status",
+          "Title": "資料狀態",
+          "Component": "Select",
+          "Section": "SecBase",
+          "Span": 12,
+          "Mode": "Editable",
+          "DefaultValue": "1",
+          "Validations": [
+            {
+              "Rule": "Required",
+              "Message": "狀態為必填"
+            }
+          ],
+          "Props": {
+            "OptionKey": "Status"
+          }
+        },
+        {
+          "BindField": "InterviewAt",
+          "Title": "面試時間",
+          "Component": "DatePicker",
+          "Section": "SecSchedule",
+          "Span": 12,
+          "Mode": "Editable",
+          "Validations": [
+            {
+              "Rule": "Required",
+              "Message": "面試時間為必填"
+            }
+          ]
+        },
+        {
+          "BindField": "Location",
+          "Title": "面試地點/連結",
+          "Component": "Input",
+          "Section": "SecSchedule",
+          "Span": 12,
+          "Mode": "Editable",
+          "Validations": [
+            {
+              "Rule": "MaxLength",
+              "Value": 200,
+              "Message": "不可超過 200"
+            }
+          ]
+        },
+        {
+          "BindField": "InterviewMode",
+          "Title": "面試方式",
+          "Component": "Select",
+          "Section": "SecSchedule",
+          "Span": 12,
+          "Mode": "Editable",
+          "DefaultValue": "O",
+          "Props": {
+            "OptionKey": "InterviewMode"
+          }
+        },
+        {
+          "BindField": "Interviewers",
+          "Title": "面試官清單",
+          "Component": "TextArea",
+          "Section": "SecSchedule",
+          "Span": 24,
+          "Mode": "Editable",
+          "Props": {
+            "Placeholder": "JSON: [{\"EmpNo\":\"E001\",\"Name\":\"王小明\"}]",
+            "Rows": 2
+          }
+        },
+        {
+          "BindField": "ScoreProfessional",
+          "Title": "專業能力",
+          "Component": "InputNumber",
+          "Section": "SecEval",
+          "Span": 12,
+          "Mode": "Editable",
+          "Props": {
+            "Min": 0,
+            "Max": 100
+          }
+        },
+        {
+          "BindField": "ScoreAttitude",
+          "Title": "工作態度",
+          "Component": "InputNumber",
+          "Section": "SecEval",
+          "Span": 12,
+          "Mode": "Editable",
+          "Props": {
+            "Min": 0,
+            "Max": 100
+          }
+        },
+        {
+          "BindField": "ScoreCommunication",
+          "Title": "溝通能力",
+          "Component": "InputNumber",
+          "Section": "SecEval",
+          "Span": 12,
+          "Mode": "Editable",
+          "Props": {
+            "Min": 0,
+            "Max": 100
+          }
+        },
+        {
+          "BindField": "ScoreOverall",
+          "Title": "綜合評分",
+          "Component": "InputNumber",
+          "Section": "SecEval",
+          "Span": 12,
+          "Mode": "Editable",
+          "Props": {
+            "Min": 0,
+            "Max": 100
+          }
+        },
+        {
+          "BindField": "EvalNote",
+          "Title": "綜合評語",
+          "Component": "TextArea",
+          "Section": "SecEval",
+          "Span": 24,
+          "Mode": "Editable",
+          "Props": {
+            "Rows": 3
+          }
+        },
+        {
+          "BindField": "HireDecision",
+          "Title": "錄取建議",
+          "Component": "Select",
+          "Section": "SecEval",
+          "Span": 12,
+          "Mode": "Editable",
+          "Props": {
+            "OptionKey": "HireDecision"
+          }
+        },
+        {
+          "BindField": "DocStatus",
+          "Title": "簽核狀態",
+          "Component": "Select",
+          "Section": "SecFlow",
+          "Span": 12,
+          "Mode": "Editable",
+          "DefaultValue": "0",
+          "Validations": [
+            {
+              "Rule": "Required",
+              "Message": "狀態為必填"
+            }
+          ],
+          "Props": {
+            "OptionKey": "DocStatus"
+          }
+        },
+        {
+          "BindField": "CompletedAt",
+          "Title": "面試完成時間",
+          "Component": "DatePicker",
+          "Section": "SecFlow",
+          "Span": 12,
+          "Mode": "Editable"
+        },
+        {
+          "BindField": "Priority",
+          "Title": "優先權",
+          "Component": "Select",
+          "Section": "SecExtra",
+          "Span": 12,
+          "Mode": "Editable",
+          "DefaultValue": "C",
+          "Props": {
+            "OptionKey": "Priority"
+          }
+        },
+        {
+          "BindField": "SortNo",
+          "Title": "顯示排序",
+          "Component": "Input",
+          "Section": "SecExtra",
+          "Span": 12,
+          "Mode": "Editable",
+          "DefaultValue": "C0000",
+          "Validations": [
+            {
+              "Rule": "MaxLength",
+              "Value": 5,
+              "Message": "排序編號長度不可超過 5"
+            }
+          ]
+        },
+        {
+          "BindField": "Description",
+          "Title": "備註說明",
+          "Component": "TextArea",
+          "Section": "SecExtra",
+          "Span": 24,
+          "Mode": "Editable",
+          "Props": {
+            "Rows": 3
+          }
+        },
+        {
+          "BindField": "CreatedBy",
+          "Title": "建立者",
+          "Component": "Input",
+          "Section": "SecExtra",
+          "Span": 12,
+          "Mode": "Readonly"
+        },
+        {
+          "BindField": "CreatedAt",
+          "Title": "建立時間",
+          "Component": "DatePicker",
+          "Section": "SecExtra",
+          "Span": 12,
+          "Mode": "Readonly"
+        },
+        {
+          "BindField": "UpdatedBy",
+          "Title": "更新者",
+          "Component": "Input",
+          "Section": "SecExtra",
+          "Span": 12,
+          "Mode": "Readonly"
+        },
+        {
+          "BindField": "UpdatedAt",
+          "Title": "更新時間",
+          "Component": "DatePicker",
+          "Section": "SecExtra",
+          "Span": 12,
+          "Mode": "Readonly"
+        }
+      ]
+    }
+  },
+  "Features": {},
+  "DataScope": {
+    "DefaultWhere": "EntityID = 'hrm' AND Status = '1'",
+    "AuthLevel": 4,
+    "SortExp": "InterviewAt DESC, InterviewNo ASC",
+    "DataConfig": {
+      "RowLimit": 5000,
+      "AllowExport": true
+    }
+  },
+  "CustomMeta": {
+    "CustomSchema": {
+      "WidgetType": "Grid",
+      "KeyField": "InterviewNo",
+      "TitleField": "InterviewNo",
+      "ParentKeyField": null,
+      "PathField": null,
+      "PathSeparator": "/"
+    },
+    "BusinessRules": {
+      "BusinessValidation": [
+        {
+          "Field": "InterviewNo",
+          "Rule": "Unique",
+          "Message": "InterviewNo 不可重複"
+        }
+      ],
+      "SensitiveFields": []
+    }
+  },
+  "SeedData": [
+    {
+      "RowGuid": "iv-01",
+      "EntityID": "hrm",
+      "Status": "1",
+      "InterviewNo": "ITV-2025-0001",
+      "CandidateNo": "CAND-2025-0001",
+      "RefReqHireNo": "REQ-2025-0001",
+      "InterviewRound": 1,
+      "InterviewAt": "2025-03-25 10:00",
+      "Location": "總部 3F 會議室",
+      "InterviewMode": "O",
+      "Interviewers": "[{\"EmpNo\":\"E004\",\"Name\":\"張美玲\"}]",
+      "ScoreProfessional": 88,
+      "ScoreAttitude": 90,
+      "ScoreCommunication": 85,
+      "ScoreOverall": 87.5,
+      "EvalNote": "技術紮實，建議續進二面",
+      "HireDecision": "H",
+      "DocStatus": "3",
+      "CompletedAt": "2025-03-25 11:00",
+      "Priority": "B",
+      "SortNo": "C0001",
+      "CreatedBy": "system",
+      "CreatedAt": "2025-03-22 09:00",
+      "UpdatedBy": "linda.hr",
+      "UpdatedAt": "2025-03-25 11:00"
+    },
+    {
+      "RowGuid": "iv-02",
+      "EntityID": "hrm",
+      "Status": "1",
+      "InterviewNo": "ITV-2025-0002",
+      "CandidateNo": "CAND-2025-0001",
+      "RefReqHireNo": "REQ-2025-0001",
+      "InterviewRound": 2,
+      "InterviewAt": "2025-04-02 14:00",
+      "Location": "Google Meet",
+      "InterviewMode": "V",
+      "Interviewers": "[{\"EmpNo\":\"E004\",\"Name\":\"張美玲\"},{\"EmpNo\":\"E001\",\"Name\":\"王小明\"}]",
+      "ScoreProfessional": 90,
+      "ScoreAttitude": 92,
+      "ScoreCommunication": 88,
+      "ScoreOverall": 90.0,
+      "EvalNote": "綜合表現優異，推薦錄取",
+      "HireDecision": "Y",
+      "DocStatus": "3",
+      "CompletedAt": "2025-04-02 15:00",
+      "Priority": "A",
+      "SortNo": "C0002",
+      "CreatedBy": "system",
+      "CreatedAt": "2025-03-26 09:00",
+      "UpdatedBy": "linda.hr",
+      "UpdatedAt": "2025-04-02 15:00"
+    },
+    {
+      "RowGuid": "iv-03",
+      "EntityID": "hrm",
+      "Status": "1",
+      "InterviewNo": "ITV-2025-0003",
+      "CandidateNo": "CAND-2025-0003",
+      "RefReqHireNo": "REQ-2025-0002",
+      "InterviewRound": 1,
+      "InterviewAt": "2025-04-28 11:00",
+      "Location": "總部 5F",
+      "InterviewMode": "O",
+      "Interviewers": "[{\"EmpNo\":\"E002\",\"Name\":\"李美玲\"}]",
+      "ScoreProfessional": 70,
+      "ScoreAttitude": 75,
+      "ScoreCommunication": 68,
+      "ScoreOverall": 71.0,
+      "EvalNote": "管理經驗足但領導風格待商榷",
+      "HireDecision": "N",
+      "DocStatus": "3",
+      "CompletedAt": "2025-04-28 12:00",
+      "Priority": "C",
+      "SortNo": "C0003",
+      "CreatedBy": "system",
+      "CreatedAt": "2025-04-25 09:00",
+      "UpdatedBy": "linda.hr",
+      "UpdatedAt": "2025-04-28 12:00"
+    }
+  ]
+}

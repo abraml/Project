@@ -1,0 +1,808 @@
+{
+  "EntityID": "hrm",
+  "SystemCode": "MUEIP",
+  "ModuleCode": "HRM",
+  "FuncCode": "hrmHireOffer",
+  "ConfigHash": "sha256:0000000000000000000000000000000000000000000000007b667f5de45d0e37",
+  "PageMeta": {
+    "PageTitle": "錄取通知單",
+    "Lang": "zh-TW",
+    "FormType": "ListForm",
+    "EditDisplayType": "Drawer",
+    "Breadcrumb": [
+      {
+        "Title": "首頁",
+        "Path": "/"
+      },
+      {
+        "Title": "員工招募",
+        "Path": null
+      },
+      {
+        "Title": "錄取通知單",
+        "Path": "/hrm/hrmHireOffer"
+      }
+    ],
+    "IsApproval": false,
+    "TenantLocked": false,
+    "Icon": "ri-mail-send-line",
+    "Remark": "一張 Offer 對應一應徵人+一職缺；ACCEPTED 觸發建立報到單；錄取薪資為 L2 機敏。"
+  },
+  "Resources": {
+    "CodeSets": {
+      "Status": [
+        {
+          "CodeID": "1",
+          "CodeName": "啟用",
+          "IsDefault": true
+        },
+        {
+          "CodeID": "0",
+          "CodeName": "停用"
+        }
+      ],
+      "Priority": [
+        {
+          "CodeID": "A",
+          "CodeName": "高"
+        },
+        {
+          "CodeID": "B",
+          "CodeName": "中"
+        },
+        {
+          "CodeID": "C",
+          "CodeName": "低",
+          "IsDefault": true
+        }
+      ],
+      "DocStatus": [
+        {
+          "CodeID": "0",
+          "CodeName": "草稿",
+          "IsDefault": true
+        },
+        {
+          "CodeID": "1",
+          "CodeName": "送審"
+        },
+        {
+          "CodeID": "2",
+          "CodeName": "核准"
+        },
+        {
+          "CodeID": "3",
+          "CodeName": "結案"
+        },
+        {
+          "CodeID": "8",
+          "CodeName": "駁回"
+        },
+        {
+          "CodeID": "9",
+          "CodeName": "作廢"
+        }
+      ],
+      "CandidateNo": [
+        {
+          "CodeID": "CAND-2025-0001",
+          "CodeName": "周建宏"
+        },
+        {
+          "CodeID": "CAND-2025-0002",
+          "CodeName": "黃詩涵"
+        },
+        {
+          "CodeID": "CAND-2025-0003",
+          "CodeName": "林志豪"
+        }
+      ],
+      "GradeCode": [
+        {
+          "CodeID": "P1",
+          "CodeName": "P1 初級專員"
+        },
+        {
+          "CodeID": "P2",
+          "CodeName": "P2 專員"
+        },
+        {
+          "CodeID": "P3",
+          "CodeName": "P3 資深專員"
+        },
+        {
+          "CodeID": "M1",
+          "CodeName": "M1 課長"
+        },
+        {
+          "CodeID": "M2",
+          "CodeName": "M2 經理"
+        }
+      ],
+      "DeptCode": [
+        {
+          "CodeID": "D130",
+          "CodeName": "資訊部"
+        },
+        {
+          "CodeID": "D300",
+          "CodeName": "研發處"
+        },
+        {
+          "CodeID": "D110",
+          "CodeName": "人力資源部"
+        },
+        {
+          "CodeID": "D120",
+          "CodeName": "財務部"
+        },
+        {
+          "CodeID": "D210",
+          "CodeName": "生產一課"
+        }
+      ],
+      "OfferStatus": [
+        {
+          "CodeID": "PENDING",
+          "CodeName": "待發送",
+          "IsDefault": true
+        },
+        {
+          "CodeID": "SENT",
+          "CodeName": "已發送"
+        },
+        {
+          "CodeID": "ACCEPTED",
+          "CodeName": "已接受"
+        },
+        {
+          "CodeID": "REJECTED",
+          "CodeName": "已拒絕"
+        },
+        {
+          "CodeID": "EXPIRED",
+          "CodeName": "已過期"
+        }
+      ]
+    },
+    "FeatureFlags": {
+      "IsReadOnly": false,
+      "EnableDraft": false,
+      "EnableBatchDelete": true,
+      "AutoRefreshInterval": 0,
+      "DefaultViewMode": "Table",
+      "RequireConfirmOnSave": true
+    }
+  },
+  "AllowAction": {
+    "DataActions": [
+      {
+        "ActionID": "Add",
+        "Label": "新增",
+        "Icon": "ri-add-line",
+        "Type": "Primary",
+        "Position": "Toolbar",
+        "Confirm": null
+      },
+      {
+        "ActionID": "Save",
+        "Label": "儲存",
+        "Icon": "ri-save-line",
+        "Type": "Primary",
+        "Position": "Toolbar",
+        "Confirm": null
+      },
+      {
+        "ActionID": "Delete",
+        "Label": "刪除",
+        "Icon": "ri-delete-bin-line",
+        "Type": "Danger",
+        "Position": "Both",
+        "Confirm": "確定要刪除此筆資料嗎？"
+      },
+      {
+        "ActionID": "Query",
+        "Label": "查詢",
+        "Icon": "ri-search-line",
+        "Type": "Default",
+        "Position": "Toolbar",
+        "Confirm": null
+      }
+    ],
+    "ExtensionActions": [
+      {
+        "ActionID": "Import",
+        "Label": "匯入",
+        "Icon": "ri-upload-2-line",
+        "Type": "Default",
+        "Position": "Toolbar",
+        "Confirm": null
+      },
+      {
+        "ActionID": "Export",
+        "Label": "匯出",
+        "Icon": "ri-file-excel-line",
+        "Type": "Default",
+        "Position": "Toolbar",
+        "Confirm": null
+      }
+    ]
+  },
+  "View": {
+    "RowKey": "RowGuid",
+    "ListView": {
+      "ListSpec": {
+        "RowKey": "RowGuid",
+        "SelectMode": "Single",
+        "FixedColumns": [
+          "Action",
+          "No"
+        ],
+        "RowActionMode": "Menu",
+        "ShowRowNo": true,
+        "Pagination": {
+          "PageSize": 100,
+          "SizeOptions": [
+            50,
+            100,
+            200,
+            500
+          ],
+          "ShowJumper": false,
+          "FullPageScroll": true
+        },
+        "DefaultSort": {
+          "Field": "HireDate",
+          "Order": "asc"
+        },
+        "EmptyText": "目前查無錄取通知",
+        "GridBordered": true
+      },
+      "FieldSpecs": [
+        {
+          "BindField": "OfferNo",
+          "Title": "通知單號",
+          "Width": 150,
+          "Align": "Left",
+          "Fixed": "Left",
+          "Formatter": "Link",
+          "Sorter": true,
+          "DefaultVisible": true
+        },
+        {
+          "BindField": "CandidateNo",
+          "Title": "應徵人",
+          "Width": 130,
+          "Align": "Left",
+          "Formatter": "Tag",
+          "DefaultVisible": true
+        },
+        {
+          "BindField": "JobTitle",
+          "Title": "錄取職位",
+          "Width": 150,
+          "Align": "Left",
+          "DefaultVisible": true
+        },
+        {
+          "BindField": "DeptCode",
+          "Title": "部門",
+          "Width": 110,
+          "Align": "Center",
+          "Formatter": "Tag",
+          "DefaultVisible": true
+        },
+        {
+          "BindField": "HireDate",
+          "Title": "報到日",
+          "Width": 110,
+          "Align": "Center",
+          "DefaultVisible": true
+        },
+        {
+          "BindField": "OfferStatus",
+          "Title": "通知狀態",
+          "Width": 100,
+          "Align": "Center",
+          "Formatter": "Tag",
+          "Sorter": true,
+          "DefaultVisible": true
+        },
+        {
+          "BindField": "DocStatus",
+          "Title": "簽核",
+          "Width": 90,
+          "Align": "Center",
+          "Formatter": "Tag",
+          "DefaultVisible": true
+        },
+        {
+          "BindField": "UpdatedAt",
+          "Title": "更新時間",
+          "Width": 160,
+          "Align": "Center",
+          "Formatter": "DateTime",
+          "DefaultVisible": false
+        }
+      ]
+    },
+    "FormView": {
+      "FormSpec": {
+        "RowKey": "RowGuid",
+        "Layout": "Horizontal",
+        "Sections": [
+          {
+            "SectionID": "SecBase",
+            "Type": "Card",
+            "Title": "錄取對象",
+            "IsCollapsible": false,
+            "DefaultOpen": true,
+            "Icon": "ri-mail-send-line"
+          },
+          {
+            "SectionID": "SecOffer",
+            "Type": "Card",
+            "Title": "錄取內容(機敏)",
+            "IsCollapsible": true,
+            "DefaultOpen": false,
+            "Icon": "ri-file-list-3-line"
+          },
+          {
+            "SectionID": "SecStatus",
+            "Type": "Card",
+            "Title": "通知狀態",
+            "IsCollapsible": false,
+            "DefaultOpen": true,
+            "Icon": "ri-notification-3-line"
+          },
+          {
+            "SectionID": "SecFlow",
+            "Type": "Card",
+            "Title": "簽核流程",
+            "IsCollapsible": false,
+            "DefaultOpen": true,
+            "Icon": "ri-flow-chart"
+          },
+          {
+            "SectionID": "SecExtra",
+            "Type": "Card",
+            "Title": "其他與系統",
+            "IsCollapsible": true,
+            "DefaultOpen": false,
+            "Icon": "ri-settings-4-line"
+          }
+        ],
+        "FormLogic": []
+      },
+      "FieldSpecs": [
+        {
+          "BindField": "RowKey",
+          "Title": "系統識別碼",
+          "Component": "Input",
+          "Section": "SecExtra",
+          "Span": 24,
+          "Mode": "Hidden"
+        },
+        {
+          "BindField": "EntityID",
+          "Title": "系統實體",
+          "Component": "Input",
+          "Section": "SecExtra",
+          "Span": 12,
+          "Mode": "Hidden",
+          "DefaultValue": "hrm"
+        },
+        {
+          "BindField": "OfferNo",
+          "Title": "錄取通知單號",
+          "Component": "Input",
+          "Section": "SecBase",
+          "Span": 12,
+          "Mode": "Editable",
+          "Validations": [
+            {
+              "Rule": "Required",
+              "Message": "通知單號為必填"
+            },
+            {
+              "Rule": "MaxLength",
+              "Value": 50,
+              "Message": "不可超過 50"
+            },
+            {
+              "Rule": "Unique",
+              "Message": "通知單號不可重複"
+            }
+          ],
+          "Props": {
+            "Placeholder": "如 OFR-2025-0001"
+          }
+        },
+        {
+          "BindField": "CandidateNo",
+          "Title": "應徵人",
+          "Component": "Select",
+          "Section": "SecBase",
+          "Span": 12,
+          "Mode": "Editable",
+          "Validations": [
+            {
+              "Rule": "Required",
+              "Message": "應徵人為必填"
+            }
+          ],
+          "Props": {
+            "OptionKey": "CandidateNo"
+          }
+        },
+        {
+          "BindField": "RefReqHireNo",
+          "Title": "對應職缺",
+          "Component": "Input",
+          "Section": "SecBase",
+          "Span": 12,
+          "Mode": "Editable",
+          "Validations": [
+            {
+              "Rule": "MaxLength",
+              "Value": 50,
+              "Message": "不可超過 50"
+            }
+          ]
+        },
+        {
+          "BindField": "RefInterviewNo",
+          "Title": "最後面試單號",
+          "Component": "Input",
+          "Section": "SecBase",
+          "Span": 12,
+          "Mode": "Editable",
+          "Validations": [
+            {
+              "Rule": "MaxLength",
+              "Value": 50,
+              "Message": "不可超過 50"
+            }
+          ]
+        },
+        {
+          "BindField": "Status",
+          "Title": "資料狀態",
+          "Component": "Select",
+          "Section": "SecBase",
+          "Span": 12,
+          "Mode": "Editable",
+          "DefaultValue": "1",
+          "Validations": [
+            {
+              "Rule": "Required",
+              "Message": "狀態為必填"
+            }
+          ],
+          "Props": {
+            "OptionKey": "Status"
+          }
+        },
+        {
+          "BindField": "JobTitle",
+          "Title": "錄取職位",
+          "Component": "Input",
+          "Section": "SecOffer",
+          "Span": 12,
+          "Mode": "Editable",
+          "Validations": [
+            {
+              "Rule": "Required",
+              "Message": "錄取職位為必填"
+            },
+            {
+              "Rule": "MaxLength",
+              "Value": 200,
+              "Message": "不可超過 200"
+            }
+          ]
+        },
+        {
+          "BindField": "GradeCode",
+          "Title": "職等",
+          "Component": "Select",
+          "Section": "SecOffer",
+          "Span": 12,
+          "Mode": "Editable",
+          "Props": {
+            "OptionKey": "GradeCode"
+          }
+        },
+        {
+          "BindField": "DeptCode",
+          "Title": "部門",
+          "Component": "Select",
+          "Section": "SecOffer",
+          "Span": 12,
+          "Mode": "Editable",
+          "Props": {
+            "OptionKey": "DeptCode"
+          }
+        },
+        {
+          "BindField": "OfferedSalary",
+          "Title": "錄取薪資(機敏)",
+          "Component": "InputNumber",
+          "Section": "SecOffer",
+          "Span": 12,
+          "Mode": "Editable",
+          "Props": {
+            "Min": 0
+          }
+        },
+        {
+          "BindField": "HireDate",
+          "Title": "報到日",
+          "Component": "DatePicker",
+          "Section": "SecOffer",
+          "Span": 12,
+          "Mode": "Editable"
+        },
+        {
+          "BindField": "ProbationDays",
+          "Title": "試用期天數",
+          "Component": "InputNumber",
+          "Section": "SecOffer",
+          "Span": 12,
+          "Mode": "Editable",
+          "DefaultValue": 90,
+          "Props": {
+            "Min": 0
+          }
+        },
+        {
+          "BindField": "OtherTerms",
+          "Title": "其他錄取條件",
+          "Component": "TextArea",
+          "Section": "SecOffer",
+          "Span": 24,
+          "Mode": "Editable",
+          "Props": {
+            "Rows": 2
+          }
+        },
+        {
+          "BindField": "OfferStatus",
+          "Title": "通知狀態",
+          "Component": "Select",
+          "Section": "SecStatus",
+          "Span": 12,
+          "Mode": "Editable",
+          "DefaultValue": "PENDING",
+          "Props": {
+            "OptionKey": "OfferStatus"
+          }
+        },
+        {
+          "BindField": "SentAt",
+          "Title": "發送時間",
+          "Component": "DatePicker",
+          "Section": "SecStatus",
+          "Span": 12,
+          "Mode": "Editable"
+        },
+        {
+          "BindField": "SentBy",
+          "Title": "發送人",
+          "Component": "Input",
+          "Section": "SecStatus",
+          "Span": 12,
+          "Mode": "Readonly"
+        },
+        {
+          "BindField": "RespondedAt",
+          "Title": "回覆時間",
+          "Component": "DatePicker",
+          "Section": "SecStatus",
+          "Span": 12,
+          "Mode": "Editable"
+        },
+        {
+          "BindField": "ExpiryDate",
+          "Title": "有效截止日",
+          "Component": "DatePicker",
+          "Section": "SecStatus",
+          "Span": 12,
+          "Mode": "Editable"
+        },
+        {
+          "BindField": "ResponseNote",
+          "Title": "回覆說明",
+          "Component": "TextArea",
+          "Section": "SecStatus",
+          "Span": 24,
+          "Mode": "Editable",
+          "Props": {
+            "Rows": 2
+          }
+        },
+        {
+          "BindField": "DocStatus",
+          "Title": "簽核狀態",
+          "Component": "Select",
+          "Section": "SecFlow",
+          "Span": 12,
+          "Mode": "Editable",
+          "DefaultValue": "0",
+          "Validations": [
+            {
+              "Rule": "Required",
+              "Message": "狀態為必填"
+            }
+          ],
+          "Props": {
+            "OptionKey": "DocStatus"
+          }
+        },
+        {
+          "BindField": "Priority",
+          "Title": "優先權",
+          "Component": "Select",
+          "Section": "SecExtra",
+          "Span": 12,
+          "Mode": "Editable",
+          "DefaultValue": "C",
+          "Props": {
+            "OptionKey": "Priority"
+          }
+        },
+        {
+          "BindField": "SortNo",
+          "Title": "顯示排序",
+          "Component": "Input",
+          "Section": "SecExtra",
+          "Span": 12,
+          "Mode": "Editable",
+          "DefaultValue": "C0000",
+          "Validations": [
+            {
+              "Rule": "MaxLength",
+              "Value": 5,
+              "Message": "排序編號長度不可超過 5"
+            }
+          ]
+        },
+        {
+          "BindField": "Description",
+          "Title": "備註說明",
+          "Component": "TextArea",
+          "Section": "SecExtra",
+          "Span": 24,
+          "Mode": "Editable",
+          "Props": {
+            "Rows": 3
+          }
+        },
+        {
+          "BindField": "CreatedBy",
+          "Title": "建立者",
+          "Component": "Input",
+          "Section": "SecExtra",
+          "Span": 12,
+          "Mode": "Readonly"
+        },
+        {
+          "BindField": "CreatedAt",
+          "Title": "建立時間",
+          "Component": "DatePicker",
+          "Section": "SecExtra",
+          "Span": 12,
+          "Mode": "Readonly"
+        },
+        {
+          "BindField": "UpdatedBy",
+          "Title": "更新者",
+          "Component": "Input",
+          "Section": "SecExtra",
+          "Span": 12,
+          "Mode": "Readonly"
+        },
+        {
+          "BindField": "UpdatedAt",
+          "Title": "更新時間",
+          "Component": "DatePicker",
+          "Section": "SecExtra",
+          "Span": 12,
+          "Mode": "Readonly"
+        }
+      ]
+    }
+  },
+  "Features": {},
+  "DataScope": {
+    "DefaultWhere": "EntityID = 'hrm' AND Status = '1'",
+    "AuthLevel": 4,
+    "SortExp": "HireDate DESC, OfferNo ASC",
+    "DataConfig": {
+      "RowLimit": 5000,
+      "AllowExport": true
+    }
+  },
+  "CustomMeta": {
+    "CustomSchema": {
+      "WidgetType": "Grid",
+      "KeyField": "OfferNo",
+      "TitleField": "OfferNo",
+      "ParentKeyField": null,
+      "PathField": null,
+      "PathSeparator": "/"
+    },
+    "BusinessRules": {
+      "BusinessValidation": [
+        {
+          "Field": "OfferNo",
+          "Rule": "Unique",
+          "Message": "OfferNo 不可重複"
+        }
+      ],
+      "SensitiveFields": [
+        "OfferedSalary"
+      ]
+    }
+  },
+  "SeedData": [
+    {
+      "RowGuid": "of-01",
+      "EntityID": "hrm",
+      "Status": "1",
+      "OfferNo": "OFR-2025-0001",
+      "CandidateNo": "CAND-2025-0001",
+      "RefReqHireNo": "REQ-2025-0001",
+      "RefInterviewNo": "ITV-2025-0002",
+      "JobTitle": "資深後端工程師",
+      "GradeCode": "P3",
+      "DeptCode": "D300",
+      "OfferedSalary": 88000,
+      "HireDate": "2025-05-01",
+      "ProbationDays": 90,
+      "OtherTerms": "年薪 14 個月，含三節獎金",
+      "OfferStatus": "ACCEPTED",
+      "SentAt": "2025-04-05 09:00",
+      "SentBy": "linda.hr",
+      "RespondedAt": "2025-04-08 18:00",
+      "ExpiryDate": "2025-04-15",
+      "ResponseNote": "願意接受，5/1 報到",
+      "DocStatus": "3",
+      "Priority": "A",
+      "SortNo": "C0001",
+      "CreatedBy": "system",
+      "CreatedAt": "2025-04-03 09:00",
+      "UpdatedBy": "linda.hr",
+      "UpdatedAt": "2025-04-08 18:00"
+    },
+    {
+      "RowGuid": "of-02",
+      "EntityID": "hrm",
+      "Status": "1",
+      "OfferNo": "OFR-2025-0002",
+      "CandidateNo": "CAND-2025-0002",
+      "RefReqHireNo": "REQ-2025-0001",
+      "RefInterviewNo": null,
+      "JobTitle": "後端工程師",
+      "GradeCode": "P2",
+      "DeptCode": "D300",
+      "OfferedSalary": 62000,
+      "HireDate": "2025-06-01",
+      "ProbationDays": 90,
+      "OtherTerms": "",
+      "OfferStatus": "SENT",
+      "SentAt": "2025-05-20 10:00",
+      "SentBy": "linda.hr",
+      "RespondedAt": null,
+      "ExpiryDate": "2025-05-30",
+      "ResponseNote": "",
+      "DocStatus": "2",
+      "Priority": "B",
+      "SortNo": "C0002",
+      "CreatedBy": "system",
+      "CreatedAt": "2025-05-18 09:00",
+      "UpdatedBy": "linda.hr",
+      "UpdatedAt": "2025-05-20 10:00"
+    }
+  ]
+}
