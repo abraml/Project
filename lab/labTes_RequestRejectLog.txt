@@ -1,0 +1,628 @@
+{
+ "EntityID": "lab",
+ "SystemCode": "MUEIP",
+ "ModuleCode": "LIMS",
+ "FuncCode": "labTes_RequestRejectLog",
+ "ConfigHash": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+ "PageMeta": {
+  "PageTitle": "退件紀錄",
+  "Lang": "zh-TW",
+  "FormType": "ListForm",
+  "EditDisplayType": "Drawer",
+  "Breadcrumb": [
+   {
+    "Title": "首頁",
+    "Path": "/"
+   },
+   {
+    "Title": "檢測單流程管理",
+    "Path": null
+   },
+   {
+    "Title": "退件紀錄",
+    "Path": "/lab/labTes_RequestRejectLog"
+   }
+  ],
+  "IsApproval": false,
+  "TenantLocked": false,
+  "Icon": "ri-close-circle-line",
+  "Remark": "退件紀錄（由 labTes_RequestRejectLog 規格書產生）"
+ },
+ "Resources": {
+  "CodeSets": {
+   "Status": [
+    {
+     "CodeID": "1",
+     "CodeName": "啟用",
+     "IsDefault": true
+    },
+    {
+     "CodeID": "0",
+     "CodeName": "停用"
+    }
+   ],
+   "Priority": [
+    {
+     "CodeID": "A",
+     "CodeName": "急件"
+    },
+    {
+     "CodeID": "B",
+     "CodeName": "高"
+    },
+    {
+     "CodeID": "C",
+     "CodeName": "一般",
+     "IsDefault": true
+    },
+    {
+     "CodeID": "D",
+     "CodeName": "低"
+    }
+   ]
+  },
+  "FeatureFlags": {
+   "IsReadOnly": false,
+   "EnableDraft": false,
+   "EnableBatchDelete": true,
+   "AutoRefreshInterval": 0,
+   "DefaultViewMode": "Table",
+   "RequireConfirmOnSave": true
+  }
+ },
+ "AllowAction": {
+  "DataActions": [
+   {
+    "ActionID": "Add",
+    "Label": "新增",
+    "Icon": "ri-add-line",
+    "Type": "Primary",
+    "Position": "Toolbar",
+    "Confirm": null
+   },
+   {
+    "ActionID": "Save",
+    "Label": "儲存",
+    "Icon": "ri-save-line",
+    "Type": "Primary",
+    "Position": "Toolbar",
+    "Confirm": null
+   },
+   {
+    "ActionID": "Delete",
+    "Label": "刪除",
+    "Icon": "ri-delete-bin-line",
+    "Type": "Danger",
+    "Position": "Both",
+    "Confirm": "確定要刪除此退件紀錄資料嗎？"
+   },
+   {
+    "ActionID": "Query",
+    "Label": "查詢",
+    "Icon": "ri-search-line",
+    "Type": "Default",
+    "Position": "Toolbar",
+    "Confirm": null
+   }
+  ],
+  "ExtensionActions": [
+   {
+    "ActionID": "Import",
+    "Label": "匯入",
+    "Icon": "ri-upload-2-line",
+    "Type": "Default",
+    "Position": "Toolbar"
+   },
+   {
+    "ActionID": "Export",
+    "Label": "匯出",
+    "Icon": "ri-download-2-line",
+    "Type": "Default",
+    "Position": "Toolbar"
+   }
+  ]
+ },
+ "View": {
+  "RowKey": "RowGuid",
+  "ListView": {
+   "ListSpec": {
+    "RowKey": "RowGuid",
+    "SelectMode": "Single",
+    "FixedColumns": [
+     "Action",
+     "No"
+    ],
+    "RowActionMode": "Menu",
+    "ShowRowNo": true,
+    "Pagination": {
+     "PageSize": 100,
+     "SizeOptions": [
+      50,
+      100,
+      200,
+      500
+     ],
+     "ShowJumper": false,
+     "FullPageScroll": true
+    },
+    "DefaultSort": {
+     "Field": "SortNo",
+     "Order": "asc"
+    },
+    "EmptyText": "目前查無退件紀錄資料",
+    "GridBordered": true
+   },
+   "FieldSpecs": [
+    {
+     "BindField": "RequestGuid",
+     "Title": "所屬申請單",
+     "Align": "Left",
+     "DefaultVisible": true,
+     "Formatter": "Link",
+     "Fixed": "Left",
+     "Width": 160,
+     "Sorter": true
+    },
+    {
+     "BindField": "RejectReason",
+     "Title": "退件原因",
+     "Align": "Left",
+     "DefaultVisible": true,
+     "Width": 140
+    },
+    {
+     "BindField": "RejectDetail",
+     "Title": "補正說明",
+     "Align": "Left",
+     "DefaultVisible": true,
+     "Width": 140
+    },
+    {
+     "BindField": "RejectedBy",
+     "Title": "退件人員",
+     "Align": "Left",
+     "DefaultVisible": true,
+     "Width": 140
+    },
+    {
+     "BindField": "RejectDate",
+     "Title": "退件日期",
+     "Align": "Left",
+     "DefaultVisible": true,
+     "Formatter": "DateTime",
+     "Width": 150,
+     "Sorter": true
+    },
+    {
+     "BindField": "IsNotified",
+     "Title": "是否已自動通知申請人",
+     "Align": "Left",
+     "DefaultVisible": true,
+     "Width": 140
+    },
+    {
+     "BindField": "Status",
+     "Title": "啟用狀態",
+     "Align": "Center",
+     "DefaultVisible": true,
+     "Formatter": "Tag",
+     "Width": 80
+    }
+   ]
+  },
+  "FormView": {
+   "FormSpec": {
+    "RowKey": "RowGuid",
+    "Layout": "Horizontal",
+    "Sections": [
+     {
+      "SectionID": "SecBase",
+      "Type": "Card",
+      "Title": "基本資料",
+      "IsCollapsible": false,
+      "DefaultOpen": true,
+      "Icon": "ri-close-circle-line"
+     },
+     {
+      "SectionID": "SecRecv",
+      "Type": "Card",
+      "Title": "作業資訊",
+      "IsCollapsible": true,
+      "DefaultOpen": true,
+      "Icon": "ri-file-list-3-line"
+     },
+     {
+      "SectionID": "SecExtra",
+      "Type": "Card",
+      "Title": "系統資訊",
+      "IsCollapsible": true,
+      "DefaultOpen": false,
+      "Icon": "ri-settings-4-line"
+     }
+    ],
+    "FormLogic": []
+   },
+   "FieldSpecs": [
+    {
+     "BindField": "RowKey",
+     "Title": "系統識別碼",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 24,
+     "Mode": "Hidden"
+    },
+    {
+     "BindField": "EntityID",
+     "Title": "系統實體",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "Hidden",
+     "DefaultValue": "lab"
+    },
+    {
+     "BindField": "RequestGuid",
+     "Title": "所屬申請單",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "ReadOnly",
+     "Validations": [
+      {
+       "Rule": "Required",
+       "Message": "所屬申請單為必填"
+      }
+     ]
+    },
+    {
+     "BindField": "RejectReason",
+     "Title": "退件原因",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "Required",
+       "Message": "退件原因為必填"
+      },
+      {
+       "Rule": "MaxLength",
+       "Value": 50,
+       "Message": "長度不可超過 50"
+      }
+     ]
+    },
+    {
+     "BindField": "RejectDetail",
+     "Title": "補正說明",
+     "Component": "Textarea",
+     "Section": "SecRecv",
+     "Span": 24,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 1000,
+       "Message": "長度不可超過 1000"
+      }
+     ],
+     "Props": {
+      "Rows": 3
+     }
+    },
+    {
+     "BindField": "RejectedBy",
+     "Title": "退件人員",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 100,
+       "Message": "長度不可超過 100"
+      }
+     ]
+    },
+    {
+     "BindField": "RejectDate",
+     "Title": "退件日期",
+     "Component": "DatePicker",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Props": {
+      "Mode": "Editable",
+      "ShowTime": false
+     }
+    },
+    {
+     "BindField": "IsNotified",
+     "Title": "是否已自動通知申請人",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable"
+    },
+    {
+     "BindField": "Status",
+     "Title": "啟用狀態",
+     "Component": "Select",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "DefaultValue": "1",
+     "Props": {
+      "OptionKey": "Status"
+     }
+    },
+    {
+     "BindField": "CreatedBy",
+     "Title": "建立者帳號",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "ReadOnly"
+    },
+    {
+     "BindField": "CreatedAt",
+     "Title": "資料建立日期時間",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "ReadOnly"
+    },
+    {
+     "BindField": "UpdatedBy",
+     "Title": "最後更新者帳號",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "ReadOnly"
+    },
+    {
+     "BindField": "UpdatedAt",
+     "Title": "最後更新日期時間",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "ReadOnly"
+    }
+   ]
+  }
+ },
+ "Features": {},
+ "DataScope": {
+  "DefaultWhere": "EntityID = 'lab' AND Status = '1'",
+  "AuthLevel": 2,
+  "SortExp": "SortNo ASC",
+  "DataConfig": {
+   "RowLimit": 2000,
+   "AllowExport": true
+  }
+ },
+ "CustomMeta": {
+  "CustomSchema": {
+   "WidgetType": "Grid",
+   "KeyField": "RequestGuid",
+   "TitleField": "RejectReason",
+   "ParentKeyField": null,
+   "PathField": null,
+   "PathSeparator": "/"
+  }
+ },
+ "SeedData": [
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000000",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-07-28 17:35",
+   "UpdatedBy": "wang.cy",
+   "UpdatedAt": "2026-09-24 09:35",
+   "RequestGuid": "所屬申請單01",
+   "RejectReason": "",
+   "RejectDetail": "需注意保存效期",
+   "RejectedBy": "蔡研究",
+   "RejectDate": "2025-06-12",
+   "IsNotified": "謝校正"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000001",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-12-19 15:18",
+   "UpdatedBy": "chang.fa",
+   "UpdatedAt": "2026-10-11 16:19",
+   "RequestGuid": "所屬申請單02",
+   "RejectReason": "",
+   "RejectDetail": "樣品外觀正常",
+   "RejectedBy": "張分析",
+   "RejectDate": "2026-06-09",
+   "IsNotified": "林品保"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000002",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-12-05 13:38",
+   "UpdatedBy": "huang.tc",
+   "UpdatedAt": "2026-11-02 14:20",
+   "RequestGuid": "所屬申請單03",
+   "RejectReason": "待主管覆核",
+   "RejectDetail": "",
+   "RejectedBy": "王采樣",
+   "RejectDate": "2026-12-19",
+   "IsNotified": "何環安"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000003",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-09-06 14:36",
+   "UpdatedBy": "lee.jc",
+   "UpdatedAt": "2026-12-06 14:32",
+   "RequestGuid": "所屬申請單04",
+   "RejectReason": "",
+   "RejectDetail": "",
+   "RejectedBy": "王采樣",
+   "RejectDate": "2025-04-16",
+   "IsNotified": "周技士"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000004",
+   "EntityID": "lab",
+   "Status": "0",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-09-12 12:17",
+   "UpdatedBy": "abram.chen",
+   "UpdatedAt": "2026-11-20 17:04",
+   "RequestGuid": "所屬申請單05",
+   "RejectReason": "",
+   "RejectDetail": "客戶要求附 TAF Logo",
+   "RejectedBy": "吳主任",
+   "RejectDate": "2025-06-15",
+   "IsNotified": "何環安"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000005",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-09-04 13:08",
+   "UpdatedBy": "hsu.eng",
+   "UpdatedAt": "2026-07-22 10:09",
+   "RequestGuid": "所屬申請單06",
+   "RejectReason": "需注意保存效期",
+   "RejectDetail": "",
+   "RejectedBy": "謝校正",
+   "RejectDate": "2026-12-06",
+   "IsNotified": "陳審核"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000006",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-12-20 10:19",
+   "UpdatedBy": "lin.pb",
+   "UpdatedAt": "2026-06-25 08:05",
+   "RequestGuid": "所屬申請單07",
+   "RejectReason": "定期校正合格",
+   "RejectDetail": "",
+   "RejectedBy": "劉助理",
+   "RejectDate": "2025-02-27",
+   "IsNotified": "王采樣"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000007",
+   "EntityID": "lab",
+   "Status": "0",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-07-18 18:01",
+   "UpdatedBy": "lin.pb",
+   "UpdatedAt": "2026-02-04 15:35",
+   "RequestGuid": "所屬申請單08",
+   "RejectReason": "",
+   "RejectDetail": "複驗確認無誤",
+   "RejectedBy": "何環安",
+   "RejectDate": "2026-04-17",
+   "IsNotified": "許工程"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000008",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-07-16 17:01",
+   "UpdatedBy": "wu.dir",
+   "UpdatedAt": "2026-03-08 11:30",
+   "RequestGuid": "所屬申請單09",
+   "RejectReason": "",
+   "RejectDetail": "",
+   "RejectedBy": "許工程",
+   "RejectDate": "2025-05-20",
+   "IsNotified": "李檢測"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000009",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-08-15 09:05",
+   "UpdatedBy": "wu.dir",
+   "UpdatedAt": "2026-02-28 18:02",
+   "RequestGuid": "所屬申請單10",
+   "RejectReason": "",
+   "RejectDetail": "",
+   "RejectedBy": "謝校正",
+   "RejectDate": "2026-10-27",
+   "IsNotified": "張分析"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000010",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-09-28 18:18",
+   "UpdatedBy": "lin.pb",
+   "UpdatedAt": "2026-01-22 09:28",
+   "RequestGuid": "所屬申請單11",
+   "RejectReason": "需注意保存效期",
+   "RejectDetail": "",
+   "RejectedBy": "劉助理",
+   "RejectDate": "2025-02-11",
+   "IsNotified": "李檢測"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000011",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-08-28 12:13",
+   "UpdatedBy": "liu.as",
+   "UpdatedAt": "2026-08-12 08:17",
+   "RequestGuid": "所屬申請單12",
+   "RejectReason": "",
+   "RejectDetail": "",
+   "RejectedBy": "蔡研究",
+   "RejectDate": "2026-05-16",
+   "IsNotified": "許工程"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000012",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-07-20 13:37",
+   "UpdatedBy": "wu.dir",
+   "UpdatedAt": "2026-07-05 11:38",
+   "RequestGuid": "所屬申請單13",
+   "RejectReason": "",
+   "RejectDetail": "急件已加收費用",
+   "RejectedBy": "張分析",
+   "RejectDate": "2025-09-04",
+   "IsNotified": "郭品管"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000013",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-08-08 17:16",
+   "UpdatedBy": "hsu.eng",
+   "UpdatedAt": "2026-10-12 14:02",
+   "RequestGuid": "所屬申請單14",
+   "RejectReason": "",
+   "RejectDetail": "",
+   "RejectedBy": "鄭組長",
+   "RejectDate": "2025-12-02",
+   "IsNotified": "黃技正"
+  }
+ ]
+}

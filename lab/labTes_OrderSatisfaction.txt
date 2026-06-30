@@ -1,0 +1,906 @@
+{
+ "EntityID": "lab",
+ "SystemCode": "MUEIP",
+ "ModuleCode": "LIMS",
+ "FuncCode": "labTes_OrderSatisfaction",
+ "ConfigHash": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+ "PageMeta": {
+  "PageTitle": "滿意度調查",
+  "Lang": "zh-TW",
+  "FormType": "ListForm",
+  "EditDisplayType": "Drawer",
+  "Breadcrumb": [
+   {
+    "Title": "首頁",
+    "Path": "/"
+   },
+   {
+    "Title": "檢測單流程管理",
+    "Path": null
+   },
+   {
+    "Title": "滿意度調查",
+    "Path": "/lab/labTes_OrderSatisfaction"
+   }
+  ],
+  "IsApproval": false,
+  "TenantLocked": false,
+  "Icon": "ri-star-smile-line",
+  "Remark": "滿意度調查（由 labTes_OrderSatisfaction 規格書產生）"
+ },
+ "Resources": {
+  "CodeSets": {
+   "Status": [
+    {
+     "CodeID": "1",
+     "CodeName": "啟用",
+     "IsDefault": true
+    },
+    {
+     "CodeID": "0",
+     "CodeName": "停用"
+    }
+   ],
+   "Priority": [
+    {
+     "CodeID": "A",
+     "CodeName": "急件"
+    },
+    {
+     "CodeID": "B",
+     "CodeName": "高"
+    },
+    {
+     "CodeID": "C",
+     "CodeName": "一般",
+     "IsDefault": true
+    },
+    {
+     "CodeID": "D",
+     "CodeName": "低"
+    }
+   ]
+  },
+  "FeatureFlags": {
+   "IsReadOnly": false,
+   "EnableDraft": false,
+   "EnableBatchDelete": true,
+   "AutoRefreshInterval": 0,
+   "DefaultViewMode": "Table",
+   "RequireConfirmOnSave": true
+  }
+ },
+ "AllowAction": {
+  "DataActions": [
+   {
+    "ActionID": "Add",
+    "Label": "新增",
+    "Icon": "ri-add-line",
+    "Type": "Primary",
+    "Position": "Toolbar",
+    "Confirm": null
+   },
+   {
+    "ActionID": "Save",
+    "Label": "儲存",
+    "Icon": "ri-save-line",
+    "Type": "Primary",
+    "Position": "Toolbar",
+    "Confirm": null
+   },
+   {
+    "ActionID": "Delete",
+    "Label": "刪除",
+    "Icon": "ri-delete-bin-line",
+    "Type": "Danger",
+    "Position": "Both",
+    "Confirm": "確定要刪除此滿意度調查資料嗎？"
+   },
+   {
+    "ActionID": "Query",
+    "Label": "查詢",
+    "Icon": "ri-search-line",
+    "Type": "Default",
+    "Position": "Toolbar",
+    "Confirm": null
+   }
+  ],
+  "ExtensionActions": [
+   {
+    "ActionID": "Import",
+    "Label": "匯入",
+    "Icon": "ri-upload-2-line",
+    "Type": "Default",
+    "Position": "Toolbar"
+   },
+   {
+    "ActionID": "Export",
+    "Label": "匯出",
+    "Icon": "ri-download-2-line",
+    "Type": "Default",
+    "Position": "Toolbar"
+   }
+  ]
+ },
+ "View": {
+  "RowKey": "RowGuid",
+  "ListView": {
+   "ListSpec": {
+    "RowKey": "RowGuid",
+    "SelectMode": "Single",
+    "FixedColumns": [
+     "Action",
+     "No"
+    ],
+    "RowActionMode": "Menu",
+    "ShowRowNo": true,
+    "Pagination": {
+     "PageSize": 100,
+     "SizeOptions": [
+      50,
+      100,
+      200,
+      500
+     ],
+     "ShowJumper": false,
+     "FullPageScroll": true
+    },
+    "DefaultSort": {
+     "Field": "SortNo",
+     "Order": "asc"
+    },
+    "EmptyText": "目前查無滿意度調查資料",
+    "GridBordered": true
+   },
+   "FieldSpecs": [
+    {
+     "BindField": "OrderGuid",
+     "Title": "所屬檢驗單",
+     "Align": "Left",
+     "DefaultVisible": true,
+     "Formatter": "Link",
+     "Fixed": "Left",
+     "Width": 160,
+     "Sorter": true
+    },
+    {
+     "BindField": "CompanyName",
+     "Title": "公司名稱",
+     "Align": "Left",
+     "DefaultVisible": true,
+     "Width": 140
+    },
+    {
+     "BindField": "DeptTitle",
+     "Title": "部門",
+     "Align": "Left",
+     "DefaultVisible": true,
+     "Width": 140
+    },
+    {
+     "BindField": "RespondentName",
+     "Title": "填表人",
+     "Align": "Left",
+     "DefaultVisible": true,
+     "Width": 140
+    },
+    {
+     "BindField": "ContactPhone",
+     "Title": "連絡電話",
+     "Align": "Left",
+     "DefaultVisible": true,
+     "Width": 140
+    },
+    {
+     "BindField": "AnalysisCategory",
+     "Title": "分析類別",
+     "Align": "Left",
+     "DefaultVisible": true,
+     "Width": 140
+    },
+    {
+     "BindField": "Status",
+     "Title": "啟用狀態",
+     "Align": "Center",
+     "DefaultVisible": true,
+     "Formatter": "Tag",
+     "Width": 80
+    }
+   ]
+  },
+  "FormView": {
+   "FormSpec": {
+    "RowKey": "RowGuid",
+    "Layout": "Horizontal",
+    "Sections": [
+     {
+      "SectionID": "SecBase",
+      "Type": "Card",
+      "Title": "基本資料",
+      "IsCollapsible": false,
+      "DefaultOpen": true,
+      "Icon": "ri-star-smile-line"
+     },
+     {
+      "SectionID": "SecRecv",
+      "Type": "Card",
+      "Title": "作業資訊",
+      "IsCollapsible": true,
+      "DefaultOpen": true,
+      "Icon": "ri-file-list-3-line"
+     },
+     {
+      "SectionID": "SecExtra",
+      "Type": "Card",
+      "Title": "系統資訊",
+      "IsCollapsible": true,
+      "DefaultOpen": false,
+      "Icon": "ri-settings-4-line"
+     }
+    ],
+    "FormLogic": []
+   },
+   "FieldSpecs": [
+    {
+     "BindField": "RowKey",
+     "Title": "系統識別碼",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 24,
+     "Mode": "Hidden"
+    },
+    {
+     "BindField": "EntityID",
+     "Title": "系統實體",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "Hidden",
+     "DefaultValue": "lab"
+    },
+    {
+     "BindField": "OrderGuid",
+     "Title": "所屬檢驗單",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "ReadOnly",
+     "Validations": [
+      {
+       "Rule": "Required",
+       "Message": "所屬檢驗單為必填"
+      }
+     ]
+    },
+    {
+     "BindField": "CompanyName",
+     "Title": "公司名稱",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 200,
+       "Message": "長度不可超過 200"
+      }
+     ]
+    },
+    {
+     "BindField": "DeptTitle",
+     "Title": "部門",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 200,
+       "Message": "長度不可超過 200"
+      }
+     ]
+    },
+    {
+     "BindField": "RespondentName",
+     "Title": "填表人",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 100,
+       "Message": "長度不可超過 100"
+      }
+     ]
+    },
+    {
+     "BindField": "ContactPhone",
+     "Title": "連絡電話",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 50,
+       "Message": "長度不可超過 50"
+      }
+     ]
+    },
+    {
+     "BindField": "AnalysisCategory",
+     "Title": "分析類別",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 50,
+       "Message": "長度不可超過 50"
+      }
+     ]
+    },
+    {
+     "BindField": "SurveyDate",
+     "Title": "填表日期",
+     "Component": "DatePicker",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Props": {
+      "Mode": "Editable",
+      "ShowTime": false
+     }
+    },
+    {
+     "BindField": "ScoreAttitude",
+     "Title": "人員態度",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Props": {
+      "Type": "number"
+     }
+    },
+    {
+     "BindField": "ScoreTestService",
+     "Title": "檢測服務",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Props": {
+      "Type": "number"
+     }
+    },
+    {
+     "BindField": "ScoreApplyForm",
+     "Title": "檢測申請書內容與格式",
+     "Component": "Input",
+     "Section": "SecRecv",
+     "Span": 12,
+     "Mode": "Editable",
+     "Props": {
+      "Type": "number"
+     }
+    },
+    {
+     "BindField": "ScoreTechSupport",
+     "Title": "技術支援",
+     "Component": "Input",
+     "Section": "SecRecv",
+     "Span": 12,
+     "Mode": "Editable",
+     "Props": {
+      "Type": "number"
+     }
+    },
+    {
+     "BindField": "ScoreReportFormat",
+     "Title": "試驗報告內容與格式",
+     "Component": "Input",
+     "Section": "SecRecv",
+     "Span": 12,
+     "Mode": "Editable",
+     "Props": {
+      "Type": "number"
+     }
+    },
+    {
+     "BindField": "ScoreDelivery",
+     "Title": "委託件完工後報告寄送方式",
+     "Component": "Input",
+     "Section": "SecRecv",
+     "Span": 12,
+     "Mode": "Editable",
+     "Props": {
+      "Type": "number"
+     }
+    },
+    {
+     "BindField": "ScoreOverall",
+     "Title": "整體性",
+     "Component": "Input",
+     "Section": "SecRecv",
+     "Span": 12,
+     "Mode": "Editable",
+     "Props": {
+      "Type": "number"
+     }
+    },
+    {
+     "BindField": "TotalScore",
+     "Title": "TotalScore",
+     "Component": "Input",
+     "Section": "SecRecv",
+     "Span": 12,
+     "Mode": "Editable"
+    },
+    {
+     "BindField": "AvgScore",
+     "Title": "AvgScore",
+     "Component": "Input",
+     "Section": "SecRecv",
+     "Span": 12,
+     "Mode": "Editable"
+    },
+    {
+     "BindField": "OverallComment",
+     "Title": "其他建議",
+     "Component": "Textarea",
+     "Section": "SecRecv",
+     "Span": 24,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 1000,
+       "Message": "長度不可超過 1000"
+      }
+     ],
+     "Props": {
+      "Rows": 3
+     }
+    },
+    {
+     "BindField": "Status",
+     "Title": "啟用狀態",
+     "Component": "Select",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "DefaultValue": "1",
+     "Props": {
+      "OptionKey": "Status"
+     }
+    },
+    {
+     "BindField": "CreatedBy",
+     "Title": "建立者帳號",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "ReadOnly"
+    },
+    {
+     "BindField": "CreatedAt",
+     "Title": "資料建立日期時間",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "ReadOnly"
+    },
+    {
+     "BindField": "UpdatedBy",
+     "Title": "最後更新者帳號",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "ReadOnly"
+    },
+    {
+     "BindField": "UpdatedAt",
+     "Title": "最後更新日期時間",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "ReadOnly"
+    }
+   ]
+  }
+ },
+ "Features": {},
+ "DataScope": {
+  "DefaultWhere": "EntityID = 'lab' AND Status = '1'",
+  "AuthLevel": 2,
+  "SortExp": "SortNo ASC",
+  "DataConfig": {
+   "RowLimit": 2000,
+   "AllowExport": true
+  }
+ },
+ "CustomMeta": {
+  "CustomSchema": {
+   "WidgetType": "Grid",
+   "KeyField": "OrderGuid",
+   "TitleField": "CompanyName",
+   "ParentKeyField": null,
+   "PathField": null,
+   "PathSeparator": "/"
+  }
+ },
+ "SeedData": [
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000000",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-09-05 10:19",
+   "UpdatedBy": "liu.as",
+   "UpdatedAt": "2026-10-24 18:16",
+   "OrderGuid": "所屬檢驗單01",
+   "CompanyName": "謝校正",
+   "DeptTitle": "M031 環安處",
+   "RespondentName": "鄭組長",
+   "ContactPhone": "05-2727-4897",
+   "AnalysisCategory": "分析類別01",
+   "SurveyDate": "2025-01-14",
+   "ScoreAttitude": 36,
+   "ScoreTestService": 56,
+   "ScoreApplyForm": 23,
+   "ScoreTechSupport": 53,
+   "ScoreReportFormat": 20,
+   "ScoreDelivery": 39,
+   "ScoreOverall": 73,
+   "TotalScore": "TotalScore01",
+   "AvgScore": "AvgScore01",
+   "OverallComment": "樣品外觀正常"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000001",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-01-07 18:11",
+   "UpdatedBy": "chen.sh",
+   "UpdatedAt": "2026-06-24 15:24",
+   "OrderGuid": "所屬檢驗單02",
+   "CompanyName": "郭品管",
+   "DeptTitle": "R001 研發中心",
+   "RespondentName": "林品保",
+   "ContactPhone": "04-4918-9935",
+   "AnalysisCategory": "分析類別02",
+   "SurveyDate": "2026-08-12",
+   "ScoreAttitude": 37,
+   "ScoreTestService": 81,
+   "ScoreApplyForm": 8,
+   "ScoreTechSupport": 39,
+   "ScoreReportFormat": 41,
+   "ScoreDelivery": 85,
+   "ScoreOverall": 96,
+   "TotalScore": "TotalScore02",
+   "AvgScore": "AvgScore02",
+   "OverallComment": ""
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000002",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-12-14 16:02",
+   "UpdatedBy": "lin.pb",
+   "UpdatedAt": "2026-03-10 12:13",
+   "OrderGuid": "所屬檢驗單03",
+   "CompanyName": "林品保",
+   "DeptTitle": "M021 品保處",
+   "RespondentName": "周技士",
+   "ContactPhone": "06-7177-9036",
+   "AnalysisCategory": "分析類別03",
+   "SurveyDate": "2026-02-24",
+   "ScoreAttitude": 50,
+   "ScoreTestService": 30,
+   "ScoreApplyForm": 56,
+   "ScoreTechSupport": 73,
+   "ScoreReportFormat": 81,
+   "ScoreDelivery": 93,
+   "ScoreOverall": 34,
+   "TotalScore": "TotalScore03",
+   "AvgScore": "AvgScore03",
+   "OverallComment": ""
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000003",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-02-10 14:18",
+   "UpdatedBy": "hsu.eng",
+   "UpdatedAt": "2026-06-09 09:15",
+   "OrderGuid": "所屬檢驗單04",
+   "CompanyName": "張分析",
+   "DeptTitle": "M011 工程處",
+   "RespondentName": "楊化驗",
+   "ContactPhone": "07-8711-4779",
+   "AnalysisCategory": "分析類別04",
+   "SurveyDate": "2025-11-24",
+   "ScoreAttitude": 6,
+   "ScoreTestService": 13,
+   "ScoreApplyForm": 80,
+   "ScoreTechSupport": 42,
+   "ScoreReportFormat": 73,
+   "ScoreDelivery": 35,
+   "ScoreOverall": 4,
+   "TotalScore": "TotalScore04",
+   "AvgScore": "AvgScore04",
+   "OverallComment": ""
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000004",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-04-20 10:30",
+   "UpdatedBy": "abram.chen",
+   "UpdatedAt": "2026-04-15 15:36",
+   "OrderGuid": "所屬檢驗單05",
+   "CompanyName": "陳審核",
+   "DeptTitle": "M011 工程處",
+   "RespondentName": "劉助理",
+   "ContactPhone": "04-2131-1393",
+   "AnalysisCategory": "分析類別05",
+   "SurveyDate": "2026-05-08",
+   "ScoreAttitude": 88,
+   "ScoreTestService": 26,
+   "ScoreApplyForm": 61,
+   "ScoreTechSupport": 48,
+   "ScoreReportFormat": 92,
+   "ScoreDelivery": 85,
+   "ScoreOverall": 33,
+   "TotalScore": "TotalScore05",
+   "AvgScore": "AvgScore05",
+   "OverallComment": "急件已加收費用"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000005",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-08-08 18:15",
+   "UpdatedBy": "cheng.gl",
+   "UpdatedAt": "2026-06-06 08:25",
+   "OrderGuid": "所屬檢驗單06",
+   "CompanyName": "何環安",
+   "DeptTitle": "M061 採購處",
+   "RespondentName": "陳審核",
+   "ContactPhone": "03-2899-5694",
+   "AnalysisCategory": "分析類別06",
+   "SurveyDate": "2026-08-13",
+   "ScoreAttitude": 13,
+   "ScoreTestService": 76,
+   "ScoreApplyForm": 81,
+   "ScoreTechSupport": 60,
+   "ScoreReportFormat": 43,
+   "ScoreDelivery": 60,
+   "ScoreOverall": 80,
+   "TotalScore": "TotalScore06",
+   "AvgScore": "AvgScore06",
+   "OverallComment": ""
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000006",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-03-10 15:24",
+   "UpdatedBy": "lee.jc",
+   "UpdatedAt": "2026-05-06 11:11",
+   "OrderGuid": "所屬檢驗單07",
+   "CompanyName": "陳審核",
+   "DeptTitle": "M021 品保處",
+   "RespondentName": "鄭組長",
+   "ContactPhone": "05-6181-8646",
+   "AnalysisCategory": "分析類別07",
+   "SurveyDate": "2026-03-01",
+   "ScoreAttitude": 26,
+   "ScoreTestService": 26,
+   "ScoreApplyForm": 17,
+   "ScoreTechSupport": 69,
+   "ScoreReportFormat": 40,
+   "ScoreDelivery": 91,
+   "ScoreOverall": 58,
+   "TotalScore": "TotalScore07",
+   "AvgScore": "AvgScore07",
+   "OverallComment": "複驗確認無誤"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000007",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-02-27 11:35",
+   "UpdatedBy": "huang.tc",
+   "UpdatedAt": "2026-06-20 14:25",
+   "OrderGuid": "所屬檢驗單08",
+   "CompanyName": "陳審核",
+   "DeptTitle": "M031 環安處",
+   "RespondentName": "陳審核",
+   "ContactPhone": "02-2061-8981",
+   "AnalysisCategory": "分析類別08",
+   "SurveyDate": "2025-07-19",
+   "ScoreAttitude": 68,
+   "ScoreTestService": 67,
+   "ScoreApplyForm": 68,
+   "ScoreTechSupport": 35,
+   "ScoreReportFormat": 2,
+   "ScoreDelivery": 39,
+   "ScoreOverall": 18,
+   "TotalScore": "TotalScore08",
+   "AvgScore": "AvgScore08",
+   "OverallComment": "樣品外觀正常"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000008",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-09-09 10:33",
+   "UpdatedBy": "lee.jc",
+   "UpdatedAt": "2026-11-09 17:33",
+   "OrderGuid": "所屬檢驗單09",
+   "CompanyName": "王采樣",
+   "DeptTitle": "R001 研發中心",
+   "RespondentName": "謝校正",
+   "ContactPhone": "02-6426-9370",
+   "AnalysisCategory": "分析類別09",
+   "SurveyDate": "2026-05-01",
+   "ScoreAttitude": 21,
+   "ScoreTestService": 38,
+   "ScoreApplyForm": 62,
+   "ScoreTechSupport": 75,
+   "ScoreReportFormat": 63,
+   "ScoreDelivery": 4,
+   "ScoreOverall": 86,
+   "TotalScore": "TotalScore09",
+   "AvgScore": "AvgScore09",
+   "OverallComment": ""
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000009",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-02-21 15:32",
+   "UpdatedBy": "chen.sh",
+   "UpdatedAt": "2026-10-23 17:24",
+   "OrderGuid": "所屬檢驗單10",
+   "CompanyName": "王采樣",
+   "DeptTitle": "M071 工務處",
+   "RespondentName": "黃技正",
+   "ContactPhone": "04-1653-2553",
+   "AnalysisCategory": "分析類別10",
+   "SurveyDate": "2025-01-09",
+   "ScoreAttitude": 43,
+   "ScoreTestService": 90,
+   "ScoreApplyForm": 73,
+   "ScoreTechSupport": 4,
+   "ScoreReportFormat": 33,
+   "ScoreDelivery": 11,
+   "ScoreOverall": 76,
+   "TotalScore": "TotalScore10",
+   "AvgScore": "AvgScore10",
+   "OverallComment": "客戶要求附 TAF Logo"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000010",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-12-20 10:36",
+   "UpdatedBy": "liu.as",
+   "UpdatedAt": "2026-08-07 17:17",
+   "OrderGuid": "所屬檢驗單11",
+   "CompanyName": "張分析",
+   "DeptTitle": "R001 研發中心",
+   "RespondentName": "謝校正",
+   "ContactPhone": "06-7813-4589",
+   "AnalysisCategory": "分析類別11",
+   "SurveyDate": "2025-11-15",
+   "ScoreAttitude": 53,
+   "ScoreTestService": 79,
+   "ScoreApplyForm": 34,
+   "ScoreTechSupport": 95,
+   "ScoreReportFormat": 35,
+   "ScoreDelivery": 87,
+   "ScoreOverall": 41,
+   "TotalScore": "TotalScore11",
+   "AvgScore": "AvgScore11",
+   "OverallComment": ""
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000011",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-12-11 17:09",
+   "UpdatedBy": "chen.sh",
+   "UpdatedAt": "2026-04-09 09:27",
+   "OrderGuid": "所屬檢驗單12",
+   "CompanyName": "吳主任",
+   "DeptTitle": "M031 環安處",
+   "RespondentName": "鄭組長",
+   "ContactPhone": "09-4213-6873",
+   "AnalysisCategory": "分析類別12",
+   "SurveyDate": "2026-05-08",
+   "ScoreAttitude": 65,
+   "ScoreTestService": 16,
+   "ScoreApplyForm": 21,
+   "ScoreTechSupport": 81,
+   "ScoreReportFormat": 3,
+   "ScoreDelivery": 78,
+   "ScoreOverall": 17,
+   "TotalScore": "TotalScore12",
+   "AvgScore": "AvgScore12",
+   "OverallComment": "樣品外觀正常"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000012",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-12-12 15:22",
+   "UpdatedBy": "liu.as",
+   "UpdatedAt": "2026-02-25 11:32",
+   "OrderGuid": "所屬檢驗單13",
+   "CompanyName": "陳審核",
+   "DeptTitle": "M011 工程處",
+   "RespondentName": "張分析",
+   "ContactPhone": "08-8458-6096",
+   "AnalysisCategory": "分析類別13",
+   "SurveyDate": "2026-07-06",
+   "ScoreAttitude": 81,
+   "ScoreTestService": 71,
+   "ScoreApplyForm": 96,
+   "ScoreTechSupport": 84,
+   "ScoreReportFormat": 99,
+   "ScoreDelivery": 49,
+   "ScoreOverall": 68,
+   "TotalScore": "TotalScore13",
+   "AvgScore": "AvgScore13",
+   "OverallComment": "定期校正合格"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000013",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-12-12 16:00",
+   "UpdatedBy": "lee.jc",
+   "UpdatedAt": "2026-07-16 08:39",
+   "OrderGuid": "所屬檢驗單14",
+   "CompanyName": "楊化驗",
+   "DeptTitle": "R001 研發中心",
+   "RespondentName": "劉助理",
+   "ContactPhone": "07-7569-4046",
+   "AnalysisCategory": "分析類別14",
+   "SurveyDate": "2025-07-22",
+   "ScoreAttitude": 66,
+   "ScoreTestService": 73,
+   "ScoreApplyForm": 93,
+   "ScoreTechSupport": 57,
+   "ScoreReportFormat": 46,
+   "ScoreDelivery": 42,
+   "ScoreOverall": 50,
+   "TotalScore": "TotalScore14",
+   "AvgScore": "AvgScore14",
+   "OverallComment": ""
+  }
+ ]
+}

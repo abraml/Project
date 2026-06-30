@@ -1,0 +1,305 @@
+{
+ "SystemCode": "MUEIP",
+ "ModuleCode": "LIMS",
+ "Folder": "lab",
+ "Brand": {
+  "Mark": "兆",
+  "Name": "兆聯 EIP",
+  "Sub": "實驗室管理系統"
+ },
+ "Groups": [
+  {
+   "Header": "檢測單流程管理",
+   "Icon": "ri-flow-chart",
+   "Items": [
+    {
+     "Icon": "ri-file-list-3-line",
+     "Label": "檢驗委託申請單",
+     "FuncCode": "labTes_Request"
+    },
+    {
+     "Icon": "ri-clipboard-line",
+     "Label": "檢驗單",
+     "FuncCode": "labTes_Order"
+    },
+    {
+     "Icon": "ri-file-paper-2-line",
+     "Label": "檢測報告",
+     "FuncCode": "labTes_Report"
+    },
+    {
+     "Icon": "ri-close-circle-line",
+     "Label": "退件紀錄",
+     "FuncCode": "labTes_RequestRejectLog"
+    },
+    {
+     "Icon": "ri-error-warning-line",
+     "Label": "複驗／修改／客訴",
+     "FuncCode": "labTes_ReportIssue"
+    },
+    {
+     "Icon": "ri-star-smile-line",
+     "Label": "滿意度調查",
+     "FuncCode": "labTes_OrderSatisfaction"
+    },
+    {
+     "Icon": "ri-snowflake-line",
+     "Label": "樣品保存條件參考",
+     "FuncCode": "labTes_SamplePreserveRef"
+    }
+   ]
+  },
+  {
+   "Header": "實驗室環境管理",
+   "Icon": "ri-temp-cold-line",
+   "Items": [
+    {
+     "Icon": "ri-temp-cold-line",
+     "Label": "溫濕度監控設備",
+     "FuncCode": "labEnv_Device"
+    },
+    {
+     "Icon": "ri-gas-station-line",
+     "Label": "氣體鋼瓶",
+     "FuncCode": "labEnv_GasCylinder"
+    },
+    {
+     "Icon": "ri-calendar-schedule-line",
+     "Label": "檢查排程",
+     "FuncCode": "labEnv_InspectionSchedule"
+    },
+    {
+     "Icon": "ri-list-check-2",
+     "Label": "溫濕度檢查項目參考",
+     "FuncCode": "labEnv_CheckItemRef"
+    },
+    {
+     "Icon": "ri-list-check-2",
+     "Label": "鋼瓶檢查項目參考",
+     "FuncCode": "labEnv_GasCheckItemRef"
+    }
+   ]
+  },
+  {
+   "Header": "實驗室人員管理",
+   "Icon": "ri-team-line",
+   "Items": [
+    {
+     "Icon": "ri-user-settings-line",
+     "Label": "人員角色與簽署身份",
+     "FuncCode": "labEmp_Profile"
+    },
+    {
+     "Icon": "ri-shield-star-line",
+     "Label": "資格授權管理",
+     "FuncCode": "labEmp_Qualification"
+    },
+    {
+     "Icon": "ri-calendar-2-line",
+     "Label": "值班排程",
+     "FuncCode": "labEmp_Schedule"
+    },
+    {
+     "Icon": "ri-settings-3-line",
+     "Label": "派工規則設定",
+     "FuncCode": "labEmp_ScheduleRule"
+    },
+    {
+     "Icon": "ri-arrow-left-right-line",
+     "Label": "代班／換班申請",
+     "FuncCode": "labEmp_ScheduleSwap"
+    }
+   ]
+  },
+  {
+   "Header": "實驗室資材管理",
+   "Icon": "ri-box-3-line",
+   "Items": [
+    {
+     "Icon": "ri-settings-5-line",
+     "Label": "儀器設備清單",
+     "FuncCode": "labAst_EquipInfo"
+    },
+    {
+     "Icon": "ri-flask-line",
+     "Label": "定容器皿清單",
+     "FuncCode": "labAst_GlassInfo"
+    },
+    {
+     "Icon": "ri-flask-fill",
+     "Label": "藥品清單",
+     "FuncCode": "labAst_ChemInfo"
+    },
+    {
+     "Icon": "ri-checkbox-multiple-line",
+     "Label": "藥品盤點",
+     "FuncCode": "labAst_ChemInventoryCount"
+    },
+    {
+     "Icon": "ri-archive-drawer-line",
+     "Label": "檢測用品清單",
+     "FuncCode": "labAst_SupplyInfo"
+    },
+    {
+     "Icon": "ri-checkbox-multiple-line",
+     "Label": "用品盤點",
+     "FuncCode": "labAst_SupplyInventoryCount"
+    },
+    {
+     "Icon": "ri-map-pin-line",
+     "Label": "存放地點設定",
+     "FuncCode": "labAst_Location"
+    },
+    {
+     "Icon": "ri-folder-settings-line",
+     "Label": "設備分類",
+     "FuncCode": "labAst_EquipCategory"
+    },
+    {
+     "Icon": "ri-folder-settings-line",
+     "Label": "器皿分類",
+     "FuncCode": "labAst_GlassCategory"
+    },
+    {
+     "Icon": "ri-folder-settings-line",
+     "Label": "藥品分類",
+     "FuncCode": "labAst_ChemCategory"
+    },
+    {
+     "Icon": "ri-folder-settings-line",
+     "Label": "用品分類",
+     "FuncCode": "labAst_SupplyCategory"
+    }
+   ]
+  },
+  {
+   "Header": "檢測項目分析方法",
+   "Icon": "ri-test-tube-line",
+   "Items": [
+    {
+     "Icon": "ri-flask-line",
+     "Label": "分析方法主檔",
+     "FuncCode": "labAna_Method"
+    },
+    {
+     "Icon": "ri-folder-chart-line",
+     "Label": "檢測類別",
+     "FuncCode": "labAna_TestCategory"
+    },
+    {
+     "Icon": "ri-test-tube-line",
+     "Label": "檢驗類型",
+     "FuncCode": "labAna_TestType"
+    },
+    {
+     "Icon": "ri-test-tube-fill",
+     "Label": "分析組成項目",
+     "FuncCode": "labAna_Component"
+    },
+    {
+     "Icon": "ri-calculator-line",
+     "Label": "數值修約規則",
+     "FuncCode": "labAna_RoundingRule"
+    }
+   ]
+  },
+  {
+   "Header": "實驗室文件管理",
+   "Icon": "ri-folder-open-line",
+   "Items": [
+    {
+     "Icon": "ri-file-text-line",
+     "Label": "文件主檔",
+     "FuncCode": "labDoc_Master"
+    },
+    {
+     "Icon": "ri-folder-line",
+     "Label": "文件類別",
+     "FuncCode": "labDoc_Category"
+    },
+    {
+     "Icon": "ri-links-line",
+     "Label": "檢驗類型對應",
+     "FuncCode": "labDoc_TestType"
+    },
+    {
+     "Icon": "ri-hashtag",
+     "Label": "文件編號規則",
+     "FuncCode": "labDoc_NumberingRule"
+    }
+   ]
+  },
+  {
+   "Header": "實驗數據儲存管理",
+   "Icon": "ri-database-2-line",
+   "Items": [
+    {
+     "Icon": "ri-plug-line",
+     "Label": "設備介接設定",
+     "FuncCode": "labDat_Device"
+    },
+    {
+     "Icon": "ri-file-code-line",
+     "Label": "格式規則",
+     "FuncCode": "labDat_FormatRule"
+    },
+    {
+     "Icon": "ri-shield-check-line",
+     "Label": "數據驗證規則",
+     "FuncCode": "labDat_ValidationRule"
+    },
+    {
+     "Icon": "ri-time-line",
+     "Label": "保存年限設定",
+     "FuncCode": "labDat_RetentionPolicy"
+    },
+    {
+     "Icon": "ri-inbox-archive-line",
+     "Label": "匯入批次",
+     "FuncCode": "labDat_ImportBatch"
+    },
+    {
+     "Icon": "ri-edit-2-line",
+     "Label": "數據更正申請",
+     "FuncCode": "labDat_CorrectionRequest"
+    },
+    {
+     "Icon": "ri-shield-keyhole-line",
+     "Label": "稽核軌跡",
+     "FuncCode": "labDat_AuditTrail"
+    },
+    {
+     "Icon": "ri-database-2-line",
+     "Label": "NAS 容量快照",
+     "FuncCode": "labDat_NasCapacitySnapshot"
+    }
+   ]
+  },
+  {
+   "Header": "分析統計與品管報表",
+   "Icon": "ri-bar-chart-box-line",
+   "Items": [
+    {
+     "Icon": "ri-file-chart-line",
+     "Label": "報表類型",
+     "FuncCode": "labSta_ReportType"
+    },
+    {
+     "Icon": "ri-calendar-todo-line",
+     "Label": "報表排程",
+     "FuncCode": "labSta_ReportSchedule"
+    },
+    {
+     "Icon": "ri-filter-3-line",
+     "Label": "儀表板篩選預設",
+     "FuncCode": "labSta_DashboardFilterPreset"
+    },
+    {
+     "Icon": "ri-error-warning-line",
+     "Label": "品管異常事件",
+     "FuncCode": "labSta_QcIncident"
+    }
+   ]
+  }
+ ]
+}

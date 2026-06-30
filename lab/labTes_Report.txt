@@ -1,0 +1,1081 @@
+{
+ "EntityID": "lab",
+ "SystemCode": "MUEIP",
+ "ModuleCode": "LIMS",
+ "FuncCode": "labTes_Report",
+ "ConfigHash": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+ "PageMeta": {
+  "PageTitle": "檢測報告",
+  "Lang": "zh-TW",
+  "FormType": "ListForm",
+  "EditDisplayType": "Drawer",
+  "Breadcrumb": [
+   {
+    "Title": "首頁",
+    "Path": "/"
+   },
+   {
+    "Title": "檢測單流程管理",
+    "Path": null
+   },
+   {
+    "Title": "檢測報告",
+    "Path": "/lab/labTes_Report"
+   }
+  ],
+  "IsApproval": false,
+  "TenantLocked": false,
+  "Icon": "ri-file-paper-2-line",
+  "Remark": "檢測報告（由 labTes_Report 規格書產生）"
+ },
+ "Resources": {
+  "CodeSets": {
+   "Status": [
+    {
+     "CodeID": "1",
+     "CodeName": "啟用",
+     "IsDefault": true
+    },
+    {
+     "CodeID": "0",
+     "CodeName": "停用"
+    }
+   ],
+   "Priority": [
+    {
+     "CodeID": "A",
+     "CodeName": "急件"
+    },
+    {
+     "CodeID": "B",
+     "CodeName": "高"
+    },
+    {
+     "CodeID": "C",
+     "CodeName": "一般",
+     "IsDefault": true
+    },
+    {
+     "CodeID": "D",
+     "CodeName": "低"
+    }
+   ]
+  },
+  "FeatureFlags": {
+   "IsReadOnly": false,
+   "EnableDraft": false,
+   "EnableBatchDelete": true,
+   "AutoRefreshInterval": 0,
+   "DefaultViewMode": "Table",
+   "RequireConfirmOnSave": true
+  }
+ },
+ "AllowAction": {
+  "DataActions": [
+   {
+    "ActionID": "Add",
+    "Label": "新增",
+    "Icon": "ri-add-line",
+    "Type": "Primary",
+    "Position": "Toolbar",
+    "Confirm": null
+   },
+   {
+    "ActionID": "Save",
+    "Label": "儲存",
+    "Icon": "ri-save-line",
+    "Type": "Primary",
+    "Position": "Toolbar",
+    "Confirm": null
+   },
+   {
+    "ActionID": "Delete",
+    "Label": "刪除",
+    "Icon": "ri-delete-bin-line",
+    "Type": "Danger",
+    "Position": "Both",
+    "Confirm": "確定要刪除此檢測報告資料嗎？"
+   },
+   {
+    "ActionID": "Query",
+    "Label": "查詢",
+    "Icon": "ri-search-line",
+    "Type": "Default",
+    "Position": "Toolbar",
+    "Confirm": null
+   }
+  ],
+  "ExtensionActions": [
+   {
+    "ActionID": "Import",
+    "Label": "匯入",
+    "Icon": "ri-upload-2-line",
+    "Type": "Default",
+    "Position": "Toolbar"
+   },
+   {
+    "ActionID": "Export",
+    "Label": "匯出",
+    "Icon": "ri-download-2-line",
+    "Type": "Default",
+    "Position": "Toolbar"
+   }
+  ]
+ },
+ "View": {
+  "RowKey": "RowGuid",
+  "ListView": {
+   "ListSpec": {
+    "RowKey": "RowGuid",
+    "SelectMode": "Single",
+    "FixedColumns": [
+     "Action",
+     "No"
+    ],
+    "RowActionMode": "Menu",
+    "ShowRowNo": true,
+    "Pagination": {
+     "PageSize": 100,
+     "SizeOptions": [
+      50,
+      100,
+      200,
+      500
+     ],
+     "ShowJumper": false,
+     "FullPageScroll": true
+    },
+    "DefaultSort": {
+     "Field": "SortNo",
+     "Order": "asc"
+    },
+    "EmptyText": "目前查無檢測報告資料",
+    "GridBordered": true
+   },
+   "FieldSpecs": [
+    {
+     "BindField": "OrderGuid",
+     "Title": "所屬檢驗單",
+     "Align": "Left",
+     "DefaultVisible": true,
+     "Formatter": "Link",
+     "Fixed": "Left",
+     "Width": 160,
+     "Sorter": true
+    },
+    {
+     "BindField": "ReportNo",
+     "Title": "報告編號",
+     "Align": "Left",
+     "DefaultVisible": true,
+     "Width": 140
+    },
+    {
+     "BindField": "ReportDate",
+     "Title": "報告日期",
+     "Align": "Left",
+     "DefaultVisible": true,
+     "Formatter": "DateTime",
+     "Width": 150,
+     "Sorter": true
+    },
+    {
+     "BindField": "TestDate",
+     "Title": "試驗日期",
+     "Align": "Left",
+     "DefaultVisible": true,
+     "Width": 140
+    },
+    {
+     "BindField": "TemplateCode",
+     "Title": "報告範本代碼",
+     "Align": "Left",
+     "DefaultVisible": true,
+     "Width": 140
+    },
+    {
+     "BindField": "RevisionNo",
+     "Title": "版本序號",
+     "Align": "Center",
+     "DefaultVisible": true,
+     "Width": 140
+    },
+    {
+     "BindField": "Status",
+     "Title": "啟用狀態",
+     "Align": "Center",
+     "DefaultVisible": true,
+     "Formatter": "Tag",
+     "Width": 80
+    }
+   ]
+  },
+  "FormView": {
+   "FormSpec": {
+    "RowKey": "RowGuid",
+    "Layout": "Horizontal",
+    "Sections": [
+     {
+      "SectionID": "SecBase",
+      "Type": "Card",
+      "Title": "基本資料",
+      "IsCollapsible": false,
+      "DefaultOpen": true,
+      "Icon": "ri-file-paper-2-line"
+     },
+     {
+      "SectionID": "SecRecv",
+      "Type": "Card",
+      "Title": "作業資訊",
+      "IsCollapsible": true,
+      "DefaultOpen": true,
+      "Icon": "ri-file-list-3-line"
+     },
+     {
+      "SectionID": "SecExtra",
+      "Type": "Card",
+      "Title": "系統資訊",
+      "IsCollapsible": true,
+      "DefaultOpen": false,
+      "Icon": "ri-settings-4-line"
+     }
+    ],
+    "FormLogic": []
+   },
+   "FieldSpecs": [
+    {
+     "BindField": "RowKey",
+     "Title": "系統識別碼",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 24,
+     "Mode": "Hidden"
+    },
+    {
+     "BindField": "EntityID",
+     "Title": "系統實體",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "Hidden",
+     "DefaultValue": "lab"
+    },
+    {
+     "BindField": "OrderGuid",
+     "Title": "所屬檢驗單",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "ReadOnly",
+     "Validations": [
+      {
+       "Rule": "Required",
+       "Message": "所屬檢驗單為必填"
+      }
+     ]
+    },
+    {
+     "BindField": "ReportNo",
+     "Title": "報告編號",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "Required",
+       "Message": "報告編號為必填"
+      },
+      {
+       "Rule": "MaxLength",
+       "Value": 30,
+       "Message": "長度不可超過 30"
+      }
+     ]
+    },
+    {
+     "BindField": "ReportDate",
+     "Title": "報告日期",
+     "Component": "DatePicker",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Props": {
+      "Mode": "Editable",
+      "ShowTime": false
+     }
+    },
+    {
+     "BindField": "TestDate",
+     "Title": "試驗日期",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 100,
+       "Message": "長度不可超過 100"
+      }
+     ]
+    },
+    {
+     "BindField": "TemplateCode",
+     "Title": "報告範本代碼",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 50,
+       "Message": "長度不可超過 50"
+      }
+     ]
+    },
+    {
+     "BindField": "RevisionNo",
+     "Title": "版本序號",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Props": {
+      "Type": "number"
+     }
+    },
+    {
+     "BindField": "RevisionSuffix",
+     "Title": "RevisionSuffix",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable"
+    },
+    {
+     "BindField": "OriginalReportGuid",
+     "Title": "原始報告",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "ReadOnly"
+    },
+    {
+     "BindField": "RevisionReason",
+     "Title": "修改原因",
+     "Component": "Textarea",
+     "Section": "SecRecv",
+     "Span": 24,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 500,
+       "Message": "長度不可超過 500"
+      }
+     ],
+     "Props": {
+      "Rows": 3
+     }
+    },
+    {
+     "BindField": "IsVoided",
+     "Title": "是否已作廢",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable"
+    },
+    {
+     "BindField": "RegulationStandard",
+     "Title": "適用法規",
+     "Component": "Input",
+     "Section": "SecRecv",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 200,
+       "Message": "長度不可超過 200"
+      }
+     ]
+    },
+    {
+     "BindField": "IsCompliant",
+     "Title": "是否符合法規",
+     "Component": "Input",
+     "Section": "SecRecv",
+     "Span": 12,
+     "Mode": "Editable"
+    },
+    {
+     "BindField": "ComplianceNote",
+     "Title": "法規符合性說明",
+     "Component": "Textarea",
+     "Section": "SecRecv",
+     "Span": 24,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 1000,
+       "Message": "長度不可超過 1000"
+      }
+     ],
+     "Props": {
+      "Rows": 3
+     }
+    },
+    {
+     "BindField": "SignedBy",
+     "Title": "報告簽署人",
+     "Component": "Input",
+     "Section": "SecRecv",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 100,
+       "Message": "長度不可超過 100"
+      }
+     ]
+    },
+    {
+     "BindField": "ApprovedBy",
+     "Title": "核准人員",
+     "Component": "Input",
+     "Section": "SecRecv",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 100,
+       "Message": "長度不可超過 100"
+      }
+     ]
+    },
+    {
+     "BindField": "ApprovedDate",
+     "Title": "核准日期",
+     "Component": "DatePicker",
+     "Section": "SecRecv",
+     "Span": 12,
+     "Mode": "Editable",
+     "Props": {
+      "Mode": "Editable",
+      "ShowTime": false
+     }
+    },
+    {
+     "BindField": "IsLocked",
+     "Title": "是否已鎖定",
+     "Component": "Input",
+     "Section": "SecRecv",
+     "Span": 12,
+     "Mode": "Editable"
+    },
+    {
+     "BindField": "SentAt",
+     "Title": "電子寄送時間",
+     "Component": "DatePicker",
+     "Section": "SecRecv",
+     "Span": 12,
+     "Mode": "Editable",
+     "Props": {
+      "Mode": "Editable",
+      "ShowTime": false
+     }
+    },
+    {
+     "BindField": "SentTo",
+     "Title": "收件 Email",
+     "Component": "Textarea",
+     "Section": "SecRecv",
+     "Span": 24,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 500,
+       "Message": "長度不可超過 500"
+      }
+     ],
+     "Props": {
+      "Rows": 3
+     }
+    },
+    {
+     "BindField": "ArchivedAt",
+     "Title": "案件封存時間",
+     "Component": "DatePicker",
+     "Section": "SecRecv",
+     "Span": 12,
+     "Mode": "Editable",
+     "Props": {
+      "Mode": "Editable",
+      "ShowTime": false
+     }
+    },
+    {
+     "BindField": "FilePath",
+     "Title": "報告檔案路徑",
+     "Component": "Textarea",
+     "Section": "SecRecv",
+     "Span": 24,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 1000,
+       "Message": "長度不可超過 1000"
+      }
+     ],
+     "Props": {
+      "Rows": 3
+     }
+    },
+    {
+     "BindField": "Remark",
+     "Title": "備註",
+     "Component": "Textarea",
+     "Section": "SecRecv",
+     "Span": 24,
+     "Mode": "Editable",
+     "Props": {
+      "Rows": 3
+     }
+    },
+    {
+     "BindField": "Attributes",
+     "Title": "擴展屬性",
+     "Component": "Textarea",
+     "Section": "SecExtra",
+     "Span": 24,
+     "Mode": "Editable",
+     "Props": {
+      "Rows": 3
+     }
+    },
+    {
+     "BindField": "Status",
+     "Title": "啟用狀態",
+     "Component": "Select",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "DefaultValue": "1",
+     "Props": {
+      "OptionKey": "Status"
+     }
+    },
+    {
+     "BindField": "CreatedBy",
+     "Title": "建立者帳號",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "ReadOnly"
+    },
+    {
+     "BindField": "CreatedAt",
+     "Title": "資料建立日期時間",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "ReadOnly"
+    },
+    {
+     "BindField": "UpdatedBy",
+     "Title": "最後更新者帳號",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "ReadOnly"
+    },
+    {
+     "BindField": "UpdatedAt",
+     "Title": "最後更新日期時間",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "ReadOnly"
+    }
+   ]
+  }
+ },
+ "Features": {},
+ "DataScope": {
+  "DefaultWhere": "EntityID = 'lab' AND Status = '1'",
+  "AuthLevel": 2,
+  "SortExp": "SortNo ASC",
+  "DataConfig": {
+   "RowLimit": 2000,
+   "AllowExport": true
+  }
+ },
+ "CustomMeta": {
+  "CustomSchema": {
+   "WidgetType": "Grid",
+   "KeyField": "OrderGuid",
+   "TitleField": "ReportNo",
+   "ParentKeyField": null,
+   "PathField": null,
+   "PathSeparator": "/"
+  }
+ },
+ "SeedData": [
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000000",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-08-19 16:22",
+   "UpdatedBy": "wang.cy",
+   "UpdatedAt": "2026-01-16 08:09",
+   "OrderGuid": "所屬檢驗單01",
+   "ReportNo": "R-2025-0001",
+   "ReportDate": "2026-05-05",
+   "TestDate": "試驗日期01",
+   "TemplateCode": "R-2026-0001",
+   "RevisionNo": 14,
+   "RevisionSuffix": "RevisionSuffix01",
+   "OriginalReportGuid": "原始報告01",
+   "RevisionReason": "",
+   "IsVoided": "是否已作廢01",
+   "RegulationStandard": "原廠提供",
+   "IsCompliant": "是否符合法規01",
+   "ComplianceNote": "複驗確認無誤",
+   "SignedBy": "吳主任",
+   "ApprovedBy": "蔡研究",
+   "ApprovedDate": "2025-11-01",
+   "IsLocked": "是否已鎖定01",
+   "SentAt": "2026-01-05",
+   "SentTo": "收件 Email01",
+   "ArchivedAt": "2026-04-08",
+   "FilePath": "報告檔案路徑01",
+   "Remark": "已通知申請單位",
+   "Attributes": "擴展屬性01"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000001",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-06-27 10:15",
+   "UpdatedBy": "chen.sh",
+   "UpdatedAt": "2026-11-04 09:20",
+   "OrderGuid": "所屬檢驗單02",
+   "ReportNo": "R-2025-0002",
+   "ReportDate": "2026-10-12",
+   "TestDate": "試驗日期02",
+   "TemplateCode": "R-2026-0002",
+   "RevisionNo": 61,
+   "RevisionSuffix": "RevisionSuffix02",
+   "OriginalReportGuid": "原始報告02",
+   "RevisionReason": "",
+   "IsVoided": "是否已作廢02",
+   "RegulationStandard": "JIS",
+   "IsCompliant": "是否符合法規02",
+   "ComplianceNote": "樣品外觀正常",
+   "SignedBy": "周技士",
+   "ApprovedBy": "許工程",
+   "ApprovedDate": "2025-08-02",
+   "IsLocked": "是否已鎖定02",
+   "SentAt": "2025-05-11",
+   "SentTo": "收件 Email02",
+   "ArchivedAt": "2026-08-15",
+   "FilePath": "報告檔案路徑02",
+   "Remark": "",
+   "Attributes": "擴展屬性02"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000002",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-04-09 15:33",
+   "UpdatedBy": "cheng.gl",
+   "UpdatedAt": "2026-10-22 10:09",
+   "OrderGuid": "所屬檢驗單03",
+   "ReportNo": "R-2026-0003",
+   "ReportDate": "2025-08-20",
+   "TestDate": "試驗日期03",
+   "TemplateCode": "R-2025-0003",
+   "RevisionNo": 14,
+   "RevisionSuffix": "RevisionSuffix03",
+   "OriginalReportGuid": "原始報告03",
+   "RevisionReason": "",
+   "IsVoided": "是否已作廢03",
+   "RegulationStandard": "NIEA",
+   "IsCompliant": "是否符合法規03",
+   "ComplianceNote": "",
+   "SignedBy": "吳主任",
+   "ApprovedBy": "林品保",
+   "ApprovedDate": "2025-11-08",
+   "IsLocked": "是否已鎖定03",
+   "SentAt": "2025-06-20",
+   "SentTo": "收件 Email03",
+   "ArchivedAt": "2025-06-28",
+   "FilePath": "報告檔案路徑03",
+   "Remark": "需注意保存效期",
+   "Attributes": "擴展屬性03"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000003",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-04-17 17:18",
+   "UpdatedBy": "liu.as",
+   "UpdatedAt": "2026-03-12 13:16",
+   "OrderGuid": "所屬檢驗單04",
+   "ReportNo": "R-2025-0004",
+   "ReportDate": "2025-11-24",
+   "TestDate": "試驗日期04",
+   "TemplateCode": "R-2025-0004",
+   "RevisionNo": 33,
+   "RevisionSuffix": "RevisionSuffix04",
+   "OriginalReportGuid": "原始報告04",
+   "RevisionReason": "",
+   "IsVoided": "是否已作廢04",
+   "RegulationStandard": "JIS",
+   "IsCompliant": "是否符合法規04",
+   "ComplianceNote": "待主管覆核",
+   "SignedBy": "楊化驗",
+   "ApprovedBy": "謝校正",
+   "ApprovedDate": "2026-01-25",
+   "IsLocked": "是否已鎖定04",
+   "SentAt": "2026-07-13",
+   "SentTo": "收件 Email04",
+   "ArchivedAt": "2026-09-17",
+   "FilePath": "報告檔案路徑04",
+   "Remark": "",
+   "Attributes": "擴展屬性04"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000004",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-04-18 15:25",
+   "UpdatedBy": "wang.cy",
+   "UpdatedAt": "2026-03-08 14:38",
+   "OrderGuid": "所屬檢驗單05",
+   "ReportNo": "R-2025-0005",
+   "ReportDate": "2026-07-22",
+   "TestDate": "試驗日期05",
+   "TemplateCode": "R-2025-0005",
+   "RevisionNo": 33,
+   "RevisionSuffix": "RevisionSuffix05",
+   "OriginalReportGuid": "原始報告05",
+   "RevisionReason": "",
+   "IsVoided": "是否已作廢05",
+   "RegulationStandard": "JIS",
+   "IsCompliant": "是否符合法規05",
+   "ComplianceNote": "",
+   "SignedBy": "蔡研究",
+   "ApprovedBy": "謝校正",
+   "ApprovedDate": "2025-12-04",
+   "IsLocked": "是否已鎖定05",
+   "SentAt": "2026-03-08",
+   "SentTo": "收件 Email05",
+   "ArchivedAt": "2025-08-28",
+   "FilePath": "報告檔案路徑05",
+   "Remark": "客戶要求附 TAF Logo",
+   "Attributes": "擴展屬性05"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000005",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-10-25 16:25",
+   "UpdatedBy": "wang.cy",
+   "UpdatedAt": "2026-08-27 11:24",
+   "OrderGuid": "所屬檢驗單06",
+   "ReportNo": "R-2025-0006",
+   "ReportDate": "2026-10-20",
+   "TestDate": "試驗日期06",
+   "TemplateCode": "R-2025-0006",
+   "RevisionNo": 4,
+   "RevisionSuffix": "RevisionSuffix06",
+   "OriginalReportGuid": "原始報告06",
+   "RevisionReason": "",
+   "IsVoided": "是否已作廢06",
+   "RegulationStandard": "Standard Methods",
+   "IsCompliant": "是否符合法規06",
+   "ComplianceNote": "",
+   "SignedBy": "鄭組長",
+   "ApprovedBy": "郭品管",
+   "ApprovedDate": "2025-03-13",
+   "IsLocked": "是否已鎖定06",
+   "SentAt": "2026-11-15",
+   "SentTo": "收件 Email06",
+   "ArchivedAt": "2025-08-10",
+   "FilePath": "報告檔案路徑06",
+   "Remark": "定期校正合格",
+   "Attributes": "擴展屬性06"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000006",
+   "EntityID": "lab",
+   "Status": "0",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-02-21 09:19",
+   "UpdatedBy": "chen.sh",
+   "UpdatedAt": "2026-05-05 12:26",
+   "OrderGuid": "所屬檢驗單07",
+   "ReportNo": "R-2025-0007",
+   "ReportDate": "2025-11-26",
+   "TestDate": "試驗日期07",
+   "TemplateCode": "R-2026-0007",
+   "RevisionNo": 59,
+   "RevisionSuffix": "RevisionSuffix07",
+   "OriginalReportGuid": "原始報告07",
+   "RevisionReason": "",
+   "IsVoided": "是否已作廢07",
+   "RegulationStandard": "Standard Methods",
+   "IsCompliant": "是否符合法規07",
+   "ComplianceNote": "需注意保存效期",
+   "SignedBy": "楊化驗",
+   "ApprovedBy": "謝校正",
+   "ApprovedDate": "2025-10-16",
+   "IsLocked": "是否已鎖定07",
+   "SentAt": "2025-03-19",
+   "SentTo": "收件 Email07",
+   "ArchivedAt": "2026-09-15",
+   "FilePath": "報告檔案路徑07",
+   "Remark": "樣品外觀正常",
+   "Attributes": "擴展屬性07"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000007",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-03-08 18:00",
+   "UpdatedBy": "hsu.eng",
+   "UpdatedAt": "2026-11-12 18:39",
+   "OrderGuid": "所屬檢驗單08",
+   "ReportNo": "R-2026-0008",
+   "ReportDate": "2025-01-23",
+   "TestDate": "試驗日期08",
+   "TemplateCode": "R-2026-0008",
+   "RevisionNo": 22,
+   "RevisionSuffix": "RevisionSuffix08",
+   "OriginalReportGuid": "原始報告08",
+   "RevisionReason": "",
+   "IsVoided": "是否已作廢08",
+   "RegulationStandard": "ASTM",
+   "IsCompliant": "是否符合法規08",
+   "ComplianceNote": "",
+   "SignedBy": "周技士",
+   "ApprovedBy": "張分析",
+   "ApprovedDate": "2026-10-05",
+   "IsLocked": "是否已鎖定08",
+   "SentAt": "2026-07-13",
+   "SentTo": "收件 Email08",
+   "ArchivedAt": "2026-08-15",
+   "FilePath": "報告檔案路徑08",
+   "Remark": "複驗確認無誤",
+   "Attributes": "擴展屬性08"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000008",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-12-06 11:03",
+   "UpdatedBy": "chen.sh",
+   "UpdatedAt": "2026-01-08 11:32",
+   "OrderGuid": "所屬檢驗單09",
+   "ReportNo": "R-2026-0009",
+   "ReportDate": "2026-01-05",
+   "TestDate": "試驗日期09",
+   "TemplateCode": "R-2025-0009",
+   "RevisionNo": 2,
+   "RevisionSuffix": "RevisionSuffix09",
+   "OriginalReportGuid": "原始報告09",
+   "RevisionReason": "",
+   "IsVoided": "是否已作廢09",
+   "RegulationStandard": "JIS",
+   "IsCompliant": "是否符合法規09",
+   "ComplianceNote": "客戶要求附 TAF Logo",
+   "SignedBy": "許工程",
+   "ApprovedBy": "郭品管",
+   "ApprovedDate": "2026-08-06",
+   "IsLocked": "是否已鎖定09",
+   "SentAt": "2026-04-13",
+   "SentTo": "收件 Email09",
+   "ArchivedAt": "2025-03-10",
+   "FilePath": "報告檔案路徑09",
+   "Remark": "",
+   "Attributes": "擴展屬性09"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000009",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-09-16 15:05",
+   "UpdatedBy": "cheng.gl",
+   "UpdatedAt": "2026-08-16 13:27",
+   "OrderGuid": "所屬檢驗單10",
+   "ReportNo": "R-2026-0010",
+   "ReportDate": "2025-08-22",
+   "TestDate": "試驗日期10",
+   "TemplateCode": "R-2025-0010",
+   "RevisionNo": 74,
+   "RevisionSuffix": "RevisionSuffix10",
+   "OriginalReportGuid": "原始報告10",
+   "RevisionReason": "需注意保存效期",
+   "IsVoided": "是否已作廢10",
+   "RegulationStandard": "NIEA",
+   "IsCompliant": "是否符合法規10",
+   "ComplianceNote": "",
+   "SignedBy": "許工程",
+   "ApprovedBy": "何環安",
+   "ApprovedDate": "2025-09-14",
+   "IsLocked": "是否已鎖定10",
+   "SentAt": "2025-09-11",
+   "SentTo": "收件 Email10",
+   "ArchivedAt": "2026-07-03",
+   "FilePath": "報告檔案路徑10",
+   "Remark": "複驗確認無誤",
+   "Attributes": "擴展屬性10"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000010",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-12-06 15:00",
+   "UpdatedBy": "abram.chen",
+   "UpdatedAt": "2026-01-17 12:38",
+   "OrderGuid": "所屬檢驗單11",
+   "ReportNo": "R-2026-0011",
+   "ReportDate": "2025-04-01",
+   "TestDate": "試驗日期11",
+   "TemplateCode": "R-2025-0011",
+   "RevisionNo": 45,
+   "RevisionSuffix": "RevisionSuffix11",
+   "OriginalReportGuid": "原始報告11",
+   "RevisionReason": "",
+   "IsVoided": "是否已作廢11",
+   "RegulationStandard": "JIS",
+   "IsCompliant": "是否符合法規11",
+   "ComplianceNote": "",
+   "SignedBy": "何環安",
+   "ApprovedBy": "李檢測",
+   "ApprovedDate": "2025-03-15",
+   "IsLocked": "是否已鎖定11",
+   "SentAt": "2026-01-20",
+   "SentTo": "收件 Email11",
+   "ArchivedAt": "2025-06-13",
+   "FilePath": "報告檔案路徑11",
+   "Remark": "",
+   "Attributes": "擴展屬性11"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000011",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-07-14 08:30",
+   "UpdatedBy": "wang.cy",
+   "UpdatedAt": "2026-06-06 09:02",
+   "OrderGuid": "所屬檢驗單12",
+   "ReportNo": "R-2025-0012",
+   "ReportDate": "2025-09-03",
+   "TestDate": "試驗日期12",
+   "TemplateCode": "R-2025-0012",
+   "RevisionNo": 18,
+   "RevisionSuffix": "RevisionSuffix12",
+   "OriginalReportGuid": "原始報告12",
+   "RevisionReason": "需注意保存效期",
+   "IsVoided": "是否已作廢12",
+   "RegulationStandard": "ASTM",
+   "IsCompliant": "是否符合法規12",
+   "ComplianceNote": "",
+   "SignedBy": "周技士",
+   "ApprovedBy": "陳審核",
+   "ApprovedDate": "2025-12-07",
+   "IsLocked": "是否已鎖定12",
+   "SentAt": "2025-06-02",
+   "SentTo": "收件 Email12",
+   "ArchivedAt": "2026-07-19",
+   "FilePath": "報告檔案路徑12",
+   "Remark": "樣品外觀正常",
+   "Attributes": "擴展屬性12"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000012",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-09-16 11:23",
+   "UpdatedBy": "cheng.gl",
+   "UpdatedAt": "2026-04-18 09:23",
+   "OrderGuid": "所屬檢驗單13",
+   "ReportNo": "R-2025-0013",
+   "ReportDate": "2026-04-07",
+   "TestDate": "試驗日期13",
+   "TemplateCode": "R-2025-0013",
+   "RevisionNo": 33,
+   "RevisionSuffix": "RevisionSuffix13",
+   "OriginalReportGuid": "原始報告13",
+   "RevisionReason": "樣品外觀正常",
+   "IsVoided": "是否已作廢13",
+   "RegulationStandard": "ASTM",
+   "IsCompliant": "是否符合法規13",
+   "ComplianceNote": "",
+   "SignedBy": "林品保",
+   "ApprovedBy": "鄭組長",
+   "ApprovedDate": "2025-07-10",
+   "IsLocked": "是否已鎖定13",
+   "SentAt": "2026-05-27",
+   "SentTo": "收件 Email13",
+   "ArchivedAt": "2026-07-04",
+   "FilePath": "報告檔案路徑13",
+   "Remark": "急件已加收費用",
+   "Attributes": "擴展屬性13"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000013",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-09-20 17:26",
+   "UpdatedBy": "liu.as",
+   "UpdatedAt": "2026-11-27 08:28",
+   "OrderGuid": "所屬檢驗單14",
+   "ReportNo": "R-2026-0014",
+   "ReportDate": "2025-08-23",
+   "TestDate": "試驗日期14",
+   "TemplateCode": "R-2025-0014",
+   "RevisionNo": 80,
+   "RevisionSuffix": "RevisionSuffix14",
+   "OriginalReportGuid": "原始報告14",
+   "RevisionReason": "已通知申請單位",
+   "IsVoided": "是否已作廢14",
+   "RegulationStandard": "JIS",
+   "IsCompliant": "是否符合法規14",
+   "ComplianceNote": "",
+   "SignedBy": "周技士",
+   "ApprovedBy": "李檢測",
+   "ApprovedDate": "2026-11-26",
+   "IsLocked": "是否已鎖定14",
+   "SentAt": "2026-11-06",
+   "SentTo": "收件 Email14",
+   "ArchivedAt": "2026-01-05",
+   "FilePath": "報告檔案路徑14",
+   "Remark": "客戶要求附 TAF Logo",
+   "Attributes": "擴展屬性14"
+  }
+ ]
+}

@@ -1,0 +1,879 @@
+{
+ "EntityID": "lab",
+ "SystemCode": "MUEIP",
+ "ModuleCode": "LIMS",
+ "FuncCode": "labTes_ReportIssue",
+ "ConfigHash": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+ "PageMeta": {
+  "PageTitle": "複驗／修改／客訴",
+  "Lang": "zh-TW",
+  "FormType": "ListForm",
+  "EditDisplayType": "Drawer",
+  "Breadcrumb": [
+   {
+    "Title": "首頁",
+    "Path": "/"
+   },
+   {
+    "Title": "檢測單流程管理",
+    "Path": null
+   },
+   {
+    "Title": "複驗／修改／客訴",
+    "Path": "/lab/labTes_ReportIssue"
+   }
+  ],
+  "IsApproval": false,
+  "TenantLocked": false,
+  "Icon": "ri-error-warning-line",
+  "Remark": "複驗／修改／客訴（由 labTes_ReportIssue 規格書產生）"
+ },
+ "Resources": {
+  "CodeSets": {
+   "Status": [
+    {
+     "CodeID": "1",
+     "CodeName": "啟用",
+     "IsDefault": true
+    },
+    {
+     "CodeID": "0",
+     "CodeName": "停用"
+    }
+   ],
+   "Priority": [
+    {
+     "CodeID": "A",
+     "CodeName": "急件"
+    },
+    {
+     "CodeID": "B",
+     "CodeName": "高"
+    },
+    {
+     "CodeID": "C",
+     "CodeName": "一般",
+     "IsDefault": true
+    },
+    {
+     "CodeID": "D",
+     "CodeName": "低"
+    }
+   ]
+  },
+  "FeatureFlags": {
+   "IsReadOnly": false,
+   "EnableDraft": false,
+   "EnableBatchDelete": true,
+   "AutoRefreshInterval": 0,
+   "DefaultViewMode": "Table",
+   "RequireConfirmOnSave": true
+  }
+ },
+ "AllowAction": {
+  "DataActions": [
+   {
+    "ActionID": "Add",
+    "Label": "新增",
+    "Icon": "ri-add-line",
+    "Type": "Primary",
+    "Position": "Toolbar",
+    "Confirm": null
+   },
+   {
+    "ActionID": "Save",
+    "Label": "儲存",
+    "Icon": "ri-save-line",
+    "Type": "Primary",
+    "Position": "Toolbar",
+    "Confirm": null
+   },
+   {
+    "ActionID": "Delete",
+    "Label": "刪除",
+    "Icon": "ri-delete-bin-line",
+    "Type": "Danger",
+    "Position": "Both",
+    "Confirm": "確定要刪除此複驗／修改／客訴資料嗎？"
+   },
+   {
+    "ActionID": "Query",
+    "Label": "查詢",
+    "Icon": "ri-search-line",
+    "Type": "Default",
+    "Position": "Toolbar",
+    "Confirm": null
+   }
+  ],
+  "ExtensionActions": [
+   {
+    "ActionID": "Import",
+    "Label": "匯入",
+    "Icon": "ri-upload-2-line",
+    "Type": "Default",
+    "Position": "Toolbar"
+   },
+   {
+    "ActionID": "Export",
+    "Label": "匯出",
+    "Icon": "ri-download-2-line",
+    "Type": "Default",
+    "Position": "Toolbar"
+   }
+  ]
+ },
+ "View": {
+  "RowKey": "RowGuid",
+  "ListView": {
+   "ListSpec": {
+    "RowKey": "RowGuid",
+    "SelectMode": "Single",
+    "FixedColumns": [
+     "Action",
+     "No"
+    ],
+    "RowActionMode": "Menu",
+    "ShowRowNo": true,
+    "Pagination": {
+     "PageSize": 100,
+     "SizeOptions": [
+      50,
+      100,
+      200,
+      500
+     ],
+     "ShowJumper": false,
+     "FullPageScroll": true
+    },
+    "DefaultSort": {
+     "Field": "SortNo",
+     "Order": "asc"
+    },
+    "EmptyText": "目前查無複驗／修改／客訴資料",
+    "GridBordered": true
+   },
+   "FieldSpecs": [
+    {
+     "BindField": "ReportGuid",
+     "Title": "所屬報告",
+     "Align": "Left",
+     "DefaultVisible": true,
+     "Formatter": "Link",
+     "Fixed": "Left",
+     "Width": 160,
+     "Sorter": true
+    },
+    {
+     "BindField": "IssueType",
+     "Title": "問題類型",
+     "Align": "Left",
+     "DefaultVisible": true,
+     "Width": 140
+    },
+    {
+     "BindField": "IssueNo",
+     "Title": "處理單編號",
+     "Align": "Left",
+     "DefaultVisible": true,
+     "Width": 140
+    },
+    {
+     "BindField": "ComplainantName",
+     "Title": "客訴人姓名",
+     "Align": "Left",
+     "DefaultVisible": true,
+     "Width": 140
+    },
+    {
+     "BindField": "ComplaintContent",
+     "Title": "客訴內容",
+     "Align": "Left",
+     "DefaultVisible": true,
+     "Width": 140
+    },
+    {
+     "BindField": "ComplaintCategory",
+     "Title": "客訴類別",
+     "Align": "Left",
+     "DefaultVisible": true,
+     "Width": 140
+    },
+    {
+     "BindField": "Status",
+     "Title": "啟用狀態",
+     "Align": "Center",
+     "DefaultVisible": true,
+     "Formatter": "Tag",
+     "Width": 80
+    }
+   ]
+  },
+  "FormView": {
+   "FormSpec": {
+    "RowKey": "RowGuid",
+    "Layout": "Horizontal",
+    "Sections": [
+     {
+      "SectionID": "SecBase",
+      "Type": "Card",
+      "Title": "基本資料",
+      "IsCollapsible": false,
+      "DefaultOpen": true,
+      "Icon": "ri-error-warning-line"
+     },
+     {
+      "SectionID": "SecRecv",
+      "Type": "Card",
+      "Title": "作業資訊",
+      "IsCollapsible": true,
+      "DefaultOpen": true,
+      "Icon": "ri-file-list-3-line"
+     },
+     {
+      "SectionID": "SecExtra",
+      "Type": "Card",
+      "Title": "系統資訊",
+      "IsCollapsible": true,
+      "DefaultOpen": false,
+      "Icon": "ri-settings-4-line"
+     }
+    ],
+    "FormLogic": []
+   },
+   "FieldSpecs": [
+    {
+     "BindField": "RowKey",
+     "Title": "系統識別碼",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 24,
+     "Mode": "Hidden"
+    },
+    {
+     "BindField": "EntityID",
+     "Title": "系統實體",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "Hidden",
+     "DefaultValue": "lab"
+    },
+    {
+     "BindField": "ReportGuid",
+     "Title": "所屬報告",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "ReadOnly",
+     "Validations": [
+      {
+       "Rule": "Required",
+       "Message": "所屬報告為必填"
+      }
+     ]
+    },
+    {
+     "BindField": "IssueType",
+     "Title": "問題類型",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "Required",
+       "Message": "問題類型為必填"
+      },
+      {
+       "Rule": "MaxLength",
+       "Value": 20,
+       "Message": "長度不可超過 20"
+      }
+     ]
+    },
+    {
+     "BindField": "IssueNo",
+     "Title": "處理單編號",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 30,
+       "Message": "長度不可超過 30"
+      }
+     ]
+    },
+    {
+     "BindField": "ComplainantName",
+     "Title": "客訴人姓名",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 100,
+       "Message": "長度不可超過 100"
+      }
+     ]
+    },
+    {
+     "BindField": "ComplaintContent",
+     "Title": "客訴內容",
+     "Component": "Textarea",
+     "Section": "SecRecv",
+     "Span": 24,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 2000,
+       "Message": "長度不可超過 2000"
+      }
+     ],
+     "Props": {
+      "Rows": 3
+     }
+    },
+    {
+     "BindField": "ComplaintCategory",
+     "Title": "客訴類別",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 50,
+       "Message": "長度不可超過 50"
+      }
+     ]
+    },
+    {
+     "BindField": "RevisedReportGuid",
+     "Title": "修改後新版報告",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "ReadOnly"
+    },
+    {
+     "BindField": "ReviseReason",
+     "Title": "修改原因",
+     "Component": "Textarea",
+     "Section": "SecRecv",
+     "Span": 24,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 500,
+       "Message": "長度不可超過 500"
+      }
+     ],
+     "Props": {
+      "Rows": 3
+     }
+    },
+    {
+     "BindField": "RetestOrderGuid",
+     "Title": "對應重驗檢驗單",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "ReadOnly"
+    },
+    {
+     "BindField": "HandledBy",
+     "Title": "處理人員",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 100,
+       "Message": "長度不可超過 100"
+      }
+     ]
+    },
+    {
+     "BindField": "HandleResult",
+     "Title": "處理結果",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 20,
+       "Message": "長度不可超過 20"
+      }
+     ]
+    },
+    {
+     "BindField": "HandledAt",
+     "Title": "處理完成時間",
+     "Component": "DatePicker",
+     "Section": "SecRecv",
+     "Span": 12,
+     "Mode": "Editable",
+     "Props": {
+      "Mode": "Editable",
+      "ShowTime": false
+     }
+    },
+    {
+     "BindField": "SubmitDate",
+     "Title": "提出日期",
+     "Component": "DatePicker",
+     "Section": "SecRecv",
+     "Span": 12,
+     "Mode": "Editable",
+     "Props": {
+      "Mode": "Editable",
+      "ShowTime": false
+     }
+    },
+    {
+     "BindField": "Remark",
+     "Title": "備註",
+     "Component": "Textarea",
+     "Section": "SecRecv",
+     "Span": 24,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 1000,
+       "Message": "長度不可超過 1000"
+      }
+     ],
+     "Props": {
+      "Rows": 3
+     }
+    },
+    {
+     "BindField": "Attributes",
+     "Title": "擴展屬性",
+     "Component": "Textarea",
+     "Section": "SecExtra",
+     "Span": 24,
+     "Mode": "Editable",
+     "Props": {
+      "Rows": 3
+     }
+    },
+    {
+     "BindField": "Status",
+     "Title": "啟用狀態",
+     "Component": "Select",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "DefaultValue": "1",
+     "Props": {
+      "OptionKey": "Status"
+     }
+    },
+    {
+     "BindField": "CreatedBy",
+     "Title": "建立者帳號",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "ReadOnly"
+    },
+    {
+     "BindField": "CreatedAt",
+     "Title": "資料建立日期時間",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "ReadOnly"
+    },
+    {
+     "BindField": "UpdatedBy",
+     "Title": "最後更新者帳號",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "ReadOnly"
+    },
+    {
+     "BindField": "UpdatedAt",
+     "Title": "最後更新日期時間",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "ReadOnly"
+    }
+   ]
+  }
+ },
+ "Features": {},
+ "DataScope": {
+  "DefaultWhere": "EntityID = 'lab' AND Status = '1'",
+  "AuthLevel": 2,
+  "SortExp": "SortNo ASC",
+  "DataConfig": {
+   "RowLimit": 2000,
+   "AllowExport": true
+  }
+ },
+ "CustomMeta": {
+  "CustomSchema": {
+   "WidgetType": "Grid",
+   "KeyField": "ReportGuid",
+   "TitleField": "IssueType",
+   "ParentKeyField": null,
+   "PathField": null,
+   "PathSeparator": "/"
+  }
+ },
+ "SeedData": [
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000000",
+   "EntityID": "lab",
+   "Status": "0",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-07-07 18:12",
+   "UpdatedBy": "wu.dir",
+   "UpdatedAt": "2026-10-26 09:24",
+   "ReportGuid": "所屬報告01",
+   "IssueType": "問題類型01",
+   "IssueNo": "RI-2025-0001",
+   "ComplainantName": "郭品管",
+   "ComplaintContent": "客訴內容01",
+   "ComplaintCategory": "客訴類別01",
+   "RevisedReportGuid": "修改後新版報告01",
+   "ReviseReason": "",
+   "RetestOrderGuid": "對應重驗檢驗單01",
+   "HandledBy": "王采樣",
+   "HandleResult": "處理結果01",
+   "HandledAt": "2026-07-16",
+   "SubmitDate": "2025-09-27",
+   "Remark": "",
+   "Attributes": "擴展屬性01"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000001",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-10-23 15:24",
+   "UpdatedBy": "lee.jc",
+   "UpdatedAt": "2026-07-08 15:01",
+   "ReportGuid": "所屬報告02",
+   "IssueType": "問題類型02",
+   "IssueNo": "RI-2025-0002",
+   "ComplainantName": "王采樣",
+   "ComplaintContent": "客訴內容02",
+   "ComplaintCategory": "客訴類別02",
+   "RevisedReportGuid": "修改後新版報告02",
+   "ReviseReason": "定期校正合格",
+   "RetestOrderGuid": "對應重驗檢驗單02",
+   "HandledBy": "何環安",
+   "HandleResult": "處理結果02",
+   "HandledAt": "2025-02-28",
+   "SubmitDate": "2026-07-08",
+   "Remark": "樣品外觀正常",
+   "Attributes": "擴展屬性02"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000002",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-03-19 12:13",
+   "UpdatedBy": "wu.dir",
+   "UpdatedAt": "2026-03-02 10:30",
+   "ReportGuid": "所屬報告03",
+   "IssueType": "問題類型03",
+   "IssueNo": "RI-2026-0003",
+   "ComplainantName": "李檢測",
+   "ComplaintContent": "客訴內容03",
+   "ComplaintCategory": "客訴類別03",
+   "RevisedReportGuid": "修改後新版報告03",
+   "ReviseReason": "",
+   "RetestOrderGuid": "對應重驗檢驗單03",
+   "HandledBy": "許工程",
+   "HandleResult": "處理結果03",
+   "HandledAt": "2025-04-20",
+   "SubmitDate": "2025-06-05",
+   "Remark": "",
+   "Attributes": "擴展屬性03"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000003",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-11-27 15:12",
+   "UpdatedBy": "wang.cy",
+   "UpdatedAt": "2026-02-01 09:21",
+   "ReportGuid": "所屬報告04",
+   "IssueType": "問題類型04",
+   "IssueNo": "RI-2025-0004",
+   "ComplainantName": "鄭組長",
+   "ComplaintContent": "客訴內容04",
+   "ComplaintCategory": "客訴類別04",
+   "RevisedReportGuid": "修改後新版報告04",
+   "ReviseReason": "客戶要求附 TAF Logo",
+   "RetestOrderGuid": "對應重驗檢驗單04",
+   "HandledBy": "蔡研究",
+   "HandleResult": "處理結果04",
+   "HandledAt": "2025-06-07",
+   "SubmitDate": "2025-01-25",
+   "Remark": "需注意保存效期",
+   "Attributes": "擴展屬性04"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000004",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-08-24 14:27",
+   "UpdatedBy": "hsu.eng",
+   "UpdatedAt": "2026-12-13 14:15",
+   "ReportGuid": "所屬報告05",
+   "IssueType": "問題類型05",
+   "IssueNo": "RI-2026-0005",
+   "ComplainantName": "蔡研究",
+   "ComplaintContent": "客訴內容05",
+   "ComplaintCategory": "客訴類別05",
+   "RevisedReportGuid": "修改後新版報告05",
+   "ReviseReason": "",
+   "RetestOrderGuid": "對應重驗檢驗單05",
+   "HandledBy": "陳審核",
+   "HandleResult": "處理結果05",
+   "HandledAt": "2025-08-17",
+   "SubmitDate": "2025-04-24",
+   "Remark": "待主管覆核",
+   "Attributes": "擴展屬性05"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000005",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-02-11 15:05",
+   "UpdatedBy": "chang.fa",
+   "UpdatedAt": "2026-11-09 10:16",
+   "ReportGuid": "所屬報告06",
+   "IssueType": "問題類型06",
+   "IssueNo": "RI-2025-0006",
+   "ComplainantName": "許工程",
+   "ComplaintContent": "客訴內容06",
+   "ComplaintCategory": "客訴類別06",
+   "RevisedReportGuid": "修改後新版報告06",
+   "ReviseReason": "",
+   "RetestOrderGuid": "對應重驗檢驗單06",
+   "HandledBy": "許工程",
+   "HandleResult": "處理結果06",
+   "HandledAt": "2025-09-04",
+   "SubmitDate": "2025-07-06",
+   "Remark": "",
+   "Attributes": "擴展屬性06"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000006",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-06-20 10:06",
+   "UpdatedBy": "hsu.eng",
+   "UpdatedAt": "2026-08-06 12:06",
+   "ReportGuid": "所屬報告07",
+   "IssueType": "問題類型07",
+   "IssueNo": "RI-2026-0007",
+   "ComplainantName": "鄭組長",
+   "ComplaintContent": "客訴內容07",
+   "ComplaintCategory": "客訴類別07",
+   "RevisedReportGuid": "修改後新版報告07",
+   "ReviseReason": "",
+   "RetestOrderGuid": "對應重驗檢驗單07",
+   "HandledBy": "陳審核",
+   "HandleResult": "處理結果07",
+   "HandledAt": "2025-01-12",
+   "SubmitDate": "2025-07-22",
+   "Remark": "",
+   "Attributes": "擴展屬性07"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000007",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-08-22 09:15",
+   "UpdatedBy": "chen.sh",
+   "UpdatedAt": "2026-01-21 08:21",
+   "ReportGuid": "所屬報告08",
+   "IssueType": "問題類型08",
+   "IssueNo": "RI-2026-0008",
+   "ComplainantName": "張分析",
+   "ComplaintContent": "客訴內容08",
+   "ComplaintCategory": "客訴類別08",
+   "RevisedReportGuid": "修改後新版報告08",
+   "ReviseReason": "樣品外觀正常",
+   "RetestOrderGuid": "對應重驗檢驗單08",
+   "HandledBy": "楊化驗",
+   "HandleResult": "處理結果08",
+   "HandledAt": "2025-08-18",
+   "SubmitDate": "2025-11-07",
+   "Remark": "",
+   "Attributes": "擴展屬性08"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000008",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-12-05 18:07",
+   "UpdatedBy": "liu.as",
+   "UpdatedAt": "2026-02-21 13:19",
+   "ReportGuid": "所屬報告09",
+   "IssueType": "問題類型09",
+   "IssueNo": "RI-2026-0009",
+   "ComplainantName": "李檢測",
+   "ComplaintContent": "客訴內容09",
+   "ComplaintCategory": "客訴類別09",
+   "RevisedReportGuid": "修改後新版報告09",
+   "ReviseReason": "",
+   "RetestOrderGuid": "對應重驗檢驗單09",
+   "HandledBy": "吳主任",
+   "HandleResult": "處理結果09",
+   "HandledAt": "2026-12-22",
+   "SubmitDate": "2025-02-13",
+   "Remark": "定期校正合格",
+   "Attributes": "擴展屬性09"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000009",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-12-05 15:04",
+   "UpdatedBy": "lin.pb",
+   "UpdatedAt": "2026-01-03 18:35",
+   "ReportGuid": "所屬報告10",
+   "IssueType": "問題類型10",
+   "IssueNo": "RI-2026-0010",
+   "ComplainantName": "楊化驗",
+   "ComplaintContent": "客訴內容10",
+   "ComplaintCategory": "客訴類別10",
+   "RevisedReportGuid": "修改後新版報告10",
+   "ReviseReason": "需注意保存效期",
+   "RetestOrderGuid": "對應重驗檢驗單10",
+   "HandledBy": "楊化驗",
+   "HandleResult": "處理結果10",
+   "HandledAt": "2025-04-18",
+   "SubmitDate": "2026-02-08",
+   "Remark": "定期校正合格",
+   "Attributes": "擴展屬性10"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000010",
+   "EntityID": "lab",
+   "Status": "0",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-10-13 10:37",
+   "UpdatedBy": "huang.tc",
+   "UpdatedAt": "2026-03-15 15:11",
+   "ReportGuid": "所屬報告11",
+   "IssueType": "問題類型11",
+   "IssueNo": "RI-2026-0011",
+   "ComplainantName": "王采樣",
+   "ComplaintContent": "客訴內容11",
+   "ComplaintCategory": "客訴類別11",
+   "RevisedReportGuid": "修改後新版報告11",
+   "ReviseReason": "",
+   "RetestOrderGuid": "對應重驗檢驗單11",
+   "HandledBy": "周技士",
+   "HandleResult": "處理結果11",
+   "HandledAt": "2026-12-12",
+   "SubmitDate": "2026-04-16",
+   "Remark": "待主管覆核",
+   "Attributes": "擴展屬性11"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000011",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-03-21 18:21",
+   "UpdatedBy": "liu.as",
+   "UpdatedAt": "2026-03-05 18:35",
+   "ReportGuid": "所屬報告12",
+   "IssueType": "問題類型12",
+   "IssueNo": "RI-2025-0012",
+   "ComplainantName": "陳審核",
+   "ComplaintContent": "客訴內容12",
+   "ComplaintCategory": "客訴類別12",
+   "RevisedReportGuid": "修改後新版報告12",
+   "ReviseReason": "",
+   "RetestOrderGuid": "對應重驗檢驗單12",
+   "HandledBy": "謝校正",
+   "HandleResult": "處理結果12",
+   "HandledAt": "2025-12-21",
+   "SubmitDate": "2025-01-07",
+   "Remark": "",
+   "Attributes": "擴展屬性12"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000012",
+   "EntityID": "lab",
+   "Status": "0",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-11-08 18:39",
+   "UpdatedBy": "liu.as",
+   "UpdatedAt": "2026-09-05 16:12",
+   "ReportGuid": "所屬報告13",
+   "IssueType": "問題類型13",
+   "IssueNo": "RI-2026-0013",
+   "ComplainantName": "謝校正",
+   "ComplaintContent": "客訴內容13",
+   "ComplaintCategory": "客訴類別13",
+   "RevisedReportGuid": "修改後新版報告13",
+   "ReviseReason": "客戶要求附 TAF Logo",
+   "RetestOrderGuid": "對應重驗檢驗單13",
+   "HandledBy": "陳審核",
+   "HandleResult": "處理結果13",
+   "HandledAt": "2025-10-16",
+   "SubmitDate": "2025-07-03",
+   "Remark": "定期校正合格",
+   "Attributes": "擴展屬性13"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000013",
+   "EntityID": "lab",
+   "Status": "0",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-03-16 08:26",
+   "UpdatedBy": "cheng.gl",
+   "UpdatedAt": "2026-10-16 13:17",
+   "ReportGuid": "所屬報告14",
+   "IssueType": "問題類型14",
+   "IssueNo": "RI-2026-0014",
+   "ComplainantName": "黃技正",
+   "ComplaintContent": "客訴內容14",
+   "ComplaintCategory": "客訴類別14",
+   "RevisedReportGuid": "修改後新版報告14",
+   "ReviseReason": "",
+   "RetestOrderGuid": "對應重驗檢驗單14",
+   "HandledBy": "李檢測",
+   "HandleResult": "處理結果14",
+   "HandledAt": "2026-01-17",
+   "SubmitDate": "2025-04-19",
+   "Remark": "複驗確認無誤",
+   "Attributes": "擴展屬性14"
+  }
+ ]
+}

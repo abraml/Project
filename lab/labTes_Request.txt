@@ -1,0 +1,5164 @@
+{
+ "EntityID": "lab",
+ "SystemCode": "MUEIP",
+ "ModuleCode": "LIMS",
+ "FuncCode": "labTes_Request",
+ "ConfigHash": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+ "PageMeta": {
+  "PageTitle": "檢驗委託申請單",
+  "Lang": "zh-TW",
+  "FormType": "ListForm",
+  "EditDisplayType": "Drawer",
+  "Breadcrumb": [
+   {
+    "Title": "首頁",
+    "Path": "/"
+   },
+   {
+    "Title": "檢測單流程管理",
+    "Path": null
+   },
+   {
+    "Title": "檢驗委託申請單",
+    "Path": "/lab/labTes_Request"
+   }
+  ],
+  "IsApproval": false,
+  "TenantLocked": false,
+  "Icon": "ri-file-list-3-line",
+  "Remark": "檢驗委託申請單（由 labTes_Request 規格書產生）"
+ },
+ "Resources": {
+  "CodeSets": {
+   "Status": [
+    {
+     "CodeID": "1",
+     "CodeName": "啟用",
+     "IsDefault": true
+    },
+    {
+     "CodeID": "0",
+     "CodeName": "停用"
+    }
+   ],
+   "Priority": [
+    {
+     "CodeID": "A",
+     "CodeName": "急件"
+    },
+    {
+     "CodeID": "B",
+     "CodeName": "高"
+    },
+    {
+     "CodeID": "C",
+     "CodeName": "一般",
+     "IsDefault": true
+    },
+    {
+     "CodeID": "D",
+     "CodeName": "低"
+    }
+   ],
+   "WaterSubType": [
+    {
+     "CodeID": "DW",
+     "CodeName": "飲用水",
+     "IsDefault": true
+    },
+    {
+     "CodeID": "WW",
+     "CodeName": "廢水"
+    },
+    {
+     "CodeID": "SW",
+     "CodeName": "地面水"
+    },
+    {
+     "CodeID": "GW",
+     "CodeName": "地下水"
+    }
+   ],
+   "Urgency": [
+    {
+     "CodeID": "A",
+     "CodeName": "急件"
+    },
+    {
+     "CodeID": "B",
+     "CodeName": "一般",
+     "IsDefault": true
+    }
+   ],
+   "FlowStage": [
+    {
+     "CodeID": "AP",
+     "CodeName": "申請",
+     "IsDefault": true
+    },
+    {
+     "CodeID": "RC",
+     "CodeName": "收件"
+    },
+    {
+     "CodeID": "DP",
+     "CodeName": "分派"
+    },
+    {
+     "CodeID": "TS",
+     "CodeName": "檢驗"
+    },
+    {
+     "CodeID": "RV",
+     "CodeName": "審核"
+    },
+    {
+     "CodeID": "RP",
+     "CodeName": "報告"
+    },
+    {
+     "CodeID": "CL",
+     "CodeName": "結案"
+    }
+   ]
+  },
+  "FeatureFlags": {
+   "IsReadOnly": false,
+   "EnableDraft": false,
+   "EnableBatchDelete": true,
+   "AutoRefreshInterval": 0,
+   "DefaultViewMode": "Table",
+   "RequireConfirmOnSave": true
+  }
+ },
+ "AllowAction": {
+  "DataActions": [
+   {
+    "ActionID": "Add",
+    "Label": "新增",
+    "Icon": "ri-add-line",
+    "Type": "Primary",
+    "Position": "Toolbar",
+    "Confirm": null
+   },
+   {
+    "ActionID": "Save",
+    "Label": "儲存",
+    "Icon": "ri-save-line",
+    "Type": "Primary",
+    "Position": "Toolbar",
+    "Confirm": null
+   },
+   {
+    "ActionID": "Delete",
+    "Label": "刪除",
+    "Icon": "ri-delete-bin-line",
+    "Type": "Danger",
+    "Position": "Both",
+    "Confirm": "確定要刪除此檢驗委託申請單資料嗎？"
+   },
+   {
+    "ActionID": "Query",
+    "Label": "查詢",
+    "Icon": "ri-search-line",
+    "Type": "Default",
+    "Position": "Toolbar",
+    "Confirm": null
+   }
+  ],
+  "ExtensionActions": [
+   {
+    "ActionID": "Import",
+    "Label": "匯入",
+    "Icon": "ri-upload-2-line",
+    "Type": "Default",
+    "Position": "Toolbar"
+   },
+   {
+    "ActionID": "Export",
+    "Label": "匯出",
+    "Icon": "ri-download-2-line",
+    "Type": "Default",
+    "Position": "Toolbar"
+   }
+  ]
+ },
+ "View": {
+  "RowKey": "RowGuid",
+  "ListView": {
+   "ListSpec": {
+    "RowKey": "RowGuid",
+    "SelectMode": "Single",
+    "FixedColumns": [
+     "Action",
+     "No"
+    ],
+    "RowActionMode": "Menu",
+    "ShowRowNo": true,
+    "Pagination": {
+     "PageSize": 100,
+     "SizeOptions": [
+      50,
+      100,
+      200,
+      500
+     ],
+     "ShowJumper": false,
+     "FullPageScroll": true
+    },
+    "DefaultSort": {
+     "Field": "SortNo",
+     "Order": "asc"
+    },
+    "EmptyText": "目前查無檢驗委託申請單資料",
+    "GridBordered": true
+   },
+   "FieldSpecs": [
+    {
+     "BindField": "RequestNo",
+     "Title": "申請單編號",
+     "Align": "Left",
+     "DefaultVisible": true,
+     "Formatter": "Link",
+     "Fixed": "Left",
+     "Width": 160,
+     "Sorter": true
+    },
+    {
+     "BindField": "RequestDate",
+     "Title": "申請日期",
+     "Align": "Left",
+     "DefaultVisible": true,
+     "Formatter": "DateTime",
+     "Width": 150,
+     "Sorter": true
+    },
+    {
+     "BindField": "ApplyUnit",
+     "Title": "申請單位",
+     "Align": "Left",
+     "DefaultVisible": true,
+     "Width": 140
+    },
+    {
+     "BindField": "ApplyName",
+     "Title": "申請人姓名",
+     "Align": "Left",
+     "DefaultVisible": true,
+     "Width": 140
+    },
+    {
+     "BindField": "Urgency",
+     "Title": "時效",
+     "Align": "Center",
+     "DefaultVisible": true,
+     "Formatter": "Tag",
+     "Width": 110
+    },
+    {
+     "BindField": "FlowStage",
+     "Title": "目前流程階段",
+     "Align": "Center",
+     "DefaultVisible": true,
+     "Formatter": "Tag",
+     "Width": 110
+    },
+    {
+     "BindField": "Status",
+     "Title": "狀態標記",
+     "Align": "Center",
+     "DefaultVisible": true,
+     "Formatter": "Tag",
+     "Width": 80
+    }
+   ]
+  },
+  "FormView": {
+   "FormSpec": {
+    "RowKey": "RowGuid",
+    "Layout": "Horizontal",
+    "Sections": [
+     {
+      "SectionID": "SecBase",
+      "Type": "Card",
+      "Title": "基本資料",
+      "IsCollapsible": false,
+      "DefaultOpen": true,
+      "Icon": "ri-file-list-3-line"
+     },
+     {
+      "SectionID": "SecRecv",
+      "Type": "Card",
+      "Title": "作業資訊",
+      "IsCollapsible": true,
+      "DefaultOpen": true,
+      "Icon": "ri-file-list-3-line"
+     },
+     {
+      "SectionID": "SecExtra",
+      "Type": "Card",
+      "Title": "系統資訊",
+      "IsCollapsible": true,
+      "DefaultOpen": false,
+      "Icon": "ri-settings-4-line"
+     }
+    ],
+    "FormLogic": []
+   },
+   "FieldSpecs": [
+    {
+     "BindField": "RowKey",
+     "Title": "系統識別碼",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 24,
+     "Mode": "Hidden"
+    },
+    {
+     "BindField": "EntityID",
+     "Title": "系統實體",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "Hidden",
+     "DefaultValue": "lab"
+    },
+    {
+     "BindField": "RequestNo",
+     "Title": "申請單編號",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "Required",
+       "Message": "申請單編號為必填"
+      },
+      {
+       "Rule": "MaxLength",
+       "Value": 30,
+       "Message": "長度不可超過 30"
+      }
+     ]
+    },
+    {
+     "BindField": "RequestDate",
+     "Title": "申請日期",
+     "Component": "DatePicker",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "Required",
+       "Message": "申請日期為必填"
+      }
+     ],
+     "Props": {
+      "Mode": "Editable",
+      "ShowTime": false
+     }
+    },
+    {
+     "BindField": "CaseNo",
+     "Title": "案號",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 50,
+       "Message": "長度不可超過 50"
+      }
+     ]
+    },
+    {
+     "BindField": "CaseUnit",
+     "Title": "案號對應單位",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 200,
+       "Message": "長度不可超過 200"
+      }
+     ]
+    },
+    {
+     "BindField": "ApplyUnit",
+     "Title": "申請單位",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "Required",
+       "Message": "申請單位為必填"
+      },
+      {
+       "Rule": "MaxLength",
+       "Value": 200,
+       "Message": "長度不可超過 200"
+      }
+     ]
+    },
+    {
+     "BindField": "ApplyName",
+     "Title": "申請人姓名",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "Required",
+       "Message": "申請人姓名為必填"
+      },
+      {
+       "Rule": "MaxLength",
+       "Value": 100,
+       "Message": "長度不可超過 100"
+      }
+     ]
+    },
+    {
+     "BindField": "ApplyPhone",
+     "Title": "申請人聯絡電話",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 50,
+       "Message": "長度不可超過 50"
+      }
+     ]
+    },
+    {
+     "BindField": "ApplyAddress",
+     "Title": "聯絡地址",
+     "Component": "Textarea",
+     "Section": "SecRecv",
+     "Span": 24,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 500,
+       "Message": "長度不可超過 500"
+      }
+     ],
+     "Props": {
+      "Rows": 3
+     }
+    },
+    {
+     "BindField": "ApplyMgrName",
+     "Title": "申請單位主管姓名",
+     "Component": "Input",
+     "Section": "SecRecv",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 100,
+       "Message": "長度不可超過 100"
+      }
+     ]
+    },
+    {
+     "BindField": "ApplyMgrSignDate",
+     "Title": "申請單位主管簽核日期",
+     "Component": "DatePicker",
+     "Section": "SecRecv",
+     "Span": 12,
+     "Mode": "Editable",
+     "Props": {
+      "Mode": "Editable",
+      "ShowTime": false
+     }
+    },
+    {
+     "BindField": "SamplingLocation",
+     "Title": "抽樣地點",
+     "Component": "Input",
+     "Section": "SecRecv",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 200,
+       "Message": "長度不可超過 200"
+      }
+     ]
+    },
+    {
+     "BindField": "SamplingPlant",
+     "Title": "採樣廠別",
+     "Component": "Input",
+     "Section": "SecRecv",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 200,
+       "Message": "長度不可超過 200"
+      }
+     ]
+    },
+    {
+     "BindField": "SamplerName",
+     "Title": "抽樣人",
+     "Component": "Input",
+     "Section": "SecRecv",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 100,
+       "Message": "長度不可超過 100"
+      }
+     ]
+    },
+    {
+     "BindField": "SamplerPhone",
+     "Title": "抽樣人聯絡電話",
+     "Component": "Input",
+     "Section": "SecRecv",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 50,
+       "Message": "長度不可超過 50"
+      }
+     ]
+    },
+    {
+     "BindField": "SubmitDate",
+     "Title": "送樣日期",
+     "Component": "DatePicker",
+     "Section": "SecRecv",
+     "Span": 12,
+     "Mode": "Editable",
+     "Props": {
+      "Mode": "Editable",
+      "ShowTime": false
+     }
+    },
+    {
+     "BindField": "SampleCategory",
+     "Title": "樣品類型",
+     "Component": "Input",
+     "Section": "SecRecv",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "Required",
+       "Message": "樣品類型為必填"
+      },
+      {
+       "Rule": "MaxLength",
+       "Value": 20,
+       "Message": "長度不可超過 20"
+      }
+     ]
+    },
+    {
+     "BindField": "WaterSubType",
+     "Title": "水樣子類型",
+     "Component": "Select",
+     "Section": "SecRecv",
+     "Span": 12,
+     "Mode": "Editable",
+     "Props": {
+      "OptionKey": "WaterSubType"
+     },
+     "DefaultValue": "DW"
+    },
+    {
+     "BindField": "ResinSubType",
+     "Title": "樹脂子類型",
+     "Component": "Input",
+     "Section": "SecRecv",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 50,
+       "Message": "長度不可超過 50"
+      }
+     ]
+    },
+    {
+     "BindField": "SystemName",
+     "Title": "系統名稱",
+     "Component": "Input",
+     "Section": "SecRecv",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 100,
+       "Message": "長度不可超過 100"
+      }
+     ]
+    },
+    {
+     "BindField": "OtherSampleNote",
+     "Title": "其他樣品說明",
+     "Component": "Input",
+     "Section": "SecRecv",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 200,
+       "Message": "長度不可超過 200"
+      }
+     ]
+    },
+    {
+     "BindField": "Urgency",
+     "Title": "時效",
+     "Component": "Select",
+     "Section": "SecRecv",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "Required",
+       "Message": "時效為必填"
+      }
+     ],
+     "Props": {
+      "OptionKey": "Urgency"
+     },
+     "DefaultValue": "B"
+    },
+    {
+     "BindField": "IsTafRequired",
+     "Title": "是否需要 TAF Logo",
+     "Component": "Input",
+     "Section": "SecRecv",
+     "Span": 12,
+     "Mode": "Editable"
+    },
+    {
+     "BindField": "BaseCost",
+     "Title": "基本費用",
+     "Component": "Input",
+     "Section": "SecRecv",
+     "Span": 12,
+     "Mode": "Editable",
+     "Props": {
+      "Type": "number"
+     }
+    },
+    {
+     "BindField": "ExtraCost",
+     "Title": "額外費用",
+     "Component": "Input",
+     "Section": "SecRecv",
+     "Span": 12,
+     "Mode": "Editable",
+     "Props": {
+      "Type": "number"
+     }
+    },
+    {
+     "BindField": "TotalCost",
+     "Title": "[計算欄位] 總費用",
+     "Component": "Input",
+     "Section": "SecRecv",
+     "Span": 12,
+     "Mode": "Editable"
+    },
+    {
+     "BindField": "FlowStage",
+     "Title": "目前流程階段",
+     "Component": "Select",
+     "Section": "SecRecv",
+     "Span": 12,
+     "Mode": "Editable",
+     "Props": {
+      "OptionKey": "FlowStage"
+     },
+     "DefaultValue": "AP"
+    },
+    {
+     "BindField": "FlowHandler",
+     "Title": "目前處理人員",
+     "Component": "Input",
+     "Section": "SecRecv",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 100,
+       "Message": "長度不可超過 100"
+      }
+     ]
+    },
+    {
+     "BindField": "SubmittedAt",
+     "Title": "正式送出時間",
+     "Component": "DatePicker",
+     "Section": "SecRecv",
+     "Span": 12,
+     "Mode": "Editable",
+     "Props": {
+      "Mode": "Editable",
+      "ShowTime": false
+     }
+    },
+    {
+     "BindField": "CustomerNote",
+     "Title": "備註",
+     "Component": "Textarea",
+     "Section": "SecRecv",
+     "Span": 24,
+     "Mode": "Editable",
+     "Props": {
+      "Rows": 3
+     }
+    },
+    {
+     "BindField": "Description",
+     "Title": "內部備註",
+     "Component": "Textarea",
+     "Section": "SecRecv",
+     "Span": 24,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 500,
+       "Message": "長度不可超過 500"
+      }
+     ],
+     "Props": {
+      "Rows": 3
+     }
+    },
+    {
+     "BindField": "Attributes",
+     "Title": "擴展屬性",
+     "Component": "Textarea",
+     "Section": "SecExtra",
+     "Span": 24,
+     "Mode": "Editable",
+     "Props": {
+      "Rows": 3
+     }
+    },
+    {
+     "BindField": "Status",
+     "Title": "啟用狀態",
+     "Component": "Select",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "DefaultValue": "1",
+     "Props": {
+      "OptionKey": "Status"
+     }
+    },
+    {
+     "BindField": "CreatedBy",
+     "Title": "建立者帳號",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "ReadOnly"
+    },
+    {
+     "BindField": "CreatedAt",
+     "Title": "資料建立日期時間",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "ReadOnly"
+    },
+    {
+     "BindField": "UpdatedBy",
+     "Title": "最後更新者帳號",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "ReadOnly"
+    },
+    {
+     "BindField": "UpdatedAt",
+     "Title": "最後更新日期時間",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "ReadOnly"
+    }
+   ]
+  },
+  "DetailViews": [
+   {
+    "DetailID": "Sample",
+    "Title": "委託樣品",
+    "Icon": "ri-flask-line",
+    "Entity": "labTes_RequestSample",
+    "RelationKey": "RequestNo",
+    "RowKey": "RowGuid",
+    "AllowAdd": true,
+    "AllowEdit": true,
+    "AllowDelete": true,
+    "EmptyText": "尚無委託樣品資料",
+    "CodeSets": {
+     "Status": [
+      {
+       "CodeID": "1",
+       "CodeName": "啟用",
+       "IsDefault": true
+      },
+      {
+       "CodeID": "0",
+       "CodeName": "停用"
+      }
+     ],
+     "Priority": [
+      {
+       "CodeID": "A",
+       "CodeName": "急件"
+      },
+      {
+       "CodeID": "B",
+       "CodeName": "高"
+      },
+      {
+       "CodeID": "C",
+       "CodeName": "一般",
+       "IsDefault": true
+      },
+      {
+       "CodeID": "D",
+       "CodeName": "低"
+      }
+     ]
+    },
+    "Columns": [
+     {
+      "BindField": "RequestGuid",
+      "Title": "所屬申請單",
+      "Width": 120,
+      "Align": "Left"
+     },
+     {
+      "BindField": "ItemNo",
+      "Title": "序號",
+      "Width": 120,
+      "Align": "Center"
+     },
+     {
+      "BindField": "SampleName",
+      "Title": "樣品名稱",
+      "Width": 120,
+      "Align": "Left"
+     },
+     {
+      "BindField": "SampleVolume",
+      "Title": "樣品量",
+      "Width": 120,
+      "Align": "Left"
+     },
+     {
+      "BindField": "ContainerCount",
+      "Title": "罐數",
+      "Width": 120,
+      "Align": "Center"
+     }
+    ],
+    "FormFields": [
+     {
+      "BindField": "RequestGuid",
+      "Title": "所屬申請單",
+      "Component": "Input",
+      "Section": "",
+      "Span": 12,
+      "Mode": "ReadOnly",
+      "Validations": [
+       {
+        "Rule": "Required",
+        "Message": "所屬申請單為必填"
+       }
+      ]
+     },
+     {
+      "BindField": "ItemNo",
+      "Title": "序號",
+      "Component": "Input",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Validations": [
+       {
+        "Rule": "Required",
+        "Message": "序號為必填"
+       }
+      ],
+      "Props": {
+       "Type": "number"
+      }
+     },
+     {
+      "BindField": "SampleName",
+      "Title": "樣品名稱",
+      "Component": "Input",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Validations": [
+       {
+        "Rule": "Required",
+        "Message": "樣品名稱為必填"
+       },
+       {
+        "Rule": "MaxLength",
+        "Value": 200,
+        "Message": "長度不可超過 200"
+       }
+      ]
+     },
+     {
+      "BindField": "SampleVolume",
+      "Title": "樣品量",
+      "Component": "Input",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Validations": [
+       {
+        "Rule": "MaxLength",
+        "Value": 50,
+        "Message": "長度不可超過 50"
+       }
+      ]
+     },
+     {
+      "BindField": "ContainerCount",
+      "Title": "罐數",
+      "Component": "Input",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Props": {
+       "Type": "number"
+      }
+     },
+     {
+      "BindField": "SamplingDate",
+      "Title": "抽樣日期",
+      "Component": "DatePicker",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Props": {
+       "Mode": "Editable",
+       "ShowTime": false
+      }
+     },
+     {
+      "BindField": "SamplingPoint",
+      "Title": "採樣點名稱",
+      "Component": "Input",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Validations": [
+       {
+        "Rule": "MaxLength",
+        "Value": 200,
+        "Message": "長度不可超過 200"
+       }
+      ]
+     },
+     {
+      "BindField": "PreserveMethod",
+      "Title": "保存方式",
+      "Component": "Input",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Validations": [
+       {
+        "Rule": "MaxLength",
+        "Value": 50,
+        "Message": "長度不可超過 50"
+       }
+      ]
+     },
+     {
+      "BindField": "AcidType",
+      "Title": "加酸類型",
+      "Component": "Input",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Validations": [
+       {
+        "Rule": "MaxLength",
+        "Value": 50,
+        "Message": "長度不可超過 50"
+       }
+      ]
+     },
+     {
+      "BindField": "AcidPH",
+      "Title": "加酸後 pH 值",
+      "Component": "Input",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Validations": [
+       {
+        "Rule": "MaxLength",
+        "Value": 20,
+        "Message": "長度不可超過 20"
+       }
+      ]
+     },
+     {
+      "BindField": "PreserveNote",
+      "Title": "保存方式備註",
+      "Component": "Input",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Validations": [
+       {
+        "Rule": "MaxLength",
+        "Value": 200,
+        "Message": "長度不可超過 200"
+       }
+      ]
+     },
+     {
+      "BindField": "ResinType",
+      "Title": "樹脂樣品類型",
+      "Component": "Input",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Validations": [
+       {
+        "Rule": "MaxLength",
+        "Value": 50,
+        "Message": "長度不可超過 50"
+       }
+      ]
+     },
+     {
+      "BindField": "ResinBrand",
+      "Title": "廠牌&型號",
+      "Component": "Input",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Validations": [
+       {
+        "Rule": "MaxLength",
+        "Value": 200,
+        "Message": "長度不可超過 200"
+       }
+      ]
+     },
+     {
+      "BindField": "TankNo",
+      "Title": "塔槽編號",
+      "Component": "Input",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Validations": [
+       {
+        "Rule": "MaxLength",
+        "Value": 100,
+        "Message": "長度不可超過 100"
+       }
+      ]
+     },
+     {
+      "BindField": "ControlNo",
+      "Title": "管制編號",
+      "Component": "Input",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Validations": [
+       {
+        "Rule": "MaxLength",
+        "Value": 100,
+        "Message": "長度不可超過 100"
+       }
+      ]
+     },
+     {
+      "BindField": "ManifestNo",
+      "Title": "聯單編號",
+      "Component": "Input",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Validations": [
+       {
+        "Rule": "MaxLength",
+        "Value": 100,
+        "Message": "長度不可超過 100"
+       }
+      ]
+     },
+     {
+      "BindField": "ServiceYears",
+      "Title": "使用年限",
+      "Component": "Input",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Validations": [
+       {
+        "Rule": "MaxLength",
+        "Value": 50,
+        "Message": "長度不可超過 50"
+       }
+      ]
+     },
+     {
+      "BindField": "RegenCount",
+      "Title": "再生次數",
+      "Component": "Input",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Validations": [
+       {
+        "Rule": "MaxLength",
+        "Value": 50,
+        "Message": "長度不可超過 50"
+       }
+      ]
+     },
+     {
+      "BindField": "ResinTestType",
+      "Title": "樹脂檢測類別",
+      "Component": "Input",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Validations": [
+       {
+        "Rule": "MaxLength",
+        "Value": 50,
+        "Message": "長度不可超過 50"
+       }
+      ]
+     },
+     {
+      "BindField": "ChkContainer",
+      "Title": "容器查驗",
+      "Component": "Input",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Validations": [
+       {
+        "Rule": "MaxLength",
+        "Value": 10,
+        "Message": "長度不可超過 10"
+       }
+      ]
+     },
+     {
+      "BindField": "ChkPreserve",
+      "Title": "保存方式查驗",
+      "Component": "Input",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Validations": [
+       {
+        "Rule": "MaxLength",
+        "Value": 10,
+        "Message": "長度不可超過 10"
+       }
+      ]
+     },
+     {
+      "BindField": "ChkVolume",
+      "Title": "樣品量查驗",
+      "Component": "Input",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Validations": [
+       {
+        "Rule": "MaxLength",
+        "Value": 10,
+        "Message": "長度不可超過 10"
+       }
+      ]
+     },
+     {
+      "BindField": "ChkExpiry",
+      "Title": "保存期限查驗",
+      "Component": "Input",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Validations": [
+       {
+        "Rule": "MaxLength",
+        "Value": 10,
+        "Message": "長度不可超過 10"
+       }
+      ]
+     },
+     {
+      "BindField": "ChkIntegrity",
+      "Title": "樣品完整性查驗",
+      "Component": "Input",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Validations": [
+       {
+        "Rule": "MaxLength",
+        "Value": 10,
+        "Message": "長度不可超過 10"
+       }
+      ]
+     },
+     {
+      "BindField": "IsAutoChecked",
+      "Title": "是否由系統自動判定",
+      "Component": "Input",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable"
+     },
+     {
+      "BindField": "Remark",
+      "Title": "備註",
+      "Component": "Textarea",
+      "Section": "",
+      "Span": 24,
+      "Mode": "Editable",
+      "Validations": [
+       {
+        "Rule": "MaxLength",
+        "Value": 500,
+        "Message": "長度不可超過 500"
+       }
+      ],
+      "Props": {
+       "Rows": 3
+      }
+     },
+     {
+      "BindField": "Attributes",
+      "Title": "擴展屬性",
+      "Component": "Textarea",
+      "Section": "",
+      "Span": 24,
+      "Mode": "Editable",
+      "Props": {
+       "Rows": 3
+      }
+     }
+    ],
+    "SeedData": [
+     {
+      "RowGuid": "00000348-0000-0000-0001-000000000001",
+      "EntityID": "lab",
+      "Status": "1",
+      "RequestNo": "R-2026-0001",
+      "RequestGuid": "所屬申請單02",
+      "ItemNo": 82,
+      "SampleName": "化學需氧量 COD",
+      "SampleVolume": "樣品量02",
+      "ContainerCount": 146,
+      "SamplingDate": "2025-01-13",
+      "SamplingPoint": "化學需氧量 COD",
+      "PreserveMethod": "NIEA W508.05B",
+      "AcidType": "加酸類型02",
+      "AcidPH": "加酸後 pH 值02",
+      "PreserveNote": "急件已加收費用",
+      "ResinType": "樹脂樣品類型02",
+      "ResinBrand": "Agilent",
+      "TankNo": "RS-2026-0002",
+      "ControlNo": "RS-2025-0002",
+      "ManifestNo": "RS-2026-0002",
+      "ServiceYears": "使用年限02",
+      "RegenCount": "再生次數02",
+      "ResinTestType": "樹脂檢測類別02",
+      "ChkContainer": "容器查驗02",
+      "ChkPreserve": "保存方式查驗02",
+      "ChkVolume": "樣品量查驗02",
+      "ChkExpiry": "保存期限查驗02",
+      "ChkIntegrity": "樣品完整性查驗02",
+      "IsAutoChecked": "是否由系統自動判定02",
+      "Remark": "",
+      "Attributes": "擴展屬性02"
+     },
+     {
+      "RowGuid": "00000348-0000-0000-0001-000000000002",
+      "EntityID": "lab",
+      "Status": "1",
+      "RequestNo": "R-2026-0001",
+      "RequestGuid": "所屬申請單03",
+      "ItemNo": 36,
+      "SampleName": "生化需氧量 BOD",
+      "SampleVolume": "樣品量03",
+      "ContainerCount": 68,
+      "SamplingDate": "2025-07-23",
+      "SamplingPoint": "生化需氧量 BOD",
+      "PreserveMethod": "CNS 13289",
+      "AcidType": "加酸類型03",
+      "AcidPH": "加酸後 pH 值03",
+      "PreserveNote": "",
+      "ResinType": "樹脂樣品類型03",
+      "ResinBrand": "Agilent",
+      "TankNo": "RS-2026-0003",
+      "ControlNo": "RS-2025-0003",
+      "ManifestNo": "RS-2026-0003",
+      "ServiceYears": "使用年限03",
+      "RegenCount": "再生次數03",
+      "ResinTestType": "樹脂檢測類別03",
+      "ChkContainer": "容器查驗03",
+      "ChkPreserve": "保存方式查驗03",
+      "ChkVolume": "樣品量查驗03",
+      "ChkExpiry": "保存期限查驗03",
+      "ChkIntegrity": "樣品完整性查驗03",
+      "IsAutoChecked": "是否由系統自動判定03",
+      "Remark": "",
+      "Attributes": "擴展屬性03"
+     },
+     {
+      "RowGuid": "00000348-0000-0000-0001-000000000003",
+      "EntityID": "lab",
+      "Status": "1",
+      "RequestNo": "R-2026-0001",
+      "RequestGuid": "所屬申請單04",
+      "ItemNo": 87,
+      "SampleName": "懸浮固體 SS",
+      "SampleVolume": "樣品量04",
+      "ContainerCount": 36,
+      "SamplingDate": "2026-04-14",
+      "SamplingPoint": "懸浮固體 SS",
+      "PreserveMethod": "NIEA W424.53A",
+      "AcidType": "加酸類型04",
+      "AcidPH": "加酸後 pH 值04",
+      "PreserveNote": "",
+      "ResinType": "樹脂樣品類型04",
+      "ResinBrand": "Thermo Fisher",
+      "TankNo": "RS-2026-0004",
+      "ControlNo": "RS-2026-0004",
+      "ManifestNo": "RS-2026-0004",
+      "ServiceYears": "使用年限04",
+      "RegenCount": "再生次數04",
+      "ResinTestType": "樹脂檢測類別04",
+      "ChkContainer": "容器查驗04",
+      "ChkPreserve": "保存方式查驗04",
+      "ChkVolume": "樣品量查驗04",
+      "ChkExpiry": "保存期限查驗04",
+      "ChkIntegrity": "樣品完整性查驗04",
+      "IsAutoChecked": "是否由系統自動判定04",
+      "Remark": "",
+      "Attributes": "擴展屬性04"
+     },
+     {
+      "RowGuid": "00000348-0000-0000-0001-000000000004",
+      "EntityID": "lab",
+      "Status": "1",
+      "RequestNo": "R-2026-0001",
+      "RequestGuid": "所屬申請單05",
+      "ItemNo": 80,
+      "SampleName": "氨氮 NH3-N",
+      "SampleVolume": "樣品量05",
+      "ContainerCount": 93,
+      "SamplingDate": "2025-09-10",
+      "SamplingPoint": "氨氮 NH3-N",
+      "PreserveMethod": "SM 4500-P",
+      "AcidType": "加酸類型05",
+      "AcidPH": "加酸後 pH 值05",
+      "PreserveNote": "",
+      "ResinType": "樹脂樣品類型05",
+      "ResinBrand": "Mettler Toledo",
+      "TankNo": "RS-2026-0005",
+      "ControlNo": "RS-2026-0005",
+      "ManifestNo": "RS-2025-0005",
+      "ServiceYears": "使用年限05",
+      "RegenCount": "再生次數05",
+      "ResinTestType": "樹脂檢測類別05",
+      "ChkContainer": "容器查驗05",
+      "ChkPreserve": "保存方式查驗05",
+      "ChkVolume": "樣品量查驗05",
+      "ChkExpiry": "保存期限查驗05",
+      "ChkIntegrity": "樣品完整性查驗05",
+      "IsAutoChecked": "是否由系統自動判定05",
+      "Remark": "樣品外觀正常",
+      "Attributes": "擴展屬性05"
+     },
+     {
+      "RowGuid": "00000348-0000-0000-0001-000000000005",
+      "EntityID": "lab",
+      "Status": "1",
+      "RequestNo": "R-2025-0002",
+      "RequestGuid": "所屬申請單06",
+      "ItemNo": 27,
+      "SampleName": "硝酸鹽氮",
+      "SampleVolume": "樣品量06",
+      "ContainerCount": 93,
+      "SamplingDate": "2026-03-02",
+      "SamplingPoint": "硝酸鹽氮",
+      "PreserveMethod": "CNS 11423",
+      "AcidType": "加酸類型06",
+      "AcidPH": "加酸後 pH 值06",
+      "PreserveNote": "",
+      "ResinType": "樹脂樣品類型06",
+      "ResinBrand": "PerkinElmer",
+      "TankNo": "RS-2025-0006",
+      "ControlNo": "RS-2025-0006",
+      "ManifestNo": "RS-2025-0006",
+      "ServiceYears": "使用年限06",
+      "RegenCount": "再生次數06",
+      "ResinTestType": "樹脂檢測類別06",
+      "ChkContainer": "容器查驗06",
+      "ChkPreserve": "保存方式查驗06",
+      "ChkVolume": "樣品量查驗06",
+      "ChkExpiry": "保存期限查驗06",
+      "ChkIntegrity": "樣品完整性查驗06",
+      "IsAutoChecked": "是否由系統自動判定06",
+      "Remark": "",
+      "Attributes": "擴展屬性06"
+     },
+     {
+      "RowGuid": "00000348-0000-0000-0001-000000000006",
+      "EntityID": "lab",
+      "Status": "1",
+      "RequestNo": "R-2025-0002",
+      "RequestGuid": "所屬申請單07",
+      "ItemNo": 97,
+      "SampleName": "鎘 Cd",
+      "SampleVolume": "樣品量07",
+      "ContainerCount": 145,
+      "SamplingDate": "2025-01-19",
+      "SamplingPoint": "鎘 Cd",
+      "PreserveMethod": "SM 4500-P",
+      "AcidType": "加酸類型07",
+      "AcidPH": "加酸後 pH 值07",
+      "PreserveNote": "待主管覆核",
+      "ResinType": "樹脂樣品類型07",
+      "ResinBrand": "Thermo Fisher",
+      "TankNo": "RS-2026-0007",
+      "ControlNo": "RS-2026-0007",
+      "ManifestNo": "RS-2025-0007",
+      "ServiceYears": "使用年限07",
+      "RegenCount": "再生次數07",
+      "ResinTestType": "樹脂檢測類別07",
+      "ChkContainer": "容器查驗07",
+      "ChkPreserve": "保存方式查驗07",
+      "ChkVolume": "樣品量查驗07",
+      "ChkExpiry": "保存期限查驗07",
+      "ChkIntegrity": "樣品完整性查驗07",
+      "IsAutoChecked": "是否由系統自動判定07",
+      "Remark": "",
+      "Attributes": "擴展屬性07"
+     },
+     {
+      "RowGuid": "00000348-0000-0000-0001-000000000007",
+      "EntityID": "lab",
+      "Status": "1",
+      "RequestNo": "R-2025-0002",
+      "RequestGuid": "所屬申請單08",
+      "ItemNo": 52,
+      "SampleName": "鉛 Pb",
+      "SampleVolume": "樣品量08",
+      "ContainerCount": 166,
+      "SamplingDate": "2026-06-09",
+      "SamplingPoint": "鉛 Pb",
+      "PreserveMethod": "SM 4500-P",
+      "AcidType": "加酸類型08",
+      "AcidPH": "加酸後 pH 值08",
+      "PreserveNote": "",
+      "ResinType": "樹脂樣品類型08",
+      "ResinBrand": "Thermo Fisher",
+      "TankNo": "RS-2025-0008",
+      "ControlNo": "RS-2025-0008",
+      "ManifestNo": "RS-2026-0008",
+      "ServiceYears": "使用年限08",
+      "RegenCount": "再生次數08",
+      "ResinTestType": "樹脂檢測類別08",
+      "ChkContainer": "容器查驗08",
+      "ChkPreserve": "保存方式查驗08",
+      "ChkVolume": "樣品量查驗08",
+      "ChkExpiry": "保存期限查驗08",
+      "ChkIntegrity": "樣品完整性查驗08",
+      "IsAutoChecked": "是否由系統自動判定08",
+      "Remark": "",
+      "Attributes": "擴展屬性08"
+     },
+     {
+      "RowGuid": "00000348-0000-0000-0001-000000000008",
+      "EntityID": "lab",
+      "Status": "1",
+      "RequestNo": "R-2026-0003",
+      "RequestGuid": "所屬申請單09",
+      "ItemNo": 47,
+      "SampleName": "銅 Cu",
+      "SampleVolume": "樣品量09",
+      "ContainerCount": 199,
+      "SamplingDate": "2026-07-17",
+      "SamplingPoint": "銅 Cu",
+      "PreserveMethod": "SM 4500-P",
+      "AcidType": "加酸類型09",
+      "AcidPH": "加酸後 pH 值09",
+      "PreserveNote": "",
+      "ResinType": "樹脂樣品類型09",
+      "ResinBrand": "Shimadzu",
+      "TankNo": "RS-2025-0009",
+      "ControlNo": "RS-2025-0009",
+      "ManifestNo": "RS-2025-0009",
+      "ServiceYears": "使用年限09",
+      "RegenCount": "再生次數09",
+      "ResinTestType": "樹脂檢測類別09",
+      "ChkContainer": "容器查驗09",
+      "ChkPreserve": "保存方式查驗09",
+      "ChkVolume": "樣品量查驗09",
+      "ChkExpiry": "保存期限查驗09",
+      "ChkIntegrity": "樣品完整性查驗09",
+      "IsAutoChecked": "是否由系統自動判定09",
+      "Remark": "",
+      "Attributes": "擴展屬性09"
+     },
+     {
+      "RowGuid": "00000348-0000-0000-0001-000000000009",
+      "EntityID": "lab",
+      "Status": "1",
+      "RequestNo": "R-2026-0003",
+      "RequestGuid": "所屬申請單10",
+      "ItemNo": 57,
+      "SampleName": "鋅 Zn",
+      "SampleVolume": "樣品量10",
+      "ContainerCount": 69,
+      "SamplingDate": "2025-02-08",
+      "SamplingPoint": "鋅 Zn",
+      "PreserveMethod": "NIEA W424.53A",
+      "AcidType": "加酸類型10",
+      "AcidPH": "加酸後 pH 值10",
+      "PreserveNote": "",
+      "ResinType": "樹脂樣品類型10",
+      "ResinBrand": "PerkinElmer",
+      "TankNo": "RS-2025-0010",
+      "ControlNo": "RS-2026-0010",
+      "ManifestNo": "RS-2026-0010",
+      "ServiceYears": "使用年限10",
+      "RegenCount": "再生次數10",
+      "ResinTestType": "樹脂檢測類別10",
+      "ChkContainer": "容器查驗10",
+      "ChkPreserve": "保存方式查驗10",
+      "ChkVolume": "樣品量查驗10",
+      "ChkExpiry": "保存期限查驗10",
+      "ChkIntegrity": "樣品完整性查驗10",
+      "IsAutoChecked": "是否由系統自動判定10",
+      "Remark": "樣品外觀正常",
+      "Attributes": "擴展屬性10"
+     },
+     {
+      "RowGuid": "00000348-0000-0000-0001-000000000010",
+      "EntityID": "lab",
+      "Status": "1",
+      "RequestNo": "R-2026-0004",
+      "RequestGuid": "所屬申請單11",
+      "ItemNo": 41,
+      "SampleName": "pH值",
+      "SampleVolume": "樣品量11",
+      "ContainerCount": 7,
+      "SamplingDate": "2025-02-23",
+      "SamplingPoint": "pH值",
+      "PreserveMethod": "NIEA W415.55B",
+      "AcidType": "加酸類型11",
+      "AcidPH": "加酸後 pH 值11",
+      "PreserveNote": "複驗確認無誤",
+      "ResinType": "樹脂樣品類型11",
+      "ResinBrand": "Mettler Toledo",
+      "TankNo": "RS-2026-0011",
+      "ControlNo": "RS-2026-0011",
+      "ManifestNo": "RS-2026-0011",
+      "ServiceYears": "使用年限11",
+      "RegenCount": "再生次數11",
+      "ResinTestType": "樹脂檢測類別11",
+      "ChkContainer": "容器查驗11",
+      "ChkPreserve": "保存方式查驗11",
+      "ChkVolume": "樣品量查驗11",
+      "ChkExpiry": "保存期限查驗11",
+      "ChkIntegrity": "樣品完整性查驗11",
+      "IsAutoChecked": "是否由系統自動判定11",
+      "Remark": "急件已加收費用",
+      "Attributes": "擴展屬性11"
+     },
+     {
+      "RowGuid": "00000348-0000-0000-0001-000000000011",
+      "EntityID": "lab",
+      "Status": "1",
+      "RequestNo": "R-2026-0004",
+      "RequestGuid": "所屬申請單12",
+      "ItemNo": 51,
+      "SampleName": "導電度",
+      "SampleVolume": "樣品量12",
+      "ContainerCount": 132,
+      "SamplingDate": "2025-05-23",
+      "SamplingPoint": "導電度",
+      "PreserveMethod": "NIEA W415.55B",
+      "AcidType": "加酸類型12",
+      "AcidPH": "加酸後 pH 值12",
+      "PreserveNote": "",
+      "ResinType": "樹脂樣品類型12",
+      "ResinBrand": "HACH",
+      "TankNo": "RS-2026-0012",
+      "ControlNo": "RS-2026-0012",
+      "ManifestNo": "RS-2025-0012",
+      "ServiceYears": "使用年限12",
+      "RegenCount": "再生次數12",
+      "ResinTestType": "樹脂檢測類別12",
+      "ChkContainer": "容器查驗12",
+      "ChkPreserve": "保存方式查驗12",
+      "ChkVolume": "樣品量查驗12",
+      "ChkExpiry": "保存期限查驗12",
+      "ChkIntegrity": "樣品完整性查驗12",
+      "IsAutoChecked": "是否由系統自動判定12",
+      "Remark": "待主管覆核",
+      "Attributes": "擴展屬性12"
+     },
+     {
+      "RowGuid": "00000348-0000-0000-0001-000000000012",
+      "EntityID": "lab",
+      "Status": "1",
+      "RequestNo": "R-2026-0004",
+      "RequestGuid": "所屬申請單13",
+      "ItemNo": 26,
+      "SampleName": "濁度",
+      "SampleVolume": "樣品量13",
+      "ContainerCount": 7,
+      "SamplingDate": "2026-03-05",
+      "SamplingPoint": "濁度",
+      "PreserveMethod": "NIEA W415.55B",
+      "AcidType": "加酸類型13",
+      "AcidPH": "加酸後 pH 值13",
+      "PreserveNote": "",
+      "ResinType": "樹脂樣品類型13",
+      "ResinBrand": "HACH",
+      "TankNo": "RS-2025-0013",
+      "ControlNo": "RS-2025-0013",
+      "ManifestNo": "RS-2025-0013",
+      "ServiceYears": "使用年限13",
+      "RegenCount": "再生次數13",
+      "ResinTestType": "樹脂檢測類別13",
+      "ChkContainer": "容器查驗13",
+      "ChkPreserve": "保存方式查驗13",
+      "ChkVolume": "樣品量查驗13",
+      "ChkExpiry": "保存期限查驗13",
+      "ChkIntegrity": "樣品完整性查驗13",
+      "IsAutoChecked": "是否由系統自動判定13",
+      "Remark": "",
+      "Attributes": "擴展屬性13"
+     },
+     {
+      "RowGuid": "00000348-0000-0000-0001-000000000013",
+      "EntityID": "lab",
+      "Status": "1",
+      "RequestNo": "R-2026-0005",
+      "RequestGuid": "所屬申請單14",
+      "ItemNo": 100,
+      "SampleName": "大腸桿菌群",
+      "SampleVolume": "樣品量14",
+      "ContainerCount": 134,
+      "SamplingDate": "2025-10-21",
+      "SamplingPoint": "大腸桿菌群",
+      "PreserveMethod": "NIEA W415.55B",
+      "AcidType": "加酸類型14",
+      "AcidPH": "加酸後 pH 值14",
+      "PreserveNote": "",
+      "ResinType": "樹脂樣品類型14",
+      "ResinBrand": "Shimadzu",
+      "TankNo": "RS-2025-0014",
+      "ControlNo": "RS-2025-0014",
+      "ManifestNo": "RS-2025-0014",
+      "ServiceYears": "使用年限14",
+      "RegenCount": "再生次數14",
+      "ResinTestType": "樹脂檢測類別14",
+      "ChkContainer": "容器查驗14",
+      "ChkPreserve": "保存方式查驗14",
+      "ChkVolume": "樣品量查驗14",
+      "ChkExpiry": "保存期限查驗14",
+      "ChkIntegrity": "樣品完整性查驗14",
+      "IsAutoChecked": "是否由系統自動判定14",
+      "Remark": "",
+      "Attributes": "擴展屬性14"
+     },
+     {
+      "RowGuid": "00000348-0000-0000-0001-000000000014",
+      "EntityID": "lab",
+      "Status": "1",
+      "RequestNo": "R-2026-0005",
+      "RequestGuid": "所屬申請單15",
+      "ItemNo": 41,
+      "SampleName": "總有機碳 TOC",
+      "SampleVolume": "樣品量15",
+      "ContainerCount": 194,
+      "SamplingDate": "2025-08-03",
+      "SamplingPoint": "總有機碳 TOC",
+      "PreserveMethod": "SM 4500-P",
+      "AcidType": "加酸類型15",
+      "AcidPH": "加酸後 pH 值15",
+      "PreserveNote": "",
+      "ResinType": "樹脂樣品類型15",
+      "ResinBrand": "PerkinElmer",
+      "TankNo": "RS-2026-0015",
+      "ControlNo": "RS-2025-0015",
+      "ManifestNo": "RS-2026-0015",
+      "ServiceYears": "使用年限15",
+      "RegenCount": "再生次數15",
+      "ResinTestType": "樹脂檢測類別15",
+      "ChkContainer": "容器查驗15",
+      "ChkPreserve": "保存方式查驗15",
+      "ChkVolume": "樣品量查驗15",
+      "ChkExpiry": "保存期限查驗15",
+      "ChkIntegrity": "樣品完整性查驗15",
+      "IsAutoChecked": "是否由系統自動判定15",
+      "Remark": "",
+      "Attributes": "擴展屬性15"
+     },
+     {
+      "RowGuid": "00000348-0000-0000-0001-000000000015",
+      "EntityID": "lab",
+      "Status": "1",
+      "RequestNo": "R-2026-0005",
+      "RequestGuid": "所屬申請單16",
+      "ItemNo": 24,
+      "SampleName": "總磷 TP",
+      "SampleVolume": "樣品量16",
+      "ContainerCount": 103,
+      "SamplingDate": "2025-09-26",
+      "SamplingPoint": "總磷 TP",
+      "PreserveMethod": "CNS 13289",
+      "AcidType": "加酸類型16",
+      "AcidPH": "加酸後 pH 值16",
+      "PreserveNote": "",
+      "ResinType": "樹脂樣品類型16",
+      "ResinBrand": "PerkinElmer",
+      "TankNo": "RS-2026-0016",
+      "ControlNo": "RS-2025-0016",
+      "ManifestNo": "RS-2026-0016",
+      "ServiceYears": "使用年限16",
+      "RegenCount": "再生次數16",
+      "ResinTestType": "樹脂檢測類別16",
+      "ChkContainer": "容器查驗16",
+      "ChkPreserve": "保存方式查驗16",
+      "ChkVolume": "樣品量查驗16",
+      "ChkExpiry": "保存期限查驗16",
+      "ChkIntegrity": "樣品完整性查驗16",
+      "IsAutoChecked": "是否由系統自動判定16",
+      "Remark": "定期校正合格",
+      "Attributes": "擴展屬性16"
+     },
+     {
+      "RowGuid": "00000348-0000-0000-0001-000000000016",
+      "EntityID": "lab",
+      "Status": "1",
+      "RequestNo": "R-2026-0005",
+      "RequestGuid": "所屬申請單17",
+      "ItemNo": 1,
+      "SampleName": "化學需氧量 COD",
+      "SampleVolume": "樣品量17",
+      "ContainerCount": 102,
+      "SamplingDate": "2026-05-11",
+      "SamplingPoint": "化學需氧量 COD",
+      "PreserveMethod": "NIEA W415.55B",
+      "AcidType": "加酸類型17",
+      "AcidPH": "加酸後 pH 值17",
+      "PreserveNote": "急件已加收費用",
+      "ResinType": "樹脂樣品類型17",
+      "ResinBrand": "PerkinElmer",
+      "TankNo": "RS-2025-0017",
+      "ControlNo": "RS-2025-0017",
+      "ManifestNo": "RS-2025-0017",
+      "ServiceYears": "使用年限17",
+      "RegenCount": "再生次數17",
+      "ResinTestType": "樹脂檢測類別17",
+      "ChkContainer": "容器查驗17",
+      "ChkPreserve": "保存方式查驗17",
+      "ChkVolume": "樣品量查驗17",
+      "ChkExpiry": "保存期限查驗17",
+      "ChkIntegrity": "樣品完整性查驗17",
+      "IsAutoChecked": "是否由系統自動判定17",
+      "Remark": "",
+      "Attributes": "擴展屬性17"
+     },
+     {
+      "RowGuid": "00000348-0000-0000-0001-000000000017",
+      "EntityID": "lab",
+      "Status": "1",
+      "RequestNo": "R-2025-0006",
+      "RequestGuid": "所屬申請單18",
+      "ItemNo": 78,
+      "SampleName": "生化需氧量 BOD",
+      "SampleVolume": "樣品量18",
+      "ContainerCount": 72,
+      "SamplingDate": "2025-07-22",
+      "SamplingPoint": "生化需氧量 BOD",
+      "PreserveMethod": "EPA 200.8",
+      "AcidType": "加酸類型18",
+      "AcidPH": "加酸後 pH 值18",
+      "PreserveNote": "",
+      "ResinType": "樹脂樣品類型18",
+      "ResinBrand": "HACH",
+      "TankNo": "RS-2026-0018",
+      "ControlNo": "RS-2026-0018",
+      "ManifestNo": "RS-2025-0018",
+      "ServiceYears": "使用年限18",
+      "RegenCount": "再生次數18",
+      "ResinTestType": "樹脂檢測類別18",
+      "ChkContainer": "容器查驗18",
+      "ChkPreserve": "保存方式查驗18",
+      "ChkVolume": "樣品量查驗18",
+      "ChkExpiry": "保存期限查驗18",
+      "ChkIntegrity": "樣品完整性查驗18",
+      "IsAutoChecked": "是否由系統自動判定18",
+      "Remark": "",
+      "Attributes": "擴展屬性18"
+     },
+     {
+      "RowGuid": "00000348-0000-0000-0001-000000000018",
+      "EntityID": "lab",
+      "Status": "1",
+      "RequestNo": "R-2025-0006",
+      "RequestGuid": "所屬申請單19",
+      "ItemNo": 55,
+      "SampleName": "懸浮固體 SS",
+      "SampleVolume": "樣品量19",
+      "ContainerCount": 21,
+      "SamplingDate": "2025-05-23",
+      "SamplingPoint": "懸浮固體 SS",
+      "PreserveMethod": "JIS K0102",
+      "AcidType": "加酸類型19",
+      "AcidPH": "加酸後 pH 值19",
+      "PreserveNote": "樣品外觀正常",
+      "ResinType": "樹脂樣品類型19",
+      "ResinBrand": "Agilent",
+      "TankNo": "RS-2026-0019",
+      "ControlNo": "RS-2026-0019",
+      "ManifestNo": "RS-2025-0019",
+      "ServiceYears": "使用年限19",
+      "RegenCount": "再生次數19",
+      "ResinTestType": "樹脂檢測類別19",
+      "ChkContainer": "容器查驗19",
+      "ChkPreserve": "保存方式查驗19",
+      "ChkVolume": "樣品量查驗19",
+      "ChkExpiry": "保存期限查驗19",
+      "ChkIntegrity": "樣品完整性查驗19",
+      "IsAutoChecked": "是否由系統自動判定19",
+      "Remark": "複驗確認無誤",
+      "Attributes": "擴展屬性19"
+     },
+     {
+      "RowGuid": "00000348-0000-0000-0001-000000000019",
+      "EntityID": "lab",
+      "Status": "1",
+      "RequestNo": "R-2026-0007",
+      "RequestGuid": "所屬申請單20",
+      "ItemNo": 97,
+      "SampleName": "氨氮 NH3-N",
+      "SampleVolume": "樣品量20",
+      "ContainerCount": 39,
+      "SamplingDate": "2026-06-01",
+      "SamplingPoint": "氨氮 NH3-N",
+      "PreserveMethod": "NIEA W415.55B",
+      "AcidType": "加酸類型20",
+      "AcidPH": "加酸後 pH 值20",
+      "PreserveNote": "定期校正合格",
+      "ResinType": "樹脂樣品類型20",
+      "ResinBrand": "PerkinElmer",
+      "TankNo": "RS-2026-0020",
+      "ControlNo": "RS-2026-0020",
+      "ManifestNo": "RS-2026-0020",
+      "ServiceYears": "使用年限20",
+      "RegenCount": "再生次數20",
+      "ResinTestType": "樹脂檢測類別20",
+      "ChkContainer": "容器查驗20",
+      "ChkPreserve": "保存方式查驗20",
+      "ChkVolume": "樣品量查驗20",
+      "ChkExpiry": "保存期限查驗20",
+      "ChkIntegrity": "樣品完整性查驗20",
+      "IsAutoChecked": "是否由系統自動判定20",
+      "Remark": "樣品外觀正常",
+      "Attributes": "擴展屬性20"
+     },
+     {
+      "RowGuid": "00000348-0000-0000-0001-000000000020",
+      "EntityID": "lab",
+      "Status": "1",
+      "RequestNo": "R-2026-0007",
+      "RequestGuid": "所屬申請單21",
+      "ItemNo": 67,
+      "SampleName": "硝酸鹽氮",
+      "SampleVolume": "樣品量21",
+      "ContainerCount": 54,
+      "SamplingDate": "2026-07-27",
+      "SamplingPoint": "硝酸鹽氮",
+      "PreserveMethod": "EPA 200.8",
+      "AcidType": "加酸類型21",
+      "AcidPH": "加酸後 pH 值21",
+      "PreserveNote": "待主管覆核",
+      "ResinType": "樹脂樣品類型21",
+      "ResinBrand": "Shimadzu",
+      "TankNo": "RS-2026-0021",
+      "ControlNo": "RS-2025-0021",
+      "ManifestNo": "RS-2025-0021",
+      "ServiceYears": "使用年限21",
+      "RegenCount": "再生次數21",
+      "ResinTestType": "樹脂檢測類別21",
+      "ChkContainer": "容器查驗21",
+      "ChkPreserve": "保存方式查驗21",
+      "ChkVolume": "樣品量查驗21",
+      "ChkExpiry": "保存期限查驗21",
+      "ChkIntegrity": "樣品完整性查驗21",
+      "IsAutoChecked": "是否由系統自動判定21",
+      "Remark": "待主管覆核",
+      "Attributes": "擴展屬性21"
+     },
+     {
+      "RowGuid": "00000348-0000-0000-0001-000000000021",
+      "EntityID": "lab",
+      "Status": "1",
+      "RequestNo": "R-2026-0008",
+      "RequestGuid": "所屬申請單22",
+      "ItemNo": 63,
+      "SampleName": "鎘 Cd",
+      "SampleVolume": "樣品量22",
+      "ContainerCount": 131,
+      "SamplingDate": "2026-03-04",
+      "SamplingPoint": "鎘 Cd",
+      "PreserveMethod": "EPA 200.8",
+      "AcidType": "加酸類型22",
+      "AcidPH": "加酸後 pH 值22",
+      "PreserveNote": "",
+      "ResinType": "樹脂樣品類型22",
+      "ResinBrand": "Agilent",
+      "TankNo": "RS-2026-0022",
+      "ControlNo": "RS-2025-0022",
+      "ManifestNo": "RS-2025-0022",
+      "ServiceYears": "使用年限22",
+      "RegenCount": "再生次數22",
+      "ResinTestType": "樹脂檢測類別22",
+      "ChkContainer": "容器查驗22",
+      "ChkPreserve": "保存方式查驗22",
+      "ChkVolume": "樣品量查驗22",
+      "ChkExpiry": "保存期限查驗22",
+      "ChkIntegrity": "樣品完整性查驗22",
+      "IsAutoChecked": "是否由系統自動判定22",
+      "Remark": "",
+      "Attributes": "擴展屬性22"
+     },
+     {
+      "RowGuid": "00000348-0000-0000-0001-000000000022",
+      "EntityID": "lab",
+      "Status": "1",
+      "RequestNo": "R-2026-0008",
+      "RequestGuid": "所屬申請單23",
+      "ItemNo": 92,
+      "SampleName": "鉛 Pb",
+      "SampleVolume": "樣品量23",
+      "ContainerCount": 58,
+      "SamplingDate": "2025-01-11",
+      "SamplingPoint": "鉛 Pb",
+      "PreserveMethod": "NIEA W508.05B",
+      "AcidType": "加酸類型23",
+      "AcidPH": "加酸後 pH 值23",
+      "PreserveNote": "",
+      "ResinType": "樹脂樣品類型23",
+      "ResinBrand": "PerkinElmer",
+      "TankNo": "RS-2026-0023",
+      "ControlNo": "RS-2026-0023",
+      "ManifestNo": "RS-2025-0023",
+      "ServiceYears": "使用年限23",
+      "RegenCount": "再生次數23",
+      "ResinTestType": "樹脂檢測類別23",
+      "ChkContainer": "容器查驗23",
+      "ChkPreserve": "保存方式查驗23",
+      "ChkVolume": "樣品量查驗23",
+      "ChkExpiry": "保存期限查驗23",
+      "ChkIntegrity": "樣品完整性查驗23",
+      "IsAutoChecked": "是否由系統自動判定23",
+      "Remark": "",
+      "Attributes": "擴展屬性23"
+     },
+     {
+      "RowGuid": "00000348-0000-0000-0001-000000000023",
+      "EntityID": "lab",
+      "Status": "1",
+      "RequestNo": "R-2026-0009",
+      "RequestGuid": "所屬申請單24",
+      "ItemNo": 47,
+      "SampleName": "銅 Cu",
+      "SampleVolume": "樣品量24",
+      "ContainerCount": 166,
+      "SamplingDate": "2026-11-14",
+      "SamplingPoint": "銅 Cu",
+      "PreserveMethod": "NIEA W508.05B",
+      "AcidType": "加酸類型24",
+      "AcidPH": "加酸後 pH 值24",
+      "PreserveNote": "",
+      "ResinType": "樹脂樣品類型24",
+      "ResinBrand": "Thermo Fisher",
+      "TankNo": "RS-2025-0024",
+      "ControlNo": "RS-2026-0024",
+      "ManifestNo": "RS-2026-0024",
+      "ServiceYears": "使用年限24",
+      "RegenCount": "再生次數24",
+      "ResinTestType": "樹脂檢測類別24",
+      "ChkContainer": "容器查驗24",
+      "ChkPreserve": "保存方式查驗24",
+      "ChkVolume": "樣品量查驗24",
+      "ChkExpiry": "保存期限查驗24",
+      "ChkIntegrity": "樣品完整性查驗24",
+      "IsAutoChecked": "是否由系統自動判定24",
+      "Remark": "待主管覆核",
+      "Attributes": "擴展屬性24"
+     },
+     {
+      "RowGuid": "00000348-0000-0000-0001-000000000024",
+      "EntityID": "lab",
+      "Status": "1",
+      "RequestNo": "R-2026-0009",
+      "RequestGuid": "所屬申請單25",
+      "ItemNo": 6,
+      "SampleName": "鋅 Zn",
+      "SampleVolume": "樣品量25",
+      "ContainerCount": 109,
+      "SamplingDate": "2025-06-19",
+      "SamplingPoint": "鋅 Zn",
+      "PreserveMethod": "JIS K0102",
+      "AcidType": "加酸類型25",
+      "AcidPH": "加酸後 pH 值25",
+      "PreserveNote": "",
+      "ResinType": "樹脂樣品類型25",
+      "ResinBrand": "Shimadzu",
+      "TankNo": "RS-2026-0025",
+      "ControlNo": "RS-2025-0025",
+      "ManifestNo": "RS-2025-0025",
+      "ServiceYears": "使用年限25",
+      "RegenCount": "再生次數25",
+      "ResinTestType": "樹脂檢測類別25",
+      "ChkContainer": "容器查驗25",
+      "ChkPreserve": "保存方式查驗25",
+      "ChkVolume": "樣品量查驗25",
+      "ChkExpiry": "保存期限查驗25",
+      "ChkIntegrity": "樣品完整性查驗25",
+      "IsAutoChecked": "是否由系統自動判定25",
+      "Remark": "",
+      "Attributes": "擴展屬性25"
+     },
+     {
+      "RowGuid": "00000348-0000-0000-0001-000000000025",
+      "EntityID": "lab",
+      "Status": "1",
+      "RequestNo": "R-2025-0010",
+      "RequestGuid": "所屬申請單26",
+      "ItemNo": 75,
+      "SampleName": "pH值",
+      "SampleVolume": "樣品量26",
+      "ContainerCount": 79,
+      "SamplingDate": "2025-08-06",
+      "SamplingPoint": "pH值",
+      "PreserveMethod": "ASTM D1193",
+      "AcidType": "加酸類型26",
+      "AcidPH": "加酸後 pH 值26",
+      "PreserveNote": "急件已加收費用",
+      "ResinType": "樹脂樣品類型26",
+      "ResinBrand": "Mettler Toledo",
+      "TankNo": "RS-2025-0026",
+      "ControlNo": "RS-2026-0026",
+      "ManifestNo": "RS-2025-0026",
+      "ServiceYears": "使用年限26",
+      "RegenCount": "再生次數26",
+      "ResinTestType": "樹脂檢測類別26",
+      "ChkContainer": "容器查驗26",
+      "ChkPreserve": "保存方式查驗26",
+      "ChkVolume": "樣品量查驗26",
+      "ChkExpiry": "保存期限查驗26",
+      "ChkIntegrity": "樣品完整性查驗26",
+      "IsAutoChecked": "是否由系統自動判定26",
+      "Remark": "",
+      "Attributes": "擴展屬性26"
+     },
+     {
+      "RowGuid": "00000348-0000-0000-0001-000000000026",
+      "EntityID": "lab",
+      "Status": "1",
+      "RequestNo": "R-2025-0010",
+      "RequestGuid": "所屬申請單27",
+      "ItemNo": 48,
+      "SampleName": "導電度",
+      "SampleVolume": "樣品量27",
+      "ContainerCount": 137,
+      "SamplingDate": "2026-12-21",
+      "SamplingPoint": "導電度",
+      "PreserveMethod": "CNS 13289",
+      "AcidType": "加酸類型27",
+      "AcidPH": "加酸後 pH 值27",
+      "PreserveNote": "",
+      "ResinType": "樹脂樣品類型27",
+      "ResinBrand": "Thermo Fisher",
+      "TankNo": "RS-2025-0027",
+      "ControlNo": "RS-2026-0027",
+      "ManifestNo": "RS-2025-0027",
+      "ServiceYears": "使用年限27",
+      "RegenCount": "再生次數27",
+      "ResinTestType": "樹脂檢測類別27",
+      "ChkContainer": "容器查驗27",
+      "ChkPreserve": "保存方式查驗27",
+      "ChkVolume": "樣品量查驗27",
+      "ChkExpiry": "保存期限查驗27",
+      "ChkIntegrity": "樣品完整性查驗27",
+      "IsAutoChecked": "是否由系統自動判定27",
+      "Remark": "",
+      "Attributes": "擴展屬性27"
+     },
+     {
+      "RowGuid": "00000348-0000-0000-0001-000000000027",
+      "EntityID": "lab",
+      "Status": "1",
+      "RequestNo": "R-2026-0011",
+      "RequestGuid": "所屬申請單28",
+      "ItemNo": 69,
+      "SampleName": "濁度",
+      "SampleVolume": "樣品量28",
+      "ContainerCount": 138,
+      "SamplingDate": "2025-11-21",
+      "SamplingPoint": "濁度",
+      "PreserveMethod": "JIS K0102",
+      "AcidType": "加酸類型28",
+      "AcidPH": "加酸後 pH 值28",
+      "PreserveNote": "",
+      "ResinType": "樹脂樣品類型28",
+      "ResinBrand": "HACH",
+      "TankNo": "RS-2026-0028",
+      "ControlNo": "RS-2025-0028",
+      "ManifestNo": "RS-2025-0028",
+      "ServiceYears": "使用年限28",
+      "RegenCount": "再生次數28",
+      "ResinTestType": "樹脂檢測類別28",
+      "ChkContainer": "容器查驗28",
+      "ChkPreserve": "保存方式查驗28",
+      "ChkVolume": "樣品量查驗28",
+      "ChkExpiry": "保存期限查驗28",
+      "ChkIntegrity": "樣品完整性查驗28",
+      "IsAutoChecked": "是否由系統自動判定28",
+      "Remark": "",
+      "Attributes": "擴展屬性28"
+     },
+     {
+      "RowGuid": "00000348-0000-0000-0001-000000000028",
+      "EntityID": "lab",
+      "Status": "1",
+      "RequestNo": "R-2026-0011",
+      "RequestGuid": "所屬申請單29",
+      "ItemNo": 49,
+      "SampleName": "大腸桿菌群",
+      "SampleVolume": "樣品量29",
+      "ContainerCount": 29,
+      "SamplingDate": "2025-11-04",
+      "SamplingPoint": "大腸桿菌群",
+      "PreserveMethod": "ASTM D1193",
+      "AcidType": "加酸類型29",
+      "AcidPH": "加酸後 pH 值29",
+      "PreserveNote": "",
+      "ResinType": "樹脂樣品類型29",
+      "ResinBrand": "Shimadzu",
+      "TankNo": "RS-2026-0029",
+      "ControlNo": "RS-2025-0029",
+      "ManifestNo": "RS-2026-0029",
+      "ServiceYears": "使用年限29",
+      "RegenCount": "再生次數29",
+      "ResinTestType": "樹脂檢測類別29",
+      "ChkContainer": "容器查驗29",
+      "ChkPreserve": "保存方式查驗29",
+      "ChkVolume": "樣品量查驗29",
+      "ChkExpiry": "保存期限查驗29",
+      "ChkIntegrity": "樣品完整性查驗29",
+      "IsAutoChecked": "是否由系統自動判定29",
+      "Remark": "客戶要求附 TAF Logo",
+      "Attributes": "擴展屬性29"
+     },
+     {
+      "RowGuid": "00000348-0000-0000-0001-000000000029",
+      "EntityID": "lab",
+      "Status": "1",
+      "RequestNo": "R-2025-0012",
+      "RequestGuid": "所屬申請單30",
+      "ItemNo": 55,
+      "SampleName": "總有機碳 TOC",
+      "SampleVolume": "樣品量30",
+      "ContainerCount": 117,
+      "SamplingDate": "2025-11-27",
+      "SamplingPoint": "總有機碳 TOC",
+      "PreserveMethod": "NIEA W424.53A",
+      "AcidType": "加酸類型30",
+      "AcidPH": "加酸後 pH 值30",
+      "PreserveNote": "",
+      "ResinType": "樹脂樣品類型30",
+      "ResinBrand": "Agilent",
+      "TankNo": "RS-2026-0030",
+      "ControlNo": "RS-2025-0030",
+      "ManifestNo": "RS-2025-0030",
+      "ServiceYears": "使用年限30",
+      "RegenCount": "再生次數30",
+      "ResinTestType": "樹脂檢測類別30",
+      "ChkContainer": "容器查驗30",
+      "ChkPreserve": "保存方式查驗30",
+      "ChkVolume": "樣品量查驗30",
+      "ChkExpiry": "保存期限查驗30",
+      "ChkIntegrity": "樣品完整性查驗30",
+      "IsAutoChecked": "是否由系統自動判定30",
+      "Remark": "",
+      "Attributes": "擴展屬性30"
+     },
+     {
+      "RowGuid": "00000348-0000-0000-0001-000000000030",
+      "EntityID": "lab",
+      "Status": "1",
+      "RequestNo": "R-2025-0012",
+      "RequestGuid": "所屬申請單31",
+      "ItemNo": 28,
+      "SampleName": "總磷 TP",
+      "SampleVolume": "樣品量31",
+      "ContainerCount": 89,
+      "SamplingDate": "2026-04-14",
+      "SamplingPoint": "總磷 TP",
+      "PreserveMethod": "SM 4500-P",
+      "AcidType": "加酸類型31",
+      "AcidPH": "加酸後 pH 值31",
+      "PreserveNote": "樣品外觀正常",
+      "ResinType": "樹脂樣品類型31",
+      "ResinBrand": "Mettler Toledo",
+      "TankNo": "RS-2026-0031",
+      "ControlNo": "RS-2025-0031",
+      "ManifestNo": "RS-2026-0031",
+      "ServiceYears": "使用年限31",
+      "RegenCount": "再生次數31",
+      "ResinTestType": "樹脂檢測類別31",
+      "ChkContainer": "容器查驗31",
+      "ChkPreserve": "保存方式查驗31",
+      "ChkVolume": "樣品量查驗31",
+      "ChkExpiry": "保存期限查驗31",
+      "ChkIntegrity": "樣品完整性查驗31",
+      "IsAutoChecked": "是否由系統自動判定31",
+      "Remark": "",
+      "Attributes": "擴展屬性31"
+     },
+     {
+      "RowGuid": "00000348-0000-0000-0001-000000000031",
+      "EntityID": "lab",
+      "Status": "1",
+      "RequestNo": "R-2025-0012",
+      "RequestGuid": "所屬申請單32",
+      "ItemNo": 52,
+      "SampleName": "化學需氧量 COD",
+      "SampleVolume": "樣品量32",
+      "ContainerCount": 90,
+      "SamplingDate": "2025-09-10",
+      "SamplingPoint": "化學需氧量 COD",
+      "PreserveMethod": "NIEA W508.05B",
+      "AcidType": "加酸類型32",
+      "AcidPH": "加酸後 pH 值32",
+      "PreserveNote": "急件已加收費用",
+      "ResinType": "樹脂樣品類型32",
+      "ResinBrand": "Metrohm",
+      "TankNo": "RS-2026-0032",
+      "ControlNo": "RS-2025-0032",
+      "ManifestNo": "RS-2025-0032",
+      "ServiceYears": "使用年限32",
+      "RegenCount": "再生次數32",
+      "ResinTestType": "樹脂檢測類別32",
+      "ChkContainer": "容器查驗32",
+      "ChkPreserve": "保存方式查驗32",
+      "ChkVolume": "樣品量查驗32",
+      "ChkExpiry": "保存期限查驗32",
+      "ChkIntegrity": "樣品完整性查驗32",
+      "IsAutoChecked": "是否由系統自動判定32",
+      "Remark": "客戶要求附 TAF Logo",
+      "Attributes": "擴展屬性32"
+     },
+     {
+      "RowGuid": "00000348-0000-0000-0001-000000000032",
+      "EntityID": "lab",
+      "Status": "1",
+      "RequestNo": "R-2026-0013",
+      "RequestGuid": "所屬申請單33",
+      "ItemNo": 45,
+      "SampleName": "生化需氧量 BOD",
+      "SampleVolume": "樣品量33",
+      "ContainerCount": 168,
+      "SamplingDate": "2026-12-12",
+      "SamplingPoint": "生化需氧量 BOD",
+      "PreserveMethod": "NIEA W424.53A",
+      "AcidType": "加酸類型33",
+      "AcidPH": "加酸後 pH 值33",
+      "PreserveNote": "",
+      "ResinType": "樹脂樣品類型33",
+      "ResinBrand": "Shimadzu",
+      "TankNo": "RS-2026-0033",
+      "ControlNo": "RS-2025-0033",
+      "ManifestNo": "RS-2025-0033",
+      "ServiceYears": "使用年限33",
+      "RegenCount": "再生次數33",
+      "ResinTestType": "樹脂檢測類別33",
+      "ChkContainer": "容器查驗33",
+      "ChkPreserve": "保存方式查驗33",
+      "ChkVolume": "樣品量查驗33",
+      "ChkExpiry": "保存期限查驗33",
+      "ChkIntegrity": "樣品完整性查驗33",
+      "IsAutoChecked": "是否由系統自動判定33",
+      "Remark": "已通知申請單位",
+      "Attributes": "擴展屬性33"
+     },
+     {
+      "RowGuid": "00000348-0000-0000-0001-000000000033",
+      "EntityID": "lab",
+      "Status": "1",
+      "RequestNo": "R-2026-0013",
+      "RequestGuid": "所屬申請單34",
+      "ItemNo": 95,
+      "SampleName": "懸浮固體 SS",
+      "SampleVolume": "樣品量34",
+      "ContainerCount": 125,
+      "SamplingDate": "2025-06-13",
+      "SamplingPoint": "懸浮固體 SS",
+      "PreserveMethod": "JIS K0102",
+      "AcidType": "加酸類型34",
+      "AcidPH": "加酸後 pH 值34",
+      "PreserveNote": "",
+      "ResinType": "樹脂樣品類型34",
+      "ResinBrand": "Shimadzu",
+      "TankNo": "RS-2025-0034",
+      "ControlNo": "RS-2025-0034",
+      "ManifestNo": "RS-2025-0034",
+      "ServiceYears": "使用年限34",
+      "RegenCount": "再生次數34",
+      "ResinTestType": "樹脂檢測類別34",
+      "ChkContainer": "容器查驗34",
+      "ChkPreserve": "保存方式查驗34",
+      "ChkVolume": "樣品量查驗34",
+      "ChkExpiry": "保存期限查驗34",
+      "ChkIntegrity": "樣品完整性查驗34",
+      "IsAutoChecked": "是否由系統自動判定34",
+      "Remark": "",
+      "Attributes": "擴展屬性34"
+     },
+     {
+      "RowGuid": "00000348-0000-0000-0001-000000000034",
+      "EntityID": "lab",
+      "Status": "1",
+      "RequestNo": "R-2026-0013",
+      "RequestGuid": "所屬申請單35",
+      "ItemNo": 47,
+      "SampleName": "氨氮 NH3-N",
+      "SampleVolume": "樣品量35",
+      "ContainerCount": 143,
+      "SamplingDate": "2025-03-17",
+      "SamplingPoint": "氨氮 NH3-N",
+      "PreserveMethod": "HACH Method 8000",
+      "AcidType": "加酸類型35",
+      "AcidPH": "加酸後 pH 值35",
+      "PreserveNote": "需注意保存效期",
+      "ResinType": "樹脂樣品類型35",
+      "ResinBrand": "Mettler Toledo",
+      "TankNo": "RS-2025-0035",
+      "ControlNo": "RS-2026-0035",
+      "ManifestNo": "RS-2025-0035",
+      "ServiceYears": "使用年限35",
+      "RegenCount": "再生次數35",
+      "ResinTestType": "樹脂檢測類別35",
+      "ChkContainer": "容器查驗35",
+      "ChkPreserve": "保存方式查驗35",
+      "ChkVolume": "樣品量查驗35",
+      "ChkExpiry": "保存期限查驗35",
+      "ChkIntegrity": "樣品完整性查驗35",
+      "IsAutoChecked": "是否由系統自動判定35",
+      "Remark": "",
+      "Attributes": "擴展屬性35"
+     },
+     {
+      "RowGuid": "00000348-0000-0000-0001-000000000035",
+      "EntityID": "lab",
+      "Status": "1",
+      "RequestNo": "R-2026-0013",
+      "RequestGuid": "所屬申請單36",
+      "ItemNo": 46,
+      "SampleName": "硝酸鹽氮",
+      "SampleVolume": "樣品量36",
+      "ContainerCount": 135,
+      "SamplingDate": "2026-08-02",
+      "SamplingPoint": "硝酸鹽氮",
+      "PreserveMethod": "ASTM D1193",
+      "AcidType": "加酸類型36",
+      "AcidPH": "加酸後 pH 值36",
+      "PreserveNote": "",
+      "ResinType": "樹脂樣品類型36",
+      "ResinBrand": "Agilent",
+      "TankNo": "RS-2026-0036",
+      "ControlNo": "RS-2025-0036",
+      "ManifestNo": "RS-2025-0036",
+      "ServiceYears": "使用年限36",
+      "RegenCount": "再生次數36",
+      "ResinTestType": "樹脂檢測類別36",
+      "ChkContainer": "容器查驗36",
+      "ChkPreserve": "保存方式查驗36",
+      "ChkVolume": "樣品量查驗36",
+      "ChkExpiry": "保存期限查驗36",
+      "ChkIntegrity": "樣品完整性查驗36",
+      "IsAutoChecked": "是否由系統自動判定36",
+      "Remark": "",
+      "Attributes": "擴展屬性36"
+     },
+     {
+      "RowGuid": "00000348-0000-0000-0001-000000000036",
+      "EntityID": "lab",
+      "Status": "1",
+      "RequestNo": "R-2025-0014",
+      "RequestGuid": "所屬申請單37",
+      "ItemNo": 76,
+      "SampleName": "鎘 Cd",
+      "SampleVolume": "樣品量37",
+      "ContainerCount": 87,
+      "SamplingDate": "2026-10-02",
+      "SamplingPoint": "鎘 Cd",
+      "PreserveMethod": "EPA 200.8",
+      "AcidType": "加酸類型37",
+      "AcidPH": "加酸後 pH 值37",
+      "PreserveNote": "待主管覆核",
+      "ResinType": "樹脂樣品類型37",
+      "ResinBrand": "Agilent",
+      "TankNo": "RS-2025-0037",
+      "ControlNo": "RS-2026-0037",
+      "ManifestNo": "RS-2026-0037",
+      "ServiceYears": "使用年限37",
+      "RegenCount": "再生次數37",
+      "ResinTestType": "樹脂檢測類別37",
+      "ChkContainer": "容器查驗37",
+      "ChkPreserve": "保存方式查驗37",
+      "ChkVolume": "樣品量查驗37",
+      "ChkExpiry": "保存期限查驗37",
+      "ChkIntegrity": "樣品完整性查驗37",
+      "IsAutoChecked": "是否由系統自動判定37",
+      "Remark": "急件已加收費用",
+      "Attributes": "擴展屬性37"
+     },
+     {
+      "RowGuid": "00000348-0000-0000-0001-000000000037",
+      "EntityID": "lab",
+      "Status": "1",
+      "RequestNo": "R-2025-0014",
+      "RequestGuid": "所屬申請單38",
+      "ItemNo": 88,
+      "SampleName": "鉛 Pb",
+      "SampleVolume": "樣品量38",
+      "ContainerCount": 100,
+      "SamplingDate": "2025-08-08",
+      "SamplingPoint": "鉛 Pb",
+      "PreserveMethod": "HACH Method 8000",
+      "AcidType": "加酸類型38",
+      "AcidPH": "加酸後 pH 值38",
+      "PreserveNote": "",
+      "ResinType": "樹脂樣品類型38",
+      "ResinBrand": "Thermo Fisher",
+      "TankNo": "RS-2025-0038",
+      "ControlNo": "RS-2026-0038",
+      "ManifestNo": "RS-2026-0038",
+      "ServiceYears": "使用年限38",
+      "RegenCount": "再生次數38",
+      "ResinTestType": "樹脂檢測類別38",
+      "ChkContainer": "容器查驗38",
+      "ChkPreserve": "保存方式查驗38",
+      "ChkVolume": "樣品量查驗38",
+      "ChkExpiry": "保存期限查驗38",
+      "ChkIntegrity": "樣品完整性查驗38",
+      "IsAutoChecked": "是否由系統自動判定38",
+      "Remark": "",
+      "Attributes": "擴展屬性38"
+     },
+     {
+      "RowGuid": "00000348-0000-0000-0001-000000000038",
+      "EntityID": "lab",
+      "Status": "1",
+      "RequestNo": "R-2025-0014",
+      "RequestGuid": "所屬申請單39",
+      "ItemNo": 95,
+      "SampleName": "銅 Cu",
+      "SampleVolume": "樣品量39",
+      "ContainerCount": 189,
+      "SamplingDate": "2026-06-25",
+      "SamplingPoint": "銅 Cu",
+      "PreserveMethod": "NIEA W424.53A",
+      "AcidType": "加酸類型39",
+      "AcidPH": "加酸後 pH 值39",
+      "PreserveNote": "",
+      "ResinType": "樹脂樣品類型39",
+      "ResinBrand": "PerkinElmer",
+      "TankNo": "RS-2026-0039",
+      "ControlNo": "RS-2026-0039",
+      "ManifestNo": "RS-2026-0039",
+      "ServiceYears": "使用年限39",
+      "RegenCount": "再生次數39",
+      "ResinTestType": "樹脂檢測類別39",
+      "ChkContainer": "容器查驗39",
+      "ChkPreserve": "保存方式查驗39",
+      "ChkVolume": "樣品量查驗39",
+      "ChkExpiry": "保存期限查驗39",
+      "ChkIntegrity": "樣品完整性查驗39",
+      "IsAutoChecked": "是否由系統自動判定39",
+      "Remark": "",
+      "Attributes": "擴展屬性39"
+     },
+     {
+      "RowGuid": "00000348-0000-0000-0001-000000000039",
+      "EntityID": "lab",
+      "Status": "1",
+      "RequestNo": "R-2025-0014",
+      "RequestGuid": "所屬申請單40",
+      "ItemNo": 37,
+      "SampleName": "鋅 Zn",
+      "SampleVolume": "樣品量40",
+      "ContainerCount": 161,
+      "SamplingDate": "2026-07-20",
+      "SamplingPoint": "鋅 Zn",
+      "PreserveMethod": "HACH Method 8000",
+      "AcidType": "加酸類型40",
+      "AcidPH": "加酸後 pH 值40",
+      "PreserveNote": "",
+      "ResinType": "樹脂樣品類型40",
+      "ResinBrand": "Thermo Fisher",
+      "TankNo": "RS-2025-0040",
+      "ControlNo": "RS-2025-0040",
+      "ManifestNo": "RS-2025-0040",
+      "ServiceYears": "使用年限40",
+      "RegenCount": "再生次數40",
+      "ResinTestType": "樹脂檢測類別40",
+      "ChkContainer": "容器查驗40",
+      "ChkPreserve": "保存方式查驗40",
+      "ChkVolume": "樣品量查驗40",
+      "ChkExpiry": "保存期限查驗40",
+      "ChkIntegrity": "樣品完整性查驗40",
+      "IsAutoChecked": "是否由系統自動判定40",
+      "Remark": "",
+      "Attributes": "擴展屬性40"
+     }
+    ]
+   },
+   {
+    "DetailID": "Item",
+    "Title": "檢驗項目",
+    "Icon": "ri-test-tube-line",
+    "Entity": "labTes_RequestItem",
+    "RelationKey": "RequestNo",
+    "RowKey": "RowGuid",
+    "AllowAdd": true,
+    "AllowEdit": true,
+    "AllowDelete": true,
+    "EmptyText": "尚無檢驗項目資料",
+    "CodeSets": {
+     "Status": [
+      {
+       "CodeID": "1",
+       "CodeName": "啟用",
+       "IsDefault": true
+      },
+      {
+       "CodeID": "0",
+       "CodeName": "停用"
+      }
+     ],
+     "Priority": [
+      {
+       "CodeID": "A",
+       "CodeName": "急件"
+      },
+      {
+       "CodeID": "B",
+       "CodeName": "高"
+      },
+      {
+       "CodeID": "C",
+       "CodeName": "一般",
+       "IsDefault": true
+      },
+      {
+       "CodeID": "D",
+       "CodeName": "低"
+      }
+     ]
+    },
+    "Columns": [
+     {
+      "BindField": "RequestGuid",
+      "Title": "所屬申請單",
+      "Width": 120,
+      "Align": "Left"
+     },
+     {
+      "BindField": "ComponentCode",
+      "Title": "檢驗成分代碼",
+      "Width": 120,
+      "Align": "Left"
+     },
+     {
+      "BindField": "Qty",
+      "Title": "檢測數量",
+      "Width": 120,
+      "Align": "Center"
+     }
+    ],
+    "FormFields": [
+     {
+      "BindField": "RequestGuid",
+      "Title": "所屬申請單",
+      "Component": "Input",
+      "Section": "",
+      "Span": 12,
+      "Mode": "ReadOnly",
+      "Validations": [
+       {
+        "Rule": "Required",
+        "Message": "所屬申請單為必填"
+       }
+      ]
+     },
+     {
+      "BindField": "SampleGuid",
+      "Title": "對應樣品",
+      "Component": "Input",
+      "Section": "",
+      "Span": 12,
+      "Mode": "ReadOnly"
+     },
+     {
+      "BindField": "ComponentCode",
+      "Title": "檢驗成分代碼",
+      "Component": "Input",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Validations": [
+       {
+        "Rule": "Required",
+        "Message": "檢驗成分代碼為必填"
+       },
+       {
+        "Rule": "MaxLength",
+        "Value": 50,
+        "Message": "長度不可超過 50"
+       }
+      ]
+     },
+     {
+      "BindField": "Qty",
+      "Title": "檢測數量",
+      "Component": "Input",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Props": {
+       "Type": "number"
+      }
+     },
+     {
+      "BindField": "Remark",
+      "Title": "備註",
+      "Component": "Textarea",
+      "Section": "",
+      "Span": 24,
+      "Mode": "Editable",
+      "Validations": [
+       {
+        "Rule": "MaxLength",
+        "Value": 500,
+        "Message": "長度不可超過 500"
+       }
+      ],
+      "Props": {
+       "Rows": 3
+      }
+     }
+    ],
+    "SeedData": [
+     {
+      "RowGuid": "00000348-0000-0000-0001-000000000040",
+      "EntityID": "lab",
+      "Status": "1",
+      "RequestNo": "R-2026-0001",
+      "RequestGuid": "所屬申請單41",
+      "SampleGuid": "對應樣品41",
+      "ComponentCode": "RI-2026-0041",
+      "Qty": 96,
+      "Remark": "樣品外觀正常"
+     },
+     {
+      "RowGuid": "00000348-0000-0000-0001-000000000041",
+      "EntityID": "lab",
+      "Status": "1",
+      "RequestNo": "R-2026-0001",
+      "RequestGuid": "所屬申請單42",
+      "SampleGuid": "對應樣品42",
+      "ComponentCode": "RI-2025-0042",
+      "Qty": 166,
+      "Remark": "客戶要求附 TAF Logo"
+     },
+     {
+      "RowGuid": "00000348-0000-0000-0001-000000000042",
+      "EntityID": "lab",
+      "Status": "1",
+      "RequestNo": "R-2026-0001",
+      "RequestGuid": "所屬申請單43",
+      "SampleGuid": "對應樣品43",
+      "ComponentCode": "RI-2026-0043",
+      "Qty": 189,
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000348-0000-0000-0001-000000000043",
+      "EntityID": "lab",
+      "Status": "1",
+      "RequestNo": "R-2025-0002",
+      "RequestGuid": "所屬申請單44",
+      "SampleGuid": "對應樣品44",
+      "ComponentCode": "RI-2026-0044",
+      "Qty": 121,
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000348-0000-0000-0001-000000000044",
+      "EntityID": "lab",
+      "Status": "1",
+      "RequestNo": "R-2025-0002",
+      "RequestGuid": "所屬申請單45",
+      "SampleGuid": "對應樣品45",
+      "ComponentCode": "RI-2025-0045",
+      "Qty": 95,
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000348-0000-0000-0001-000000000045",
+      "EntityID": "lab",
+      "Status": "1",
+      "RequestNo": "R-2025-0002",
+      "RequestGuid": "所屬申請單46",
+      "SampleGuid": "對應樣品46",
+      "ComponentCode": "RI-2025-0046",
+      "Qty": 62,
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000348-0000-0000-0001-000000000046",
+      "EntityID": "lab",
+      "Status": "1",
+      "RequestNo": "R-2025-0002",
+      "RequestGuid": "所屬申請單47",
+      "SampleGuid": "對應樣品47",
+      "ComponentCode": "RI-2026-0047",
+      "Qty": 135,
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000348-0000-0000-0001-000000000047",
+      "EntityID": "lab",
+      "Status": "1",
+      "RequestNo": "R-2026-0003",
+      "RequestGuid": "所屬申請單48",
+      "SampleGuid": "對應樣品48",
+      "ComponentCode": "RI-2025-0048",
+      "Qty": 188,
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000348-0000-0000-0001-000000000048",
+      "EntityID": "lab",
+      "Status": "1",
+      "RequestNo": "R-2026-0003",
+      "RequestGuid": "所屬申請單49",
+      "SampleGuid": "對應樣品49",
+      "ComponentCode": "RI-2026-0049",
+      "Qty": 44,
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000348-0000-0000-0001-000000000049",
+      "EntityID": "lab",
+      "Status": "1",
+      "RequestNo": "R-2026-0003",
+      "RequestGuid": "所屬申請單50",
+      "SampleGuid": "對應樣品50",
+      "ComponentCode": "RI-2025-0050",
+      "Qty": 50,
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000348-0000-0000-0001-000000000050",
+      "EntityID": "lab",
+      "Status": "1",
+      "RequestNo": "R-2026-0004",
+      "RequestGuid": "所屬申請單51",
+      "SampleGuid": "對應樣品51",
+      "ComponentCode": "RI-2025-0051",
+      "Qty": 9,
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000348-0000-0000-0001-000000000051",
+      "EntityID": "lab",
+      "Status": "1",
+      "RequestNo": "R-2026-0004",
+      "RequestGuid": "所屬申請單52",
+      "SampleGuid": "對應樣品52",
+      "ComponentCode": "RI-2025-0052",
+      "Qty": 34,
+      "Remark": "待主管覆核"
+     },
+     {
+      "RowGuid": "00000348-0000-0000-0001-000000000052",
+      "EntityID": "lab",
+      "Status": "1",
+      "RequestNo": "R-2026-0004",
+      "RequestGuid": "所屬申請單53",
+      "SampleGuid": "對應樣品53",
+      "ComponentCode": "RI-2025-0053",
+      "Qty": 4,
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000348-0000-0000-0001-000000000053",
+      "EntityID": "lab",
+      "Status": "1",
+      "RequestNo": "R-2026-0005",
+      "RequestGuid": "所屬申請單54",
+      "SampleGuid": "對應樣品54",
+      "ComponentCode": "RI-2025-0054",
+      "Qty": 84,
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000348-0000-0000-0001-000000000054",
+      "EntityID": "lab",
+      "Status": "1",
+      "RequestNo": "R-2026-0005",
+      "RequestGuid": "所屬申請單55",
+      "SampleGuid": "對應樣品55",
+      "ComponentCode": "RI-2025-0055",
+      "Qty": 94,
+      "Remark": "客戶要求附 TAF Logo"
+     },
+     {
+      "RowGuid": "00000348-0000-0000-0001-000000000055",
+      "EntityID": "lab",
+      "Status": "1",
+      "RequestNo": "R-2026-0005",
+      "RequestGuid": "所屬申請單56",
+      "SampleGuid": "對應樣品56",
+      "ComponentCode": "RI-2025-0056",
+      "Qty": 60,
+      "Remark": "複驗確認無誤"
+     },
+     {
+      "RowGuid": "00000348-0000-0000-0001-000000000056",
+      "EntityID": "lab",
+      "Status": "1",
+      "RequestNo": "R-2026-0005",
+      "RequestGuid": "所屬申請單57",
+      "SampleGuid": "對應樣品57",
+      "ComponentCode": "RI-2025-0057",
+      "Qty": 43,
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000348-0000-0000-0001-000000000057",
+      "EntityID": "lab",
+      "Status": "1",
+      "RequestNo": "R-2025-0006",
+      "RequestGuid": "所屬申請單58",
+      "SampleGuid": "對應樣品58",
+      "ComponentCode": "RI-2025-0058",
+      "Qty": 54,
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000348-0000-0000-0001-000000000058",
+      "EntityID": "lab",
+      "Status": "1",
+      "RequestNo": "R-2025-0006",
+      "RequestGuid": "所屬申請單59",
+      "SampleGuid": "對應樣品59",
+      "ComponentCode": "RI-2025-0059",
+      "Qty": 156,
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000348-0000-0000-0001-000000000059",
+      "EntityID": "lab",
+      "Status": "1",
+      "RequestNo": "R-2025-0006",
+      "RequestGuid": "所屬申請單60",
+      "SampleGuid": "對應樣品60",
+      "ComponentCode": "RI-2026-0060",
+      "Qty": 115,
+      "Remark": "樣品外觀正常"
+     },
+     {
+      "RowGuid": "00000348-0000-0000-0001-000000000060",
+      "EntityID": "lab",
+      "Status": "1",
+      "RequestNo": "R-2026-0007",
+      "RequestGuid": "所屬申請單61",
+      "SampleGuid": "對應樣品61",
+      "ComponentCode": "RI-2025-0061",
+      "Qty": 89,
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000348-0000-0000-0001-000000000061",
+      "EntityID": "lab",
+      "Status": "1",
+      "RequestNo": "R-2026-0007",
+      "RequestGuid": "所屬申請單62",
+      "SampleGuid": "對應樣品62",
+      "ComponentCode": "RI-2025-0062",
+      "Qty": 88,
+      "Remark": "複驗確認無誤"
+     },
+     {
+      "RowGuid": "00000348-0000-0000-0001-000000000062",
+      "EntityID": "lab",
+      "Status": "1",
+      "RequestNo": "R-2026-0007",
+      "RequestGuid": "所屬申請單63",
+      "SampleGuid": "對應樣品63",
+      "ComponentCode": "RI-2025-0063",
+      "Qty": 13,
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000348-0000-0000-0001-000000000063",
+      "EntityID": "lab",
+      "Status": "1",
+      "RequestNo": "R-2026-0008",
+      "RequestGuid": "所屬申請單64",
+      "SampleGuid": "對應樣品64",
+      "ComponentCode": "RI-2026-0064",
+      "Qty": 91,
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000348-0000-0000-0001-000000000064",
+      "EntityID": "lab",
+      "Status": "1",
+      "RequestNo": "R-2026-0008",
+      "RequestGuid": "所屬申請單65",
+      "SampleGuid": "對應樣品65",
+      "ComponentCode": "RI-2026-0065",
+      "Qty": 137,
+      "Remark": "樣品外觀正常"
+     },
+     {
+      "RowGuid": "00000348-0000-0000-0001-000000000065",
+      "EntityID": "lab",
+      "Status": "1",
+      "RequestNo": "R-2026-0009",
+      "RequestGuid": "所屬申請單66",
+      "SampleGuid": "對應樣品66",
+      "ComponentCode": "RI-2026-0066",
+      "Qty": 112,
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000348-0000-0000-0001-000000000066",
+      "EntityID": "lab",
+      "Status": "1",
+      "RequestNo": "R-2026-0009",
+      "RequestGuid": "所屬申請單67",
+      "SampleGuid": "對應樣品67",
+      "ComponentCode": "RI-2026-0067",
+      "Qty": 155,
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000348-0000-0000-0001-000000000067",
+      "EntityID": "lab",
+      "Status": "1",
+      "RequestNo": "R-2026-0009",
+      "RequestGuid": "所屬申請單68",
+      "SampleGuid": "對應樣品68",
+      "ComponentCode": "RI-2025-0068",
+      "Qty": 44,
+      "Remark": "急件已加收費用"
+     },
+     {
+      "RowGuid": "00000348-0000-0000-0001-000000000068",
+      "EntityID": "lab",
+      "Status": "1",
+      "RequestNo": "R-2026-0009",
+      "RequestGuid": "所屬申請單69",
+      "SampleGuid": "對應樣品69",
+      "ComponentCode": "RI-2026-0069",
+      "Qty": 110,
+      "Remark": "已通知申請單位"
+     },
+     {
+      "RowGuid": "00000348-0000-0000-0001-000000000069",
+      "EntityID": "lab",
+      "Status": "1",
+      "RequestNo": "R-2025-0010",
+      "RequestGuid": "所屬申請單70",
+      "SampleGuid": "對應樣品70",
+      "ComponentCode": "RI-2026-0070",
+      "Qty": 39,
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000348-0000-0000-0001-000000000070",
+      "EntityID": "lab",
+      "Status": "1",
+      "RequestNo": "R-2025-0010",
+      "RequestGuid": "所屬申請單71",
+      "SampleGuid": "對應樣品71",
+      "ComponentCode": "RI-2026-0071",
+      "Qty": 65,
+      "Remark": "需注意保存效期"
+     },
+     {
+      "RowGuid": "00000348-0000-0000-0001-000000000071",
+      "EntityID": "lab",
+      "Status": "1",
+      "RequestNo": "R-2026-0011",
+      "RequestGuid": "所屬申請單72",
+      "SampleGuid": "對應樣品72",
+      "ComponentCode": "RI-2026-0072",
+      "Qty": 33,
+      "Remark": "需注意保存效期"
+     },
+     {
+      "RowGuid": "00000348-0000-0000-0001-000000000072",
+      "EntityID": "lab",
+      "Status": "1",
+      "RequestNo": "R-2026-0011",
+      "RequestGuid": "所屬申請單73",
+      "SampleGuid": "對應樣品73",
+      "ComponentCode": "RI-2025-0073",
+      "Qty": 195,
+      "Remark": "已通知申請單位"
+     },
+     {
+      "RowGuid": "00000348-0000-0000-0001-000000000073",
+      "EntityID": "lab",
+      "Status": "1",
+      "RequestNo": "R-2025-0012",
+      "RequestGuid": "所屬申請單74",
+      "SampleGuid": "對應樣品74",
+      "ComponentCode": "RI-2025-0074",
+      "Qty": 155,
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000348-0000-0000-0001-000000000074",
+      "EntityID": "lab",
+      "Status": "1",
+      "RequestNo": "R-2025-0012",
+      "RequestGuid": "所屬申請單75",
+      "SampleGuid": "對應樣品75",
+      "ComponentCode": "RI-2026-0075",
+      "Qty": 134,
+      "Remark": "待主管覆核"
+     },
+     {
+      "RowGuid": "00000348-0000-0000-0001-000000000075",
+      "EntityID": "lab",
+      "Status": "1",
+      "RequestNo": "R-2026-0013",
+      "RequestGuid": "所屬申請單76",
+      "SampleGuid": "對應樣品76",
+      "ComponentCode": "RI-2025-0076",
+      "Qty": 193,
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000348-0000-0000-0001-000000000076",
+      "EntityID": "lab",
+      "Status": "1",
+      "RequestNo": "R-2026-0013",
+      "RequestGuid": "所屬申請單77",
+      "SampleGuid": "對應樣品77",
+      "ComponentCode": "RI-2025-0077",
+      "Qty": 39,
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000348-0000-0000-0001-000000000077",
+      "EntityID": "lab",
+      "Status": "1",
+      "RequestNo": "R-2026-0013",
+      "RequestGuid": "所屬申請單78",
+      "SampleGuid": "對應樣品78",
+      "ComponentCode": "RI-2026-0078",
+      "Qty": 64,
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000348-0000-0000-0001-000000000078",
+      "EntityID": "lab",
+      "Status": "1",
+      "RequestNo": "R-2026-0013",
+      "RequestGuid": "所屬申請單79",
+      "SampleGuid": "對應樣品79",
+      "ComponentCode": "RI-2025-0079",
+      "Qty": 89,
+      "Remark": "待主管覆核"
+     },
+     {
+      "RowGuid": "00000348-0000-0000-0001-000000000079",
+      "EntityID": "lab",
+      "Status": "1",
+      "RequestNo": "R-2025-0014",
+      "RequestGuid": "所屬申請單80",
+      "SampleGuid": "對應樣品80",
+      "ComponentCode": "RI-2025-0080",
+      "Qty": 36,
+      "Remark": "已通知申請單位"
+     },
+     {
+      "RowGuid": "00000348-0000-0000-0001-000000000080",
+      "EntityID": "lab",
+      "Status": "1",
+      "RequestNo": "R-2025-0014",
+      "RequestGuid": "所屬申請單81",
+      "SampleGuid": "對應樣品81",
+      "ComponentCode": "RI-2026-0081",
+      "Qty": 175,
+      "Remark": ""
+     }
+    ]
+   },
+   {
+    "DetailID": "Attach",
+    "Title": "附件",
+    "Icon": "ri-attachment-2",
+    "Entity": "labTes_RequestAttach",
+    "RelationKey": "RequestNo",
+    "RowKey": "RowGuid",
+    "AllowAdd": true,
+    "AllowEdit": true,
+    "AllowDelete": true,
+    "EmptyText": "尚無附件資料",
+    "CodeSets": {
+     "Status": [
+      {
+       "CodeID": "1",
+       "CodeName": "啟用",
+       "IsDefault": true
+      },
+      {
+       "CodeID": "0",
+       "CodeName": "停用"
+      }
+     ],
+     "Priority": [
+      {
+       "CodeID": "A",
+       "CodeName": "急件"
+      },
+      {
+       "CodeID": "B",
+       "CodeName": "高"
+      },
+      {
+       "CodeID": "C",
+       "CodeName": "一般",
+       "IsDefault": true
+      },
+      {
+       "CodeID": "D",
+       "CodeName": "低"
+      }
+     ]
+    },
+    "Columns": [
+     {
+      "BindField": "RequestGuid",
+      "Title": "所屬申請單",
+      "Width": 120,
+      "Align": "Left"
+     },
+     {
+      "BindField": "FileName",
+      "Title": "原始檔案名稱",
+      "Width": 120,
+      "Align": "Left"
+     },
+     {
+      "BindField": "FilePath",
+      "Title": "檔案儲存路徑",
+      "Width": 120,
+      "Align": "Left"
+     },
+     {
+      "BindField": "FileSize",
+      "Title": "檔案大小",
+      "Width": 120,
+      "Align": "Center"
+     },
+     {
+      "BindField": "FileType",
+      "Title": "檔案類型",
+      "Width": 120,
+      "Align": "Left"
+     }
+    ],
+    "FormFields": [
+     {
+      "BindField": "RequestGuid",
+      "Title": "所屬申請單",
+      "Component": "Input",
+      "Section": "",
+      "Span": 12,
+      "Mode": "ReadOnly",
+      "Validations": [
+       {
+        "Rule": "Required",
+        "Message": "所屬申請單為必填"
+       }
+      ]
+     },
+     {
+      "BindField": "FileName",
+      "Title": "原始檔案名稱",
+      "Component": "Textarea",
+      "Section": "",
+      "Span": 24,
+      "Mode": "Editable",
+      "Validations": [
+       {
+        "Rule": "Required",
+        "Message": "原始檔案名稱為必填"
+       },
+       {
+        "Rule": "MaxLength",
+        "Value": 500,
+        "Message": "長度不可超過 500"
+       }
+      ],
+      "Props": {
+       "Rows": 3
+      }
+     },
+     {
+      "BindField": "FilePath",
+      "Title": "檔案儲存路徑",
+      "Component": "Textarea",
+      "Section": "",
+      "Span": 24,
+      "Mode": "Editable",
+      "Validations": [
+       {
+        "Rule": "Required",
+        "Message": "檔案儲存路徑為必填"
+       },
+       {
+        "Rule": "MaxLength",
+        "Value": 1000,
+        "Message": "長度不可超過 1000"
+       }
+      ],
+      "Props": {
+       "Rows": 3
+      }
+     },
+     {
+      "BindField": "FileSize",
+      "Title": "檔案大小",
+      "Component": "Input",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Props": {
+       "Type": "number"
+      }
+     },
+     {
+      "BindField": "FileType",
+      "Title": "檔案類型",
+      "Component": "Input",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Validations": [
+       {
+        "Rule": "MaxLength",
+        "Value": 50,
+        "Message": "長度不可超過 50"
+       }
+      ]
+     },
+     {
+      "BindField": "AttachCategory",
+      "Title": "附件分類",
+      "Component": "Input",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Validations": [
+       {
+        "Rule": "MaxLength",
+        "Value": 50,
+        "Message": "長度不可超過 50"
+       }
+      ]
+     },
+     {
+      "BindField": "Description",
+      "Title": "附件說明",
+      "Component": "Textarea",
+      "Section": "",
+      "Span": 24,
+      "Mode": "Editable",
+      "Validations": [
+       {
+        "Rule": "MaxLength",
+        "Value": 500,
+        "Message": "長度不可超過 500"
+       }
+      ],
+      "Props": {
+       "Rows": 3
+      }
+     }
+    ],
+    "SeedData": [
+     {
+      "RowGuid": "00000348-0000-0000-0001-000000000081",
+      "EntityID": "lab",
+      "Status": "1",
+      "RequestNo": "R-2026-0001",
+      "RequestGuid": "所屬申請單82",
+      "FileName": "鎘 Cd",
+      "FilePath": "檔案儲存路徑82",
+      "FileSize": 43,
+      "FileType": "檔案類型82",
+      "AttachCategory": "附件分類82",
+      "Description": "急件已加收費用"
+     },
+     {
+      "RowGuid": "00000348-0000-0000-0001-000000000082",
+      "EntityID": "lab",
+      "Status": "1",
+      "RequestNo": "R-2026-0001",
+      "RequestGuid": "所屬申請單83",
+      "FileName": "鉛 Pb",
+      "FilePath": "檔案儲存路徑83",
+      "FileSize": 23,
+      "FileType": "檔案類型83",
+      "AttachCategory": "附件分類83",
+      "Description": ""
+     },
+     {
+      "RowGuid": "00000348-0000-0000-0001-000000000083",
+      "EntityID": "lab",
+      "Status": "1",
+      "RequestNo": "R-2026-0001",
+      "RequestGuid": "所屬申請單84",
+      "FileName": "銅 Cu",
+      "FilePath": "檔案儲存路徑84",
+      "FileSize": 11,
+      "FileType": "檔案類型84",
+      "AttachCategory": "附件分類84",
+      "Description": "已通知申請單位"
+     },
+     {
+      "RowGuid": "00000348-0000-0000-0001-000000000084",
+      "EntityID": "lab",
+      "Status": "1",
+      "RequestNo": "R-2025-0002",
+      "RequestGuid": "所屬申請單85",
+      "FileName": "鋅 Zn",
+      "FilePath": "檔案儲存路徑85",
+      "FileSize": 48,
+      "FileType": "檔案類型85",
+      "AttachCategory": "附件分類85",
+      "Description": "定期校正合格"
+     },
+     {
+      "RowGuid": "00000348-0000-0000-0001-000000000085",
+      "EntityID": "lab",
+      "Status": "1",
+      "RequestNo": "R-2025-0002",
+      "RequestGuid": "所屬申請單86",
+      "FileName": "pH值",
+      "FilePath": "檔案儲存路徑86",
+      "FileSize": 84,
+      "FileType": "檔案類型86",
+      "AttachCategory": "附件分類86",
+      "Description": ""
+     },
+     {
+      "RowGuid": "00000348-0000-0000-0001-000000000086",
+      "EntityID": "lab",
+      "Status": "1",
+      "RequestNo": "R-2026-0003",
+      "RequestGuid": "所屬申請單87",
+      "FileName": "導電度",
+      "FilePath": "檔案儲存路徑87",
+      "FileSize": 52,
+      "FileType": "檔案類型87",
+      "AttachCategory": "附件分類87",
+      "Description": ""
+     },
+     {
+      "RowGuid": "00000348-0000-0000-0001-000000000087",
+      "EntityID": "lab",
+      "Status": "1",
+      "RequestNo": "R-2026-0003",
+      "RequestGuid": "所屬申請單88",
+      "FileName": "濁度",
+      "FilePath": "檔案儲存路徑88",
+      "FileSize": 54,
+      "FileType": "檔案類型88",
+      "AttachCategory": "附件分類88",
+      "Description": ""
+     },
+     {
+      "RowGuid": "00000348-0000-0000-0001-000000000088",
+      "EntityID": "lab",
+      "Status": "1",
+      "RequestNo": "R-2026-0003",
+      "RequestGuid": "所屬申請單89",
+      "FileName": "大腸桿菌群",
+      "FilePath": "檔案儲存路徑89",
+      "FileSize": 29,
+      "FileType": "檔案類型89",
+      "AttachCategory": "附件分類89",
+      "Description": ""
+     },
+     {
+      "RowGuid": "00000348-0000-0000-0001-000000000089",
+      "EntityID": "lab",
+      "Status": "1",
+      "RequestNo": "R-2026-0003",
+      "RequestGuid": "所屬申請單90",
+      "FileName": "總有機碳 TOC",
+      "FilePath": "檔案儲存路徑90",
+      "FileSize": 72,
+      "FileType": "檔案類型90",
+      "AttachCategory": "附件分類90",
+      "Description": ""
+     },
+     {
+      "RowGuid": "00000348-0000-0000-0001-000000000090",
+      "EntityID": "lab",
+      "Status": "1",
+      "RequestNo": "R-2026-0004",
+      "RequestGuid": "所屬申請單91",
+      "FileName": "總磷 TP",
+      "FilePath": "檔案儲存路徑91",
+      "FileSize": 28,
+      "FileType": "檔案類型91",
+      "AttachCategory": "附件分類91",
+      "Description": ""
+     },
+     {
+      "RowGuid": "00000348-0000-0000-0001-000000000091",
+      "EntityID": "lab",
+      "Status": "1",
+      "RequestNo": "R-2026-0004",
+      "RequestGuid": "所屬申請單92",
+      "FileName": "化學需氧量 COD",
+      "FilePath": "檔案儲存路徑92",
+      "FileSize": 70,
+      "FileType": "檔案類型92",
+      "AttachCategory": "附件分類92",
+      "Description": "已通知申請單位"
+     },
+     {
+      "RowGuid": "00000348-0000-0000-0001-000000000092",
+      "EntityID": "lab",
+      "Status": "1",
+      "RequestNo": "R-2026-0004",
+      "RequestGuid": "所屬申請單93",
+      "FileName": "生化需氧量 BOD",
+      "FilePath": "檔案儲存路徑93",
+      "FileSize": 10,
+      "FileType": "檔案類型93",
+      "AttachCategory": "附件分類93",
+      "Description": ""
+     },
+     {
+      "RowGuid": "00000348-0000-0000-0001-000000000093",
+      "EntityID": "lab",
+      "Status": "1",
+      "RequestNo": "R-2026-0005",
+      "RequestGuid": "所屬申請單94",
+      "FileName": "懸浮固體 SS",
+      "FilePath": "檔案儲存路徑94",
+      "FileSize": 1,
+      "FileType": "檔案類型94",
+      "AttachCategory": "附件分類94",
+      "Description": "急件已加收費用"
+     },
+     {
+      "RowGuid": "00000348-0000-0000-0001-000000000094",
+      "EntityID": "lab",
+      "Status": "1",
+      "RequestNo": "R-2026-0005",
+      "RequestGuid": "所屬申請單95",
+      "FileName": "氨氮 NH3-N",
+      "FilePath": "檔案儲存路徑95",
+      "FileSize": 30,
+      "FileType": "檔案類型95",
+      "AttachCategory": "附件分類95",
+      "Description": ""
+     },
+     {
+      "RowGuid": "00000348-0000-0000-0001-000000000095",
+      "EntityID": "lab",
+      "Status": "1",
+      "RequestNo": "R-2025-0006",
+      "RequestGuid": "所屬申請單96",
+      "FileName": "硝酸鹽氮",
+      "FilePath": "檔案儲存路徑96",
+      "FileSize": 90,
+      "FileType": "檔案類型96",
+      "AttachCategory": "附件分類96",
+      "Description": ""
+     },
+     {
+      "RowGuid": "00000348-0000-0000-0001-000000000096",
+      "EntityID": "lab",
+      "Status": "1",
+      "RequestNo": "R-2025-0006",
+      "RequestGuid": "所屬申請單97",
+      "FileName": "鎘 Cd",
+      "FilePath": "檔案儲存路徑97",
+      "FileSize": 78,
+      "FileType": "檔案類型97",
+      "AttachCategory": "附件分類97",
+      "Description": ""
+     },
+     {
+      "RowGuid": "00000348-0000-0000-0001-000000000097",
+      "EntityID": "lab",
+      "Status": "1",
+      "RequestNo": "R-2025-0006",
+      "RequestGuid": "所屬申請單98",
+      "FileName": "鉛 Pb",
+      "FilePath": "檔案儲存路徑98",
+      "FileSize": 30,
+      "FileType": "檔案類型98",
+      "AttachCategory": "附件分類98",
+      "Description": "樣品外觀正常"
+     },
+     {
+      "RowGuid": "00000348-0000-0000-0001-000000000098",
+      "EntityID": "lab",
+      "Status": "1",
+      "RequestNo": "R-2025-0006",
+      "RequestGuid": "所屬申請單99",
+      "FileName": "銅 Cu",
+      "FilePath": "檔案儲存路徑99",
+      "FileSize": 99,
+      "FileType": "檔案類型99",
+      "AttachCategory": "附件分類99",
+      "Description": "樣品外觀正常"
+     },
+     {
+      "RowGuid": "00000348-0000-0000-0001-000000000099",
+      "EntityID": "lab",
+      "Status": "1",
+      "RequestNo": "R-2026-0007",
+      "RequestGuid": "所屬申請單100",
+      "FileName": "鋅 Zn",
+      "FilePath": "檔案儲存路徑100",
+      "FileSize": 13,
+      "FileType": "檔案類型100",
+      "AttachCategory": "附件分類100",
+      "Description": ""
+     },
+     {
+      "RowGuid": "00000348-0000-0000-0001-000000000100",
+      "EntityID": "lab",
+      "Status": "1",
+      "RequestNo": "R-2026-0007",
+      "RequestGuid": "所屬申請單101",
+      "FileName": "pH值",
+      "FilePath": "檔案儲存路徑101",
+      "FileSize": 73,
+      "FileType": "檔案類型101",
+      "AttachCategory": "附件分類101",
+      "Description": ""
+     },
+     {
+      "RowGuid": "00000348-0000-0000-0001-000000000101",
+      "EntityID": "lab",
+      "Status": "1",
+      "RequestNo": "R-2026-0008",
+      "RequestGuid": "所屬申請單102",
+      "FileName": "導電度",
+      "FilePath": "檔案儲存路徑102",
+      "FileSize": 8,
+      "FileType": "檔案類型102",
+      "AttachCategory": "附件分類102",
+      "Description": ""
+     },
+     {
+      "RowGuid": "00000348-0000-0000-0001-000000000102",
+      "EntityID": "lab",
+      "Status": "1",
+      "RequestNo": "R-2026-0008",
+      "RequestGuid": "所屬申請單103",
+      "FileName": "濁度",
+      "FilePath": "檔案儲存路徑103",
+      "FileSize": 15,
+      "FileType": "檔案類型103",
+      "AttachCategory": "附件分類103",
+      "Description": ""
+     },
+     {
+      "RowGuid": "00000348-0000-0000-0001-000000000103",
+      "EntityID": "lab",
+      "Status": "1",
+      "RequestNo": "R-2026-0008",
+      "RequestGuid": "所屬申請單104",
+      "FileName": "大腸桿菌群",
+      "FilePath": "檔案儲存路徑104",
+      "FileSize": 19,
+      "FileType": "檔案類型104",
+      "AttachCategory": "附件分類104",
+      "Description": "急件已加收費用"
+     },
+     {
+      "RowGuid": "00000348-0000-0000-0001-000000000104",
+      "EntityID": "lab",
+      "Status": "1",
+      "RequestNo": "R-2026-0008",
+      "RequestGuid": "所屬申請單105",
+      "FileName": "總有機碳 TOC",
+      "FilePath": "檔案儲存路徑105",
+      "FileSize": 42,
+      "FileType": "檔案類型105",
+      "AttachCategory": "附件分類105",
+      "Description": ""
+     },
+     {
+      "RowGuid": "00000348-0000-0000-0001-000000000105",
+      "EntityID": "lab",
+      "Status": "1",
+      "RequestNo": "R-2026-0009",
+      "RequestGuid": "所屬申請單106",
+      "FileName": "總磷 TP",
+      "FilePath": "檔案儲存路徑106",
+      "FileSize": 96,
+      "FileType": "檔案類型106",
+      "AttachCategory": "附件分類106",
+      "Description": ""
+     },
+     {
+      "RowGuid": "00000348-0000-0000-0001-000000000106",
+      "EntityID": "lab",
+      "Status": "1",
+      "RequestNo": "R-2026-0009",
+      "RequestGuid": "所屬申請單107",
+      "FileName": "化學需氧量 COD",
+      "FilePath": "檔案儲存路徑107",
+      "FileSize": 31,
+      "FileType": "檔案類型107",
+      "AttachCategory": "附件分類107",
+      "Description": ""
+     },
+     {
+      "RowGuid": "00000348-0000-0000-0001-000000000107",
+      "EntityID": "lab",
+      "Status": "1",
+      "RequestNo": "R-2026-0009",
+      "RequestGuid": "所屬申請單108",
+      "FileName": "生化需氧量 BOD",
+      "FilePath": "檔案儲存路徑108",
+      "FileSize": 83,
+      "FileType": "檔案類型108",
+      "AttachCategory": "附件分類108",
+      "Description": ""
+     },
+     {
+      "RowGuid": "00000348-0000-0000-0001-000000000108",
+      "EntityID": "lab",
+      "Status": "1",
+      "RequestNo": "R-2026-0009",
+      "RequestGuid": "所屬申請單109",
+      "FileName": "懸浮固體 SS",
+      "FilePath": "檔案儲存路徑109",
+      "FileSize": 82,
+      "FileType": "檔案類型109",
+      "AttachCategory": "附件分類109",
+      "Description": ""
+     },
+     {
+      "RowGuid": "00000348-0000-0000-0001-000000000109",
+      "EntityID": "lab",
+      "Status": "1",
+      "RequestNo": "R-2025-0010",
+      "RequestGuid": "所屬申請單110",
+      "FileName": "氨氮 NH3-N",
+      "FilePath": "檔案儲存路徑110",
+      "FileSize": 74,
+      "FileType": "檔案類型110",
+      "AttachCategory": "附件分類110",
+      "Description": ""
+     },
+     {
+      "RowGuid": "00000348-0000-0000-0001-000000000110",
+      "EntityID": "lab",
+      "Status": "1",
+      "RequestNo": "R-2025-0010",
+      "RequestGuid": "所屬申請單111",
+      "FileName": "硝酸鹽氮",
+      "FilePath": "檔案儲存路徑111",
+      "FileSize": 19,
+      "FileType": "檔案類型111",
+      "AttachCategory": "附件分類111",
+      "Description": "急件已加收費用"
+     },
+     {
+      "RowGuid": "00000348-0000-0000-0001-000000000111",
+      "EntityID": "lab",
+      "Status": "1",
+      "RequestNo": "R-2025-0010",
+      "RequestGuid": "所屬申請單112",
+      "FileName": "鎘 Cd",
+      "FilePath": "檔案儲存路徑112",
+      "FileSize": 9,
+      "FileType": "檔案類型112",
+      "AttachCategory": "附件分類112",
+      "Description": ""
+     },
+     {
+      "RowGuid": "00000348-0000-0000-0001-000000000112",
+      "EntityID": "lab",
+      "Status": "1",
+      "RequestNo": "R-2025-0010",
+      "RequestGuid": "所屬申請單113",
+      "FileName": "鉛 Pb",
+      "FilePath": "檔案儲存路徑113",
+      "FileSize": 6,
+      "FileType": "檔案類型113",
+      "AttachCategory": "附件分類113",
+      "Description": ""
+     },
+     {
+      "RowGuid": "00000348-0000-0000-0001-000000000113",
+      "EntityID": "lab",
+      "Status": "1",
+      "RequestNo": "R-2026-0011",
+      "RequestGuid": "所屬申請單114",
+      "FileName": "銅 Cu",
+      "FilePath": "檔案儲存路徑114",
+      "FileSize": 66,
+      "FileType": "檔案類型114",
+      "AttachCategory": "附件分類114",
+      "Description": "複驗確認無誤"
+     },
+     {
+      "RowGuid": "00000348-0000-0000-0001-000000000114",
+      "EntityID": "lab",
+      "Status": "1",
+      "RequestNo": "R-2026-0011",
+      "RequestGuid": "所屬申請單115",
+      "FileName": "鋅 Zn",
+      "FilePath": "檔案儲存路徑115",
+      "FileSize": 83,
+      "FileType": "檔案類型115",
+      "AttachCategory": "附件分類115",
+      "Description": ""
+     },
+     {
+      "RowGuid": "00000348-0000-0000-0001-000000000115",
+      "EntityID": "lab",
+      "Status": "1",
+      "RequestNo": "R-2025-0012",
+      "RequestGuid": "所屬申請單116",
+      "FileName": "pH值",
+      "FilePath": "檔案儲存路徑116",
+      "FileSize": 93,
+      "FileType": "檔案類型116",
+      "AttachCategory": "附件分類116",
+      "Description": "需注意保存效期"
+     },
+     {
+      "RowGuid": "00000348-0000-0000-0001-000000000116",
+      "EntityID": "lab",
+      "Status": "1",
+      "RequestNo": "R-2025-0012",
+      "RequestGuid": "所屬申請單117",
+      "FileName": "導電度",
+      "FilePath": "檔案儲存路徑117",
+      "FileSize": 60,
+      "FileType": "檔案類型117",
+      "AttachCategory": "附件分類117",
+      "Description": ""
+     },
+     {
+      "RowGuid": "00000348-0000-0000-0001-000000000117",
+      "EntityID": "lab",
+      "Status": "1",
+      "RequestNo": "R-2026-0013",
+      "RequestGuid": "所屬申請單118",
+      "FileName": "濁度",
+      "FilePath": "檔案儲存路徑118",
+      "FileSize": 20,
+      "FileType": "檔案類型118",
+      "AttachCategory": "附件分類118",
+      "Description": "已通知申請單位"
+     },
+     {
+      "RowGuid": "00000348-0000-0000-0001-000000000118",
+      "EntityID": "lab",
+      "Status": "1",
+      "RequestNo": "R-2026-0013",
+      "RequestGuid": "所屬申請單119",
+      "FileName": "大腸桿菌群",
+      "FilePath": "檔案儲存路徑119",
+      "FileSize": 61,
+      "FileType": "檔案類型119",
+      "AttachCategory": "附件分類119",
+      "Description": ""
+     },
+     {
+      "RowGuid": "00000348-0000-0000-0001-000000000119",
+      "EntityID": "lab",
+      "Status": "1",
+      "RequestNo": "R-2026-0013",
+      "RequestGuid": "所屬申請單120",
+      "FileName": "總有機碳 TOC",
+      "FilePath": "檔案儲存路徑120",
+      "FileSize": 98,
+      "FileType": "檔案類型120",
+      "AttachCategory": "附件分類120",
+      "Description": "需注意保存效期"
+     },
+     {
+      "RowGuid": "00000348-0000-0000-0001-000000000120",
+      "EntityID": "lab",
+      "Status": "1",
+      "RequestNo": "R-2025-0014",
+      "RequestGuid": "所屬申請單121",
+      "FileName": "總磷 TP",
+      "FilePath": "檔案儲存路徑121",
+      "FileSize": 92,
+      "FileType": "檔案類型121",
+      "AttachCategory": "附件分類121",
+      "Description": ""
+     },
+     {
+      "RowGuid": "00000348-0000-0000-0001-000000000121",
+      "EntityID": "lab",
+      "Status": "1",
+      "RequestNo": "R-2025-0014",
+      "RequestGuid": "所屬申請單122",
+      "FileName": "化學需氧量 COD",
+      "FilePath": "檔案儲存路徑122",
+      "FileSize": 14,
+      "FileType": "檔案類型122",
+      "AttachCategory": "附件分類122",
+      "Description": "急件已加收費用"
+     },
+     {
+      "RowGuid": "00000348-0000-0000-0001-000000000122",
+      "EntityID": "lab",
+      "Status": "1",
+      "RequestNo": "R-2025-0014",
+      "RequestGuid": "所屬申請單123",
+      "FileName": "生化需氧量 BOD",
+      "FilePath": "檔案儲存路徑123",
+      "FileSize": 19,
+      "FileType": "檔案類型123",
+      "AttachCategory": "附件分類123",
+      "Description": "急件已加收費用"
+     },
+     {
+      "RowGuid": "00000348-0000-0000-0001-000000000123",
+      "EntityID": "lab",
+      "Status": "1",
+      "RequestNo": "R-2025-0014",
+      "RequestGuid": "所屬申請單124",
+      "FileName": "懸浮固體 SS",
+      "FilePath": "檔案儲存路徑124",
+      "FileSize": 82,
+      "FileType": "檔案類型124",
+      "AttachCategory": "附件分類124",
+      "Description": "客戶要求附 TAF Logo"
+     }
+    ]
+   },
+   {
+    "DetailID": "Shipment",
+    "Title": "送樣資訊",
+    "Icon": "ri-truck-line",
+    "Entity": "labTes_RequestShipment",
+    "RelationKey": "RequestNo",
+    "RowKey": "RowGuid",
+    "AllowAdd": true,
+    "AllowEdit": true,
+    "AllowDelete": true,
+    "EmptyText": "尚無送樣資訊資料",
+    "CodeSets": {
+     "Status": [
+      {
+       "CodeID": "1",
+       "CodeName": "啟用",
+       "IsDefault": true
+      },
+      {
+       "CodeID": "0",
+       "CodeName": "停用"
+      }
+     ],
+     "Priority": [
+      {
+       "CodeID": "A",
+       "CodeName": "急件"
+      },
+      {
+       "CodeID": "B",
+       "CodeName": "高"
+      },
+      {
+       "CodeID": "C",
+       "CodeName": "一般",
+       "IsDefault": true
+      },
+      {
+       "CodeID": "D",
+       "CodeName": "低"
+      }
+     ]
+    },
+    "Columns": [
+     {
+      "BindField": "RequestGuid",
+      "Title": "所屬申請單",
+      "Width": 120,
+      "Align": "Left"
+     },
+     {
+      "BindField": "ShipMethod",
+      "Title": "寄送方式",
+      "Width": 120,
+      "Align": "Left"
+     },
+     {
+      "BindField": "TrackingNo",
+      "Title": "物流追蹤編號",
+      "Width": 120,
+      "Align": "Left"
+     },
+     {
+      "BindField": "ExpectedArrival",
+      "Title": "預計到達日期",
+      "Width": 120,
+      "Align": "Left",
+      "Formatter": "Date"
+     },
+     {
+      "BindField": "ActualArrival",
+      "Title": "實際到達日期",
+      "Width": 120,
+      "Align": "Left",
+      "Formatter": "Date"
+     }
+    ],
+    "FormFields": [
+     {
+      "BindField": "RequestGuid",
+      "Title": "所屬申請單",
+      "Component": "Input",
+      "Section": "",
+      "Span": 12,
+      "Mode": "ReadOnly",
+      "Validations": [
+       {
+        "Rule": "Required",
+        "Message": "所屬申請單為必填"
+       }
+      ]
+     },
+     {
+      "BindField": "ShipMethod",
+      "Title": "寄送方式",
+      "Component": "Input",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Validations": [
+       {
+        "Rule": "Required",
+        "Message": "寄送方式為必填"
+       },
+       {
+        "Rule": "MaxLength",
+        "Value": 50,
+        "Message": "長度不可超過 50"
+       }
+      ]
+     },
+     {
+      "BindField": "TrackingNo",
+      "Title": "物流追蹤編號",
+      "Component": "Input",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Validations": [
+       {
+        "Rule": "MaxLength",
+        "Value": 100,
+        "Message": "長度不可超過 100"
+       }
+      ]
+     },
+     {
+      "BindField": "ExpectedArrival",
+      "Title": "預計到達日期",
+      "Component": "DatePicker",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Props": {
+       "Mode": "Editable",
+       "ShowTime": false
+      }
+     },
+     {
+      "BindField": "ActualArrival",
+      "Title": "實際到達日期",
+      "Component": "DatePicker",
+      "Section": "",
+      "Span": 12,
+      "Mode": "Editable",
+      "Props": {
+       "Mode": "Editable",
+       "ShowTime": false
+      }
+     },
+     {
+      "BindField": "Remark",
+      "Title": "備註",
+      "Component": "Textarea",
+      "Section": "",
+      "Span": 24,
+      "Mode": "Editable",
+      "Validations": [
+       {
+        "Rule": "MaxLength",
+        "Value": 500,
+        "Message": "長度不可超過 500"
+       }
+      ],
+      "Props": {
+       "Rows": 3
+      }
+     }
+    ],
+    "SeedData": [
+     {
+      "RowGuid": "00000348-0000-0000-0001-000000000124",
+      "EntityID": "lab",
+      "Status": "1",
+      "RequestNo": "R-2026-0001",
+      "RequestGuid": "所屬申請單125",
+      "ShipMethod": "CNS 13289",
+      "TrackingNo": "RS-2026-0125",
+      "ExpectedArrival": "2026-08-11",
+      "ActualArrival": "2025-07-26",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000348-0000-0000-0001-000000000125",
+      "EntityID": "lab",
+      "Status": "1",
+      "RequestNo": "R-2026-0001",
+      "RequestGuid": "所屬申請單126",
+      "ShipMethod": "EPA 200.8",
+      "TrackingNo": "RS-2025-0126",
+      "ExpectedArrival": "2025-05-19",
+      "ActualArrival": "2026-09-03",
+      "Remark": "複驗確認無誤"
+     },
+     {
+      "RowGuid": "00000348-0000-0000-0001-000000000126",
+      "EntityID": "lab",
+      "Status": "1",
+      "RequestNo": "R-2025-0002",
+      "RequestGuid": "所屬申請單127",
+      "ShipMethod": "HACH Method 8000",
+      "TrackingNo": "RS-2026-0127",
+      "ExpectedArrival": "2026-04-17",
+      "ActualArrival": "2025-02-02",
+      "Remark": "複驗確認無誤"
+     },
+     {
+      "RowGuid": "00000348-0000-0000-0001-000000000127",
+      "EntityID": "lab",
+      "Status": "1",
+      "RequestNo": "R-2025-0002",
+      "RequestGuid": "所屬申請單128",
+      "ShipMethod": "JIS K0102",
+      "TrackingNo": "RS-2025-0128",
+      "ExpectedArrival": "2025-03-02",
+      "ActualArrival": "2026-09-03",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000348-0000-0000-0001-000000000128",
+      "EntityID": "lab",
+      "Status": "1",
+      "RequestNo": "R-2025-0002",
+      "RequestGuid": "所屬申請單129",
+      "ShipMethod": "NIEA W508.05B",
+      "TrackingNo": "RS-2026-0129",
+      "ExpectedArrival": "2026-07-22",
+      "ActualArrival": "2026-12-16",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000348-0000-0000-0001-000000000129",
+      "EntityID": "lab",
+      "Status": "1",
+      "RequestNo": "R-2025-0002",
+      "RequestGuid": "所屬申請單130",
+      "ShipMethod": "EPA 200.8",
+      "TrackingNo": "RS-2026-0130",
+      "ExpectedArrival": "2026-09-20",
+      "ActualArrival": "2026-03-26",
+      "Remark": "待主管覆核"
+     },
+     {
+      "RowGuid": "00000348-0000-0000-0001-000000000130",
+      "EntityID": "lab",
+      "Status": "1",
+      "RequestNo": "R-2026-0003",
+      "RequestGuid": "所屬申請單131",
+      "ShipMethod": "JIS K0102",
+      "TrackingNo": "RS-2025-0131",
+      "ExpectedArrival": "2025-03-13",
+      "ActualArrival": "2026-03-01",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000348-0000-0000-0001-000000000131",
+      "EntityID": "lab",
+      "Status": "1",
+      "RequestNo": "R-2026-0003",
+      "RequestGuid": "所屬申請單132",
+      "ShipMethod": "CNS 13289",
+      "TrackingNo": "RS-2025-0132",
+      "ExpectedArrival": "2026-03-08",
+      "ActualArrival": "2026-12-01",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000348-0000-0000-0001-000000000132",
+      "EntityID": "lab",
+      "Status": "1",
+      "RequestNo": "R-2026-0003",
+      "RequestGuid": "所屬申請單133",
+      "ShipMethod": "SM 4500-P",
+      "TrackingNo": "RS-2026-0133",
+      "ExpectedArrival": "2025-06-27",
+      "ActualArrival": "2025-02-19",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000348-0000-0000-0001-000000000133",
+      "EntityID": "lab",
+      "Status": "1",
+      "RequestNo": "R-2026-0004",
+      "RequestGuid": "所屬申請單134",
+      "ShipMethod": "NIEA W508.05B",
+      "TrackingNo": "RS-2025-0134",
+      "ExpectedArrival": "2025-07-25",
+      "ActualArrival": "2025-02-18",
+      "Remark": "急件已加收費用"
+     },
+     {
+      "RowGuid": "00000348-0000-0000-0001-000000000134",
+      "EntityID": "lab",
+      "Status": "1",
+      "RequestNo": "R-2026-0004",
+      "RequestGuid": "所屬申請單135",
+      "ShipMethod": "SM 4500-P",
+      "TrackingNo": "RS-2026-0135",
+      "ExpectedArrival": "2026-12-08",
+      "ActualArrival": "2026-09-17",
+      "Remark": "複驗確認無誤"
+     },
+     {
+      "RowGuid": "00000348-0000-0000-0001-000000000135",
+      "EntityID": "lab",
+      "Status": "1",
+      "RequestNo": "R-2026-0005",
+      "RequestGuid": "所屬申請單136",
+      "ShipMethod": "SM 4500-P",
+      "TrackingNo": "RS-2025-0136",
+      "ExpectedArrival": "2026-02-07",
+      "ActualArrival": "2026-03-08",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000348-0000-0000-0001-000000000136",
+      "EntityID": "lab",
+      "Status": "1",
+      "RequestNo": "R-2026-0005",
+      "RequestGuid": "所屬申請單137",
+      "ShipMethod": "HACH Method 8000",
+      "TrackingNo": "RS-2026-0137",
+      "ExpectedArrival": "2025-07-21",
+      "ActualArrival": "2026-03-19",
+      "Remark": "待主管覆核"
+     },
+     {
+      "RowGuid": "00000348-0000-0000-0001-000000000137",
+      "EntityID": "lab",
+      "Status": "1",
+      "RequestNo": "R-2025-0006",
+      "RequestGuid": "所屬申請單138",
+      "ShipMethod": "CNS 13289",
+      "TrackingNo": "RS-2025-0138",
+      "ExpectedArrival": "2025-07-16",
+      "ActualArrival": "2025-03-26",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000348-0000-0000-0001-000000000138",
+      "EntityID": "lab",
+      "Status": "1",
+      "RequestNo": "R-2025-0006",
+      "RequestGuid": "所屬申請單139",
+      "ShipMethod": "ASTM D1193",
+      "TrackingNo": "RS-2026-0139",
+      "ExpectedArrival": "2025-11-08",
+      "ActualArrival": "2025-11-03",
+      "Remark": "複驗確認無誤"
+     },
+     {
+      "RowGuid": "00000348-0000-0000-0001-000000000139",
+      "EntityID": "lab",
+      "Status": "1",
+      "RequestNo": "R-2025-0006",
+      "RequestGuid": "所屬申請單140",
+      "ShipMethod": "CNS 11423",
+      "TrackingNo": "RS-2026-0140",
+      "ExpectedArrival": "2026-04-22",
+      "ActualArrival": "2026-09-15",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000348-0000-0000-0001-000000000140",
+      "EntityID": "lab",
+      "Status": "1",
+      "RequestNo": "R-2025-0006",
+      "RequestGuid": "所屬申請單141",
+      "ShipMethod": "NIEA W508.05B",
+      "TrackingNo": "RS-2026-0141",
+      "ExpectedArrival": "2026-09-10",
+      "ActualArrival": "2026-05-05",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000348-0000-0000-0001-000000000141",
+      "EntityID": "lab",
+      "Status": "1",
+      "RequestNo": "R-2026-0007",
+      "RequestGuid": "所屬申請單142",
+      "ShipMethod": "SM 4500-P",
+      "TrackingNo": "RS-2026-0142",
+      "ExpectedArrival": "2026-10-16",
+      "ActualArrival": "2026-06-19",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000348-0000-0000-0001-000000000142",
+      "EntityID": "lab",
+      "Status": "1",
+      "RequestNo": "R-2026-0007",
+      "RequestGuid": "所屬申請單143",
+      "ShipMethod": "CNS 13289",
+      "TrackingNo": "RS-2025-0143",
+      "ExpectedArrival": "2025-07-11",
+      "ActualArrival": "2025-06-04",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000348-0000-0000-0001-000000000143",
+      "EntityID": "lab",
+      "Status": "1",
+      "RequestNo": "R-2026-0007",
+      "RequestGuid": "所屬申請單144",
+      "ShipMethod": "CNS 11423",
+      "TrackingNo": "RS-2026-0144",
+      "ExpectedArrival": "2025-07-14",
+      "ActualArrival": "2026-03-04",
+      "Remark": "待主管覆核"
+     },
+     {
+      "RowGuid": "00000348-0000-0000-0001-000000000144",
+      "EntityID": "lab",
+      "Status": "1",
+      "RequestNo": "R-2026-0007",
+      "RequestGuid": "所屬申請單145",
+      "ShipMethod": "NIEA W508.05B",
+      "TrackingNo": "RS-2026-0145",
+      "ExpectedArrival": "2026-04-23",
+      "ActualArrival": "2025-06-04",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000348-0000-0000-0001-000000000145",
+      "EntityID": "lab",
+      "Status": "1",
+      "RequestNo": "R-2026-0008",
+      "RequestGuid": "所屬申請單146",
+      "ShipMethod": "CNS 13289",
+      "TrackingNo": "RS-2026-0146",
+      "ExpectedArrival": "2026-04-04",
+      "ActualArrival": "2025-02-15",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000348-0000-0000-0001-000000000146",
+      "EntityID": "lab",
+      "Status": "1",
+      "RequestNo": "R-2026-0008",
+      "RequestGuid": "所屬申請單147",
+      "ShipMethod": "SM 4500-P",
+      "TrackingNo": "RS-2026-0147",
+      "ExpectedArrival": "2026-01-05",
+      "ActualArrival": "2025-07-25",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000348-0000-0000-0001-000000000147",
+      "EntityID": "lab",
+      "Status": "1",
+      "RequestNo": "R-2026-0009",
+      "RequestGuid": "所屬申請單148",
+      "ShipMethod": "NIEA W508.05B",
+      "TrackingNo": "RS-2026-0148",
+      "ExpectedArrival": "2025-04-13",
+      "ActualArrival": "2025-06-21",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000348-0000-0000-0001-000000000148",
+      "EntityID": "lab",
+      "Status": "1",
+      "RequestNo": "R-2026-0009",
+      "RequestGuid": "所屬申請單149",
+      "ShipMethod": "NIEA W415.55B",
+      "TrackingNo": "RS-2026-0149",
+      "ExpectedArrival": "2026-03-10",
+      "ActualArrival": "2025-10-09",
+      "Remark": "客戶要求附 TAF Logo"
+     },
+     {
+      "RowGuid": "00000348-0000-0000-0001-000000000149",
+      "EntityID": "lab",
+      "Status": "1",
+      "RequestNo": "R-2026-0009",
+      "RequestGuid": "所屬申請單150",
+      "ShipMethod": "NIEA W424.53A",
+      "TrackingNo": "RS-2026-0150",
+      "ExpectedArrival": "2025-12-11",
+      "ActualArrival": "2026-11-19",
+      "Remark": "待主管覆核"
+     },
+     {
+      "RowGuid": "00000348-0000-0000-0001-000000000150",
+      "EntityID": "lab",
+      "Status": "1",
+      "RequestNo": "R-2025-0010",
+      "RequestGuid": "所屬申請單151",
+      "ShipMethod": "CNS 13289",
+      "TrackingNo": "RS-2026-0151",
+      "ExpectedArrival": "2025-10-28",
+      "ActualArrival": "2025-11-05",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000348-0000-0000-0001-000000000151",
+      "EntityID": "lab",
+      "Status": "1",
+      "RequestNo": "R-2025-0010",
+      "RequestGuid": "所屬申請單152",
+      "ShipMethod": "NIEA W508.05B",
+      "TrackingNo": "RS-2025-0152",
+      "ExpectedArrival": "2025-01-25",
+      "ActualArrival": "2026-01-25",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000348-0000-0000-0001-000000000152",
+      "EntityID": "lab",
+      "Status": "1",
+      "RequestNo": "R-2025-0010",
+      "RequestGuid": "所屬申請單153",
+      "ShipMethod": "NIEA W508.05B",
+      "TrackingNo": "RS-2026-0153",
+      "ExpectedArrival": "2025-04-15",
+      "ActualArrival": "2026-02-11",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000348-0000-0000-0001-000000000153",
+      "EntityID": "lab",
+      "Status": "1",
+      "RequestNo": "R-2026-0011",
+      "RequestGuid": "所屬申請單154",
+      "ShipMethod": "NIEA W415.55B",
+      "TrackingNo": "RS-2025-0154",
+      "ExpectedArrival": "2025-11-22",
+      "ActualArrival": "2025-02-07",
+      "Remark": "已通知申請單位"
+     },
+     {
+      "RowGuid": "00000348-0000-0000-0001-000000000154",
+      "EntityID": "lab",
+      "Status": "1",
+      "RequestNo": "R-2026-0011",
+      "RequestGuid": "所屬申請單155",
+      "ShipMethod": "CNS 13289",
+      "TrackingNo": "RS-2026-0155",
+      "ExpectedArrival": "2026-10-25",
+      "ActualArrival": "2026-02-27",
+      "Remark": "複驗確認無誤"
+     },
+     {
+      "RowGuid": "00000348-0000-0000-0001-000000000155",
+      "EntityID": "lab",
+      "Status": "1",
+      "RequestNo": "R-2026-0011",
+      "RequestGuid": "所屬申請單156",
+      "ShipMethod": "CNS 11423",
+      "TrackingNo": "RS-2025-0156",
+      "ExpectedArrival": "2025-03-01",
+      "ActualArrival": "2026-09-14",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000348-0000-0000-0001-000000000156",
+      "EntityID": "lab",
+      "Status": "1",
+      "RequestNo": "R-2025-0012",
+      "RequestGuid": "所屬申請單157",
+      "ShipMethod": "CNS 13289",
+      "TrackingNo": "RS-2026-0157",
+      "ExpectedArrival": "2025-03-18",
+      "ActualArrival": "2026-07-28",
+      "Remark": "已通知申請單位"
+     },
+     {
+      "RowGuid": "00000348-0000-0000-0001-000000000157",
+      "EntityID": "lab",
+      "Status": "1",
+      "RequestNo": "R-2025-0012",
+      "RequestGuid": "所屬申請單158",
+      "ShipMethod": "CNS 11423",
+      "TrackingNo": "RS-2025-0158",
+      "ExpectedArrival": "2025-04-26",
+      "ActualArrival": "2025-03-24",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000348-0000-0000-0001-000000000158",
+      "EntityID": "lab",
+      "Status": "1",
+      "RequestNo": "R-2025-0012",
+      "RequestGuid": "所屬申請單159",
+      "ShipMethod": "CNS 11423",
+      "TrackingNo": "RS-2025-0159",
+      "ExpectedArrival": "2026-12-26",
+      "ActualArrival": "2025-07-04",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000348-0000-0000-0001-000000000159",
+      "EntityID": "lab",
+      "Status": "1",
+      "RequestNo": "R-2026-0013",
+      "RequestGuid": "所屬申請單160",
+      "ShipMethod": "CNS 13289",
+      "TrackingNo": "RS-2026-0160",
+      "ExpectedArrival": "2026-03-22",
+      "ActualArrival": "2025-09-17",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000348-0000-0000-0001-000000000160",
+      "EntityID": "lab",
+      "Status": "1",
+      "RequestNo": "R-2026-0013",
+      "RequestGuid": "所屬申請單161",
+      "ShipMethod": "CNS 11423",
+      "TrackingNo": "RS-2026-0161",
+      "ExpectedArrival": "2026-02-23",
+      "ActualArrival": "2026-05-26",
+      "Remark": ""
+     },
+     {
+      "RowGuid": "00000348-0000-0000-0001-000000000161",
+      "EntityID": "lab",
+      "Status": "1",
+      "RequestNo": "R-2025-0014",
+      "RequestGuid": "所屬申請單162",
+      "ShipMethod": "HACH Method 8000",
+      "TrackingNo": "RS-2026-0162",
+      "ExpectedArrival": "2025-11-03",
+      "ActualArrival": "2025-10-25",
+      "Remark": "樣品外觀正常"
+     },
+     {
+      "RowGuid": "00000348-0000-0000-0001-000000000162",
+      "EntityID": "lab",
+      "Status": "1",
+      "RequestNo": "R-2025-0014",
+      "RequestGuid": "所屬申請單163",
+      "ShipMethod": "NIEA W424.53A",
+      "TrackingNo": "RS-2026-0163",
+      "ExpectedArrival": "2025-08-07",
+      "ActualArrival": "2025-08-18",
+      "Remark": "複驗確認無誤"
+     },
+     {
+      "RowGuid": "00000348-0000-0000-0001-000000000163",
+      "EntityID": "lab",
+      "Status": "1",
+      "RequestNo": "R-2025-0014",
+      "RequestGuid": "所屬申請單164",
+      "ShipMethod": "CNS 11423",
+      "TrackingNo": "RS-2026-0164",
+      "ExpectedArrival": "2025-04-14",
+      "ActualArrival": "2026-01-10",
+      "Remark": "定期校正合格"
+     }
+    ]
+   }
+  ]
+ },
+ "Features": {},
+ "DataScope": {
+  "DefaultWhere": "EntityID = 'lab' AND Status = '1'",
+  "AuthLevel": 2,
+  "SortExp": "SortNo ASC",
+  "DataConfig": {
+   "RowLimit": 2000,
+   "AllowExport": true
+  }
+ },
+ "CustomMeta": {
+  "CustomSchema": {
+   "WidgetType": "Grid",
+   "KeyField": "RequestNo",
+   "TitleField": "RequestDate",
+   "ParentKeyField": null,
+   "PathField": null,
+   "PathSeparator": "/"
+  }
+ },
+ "SeedData": [
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000000",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-10-22 08:23",
+   "UpdatedBy": "abram.chen",
+   "UpdatedAt": "2026-10-05 09:06",
+   "RequestNo": "R-2026-0001",
+   "RequestDate": "2026-12-13",
+   "CaseNo": "R-2025-0001",
+   "CaseUnit": "R001 研發中心",
+   "ApplyUnit": "M021 品保處",
+   "ApplyName": "郭品管",
+   "ApplyPhone": "蔡研究",
+   "ApplyAddress": "新北市中和區中山路147號",
+   "ApplyMgrName": "劉助理",
+   "ApplyMgrSignDate": "2026-10-11",
+   "SamplingLocation": "藥品櫃P1",
+   "SamplingPlant": "龜山廠",
+   "SamplerName": "蔡研究",
+   "SamplerPhone": "謝校正",
+   "SubmitDate": "2026-05-04",
+   "SampleCategory": "樣品類型01",
+   "WaterSubType": "DW",
+   "ResinSubType": "樹脂子類型01",
+   "SystemName": "鄭組長",
+   "OtherSampleNote": "",
+   "Urgency": "A",
+   "IsTafRequired": "是否需要 TAF Logo01",
+   "BaseCost": 1200,
+   "ExtraCost": 3500,
+   "TotalCost": "[計算欄位] 總費用01",
+   "FlowStage": "AP",
+   "FlowHandler": "lin.pb",
+   "SubmittedAt": "2026-07-19",
+   "CustomerNote": "",
+   "Description": "",
+   "Attributes": "擴展屬性01"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000001",
+   "EntityID": "lab",
+   "Status": "0",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-03-25 16:11",
+   "UpdatedBy": "chang.fa",
+   "UpdatedAt": "2026-02-03 12:05",
+   "RequestNo": "R-2025-0002",
+   "RequestDate": "2025-04-16",
+   "CaseNo": "R-2026-0002",
+   "CaseUnit": "M041 製造一處",
+   "ApplyUnit": "M071 工務處",
+   "ApplyName": "劉助理",
+   "ApplyPhone": "謝校正",
+   "ApplyAddress": "新北市中和區中山路289號",
+   "ApplyMgrName": "吳主任",
+   "ApplyMgrSignDate": "2025-04-06",
+   "SamplingLocation": "藥品櫃P2",
+   "SamplingPlant": "中和廠",
+   "SamplerName": "吳主任",
+   "SamplerPhone": "謝校正",
+   "SubmitDate": "2026-02-25",
+   "SampleCategory": "樣品類型02",
+   "WaterSubType": "GW",
+   "ResinSubType": "樹脂子類型02",
+   "SystemName": "謝校正",
+   "OtherSampleNote": "樣品外觀正常",
+   "Urgency": "A",
+   "IsTafRequired": "是否需要 TAF Logo02",
+   "BaseCost": 2000,
+   "ExtraCost": 3500,
+   "TotalCost": "[計算欄位] 總費用02",
+   "FlowStage": "AP",
+   "FlowHandler": "cheng.gl",
+   "SubmittedAt": "2025-10-18",
+   "CustomerNote": "",
+   "Description": "",
+   "Attributes": "擴展屬性02"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000002",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-05-21 08:23",
+   "UpdatedBy": "huang.tc",
+   "UpdatedAt": "2026-07-25 11:04",
+   "RequestNo": "R-2026-0003",
+   "RequestDate": "2026-01-25",
+   "CaseNo": "R-2026-0003",
+   "CaseUnit": "M051 製造二處",
+   "ApplyUnit": "M041 製造一處",
+   "ApplyName": "陳審核",
+   "ApplyPhone": "李檢測",
+   "ApplyAddress": "新北市三峽區民生路247號",
+   "ApplyMgrName": "李檢測",
+   "ApplyMgrSignDate": "2026-10-07",
+   "SamplingLocation": "樣品庫",
+   "SamplingPlant": "合江一廠",
+   "SamplerName": "楊化驗",
+   "SamplerPhone": "何環安",
+   "SubmitDate": "2025-04-17",
+   "SampleCategory": "樣品類型03",
+   "WaterSubType": "DW",
+   "ResinSubType": "樹脂子類型03",
+   "SystemName": "張分析",
+   "OtherSampleNote": "",
+   "Urgency": "B",
+   "IsTafRequired": "是否需要 TAF Logo03",
+   "BaseCost": 3500,
+   "ExtraCost": 5000,
+   "TotalCost": "[計算欄位] 總費用03",
+   "FlowStage": "AP",
+   "FlowHandler": "abram.chen",
+   "SubmittedAt": "2026-01-21",
+   "CustomerNote": "",
+   "Description": "",
+   "Attributes": "擴展屬性03"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000003",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-04-23 12:26",
+   "UpdatedBy": "cheng.gl",
+   "UpdatedAt": "2026-05-09 15:31",
+   "RequestNo": "R-2026-0004",
+   "RequestDate": "2026-08-01",
+   "CaseNo": "R-2026-0004",
+   "CaseUnit": "M031 環安處",
+   "ApplyUnit": "M041 製造一處",
+   "ApplyName": "黃技正",
+   "ApplyPhone": "林品保",
+   "ApplyAddress": "新北市林口區民生路94號",
+   "ApplyMgrName": "張分析",
+   "ApplyMgrSignDate": "2026-04-27",
+   "SamplingLocation": "天平室",
+   "SamplingPlant": "合江一廠",
+   "SamplerName": "許工程",
+   "SamplerPhone": "鄭組長",
+   "SubmitDate": "2026-04-13",
+   "SampleCategory": "樣品類型04",
+   "WaterSubType": "DW",
+   "ResinSubType": "樹脂子類型04",
+   "SystemName": "吳主任",
+   "OtherSampleNote": "樣品外觀正常",
+   "Urgency": "A",
+   "IsTafRequired": "是否需要 TAF Logo04",
+   "BaseCost": 2000,
+   "ExtraCost": 1500,
+   "TotalCost": "[計算欄位] 總費用04",
+   "FlowStage": "AP",
+   "FlowHandler": "chen.sh",
+   "SubmittedAt": "2026-09-22",
+   "CustomerNote": "",
+   "Description": "急件已加收費用",
+   "Attributes": "擴展屬性04"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000004",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-07-06 09:20",
+   "UpdatedBy": "cheng.gl",
+   "UpdatedAt": "2026-08-16 08:00",
+   "RequestNo": "R-2026-0005",
+   "RequestDate": "2025-02-27",
+   "CaseNo": "R-2026-0005",
+   "CaseUnit": "M011 工程處",
+   "ApplyUnit": "M021 品保處",
+   "ApplyName": "張分析",
+   "ApplyPhone": "張分析",
+   "ApplyAddress": "新北市土城區民生路166號",
+   "ApplyMgrName": "李檢測",
+   "ApplyMgrSignDate": "2026-08-18",
+   "SamplingLocation": "儀器室A",
+   "SamplingPlant": "土城廠",
+   "SamplerName": "吳主任",
+   "SamplerPhone": "張分析",
+   "SubmitDate": "2026-10-07",
+   "SampleCategory": "樣品類型05",
+   "WaterSubType": "DW",
+   "ResinSubType": "樹脂子類型05",
+   "SystemName": "蔡研究",
+   "OtherSampleNote": "客戶要求附 TAF Logo",
+   "Urgency": "B",
+   "IsTafRequired": "是否需要 TAF Logo05",
+   "BaseCost": 1500,
+   "ExtraCost": 1500,
+   "TotalCost": "[計算欄位] 總費用05",
+   "FlowStage": "AP",
+   "FlowHandler": "lin.pb",
+   "SubmittedAt": "2026-08-26",
+   "CustomerNote": "複驗確認無誤",
+   "Description": "",
+   "Attributes": "擴展屬性05"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000005",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-03-17 16:20",
+   "UpdatedBy": "hsu.eng",
+   "UpdatedAt": "2026-04-12 10:36",
+   "RequestNo": "R-2025-0006",
+   "RequestDate": "2026-01-07",
+   "CaseNo": "R-2026-0006",
+   "CaseUnit": "M021 品保處",
+   "ApplyUnit": "R001 研發中心",
+   "ApplyName": "黃技正",
+   "ApplyPhone": "林品保",
+   "ApplyAddress": "新北市中和區成功路97號",
+   "ApplyMgrName": "陳審核",
+   "ApplyMgrSignDate": "2025-05-17",
+   "SamplingLocation": "定容室",
+   "SamplingPlant": "中和廠",
+   "SamplerName": "張分析",
+   "SamplerPhone": "陳審核",
+   "SubmitDate": "2026-11-03",
+   "SampleCategory": "樣品類型06",
+   "WaterSubType": "DW",
+   "ResinSubType": "樹脂子類型06",
+   "SystemName": "林品保",
+   "OtherSampleNote": "需注意保存效期",
+   "Urgency": "B",
+   "IsTafRequired": "是否需要 TAF Logo06",
+   "BaseCost": 1200,
+   "ExtraCost": 2000,
+   "TotalCost": "[計算欄位] 總費用06",
+   "FlowStage": "AP",
+   "FlowHandler": "chang.fa",
+   "SubmittedAt": "2026-02-03",
+   "CustomerNote": "",
+   "Description": "",
+   "Attributes": "擴展屬性06"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000006",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-01-23 16:06",
+   "UpdatedBy": "cheng.gl",
+   "UpdatedAt": "2026-04-26 09:11",
+   "RequestNo": "R-2026-0007",
+   "RequestDate": "2025-06-13",
+   "CaseNo": "R-2025-0007",
+   "CaseUnit": "M011 工程處",
+   "ApplyUnit": "M011 工程處",
+   "ApplyName": "許工程",
+   "ApplyPhone": "黃技正",
+   "ApplyAddress": "新北市土城區中山路293號",
+   "ApplyMgrName": "陳審核",
+   "ApplyMgrSignDate": "2026-04-28",
+   "SamplingLocation": "NAS機房",
+   "SamplingPlant": "板橋廠",
+   "SamplerName": "張分析",
+   "SamplerPhone": "吳主任",
+   "SubmitDate": "2026-09-20",
+   "SampleCategory": "樣品類型07",
+   "WaterSubType": "DW",
+   "ResinSubType": "樹脂子類型07",
+   "SystemName": "何環安",
+   "OtherSampleNote": "急件已加收費用",
+   "Urgency": "B",
+   "IsTafRequired": "是否需要 TAF Logo07",
+   "BaseCost": 800,
+   "ExtraCost": 5000,
+   "TotalCost": "[計算欄位] 總費用07",
+   "FlowStage": "AP",
+   "FlowHandler": "liu.as",
+   "SubmittedAt": "2025-08-24",
+   "CustomerNote": "",
+   "Description": "待主管覆核",
+   "Attributes": "擴展屬性07"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000007",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-09-11 08:31",
+   "UpdatedBy": "abram.chen",
+   "UpdatedAt": "2026-08-11 18:12",
+   "RequestNo": "R-2026-0008",
+   "RequestDate": "2026-07-23",
+   "CaseNo": "R-2026-0008",
+   "CaseUnit": "M021 品保處",
+   "ApplyUnit": "R001 研發中心",
+   "ApplyName": "郭品管",
+   "ApplyPhone": "蔡研究",
+   "ApplyAddress": "新北市三峽區文化路288號",
+   "ApplyMgrName": "陳審核",
+   "ApplyMgrSignDate": "2025-04-24",
+   "SamplingLocation": "藥品櫃P1",
+   "SamplingPlant": "合江二廠",
+   "SamplerName": "李檢測",
+   "SamplerPhone": "何環安",
+   "SubmitDate": "2026-07-28",
+   "SampleCategory": "樣品類型08",
+   "WaterSubType": "SW",
+   "ResinSubType": "樹脂子類型08",
+   "SystemName": "鄭組長",
+   "OtherSampleNote": "",
+   "Urgency": "A",
+   "IsTafRequired": "是否需要 TAF Logo08",
+   "BaseCost": 1500,
+   "ExtraCost": 800,
+   "TotalCost": "[計算欄位] 總費用08",
+   "FlowStage": "AP",
+   "FlowHandler": "wang.cy",
+   "SubmittedAt": "2026-04-01",
+   "CustomerNote": "待主管覆核",
+   "Description": "已通知申請單位",
+   "Attributes": "擴展屬性08"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000008",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-02-02 11:17",
+   "UpdatedBy": "lin.pb",
+   "UpdatedAt": "2026-09-23 16:23",
+   "RequestNo": "R-2026-0009",
+   "RequestDate": "2025-12-12",
+   "CaseNo": "R-2026-0009",
+   "CaseUnit": "M041 製造一處",
+   "ApplyUnit": "M061 採購處",
+   "ApplyName": "何環安",
+   "ApplyPhone": "周技士",
+   "ApplyAddress": "新北市中和區成功路104號",
+   "ApplyMgrName": "楊化驗",
+   "ApplyMgrSignDate": "2025-04-09",
+   "SamplingLocation": "儀器室A",
+   "SamplingPlant": "三峽廠",
+   "SamplerName": "蔡研究",
+   "SamplerPhone": "王采樣",
+   "SubmitDate": "2025-03-07",
+   "SampleCategory": "樣品類型09",
+   "WaterSubType": "DW",
+   "ResinSubType": "樹脂子類型09",
+   "SystemName": "劉助理",
+   "OtherSampleNote": "定期校正合格",
+   "Urgency": "B",
+   "IsTafRequired": "是否需要 TAF Logo09",
+   "BaseCost": 2000,
+   "ExtraCost": 2000,
+   "TotalCost": "[計算欄位] 總費用09",
+   "FlowStage": "RC",
+   "FlowHandler": "liu.as",
+   "SubmittedAt": "2025-01-01",
+   "CustomerNote": "",
+   "Description": "急件已加收費用",
+   "Attributes": "擴展屬性09"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000009",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-02-21 18:00",
+   "UpdatedBy": "abram.chen",
+   "UpdatedAt": "2026-12-05 18:24",
+   "RequestNo": "R-2025-0010",
+   "RequestDate": "2026-05-24",
+   "CaseNo": "R-2026-0010",
+   "CaseUnit": "M011 工程處",
+   "ApplyUnit": "M051 製造二處",
+   "ApplyName": "謝校正",
+   "ApplyPhone": "鄭組長",
+   "ApplyAddress": "新北市林口區中山路192號",
+   "ApplyMgrName": "謝校正",
+   "ApplyMgrSignDate": "2026-03-27",
+   "SamplingLocation": "儀器室B",
+   "SamplingPlant": "中和廠",
+   "SamplerName": "郭品管",
+   "SamplerPhone": "張分析",
+   "SubmitDate": "2026-11-27",
+   "SampleCategory": "樣品類型10",
+   "WaterSubType": "DW",
+   "ResinSubType": "樹脂子類型10",
+   "SystemName": "何環安",
+   "OtherSampleNote": "客戶要求附 TAF Logo",
+   "Urgency": "B",
+   "IsTafRequired": "是否需要 TAF Logo10",
+   "BaseCost": 5000,
+   "ExtraCost": 2000,
+   "TotalCost": "[計算欄位] 總費用10",
+   "FlowStage": "AP",
+   "FlowHandler": "cheng.gl",
+   "SubmittedAt": "2025-05-13",
+   "CustomerNote": "",
+   "Description": "需注意保存效期",
+   "Attributes": "擴展屬性10"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000010",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-06-25 18:16",
+   "UpdatedBy": "hsu.eng",
+   "UpdatedAt": "2026-02-13 18:04",
+   "RequestNo": "R-2026-0011",
+   "RequestDate": "2026-02-16",
+   "CaseNo": "R-2025-0011",
+   "CaseUnit": "M011 工程處",
+   "ApplyUnit": "M041 製造一處",
+   "ApplyName": "蔡研究",
+   "ApplyPhone": "周技士",
+   "ApplyAddress": "新北市三峽區中山路174號",
+   "ApplyMgrName": "謝校正",
+   "ApplyMgrSignDate": "2025-12-18",
+   "SamplingLocation": "前處理室",
+   "SamplingPlant": "林口廠",
+   "SamplerName": "謝校正",
+   "SamplerPhone": "蔡研究",
+   "SubmitDate": "2026-07-08",
+   "SampleCategory": "樣品類型11",
+   "WaterSubType": "GW",
+   "ResinSubType": "樹脂子類型11",
+   "SystemName": "陳審核",
+   "OtherSampleNote": "急件已加收費用",
+   "Urgency": "A",
+   "IsTafRequired": "是否需要 TAF Logo11",
+   "BaseCost": 3500,
+   "ExtraCost": 1200,
+   "TotalCost": "[計算欄位] 總費用11",
+   "FlowStage": "DP",
+   "FlowHandler": "abram.chen",
+   "SubmittedAt": "2026-12-05",
+   "CustomerNote": "已通知申請單位",
+   "Description": "",
+   "Attributes": "擴展屬性11"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000011",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-03-04 09:12",
+   "UpdatedBy": "cheng.gl",
+   "UpdatedAt": "2026-05-08 17:04",
+   "RequestNo": "R-2025-0012",
+   "RequestDate": "2025-01-06",
+   "CaseNo": "R-2026-0012",
+   "CaseUnit": "R001 研發中心",
+   "ApplyUnit": "M051 製造二處",
+   "ApplyName": "蔡研究",
+   "ApplyPhone": "張分析",
+   "ApplyAddress": "新北市土城區中山路152號",
+   "ApplyMgrName": "林品保",
+   "ApplyMgrSignDate": "2025-10-11",
+   "SamplingLocation": "藥品櫃P1",
+   "SamplingPlant": "板橋廠",
+   "SamplerName": "謝校正",
+   "SamplerPhone": "郭品管",
+   "SubmitDate": "2026-12-11",
+   "SampleCategory": "樣品類型12",
+   "WaterSubType": "SW",
+   "ResinSubType": "樹脂子類型12",
+   "SystemName": "楊化驗",
+   "OtherSampleNote": "客戶要求附 TAF Logo",
+   "Urgency": "A",
+   "IsTafRequired": "是否需要 TAF Logo12",
+   "BaseCost": 2000,
+   "ExtraCost": 3500,
+   "TotalCost": "[計算欄位] 總費用12",
+   "FlowStage": "RV",
+   "FlowHandler": "cheng.gl",
+   "SubmittedAt": "2025-05-18",
+   "CustomerNote": "已通知申請單位",
+   "Description": "",
+   "Attributes": "擴展屬性12"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000012",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-12-01 11:08",
+   "UpdatedBy": "huang.tc",
+   "UpdatedAt": "2026-11-04 15:29",
+   "RequestNo": "R-2026-0013",
+   "RequestDate": "2025-05-17",
+   "CaseNo": "R-2026-0013",
+   "CaseUnit": "M051 製造二處",
+   "ApplyUnit": "M041 製造一處",
+   "ApplyName": "周技士",
+   "ApplyPhone": "許工程",
+   "ApplyAddress": "新北市林口區民生路160號",
+   "ApplyMgrName": "鄭組長",
+   "ApplyMgrSignDate": "2026-04-03",
+   "SamplingLocation": "天平室",
+   "SamplingPlant": "板橋廠",
+   "SamplerName": "鄭組長",
+   "SamplerPhone": "黃技正",
+   "SubmitDate": "2025-08-19",
+   "SampleCategory": "樣品類型13",
+   "WaterSubType": "DW",
+   "ResinSubType": "樹脂子類型13",
+   "SystemName": "黃技正",
+   "OtherSampleNote": "",
+   "Urgency": "B",
+   "IsTafRequired": "是否需要 TAF Logo13",
+   "BaseCost": 1500,
+   "ExtraCost": 5000,
+   "TotalCost": "[計算欄位] 總費用13",
+   "FlowStage": "CL",
+   "FlowHandler": "wu.dir",
+   "SubmittedAt": "2025-03-26",
+   "CustomerNote": "急件已加收費用",
+   "Description": "",
+   "Attributes": "擴展屬性13"
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000013",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-01-01 08:31",
+   "UpdatedBy": "wu.dir",
+   "UpdatedAt": "2026-10-08 14:13",
+   "RequestNo": "R-2025-0014",
+   "RequestDate": "2026-01-19",
+   "CaseNo": "R-2025-0014",
+   "CaseUnit": "M061 採購處",
+   "ApplyUnit": "M061 採購處",
+   "ApplyName": "劉助理",
+   "ApplyPhone": "楊化驗",
+   "ApplyAddress": "新北市土城區成功路59號",
+   "ApplyMgrName": "許工程",
+   "ApplyMgrSignDate": "2025-09-05",
+   "SamplingLocation": "天平室",
+   "SamplingPlant": "三峽廠",
+   "SamplerName": "黃技正",
+   "SamplerPhone": "楊化驗",
+   "SubmitDate": "2025-03-24",
+   "SampleCategory": "樣品類型14",
+   "WaterSubType": "DW",
+   "ResinSubType": "樹脂子類型14",
+   "SystemName": "楊化驗",
+   "OtherSampleNote": "待主管覆核",
+   "Urgency": "B",
+   "IsTafRequired": "是否需要 TAF Logo14",
+   "BaseCost": 5000,
+   "ExtraCost": 800,
+   "TotalCost": "[計算欄位] 總費用14",
+   "FlowStage": "AP",
+   "FlowHandler": "chen.sh",
+   "SubmittedAt": "2025-09-09",
+   "CustomerNote": "客戶要求附 TAF Logo",
+   "Description": "",
+   "Attributes": "擴展屬性14"
+  }
+ ]
+}

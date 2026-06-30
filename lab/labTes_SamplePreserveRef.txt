@@ -1,0 +1,721 @@
+{
+ "EntityID": "lab",
+ "SystemCode": "MUEIP",
+ "ModuleCode": "LIMS",
+ "FuncCode": "labTes_SamplePreserveRef",
+ "ConfigHash": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+ "PageMeta": {
+  "PageTitle": "樣品保存條件參考",
+  "Lang": "zh-TW",
+  "FormType": "ListForm",
+  "EditDisplayType": "Drawer",
+  "Breadcrumb": [
+   {
+    "Title": "首頁",
+    "Path": "/"
+   },
+   {
+    "Title": "檢測單流程管理",
+    "Path": null
+   },
+   {
+    "Title": "樣品保存條件參考",
+    "Path": "/lab/labTes_SamplePreserveRef"
+   }
+  ],
+  "IsApproval": false,
+  "TenantLocked": false,
+  "Icon": "ri-snowflake-line",
+  "Remark": "樣品保存條件參考（由 labTes_SamplePreserveRef 規格書產生）"
+ },
+ "Resources": {
+  "CodeSets": {
+   "Status": [
+    {
+     "CodeID": "1",
+     "CodeName": "啟用",
+     "IsDefault": true
+    },
+    {
+     "CodeID": "0",
+     "CodeName": "停用"
+    }
+   ],
+   "Priority": [
+    {
+     "CodeID": "A",
+     "CodeName": "急件"
+    },
+    {
+     "CodeID": "B",
+     "CodeName": "高"
+    },
+    {
+     "CodeID": "C",
+     "CodeName": "一般",
+     "IsDefault": true
+    },
+    {
+     "CodeID": "D",
+     "CodeName": "低"
+    }
+   ]
+  },
+  "FeatureFlags": {
+   "IsReadOnly": false,
+   "EnableDraft": false,
+   "EnableBatchDelete": true,
+   "AutoRefreshInterval": 0,
+   "DefaultViewMode": "Table",
+   "RequireConfirmOnSave": true
+  }
+ },
+ "AllowAction": {
+  "DataActions": [
+   {
+    "ActionID": "Add",
+    "Label": "新增",
+    "Icon": "ri-add-line",
+    "Type": "Primary",
+    "Position": "Toolbar",
+    "Confirm": null
+   },
+   {
+    "ActionID": "Save",
+    "Label": "儲存",
+    "Icon": "ri-save-line",
+    "Type": "Primary",
+    "Position": "Toolbar",
+    "Confirm": null
+   },
+   {
+    "ActionID": "Delete",
+    "Label": "刪除",
+    "Icon": "ri-delete-bin-line",
+    "Type": "Danger",
+    "Position": "Both",
+    "Confirm": "確定要刪除此樣品保存條件參考資料嗎？"
+   },
+   {
+    "ActionID": "Query",
+    "Label": "查詢",
+    "Icon": "ri-search-line",
+    "Type": "Default",
+    "Position": "Toolbar",
+    "Confirm": null
+   }
+  ],
+  "ExtensionActions": [
+   {
+    "ActionID": "Import",
+    "Label": "匯入",
+    "Icon": "ri-upload-2-line",
+    "Type": "Default",
+    "Position": "Toolbar"
+   },
+   {
+    "ActionID": "Export",
+    "Label": "匯出",
+    "Icon": "ri-download-2-line",
+    "Type": "Default",
+    "Position": "Toolbar"
+   }
+  ]
+ },
+ "View": {
+  "RowKey": "RowGuid",
+  "ListView": {
+   "ListSpec": {
+    "RowKey": "RowGuid",
+    "SelectMode": "Single",
+    "FixedColumns": [
+     "Action",
+     "No"
+    ],
+    "RowActionMode": "Menu",
+    "ShowRowNo": true,
+    "Pagination": {
+     "PageSize": 100,
+     "SizeOptions": [
+      50,
+      100,
+      200,
+      500
+     ],
+     "ShowJumper": false,
+     "FullPageScroll": true
+    },
+    "DefaultSort": {
+     "Field": "SortNo",
+     "Order": "asc"
+    },
+    "EmptyText": "目前查無樣品保存條件參考資料",
+    "GridBordered": true
+   },
+   "FieldSpecs": [
+    {
+     "BindField": "SampleCategory",
+     "Title": "樣品類型",
+     "Align": "Left",
+     "DefaultVisible": true,
+     "Formatter": "Link",
+     "Fixed": "Left",
+     "Width": 160,
+     "Sorter": true
+    },
+    {
+     "BindField": "TestItemName",
+     "Title": "測試項目",
+     "Align": "Left",
+     "DefaultVisible": true,
+     "Width": 140
+    },
+    {
+     "BindField": "TestMethod",
+     "Title": "測試方法",
+     "Align": "Left",
+     "DefaultVisible": true,
+     "Width": 140
+    },
+    {
+     "BindField": "Container",
+     "Title": "容器",
+     "Align": "Left",
+     "DefaultVisible": true,
+     "Width": 140
+    },
+    {
+     "BindField": "PreserveCond",
+     "Title": "保存方式",
+     "Align": "Left",
+     "DefaultVisible": true,
+     "Width": 140
+    },
+    {
+     "BindField": "RequiredVolume",
+     "Title": "需要樣品量",
+     "Align": "Left",
+     "DefaultVisible": true,
+     "Width": 140
+    },
+    {
+     "BindField": "Status",
+     "Title": "啟用狀態",
+     "Align": "Center",
+     "DefaultVisible": true,
+     "Formatter": "Tag",
+     "Width": 80
+    }
+   ]
+  },
+  "FormView": {
+   "FormSpec": {
+    "RowKey": "RowGuid",
+    "Layout": "Horizontal",
+    "Sections": [
+     {
+      "SectionID": "SecBase",
+      "Type": "Card",
+      "Title": "基本資料",
+      "IsCollapsible": false,
+      "DefaultOpen": true,
+      "Icon": "ri-snowflake-line"
+     },
+     {
+      "SectionID": "SecRecv",
+      "Type": "Card",
+      "Title": "作業資訊",
+      "IsCollapsible": true,
+      "DefaultOpen": true,
+      "Icon": "ri-file-list-3-line"
+     },
+     {
+      "SectionID": "SecExtra",
+      "Type": "Card",
+      "Title": "系統資訊",
+      "IsCollapsible": true,
+      "DefaultOpen": false,
+      "Icon": "ri-settings-4-line"
+     }
+    ],
+    "FormLogic": []
+   },
+   "FieldSpecs": [
+    {
+     "BindField": "RowKey",
+     "Title": "系統識別碼",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 24,
+     "Mode": "Hidden"
+    },
+    {
+     "BindField": "EntityID",
+     "Title": "系統實體",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "Hidden",
+     "DefaultValue": "lab"
+    },
+    {
+     "BindField": "SampleCategory",
+     "Title": "樣品類型",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "Required",
+       "Message": "樣品類型為必填"
+      },
+      {
+       "Rule": "MaxLength",
+       "Value": 20,
+       "Message": "長度不可超過 20"
+      }
+     ]
+    },
+    {
+     "BindField": "TestItemName",
+     "Title": "測試項目",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "Required",
+       "Message": "測試項目為必填"
+      },
+      {
+       "Rule": "MaxLength",
+       "Value": 200,
+       "Message": "長度不可超過 200"
+      }
+     ]
+    },
+    {
+     "BindField": "TestMethod",
+     "Title": "測試方法",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 200,
+       "Message": "長度不可超過 200"
+      }
+     ]
+    },
+    {
+     "BindField": "Container",
+     "Title": "容器",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 200,
+       "Message": "長度不可超過 200"
+      }
+     ]
+    },
+    {
+     "BindField": "PreserveCond",
+     "Title": "保存方式",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 200,
+       "Message": "長度不可超過 200"
+      }
+     ]
+    },
+    {
+     "BindField": "RequiredVolume",
+     "Title": "需要樣品量",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 50,
+       "Message": "長度不可超過 50"
+      }
+     ]
+    },
+    {
+     "BindField": "ExpiryLimit",
+     "Title": "保存期限",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 50,
+       "Message": "長度不可超過 50"
+      }
+     ]
+    },
+    {
+     "BindField": "ComponentCode",
+     "Title": "對應 B06 檢驗成分代碼",
+     "Component": "Input",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "Validations": [
+      {
+       "Rule": "MaxLength",
+       "Value": 50,
+       "Message": "長度不可超過 50"
+      }
+     ]
+    },
+    {
+     "BindField": "SortOrder",
+     "Title": "顯示順序",
+     "Component": "Input",
+     "Section": "SecRecv",
+     "Span": 12,
+     "Mode": "Editable",
+     "Props": {
+      "Type": "number"
+     }
+    },
+    {
+     "BindField": "Status",
+     "Title": "啟用狀態",
+     "Component": "Select",
+     "Section": "SecBase",
+     "Span": 12,
+     "Mode": "Editable",
+     "DefaultValue": "1",
+     "Props": {
+      "OptionKey": "Status"
+     }
+    },
+    {
+     "BindField": "CreatedBy",
+     "Title": "建立者帳號",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "ReadOnly"
+    },
+    {
+     "BindField": "CreatedAt",
+     "Title": "資料建立日期時間",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "ReadOnly"
+    },
+    {
+     "BindField": "UpdatedBy",
+     "Title": "最後更新者帳號",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "ReadOnly"
+    },
+    {
+     "BindField": "UpdatedAt",
+     "Title": "最後更新日期時間",
+     "Component": "Input",
+     "Section": "SecExtra",
+     "Span": 12,
+     "Mode": "ReadOnly"
+    }
+   ]
+  }
+ },
+ "Features": {},
+ "DataScope": {
+  "DefaultWhere": "EntityID = 'lab' AND Status = '1'",
+  "AuthLevel": 2,
+  "SortExp": "SortNo ASC",
+  "DataConfig": {
+   "RowLimit": 2000,
+   "AllowExport": true
+  }
+ },
+ "CustomMeta": {
+  "CustomSchema": {
+   "WidgetType": "Grid",
+   "KeyField": "SampleCategory",
+   "TitleField": "TestItemName",
+   "ParentKeyField": null,
+   "PathField": null,
+   "PathSeparator": "/"
+  }
+ },
+ "SeedData": [
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000000",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-09-28 13:13",
+   "UpdatedBy": "wang.cy",
+   "UpdatedAt": "2026-04-21 17:18",
+   "SampleCategory": "樣品類型01",
+   "TestItemName": "總磷 TP",
+   "TestMethod": "NIEA W424.53A",
+   "Container": "容器01",
+   "PreserveCond": "保存方式01",
+   "RequiredVolume": "需要樣品量01",
+   "ExpiryLimit": "保存期限01",
+   "ComponentCode": "SPR-2025-0001",
+   "SortOrder": 74
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000001",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-11-15 09:32",
+   "UpdatedBy": "lee.jc",
+   "UpdatedAt": "2026-03-07 08:25",
+   "SampleCategory": "樣品類型02",
+   "TestItemName": "化學需氧量 COD",
+   "TestMethod": "NIEA W424.53A",
+   "Container": "容器02",
+   "PreserveCond": "保存方式02",
+   "RequiredVolume": "需要樣品量02",
+   "ExpiryLimit": "保存期限02",
+   "ComponentCode": "SPR-2026-0002",
+   "SortOrder": 27
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000002",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-08-09 12:18",
+   "UpdatedBy": "lin.pb",
+   "UpdatedAt": "2026-02-28 15:25",
+   "SampleCategory": "樣品類型03",
+   "TestItemName": "生化需氧量 BOD",
+   "TestMethod": "NIEA W415.55B",
+   "Container": "容器03",
+   "PreserveCond": "保存方式03",
+   "RequiredVolume": "需要樣品量03",
+   "ExpiryLimit": "保存期限03",
+   "ComponentCode": "SPR-2026-0003",
+   "SortOrder": 16
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000003",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-03-05 17:18",
+   "UpdatedBy": "huang.tc",
+   "UpdatedAt": "2026-02-04 09:34",
+   "SampleCategory": "樣品類型04",
+   "TestItemName": "懸浮固體 SS",
+   "TestMethod": "NIEA W415.55B",
+   "Container": "容器04",
+   "PreserveCond": "保存方式04",
+   "RequiredVolume": "需要樣品量04",
+   "ExpiryLimit": "保存期限04",
+   "ComponentCode": "SPR-2025-0004",
+   "SortOrder": 41
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000004",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-08-08 10:19",
+   "UpdatedBy": "cheng.gl",
+   "UpdatedAt": "2026-09-14 18:25",
+   "SampleCategory": "樣品類型05",
+   "TestItemName": "氨氮 NH3-N",
+   "TestMethod": "SM 4500-P",
+   "Container": "容器05",
+   "PreserveCond": "保存方式05",
+   "RequiredVolume": "需要樣品量05",
+   "ExpiryLimit": "保存期限05",
+   "ComponentCode": "SPR-2026-0005",
+   "SortOrder": 82
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000005",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-11-04 14:37",
+   "UpdatedBy": "chang.fa",
+   "UpdatedAt": "2026-08-09 12:38",
+   "SampleCategory": "樣品類型06",
+   "TestItemName": "硝酸鹽氮",
+   "TestMethod": "NIEA W508.05B",
+   "Container": "容器06",
+   "PreserveCond": "保存方式06",
+   "RequiredVolume": "需要樣品量06",
+   "ExpiryLimit": "保存期限06",
+   "ComponentCode": "SPR-2025-0006",
+   "SortOrder": 58
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000006",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-07-09 11:38",
+   "UpdatedBy": "chen.sh",
+   "UpdatedAt": "2026-07-27 17:24",
+   "SampleCategory": "樣品類型07",
+   "TestItemName": "鎘 Cd",
+   "TestMethod": "NIEA W508.05B",
+   "Container": "容器07",
+   "PreserveCond": "保存方式07",
+   "RequiredVolume": "需要樣品量07",
+   "ExpiryLimit": "保存期限07",
+   "ComponentCode": "SPR-2025-0007",
+   "SortOrder": 26
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000007",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-02-25 14:17",
+   "UpdatedBy": "huang.tc",
+   "UpdatedAt": "2026-11-22 10:28",
+   "SampleCategory": "樣品類型08",
+   "TestItemName": "鉛 Pb",
+   "TestMethod": "ASTM D1193",
+   "Container": "容器08",
+   "PreserveCond": "保存方式08",
+   "RequiredVolume": "需要樣品量08",
+   "ExpiryLimit": "保存期限08",
+   "ComponentCode": "SPR-2026-0008",
+   "SortOrder": 45
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000008",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-04-03 11:37",
+   "UpdatedBy": "liu.as",
+   "UpdatedAt": "2026-08-06 15:13",
+   "SampleCategory": "樣品類型09",
+   "TestItemName": "銅 Cu",
+   "TestMethod": "NIEA W508.05B",
+   "Container": "容器09",
+   "PreserveCond": "保存方式09",
+   "RequiredVolume": "需要樣品量09",
+   "ExpiryLimit": "保存期限09",
+   "ComponentCode": "SPR-2026-0009",
+   "SortOrder": 73
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000009",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-03-20 18:29",
+   "UpdatedBy": "abram.chen",
+   "UpdatedAt": "2026-06-25 10:11",
+   "SampleCategory": "樣品類型10",
+   "TestItemName": "鋅 Zn",
+   "TestMethod": "CNS 13289",
+   "Container": "容器10",
+   "PreserveCond": "保存方式10",
+   "RequiredVolume": "需要樣品量10",
+   "ExpiryLimit": "保存期限10",
+   "ComponentCode": "SPR-2026-0010",
+   "SortOrder": 56
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000010",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-05-21 09:30",
+   "UpdatedBy": "chang.fa",
+   "UpdatedAt": "2026-05-11 18:15",
+   "SampleCategory": "樣品類型11",
+   "TestItemName": "pH值",
+   "TestMethod": "CNS 11423",
+   "Container": "容器11",
+   "PreserveCond": "保存方式11",
+   "RequiredVolume": "需要樣品量11",
+   "ExpiryLimit": "保存期限11",
+   "ComponentCode": "SPR-2025-0011",
+   "SortOrder": 27
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000011",
+   "EntityID": "lab",
+   "Status": "0",
+   "CreatedBy": "system",
+   "CreatedAt": "2026-12-11 16:37",
+   "UpdatedBy": "chen.sh",
+   "UpdatedAt": "2026-04-20 09:21",
+   "SampleCategory": "樣品類型12",
+   "TestItemName": "導電度",
+   "TestMethod": "NIEA W424.53A",
+   "Container": "容器12",
+   "PreserveCond": "保存方式12",
+   "RequiredVolume": "需要樣品量12",
+   "ExpiryLimit": "保存期限12",
+   "ComponentCode": "SPR-2025-0012",
+   "SortOrder": 27
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000012",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-07-19 14:12",
+   "UpdatedBy": "abram.chen",
+   "UpdatedAt": "2026-02-17 18:11",
+   "SampleCategory": "樣品類型13",
+   "TestItemName": "濁度",
+   "TestMethod": "NIEA W508.05B",
+   "Container": "容器13",
+   "PreserveCond": "保存方式13",
+   "RequiredVolume": "需要樣品量13",
+   "ExpiryLimit": "保存期限13",
+   "ComponentCode": "SPR-2025-0013",
+   "SortOrder": 68
+  },
+  {
+   "RowGuid": "0000c0de-0000-0000-0000-000000000013",
+   "EntityID": "lab",
+   "Status": "1",
+   "CreatedBy": "system",
+   "CreatedAt": "2025-06-26 18:09",
+   "UpdatedBy": "abram.chen",
+   "UpdatedAt": "2026-10-14 16:19",
+   "SampleCategory": "樣品類型14",
+   "TestItemName": "大腸桿菌群",
+   "TestMethod": "ASTM D1193",
+   "Container": "容器14",
+   "PreserveCond": "保存方式14",
+   "RequiredVolume": "需要樣品量14",
+   "ExpiryLimit": "保存期限14",
+   "ComponentCode": "SPR-2026-0014",
+   "SortOrder": 63
+  }
+ ]
+}
