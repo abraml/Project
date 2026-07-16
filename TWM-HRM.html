@@ -1,0 +1,1396 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1280">
+<title>兆技人力資源管理系統 — 現況分析與優化建議</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;600;700;800;900&family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ml-navy-900: #0B1F3D; --ml-navy-800: #122E5C; --ml-navy-700: #1B3B6F;
+  --ml-navy-600: #234D8A; --ml-navy-500: #2E63A9; --ml-blue-400: #3D7DC9;
+  --ml-blue-300: #5B97E0; --ml-blue-200: #93BCEC; --ml-blue-100: #D6E7F8;
+  --ml-blue-50: #EEF5FD;
+  --gray-950:#0A0E14; --gray-900:#14181F; --gray-800:#1D232C; --gray-700:#2A323D;
+  --gray-600:#4A5563; --gray-500:#6B7684; --gray-400:#97A0AD; --gray-300:#C5CCD5;
+  --gray-200:#E2E6EC; --gray-100:#F1F3F6; --gray-50:#F7F9FB; --white:#FFFFFF;
+  --accent-teal:#06B6D4; --accent-amber:#F59E0B; --accent-red:#DC2626;
+  --accent-green:#16A34A; --accent-purple:#8B5CF6;
+  --shadow-md: 0 4px 12px rgba(11,31,61,.08), 0 2px 4px rgba(11,31,61,.04);
+  --shadow-lg: 0 12px 32px rgba(11,31,61,.10), 0 4px 8px rgba(11,31,61,.05);
+  --font-zh: 'Noto Sans TC', system-ui, sans-serif;
+  --font-en: 'Manrope', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { font-family: var(--font-zh); background: var(--gray-950); color: var(--gray-900); overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+.deck { width: 100vw; min-height: 100vh; background: var(--gray-950); position: relative; }
+.slide { width: 1280px; height: 720px; margin: 32px auto; background: var(--white); border-radius: 16px; box-shadow: 0 32px 80px rgba(0,0,0,.45), 0 12px 32px rgba(0,0,0,.30); position: relative; overflow: hidden; display: flex; flex-direction: column; }
+.slide-bar { height: 6px; background: linear-gradient(90deg, var(--ml-navy-700) 0%, var(--ml-blue-400) 50%, var(--accent-teal) 100%); flex-shrink: 0; }
+.slide-body { flex: 1; padding: 40px 56px 44px; display: flex; flex-direction: column; position: relative; overflow: hidden; }
+.slide-head { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 22px; }
+.slide-eyebrow { font-family: var(--font-en); font-size: 11px; font-weight: 700; letter-spacing: 2.5px; color: var(--ml-blue-400); text-transform: uppercase; margin-bottom: 8px; display: flex; align-items: center; gap: 10px; }
+.slide-eyebrow::before { content: ''; width: 24px; height: 2px; background: var(--ml-blue-400); }
+.slide-title { font-size: 30px; font-weight: 800; color: var(--ml-navy-900); line-height: 1.2; letter-spacing: -0.5px; }
+.slide-title .accent { color: var(--ml-blue-400); }
+.slide-subtitle { font-size: 14px; color: var(--gray-500); margin-top: 8px; font-weight: 400; max-width: 860px; }
+.slide-page { font-family: var(--font-en); font-size: 12px; font-weight: 600; color: var(--gray-400); letter-spacing: 1px; display: flex; align-items: center; gap: 8px; white-space: nowrap; }
+.slide-page .logo-mini { display: inline-flex; align-items: center; gap: 6px; color: var(--ml-navy-700); font-weight: 800; }
+.slide-page .logo-mini::before { content: ''; width: 16px; height: 16px; background: linear-gradient(135deg, var(--ml-navy-700), var(--ml-blue-400)); border-radius: 4px; }
+.pill { display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; border-radius: 999px; font-size: 11px; font-weight: 600; background: var(--ml-blue-50); color: var(--ml-navy-700); }
+.pill.danger { background: #FEE2E2; color: var(--accent-red); }
+.pill.success { background: #DCFCE7; color: var(--accent-green); }
+.pill.warn { background: #FEF3C7; color: var(--accent-amber); }
+.pill.dark { background: var(--ml-navy-900); color: var(--white); }
+.compare-table { width: 100%; border-collapse: separate; border-spacing: 0; font-size: 13px; background: white; border-radius: 12px; overflow: hidden; box-shadow: var(--shadow-md); border: 1px solid var(--gray-200); }
+.compare-table th { background: var(--ml-navy-900); color: white; text-align: left; padding: 11px 16px; font-weight: 700; font-size: 12px; }
+.compare-table td { padding: 9px 16px; border-bottom: 1px solid var(--gray-100); vertical-align: top; line-height: 1.5; }
+.compare-table tr:last-child td { border-bottom: none; }
+.compare-table .dimension { font-weight: 700; color: var(--ml-navy-900); background: var(--gray-50); }
+.compare-table .x { color: var(--accent-red); font-weight: 700; }
+.compare-table .ok { color: var(--accent-green); font-weight: 700; }
+.compare-card { border-radius: 14px; padding: 20px; display: flex; flex-direction: column; position: relative; overflow: hidden; }
+.compare-card.bad { background: linear-gradient(180deg, #FEF2F2 0%, #FFFFFF 100%); border: 1px solid #FECACA; }
+.compare-card.good { background: linear-gradient(180deg, var(--ml-blue-50) 0%, #FFFFFF 100%); border: 1px solid var(--ml-blue-200); }
+.compare-card h4 { font-size: 17px; font-weight: 800; color: var(--ml-navy-900); margin-bottom: 4px; display: flex; align-items: center; gap: 10px; }
+.compare-card.bad h4 { color: var(--accent-red); }
+.compare-card.good h4 { color: var(--ml-navy-700); }
+.compare-card .sub { font-size: 12px; color: var(--gray-500); margin-bottom: 12px; }
+.feat-list { display: flex; flex-direction: column; gap: 9px; }
+.feat-item { display: flex; align-items: flex-start; gap: 10px; font-size: 13px; color: var(--gray-700); line-height: 1.5; }
+.feat-item .ic { flex-shrink: 0; width: 22px; height: 22px; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 12px; margin-top: 1px; }
+.feat-item.bad .ic { background: #FEE2E2; color: var(--accent-red); }
+.feat-item.good .ic { background: #DCFCE7; color: var(--accent-green); }
+.feat-item strong { color: var(--ml-navy-900); }
+.kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+.kpi-card { background: white; border: 1px solid var(--gray-200); border-radius: 12px; padding: 18px; position: relative; overflow: hidden; }
+.kpi-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, var(--ml-blue-400), var(--accent-teal)); }
+.kpi-card .num { font-family: var(--font-en); font-size: 34px; font-weight: 800; color: var(--ml-navy-700); line-height: 1; letter-spacing: -1px; }
+.kpi-card .unit { font-size: 17px; color: var(--ml-blue-400); margin-left: 2px; }
+.kpi-card .label { font-size: 11px; color: var(--gray-500); margin-top: 8px; font-weight: 600; }
+.illus { flex: 1; background: var(--gray-50); border-radius: 14px; border: 1px solid var(--gray-200); padding: 16px; display: flex; align-items: center; justify-content: center; min-height: 0; }
+.cover { flex: 1; display: flex; flex-direction: column; justify-content: center; position: relative; background: radial-gradient(circle at 20% 30%, rgba(91,151,224,.15) 0%, transparent 50%), radial-gradient(circle at 80% 70%, rgba(6,182,212,.10) 0%, transparent 50%), linear-gradient(135deg, var(--ml-navy-900) 0%, var(--ml-navy-700) 100%); color: white; padding: 0; overflow: hidden; }
+.deck-nav { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%); background: rgba(20,24,31,0.92); backdrop-filter: blur(20px); border-radius: 999px; padding: 8px 16px; display: flex; align-items: center; gap: 12px; box-shadow: 0 12px 32px rgba(0,0,0,.4); z-index: 100; border: 1px solid rgba(255,255,255,.08); }
+.deck-nav button { background: rgba(255,255,255,.08); color: white; border: none; width: 32px; height: 32px; border-radius: 50%; cursor: pointer; font-size: 14px; display: flex; align-items: center; justify-content: center; transition: all .2s; }
+.deck-nav button:hover { background: var(--ml-blue-400); }
+.deck-nav .counter { color: white; font-family: var(--font-en); font-weight: 600; font-size: 13px; letter-spacing: .5px; min-width: 64px; text-align: center; }
+.deck-nav .counter .cur { color: var(--ml-blue-300); }
+.deck-nav .jump { background: rgba(255,255,255,.08); color: white; border: none; font-size: 11px; padding: 6px 12px; border-radius: 999px; font-family: var(--font-en); cursor: pointer; }
+.deck-progress { position: fixed; top: 0; left: 0; right: 0; height: 3px; background: rgba(255,255,255,.08); z-index: 100; }
+.deck-progress .bar { height: 100%; background: linear-gradient(90deg, var(--ml-blue-400), var(--accent-teal)); width: 5%; transition: width .3s ease; }
+@media print { body { background: white; } .slide { margin: 0 auto; box-shadow: none; page-break-after: always; page-break-inside: avoid; } .deck-nav, .deck-progress { display: none !important; } }
+.slide { display: none; }
+.slide.active { display: flex; }
+body.show-all .slide { display: flex !important; margin-bottom: 24px; }
+.diag-label { font-family: var(--font-mono); }
+</style>
+</head>
+<body>
+
+<div class="deck-progress"><div class="bar" id="progressBar"></div></div>
+
+<div class="deck">
+
+<!-- ============ SLIDE 1 — 封面 ============ -->
+<section class="slide active" data-slide="1">
+  <div class="cover">
+    <div style="position:absolute; inset:0; background-image:linear-gradient(rgba(255,255,255,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.04) 1px,transparent 1px); background-size:48px 48px;"></div>
+    <div style="position:absolute; top:80px; right:120px;"><div style="width:8px;height:8px;background:var(--accent-teal); border-radius:50%; box-shadow:0 0 16px var(--accent-teal);"></div></div>
+    <div style="position:absolute; bottom:120px; left:100px;"><div style="width:6px;height:6px;background:var(--ml-blue-300); border-radius:50%; box-shadow:0 0 12px var(--ml-blue-300);"></div></div>
+
+    <div style="padding:0 80px; position:relative; z-index:2;">
+      <div style="font-family:var(--font-en); font-size:12px; letter-spacing:4px; color:var(--ml-blue-300); font-weight:700; margin-bottom:18px;">
+        MEGATEK HRM · ANALYSIS &amp; OPTIMIZATION · V1.0
+      </div>
+      <h1 style="font-size:56px; font-weight:900; line-height:1.1; letter-spacing:-1.5px; margin-bottom:8px;">
+        兆技人力資源管理系統
+      </h1>
+      <div style="font-size:32px; font-weight:300; color:rgba(255,255,255,.85); margin-bottom:30px; letter-spacing:1px;">
+        現況分析與<span style="font-weight:700; color:var(--ml-blue-300);">優化建議</span>
+      </div>
+      <div style="display:flex; gap:12px; margin-bottom:44px; flex-wrap:wrap;">
+        <div style="padding:6px 14px; background:rgba(91,151,224,.15); border:1px solid rgba(91,151,224,.3); border-radius:999px; font-size:12px; color:var(--ml-blue-200);">人事資料</div>
+        <div style="padding:6px 14px; background:rgba(91,151,224,.15); border:1px solid rgba(91,151,224,.3); border-radius:999px; font-size:12px; color:var(--ml-blue-200);">差勤管理</div>
+        <div style="padding:6px 14px; background:rgba(91,151,224,.15); border:1px solid rgba(91,151,224,.3); border-radius:999px; font-size:12px; color:var(--ml-blue-200);">薪資結算</div>
+        <div style="padding:6px 14px; background:rgba(91,151,224,.15); border:1px solid rgba(91,151,224,.3); border-radius:999px; font-size:12px; color:var(--ml-blue-200);">結算流程優化</div>
+        <div style="padding:6px 14px; background:rgba(91,151,224,.15); border:1px solid rgba(91,151,224,.3); border-radius:999px; font-size:12px; color:var(--ml-blue-200);">集團共用核心</div>
+      </div>
+      <div style="display:flex; align-items:center; gap:24px; padding-top:28px; border-top:1px solid rgba(255,255,255,.12); font-size:12px; color:rgba(255,255,255,.6);">
+        <div><span style="color:var(--ml-blue-300); font-weight:700;">簡報對象</span>&nbsp; 兆技管理層 · 人力資源承辦</div>
+        <div><span style="color:var(--ml-blue-300); font-weight:700;">系統版本</span>&nbsp; 兆聯 HRM v1.0 系列</div>
+        <div><span style="color:var(--ml-blue-300); font-weight:700;">日期</span>&nbsp; 2026.07</div>
+        <div><span style="color:var(--ml-blue-300); font-weight:700;">頁數</span>&nbsp; 20 張</div>
+      </div>
+    </div>
+
+    <div style="position:absolute; right:-50px; top:90px; bottom:90px; width:360px; opacity:.55; transform:perspective(800px) rotateY(-12deg) rotateX(4deg);">
+      <div style="background:rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.1); border-radius:18px; height:100%; padding:18px; display:flex; flex-direction:column; gap:10px; backdrop-filter:blur(20px);">
+        <div style="display:flex; gap:8px; align-items:center; padding-bottom:12px; border-bottom:1px solid rgba(255,255,255,.08);">
+          <div style="width:32px; height:32px; background:linear-gradient(135deg, var(--ml-blue-400), var(--accent-teal)); border-radius:8px;"></div>
+          <div>
+            <div style="font-size:12px; color:white; font-weight:600;">薪資結算 2026-06 期別</div>
+            <div style="font-size:10px; color:rgba(255,255,255,.5);">兆技 · 結算作業流程</div>
+          </div>
+        </div>
+        <div style="display:flex; flex-direction:column; gap:8px; margin-top:6px;">
+          <div style="background:rgba(255,255,255,.08); padding:9px 11px; border-radius:10px; font-size:11px; color:white;">✅ 平日維護 — 9 項基礎資料就緒</div>
+          <div style="background:rgba(255,255,255,.08); padding:9px 11px; border-radius:10px; font-size:11px; color:white;">📥 業主請假／加班表 已匯入檢核</div>
+          <div style="background:rgba(255,255,255,.08); padding:9px 11px; border-radius:10px; font-size:11px; color:white;">🧮 結算作業 — 差勤拋轉薪資完成</div>
+          <div style="background:linear-gradient(135deg, var(--ml-blue-400), var(--ml-navy-600)); padding:9px 11px; border-radius:10px; font-size:11px; color:white;">🔒 主管核定 → 結案凍結 → 匯款檔</div>
+          <div style="background:rgba(255,255,255,.08); padding:9px 11px; border-radius:10px; font-size:11px; color:white;">✉️ 員工薪資條通知已寄發</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SLIDE 2 — 現況架構總覽 ============ -->
+<section class="slide" data-slide="2">
+  <div class="slide-bar"></div>
+  <div class="slide-body">
+    <div class="slide-head">
+      <div>
+        <div class="slide-eyebrow">CURRENT ARCHITECTURE</div>
+        <h2 class="slide-title">兆技系統架構現況 — <span class="accent">3 模組 · 14 功能</span></h2>
+        <div class="slide-subtitle">聚焦人力派駐業務必要功能：人事資料為基礎、差勤管理為過程、薪資結算為產出。</div>
+      </div>
+      <div class="slide-page"><span class="logo-mini">MT-HRM</span> · 02 / 20</div>
+    </div>
+    <div style="flex:1; display:grid; grid-template-columns:1fr 1.3fr 1fr; gap:20px; min-height:0;">
+      <div style="background:linear-gradient(180deg,var(--ml-blue-50),white); border:1px solid var(--ml-blue-200); border-radius:14px; padding:20px; display:flex; flex-direction:column;">
+        <div style="display:flex; align-items:center; gap:10px; margin-bottom:6px;">
+          <div style="width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,var(--ml-navy-700),var(--ml-blue-400));display:flex;align-items:center;justify-content:center;font-size:17px;">👤</div>
+          <div><div style="font-weight:800; font-size:17px; color:var(--ml-navy-900);">人事資料</div><div style="font-family:var(--font-en); font-size:10px; letter-spacing:1.5px; color:var(--ml-blue-400); font-weight:700;">PERSONNEL</div></div>
+        </div>
+        <div style="font-size:12px; color:var(--gray-500); margin-bottom:14px;">誰在職、隸屬哪裡、派駐哪個案場</div>
+        <div class="feat-list">
+          <div class="feat-item good"><div class="ic">1</div><div><strong>員工主檔</strong> — 基本資料、到離職、銀行帳戶、投保</div></div>
+          <div class="feat-item good"><div class="ic">2</div><div><strong>部門組織</strong> — 部門、成本中心、主管</div></div>
+          <div class="feat-item good"><div class="ic">3</div><div><strong>專案資料</strong> — 業主駐點案場與成員配置</div></div>
+        </div>
+        <div style="margin-top:auto;"><span class="pill">基礎主檔 · 平日維護</span></div>
+      </div>
+      <div style="background:linear-gradient(180deg,#F0FDFA,white); border:1px solid #99F6E4; border-radius:14px; padding:20px; display:flex; flex-direction:column;">
+        <div style="display:flex; align-items:center; gap:10px; margin-bottom:6px;">
+          <div style="width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#0E7490,var(--accent-teal));display:flex;align-items:center;justify-content:center;font-size:17px;">🗓</div>
+          <div><div style="font-weight:800; font-size:17px; color:var(--ml-navy-900);">差勤管理</div><div style="font-family:var(--font-en); font-size:10px; letter-spacing:1.5px; color:#0E7490; font-weight:700;">ATTENDANCE</div></div>
+        </div>
+        <div style="font-size:12px; color:var(--gray-500); margin-bottom:14px;">出勤規則設定 + 期別差勤交易紀錄</div>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:9px; font-size:12.5px;">
+          <div style="background:white; border:1px solid var(--gray-200); border-radius:8px; padding:8px 10px;"><strong style="color:var(--ml-navy-900);">1 班別設定</strong><div style="color:var(--gray-500); font-size:11px;">上下班時間規則</div></div>
+          <div style="background:white; border:1px solid var(--gray-200); border-radius:8px; padding:8px 10px;"><strong style="color:var(--ml-navy-900);">2 假別設定</strong><div style="color:var(--gray-500); font-size:11px;">特休／事病假等</div></div>
+          <div style="background:white; border:1px solid var(--gray-200); border-radius:8px; padding:8px 10px;"><strong style="color:var(--ml-navy-900);">3 加班類別</strong><div style="color:var(--gray-500); font-size:11px;">換薪／換補休</div></div>
+          <div style="background:white; border:1px solid var(--gray-200); border-radius:8px; padding:8px 10px;"><strong style="color:var(--ml-navy-900);">4 工作行事曆</strong><div style="color:var(--gray-500); font-size:11px;">工作日／假日</div></div>
+          <div style="background:white; border:1px solid var(--gray-200); border-radius:8px; padding:8px 10px;"><strong style="color:var(--ml-navy-900);">5 排班表</strong><div style="color:var(--gray-500); font-size:11px;">Leader 月度排班</div></div>
+          <div style="background:white; border:1px solid var(--gray-200); border-radius:8px; padding:8px 10px;"><strong style="color:var(--ml-navy-900);">6 請假記錄</strong><div style="color:var(--gray-500); font-size:11px;">業主表格來源</div></div>
+          <div style="background:white; border:1px solid var(--gray-200); border-radius:8px; padding:8px 10px; grid-column:span 2;"><strong style="color:var(--ml-navy-900);">7 加班記錄</strong><span style="color:var(--gray-500); font-size:11px;">　業主表格來源，倍率計算加班費</span></div>
+        </div>
+        <div style="margin-top:auto;"><span class="pill" style="background:#CCFBF1; color:#0E7490;">設定 1–4 平日維護 · 交易 5–7 期別處理</span></div>
+      </div>
+      <div style="background:linear-gradient(180deg,#FEFCE8,white); border:1px solid #FDE68A; border-radius:14px; padding:20px; display:flex; flex-direction:column;">
+        <div style="display:flex; align-items:center; gap:10px; margin-bottom:6px;">
+          <div style="width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#B45309,var(--accent-amber));display:flex;align-items:center;justify-content:center;font-size:17px;">💰</div>
+          <div><div style="font-weight:800; font-size:17px; color:var(--ml-navy-900);">薪資結算</div><div style="font-family:var(--font-en); font-size:10px; letter-spacing:1.5px; color:#B45309; font-weight:700;">PAYROLL</div></div>
+        </div>
+        <div style="font-size:12px; color:var(--gray-500); margin-bottom:14px;">從核薪到匯款發放的最終產出</div>
+        <div class="feat-list">
+          <div class="feat-item good"><div class="ic">1</div><div><strong>薪資項目</strong> — 底薪／津貼／獎金／扣款</div></div>
+          <div class="feat-item good"><div class="ic">2</div><div><strong>投保級距</strong> — 勞健保級距查表</div></div>
+          <div class="feat-item good"><div class="ic">3</div><div><strong>核薪單</strong> — 每期核薪基準</div></div>
+          <div class="feat-item good"><div class="ic">4</div><div><strong>薪資結算</strong> — 結算表、匯款、薪資條</div></div>
+        </div>
+        <div style="margin-top:auto;"><span class="pill warn">期別結算 · 月結產出</span></div>
+      </div>
+    </div>
+    <div style="margin-top:16px; background:var(--ml-navy-900); border-radius:12px; padding:12px 20px; display:flex; align-items:center; gap:16px; color:white; font-size:13px;">
+      <span class="pill dark" style="background:rgba(255,255,255,.12);">資料流向</span>
+      <span>人事主檔 <span style="color:var(--ml-blue-300);">→</span> 差勤規則與紀錄 <span style="color:var(--ml-blue-300);">→</span> 薪資結算 <span style="color:var(--ml-blue-300);">→</span> 銀行匯款 + 員工薪資條</span>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SLIDE 3 — 結算流程現況 ============ -->
+<section class="slide" data-slide="3">
+  <div class="slide-bar"></div>
+  <div class="slide-body">
+    <div class="slide-head">
+      <div>
+        <div class="slide-eyebrow">CURRENT WORKFLOW</div>
+        <h2 class="slide-title">兆技薪資結算作業流程 — <span class="accent">六階段現況</span></h2>
+        <div class="slide-subtitle">平日維護 → 結算前準備 → 結算作業 → 結算調整 → 主管審核 → 結算完成。</div>
+      </div>
+      <div class="slide-page"><span class="logo-mini">MT-HRM</span> · 03 / 20</div>
+    </div>
+    <div class="illus">
+      <svg viewBox="0 0 1140 470" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <marker id="ar3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#3D7DC9"/></marker>
+        </defs>
+        <!-- 六階段橫向 -->
+        <g font-family="Noto Sans TC, sans-serif">
+          <!-- Stage boxes row -->
+          <g>
+            <rect x="10" y="20" width="170" height="52" rx="10" fill="#1B3B6F"/>
+            <text x="95" y="42" text-anchor="middle" fill="#fff" font-size="16" font-weight="800">① 平日維護</text>
+            <text x="95" y="61" text-anchor="middle" fill="#93BCEC" font-size="11">基礎資料隨時維護</text>
+            <rect x="200" y="20" width="170" height="52" rx="10" fill="#234D8A"/>
+            <text x="285" y="42" text-anchor="middle" fill="#fff" font-size="16" font-weight="800">② 結算前準備</text>
+            <text x="285" y="61" text-anchor="middle" fill="#93BCEC" font-size="11">收集內外部表單</text>
+            <rect x="390" y="20" width="170" height="52" rx="10" fill="#2E63A9"/>
+            <text x="475" y="42" text-anchor="middle" fill="#fff" font-size="16" font-weight="800">③ 結算作業</text>
+            <text x="475" y="61" text-anchor="middle" fill="#D6E7F8" font-size="11">登錄與計算</text>
+            <rect x="580" y="20" width="170" height="52" rx="10" fill="#3D7DC9"/>
+            <text x="665" y="42" text-anchor="middle" fill="#fff" font-size="16" font-weight="800">④ 結算調整</text>
+            <text x="665" y="61" text-anchor="middle" fill="#EEF5FD" font-size="11">修正異常資料</text>
+            <rect x="770" y="20" width="170" height="52" rx="10" fill="#0E7490"/>
+            <text x="855" y="42" text-anchor="middle" fill="#fff" font-size="16" font-weight="800">⑤ 主管審核</text>
+            <text x="855" y="61" text-anchor="middle" fill="#CCFBF1" font-size="11">審核四大報表</text>
+            <rect x="960" y="20" width="170" height="52" rx="10" fill="#16A34A"/>
+            <text x="1045" y="42" text-anchor="middle" fill="#fff" font-size="16" font-weight="800">⑥ 結算完成</text>
+            <text x="1045" y="61" text-anchor="middle" fill="#DCFCE7" font-size="11">匯款與薪資條</text>
+            <line x1="180" y1="46" x2="198" y2="46" stroke="#3D7DC9" stroke-width="2.5" marker-end="url(#ar3)"/>
+            <line x1="370" y1="46" x2="388" y2="46" stroke="#3D7DC9" stroke-width="2.5" marker-end="url(#ar3)"/>
+            <line x1="560" y1="46" x2="578" y2="46" stroke="#3D7DC9" stroke-width="2.5" marker-end="url(#ar3)"/>
+            <line x1="750" y1="46" x2="768" y2="46" stroke="#3D7DC9" stroke-width="2.5" marker-end="url(#ar3)"/>
+            <line x1="940" y1="46" x2="958" y2="46" stroke="#3D7DC9" stroke-width="2.5" marker-end="url(#ar3)"/>
+          </g>
+          <!-- Detail columns -->
+          <g font-size="12" fill="#2A323D">
+            <rect x="10" y="92" width="170" height="356" rx="10" fill="#fff" stroke="#E2E6EC"/>
+            <text x="24" y="118" font-weight="700" fill="#1B3B6F">9 項基礎資料</text>
+            <text x="24" y="142">1. 員工主檔</text>
+            <text x="24" y="164">2. 部門組織</text>
+            <text x="24" y="186">3. 專案資料</text>
+            <text x="24" y="208">4. 班別設定</text>
+            <text x="24" y="230">5. 假別設定</text>
+            <text x="24" y="252">6. 加班類別</text>
+            <text x="24" y="274">7. 工作行事曆</text>
+            <text x="24" y="296">8. 薪資項目</text>
+            <text x="24" y="318">9. 投保級距</text>
+
+            <rect x="200" y="92" width="170" height="356" rx="10" fill="#fff" stroke="#E2E6EC"/>
+            <text x="214" y="118" font-weight="700" fill="#1B3B6F">內部 + 外部收件</text>
+            <text x="214" y="142">1. 核薪單</text>
+            <text x="214" y="170" fill="#DC2626">2. 業主提供</text>
+            <text x="224" y="188" fill="#DC2626">請假記錄表</text>
+            <text x="214" y="214" fill="#DC2626">3. 業主提供</text>
+            <text x="224" y="232" fill="#DC2626">加班記錄表</text>
+            <text x="214" y="258" fill="#DC2626">4. Leader 提供</text>
+            <text x="224" y="276" fill="#DC2626">排班表</text>
+            <text x="224" y="294" fill="#DC2626">考核獎金表</text>
+            <rect x="212" y="312" width="146" height="42" rx="8" fill="#FEF2F2" stroke="#FECACA"/>
+            <text x="222" y="329" font-size="10.5" fill="#DC2626">⚠ Excel／紙本人工彙整</text>
+            <text x="222" y="345" font-size="10.5" fill="#DC2626">格式與時效不可控</text>
+
+            <rect x="390" y="92" width="170" height="356" rx="10" fill="#fff" stroke="#E2E6EC"/>
+            <text x="404" y="118" font-weight="700" fill="#1B3B6F">四大工作表</text>
+            <text x="404" y="142">1. 薪資結算表</text>
+            <text x="404" y="164">2. 排班表</text>
+            <text x="404" y="186">3. 請假記錄</text>
+            <text x="404" y="208">4. 加班記錄</text>
+
+            <rect x="580" y="92" width="170" height="356" rx="10" fill="#fff" stroke="#E2E6EC"/>
+            <text x="594" y="118" font-weight="700" fill="#1B3B6F">同四表（調整）</text>
+            <text x="594" y="142">1. 薪資結算表(調整)</text>
+            <text x="594" y="164">2. 排班表(調整)</text>
+            <text x="594" y="186">3. 請假記錄(調整)</text>
+            <text x="594" y="208">4. 加班記錄(調整)</text>
+
+            <rect x="770" y="92" width="170" height="356" rx="10" fill="#fff" stroke="#E2E6EC"/>
+            <text x="784" y="118" font-weight="700" fill="#1B3B6F">同四表（審核）</text>
+            <text x="784" y="142">1. 薪資結算表(審核)</text>
+            <text x="784" y="164">2. 排班表(審核)</text>
+            <text x="784" y="186">3. 請假記錄(審核)</text>
+            <text x="784" y="208">4. 加班記錄(審核)</text>
+
+            <rect x="960" y="92" width="170" height="356" rx="10" fill="#fff" stroke="#E2E6EC"/>
+            <text x="974" y="118" font-weight="700" fill="#1B3B6F">完成與發放</text>
+            <text x="974" y="142">1~4. 四表(完成)</text>
+            <text x="974" y="170" fill="#16A34A" font-weight="700">5. 銀行匯款資料</text>
+            <text x="974" y="196" fill="#16A34A" font-weight="700">6. 薪資條 Email 通知</text>
+            <text x="974" y="222" fill="#16A34A" font-weight="700">7. 員工薪資條</text>
+          </g>
+        </g>
+      </svg>
+    </div>
+    <div style="margin-top:14px; display:flex; gap:12px;">
+      <span class="pill success">✔ 階段分明、調整審核分離</span>
+      <span class="pill danger">⚠ 結算前準備高度依賴外部 Excel</span>
+      <span class="pill warn">△ 各階段狀態控管待資料層落實</span>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SLIDE 4 — 外部資料流現況 ============ -->
+<section class="slide" data-slide="4">
+  <div class="slide-bar"></div>
+  <div class="slide-body">
+    <div class="slide-head">
+      <div>
+        <div class="slide-eyebrow">DATA FLOW · 派駐業務特性</div>
+        <h2 class="slide-title">派駐業務的資料流 — <span class="accent">差勤原始資料在業主端</span></h2>
+        <div class="slide-subtitle">員工在業主案場工作，請假／加班發生於業主端、排班與考核由駐點 Leader 掌握，兆技 HR 是資料的「收受者」。</div>
+      </div>
+      <div class="slide-page"><span class="logo-mini">MT-HRM</span> · 04 / 20</div>
+    </div>
+    <div class="illus">
+      <svg viewBox="0 0 1140 440" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+        <defs><marker id="ar4" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#97A0AD"/></marker></defs>
+        <g font-family="Noto Sans TC, sans-serif">
+          <!-- 業主 -->
+          <rect x="30" y="40" width="280" height="150" rx="14" fill="#FFF7ED" stroke="#FDBA74" stroke-width="1.5"/>
+          <text x="170" y="72" text-anchor="middle" font-size="18" font-weight="800" fill="#B45309">🏭 業主（客戶案場）</text>
+          <rect x="55" y="92" width="230" height="36" rx="8" fill="#fff" stroke="#FDE68A"/>
+          <text x="170" y="115" text-anchor="middle" font-size="13" fill="#2A323D">📄 請假記錄表（Excel／紙本）</text>
+          <rect x="55" y="138" width="230" height="36" rx="8" fill="#fff" stroke="#FDE68A"/>
+          <text x="170" y="161" text-anchor="middle" font-size="13" fill="#2A323D">📄 加班記錄表（Excel／紙本）</text>
+          <!-- Leader -->
+          <rect x="30" y="230" width="280" height="150" rx="14" fill="#F0FDFA" stroke="#5EEAD4" stroke-width="1.5"/>
+          <text x="170" y="262" text-anchor="middle" font-size="18" font-weight="800" fill="#0E7490">🧑‍💼 駐點 Leader</text>
+          <rect x="55" y="282" width="230" height="36" rx="8" fill="#fff" stroke="#99F6E4"/>
+          <text x="170" y="305" text-anchor="middle" font-size="13" fill="#2A323D">📄 排班表（Excel）</text>
+          <rect x="55" y="328" width="230" height="36" rx="8" fill="#fff" stroke="#99F6E4"/>
+          <text x="170" y="351" text-anchor="middle" font-size="13" fill="#2A323D">📄 考核獎金表（Excel）</text>
+          <!-- 傳遞方式 -->
+          <g>
+            <line x1="310" y1="115" x2="470" y2="165" stroke="#97A0AD" stroke-width="2" stroke-dasharray="6 5" marker-end="url(#ar4)"/>
+            <line x1="310" y1="305" x2="470" y2="245" stroke="#97A0AD" stroke-width="2" stroke-dasharray="6 5" marker-end="url(#ar4)"/>
+            <rect x="360" y="185" width="140" height="46" rx="23" fill="#F1F3F6" stroke="#C5CCD5"/>
+            <text x="430" y="205" text-anchor="middle" font-size="12" fill="#4A5563">Email / 通訊軟體</text>
+            <text x="430" y="222" text-anchor="middle" font-size="12" fill="#4A5563">紙本遞送</text>
+          </g>
+          <!-- 兆技 HR -->
+          <rect x="510" y="90" width="280" height="240" rx="14" fill="#EEF5FD" stroke="#93BCEC" stroke-width="1.5"/>
+          <text x="650" y="122" text-anchor="middle" font-size="18" font-weight="800" fill="#1B3B6F">🏢 兆技 HR（總部）</text>
+          <rect x="535" y="142" width="230" height="40" rx="8" fill="#fff" stroke="#D6E7F8"/>
+          <text x="650" y="167" text-anchor="middle" font-size="13" fill="#2A323D">人工核對 · 繕打登錄系統</text>
+          <rect x="535" y="192" width="230" height="40" rx="8" fill="#fff" stroke="#D6E7F8"/>
+          <text x="650" y="217" text-anchor="middle" font-size="13" fill="#2A323D">結算 → 調整 → 送審</text>
+          <rect x="535" y="242" width="230" height="40" rx="8" fill="#fff" stroke="#D6E7F8"/>
+          <text x="650" y="267" text-anchor="middle" font-size="13" fill="#2A323D">主管審核 → 結算完成</text>
+          <!-- 產出 -->
+          <line x1="790" y1="210" x2="880" y2="210" stroke="#97A0AD" stroke-width="2" marker-end="url(#ar4)"/>
+          <rect x="890" y="80" width="220" height="260" rx="14" fill="#F0FDF4" stroke="#86EFAC" stroke-width="1.5"/>
+          <text x="1000" y="112" text-anchor="middle" font-size="18" font-weight="800" fill="#16A34A">📤 結算產出</text>
+          <rect x="912" y="132" width="176" height="38" rx="8" fill="#fff" stroke="#BBF7D0"/>
+          <text x="1000" y="156" text-anchor="middle" font-size="13" fill="#2A323D">🏦 銀行匯款資料</text>
+          <rect x="912" y="180" width="176" height="38" rx="8" fill="#fff" stroke="#BBF7D0"/>
+          <text x="1000" y="204" text-anchor="middle" font-size="13" fill="#2A323D">✉️ 薪資條 Email 通知</text>
+          <rect x="912" y="228" width="176" height="38" rx="8" fill="#fff" stroke="#BBF7D0"/>
+          <text x="1000" y="252" text-anchor="middle" font-size="13" fill="#2A323D">🧾 員工薪資條</text>
+          <rect x="912" y="276" width="176" height="38" rx="8" fill="#fff" stroke="#BBF7D0"/>
+          <text x="1000" y="300" text-anchor="middle" font-size="13" fill="#2A323D">📊 四大報表（完成）</text>
+          <!-- 風險註記 -->
+          <rect x="360" y="386" width="560" height="40" rx="10" fill="#FEF2F2" stroke="#FECACA"/>
+          <text x="640" y="411" text-anchor="middle" font-size="13.5" fill="#DC2626" font-weight="700">⚠ 虛線路徑 = 非結構化傳遞：格式不一 · 版本混亂 · 時效不可控 · 責任不可追溯</text>
+        </g>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SLIDE 5 — 優點分析 ============ -->
+<section class="slide" data-slide="5">
+  <div class="slide-bar"></div>
+  <div class="slide-body">
+    <div class="slide-head">
+      <div>
+        <div class="slide-eyebrow">STRENGTHS · 優點分析</div>
+        <h2 class="slide-title">現況五大優點 — <span class="accent">精簡、分層、有內控雛形</span></h2>
+        <div class="slide-subtitle">兆技系統的設計已具備良好骨架，優化應「保留骨架、補強肌理」，而非砍掉重練。</div>
+      </div>
+      <div class="slide-page"><span class="logo-mini">MT-HRM</span> · 05 / 20</div>
+    </div>
+    <div style="flex:1; display:grid; grid-template-columns:repeat(3,1fr); grid-template-rows:1fr 1fr; gap:16px; min-height:0;">
+      <div style="background:white; border:1px solid var(--gray-200); border-left:4px solid var(--accent-green); border-radius:12px; padding:18px; box-shadow:var(--shadow-md);">
+        <div style="font-family:var(--font-en); font-size:11px; font-weight:800; color:var(--accent-green); letter-spacing:1px;">A1</div>
+        <div style="font-size:16px; font-weight:800; color:var(--ml-navy-900); margin:4px 0 8px;">模組精簡聚焦</div>
+        <div style="font-size:12.5px; color:var(--gray-600); line-height:1.6;">僅保留派駐業務必要之 3 模組 14 功能，導入成本低、學習曲線平緩，HR 人力精簡下仍可獨立運作。</div>
+      </div>
+      <div style="background:white; border:1px solid var(--gray-200); border-left:4px solid var(--accent-green); border-radius:12px; padding:18px; box-shadow:var(--shadow-md);">
+        <div style="font-family:var(--font-en); font-size:11px; font-weight:800; color:var(--accent-green); letter-spacing:1px;">A2</div>
+        <div style="font-size:16px; font-weight:800; color:var(--ml-navy-900); margin:4px 0 8px;">主檔／交易分層清楚</div>
+        <div style="font-size:12.5px; color:var(--gray-600); line-height:1.6;">「平日維護」與「期別結算」明確分離：基礎資料平時維護、交易資料期別處理，符合主檔／交易分層良好實務。</div>
+      </div>
+      <div style="background:white; border:1px solid var(--gray-200); border-left:4px solid var(--accent-green); border-radius:12px; padding:18px; box-shadow:var(--shadow-md);">
+        <div style="font-family:var(--font-en); font-size:11px; font-weight:800; color:var(--accent-green); letter-spacing:1px;">A3</div>
+        <div style="font-size:16px; font-weight:800; color:var(--ml-navy-900); margin:4px 0 8px;">調整與審核分離</div>
+        <div style="font-size:12.5px; color:var(--gray-600); line-height:1.6;">結算作業、結算調整、主管審核三階段分工，具備 Maker-Checker 內控雛形，製單者與審核者權責分離。</div>
+      </div>
+      <div style="background:white; border:1px solid var(--gray-200); border-left:4px solid var(--accent-green); border-radius:12px; padding:18px; box-shadow:var(--shadow-md);">
+        <div style="font-family:var(--font-en); font-size:11px; font-weight:800; color:var(--accent-green); letter-spacing:1px;">A4</div>
+        <div style="font-size:16px; font-weight:800; color:var(--ml-navy-900); margin:4px 0 8px;">結算產出閉環</div>
+        <div style="font-size:12.5px; color:var(--gray-600); line-height:1.6;">結算完成階段明確定義產出：銀行匯款資料＋員工薪資條＋Email 通知，從計算到發放一站完成，不遺留斷點。</div>
+      </div>
+      <div style="background:white; border:1px solid var(--gray-200); border-left:4px solid var(--accent-green); border-radius:12px; padding:18px; box-shadow:var(--shadow-md);">
+        <div style="font-family:var(--font-en); font-size:11px; font-weight:800; color:var(--accent-green); letter-spacing:1px;">A5</div>
+        <div style="font-size:16px; font-weight:800; color:var(--ml-navy-900); margin:4px 0 8px;">專案資料支援成本歸屬</div>
+        <div style="font-size:12.5px; color:var(--gray-600); line-height:1.6;">人事資料含專案資料，符合派駐業務按「業主／案場」歸屬人力成本與對業主計價的核心需求。</div>
+      </div>
+      <div style="background:linear-gradient(135deg,var(--ml-navy-900),var(--ml-navy-700)); border-radius:12px; padding:18px; color:white; display:flex; flex-direction:column; justify-content:center;">
+        <div style="font-family:var(--font-en); font-size:10px; letter-spacing:2px; color:var(--ml-blue-300); font-weight:700; margin-bottom:8px;">KEY TAKEAWAY</div>
+        <div style="font-size:15px; font-weight:700; line-height:1.6;">骨架正確：分層、分工、閉環皆已到位。<br>下一步是把「作業紀律」變成「系統控管」。</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SLIDE 6 — 缺點 I 外部資料依賴 ============ -->
+<section class="slide" data-slide="6">
+  <div class="slide-bar"></div>
+  <div class="slide-body">
+    <div class="slide-head">
+      <div>
+        <div class="slide-eyebrow">WEAKNESS 01 · 高風險</div>
+        <h2 class="slide-title">缺點 D1／D6 — <span class="accent" style="color:var(--accent-red);">外部資料依賴、血緣不可追溯</span></h2>
+        <div class="slide-subtitle">薪資正確性的源頭掌握在業主與 Leader 的 Excel 表格手上，系統卻無標準介面、無檢核、無批次追溯。</div>
+      </div>
+      <div class="slide-page"><span class="logo-mini">MT-HRM</span> · 06 / 20</div>
+    </div>
+    <div style="flex:1; display:grid; grid-template-columns:1fr 1fr; gap:20px; min-height:0;">
+      <div class="compare-card bad">
+        <h4>❌ 現況問題</h4>
+        <div class="sub">結算前準備＝人工收表、人工核對、人工繕打</div>
+        <div class="feat-list">
+          <div class="feat-item bad"><div class="ic">✕</div><div><strong>格式不一</strong> — 每個業主／Leader 的表格欄位、假別名稱、時間格式各異，HR 需逐張翻譯。</div></div>
+          <div class="feat-item bad"><div class="ic">✕</div><div><strong>版本混亂</strong> — 「最終版」「最終版v2」滿天飛，無法確認以哪一版結算。</div></div>
+          <div class="feat-item bad"><div class="ic">✕</div><div><strong>時效不可控</strong> — 表格晚交直接壓縮結算與審核時間，月底趕工出錯率升高。</div></div>
+          <div class="feat-item bad"><div class="ic">✕</div><div><strong>繕打錯誤直入薪資</strong> — 無系統檢核，打錯工號、時數即算錯薪水。</div></div>
+          <div class="feat-item bad"><div class="ic">✕</div><div><strong>血緣斷裂（D6）</strong> — 結算明細無來源標記，無法回答「這筆加班費出自哪張表哪一列」。</div></div>
+        </div>
+      </div>
+      <div class="compare-card good">
+        <h4>✅ 優化方向（O1）</h4>
+        <div class="sub">標準範本 + 匯入暫存 + 自動檢核 + 批次追溯</div>
+        <div class="feat-list">
+          <div class="feat-item good"><div class="ic">✓</div><div><strong>三式標準 Excel 範本</strong> — 請假／加班／排班統一欄位與代碼，業主與 Leader 照表填寫。</div></div>
+          <div class="feat-item good"><div class="ic">✓</div><div><strong>匯入暫存表</strong>（hrmAttnImport／hrmSalarImport 模式）— 上傳先落地，錯誤資料可容納、可退回。</div></div>
+          <div class="feat-item good"><div class="ic">✓</div><div><strong>自動檢核</strong> — 工號存在、日期落於期別、額度足夠、時段不重疊，逐列標記 CheckResult／ErrorMsg。</div></div>
+          <div class="feat-item good"><div class="ic">✓</div><div><strong>批次與提供者記錄</strong> — 誰、何時、上傳哪一版，一批一號完整留存。</div></div>
+          <div class="feat-item good"><div class="ic">✓</div><div><strong>雙向血緣</strong> — 正式單據回指匯入批次（RefImportGuid），結算數字可一路回查到原始檔。</div></div>
+        </div>
+      </div>
+    </div>
+    <div style="margin-top:14px; background:var(--ml-blue-50); border:1px solid var(--ml-blue-200); border-radius:10px; padding:10px 18px; font-size:12.5px; color:var(--ml-navy-700);">
+      <strong>中期選配：</strong>建置業主入口網，由業主端直接線上登錄請假／加班，Excel 僅為過渡手段。
+    </div>
+  </div>
+</section>
+
+<!-- ============ SLIDE 7 — 缺點 II 勾稽缺口與鎖定缺失 ============ -->
+<section class="slide" data-slide="7">
+  <div class="slide-bar"></div>
+  <div class="slide-body">
+    <div class="slide-head">
+      <div>
+        <div class="slide-eyebrow">WEAKNESS 02</div>
+        <h2 class="slide-title">缺點 D2／D3 — <span class="accent" style="color:var(--accent-red);">勾稽缺口與結案鎖定缺失</span></h2>
+        <div class="slide-subtitle">業主表格直接進結算，中間沒有可交叉驗證的出勤事實層；審核後的資料也沒有被真正「鎖住」。</div>
+      </div>
+      <div class="slide-page"><span class="logo-mini">MT-HRM</span> · 07 / 20</div>
+    </div>
+    <div class="illus">
+      <svg viewBox="0 0 1140 400" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <marker id="ar7r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#DC2626"/></marker>
+          <marker id="ar7g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#16A34A"/></marker>
+        </defs>
+        <g font-family="Noto Sans TC, sans-serif">
+          <!-- 上半：現況 -->
+          <text x="20" y="30" font-size="15" font-weight="800" fill="#DC2626">❌ 現況：外部表格直達結算，無中間事實層</text>
+          <rect x="20" y="48" width="200" height="60" rx="10" fill="#FFF7ED" stroke="#FDBA74"/>
+          <text x="120" y="74" text-anchor="middle" font-size="13" fill="#B45309" font-weight="700">請假／加班／排班</text>
+          <text x="120" y="94" text-anchor="middle" font-size="11.5" fill="#B45309">（業主與 Leader 表格）</text>
+          <line x1="220" y1="78" x2="430" y2="78" stroke="#DC2626" stroke-width="2.5" stroke-dasharray="7 5" marker-end="url(#ar7r)"/>
+          <text x="325" y="66" text-anchor="middle" font-size="11.5" fill="#DC2626">直接登錄，無勾稽</text>
+          <rect x="440" y="48" width="180" height="60" rx="10" fill="#FEE2E2" stroke="#FECACA"/>
+          <text x="530" y="74" text-anchor="middle" font-size="13" fill="#DC2626" font-weight="700">薪資結算表</text>
+          <text x="530" y="94" text-anchor="middle" font-size="11.5" fill="#DC2626">錯誤直接反映在薪水</text>
+          <rect x="660" y="34" width="460" height="90" rx="10" fill="#fff" stroke="#FECACA"/>
+          <text x="678" y="58" font-size="12.5" fill="#2A323D">偵測不到的異常：</text>
+          <text x="678" y="80" font-size="12.5" fill="#DC2626">• 同日「全日請假」又出現在排班出勤　• 請假與加班時段重疊</text>
+          <text x="678" y="102" font-size="12.5" fill="#DC2626">• 國定假日加班倍率誤用平日倍率　　　• 漏報／重複申報</text>
+          <!-- 分隔 -->
+          <line x1="20" y1="145" x2="1120" y2="145" stroke="#E2E6EC" stroke-width="1.5" stroke-dasharray="4 4"/>
+          <!-- 下半：優化 -->
+          <text x="20" y="175" font-size="15" font-weight="800" fill="#16A34A">✅ 優化（O2／O3）：每日出勤正規化 + 狀態機鎖定</text>
+          <rect x="20" y="195" width="170" height="130" rx="10" fill="#F0FDFA" stroke="#99F6E4"/>
+          <text x="105" y="220" text-anchor="middle" font-size="12.5" font-weight="700" fill="#0E7490">四大來源</text>
+          <text x="105" y="244" text-anchor="middle" font-size="12" fill="#2A323D">排班表</text>
+          <text x="105" y="266" text-anchor="middle" font-size="12" fill="#2A323D">請假記錄</text>
+          <text x="105" y="288" text-anchor="middle" font-size="12" fill="#2A323D">加班記錄</text>
+          <text x="105" y="310" text-anchor="middle" font-size="12" fill="#2A323D">工作行事曆</text>
+          <line x1="190" y1="260" x2="248" y2="260" stroke="#16A34A" stroke-width="2.5" marker-end="url(#ar7g)"/>
+          <text x="219" y="248" text-anchor="middle" font-size="10.5" fill="#16A34A">SP 計算</text>
+          <rect x="256" y="215" width="210" height="90" rx="10" fill="#EEF5FD" stroke="#93BCEC"/>
+          <text x="361" y="242" text-anchor="middle" font-size="13.5" font-weight="800" fill="#1B3B6F">每日出勤正規化</text>
+          <text x="361" y="263" text-anchor="middle" font-size="11" fill="#4A5563" font-family="JetBrains Mono, monospace">hrmAttnDaily</text>
+          <text x="361" y="285" text-anchor="middle" font-size="11.5" fill="#2E63A9">每人每日一筆 · 可重算</text>
+          <line x1="466" y1="260" x2="524" y2="260" stroke="#16A34A" stroke-width="2.5" marker-end="url(#ar7g)"/>
+          <rect x="532" y="215" width="180" height="90" rx="10" fill="#fff" stroke="#C5CCD5"/>
+          <text x="622" y="242" text-anchor="middle" font-size="13" font-weight="800" fill="#1B3B6F">異常清單</text>
+          <text x="622" y="264" text-anchor="middle" font-size="11.5" fill="#DC2626">重疊 · 矛盾 · 漏報</text>
+          <text x="622" y="286" text-anchor="middle" font-size="11.5" fill="#4A5563">結算前先清零</text>
+          <line x1="712" y1="260" x2="770" y2="260" stroke="#16A34A" stroke-width="2.5" marker-end="url(#ar7g)"/>
+          <rect x="778" y="215" width="160" height="90" rx="10" fill="#fff" stroke="#C5CCD5"/>
+          <text x="858" y="242" text-anchor="middle" font-size="13" font-weight="800" fill="#1B3B6F">差勤月結</text>
+          <text x="858" y="264" text-anchor="middle" font-size="11.5" fill="#4A5563">彙總每人一筆</text>
+          <text x="858" y="286" text-anchor="middle" font-size="11.5" fill="#4A5563">拋轉核薪明細</text>
+          <line x1="938" y1="260" x2="990" y2="260" stroke="#16A34A" stroke-width="2.5" marker-end="url(#ar7g)"/>
+          <rect x="998" y="215" width="122" height="90" rx="10" fill="#0B1F3D"/>
+          <text x="1059" y="248" text-anchor="middle" font-size="13" font-weight="800" fill="#fff">🔒 結案鎖定</text>
+          <text x="1059" y="272" text-anchor="middle" font-size="10.5" fill="#93BCEC">DocStatus=3</text>
+          <text x="1059" y="292" text-anchor="middle" font-size="10.5" fill="#93BCEC">IsLocked 連動</text>
+          <rect x="20" y="348" width="1100" height="38" rx="10" fill="#F0FDF4" stroke="#86EFAC"/>
+          <text x="570" y="372" text-anchor="middle" font-size="13" fill="#16A34A" font-weight="700">中間層可重算：來源修正後重跑 SP 即可，不需人工重編報表；結案後鎖定，歷史不可回改</text>
+        </g>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SLIDE 8 — 缺點 III 其他控管缺失 ============ -->
+<section class="slide" data-slide="8">
+  <div class="slide-bar"></div>
+  <div class="slide-body">
+    <div class="slide-head">
+      <div>
+        <div class="slide-eyebrow">WEAKNESS 03</div>
+        <h2 class="slide-title">缺點 D4／D5／D7／D8／D9 — <span class="accent" style="color:var(--accent-red);">規則、整合與資安缺口</span></h2>
+        <div class="slide-subtitle">單看每一項都是小事，疊加起來就是勞檢舉證、個資稽核與集團管理的系統性風險。</div>
+      </div>
+      <div class="slide-page"><span class="logo-mini">MT-HRM</span> · 08 / 20</div>
+    </div>
+    <div style="flex:1; display:grid; grid-template-columns:repeat(3,1fr); grid-template-rows:1fr 1fr; gap:14px; min-height:0;">
+      <div style="background:white; border:1px solid var(--gray-200); border-top:4px solid var(--accent-red); border-radius:12px; padding:16px;">
+        <div style="display:flex; justify-content:space-between;"><span style="font-family:var(--font-en); font-weight:800; color:var(--accent-red); font-size:12px;">D4</span><span class="pill danger">合規</span></div>
+        <div style="font-size:15px; font-weight:800; color:var(--ml-navy-900); margin:6px 0;">假別額度管控缺失</div>
+        <div style="font-size:12px; color:var(--gray-600); line-height:1.6;">有假別設定，卻無額度管理：特休年資核算、餘額扣減、超休阻擋皆靠人工發現，事假病假上限亦無控管。</div>
+      </div>
+      <div style="background:white; border:1px solid var(--gray-200); border-top:4px solid var(--accent-red); border-radius:12px; padding:16px;">
+        <div style="display:flex; justify-content:space-between;"><span style="font-family:var(--font-en); font-weight:800; color:var(--accent-red); font-size:12px;">D5</span><span class="pill danger">合規</span></div>
+        <div style="font-size:15px; font-weight:800; color:var(--ml-navy-900); margin:6px 0;">法規規則未版本化</div>
+        <div style="font-size:12px; color:var(--gray-600); line-height:1.6;">加班費倍率（勞基法§24）、特休累加（§38）、投保級距皆無規則表與生效版控，法規調整後歷史期別無法重現計算。</div>
+      </div>
+      <div style="background:white; border:1px solid var(--gray-200); border-top:4px solid var(--accent-red); border-radius:12px; padding:16px;">
+        <div style="display:flex; justify-content:space-between;"><span style="font-family:var(--font-en); font-weight:800; color:var(--accent-red); font-size:12px;">D7</span><span class="pill warn">集團</span></div>
+        <div style="font-size:15px; font-weight:800; color:var(--ml-navy-900); margin:6px 0;">與集團 HRM 各自為政</div>
+        <div style="font-size:12px; color:var(--gray-600); line-height:1.6;">員工、部門主檔與兆聯 HRM 重複維護；集團人力報表人工合併，跨公司調動與集團合規查核成本高。</div>
+      </div>
+      <div style="background:white; border:1px solid var(--gray-200); border-top:4px solid var(--accent-red); border-radius:12px; padding:16px;">
+        <div style="display:flex; justify-content:space-between;"><span style="font-family:var(--font-en); font-weight:800; color:var(--accent-red); font-size:12px;">D8</span><span class="pill danger">資安</span></div>
+        <div style="font-size:15px; font-weight:800; color:var(--ml-navy-900); margin:6px 0;">薪資條 Email 遞送風險</div>
+        <div style="font-size:12px; color:var(--gray-600); line-height:1.6;">薪資屬 L2 機敏資料，明碼附件 Email 有誤寄、轉寄、信箱外洩風險，且無法留存查閱軌跡。</div>
+      </div>
+      <div style="background:white; border:1px solid var(--gray-200); border-top:4px solid var(--accent-red); border-radius:12px; padding:16px;">
+        <div style="display:flex; justify-content:space-between;"><span style="font-family:var(--font-en); font-weight:800; color:var(--accent-red); font-size:12px;">D9</span><span class="pill danger">計薪</span></div>
+        <div style="font-size:15px; font-weight:800; color:var(--ml-navy-900); margin:6px 0;">期中異動防呆缺失</div>
+        <div style="font-size:12px; color:var(--gray-600); line-height:1.6;">月中到職／離職比例計薪、健保全月扣繳鎖定、期中調部門之成本歸屬快照等防呆邏輯未定義，靠承辦記憶。</div>
+      </div>
+      <div style="background:linear-gradient(135deg,#7F1D1D,#B91C1C); border-radius:12px; padding:16px; color:white; display:flex; flex-direction:column; justify-content:center;">
+        <div style="font-family:var(--font-en); font-size:10px; letter-spacing:2px; color:#FECACA; font-weight:700; margin-bottom:8px;">RISK SUMMARY</div>
+        <div style="font-size:14px; font-weight:700; line-height:1.65;">薪資算錯 → 員工信任受損<br>勞檢舉證不足 → 法遵風險<br>個資外洩 → 商譽與罰則風險</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SLIDE 9 — 優缺點總覽表 ============ -->
+<section class="slide" data-slide="9">
+  <div class="slide-bar"></div>
+  <div class="slide-body">
+    <div class="slide-head">
+      <div>
+        <div class="slide-eyebrow">SUMMARY TABLE</div>
+        <h2 class="slide-title">優缺點總覽 — <span class="accent">一頁對照</span></h2>
+        <div class="slide-subtitle">五項優點予以保留延續；九項缺點對應八項優化措施逐一補強。</div>
+      </div>
+      <div class="slide-page"><span class="logo-mini">MT-HRM</span> · 09 / 20</div>
+    </div>
+    <div style="flex:1; display:grid; grid-template-columns:1fr 1.35fr; gap:18px; min-height:0;">
+      <table class="compare-table" style="align-self:start;">
+        <thead><tr><th style="width:44px;">✔</th><th>優點（保留延續）</th></tr></thead>
+        <tbody>
+          <tr><td class="ok">A1</td><td>模組精簡聚焦，導入與維運成本低</td></tr>
+          <tr><td class="ok">A2</td><td>平日維護／期別結算，主檔交易分層清楚</td></tr>
+          <tr><td class="ok">A3</td><td>調整與審核分離，Maker-Checker 內控雛形</td></tr>
+          <tr><td class="ok">A4</td><td>結算產出閉環：匯款檔＋薪資條＋通知</td></tr>
+          <tr><td class="ok">A5</td><td>專案資料支援業主別成本歸屬與計價</td></tr>
+        </tbody>
+      </table>
+      <table class="compare-table" style="align-self:start;">
+        <thead><tr><th style="width:44px;">✕</th><th>缺點（風險）</th><th style="width:120px;">對應優化</th></tr></thead>
+        <tbody>
+          <tr><td class="x">D1</td><td>外部 Excel 依賴：格式、版本、時效、繕打錯誤</td><td><span class="pill">O1 標準化匯入</span></td></tr>
+          <tr><td class="x">D2</td><td>無每日出勤層，排班×請假×加班無法勾稽</td><td><span class="pill">O2 正規化</span></td></tr>
+          <tr><td class="x">D3</td><td>無狀態機與結案鎖定，歷史可被回改</td><td><span class="pill">O3 狀態機快照</span></td></tr>
+          <tr><td class="x">D4</td><td>假別額度無控管，超休靠人工發現</td><td><span class="pill">O4 額度規則</span></td></tr>
+          <tr><td class="x">D5</td><td>倍率／累加／級距未版本化</td><td><span class="pill">O5 規則版控</span></td></tr>
+          <tr><td class="x">D6</td><td>結算數字血緣不可追溯</td><td><span class="pill">O1 血緣追溯</span></td></tr>
+          <tr><td class="x">D7</td><td>與集團 HRM 主檔重複維護</td><td><span class="pill">O6 共用核心</span></td></tr>
+          <tr><td class="x">D8</td><td>薪資條明碼 Email，個資外洩風險</td><td><span class="pill">O7 加密遞送</span></td></tr>
+          <tr><td class="x">D9</td><td>期中到離職／調動防呆缺失</td><td><span class="pill">O8 計薪防呆</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SLIDE 10 — 優化藍圖總覽 ============ -->
+<section class="slide" data-slide="10">
+  <div class="slide-bar"></div>
+  <div class="slide-body">
+    <div class="slide-head">
+      <div>
+        <div class="slide-eyebrow">OPTIMIZATION BLUEPRINT</div>
+        <h2 class="slide-title">優化藍圖總覽 — <span class="accent">八項措施 O1～O8</span></h2>
+        <div class="slide-subtitle">依「資料進得來 → 算得對 → 鎖得住 → 管得住 → 發得安全」五個層次組織八項優化。</div>
+      </div>
+      <div class="slide-page"><span class="logo-mini">MT-HRM</span> · 10 / 20</div>
+    </div>
+    <div class="illus">
+      <svg viewBox="0 0 1140 420" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+        <defs><marker id="ar10" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#3D7DC9"/></marker></defs>
+        <g font-family="Noto Sans TC, sans-serif">
+          <!-- 五層 -->
+          <g font-size="13">
+            <rect x="20" y="20" width="200" height="60" rx="10" fill="#1B3B6F"/>
+            <text x="120" y="45" text-anchor="middle" fill="#fff" font-size="15" font-weight="800">資料進得來</text>
+            <text x="120" y="66" text-anchor="middle" fill="#93BCEC" font-size="11">標準化 · 檢核 · 追溯</text>
+            <rect x="250" y="20" width="200" height="60" rx="10" fill="#234D8A"/>
+            <text x="350" y="45" text-anchor="middle" fill="#fff" font-size="15" font-weight="800">算得對</text>
+            <text x="350" y="66" text-anchor="middle" fill="#93BCEC" font-size="11">正規化 · 規則版控 · 防呆</text>
+            <rect x="480" y="20" width="200" height="60" rx="10" fill="#2E63A9"/>
+            <text x="580" y="45" text-anchor="middle" fill="#fff" font-size="15" font-weight="800">鎖得住</text>
+            <text x="580" y="66" text-anchor="middle" fill="#D6E7F8" font-size="11">狀態機 · 結案快照</text>
+            <rect x="710" y="20" width="200" height="60" rx="10" fill="#3D7DC9"/>
+            <text x="810" y="45" text-anchor="middle" fill="#fff" font-size="15" font-weight="800">管得住</text>
+            <text x="810" y="66" text-anchor="middle" fill="#EEF5FD" font-size="11">集團共用核心 · RLS</text>
+            <rect x="940" y="20" width="180" height="60" rx="10" fill="#0E7490"/>
+            <text x="1030" y="45" text-anchor="middle" fill="#fff" font-size="15" font-weight="800">發得安全</text>
+            <text x="1030" y="66" text-anchor="middle" fill="#CCFBF1" font-size="11">加密遞送 · 查閱軌跡</text>
+            <line x1="220" y1="50" x2="248" y2="50" stroke="#3D7DC9" stroke-width="2.5" marker-end="url(#ar10)"/>
+            <line x1="450" y1="50" x2="478" y2="50" stroke="#3D7DC9" stroke-width="2.5" marker-end="url(#ar10)"/>
+            <line x1="680" y1="50" x2="708" y2="50" stroke="#3D7DC9" stroke-width="2.5" marker-end="url(#ar10)"/>
+            <line x1="910" y1="50" x2="938" y2="50" stroke="#3D7DC9" stroke-width="2.5" marker-end="url(#ar10)"/>
+          </g>
+          <!-- 八卡片 -->
+          <g font-size="12" fill="#2A323D">
+            <rect x="20" y="105" width="265" height="88" rx="10" fill="#fff" stroke="#E2E6EC"/>
+            <text x="36" y="130" font-weight="800" fill="#1B3B6F" font-size="13.5">O1　外部資料交換標準化</text>
+            <text x="36" y="152">三式標準範本＋匯入暫存＋自動檢核，</text>
+            <text x="36" y="172">批次記錄提供者與版本，血緣雙向追溯。</text>
+            <rect x="305" y="105" width="265" height="88" rx="10" fill="#fff" stroke="#E2E6EC"/>
+            <text x="321" y="130" font-weight="800" fill="#1B3B6F" font-size="13.5">O2　每日出勤正規化層</text>
+            <text x="321" y="152">排班＋請假＋加班＋行事曆 → SP 計算</text>
+            <text x="321" y="172">每人每日一筆，異常先清零再結算。</text>
+            <rect x="590" y="105" width="265" height="88" rx="10" fill="#fff" stroke="#E2E6EC"/>
+            <text x="606" y="130" font-weight="800" fill="#1B3B6F" font-size="13.5">O3　狀態機與結案快照</text>
+            <text x="606" y="152">DocStatus 0→1→2→3（8駁回/9作廢），</text>
+            <text x="606" y="172">結案凍結快照，歷史禁止 DML 回改。</text>
+            <rect x="875" y="105" width="245" height="88" rx="10" fill="#fff" stroke="#E2E6EC"/>
+            <text x="891" y="130" font-weight="800" fill="#1B3B6F" font-size="13.5">O4　假別額度管理</text>
+            <text x="891" y="152">額度按年度×假別×員工，特休依</text>
+            <text x="891" y="172">年資階梯自動核算，超休系統阻擋。</text>
+            <rect x="20" y="213" width="265" height="88" rx="10" fill="#fff" stroke="#E2E6EC"/>
+            <text x="36" y="238" font-weight="800" fill="#1B3B6F" font-size="13.5">O5　法規規則版本化</text>
+            <text x="36" y="260">加班倍率、特休累加、投保級距建規則表，</text>
+            <text x="36" y="280">以生效年度／日期版控，新增不覆蓋。</text>
+            <rect x="305" y="213" width="265" height="88" rx="10" fill="#fff" stroke="#E2E6EC"/>
+            <text x="321" y="238" font-weight="800" fill="#1B3B6F" font-size="13.5">O6　集團共用核心</text>
+            <text x="321" y="260">兆技以公司代碼掛載集團組織樹，共用</text>
+            <text x="321" y="280">資料表與計薪引擎，RLS 公司隔離。</text>
+            <rect x="590" y="213" width="265" height="88" rx="10" fill="#fff" stroke="#E2E6EC"/>
+            <text x="606" y="238" font-weight="800" fill="#1B3B6F" font-size="13.5">O7　薪資條安全遞送</text>
+            <text x="606" y="260">Email 僅發通知連結，登入自助查詢；</text>
+            <text x="606" y="280">或密碼保護 PDF，查閱留存軌跡。</text>
+            <rect x="875" y="213" width="245" height="88" rx="10" fill="#fff" stroke="#E2E6EC"/>
+            <text x="891" y="238" font-weight="800" fill="#1B3B6F" font-size="13.5">O8　期中異動防呆</text>
+            <text x="891" y="260">到離職按天比例計薪、健保全月</text>
+            <text x="891" y="280">扣繳鎖定、核薪部門快照凍結。</text>
+          </g>
+          <rect x="20" y="326" width="1100" height="66" rx="12" fill="#0B1F3D"/>
+          <text x="570" y="354" text-anchor="middle" font-size="14.5" fill="#fff" font-weight="700">設計原則：保留兆技既有六階段流程與作業習慣，將人工紀律「下沉」為資料庫層控管</text>
+          <text x="570" y="378" text-anchor="middle" font-size="12" fill="#93BCEC">沿用集團 HRM 既有資料表設計（hrmAttn／hrmSalar 系列），開發成本最小化</text>
+        </g>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SLIDE 11 — O1 標準化匯入 ============ -->
+<section class="slide" data-slide="11">
+  <div class="slide-bar"></div>
+  <div class="slide-body">
+    <div class="slide-head">
+      <div>
+        <div class="slide-eyebrow">OPTIMIZATION 01</div>
+        <h2 class="slide-title">O1 外部資料交換標準化 — <span class="accent">匯入暫存與自動檢核</span></h2>
+        <div class="slide-subtitle">業主與 Leader 的表格不再直接進結算：先落地、先檢核、先退錯，通過才轉正式單據。</div>
+      </div>
+      <div class="slide-page"><span class="logo-mini">MT-HRM</span> · 11 / 20</div>
+    </div>
+    <div class="illus">
+      <svg viewBox="0 0 1140 400" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+        <defs><marker id="ar11" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#3D7DC9"/></marker>
+        <marker id="ar11r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#DC2626"/></marker></defs>
+        <g font-family="Noto Sans TC, sans-serif">
+          <rect x="20" y="30" width="220" height="150" rx="12" fill="#FFF7ED" stroke="#FDBA74"/>
+          <text x="130" y="58" text-anchor="middle" font-size="14.5" font-weight="800" fill="#B45309">📄 三式標準範本</text>
+          <text x="130" y="85" text-anchor="middle" font-size="12.5" fill="#2A323D">請假記錄範本（業主）</text>
+          <text x="130" y="110" text-anchor="middle" font-size="12.5" fill="#2A323D">加班記錄範本（業主）</text>
+          <text x="130" y="135" text-anchor="middle" font-size="12.5" fill="#2A323D">排班／考核範本（Leader）</text>
+          <text x="130" y="162" text-anchor="middle" font-size="11" fill="#B45309">統一欄位 · 統一代碼 · 下拉選單</text>
+          <line x1="240" y1="105" x2="300" y2="105" stroke="#3D7DC9" stroke-width="2.5" marker-end="url(#ar11)"/>
+          <text x="270" y="92" text-anchor="middle" font-size="10.5" fill="#4A5563">上傳</text>
+          <rect x="308" y="30" width="250" height="150" rx="12" fill="#EEF5FD" stroke="#93BCEC"/>
+          <text x="433" y="58" text-anchor="middle" font-size="14.5" font-weight="800" fill="#1B3B6F">🗂 匯入暫存表</text>
+          <text x="433" y="80" text-anchor="middle" font-size="10.5" fill="#4A5563" font-family="JetBrains Mono, monospace">hrmAttnImport / hrmSalarImport</text>
+          <text x="433" y="105" text-anchor="middle" font-size="12" fill="#2A323D">批次號 · 提供者 · 原始檔名</text>
+          <text x="433" y="128" text-anchor="middle" font-size="12" fill="#2A323D">列資料 · CheckResult · ErrorMsg</text>
+          <text x="433" y="155" text-anchor="middle" font-size="11" fill="#2E63A9">工號免 FK，容許錯誤資料落地</text>
+          <line x1="558" y1="105" x2="618" y2="105" stroke="#3D7DC9" stroke-width="2.5" marker-end="url(#ar11)"/>
+          <rect x="626" y="30" width="250" height="150" rx="12" fill="#fff" stroke="#C5CCD5"/>
+          <text x="751" y="58" text-anchor="middle" font-size="14.5" font-weight="800" fill="#1B3B6F">🔍 自動檢核（SP）</text>
+          <text x="751" y="85" text-anchor="middle" font-size="12" fill="#2A323D">✔ 工號存在　✔ 日期落於期別</text>
+          <text x="751" y="108" text-anchor="middle" font-size="12" fill="#2A323D">✔ 假別額度足夠　✔ 時段不重疊</text>
+          <text x="751" y="131" text-anchor="middle" font-size="12" fill="#2A323D">✔ 與排班／行事曆矛盾偵測</text>
+          <text x="751" y="156" text-anchor="middle" font-size="11" fill="#4A5563">逐列標記通過／錯誤原因</text>
+          <line x1="876" y1="80" x2="938" y2="80" stroke="#3D7DC9" stroke-width="2.5" marker-end="url(#ar11)"/>
+          <text x="907" y="67" text-anchor="middle" font-size="10.5" fill="#16A34A">全數通過</text>
+          <rect x="946" y="40" width="174" height="80" rx="12" fill="#F0FDF4" stroke="#86EFAC"/>
+          <text x="1033" y="70" text-anchor="middle" font-size="13.5" font-weight="800" fill="#16A34A">✅ 確認轉入正式表</text>
+          <text x="1033" y="95" text-anchor="middle" font-size="11" fill="#2A323D">請假／加班／排班／獎金</text>
+          <line x1="876" y1="140" x2="938" y2="140" stroke="#DC2626" stroke-width="2.5" stroke-dasharray="6 4" marker-end="url(#ar11r)"/>
+          <text x="907" y="128" text-anchor="middle" font-size="10.5" fill="#DC2626">有錯誤列</text>
+          <rect x="946" y="122" width="174" height="58" rx="12" fill="#FEF2F2" stroke="#FECACA"/>
+          <text x="1033" y="147" text-anchor="middle" font-size="13" font-weight="800" fill="#DC2626">↩ 退回重傳</text>
+          <text x="1033" y="168" text-anchor="middle" font-size="10.5" fill="#B91C1C">錯誤清單自動回覆提供者</text>
+          <!-- 血緣 -->
+          <rect x="20" y="215" width="1100" height="80" rx="12" fill="#0B1F3D"/>
+          <text x="42" y="245" font-size="14" font-weight="800" fill="#5B97E0">🔗 雙向血緣追溯（解 D6）</text>
+          <text x="42" y="273" font-size="12.5" fill="#fff">原始 Excel 檔　→　匯入批次（ImportGuid）　→　正式單據（RefImportGuid 回指）　→　核薪明細（SourceType='IMPORT'，SourceRefNo）　→　結算快照</text>
+          <rect x="20" y="315" width="1100" height="72" rx="12" fill="#F7F9FB" stroke="#E2E6EC"/>
+          <text x="42" y="343" font-size="13.5" font-weight="800" fill="#1B3B6F">📈 效益</text>
+          <text x="42" y="369" font-size="12.5" fill="#2A323D">繕打錯誤趨近於零 · 收件即檢核（不必等到結算才發現）· 任一薪資數字 3 分鐘內回查外部來源 · 中期可升級業主入口網線上登錄</text>
+        </g>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SLIDE 12 — O2 每日出勤正規化 ============ -->
+<section class="slide" data-slide="12">
+  <div class="slide-bar"></div>
+  <div class="slide-body">
+    <div class="slide-head">
+      <div>
+        <div class="slide-eyebrow">OPTIMIZATION 02</div>
+        <h2 class="slide-title">O2 每日出勤正規化 — <span class="accent">建立可勾稽的出勤事實層</span></h2>
+        <div class="slide-subtitle">每人每日一筆出勤事實（hrmAttnDaily 模式），排班、請假、加班、行事曆在此交會對帳。</div>
+      </div>
+      <div class="slide-page"><span class="logo-mini">MT-HRM</span> · 12 / 20</div>
+    </div>
+    <div style="flex:1; display:grid; grid-template-columns:1.15fr 1fr; gap:20px; min-height:0;">
+      <div class="illus" style="flex:none;">
+        <svg viewBox="0 0 560 400" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+          <defs><marker id="ar12" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#3D7DC9"/></marker></defs>
+          <g font-family="Noto Sans TC, sans-serif">
+            <rect x="15" y="15" width="120" height="52" rx="10" fill="#F0FDFA" stroke="#99F6E4"/><text x="75" y="46" text-anchor="middle" font-size="13" fill="#0E7490" font-weight="700">排班表</text>
+            <rect x="150" y="15" width="120" height="52" rx="10" fill="#F0FDFA" stroke="#99F6E4"/><text x="210" y="46" text-anchor="middle" font-size="13" fill="#0E7490" font-weight="700">請假記錄</text>
+            <rect x="285" y="15" width="120" height="52" rx="10" fill="#F0FDFA" stroke="#99F6E4"/><text x="345" y="46" text-anchor="middle" font-size="13" fill="#0E7490" font-weight="700">加班記錄</text>
+            <rect x="420" y="15" width="125" height="52" rx="10" fill="#F0FDFA" stroke="#99F6E4"/><text x="482" y="46" text-anchor="middle" font-size="13" fill="#0E7490" font-weight="700">工作行事曆</text>
+            <line x1="75" y1="67" x2="240" y2="130" stroke="#3D7DC9" stroke-width="2" marker-end="url(#ar12)"/>
+            <line x1="210" y1="67" x2="265" y2="128" stroke="#3D7DC9" stroke-width="2" marker-end="url(#ar12)"/>
+            <line x1="345" y1="67" x2="295" y2="128" stroke="#3D7DC9" stroke-width="2" marker-end="url(#ar12)"/>
+            <line x1="482" y1="67" x2="320" y2="130" stroke="#3D7DC9" stroke-width="2" marker-end="url(#ar12)"/>
+            <rect x="140" y="140" width="280" height="86" rx="12" fill="#1B3B6F"/>
+            <text x="280" y="172" text-anchor="middle" font-size="16" font-weight="800" fill="#fff">每日出勤正規化 SP</text>
+            <text x="280" y="196" text-anchor="middle" font-size="11" fill="#93BCEC" font-family="JetBrains Mono, monospace">hrmAttnDaily (EmpNo, AttnDate)</text>
+            <text x="280" y="214" text-anchor="middle" font-size="11" fill="#93BCEC">應出勤 · 請假時數 · 加班時數 · 異常標記</text>
+            <line x1="280" y1="226" x2="280" y2="258" stroke="#3D7DC9" stroke-width="2.5" marker-end="url(#ar12)"/>
+            <rect x="60" y="266" width="200" height="60" rx="10" fill="#FEF2F2" stroke="#FECACA"/>
+            <text x="160" y="291" text-anchor="middle" font-size="13" font-weight="800" fill="#DC2626">異常清單</text>
+            <text x="160" y="312" text-anchor="middle" font-size="11" fill="#B91C1C">重疊 · 矛盾 · 漏報 · 倍率誤用</text>
+            <rect x="300" y="266" width="200" height="60" rx="10" fill="#F0FDF4" stroke="#86EFAC"/>
+            <text x="400" y="291" text-anchor="middle" font-size="13" font-weight="800" fill="#16A34A">差勤月結彙總</text>
+            <text x="400" y="312" text-anchor="middle" font-size="11" fill="#15803D">每人一筆 → 拋轉核薪明細</text>
+            <line x1="230" y1="242" x2="160" y2="264" stroke="#DC2626" stroke-width="2" marker-end="url(#ar12)"/>
+            <line x1="330" y1="242" x2="400" y2="264" stroke="#16A34A" stroke-width="2" marker-end="url(#ar12)"/>
+            <rect x="15" y="350" width="530" height="40" rx="10" fill="#EEF5FD" stroke="#93BCEC"/>
+            <text x="280" y="375" text-anchor="middle" font-size="12.5" fill="#1B3B6F" font-weight="700">可重算中間層：來源修正 → 重跑 SP → 月結自動更新</text>
+          </g>
+        </svg>
+      </div>
+      <div style="display:flex; flex-direction:column; gap:12px;">
+        <div style="background:white; border:1px solid var(--gray-200); border-radius:12px; padding:16px; box-shadow:var(--shadow-md);">
+          <div style="font-size:14px; font-weight:800; color:var(--ml-navy-900); margin-bottom:8px;">🔎 勾稽規則範例</div>
+          <div class="feat-list" style="font-size:12.5px;">
+            <div class="feat-item good"><div class="ic">1</div><div>全日請假之日，不得同時存在排班出勤時數</div></div>
+            <div class="feat-item good"><div class="ic">2</div><div>加班時段不得與請假時段重疊</div></div>
+            <div class="feat-item good"><div class="ic">3</div><div>國定假日（N）加班自動套用 2 倍倍率</div></div>
+            <div class="feat-item good"><div class="ic">4</div><div>排班日無出勤且無請假 → 標記疑似漏報</div></div>
+          </div>
+        </div>
+        <div style="background:white; border:1px solid var(--gray-200); border-radius:12px; padding:16px; box-shadow:var(--shadow-md); flex:1;">
+          <div style="font-size:14px; font-weight:800; color:var(--ml-navy-900); margin-bottom:8px;">📊 每日出勤欄位（節錄）</div>
+          <div style="font-family:var(--font-mono); font-size:11.5px; color:var(--gray-700); line-height:2;">
+            工號 EmpNo ｜ 日期 AttnDate<br>
+            班別 ShiftCode ｜ 應出勤時數<br>
+            請假時數 ｜ 加班時數（換薪／換休）<br>
+            異常標記 ｜ 對應請假單／加班單<br>
+            IsLocked（月結結案連動）
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SLIDE 13 — O3 狀態機與快照 ============ -->
+<section class="slide" data-slide="13">
+  <div class="slide-bar"></div>
+  <div class="slide-body">
+    <div class="slide-head">
+      <div>
+        <div class="slide-eyebrow">OPTIMIZATION 03</div>
+        <h2 class="slide-title">O3 單據狀態機與結案快照 — <span class="accent">審核後鎖得住、歷史改不了</span></h2>
+        <div class="slide-subtitle">統一 DocStatus 狀態機貫穿所有結算單據；結案即凍結快照，更正只能走沖銷補發新單。</div>
+      </div>
+      <div class="slide-page"><span class="logo-mini">MT-HRM</span> · 13 / 20</div>
+    </div>
+    <div class="illus">
+      <svg viewBox="0 0 1140 400" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <marker id="ar13" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#3D7DC9"/></marker>
+          <marker id="ar13r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#DC2626"/></marker>
+        </defs>
+        <g font-family="Noto Sans TC, sans-serif">
+          <!-- state machine -->
+          <circle cx="120" cy="110" r="52" fill="#F1F3F6" stroke="#C5CCD5" stroke-width="2"/>
+          <text x="120" y="103" text-anchor="middle" font-size="20" font-weight="800" fill="#4A5563">0</text>
+          <text x="120" y="128" text-anchor="middle" font-size="14" fill="#4A5563" font-weight="700">草稿</text>
+          <circle cx="360" cy="110" r="52" fill="#FEF3C7" stroke="#FDE68A" stroke-width="2"/>
+          <text x="360" y="103" text-anchor="middle" font-size="20" font-weight="800" fill="#B45309">1</text>
+          <text x="360" y="128" text-anchor="middle" font-size="14" fill="#B45309" font-weight="700">送審</text>
+          <circle cx="600" cy="110" r="52" fill="#D6E7F8" stroke="#93BCEC" stroke-width="2"/>
+          <text x="600" y="103" text-anchor="middle" font-size="20" font-weight="800" fill="#1B3B6F">2</text>
+          <text x="600" y="128" text-anchor="middle" font-size="14" fill="#1B3B6F" font-weight="700">核定</text>
+          <circle cx="840" cy="110" r="52" fill="#0B1F3D"/>
+          <text x="840" y="103" text-anchor="middle" font-size="20" font-weight="800" fill="#fff">3</text>
+          <text x="840" y="128" text-anchor="middle" font-size="14" fill="#fff" font-weight="700">結案 🔒</text>
+          <line x1="172" y1="110" x2="306" y2="110" stroke="#3D7DC9" stroke-width="2.5" marker-end="url(#ar13)"/>
+          <text x="239" y="97" text-anchor="middle" font-size="12" fill="#4A5563">承辦送審</text>
+          <line x1="412" y1="110" x2="546" y2="110" stroke="#3D7DC9" stroke-width="2.5" marker-end="url(#ar13)"/>
+          <text x="479" y="97" text-anchor="middle" font-size="12" fill="#4A5563">主管核准</text>
+          <line x1="652" y1="110" x2="786" y2="110" stroke="#3D7DC9" stroke-width="2.5" marker-end="url(#ar13)"/>
+          <text x="719" y="97" text-anchor="middle" font-size="12" fill="#4A5563">結算確認</text>
+          <!-- 8 駁回 -->
+          <path d="M 380 158 Q 360 230 240 230 Q 140 230 125 165" fill="none" stroke="#DC2626" stroke-width="2.5" stroke-dasharray="7 5" marker-end="url(#ar13r)"/>
+          <rect x="205" y="212" width="110" height="36" rx="18" fill="#FEE2E2" stroke="#FECACA"/>
+          <text x="260" y="235" text-anchor="middle" font-size="13" fill="#DC2626" font-weight="800">8 駁回</text>
+          <!-- 9 作廢 -->
+          <rect x="60" y="285" width="120 " height="36" rx="18" fill="#F1F3F6" stroke="#C5CCD5"/>
+          <text x="120" y="308" text-anchor="middle" font-size="13" fill="#4A5563" font-weight="800">9 作廢</text>
+          <text x="200" y="308" font-size="11.5" fill="#6B7684">（草稿階段可作廢；留存不刪除）</text>
+          <!-- snapshot -->
+          <rect x="920" y="45" width="200" height="130" rx="12" fill="#F0FDF4" stroke="#86EFAC"/>
+          <text x="1020" y="74" text-anchor="middle" font-size="14" font-weight="800" fill="#16A34A">📸 結案連動</text>
+          <text x="1020" y="100" text-anchor="middle" font-size="11.5" fill="#15803D">結算總表快照凍結</text>
+          <text x="1020" y="121" text-anchor="middle" font-size="11.5" fill="#15803D">每日出勤 IsLocked=1</text>
+          <text x="1020" y="142" text-anchor="middle" font-size="11.5" fill="#15803D">項目分解 JSON 存檔</text>
+          <text x="1020" y="163" text-anchor="middle" font-size="11.5" fill="#15803D">禁止任何 DML 變更</text>
+          <!-- 對應現況六階段 -->
+          <rect x="20" y="345" width="1100" height="42" rx="10" fill="#EEF5FD" stroke="#93BCEC"/>
+          <text x="570" y="371" text-anchor="middle" font-size="13" fill="#1B3B6F" font-weight="700">對應現況流程：結算作業／調整＝0 草稿　→　送主管＝1 送審　→　主管審核通過＝2 核定　→　結算完成＝3 結案（駁回自動退回調整階段）</text>
+        </g>
+      </svg>
+    </div>
+    <div style="margin-top:12px; display:flex; gap:12px;">
+      <span class="pill">結案後更正 → 以「沖銷／補發」新期別單據處理，不回改歷史</span>
+      <span class="pill success">每一次狀態轉換皆留存人員與時間軌跡</span>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SLIDE 14 — O4/O5 規則版本化 ============ -->
+<section class="slide" data-slide="14">
+  <div class="slide-bar"></div>
+  <div class="slide-body">
+    <div class="slide-head">
+      <div>
+        <div class="slide-eyebrow">OPTIMIZATION 04 · 05</div>
+        <h2 class="slide-title">O4／O5 額度與法規規則版本化 — <span class="accent">查表計算、新增不覆蓋</span></h2>
+        <div class="slide-subtitle">特休額度、加班倍率、投保級距全部建規則表並版本化，法規修訂時歷史期別仍可依當期規則重現。</div>
+      </div>
+      <div class="slide-page"><span class="logo-mini">MT-HRM</span> · 14 / 20</div>
+    </div>
+    <div style="flex:1; display:grid; grid-template-columns:1fr 1fr 1fr; gap:16px; min-height:0;">
+      <div style="background:white; border:1px solid var(--gray-200); border-radius:12px; padding:16px; box-shadow:var(--shadow-md); display:flex; flex-direction:column;">
+        <div style="font-size:14.5px; font-weight:800; color:var(--ml-navy-900);">🌿 特休累加規則</div>
+        <div style="font-family:var(--font-mono); font-size:10px; color:var(--gray-400); margin:2px 0 10px;">hrmAttnLeaveAccrualRule · 勞基法 §38</div>
+        <table class="compare-table" style="font-size:11.5px; box-shadow:none;">
+          <thead><tr><th>年資</th><th>特休天數</th></tr></thead>
+          <tbody>
+            <tr><td>滿 6 個月</td><td>3 天</td></tr>
+            <tr><td>滿 1 年</td><td>7 天</td></tr>
+            <tr><td>滿 2 年</td><td>10 天</td></tr>
+            <tr><td>滿 3 年</td><td>14 天</td></tr>
+            <tr><td>滿 5 年</td><td>15 天</td></tr>
+            <tr><td>滿 10 年起</td><td>每年 +1（上限 30）</td></tr>
+          </tbody>
+        </table>
+        <div style="margin-top:auto; padding-top:10px;"><span class="pill">EffectiveYear 版本化 · 年度批次產生額度</span></div>
+      </div>
+      <div style="background:white; border:1px solid var(--gray-200); border-radius:12px; padding:16px; box-shadow:var(--shadow-md); display:flex; flex-direction:column;">
+        <div style="font-size:14.5px; font-weight:800; color:var(--ml-navy-900);">⏰ 加班費倍率</div>
+        <div style="font-family:var(--font-mono); font-size:10px; color:var(--gray-400); margin:2px 0 10px;">hrmAttnOvertimeRate · 勞基法 §24</div>
+        <table class="compare-table" style="font-size:11.5px; box-shadow:none;">
+          <thead><tr><th>日期類型</th><th>時段</th><th>倍率</th></tr></thead>
+          <tbody>
+            <tr><td>W 平日</td><td>前 2 小時</td><td>1.34</td></tr>
+            <tr><td>W 平日</td><td>超過 2 小時</td><td>1.67</td></tr>
+            <tr><td>H 休息日</td><td>前 2 小時</td><td>1.34</td></tr>
+            <tr><td>H 休息日</td><td>3~8 小時</td><td>1.67</td></tr>
+            <tr><td>N 國定假日</td><td>全日</td><td>2.00</td></tr>
+            <tr><td>E 例假日</td><td>全日</td><td>特殊規定</td></tr>
+          </tbody>
+        </table>
+        <div style="margin-top:auto; padding-top:10px;"><span class="pill">日期類型×時段累進查表 · 換薪／換補休雙軌</span></div>
+      </div>
+      <div style="display:flex; flex-direction:column; gap:14px;">
+        <div style="background:white; border:1px solid var(--gray-200); border-radius:12px; padding:16px; box-shadow:var(--shadow-md); flex:1;">
+          <div style="font-size:14.5px; font-weight:800; color:var(--ml-navy-900);">🏥 投保級距版控</div>
+          <div style="font-family:var(--font-mono); font-size:10px; color:var(--gray-400); margin:2px 0 10px;">hrmSalarInsBracket · EffectiveDate</div>
+          <div style="font-size:12.5px; color:var(--gray-600); line-height:1.7;">勞保／健保級距以生效日期版本化，計薪自動查「當期生效」版本；政府公告調整時新增一批新級距，不覆蓋舊資料。</div>
+        </div>
+        <div style="background:linear-gradient(135deg,var(--ml-navy-900),var(--ml-navy-700)); border-radius:12px; padding:16px; color:white; flex:1; display:flex; flex-direction:column; justify-content:center;">
+          <div style="font-family:var(--font-en); font-size:10px; letter-spacing:2px; color:var(--ml-blue-300); font-weight:700; margin-bottom:8px;">VERSIONING PRINCIPLE</div>
+          <div style="font-size:14px; font-weight:700; line-height:1.7;">法規修訂一律「新增不覆蓋」<br>歷史期別依當期規則可重現計算<br>勞檢舉證：規則有版本、計算有依據</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SLIDE 15 — O6 集團共用核心 ============ -->
+<section class="slide" data-slide="15">
+  <div class="slide-bar"></div>
+  <div class="slide-body">
+    <div class="slide-head">
+      <div>
+        <div class="slide-eyebrow">OPTIMIZATION 06</div>
+        <h2 class="slide-title">O6 與集團 HRM 共用核心 — <span class="accent">一套系統、公司隔離</span></h2>
+        <div class="slide-subtitle">兆技以公司代碼掛載於集團組織樹，共用資料表結構與計薪引擎；Row-Level Security 確保兆技資料只有兆技看得到。</div>
+      </div>
+      <div class="slide-page"><span class="logo-mini">MT-HRM</span> · 15 / 20</div>
+    </div>
+    <div class="illus">
+      <svg viewBox="0 0 1140 400" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+        <defs><marker id="ar15" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#3D7DC9"/></marker></defs>
+        <g font-family="Noto Sans TC, sans-serif">
+          <!-- 組織樹 -->
+          <rect x="30" y="20" width="420" height="360" rx="14" fill="#fff" stroke="#E2E6EC"/>
+          <text x="50" y="50" font-size="15" font-weight="800" fill="#1B3B6F">🌳 集團組織樹（hrmCompany）</text>
+          <rect x="140" y="70" width="200" height="42" rx="10" fill="#0B1F3D"/>
+          <text x="240" y="97" text-anchor="middle" font-size="14" fill="#fff" font-weight="800">兆聯實業（集團根節點）</text>
+          <line x1="240" y1="112" x2="240" y2="132" stroke="#C5CCD5" stroke-width="2"/>
+          <line x1="90" y1="132" x2="390" y2="132" stroke="#C5CCD5" stroke-width="2"/>
+          <line x1="90" y1="132" x2="90" y2="150" stroke="#C5CCD5" stroke-width="2"/>
+          <line x1="190" y1="132" x2="190" y2="150" stroke="#C5CCD5" stroke-width="2"/>
+          <line x1="290" y1="132" x2="290" y2="150" stroke="#C5CCD5" stroke-width="2"/>
+          <line x1="390" y1="132" x2="390" y2="150" stroke="#C5CCD5" stroke-width="2"/>
+          <rect x="45" y="150" width="90" height="60" rx="8" fill="#EEF5FD" stroke="#93BCEC"/>
+          <text x="90" y="176" text-anchor="middle" font-size="12" fill="#1B3B6F" font-weight="700">兆聯</text>
+          <text x="90" y="195" text-anchor="middle" font-size="12" fill="#1B3B6F" font-weight="700">總公司</text>
+          <rect x="145" y="150" width="90" height="60" rx="8" fill="#EEF5FD" stroke="#93BCEC"/>
+          <text x="190" y="176" text-anchor="middle" font-size="12" fill="#1B3B6F" font-weight="700">美國</text>
+          <text x="190" y="195" text-anchor="middle" font-size="12" fill="#1B3B6F" font-weight="700">分公司</text>
+          <rect x="245" y="150" width="90" height="60" rx="8" fill="#EEF5FD" stroke="#93BCEC"/>
+          <text x="290" y="176" text-anchor="middle" font-size="12" fill="#1B3B6F" font-weight="700">新加坡</text>
+          <text x="290" y="195" text-anchor="middle" font-size="12" fill="#1B3B6F" font-weight="700">分公司</text>
+          <rect x="345" y="150" width="90" height="60" rx="8" fill="#FEF3C7" stroke="#F59E0B" stroke-width="2"/>
+          <text x="390" y="176" text-anchor="middle" font-size="13" fill="#B45309" font-weight="800">兆技</text>
+          <text x="390" y="195" text-anchor="middle" font-size="10.5" fill="#B45309">CompanyCode</text>
+          <text x="240" y="248" text-anchor="middle" font-size="12" fill="#4A5563">員工、部門、專案主檔一次維護，集團共享</text>
+          <rect x="50" y="270" width="380" height="94" rx="10" fill="#F7F9FB" stroke="#E2E6EC"/>
+          <text x="66" y="296" font-size="12.5" font-weight="800" fill="#1B3B6F">共用資產（沿用集團 HRM 既有設計）</text>
+          <text x="66" y="320" font-size="11.5" fill="#2A323D">✔ 資料表結構（hrmEmp／hrmAttn／hrmSalar 系列）</text>
+          <text x="66" y="341" font-size="11.5" fill="#2A323D">✔ 計薪引擎 SP、DocStatus 狀態機、RowHeader 稽核欄</text>
+          <text x="66" y="360" font-size="11.5" fill="#2A323D">✔ 規則表（倍率／累加／級距）與版本化機制</text>
+          <!-- 隔離 -->
+          <line x1="450" y1="200" x2="520" y2="200" stroke="#3D7DC9" stroke-width="2.5" marker-end="url(#ar15)"/>
+          <rect x="530" y="20" width="580" height="360" rx="14" fill="#fff" stroke="#E2E6EC"/>
+          <text x="550" y="50" font-size="15" font-weight="800" fill="#1B3B6F">🛡 雙層公司資料隔離</text>
+          <rect x="550" y="70" width="540" height="86" rx="10" fill="#EEF5FD" stroke="#93BCEC"/>
+          <text x="566" y="98" font-size="13.5" font-weight="800" fill="#1B3B6F">第一層　應用層過濾</text>
+          <text x="566" y="124" font-size="12" fill="#2A323D">所有查詢與作業依登入者所屬公司自動加上公司條件，</text>
+          <text x="566" y="144" font-size="12" fill="#2A323D">兆技 HR 介面僅顯示兆技員工與結算資料。</text>
+          <rect x="550" y="170" width="540" height="86" rx="10" fill="#0B1F3D"/>
+          <text x="566" y="198" font-size="13.5" font-weight="800" fill="#5B97E0">第二層　資料庫 Row-Level Security</text>
+          <text x="566" y="224" font-size="12" fill="#fff">資料庫引擎層安全政策：即使應用程式漏寫條件，</text>
+          <text x="566" y="244" font-size="12" fill="#fff">跨公司資料列也「查不到、改不動」，作為最後防線。</text>
+          <rect x="550" y="272" width="540" height="92" rx="10" fill="#F0FDF4" stroke="#86EFAC"/>
+          <text x="566" y="300" font-size="13.5" font-weight="800" fill="#16A34A">📈 集團效益</text>
+          <text x="566" y="325" font-size="12" fill="#15803D">✔ 主檔不再重複維護　✔ 集團人力報表即時彙總</text>
+          <text x="566" y="347" font-size="12" fill="#15803D">✔ 跨公司調動免轉檔　✔ 一套維運團隊、一套升級節奏</text>
+        </g>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SLIDE 16 — O7/O8 資安與防呆 ============ -->
+<section class="slide" data-slide="16">
+  <div class="slide-bar"></div>
+  <div class="slide-body">
+    <div class="slide-head">
+      <div>
+        <div class="slide-eyebrow">OPTIMIZATION 07 · 08</div>
+        <h2 class="slide-title">O7／O8 薪資條安全遞送與期中異動防呆</h2>
+        <div class="slide-subtitle">把個資保護與計薪例外處理寫進系統，不再依賴承辦人的記憶與小心。</div>
+      </div>
+      <div class="slide-page"><span class="logo-mini">MT-HRM</span> · 16 / 20</div>
+    </div>
+    <div style="flex:1; display:grid; grid-template-columns:1fr 1fr; gap:20px; min-height:0;">
+      <div style="display:flex; flex-direction:column; gap:14px;">
+        <div class="compare-card bad" style="flex:1;">
+          <h4>❌ 現況：薪資條明碼 Email</h4>
+          <div class="feat-list" style="margin-top:6px;">
+            <div class="feat-item bad"><div class="ic">✕</div><div>誤寄／轉寄即外洩，無法收回</div></div>
+            <div class="feat-item bad"><div class="ic">✕</div><div>員工私人信箱安全性不可控</div></div>
+            <div class="feat-item bad"><div class="ic">✕</div><div>無查閱軌跡，稽核無從舉證</div></div>
+          </div>
+        </div>
+        <div class="compare-card good" style="flex:1.3;">
+          <h4>✅ 優化（O7）：通知 + 登入查詢</h4>
+          <div class="feat-list" style="margin-top:6px;">
+            <div class="feat-item good"><div class="ic">1</div><div><strong>Email 僅發「薪資條已產生」通知連結</strong>，不含任何金額</div></div>
+            <div class="feat-item good"><div class="ic">2</div><div><strong>員工登入自助入口查詢</strong>，L2 欄位遮罩、點擊解鎖</div></div>
+            <div class="feat-item good"><div class="ic">3</div><div><strong>過渡替代：密碼保護 PDF</strong>（密碼另通道發送）</div></div>
+            <div class="feat-item good"><div class="ic">4</div><div><strong>查閱／下載留存稽核軌跡</strong>，個資法查核有據</div></div>
+          </div>
+        </div>
+      </div>
+      <div style="background:white; border:1px solid var(--gray-200); border-radius:14px; padding:20px; box-shadow:var(--shadow-md); display:flex; flex-direction:column;">
+        <div style="font-size:16px; font-weight:800; color:var(--ml-navy-900); margin-bottom:14px;">🛡 期中異動三大防呆（O8）</div>
+        <div style="display:flex; flex-direction:column; gap:12px; flex:1;">
+          <div style="border:1px solid var(--gray-200); border-left:4px solid var(--ml-blue-400); border-radius:10px; padding:12px 14px;">
+            <div style="font-size:13.5px; font-weight:800; color:var(--ml-navy-900);">狀況一　月中到職／離職</div>
+            <div style="font-size:12px; color:var(--gray-600); line-height:1.6; margin-top:4px;">依人事檔到離職日期，按「實際在職天數 ÷ 當月天數」自動比例計薪，免手算。</div>
+          </div>
+          <div style="border:1px solid var(--gray-200); border-left:4px solid var(--accent-red); border-radius:10px; padding:12px 14px;">
+            <div style="font-size:13.5px; font-weight:800; color:var(--ml-navy-900);">狀況二　健保費全月扣繳</div>
+            <div style="font-size:12px; color:var(--gray-600); line-height:1.6; margin-top:4px;">依台灣法規，月中離職健保費仍須扣繳全月：系統強制鎖定健保項目不按天比例扣減，防範合規風險。</div>
+          </div>
+          <div style="border:1px solid var(--gray-200); border-left:4px solid var(--accent-teal); border-radius:10px; padding:12px 14px;">
+            <div style="font-size:13.5px; font-weight:800; color:var(--ml-navy-900);">狀況三　期中調部門／調案場</div>
+            <div style="font-size:12px; color:var(--gray-600); line-height:1.6; margin-top:4px;">核薪建檔即快照凍結部門與專案歸屬，整月成本歸屬凍結部門，次月期別才切換，成本中心帳目明晰。</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SLIDE 17 — 優化後結算流程 ============ -->
+<section class="slide" data-slide="17">
+  <div class="slide-bar"></div>
+  <div class="slide-body">
+    <div class="slide-head">
+      <div>
+        <div class="slide-eyebrow">OPTIMIZED WORKFLOW</div>
+        <h2 class="slide-title">優化後薪資結算作業流程 — <span class="accent">六階段不變，控管全面落地</span></h2>
+        <div class="slide-subtitle">保留同仁熟悉的六階段作業習慣，每一階段掛上系統控制點與單據狀態。</div>
+      </div>
+      <div class="slide-page"><span class="logo-mini">MT-HRM</span> · 17 / 20</div>
+    </div>
+    <div class="illus">
+      <svg viewBox="0 0 1140 430" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+        <defs><marker id="ar17" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#3D7DC9"/></marker></defs>
+        <g font-family="Noto Sans TC, sans-serif">
+          <g>
+            <rect x="10" y="16" width="170" height="46" rx="10" fill="#1B3B6F"/><text x="95" y="45" text-anchor="middle" fill="#fff" font-size="15" font-weight="800">① 平日維護</text>
+            <rect x="200" y="16" width="170" height="46" rx="10" fill="#234D8A"/><text x="285" y="45" text-anchor="middle" fill="#fff" font-size="15" font-weight="800">② 結算前準備</text>
+            <rect x="390" y="16" width="170" height="46" rx="10" fill="#2E63A9"/><text x="475" y="45" text-anchor="middle" fill="#fff" font-size="15" font-weight="800">③ 結算作業</text>
+            <rect x="580" y="16" width="170" height="46" rx="10" fill="#3D7DC9"/><text x="665" y="45" text-anchor="middle" fill="#fff" font-size="15" font-weight="800">④ 結算調整</text>
+            <rect x="770" y="16" width="170" height="46" rx="10" fill="#0E7490"/><text x="855" y="45" text-anchor="middle" fill="#fff" font-size="15" font-weight="800">⑤ 主管審核</text>
+            <rect x="960" y="16" width="170" height="46" rx="10" fill="#16A34A"/><text x="1045" y="45" text-anchor="middle" fill="#fff" font-size="15" font-weight="800">⑥ 結算完成</text>
+            <line x1="180" y1="39" x2="198" y2="39" stroke="#3D7DC9" stroke-width="2.5" marker-end="url(#ar17)"/>
+            <line x1="370" y1="39" x2="388" y2="39" stroke="#3D7DC9" stroke-width="2.5" marker-end="url(#ar17)"/>
+            <line x1="560" y1="39" x2="578" y2="39" stroke="#3D7DC9" stroke-width="2.5" marker-end="url(#ar17)"/>
+            <line x1="750" y1="39" x2="768" y2="39" stroke="#3D7DC9" stroke-width="2.5" marker-end="url(#ar17)"/>
+            <line x1="940" y1="39" x2="958" y2="39" stroke="#3D7DC9" stroke-width="2.5" marker-end="url(#ar17)"/>
+          </g>
+          <g font-size="11.5" fill="#2A323D">
+            <rect x="10" y="80" width="170" height="230" rx="10" fill="#fff" stroke="#E2E6EC"/>
+            <text x="24" y="104" font-weight="700" fill="#1B3B6F" font-size="12.5">9 項基礎資料</text>
+            <text x="24" y="128">＋假別額度管理</text>
+            <text x="24" y="150">＋倍率／累加規則</text>
+            <text x="24" y="172">＋級距版本控管</text>
+            <text x="24" y="200" fill="#3D7DC9" font-weight="700">O4 O5</text>
+            <rect x="200" y="80" width="170" height="230" rx="10" fill="#fff" stroke="#E2E6EC"/>
+            <text x="214" y="104" font-weight="700" fill="#1B3B6F" font-size="12.5">標準範本上傳</text>
+            <text x="214" y="128">匯入暫存＋自動檢核</text>
+            <text x="214" y="150">錯誤退回重傳</text>
+            <text x="214" y="172">批次與提供者留存</text>
+            <text x="214" y="200" fill="#3D7DC9" font-weight="700">O1</text>
+            <rect x="212" y="252" width="146" height="44" rx="8" fill="#FEF3C7" stroke="#FDE68A"/>
+            <text x="222" y="270" font-size="10.5" fill="#B45309" font-weight="700">控制點：檢核未全數</text>
+            <text x="222" y="287" font-size="10.5" fill="#B45309" font-weight="700">通過不得進入結算</text>
+            <rect x="390" y="80" width="170" height="230" rx="10" fill="#fff" stroke="#E2E6EC"/>
+            <text x="404" y="104" font-weight="700" fill="#1B3B6F" font-size="12.5">確認轉入正式表</text>
+            <text x="404" y="128">每日出勤正規化</text>
+            <text x="404" y="150">異常清單清零</text>
+            <text x="404" y="172">差勤月結拋轉核薪</text>
+            <text x="404" y="200" fill="#3D7DC9" font-weight="700">O2　DocStatus=0</text>
+            <rect x="580" y="80" width="170" height="230" rx="10" fill="#fff" stroke="#E2E6EC"/>
+            <text x="594" y="104" font-weight="700" fill="#1B3B6F" font-size="12.5">核薪明細調整</text>
+            <text x="594" y="128">異動全程留軌跡</text>
+            <text x="594" y="150">來源血緣不可改</text>
+            <text x="594" y="172">期中異動防呆</text>
+            <text x="594" y="200" fill="#3D7DC9" font-weight="700">O8　DocStatus=0</text>
+            <rect x="770" y="80" width="170" height="230" rx="10" fill="#fff" stroke="#E2E6EC"/>
+            <text x="784" y="104" font-weight="700" fill="#1B3B6F" font-size="12.5">送審 → 主管核定</text>
+            <text x="784" y="128">核定後明細唯讀</text>
+            <text x="784" y="150">駁回自動退回④</text>
+            <text x="784" y="172">並留存駁回原因</text>
+            <text x="784" y="200" fill="#3D7DC9" font-weight="700">O3　1送審→2核定</text>
+            <rect x="782" y="252" width="146" height="44" rx="8" fill="#FEE2E2" stroke="#FECACA"/>
+            <text x="792" y="270" font-size="10.5" fill="#DC2626" font-weight="700">8 駁回 → 解鎖回調整</text>
+            <text x="792" y="287" font-size="10.5" fill="#DC2626" font-weight="700">全程軌跡可稽核</text>
+            <rect x="960" y="80" width="170" height="230" rx="10" fill="#fff" stroke="#E2E6EC"/>
+            <text x="974" y="104" font-weight="700" fill="#1B3B6F" font-size="12.5">結算總表快照凍結</text>
+            <text x="974" y="128">銀行匯款檔產出</text>
+            <text x="974" y="150">薪資條通知＋查詢</text>
+            <text x="974" y="172">查閱軌跡留存</text>
+            <text x="974" y="200" fill="#3D7DC9" font-weight="700">O3 O7　DocStatus=3</text>
+            <rect x="972" y="252" width="146" height="44" rx="8" fill="#DCFCE7" stroke="#86EFAC"/>
+            <text x="982" y="270" font-size="10.5" fill="#15803D" font-weight="700">結案後更正只能走</text>
+            <text x="982" y="287" font-size="10.5" fill="#15803D" font-weight="700">沖銷／補發新單</text>
+          </g>
+          <rect x="10" y="330" width="1120 " height="84" rx="12" fill="#0B1F3D"/>
+          <text x="32" y="360" font-size="13.5" font-weight="800" fill="#5B97E0">流程不變、體驗升級</text>
+          <text x="32" y="386" font-size="12.5" fill="#fff">同仁沿用既有六階段作業節奏；差別在於——資料一進門就被檢核、每一步都有狀態、審核之後真正鎖住、每個數字都能追到源頭。</text>
+        </g>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SLIDE 18 — 資料庫資產摘要 ============ -->
+<section class="slide" data-slide="18">
+  <div class="slide-bar"></div>
+  <div class="slide-body">
+    <div class="slide-head">
+      <div>
+        <div class="slide-eyebrow">DATABASE ASSETS</div>
+        <h2 class="slide-title">優化後資料庫資產摘要 — <span class="accent">沿用集團 HRM 規範</span></h2>
+        <div class="slide-subtitle">hrm 前綴＋模組碼命名、底線後綴為明細表、標準 RowHeader 稽核欄、L1/L2/L3 敏感分級。</div>
+      </div>
+      <div class="slide-page"><span class="logo-mini">MT-HRM</span> · 18 / 20</div>
+    </div>
+    <div style="flex:1; display:grid; grid-template-columns:1.5fr 1fr; gap:18px; min-height:0;">
+      <table class="compare-table" style="align-self:start; font-size:11.5px;">
+        <thead><tr><th>資料表</th><th style="width:56px;">類型</th><th>業務鍵</th><th>說明</th></tr></thead>
+        <tbody>
+          <tr><td style="font-family:var(--font-mono);">hrmEmp / hrmCompany 系列</td><td>主檔</td><td style="font-family:var(--font-mono);">EmpNo / CompanyCode</td><td>員工、公司部門專案（共 6 表）</td></tr>
+          <tr><td style="font-family:var(--font-mono);">hrmAttnShift / Calendar</td><td>設定</td><td style="font-family:var(--font-mono);">ShiftCode / CalDate</td><td>班別、行事曆（可按駐點）</td></tr>
+          <tr><td style="font-family:var(--font-mono);">hrmAttnLeaveAccrualRule<br>hrmAttnOvertimeRate</td><td>設定</td><td style="font-family:var(--font-mono);">EffectiveYear</td><td>特休累加、加班倍率（版控）</td></tr>
+          <tr style="background:var(--ml-blue-50);"><td style="font-family:var(--font-mono);"><strong>hrmAttnImport</strong></td><td>交易</td><td style="font-family:var(--font-mono);">ImportGuid</td><td><strong>業主差勤匯入暫存（新增）</strong></td></tr>
+          <tr><td style="font-family:var(--font-mono);">hrmAttnSchedule / Leave /<br>Overtime / Leave_Quota</td><td>交易</td><td style="font-family:var(--font-mono);">EmpNo+Date / 單號</td><td>排班、請假、加班、額度</td></tr>
+          <tr style="background:var(--ml-blue-50);"><td style="font-family:var(--font-mono);"><strong>hrmAttnDaily</strong></td><td>交易</td><td style="font-family:var(--font-mono);">EmpNo, AttnDate</td><td><strong>每日出勤正規化（新增）</strong></td></tr>
+          <tr><td style="font-family:var(--font-mono);">hrmAttnSummary /_Detail</td><td>主檔/明細</td><td style="font-family:var(--font-mono);">AttnPeriod</td><td>差勤月結</td></tr>
+          <tr><td style="font-family:var(--font-mono);">hrmSalarItem / InsBracket</td><td>設定</td><td style="font-family:var(--font-mono);">ItemCode / EffectiveDate</td><td>薪資項目、投保級距（版控）</td></tr>
+          <tr><td style="font-family:var(--font-mono);">hrmSalarImport</td><td>交易</td><td style="font-family:var(--font-mono);">ImportGuid</td><td>考核獎金匯入暫存</td></tr>
+          <tr><td style="font-family:var(--font-mono);">hrmSalarApprove /_Detail</td><td>交易/明細</td><td style="font-family:var(--font-mono);">SalarPeriod (+EmpNo,ItemCode)</td><td>核薪主檔／明細（血緣欄位）</td></tr>
+          <tr><td style="font-family:var(--font-mono);">hrmSalarPayroll /_Detail</td><td>主檔/明細</td><td style="font-family:var(--font-mono);">PayrollGuid (+EmpNo)</td><td>結算快照，結案後禁止變更</td></tr>
+        </tbody>
+      </table>
+      <div style="display:flex; flex-direction:column; gap:12px;">
+        <div style="background:white; border:1px solid var(--gray-200); border-radius:12px; padding:14px; box-shadow:var(--shadow-md);">
+          <div style="font-size:13.5px; font-weight:800; color:var(--ml-navy-900); margin-bottom:8px;">🔗 關鍵關聯規則</div>
+          <div style="font-size:11.5px; color:var(--gray-600); line-height:1.8;">
+            匯入暫存 →（確認）→ 正式單據，雙向追溯<br>
+            排班＋請假＋加班＋行事曆 → 每日出勤 → 月結<br>
+            月結 → 核薪明細（SourceType='ATTN'）<br>
+            核薪 → 結算快照（結案後禁止 DML）
+          </div>
+        </div>
+        <div style="background:white; border:1px solid var(--gray-200); border-radius:12px; padding:14px; box-shadow:var(--shadow-md);">
+          <div style="font-size:13.5px; font-weight:800; color:var(--ml-navy-900); margin-bottom:8px;">🔒 敏感分級與稽核</div>
+          <div style="font-size:11.5px; color:var(--gray-600); line-height:1.8;">
+            <span class="pill danger">L3</span> 身分證號（加密＋遮罩）<br>
+            <span class="pill warn">L2</span> 薪資金額、銀行帳號（角色解鎖）<br>
+            <span class="pill">L1</span> 一般欄位<br>
+            每表標準 10 欄 RowHeader 異動軌跡
+          </div>
+        </div>
+        <div class="kpi-grid" style="grid-template-columns:1fr 1fr; gap:10px;">
+          <div class="kpi-card" style="padding:12px;"><div class="num">25<span class="unit">表</span></div><div class="label">資料表資產（含 2 張新增）</div></div>
+          <div class="kpi-card" style="padding:12px;"><div class="num">2<span class="unit">層</span></div><div class="label">公司隔離（應用層＋RLS）</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SLIDE 19 — 導入路線圖與效益 ============ -->
+<section class="slide" data-slide="19">
+  <div class="slide-bar"></div>
+  <div class="slide-body">
+    <div class="slide-head">
+      <div>
+        <div class="slide-eyebrow">ROADMAP &amp; BENEFITS</div>
+        <h2 class="slide-title">導入路線圖 — <span class="accent">三階段、風險優先</span></h2>
+        <div class="slide-subtitle">先鎖住錢（控管）、再管住資料（標準化）、最後打通集團（整合），每階段皆可獨立驗收。</div>
+      </div>
+      <div class="slide-page"><span class="logo-mini">MT-HRM</span> · 19 / 20</div>
+    </div>
+    <div style="flex:1; display:flex; flex-direction:column; gap:16px; min-height:0;">
+      <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:16px; flex:1;">
+        <div style="background:white; border:1px solid var(--gray-200); border-top:4px solid var(--ml-navy-700); border-radius:12px; padding:18px; box-shadow:var(--shadow-md);">
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <div style="font-family:var(--font-en); font-size:11px; font-weight:800; color:var(--ml-navy-700); letter-spacing:1.5px;">PHASE 1</div>
+            <span class="pill">1–2 個月</span>
+          </div>
+          <div style="font-size:17px; font-weight:800; color:var(--ml-navy-900); margin:6px 0 10px;">控管補強（先鎖住錢）</div>
+          <div class="feat-list" style="font-size:12.5px;">
+            <div class="feat-item good"><div class="ic">✓</div><div>DocStatus 狀態機＋結案鎖定＋結算快照（O3）</div></div>
+            <div class="feat-item good"><div class="ic">✓</div><div>期中異動三大防呆（O8）</div></div>
+            <div class="feat-item good"><div class="ic">✓</div><div>薪資條改通知＋查詢模式（O7）</div></div>
+          </div>
+        </div>
+        <div style="background:white; border:1px solid var(--gray-200); border-top:4px solid var(--ml-blue-400); border-radius:12px; padding:18px; box-shadow:var(--shadow-md);">
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <div style="font-family:var(--font-en); font-size:11px; font-weight:800; color:var(--ml-blue-400); letter-spacing:1.5px;">PHASE 2</div>
+            <span class="pill">2–3 個月</span>
+          </div>
+          <div style="font-size:17px; font-weight:800; color:var(--ml-navy-900); margin:6px 0 10px;">資料標準化（管住資料）</div>
+          <div class="feat-list" style="font-size:12.5px;">
+            <div class="feat-item good"><div class="ic">✓</div><div>業主／Leader 三式標準範本＋匯入檢核（O1）</div></div>
+            <div class="feat-item good"><div class="ic">✓</div><div>血緣追溯欄位全面補齊（O1）</div></div>
+            <div class="feat-item good"><div class="ic">✓</div><div>假別額度＋規則表版本化（O4／O5）</div></div>
+          </div>
+        </div>
+        <div style="background:white; border:1px solid var(--gray-200); border-top:4px solid var(--accent-teal); border-radius:12px; padding:18px; box-shadow:var(--shadow-md);">
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <div style="font-family:var(--font-en); font-size:11px; font-weight:800; color:var(--accent-teal); letter-spacing:1.5px;">PHASE 3</div>
+            <span class="pill">3–4 個月</span>
+          </div>
+          <div style="font-size:17px; font-weight:800; color:var(--ml-navy-900); margin:6px 0 10px;">正規化與整合（打通集團）</div>
+          <div class="feat-list" style="font-size:12.5px;">
+            <div class="feat-item good"><div class="ic">✓</div><div>每日出勤正規化層與異常勾稽（O2）</div></div>
+            <div class="feat-item good"><div class="ic">✓</div><div>掛載集團組織樹、共用核心＋RLS（O6）</div></div>
+            <div class="feat-item good"><div class="ic">✓</div><div>（選配）業主入口網線上登錄差勤</div></div>
+          </div>
+        </div>
+      </div>
+      <div class="kpi-grid">
+        <div class="kpi-card"><div class="num">0</div><div class="label">繕打錯誤目標 — 匯入檢核攔截於結算之前</div></div>
+        <div class="kpi-card"><div class="num">100<span class="unit">%</span></div><div class="label">結算數字血緣可追溯至外部來源</div></div>
+        <div class="kpi-card"><div class="num">-50<span class="unit">%</span></div><div class="label">結算週期人工核對工時（估）</div></div>
+        <div class="kpi-card"><div class="num">3<span class="unit">層</span></div><div class="label">合規防線：規則版控＋快照＋稽核軌跡</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SLIDE 20 — 總結與行動建議 ============ -->
+<section class="slide" data-slide="20">
+  <div class="slide-bar" style="display:none;"></div>
+  <div class="cover" style="justify-content:center;">
+    <div style="position:absolute; inset:0; background-image:linear-gradient(rgba(255,255,255,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.04) 1px,transparent 1px); background-size:48px 48px;"></div>
+    <div style="padding:0 80px; position:relative; z-index:2;">
+      <div style="font-family:var(--font-en); font-size:12px; letter-spacing:4px; color:var(--ml-blue-300); font-weight:700; margin-bottom:14px;">SUMMARY &amp; NEXT ACTIONS</div>
+      <h2 style="font-size:40px; font-weight:900; margin-bottom:10px;">總結：骨架保留，控管落地</h2>
+      <div style="font-size:16px; color:rgba(255,255,255,.8); margin-bottom:30px; max-width:900px; line-height:1.7;">兆技系統的六階段流程與模組劃分是正確的；優化重點是把「人工紀律」轉為「系統控管」——資料進得來、算得對、鎖得住、管得住、發得安全。</div>
+      <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:16px; margin-bottom:28px;">
+        <div style="background:rgba(255,255,255,0.05); border-left:3px solid #5B97E0; border-radius:8px; padding:14px;">
+          <div style="font-family:var(--font-en); font-size:10px; color:#93BCEC; font-weight:700; margin-bottom:4px;">ACTION 01</div>
+          <strong style="font-size:14px; color:white;">確認優化優先序</strong>
+          <div style="font-size:12px; color:rgba(255,255,255,0.7); margin-top:4px; line-height:1.6;">管理層確認 Phase 1（狀態機＋快照＋薪資條資安）先行，作為最低風險底線。</div>
+        </div>
+        <div style="background:rgba(255,255,255,0.05); border-left:3px solid #5B97E0; border-radius:8px; padding:14px;">
+          <div style="font-family:var(--font-en); font-size:10px; color:#93BCEC; font-weight:700; margin-bottom:4px;">ACTION 02</div>
+          <strong style="font-size:14px; color:white;">與業主協商標準範本</strong>
+          <div style="font-size:12px; color:rgba(255,255,255,0.7); margin-top:4px; line-height:1.6;">HR 偕同業務窗口，於下一期契約溝通導入三式標準範本與交件時程。</div>
+        </div>
+        <div style="background:rgba(255,255,255,0.05); border-left:3px solid #5B97E0; border-radius:8px; padding:14px;">
+          <div style="font-family:var(--font-en); font-size:10px; color:#93BCEC; font-weight:700; margin-bottom:4px;">ACTION 03</div>
+          <strong style="font-size:14px; color:white;">與集團 IT 對齊共用核心</strong>
+          <div style="font-size:12px; color:rgba(255,255,255,0.7); margin-top:4px; line-height:1.6;">與兆聯資訊技術部確認兆技掛載集團組織樹之時程與 RLS 隔離政策。</div>
+        </div>
+      </div>
+      <div style="display:flex; gap:12px; margin-bottom:26px; flex-wrap:wrap;">
+        <span class="pill" style="background:rgba(91,151,224,.15); border:1px solid rgba(91,151,224,.3); color:var(--ml-blue-200);">配套文件：兆技HRM 系統規格書（txt）</span>
+        <span class="pill" style="background:rgba(91,151,224,.15); border:1px solid rgba(91,151,224,.3); color:var(--ml-blue-200);">參考：兆聯 HRM B01／B02／B03 模組簡報</span>
+      </div>
+      <div style="text-align:center; padding:12px 0; border-top:1px solid rgba(255,255,255,.12);">
+        <div style="font-size:17px; font-weight:600; color:white; margin-bottom:6px;">讓每一筆薪水，都<span style="color:#5B97E0;">算得對、鎖得住、查得到</span></div>
+        <div style="font-size:12px; color:rgba(255,255,255,0.7); font-family:var(--font-en); letter-spacing:2px;">— 兆技人力資源管理系統 · MEGATEK HRM OPTIMIZATION —</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</div> <!-- /.deck -->
+
+<div class="deck-nav">
+  <button id="prevBtn" aria-label="上一頁">←</button>
+  <div class="counter" id="counter"><span class="cur">01</span> / 20</div>
+  <button id="nextBtn" aria-label="下一頁">→</button>
+  <button class="jump" id="allBtn" title="顯示全部 (A)">全覽</button>
+</div>
+
+<script>
+(function(){
+  const slides = document.querySelectorAll('.slide');
+  const total = slides.length;
+  let cur = 0;
+  let showAll = false;
+  const progressBar = document.getElementById('progressBar');
+  const counter = document.getElementById('counter');
+  const prevBtn = document.getElementById('prevBtn');
+  const nextBtn = document.getElementById('nextBtn');
+  const allBtn = document.getElementById('allBtn');
+  function show(i){
+    if(showAll) return;
+    slides.forEach((s, idx) => s.classList.toggle('active', idx === i));
+    if(progressBar) progressBar.style.width = ((i+1)/total*100) + '%';
+    if(counter) counter.innerHTML = '<span class="cur">' + String(i+1).padStart(2,'0') + '</span> / ' + String(total).padStart(2,'0');
+  }
+  function next(){ cur = Math.min(cur+1, total-1); show(cur); }
+  function prev(){ cur = Math.max(cur-1, 0); show(cur); }
+  function toggleAll(){
+    showAll = !showAll;
+    if(showAll){
+      slides.forEach(s => s.classList.add('active'));
+      document.body.classList.add('show-all');
+      allBtn.textContent = '單頁';
+      allBtn.title = '回到單頁模式 (A)';
+    } else {
+      document.body.classList.remove('show-all');
+      allBtn.textContent = '全覽';
+      allBtn.title = '顯示全部 (A)';
+      show(cur);
+    }
+  }
+  document.addEventListener('keydown', e => {
+    if(e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown'){ e.preventDefault(); next(); }
+    else if(e.key === 'ArrowLeft' || e.key === 'PageUp'){ e.preventDefault(); prev(); }
+    else if(e.key === 'Home'){ e.preventDefault(); cur=0; show(cur); }
+    else if(e.key === 'End'){ e.preventDefault(); cur=total-1; show(cur); }
+    else if(e.key.toLowerCase() === 'a'){ e.preventDefault(); toggleAll(); }
+  });
+  if(prevBtn) prevBtn.addEventListener('click', prev);
+  if(nextBtn) nextBtn.addEventListener('click', next);
+  if(allBtn) allBtn.addEventListener('click', toggleAll);
+  show(0);
+})();
+</script>
+
+</body>
+</html>
